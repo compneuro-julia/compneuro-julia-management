@@ -1,1 +1,1 @@
-# compneuro-julia-management
+# compneuro-julia

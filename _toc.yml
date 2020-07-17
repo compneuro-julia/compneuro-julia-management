@@ -1,0 +1,7 @@
+- file: intro
+
+- file: content
+  sections:
+    - file: markdown
+    - file: hodgkinhuxley
+    - file: notebooks
