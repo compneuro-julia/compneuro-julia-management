@@ -1,20 +1,22 @@
 - file: index
 
-- file: ch0_intro
+- file: 1_intro
 
-- file: ch1_intro
+- file: 2_intro
   sections:
-    - file: ch1_hodgkinhuxley
+    - file: 2-1_hodgkinhuxley
 
-- file: ch2_intro
+- file: 3_intro
+  sections:
+    - file: 3-1_hhsynapse
 
-- file: ch3_intro
+- file: 4_intro
 
-- file: ch4_intro
+- file: 5_intro
 
-- file: ch5_intro
+- file: 6_intro
 
-- file: ch6_intro
+- file: 7_intro
 
 - file: jb_intro
   sections:
