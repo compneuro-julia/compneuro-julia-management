@@ -1,7 +1,7 @@
 # Book settings
 title: Juliaで学ぶ計算論的神経科学
 author: Yamamoto Takuto
-logo: logo.png
+logo: logo.svg
 
 latex:
   latex_documents:
