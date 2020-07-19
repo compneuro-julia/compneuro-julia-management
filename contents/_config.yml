@@ -6,3 +6,9 @@ logo: _static/images/logo.svg
 latex:
   latex_documents:
     targetname: book.tex
+
+repository:
+  url: https://github.com/compneuro-julia/compneuro-julia.github.io
+html:
+  use_repository_button: true
+  use_issues_button: true

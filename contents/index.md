@@ -2,6 +2,8 @@
 
 このサイトは**計算論的神経科学 (Computational Neuroscience)** をプログラミング言語 [**Julia**](https://julialang.org/)を通して学習することを目的とする。当面はSNN本([ゼロから作るSpiking Neural Networks](https://yamtak.booth.pm/items/1585421))のJulia版をJupyter Notebook形式で公開していく予定。不定期更新。
 
+内容に関する指摘やコメントは各ページ右上のGitHubアイコンから`Open Issue`を選択し、リポジトリのIssueとして行っていただければ幸いです。
+
 ```{note}
 使用しているJuliaのバージョン：Julia 1.4.0
 ```
