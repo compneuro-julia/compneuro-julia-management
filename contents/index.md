@@ -4,8 +4,8 @@
 
 内容に関する指摘やコメントは各ページ右上のGitHubアイコンから`Open Issue`を選択し、リポジトリのIssueとして行っていただければ幸いです。
 
-```{note}
-使用しているJuliaのバージョン：Julia 1.4.0
+```{admonition} 記事で使用しているJuliaのバージョン
+Julia 1.4.0
 ```
 
 ## 目次
@@ -29,10 +29,16 @@
 1. 強化学習
 1. 神経細胞の形態と数理モデル
 
-## 『ゼロから作るSpiking Neural Networks』について
-『ゼロから作るSpiking Neural Networks』 (通称：SNN本) はPythonでSpiking neural networksの構築と学習を実装することを目標とした本です。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入をお願いいたします。なお、物理本は完売し、再販の予定はありません。
+***
 
-- [pdf](https://github.com/compneuro-julia/compneuro-julia-management/tree/master/contents/_static/pdf/SNN_from_scratch_with_python_ver2_05.pdf)
+## 『ゼロから作るSpiking Neural Networks』について
+『**ゼロから作るSpiking Neural Networks**』 (通称：SNN本) は**Python**でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です。本サイトはこの本をベースとして作成しています。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入いただければと思います。なお、物理本は完売し、再販の予定はありません。
+
+```{admonition} 『ゼロから作るSpiking Neural Networks』Links
+- [pdf](https://compneuro-julia.github.io/_static/pdf/SNN_from_scratch_with_python_ver2_05.pdf) (Ver. 2.05)
+- [GitHub](https://github.com/takyamamoto/SNN-from-scratch-with-Python)
 - [BOOTH](https://booth.pm/ja/items/1585421)
+```
+
 
 
