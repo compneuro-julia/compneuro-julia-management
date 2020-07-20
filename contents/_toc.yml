@@ -4,6 +4,7 @@
 - header: 2. 単一神経細胞のモデル
 - file: 2-1_hodgkinhuxley
 - file: 2-2_lif
+- file: 2-3_iz
 
 - header: 3. シナプス伝達のモデル
 - file: 3-1_hhsynapse
