@@ -3,6 +3,7 @@
 #- header: 1. はじめに / 神経生理入門
 - header: 2. 単一神経細胞のモデル
 - file: 2-1_hodgkinhuxley
+- file: 2-2_lif
 
 - header: 3. シナプス伝達のモデル
 - file: 3-1_hhsynapse

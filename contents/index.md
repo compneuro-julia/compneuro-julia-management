@@ -12,6 +12,7 @@ Julia 1.4.0
 1. はじめに / 神経生理入門
 1. 単一神経細胞のモデル
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
+	2. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
 1. シナプス伝達のモデル
 	1. [Hodgkin-Huxleyモデルとシナプスモデル](https://compneuro-julia.github.io/3-1_hhsynapse.html)
 1. 神経回路網の構築 (発火率モデル)
