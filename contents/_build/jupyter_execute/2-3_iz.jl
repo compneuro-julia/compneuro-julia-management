@@ -1,5 +1,5 @@
 # 2.3 Izhikevich モデル
-## 2.3.1 Izhikevich モデルの実装
+## 2.3.1 Izhikevich モデルの定義
 **Izhikevich モデル** (または**Simple model**)は([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))で考案されたモデルである。HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが、式が複雑化するため、数学的な解析が難しく、計算量が増えるために大規模なシミュレーションも困難となる[^hh]。そこで、生理学的な正しさには目をつぶり、生体内でのニューロンの発火特性を再現するモデルが求められた。その特徴を持つのがIzhikevich モデルである (以下ではIzモデルと表記する)。Izモデルは 2変数しかない[^ber]簡素な微分方程式だが, 様々なニューロンの活動を模倣することができる。定式化には主に2種類ある。まず、([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))で提案されたのが次式である。
 
 $$
@@ -38,7 +38,7 @@ $$
 以上を踏まえて, シミュレーションを行う。まず、必要なパッケージを読み込む。
 
 [^hh]: これに関しては必ずしも正しくない。計算機の発達によりHHモデルで大きなモデルをシミュレーションすることも可能である。
-[^ber]: 数値計算をする上では簡易的だが、if文が入るために解析をするのは難しくなる。(Bernardo, et al., 2008)を読むといいらしい。
+[^ber]: 数値計算をする上では簡易的だが、if文が入るために解析をするのは難しくなる。([Bernardo, et al., 2008](https://www.springer.com/gp/book/9781846280399))を読むといいらしい。
 [^rec]: ここでの「回復」というのは脱分極した後の膜電位が静止膜電位へと戻る、という意味である (対義語はactivationで膜電位の上昇を意味する)。
 $u$は$v$の導関数において$v$の上昇を抑制するように$-u$で入っているため、$u$としてはK$^+$チャネル電流やNa$^+$チャネルの不活性化動態などが考えられる。
 [^burst]: バースト発火(bursting)の挙動を表現するためには、速い回復変数(fast recovery variable)と遅い回復変数(slow recovery variable)の2つが必要となる(従って膜電位も合わせて全部で3変数必要)。一方で、IzモデルではLIFモデルのようなif文によるリセットを用いているため、速い回復変数が必要なく、遅い回復変数$u$のみでバースト発火を表現できる。
@@ -69,6 +69,8 @@ end
     fire::Vector{Bool} = zeros(Bool, N)
 end
 
+次に変数を更新する関数`updateIZ!`を書く。LIFの場合と異なり、`v[i] >= vpeak`であることに注意する (`v[i] >= vthr`ではない)。
+
 function updateIZ!(variable::IZ, param::IZParameter, I::Vector, dt)
     @unpack N, v, u, fire = variable
     @unpack C, a, b, d, k, vthr, vrest, vreset, vpeak = param
@@ -82,6 +84,9 @@ function updateIZ!(variable::IZ, param::IZParameter, I::Vector, dt)
         u[i] += ifelse(fire[i], d, 0)
     end
 end
+
+## 2.3.2 Izhikevich モデルのシミュレーションの実行
+いくつかの定数を設定してシミュレーションを実行する。
 
 T = 450 # ms
 dt = 0.01f0 # ms
@@ -106,16 +111,56 @@ neurons = IZ{Float32}(N=N)
     uarr[i, :] = neurons.u
 end
 
+`Plots`を読み込み、膜電位`v`, 回復変数`u`, 入力電流`I`を描画する。
+
 using Plots
 
 p1 = plot(t, varr[:, 1])
 p2 = plot(t, uarr[:, 1])
 p3 = plot(t, I[:, 1])
 plot(p1, p2, p3, 
+    title= ["Regular Spiking (RS) Neurons" "" ""],
     xlabel = ["" "" "Times (ms)"], 
     ylabel= ["Membrane\n potential (mV)" "Recovery\n current (pA)" "Injection\n current (pA)"],
-    layout = grid(3, 1, heights=[0.5, 0.25, 0.25]), legend = false)
+    layout = grid(3, 1, heights=[0.5, 0.25, 0.25]), legend = false, size=(500, 400))
+
+## 2.3.2 様々な発火パターンのシミュレーション
+次に様々な発火パターンを模倣するようにIzモデルの定数を変化させてみよう。Intrinsically Bursting (IB)ニューロンとChattering (CH) ニューロン(または fast rhythmic bursting (FRB) ニューロン)のシミュレーションを行う。基本的には定数を変えるだけである。
 
 ```{note}
-次に様々な発火パターンを模倣するようにIzモデルの定数を変化させてみよう。Intrinsically Bursting (IB)ニューロンとChattering (CH) ニューロン(または fast rhythmic bursting (FRB) ニューロン)のシミュレーションを行う。基本的には定数を変えるだけである。
+本書で用いている式における発火パターンに対するパラメータは([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))では得られないが、["Dynamical Systems in Neuroscience" (Izhikevich, 2007)](https://mitpress.mit.edu/books/dynamical-systems-neuroscience)には記載がある。他の発火パターンに関してはこの本を参照のこと。
 ```
+
+# 記録用
+varr_ib = zeros(Float32, nt, N)
+varr_ch = zeros(Float32, nt, N)
+
+I = repeat(500f0 * ((t .> 50) - (t .> 200)) + 700f0 * ((t .> 250) - (t .> 400)), 1, N)  # injection current
+
+# IB neurons
+neurons_ib = IZ{Float32}(N=N, 
+    param=IZParameter{Float32}(C = 150, a = 0.01, b = 5, k =1.2, d = 130, vrest = -75, vreset = -56, vthr = -45, vpeak = 50))
+
+# CH neurons
+neurons_ch = IZ{Float32}(N=N, 
+    param=IZParameter{Float32}(C = 50, a = 0.03, b = 1, k =1.5, d = 150, vrest = -60, vreset = -40, vthr = -40, vpeak = 35))
+
+# simulation
+@time for i = 1:nt
+    updateIZ!(neurons_ib, neurons_ib.param, I[i, :], dt)
+    updateIZ!(neurons_ch, neurons_ch.param, I[i, :], dt)
+    varr_ib[i, :] = neurons_ib.v
+    varr_ch[i, :] = neurons_ch.v
+end
+
+これまでと異なり、モデルの定義時に`param`を設定していることに注意しよう。最後に膜電位変化を描画する。
+
+p1 = plot(t, varr_ib[:, 1])
+p2 = plot(t, varr_ch[:, 1])
+p3 = plot(t, I[:, 1])
+p4 = plot(t, I[:, 1])
+plot(p1, p2, p3, p4,
+    title = ["IB Neurons" "CH neurons" "" ""],
+    xlabel = ["" "" "Times (ms)" "Times (ms)"], 
+    ylabel= ["Membrane\n potential (mV)" "" "Injection\n current (pA)" ""],
+    layout = grid(2, 2, heights=[0.7, 0.3], widths=[0.5, 0.5]), legend = false, size=(600, 300))
