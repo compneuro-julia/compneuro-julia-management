@@ -47,7 +47,7 @@ end
 
 ````{margin}
 ```{note}
-`tcount`はスカラーでもよいと思われるが、更新されないバグ(?)が発生したのでサイズ1の配列を用いている。(cf.) [Scalar parameter doesn't update in Flux, but array does](https://discourse.julialang.org/t/scalar-parameter-doesnt-update-in-flux-but-array-does/32548)
+`tcount`はスカラーでもよいと思われるが、更新されないエラーが発生したのでサイズ1の配列を用いている。(cf.) [Scalar parameter doesn't update in Flux, but array does](https://discourse.julialang.org/t/scalar-parameter-doesnt-update-in-flux-but-array-does/32548)
 ```
 ````
 
@@ -60,6 +60,7 @@ function updateLIF!(variable::LIF, param::LIFParameter, I::Vector, dt)
     @inbounds for i = 1:N
         #v[i] += dt * ((vrest - v[i] + I[i]) / tc_m) # 不応期を考慮しない場合の更新式
         v[i] += dt * ((dt*tcount[1]) > (tlast[i] + tref))*((vrest - v[i] + I[i]) / tc_m)
+        #v[i] += dt * ifelse(dt*tcount[1] > tlast[i] + tref, (vrest - v[i] + I[i]) / tc_m, 0)
     end
     @inbounds for i = 1:N
         fire[i] = v[i] >= vthr
@@ -102,12 +103,12 @@ end
 
 using Plots
 
-p1 = plot(t, varr[:, 1], label="", color="black")
-p2 = plot(t, I[:, 1], label="", color="black")
+p1 = plot(t, varr[:, 1], color="black")
+p2 = plot(t, I[:, 1], color="black")
 plot(p1, p2, 
     xlabel = ["" "Times (ms)"], 
     ylabel= ["V (mV)" "Current"],
-    layout = grid(2, 1, heights=[0.7, 0.3]), size=(600,300))
+    layout = grid(2, 1, heights=[0.7, 0.3]), legend=false, size=(600,300))
 
 ## 2.2.3 LIFモデルのF-I curve
 ### 数値的計算によるF-I curveの描画
@@ -132,7 +133,7 @@ neurons = LIF{Float32}(N=N)
 firearr = zeros(Bool, nt, N)
 
 # simulation
-for i = 1:nt
+@time for i = 1:nt
     updateLIF!(neurons, neurons.param, I[:], dt)
     firearr[i, :] = neurons.fire
 end
