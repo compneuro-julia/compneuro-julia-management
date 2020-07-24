@@ -2,18 +2,18 @@
 視覚におけるSparse codingのモデル ([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))の実装を目標とする。
 
 ```{note}
-Sparse codingをどこに入れるかは迷ったが、生成モデルであるのでこの章に入れた。
+Sparse codingをどこに入れるかは迷ったが、生成モデルではあるのでこの章に入れた。
 ```
 
 ## 13.1.1 画像のsparse coding
 
-画像 $\boldsymbol{I} (\boldsymbol{x})$が基底関数(basis function) $\Phi = [\phi_i(\boldsymbol{x})]$の線形和 (係数は$\boldsymbol{r}=[r_i] $)で表されるとする。
+画像 $\boldsymbol{I} (\boldsymbol{x})$が基底関数(basis function) $\Phi = [\phi_i(\boldsymbol{x})]$ の線形和で表されるとする。
 
 $$
 \boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \epsilon(\boldsymbol{x})
 $$
 
-ただし、$\boldsymbol{x}$は画像上の座標, $\epsilon$は平均0のGaussianノイズを表す。また、$\boldsymbol{r}$は入力よりも高次の神経細胞の活動、$\Phi$は重み行列とする。
+ただし、$\boldsymbol{x}$は画像上の座標, $\epsilon$は平均0のGaussianノイズを表す。また、$\boldsymbol{r}$は係数であるが、モデルにおいては入力よりも高次の神経細胞の活動とみなす。この場合、$\Phi$は重み行列となる。
 
 Sparse codingは、少数の基底で画像 (や目的変数)を表すことを目的とする。要は(1)式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数$\boldsymbol{r}$を求めたい。
 
@@ -151,6 +151,7 @@ using Parameters: @unpack # or using UnPack
 using LinearAlgebra
 using Random
 using Statistics
+using ProgressMeter
 
 モデルを定義する。
 
@@ -214,7 +215,7 @@ function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
     errorarr = zeros(num_iter) # Vector to save errors    
     
     # Run simulation
-    for iter in 1:num_iter
+    @showprogress "Computing..." for iter in 1:num_iter
         # Get the coordinates of the upper left corner of clopping image randomly.
         beginx = rand(1:W-sz, batch_size)
         beginy = rand(1:H-sz, batch_size)
@@ -259,6 +260,13 @@ function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
                 break
             end
         end
+        """
+        # Print moving average error
+        if iter % 100 == 0
+            moving_average_error = mean(errorarr[iter-99:iter])
+            println("iter: ", iter, "/", num_iter, ", Moving average error:", moving_average_error)
+        end
+        """
     end
     return model, errorarr
 end
@@ -280,7 +288,7 @@ model, errorarr = run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_uni
 訓練中の損失の変化を描画してみよう。損失が低下し、学習が進行したことが分かる。
 
 # Plot error
-figure(figsize=(5, 3))
+figure(figsize=(4, 2))
 ylabel("Error")
 xlabel("Iterations")
 plot(1:num_iter, errorarr)
@@ -290,7 +298,7 @@ tight_layout()
 学習後の重み行列 `Phi` ($\Phi$)を可視化してみよう。
 
 # Plot Receptive fields
-figure(figsize=(6.5, 6))
+figure(figsize=(4.2, 4))
 subplots_adjust(hspace=0.1, wspace=0.1)
 for i in 1:num_units
     subplot(10, 10, i)
