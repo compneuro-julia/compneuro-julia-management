@@ -9,7 +9,10 @@ Julia 1.4.0
 ```
 
 ## 目次
-1. はじめに / 神経生理入門
+- [はじめに](https://compneuro-julia.github.io/intro.html)
+- [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
+
+1. 神経生理入門
 1. 単一神経細胞のモデル
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
@@ -29,6 +32,7 @@ Julia 1.4.0
 1. Reservoir Computing
 1. 情報理論と最適化原理
 1. ベイズ脳理論と生成モデル
+	1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/13-1_sparse-coding.html)
 1. 時空間の符号化
 1. 運動学習
 1. 強化学習

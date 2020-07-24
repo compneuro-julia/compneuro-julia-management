@@ -1,3 +1,7 @@
 .bd-sidebar h1.site-logo{
    font-size:0!important;
 }
+
+nav.bd-links p.caption {
+    font-size: 1.1em!important;
+}
