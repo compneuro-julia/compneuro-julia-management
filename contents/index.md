@@ -14,6 +14,9 @@ Julia 1.4.0
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
 	1. [Izhikevich モデル](https://compneuro-julia.github.io/2-3_iz.html)
+	1. Multi-compartment モデル
+	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/2-5_isi.html)
+	1. 発火率モデル
 1. シナプス伝達のモデル
 	1. [Hodgkin-Huxleyモデルとシナプスモデル](https://compneuro-julia.github.io/3-1_hhsynapse.html)
 1. 神経回路網の構築 (発火率モデル)
