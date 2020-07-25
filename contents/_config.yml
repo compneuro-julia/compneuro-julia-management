@@ -21,6 +21,17 @@ html:
   extra_navbar              : Powered by <a href="https://jupyterbook.org">Jupyter Book</a>  # Will be displayed underneath the left navbar.
   google_analytics_id       : "UA-172979897-1"  # A GA id that can be used to track book views.
   baseurl                   : https://compneuro-julia.github.io/  # The base URL where your book will be hosted. Used for creating image previews and social links. e.g.: https://mypage.com/mybook/
+  extra_footer: |
+        <div>
+        <script src="https://utteranc.es/client.js"
+        repo="compneuro-julia/compneuro-julia.github.io"
+        issue-term="title"
+        label="💬"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+        </script>
+        </div>
 
 
 launch_buttons:
