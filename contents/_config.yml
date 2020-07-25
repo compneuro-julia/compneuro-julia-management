@@ -1,6 +1,7 @@
 # Book settings
 title: Juliaで学ぶ計算論的神経科学
-author: 山本拓都 (Yamamoto Takuto)
+author:
+copyright: "2020"
 logo: _static/images/logo.svg
 
 latex:
@@ -16,7 +17,7 @@ html:
   favicon                   : ""  # A path to a favicon image
   use_edit_page_button      : true  # Whether to add an "edit this page" button to pages. If `true`, repository information in repository: must be filled in
   use_repository_button     : true  # Whether to add a link to your repository button
-  use_issues_button         : true  # Whether to add an "open an issue" button
+  use_issues_button         : false  # Whether to add an "open an issue" button
   home_page_in_navbar       : true  # Whether to include your home page in the left Navigation Bar
   extra_navbar              : Powered by <a href="https://jupyterbook.org">Jupyter Book</a>  # Will be displayed underneath the left navbar.
   google_analytics_id       : "UA-172979897-1"  # A GA id that can be used to track book views.

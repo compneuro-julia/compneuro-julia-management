@@ -11,7 +11,7 @@
 
 サイトの作成に関しては[Jupyter book](https://jupyterbook.org/intro.html)を用いている。Jupyter bookはJupyter notebookやmarkdownをちゃんとしたサイトの形式に変換してくれ、大変便利である。
 
-内容に関しての疑問点や指摘に関しては、各記事にIssueを立てられるようになっている (各記事右上のGithubマークからOpen Issueを選んでほしい)。他に、もしこのサイトに協力してくれるという方がいれば、Twitter([@tak_yamm](https://twitter.com/tak_yamm))でDMをしていただければ幸いである。
+内容に関しての疑問点や指摘に関しては、各記事末尾のコメント欄からお願いしたい ([utterances.es](https://utteranc.es/)を用いているためGitHubアカウントが必要である)。他に、もしこのサイトに協力してくれるという方がいれば、Twitter([@tak_yamm](https://twitter.com/tak_yamm))でDMをしていただければ幸いである。
 
 なお、知り合いの方向けに言っておくと、このサイトはあくまで趣味であって、勉強や研究や仕事の方を優先するので安心してほしい。などという言葉を試験3日前に書いている私であった。
 

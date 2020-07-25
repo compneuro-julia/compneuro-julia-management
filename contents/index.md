@@ -2,7 +2,7 @@
 
 このサイトは**計算論的神経科学 (Computational Neuroscience)** をプログラミング言語 [**Julia**](https://julialang.org/)を通して学習することを目標とします。
 
-内容に関する指摘やコメントは各ページ右上のGitHubアイコンから`Open Issue`を選択し、リポジトリのIssueとして行っていただければ幸いです。
+内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)。
 
 ```{admonition} 記事で使用しているJuliaのバージョン
 Julia 1.4.0
