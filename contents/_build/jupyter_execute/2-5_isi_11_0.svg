@@ -1,430 +1,430 @@
 <?xml version="1.0" encoding="utf-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="500" height="200" viewBox="0 0 2000 800">
 <defs>
-  <clipPath id="clip4400">
+  <clipPath id="clip0600">
     <rect x="0" y="0" width="2000" height="800"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip4400)" d="
+<path clip-path="url(#clip0600)" d="
 M0 800 L2000 800 L2000 0 L0 0  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip4401">
+  <clipPath id="clip0601">
     <rect x="400" y="0" width="1401" height="800"/>
   </clipPath>
 </defs>
-<path clip-path="url(#clip4400)" d="
+<path clip-path="url(#clip0600)" d="
 M179.93 665.475 L1952.76 665.475 L1952.76 47.2441 L179.93 47.2441  Z
   " fill="#ffffff" fill-rule="evenodd" fill-opacity="1"/>
 <defs>
-  <clipPath id="clip4402">
+  <clipPath id="clip0602">
     <rect x="179" y="47" width="1774" height="619"/>
   </clipPath>
 </defs>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   223.347,665.475 223.347,47.2441 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   645.689,665.475 645.689,47.2441 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   1068.03,665.475 1068.03,47.2441 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   1490.37,665.475 1490.37,47.2441 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   1912.72,665.475 1912.72,47.2441 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   179.93,583.174 1952.76,583.174 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   179.93,453.566 1952.76,453.566 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   179.93,323.958 1952.76,323.958 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   179.93,194.349 1952.76,194.349 
   "/>
-<polyline clip-path="url(#clip4402)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
+<polyline clip-path="url(#clip0602)" style="stroke:#000000; stroke-width:2; stroke-opacity:0.1; fill:none" points="
   179.93,64.7412 1952.76,64.7412 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,665.475 1952.76,665.475 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,665.475 179.93,47.2441 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   223.347,665.475 223.347,658.056 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   645.689,665.475 645.689,658.056 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1068.03,665.475 1068.03,658.056 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1490.37,665.475 1490.37,658.056 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   1912.72,665.475 1912.72,658.056 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,583.174 201.204,583.174 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,453.566 201.204,453.566 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,323.958 201.204,323.958 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,194.349 201.204,194.349 
   "/>
-<polyline clip-path="url(#clip4400)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
+<polyline clip-path="url(#clip0600)" style="stroke:#000000; stroke-width:4; stroke-opacity:1; fill:none" points="
   179.93,64.7412 201.204,64.7412 
   "/>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:middle;" transform="rotate(0, 223.347, 717.475)" x="223.347" y="717.475">0</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:middle;" transform="rotate(0, 645.689, 717.475)" x="645.689" y="717.475">250</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:middle;" transform="rotate(0, 1068.03, 717.475)" x="1068.03" y="717.475">500</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:middle;" transform="rotate(0, 1490.37, 717.475)" x="1490.37" y="717.475">750</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:middle;" transform="rotate(0, 1912.72, 717.475)" x="1912.72" y="717.475">1000</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:end;" transform="rotate(0, 159.93, 600.674)" x="159.93" y="600.674">2</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:end;" transform="rotate(0, 159.93, 471.066)" x="159.93" y="471.066">4</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:end;" transform="rotate(0, 159.93, 341.458)" x="159.93" y="341.458">6</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:end;" transform="rotate(0, 159.93, 211.849)" x="159.93" y="211.849">8</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:48px; text-anchor:end;" transform="rotate(0, 159.93, 82.2412)" x="159.93" y="82.2412">10</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:66px; text-anchor:middle;" transform="rotate(0, 1066.34, 795.337)" x="1066.34" y="795.337">Time (ms)</text>
 </g>
-<g clip-path="url(#clip4400)">
+<g clip-path="url(#clip0600)">
 <text style="fill:#000000; fill-opacity:1; font-family:Arial,Helvetica Neue,Helvetica,sans-serif; font-size:66px; text-anchor:middle;" transform="rotate(-90, 74.8429, 356.36)" x="74.8429" y="356.36">Neuron index</text>
 </g>
-<line clip-path="url(#clip4402)" x1="422.692" y1="663.978" x2="422.692" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="520.676" y1="663.978" x2="520.676" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="530.812" y1="663.978" x2="530.812" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="630.485" y1="663.978" x2="630.485" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="682.856" y1="663.978" x2="682.856" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="997.079" y1="663.978" x2="997.079" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1000.46" y1="663.978" x2="1000.46" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1041" y1="663.978" x2="1041" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1059.59" y1="663.978" x2="1059.59" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1177.84" y1="663.978" x2="1177.84" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1201.49" y1="663.978" x2="1201.49" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1267.38" y1="663.978" x2="1267.38" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1280.89" y1="663.978" x2="1280.89" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1410.97" y1="663.978" x2="1410.97" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1541.06" y1="663.978" x2="1541.06" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1549.5" y1="663.978" x2="1549.5" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1583.29" y1="663.978" x2="1583.29" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1606.94" y1="663.978" x2="1606.94" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1698.17" y1="663.978" x2="1698.17" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1701.55" y1="663.978" x2="1701.55" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1748.85" y1="663.978" x2="1748.85" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1878.93" y1="663.978" x2="1878.93" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="292.611" y1="599.174" x2="292.611" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="348.36" y1="599.174" x2="348.36" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="417.624" y1="599.174" x2="417.624" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="660.894" y1="599.174" x2="660.894" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="799.422" y1="599.174" x2="799.422" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="860.239" y1="599.174" x2="860.239" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="902.474" y1="599.174" x2="902.474" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="953.155" y1="599.174" x2="953.155" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="954.844" y1="599.174" x2="954.844" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="956.534" y1="599.174" x2="956.534" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="985.253" y1="599.174" x2="985.253" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1037.62" y1="599.174" x2="1037.62" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1069.72" y1="599.174" x2="1069.72" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1089.99" y1="599.174" x2="1089.99" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1166.02" y1="599.174" x2="1166.02" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1262.31" y1="599.174" x2="1262.31" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1382.26" y1="599.174" x2="1382.26" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1395.77" y1="599.174" x2="1395.77" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1424.49" y1="599.174" x2="1424.49" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1498.82" y1="599.174" x2="1498.82" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1505.58" y1="599.174" x2="1505.58" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1534.3" y1="599.174" x2="1534.3" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1542.75" y1="599.174" x2="1542.75" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1559.64" y1="599.174" x2="1559.64" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1662.69" y1="599.174" x2="1662.69" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1699.86" y1="599.174" x2="1699.86" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1799.53" y1="599.174" x2="1799.53" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1804.6" y1="599.174" x2="1804.6" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1806.29" y1="599.174" x2="1806.29" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1819.8" y1="599.174" x2="1819.8" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1894.13" y1="599.174" x2="1894.13" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1900.89" y1="599.174" x2="1900.89" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="240.24" y1="534.37" x2="240.24" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="326.398" y1="534.37" x2="326.398" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="343.292" y1="534.37" x2="343.292" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="351.739" y1="534.37" x2="351.739" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="404.109" y1="534.37" x2="404.109" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="498.714" y1="534.37" x2="498.714" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="512.229" y1="534.37" x2="512.229" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="547.706" y1="534.37" x2="547.706" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="566.289" y1="534.37" x2="566.289" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="632.174" y1="534.37" x2="632.174" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="853.482" y1="534.37" x2="853.482" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="899.095" y1="534.37" x2="899.095" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="934.572" y1="534.37" x2="934.572" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="953.155" y1="534.37" x2="953.155" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="958.223" y1="534.37" x2="958.223" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1027.49" y1="534.37" x2="1027.49" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1142.36" y1="534.37" x2="1142.36" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1177.84" y1="534.37" x2="1177.84" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1231.9" y1="534.37" x2="1231.9" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1291.03" y1="534.37" x2="1291.03" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1382.26" y1="534.37" x2="1382.26" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1397.46" y1="534.37" x2="1397.46" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1421.11" y1="534.37" x2="1421.11" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1527.54" y1="534.37" x2="1527.54" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1633.97" y1="534.37" x2="1633.97" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1667.76" y1="534.37" x2="1667.76" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1711.68" y1="534.37" x2="1711.68" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1716.75" y1="534.37" x2="1716.75" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1750.54" y1="534.37" x2="1750.54" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1769.12" y1="534.37" x2="1769.12" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1786.01" y1="534.37" x2="1786.01" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1855.28" y1="534.37" x2="1855.28" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1870.48" y1="534.37" x2="1870.48" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1889.07" y1="534.37" x2="1889.07" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1902.58" y1="534.37" x2="1902.58" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="361.875" y1="469.566" x2="361.875" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="370.322" y1="469.566" x2="370.322" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="375.39" y1="469.566" x2="375.39" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="385.526" y1="469.566" x2="385.526" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="429.45" y1="469.566" x2="429.45" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="451.412" y1="469.566" x2="451.412" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="525.744" y1="469.566" x2="525.744" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="674.409" y1="469.566" x2="674.409" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="686.234" y1="469.566" x2="686.234" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="692.992" y1="469.566" x2="692.992" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="733.537" y1="469.566" x2="733.537" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="829.831" y1="469.566" x2="829.831" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="850.103" y1="469.566" x2="850.103" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="899.095" y1="469.566" x2="899.095" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="988.632" y1="469.566" x2="988.632" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1037.62" y1="469.566" x2="1037.62" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1110.27" y1="469.566" x2="1110.27" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1128.85" y1="469.566" x2="1128.85" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1172.77" y1="469.566" x2="1172.77" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1209.94" y1="469.566" x2="1209.94" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1223.45" y1="469.566" x2="1223.45" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1248.79" y1="469.566" x2="1248.79" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1274.14" y1="469.566" x2="1274.14" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1642.42" y1="469.566" x2="1642.42" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1726.89" y1="469.566" x2="1726.89" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1742.09" y1="469.566" x2="1742.09" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1752.23" y1="469.566" x2="1752.23" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1772.5" y1="469.566" x2="1772.5" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1786.01" y1="469.566" x2="1786.01" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1824.87" y1="469.566" x2="1824.87" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1841.76" y1="469.566" x2="1841.76" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="230.104" y1="404.762" x2="230.104" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="290.921" y1="404.762" x2="290.921" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="306.126" y1="404.762" x2="306.126" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="378.769" y1="404.762" x2="378.769" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="393.973" y1="404.762" x2="393.973" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="458.169" y1="404.762" x2="458.169" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="520.676" y1="404.762" x2="520.676" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="566.289" y1="404.762" x2="566.289" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="615.281" y1="404.762" x2="615.281" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="689.613" y1="404.762" x2="689.613" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="691.302" y1="404.762" x2="691.302" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="818.005" y1="404.762" x2="818.005" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="845.035" y1="404.762" x2="845.035" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="921.057" y1="404.762" x2="921.057" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="951.466" y1="404.762" x2="951.466" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1025.8" y1="404.762" x2="1025.8" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1051.14" y1="404.762" x2="1051.14" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1115.33" y1="404.762" x2="1115.33" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1267.38" y1="404.762" x2="1267.38" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1280.89" y1="404.762" x2="1280.89" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1291.03" y1="404.762" x2="1291.03" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1319.75" y1="404.762" x2="1319.75" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1340.02" y1="404.762" x2="1340.02" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1367.05" y1="404.762" x2="1367.05" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1444.76" y1="404.762" x2="1444.76" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1542.75" y1="404.762" x2="1542.75" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1637.35" y1="404.762" x2="1637.35" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1730.27" y1="404.762" x2="1730.27" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1770.81" y1="404.762" x2="1770.81" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1772.5" y1="404.762" x2="1772.5" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1782.64" y1="404.762" x2="1782.64" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1850.21" y1="404.762" x2="1850.21" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="272.338" y1="339.958" x2="272.338" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="314.573" y1="339.958" x2="314.573" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="321.33" y1="339.958" x2="321.33" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="355.117" y1="339.958" x2="355.117" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="475.063" y1="339.958" x2="475.063" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="530.812" y1="339.958" x2="530.812" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="551.085" y1="339.958" x2="551.085" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="605.144" y1="339.958" x2="605.144" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="606.834" y1="339.958" x2="606.834" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="611.902" y1="339.958" x2="611.902" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="630.485" y1="339.958" x2="630.485" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="699.749" y1="339.958" x2="699.749" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="741.984" y1="339.958" x2="741.984" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="760.567" y1="339.958" x2="760.567" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="926.125" y1="339.958" x2="926.125" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="953.155" y1="339.958" x2="953.155" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1002.15" y1="339.958" x2="1002.15" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1081.55" y1="339.958" x2="1081.55" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1105.2" y1="339.958" x2="1105.2" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1120.4" y1="339.958" x2="1120.4" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1150.81" y1="339.958" x2="1150.81" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1235.28" y1="339.958" x2="1235.28" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1275.82" y1="339.958" x2="1275.82" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1353.54" y1="339.958" x2="1353.54" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1569.78" y1="339.958" x2="1569.78" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1581.6" y1="339.958" x2="1581.6" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1630.59" y1="339.958" x2="1630.59" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1666.07" y1="339.958" x2="1666.07" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1743.78" y1="339.958" x2="1743.78" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1748.85" y1="339.958" x2="1748.85" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1840.07" y1="339.958" x2="1840.07" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1865.42" y1="339.958" x2="1865.42" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="252.066" y1="275.153" x2="252.066" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="258.823" y1="275.153" x2="258.823" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="284.164" y1="275.153" x2="284.164" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="361.875" y1="275.153" x2="361.875" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="368.632" y1="275.153" x2="368.632" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="397.352" y1="275.153" x2="397.352" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="407.488" y1="275.153" x2="407.488" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="471.684" y1="275.153" x2="471.684" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="535.88" y1="275.153" x2="535.88" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="546.016" y1="275.153" x2="546.016" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="747.052" y1="275.153" x2="747.052" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="752.12" y1="275.153" x2="752.12" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="826.452" y1="275.153" x2="826.452" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="929.504" y1="275.153" x2="929.504" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1008.9" y1="275.153" x2="1008.9" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1068.03" y1="275.153" x2="1068.03" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1069.72" y1="275.153" x2="1069.72" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1073.1" y1="275.153" x2="1073.1" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1098.44" y1="275.153" x2="1098.44" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1149.12" y1="275.153" x2="1149.12" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1189.67" y1="275.153" x2="1189.67" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1360.29" y1="275.153" x2="1360.29" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1458.28" y1="275.153" x2="1458.28" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1478.55" y1="275.153" x2="1478.55" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1539.37" y1="275.153" x2="1539.37" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1551.19" y1="275.153" x2="1551.19" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1552.88" y1="275.153" x2="1552.88" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1557.95" y1="275.153" x2="1557.95" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1586.67" y1="275.153" x2="1586.67" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1605.25" y1="275.153" x2="1605.25" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1628.9" y1="275.153" x2="1628.9" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1698.17" y1="275.153" x2="1698.17" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1802.91" y1="275.153" x2="1802.91" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1865.42" y1="275.153" x2="1865.42" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1867.1" y1="275.153" x2="1867.1" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1877.24" y1="275.153" x2="1877.24" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="243.619" y1="210.349" x2="243.619" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="299.368" y1="210.349" x2="299.368" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="355.117" y1="210.349" x2="355.117" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="485.199" y1="210.349" x2="485.199" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="508.85" y1="210.349" x2="508.85" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="525.744" y1="210.349" x2="525.744" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="760.567" y1="210.349" x2="760.567" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="823.073" y1="210.349" x2="823.073" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="851.793" y1="210.349" x2="851.793" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="872.065" y1="210.349" x2="872.065" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="937.951" y1="210.349" x2="937.951" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1022.42" y1="210.349" x2="1022.42" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1041" y1="210.349" x2="1041" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1051.14" y1="210.349" x2="1051.14" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1086.62" y1="210.349" x2="1086.62" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1115.33" y1="210.349" x2="1115.33" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1154.19" y1="210.349" x2="1154.19" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1179.53" y1="210.349" x2="1179.53" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1184.6" y1="210.349" x2="1184.6" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1262.31" y1="210.349" x2="1262.31" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1471.79" y1="210.349" x2="1471.79" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1584.98" y1="210.349" x2="1584.98" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1605.25" y1="210.349" x2="1605.25" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1640.73" y1="210.349" x2="1640.73" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1657.62" y1="210.349" x2="1657.62" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1813.04" y1="210.349" x2="1813.04" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1872.17" y1="210.349" x2="1872.17" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="285.853" y1="145.545" x2="285.853" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="287.543" y1="145.545" x2="287.543" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="385.526" y1="145.545" x2="385.526" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="415.935" y1="145.545" x2="415.935" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="441.275" y1="145.545" x2="441.275" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="513.918" y1="145.545" x2="513.918" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="529.123" y1="145.545" x2="529.123" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="542.638" y1="145.545" x2="542.638" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="581.493" y1="145.545" x2="581.493" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="584.872" y1="145.545" x2="584.872" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="591.629" y1="145.545" x2="591.629" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="650.757" y1="145.545" x2="650.757" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="654.136" y1="145.545" x2="654.136" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="725.09" y1="145.545" x2="725.09" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="806.18" y1="145.545" x2="806.18" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="861.929" y1="145.545" x2="861.929" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1078.17" y1="145.545" x2="1078.17" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1147.43" y1="145.545" x2="1147.43" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1169.39" y1="145.545" x2="1169.39" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1218.39" y1="145.545" x2="1218.39" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1395.77" y1="145.545" x2="1395.77" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1444.76" y1="145.545" x2="1444.76" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1448.14" y1="145.545" x2="1448.14" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1514.03" y1="145.545" x2="1514.03" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1530.92" y1="145.545" x2="1530.92" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1593.43" y1="145.545" x2="1593.43" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1674.52" y1="145.545" x2="1674.52" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1723.51" y1="145.545" x2="1723.51" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1821.49" y1="145.545" x2="1821.49" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="241.93" y1="80.7412" x2="241.93" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="246.998" y1="80.7412" x2="246.998" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="307.815" y1="80.7412" x2="307.815" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="331.466" y1="80.7412" x2="331.466" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="456.48" y1="80.7412" x2="456.48" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="733.537" y1="80.7412" x2="733.537" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="824.763" y1="80.7412" x2="824.763" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="888.959" y1="80.7412" x2="888.959" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1035.93" y1="80.7412" x2="1035.93" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1047.76" y1="80.7412" x2="1047.76" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1108.58" y1="80.7412" x2="1108.58" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1113.65" y1="80.7412" x2="1113.65" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1133.92" y1="80.7412" x2="1133.92" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1189.67" y1="80.7412" x2="1189.67" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1196.42" y1="80.7412" x2="1196.42" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1242.04" y1="80.7412" x2="1242.04" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1480.24" y1="80.7412" x2="1480.24" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1481.93" y1="80.7412" x2="1481.93" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1525.85" y1="80.7412" x2="1525.85" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1564.71" y1="80.7412" x2="1564.71" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1588.36" y1="80.7412" x2="1588.36" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1596.81" y1="80.7412" x2="1596.81" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1642.42" y1="80.7412" x2="1642.42" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1669.45" y1="80.7412" x2="1669.45" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1681.27" y1="80.7412" x2="1681.27" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1706.61" y1="80.7412" x2="1706.61" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1713.37" y1="80.7412" x2="1713.37" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
-<line clip-path="url(#clip4402)" x1="1870.48" y1="80.7412" x2="1870.48" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="422.692" y1="663.978" x2="422.692" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="520.676" y1="663.978" x2="520.676" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="530.812" y1="663.978" x2="530.812" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="630.485" y1="663.978" x2="630.485" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="682.856" y1="663.978" x2="682.856" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="997.079" y1="663.978" x2="997.079" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1000.46" y1="663.978" x2="1000.46" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1041" y1="663.978" x2="1041" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1059.59" y1="663.978" x2="1059.59" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1177.84" y1="663.978" x2="1177.84" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1201.49" y1="663.978" x2="1201.49" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1267.38" y1="663.978" x2="1267.38" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1280.89" y1="663.978" x2="1280.89" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1410.97" y1="663.978" x2="1410.97" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1541.06" y1="663.978" x2="1541.06" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1549.5" y1="663.978" x2="1549.5" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1583.29" y1="663.978" x2="1583.29" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1606.94" y1="663.978" x2="1606.94" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1698.17" y1="663.978" x2="1698.17" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1701.55" y1="663.978" x2="1701.55" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1748.85" y1="663.978" x2="1748.85" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1878.93" y1="663.978" x2="1878.93" y2="631.978" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="292.611" y1="599.174" x2="292.611" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="348.36" y1="599.174" x2="348.36" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="417.624" y1="599.174" x2="417.624" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="660.894" y1="599.174" x2="660.894" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="799.422" y1="599.174" x2="799.422" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="860.239" y1="599.174" x2="860.239" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="902.474" y1="599.174" x2="902.474" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="953.155" y1="599.174" x2="953.155" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="954.844" y1="599.174" x2="954.844" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="956.534" y1="599.174" x2="956.534" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="985.253" y1="599.174" x2="985.253" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1037.62" y1="599.174" x2="1037.62" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1069.72" y1="599.174" x2="1069.72" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1089.99" y1="599.174" x2="1089.99" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1166.02" y1="599.174" x2="1166.02" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1262.31" y1="599.174" x2="1262.31" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1382.26" y1="599.174" x2="1382.26" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1395.77" y1="599.174" x2="1395.77" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1424.49" y1="599.174" x2="1424.49" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1498.82" y1="599.174" x2="1498.82" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1505.58" y1="599.174" x2="1505.58" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1534.3" y1="599.174" x2="1534.3" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1542.75" y1="599.174" x2="1542.75" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1559.64" y1="599.174" x2="1559.64" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1662.69" y1="599.174" x2="1662.69" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1699.86" y1="599.174" x2="1699.86" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1799.53" y1="599.174" x2="1799.53" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1804.6" y1="599.174" x2="1804.6" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1806.29" y1="599.174" x2="1806.29" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1819.8" y1="599.174" x2="1819.8" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1894.13" y1="599.174" x2="1894.13" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1900.89" y1="599.174" x2="1900.89" y2="567.174" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="240.24" y1="534.37" x2="240.24" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="326.398" y1="534.37" x2="326.398" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="343.292" y1="534.37" x2="343.292" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="351.739" y1="534.37" x2="351.739" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="404.109" y1="534.37" x2="404.109" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="498.714" y1="534.37" x2="498.714" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="512.229" y1="534.37" x2="512.229" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="547.706" y1="534.37" x2="547.706" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="566.289" y1="534.37" x2="566.289" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="632.174" y1="534.37" x2="632.174" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="853.482" y1="534.37" x2="853.482" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="899.095" y1="534.37" x2="899.095" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="934.572" y1="534.37" x2="934.572" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="953.155" y1="534.37" x2="953.155" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="958.223" y1="534.37" x2="958.223" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1027.49" y1="534.37" x2="1027.49" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1142.36" y1="534.37" x2="1142.36" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1177.84" y1="534.37" x2="1177.84" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1231.9" y1="534.37" x2="1231.9" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1291.03" y1="534.37" x2="1291.03" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1382.26" y1="534.37" x2="1382.26" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1397.46" y1="534.37" x2="1397.46" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1421.11" y1="534.37" x2="1421.11" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1527.54" y1="534.37" x2="1527.54" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1633.97" y1="534.37" x2="1633.97" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1667.76" y1="534.37" x2="1667.76" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1711.68" y1="534.37" x2="1711.68" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1716.75" y1="534.37" x2="1716.75" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1750.54" y1="534.37" x2="1750.54" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1769.12" y1="534.37" x2="1769.12" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1786.01" y1="534.37" x2="1786.01" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1855.28" y1="534.37" x2="1855.28" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1870.48" y1="534.37" x2="1870.48" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1889.07" y1="534.37" x2="1889.07" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1902.58" y1="534.37" x2="1902.58" y2="502.37" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="361.875" y1="469.566" x2="361.875" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="370.322" y1="469.566" x2="370.322" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="375.39" y1="469.566" x2="375.39" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="385.526" y1="469.566" x2="385.526" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="429.45" y1="469.566" x2="429.45" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="451.412" y1="469.566" x2="451.412" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="525.744" y1="469.566" x2="525.744" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="674.409" y1="469.566" x2="674.409" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="686.234" y1="469.566" x2="686.234" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="692.992" y1="469.566" x2="692.992" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="733.537" y1="469.566" x2="733.537" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="829.831" y1="469.566" x2="829.831" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="850.103" y1="469.566" x2="850.103" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="899.095" y1="469.566" x2="899.095" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="988.632" y1="469.566" x2="988.632" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1037.62" y1="469.566" x2="1037.62" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1110.27" y1="469.566" x2="1110.27" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1128.85" y1="469.566" x2="1128.85" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1172.77" y1="469.566" x2="1172.77" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1209.94" y1="469.566" x2="1209.94" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1223.45" y1="469.566" x2="1223.45" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1248.79" y1="469.566" x2="1248.79" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1274.14" y1="469.566" x2="1274.14" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1642.42" y1="469.566" x2="1642.42" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1726.89" y1="469.566" x2="1726.89" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1742.09" y1="469.566" x2="1742.09" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1752.23" y1="469.566" x2="1752.23" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1772.5" y1="469.566" x2="1772.5" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1786.01" y1="469.566" x2="1786.01" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1824.87" y1="469.566" x2="1824.87" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1841.76" y1="469.566" x2="1841.76" y2="437.566" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="230.104" y1="404.762" x2="230.104" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="290.921" y1="404.762" x2="290.921" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="306.126" y1="404.762" x2="306.126" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="378.769" y1="404.762" x2="378.769" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="393.973" y1="404.762" x2="393.973" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="458.169" y1="404.762" x2="458.169" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="520.676" y1="404.762" x2="520.676" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="566.289" y1="404.762" x2="566.289" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="615.281" y1="404.762" x2="615.281" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="689.613" y1="404.762" x2="689.613" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="691.302" y1="404.762" x2="691.302" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="818.005" y1="404.762" x2="818.005" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="845.035" y1="404.762" x2="845.035" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="921.057" y1="404.762" x2="921.057" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="951.466" y1="404.762" x2="951.466" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1025.8" y1="404.762" x2="1025.8" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1051.14" y1="404.762" x2="1051.14" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1115.33" y1="404.762" x2="1115.33" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1267.38" y1="404.762" x2="1267.38" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1280.89" y1="404.762" x2="1280.89" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1291.03" y1="404.762" x2="1291.03" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1319.75" y1="404.762" x2="1319.75" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1340.02" y1="404.762" x2="1340.02" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1367.05" y1="404.762" x2="1367.05" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1444.76" y1="404.762" x2="1444.76" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1542.75" y1="404.762" x2="1542.75" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1637.35" y1="404.762" x2="1637.35" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1730.27" y1="404.762" x2="1730.27" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1770.81" y1="404.762" x2="1770.81" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1772.5" y1="404.762" x2="1772.5" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1782.64" y1="404.762" x2="1782.64" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1850.21" y1="404.762" x2="1850.21" y2="372.762" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="272.338" y1="339.958" x2="272.338" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="314.573" y1="339.958" x2="314.573" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="321.33" y1="339.958" x2="321.33" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="355.117" y1="339.958" x2="355.117" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="475.063" y1="339.958" x2="475.063" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="530.812" y1="339.958" x2="530.812" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="551.085" y1="339.958" x2="551.085" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="605.144" y1="339.958" x2="605.144" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="606.834" y1="339.958" x2="606.834" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="611.902" y1="339.958" x2="611.902" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="630.485" y1="339.958" x2="630.485" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="699.749" y1="339.958" x2="699.749" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="741.984" y1="339.958" x2="741.984" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="760.567" y1="339.958" x2="760.567" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="926.125" y1="339.958" x2="926.125" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="953.155" y1="339.958" x2="953.155" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1002.15" y1="339.958" x2="1002.15" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1081.55" y1="339.958" x2="1081.55" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1105.2" y1="339.958" x2="1105.2" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1120.4" y1="339.958" x2="1120.4" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1150.81" y1="339.958" x2="1150.81" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1235.28" y1="339.958" x2="1235.28" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1275.82" y1="339.958" x2="1275.82" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1353.54" y1="339.958" x2="1353.54" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1569.78" y1="339.958" x2="1569.78" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1581.6" y1="339.958" x2="1581.6" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1630.59" y1="339.958" x2="1630.59" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1666.07" y1="339.958" x2="1666.07" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1743.78" y1="339.958" x2="1743.78" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1748.85" y1="339.958" x2="1748.85" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1840.07" y1="339.958" x2="1840.07" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1865.42" y1="339.958" x2="1865.42" y2="307.958" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="252.066" y1="275.153" x2="252.066" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="258.823" y1="275.153" x2="258.823" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="284.164" y1="275.153" x2="284.164" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="361.875" y1="275.153" x2="361.875" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="368.632" y1="275.153" x2="368.632" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="397.352" y1="275.153" x2="397.352" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="407.488" y1="275.153" x2="407.488" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="471.684" y1="275.153" x2="471.684" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="535.88" y1="275.153" x2="535.88" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="546.016" y1="275.153" x2="546.016" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="747.052" y1="275.153" x2="747.052" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="752.12" y1="275.153" x2="752.12" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="826.452" y1="275.153" x2="826.452" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="929.504" y1="275.153" x2="929.504" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1008.9" y1="275.153" x2="1008.9" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1068.03" y1="275.153" x2="1068.03" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1069.72" y1="275.153" x2="1069.72" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1073.1" y1="275.153" x2="1073.1" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1098.44" y1="275.153" x2="1098.44" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1149.12" y1="275.153" x2="1149.12" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1189.67" y1="275.153" x2="1189.67" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1360.29" y1="275.153" x2="1360.29" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1458.28" y1="275.153" x2="1458.28" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1478.55" y1="275.153" x2="1478.55" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1539.37" y1="275.153" x2="1539.37" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1551.19" y1="275.153" x2="1551.19" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1552.88" y1="275.153" x2="1552.88" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1557.95" y1="275.153" x2="1557.95" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1586.67" y1="275.153" x2="1586.67" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1605.25" y1="275.153" x2="1605.25" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1628.9" y1="275.153" x2="1628.9" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1698.17" y1="275.153" x2="1698.17" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1802.91" y1="275.153" x2="1802.91" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1865.42" y1="275.153" x2="1865.42" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1867.1" y1="275.153" x2="1867.1" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1877.24" y1="275.153" x2="1877.24" y2="243.153" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="243.619" y1="210.349" x2="243.619" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="299.368" y1="210.349" x2="299.368" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="355.117" y1="210.349" x2="355.117" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="485.199" y1="210.349" x2="485.199" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="508.85" y1="210.349" x2="508.85" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="525.744" y1="210.349" x2="525.744" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="760.567" y1="210.349" x2="760.567" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="823.073" y1="210.349" x2="823.073" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="851.793" y1="210.349" x2="851.793" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="872.065" y1="210.349" x2="872.065" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="937.951" y1="210.349" x2="937.951" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1022.42" y1="210.349" x2="1022.42" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1041" y1="210.349" x2="1041" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1051.14" y1="210.349" x2="1051.14" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1086.62" y1="210.349" x2="1086.62" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1115.33" y1="210.349" x2="1115.33" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1154.19" y1="210.349" x2="1154.19" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1179.53" y1="210.349" x2="1179.53" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1184.6" y1="210.349" x2="1184.6" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1262.31" y1="210.349" x2="1262.31" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1471.79" y1="210.349" x2="1471.79" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1584.98" y1="210.349" x2="1584.98" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1605.25" y1="210.349" x2="1605.25" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1640.73" y1="210.349" x2="1640.73" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1657.62" y1="210.349" x2="1657.62" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1813.04" y1="210.349" x2="1813.04" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1872.17" y1="210.349" x2="1872.17" y2="178.349" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="285.853" y1="145.545" x2="285.853" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="287.543" y1="145.545" x2="287.543" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="385.526" y1="145.545" x2="385.526" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="415.935" y1="145.545" x2="415.935" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="441.275" y1="145.545" x2="441.275" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="513.918" y1="145.545" x2="513.918" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="529.123" y1="145.545" x2="529.123" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="542.638" y1="145.545" x2="542.638" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="581.493" y1="145.545" x2="581.493" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="584.872" y1="145.545" x2="584.872" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="591.629" y1="145.545" x2="591.629" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="650.757" y1="145.545" x2="650.757" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="654.136" y1="145.545" x2="654.136" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="725.09" y1="145.545" x2="725.09" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="806.18" y1="145.545" x2="806.18" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="861.929" y1="145.545" x2="861.929" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1078.17" y1="145.545" x2="1078.17" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1147.43" y1="145.545" x2="1147.43" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1169.39" y1="145.545" x2="1169.39" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1218.39" y1="145.545" x2="1218.39" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1395.77" y1="145.545" x2="1395.77" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1444.76" y1="145.545" x2="1444.76" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1448.14" y1="145.545" x2="1448.14" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1514.03" y1="145.545" x2="1514.03" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1530.92" y1="145.545" x2="1530.92" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1593.43" y1="145.545" x2="1593.43" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1674.52" y1="145.545" x2="1674.52" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1723.51" y1="145.545" x2="1723.51" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1821.49" y1="145.545" x2="1821.49" y2="113.545" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="241.93" y1="80.7412" x2="241.93" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="246.998" y1="80.7412" x2="246.998" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="307.815" y1="80.7412" x2="307.815" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="331.466" y1="80.7412" x2="331.466" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="456.48" y1="80.7412" x2="456.48" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="733.537" y1="80.7412" x2="733.537" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="824.763" y1="80.7412" x2="824.763" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="888.959" y1="80.7412" x2="888.959" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1035.93" y1="80.7412" x2="1035.93" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1047.76" y1="80.7412" x2="1047.76" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1108.58" y1="80.7412" x2="1108.58" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1113.65" y1="80.7412" x2="1113.65" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1133.92" y1="80.7412" x2="1133.92" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1189.67" y1="80.7412" x2="1189.67" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1196.42" y1="80.7412" x2="1196.42" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1242.04" y1="80.7412" x2="1242.04" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1480.24" y1="80.7412" x2="1480.24" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1481.93" y1="80.7412" x2="1481.93" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1525.85" y1="80.7412" x2="1525.85" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1564.71" y1="80.7412" x2="1564.71" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1588.36" y1="80.7412" x2="1588.36" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1596.81" y1="80.7412" x2="1596.81" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1642.42" y1="80.7412" x2="1642.42" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1669.45" y1="80.7412" x2="1669.45" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1681.27" y1="80.7412" x2="1681.27" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1706.61" y1="80.7412" x2="1706.61" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1713.37" y1="80.7412" x2="1713.37" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
+<line clip-path="url(#clip0602)" x1="1870.48" y1="80.7412" x2="1870.48" y2="48.7412" style="stroke:#000000; stroke-width:1.6; stroke-opacity:1"/>
 </svg>

@@ -13,3 +13,7 @@ h1 {
 h2 {
     font-size: 1.7em!important;
 }
+
+.utterances {
+  margin-left: inherit!important;
+}
