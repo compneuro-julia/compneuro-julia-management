@@ -2,36 +2,29 @@
 - file: intro
 - file: tips
 
-- header: 1. 神経生理の基礎
-- file: 1-2_synapse
+- file: 1_intro
+  expand_sections: true
+  sections:
+    - file: 1-2_synapse
 
-- header: 2. 単一神経細胞のモデル
-- file: 2-1_hodgkinhuxley
-- file: 2-2_lif
-- file: 2-3_iz
-- file: 2-5_isi
+- file: 2_intro
+  expand_sections: true
+  sections:
+    - file: 2-1_hodgkinhuxley
+    - file: 2-2_lif
+    - file: 2-3_iz
+    - file: 2-5_isi
 
-- header: 3. シナプス伝達のモデル
-- file: 3-1_current-conductance-synapse
-- file: 3-2_expo-synapse
-- file: 3-3_kinetic-synapse
-- file: 3-4_hhsynapse
-- file: 3-6_synaptic-weighted
+- file: 3_intro
+  expand_sections: true
+  sections:
+    - file: 3-1_current-conductance-synapse
+    - file: 3-2_expo-synapse
+    - file: 3-3_kinetic-synapse
+    - file: 3-4_hhsynapse
+    - file: 3-6_synaptic-weighted
 
-#- header: 4. 神経回路網の構築 (発火率モデル)
-#- header: 5. 神経回路網の構築 (Spikingモデル)
-#- header: 6. 神経回路網の演算処理
-#- header: 7. 神経回路網の学習則
-#- header: 8. 神経回路網の学習ダイナミクス
-#- header: 9. Energy-based モデル
-#- header: 10. 自己組織化マップと教師なし学習
-#- header: 11. Reservoir Computing
-#- header: 12. 情報理論と最適化原理
-
-- header: 13. ベイズ脳理論と生成モデル
-- file: 13-1_sparse-coding
-
-#- header: 14. 時空間の符号化
-#- header: 15. 運動学習
-#- header: 16. 強化学習
-#- header: 17. 神経細胞の形態と数理モデル
+- file: 13_intro
+  expand_sections: true
+  sections:
+    - file: 13-1_sparse-coding
