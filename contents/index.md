@@ -12,9 +12,9 @@ Julia 1.4.0
 - [はじめに](https://compneuro-julia.github.io/intro.html)
 - [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
 
-1. 神経生理の基礎知識
+1. 神経生理の基礎
 	1. 神経細胞の形態と膜電位変化
-	2. シナプス伝達
+	2. [シナプス伝達](https://compneuro-julia.github.io/1-2_synapse.html)
 1. 単一神経細胞のモデル
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
@@ -23,12 +23,12 @@ Julia 1.4.0
 	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/2-5_isi.html)
 	1. 発火率モデル
 1. シナプス伝達のモデル
-	1. Current-based vs Conductance-based シナプス
-	2. 指数関数型シナプスモデル (Exponential synapse model)
-	3. 動力学モデル (Kinetic model)
-	4. [Hodgkin-Huxleyモデルにおけるシナプスモデル](https://compneuro-julia.github.io/3-1_hhsynapse.html)
+	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-1_current-conductance-synapse.html)
+	2. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
+	3. [動力学モデル](https://compneuro-julia.github.io/3-3_kinetic-synapse.html)
+	4. [Hodgkin-Huxleyモデルにおけるシナプスモデル](https://compneuro-julia.github.io/3-4_hhsynapse.html)
 	5. 増強シナプスと減衰シナプス
-	6. シナプス入力の重みづけ
+	6. [シナプス入力の重みづけ](https://compneuro-julia.github.io/3-6_synaptic-weighted.html)
 	7. 電気シナプス
 1. 神経回路網の構築 (発火率モデル)
 1. 神経回路網の構築 (Spikingモデル)

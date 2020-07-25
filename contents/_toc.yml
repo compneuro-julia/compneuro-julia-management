@@ -2,7 +2,9 @@
 - file: intro
 - file: tips
 
-#- header: 1. はじめに / 神経生理入門
+- header: 1. 神経生理の基礎
+- file: 1-2_synapse
+
 - header: 2. 単一神経細胞のモデル
 - file: 2-1_hodgkinhuxley
 - file: 2-2_lif
@@ -10,7 +12,11 @@
 - file: 2-5_isi
 
 - header: 3. シナプス伝達のモデル
-- file: 3-1_hhsynapse
+- file: 3-1_current-conductance-synapse
+- file: 3-2_expo-synapse
+- file: 3-3_kinetic-synapse
+- file: 3-4_hhsynapse
+- file: 3-6_synaptic-weighted
 
 #- header: 4. 神経回路網の構築 (発火率モデル)
 #- header: 5. 神経回路網の構築 (Spikingモデル)
@@ -29,8 +35,3 @@
 #- header: 15. 運動学習
 #- header: 16. 強化学習
 #- header: 17. 神経細胞の形態と数理モデル
-
-- file: jb_intro
-  sections:
-    - file: jb_markdown
-    - file: jb_notebooks
