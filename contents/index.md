@@ -10,7 +10,6 @@ Julia 1.4.0
 
 ## 目次
 - [はじめに](https://compneuro-julia.github.io/intro.html)
-- [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
 
 1. 神経生理の基礎
 	1. 神経細胞の形態と膜電位変化
@@ -44,6 +43,9 @@ Julia 1.4.0
 1. 運動学習
 1. 強化学習
 1. 神経細胞の形態と数理モデル
+2. 付録
+	- [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
+
 
 ***
 

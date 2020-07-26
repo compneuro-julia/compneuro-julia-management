@@ -1,6 +1,5 @@
 - file: index
 - file: intro
-- file: tips
 
 - file: 1_intro
   expand_sections: true
@@ -21,10 +20,14 @@
     - file: 3-1_current-conductance-synapse
     - file: 3-2_expo-synapse
     - file: 3-3_kinetic-synapse
-    - file: 3-4_hhsynapse
-    - file: 3-6_synaptic-weighted
+    - file: 3-5_synaptic-weighted
 
 - file: 13_intro
   expand_sections: true
   sections:
     - file: 13-1_sparse-coding
+
+- file: appendix_intro
+  expand_sections: true
+  sections:
+    - file: tips
