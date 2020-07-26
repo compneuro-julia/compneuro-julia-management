@@ -26,10 +26,9 @@ Julia 1.4.0
 	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-1_current-conductance-synapse.html)
 	2. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
 	3. [動力学モデル](https://compneuro-julia.github.io/3-3_kinetic-synapse.html)
-	4. [Hodgkin-Huxleyモデルにおけるシナプスモデル](https://compneuro-julia.github.io/3-4_hhsynapse.html)
-	5. 増強シナプスと減衰シナプス
-	6. [シナプス入力の重みづけ](https://compneuro-julia.github.io/3-6_synaptic-weighted.html)
-	7. 電気シナプス
+	4. 増強シナプスと減衰シナプス
+	5. [シナプス入力の重みづけ](https://compneuro-julia.github.io/3-6_synaptic-weighted.html)
+	6. 電気シナプス
 1. 神経回路網の構築 (発火率モデル)
 1. 神経回路網の構築 (Spikingモデル)
 1. 神経回路網の演算処理
