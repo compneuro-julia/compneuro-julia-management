@@ -22,10 +22,10 @@
     - file: 3-3_kinetic-synapse
     - file: 3-5_synaptic-weighted
 
-- file: 13_intro
+- file: 11_intro
   expand_sections: true
   sections:
-    - file: 13-1_sparse-coding
+    - file: 11-1_sparse-coding
 
 - file: appendix_intro
   expand_sections: true
