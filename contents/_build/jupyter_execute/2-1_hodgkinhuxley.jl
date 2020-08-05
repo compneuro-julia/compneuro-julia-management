@@ -162,7 +162,7 @@ plot(p1, p2, p3,
 
 spike = (varr[1:nt-1, :] .< 0) .& (varr[2:nt, :] .> 0)
 num_spikes = sum(spike, dims=1)
-print("Num. of spikes : ", num_spikes[1])
+println("Num. of spikes : ", num_spikes[1])
 
 50ms‚©‚ç200ms‚Ü‚Å‚Å11‰ñ, 250ms‚©‚ç400ms‚Ü‚Å‚Å16‰ñ”­‰Î‚µ‚Ä‚¢‚é‚Ì‚Å”­‰Î‰ñ”‚ÍŒv27‰ñ‚Å‚ ‚èA‚±‚ÌŒ‹‰Ê‚Í³‚µ‚¢B
 

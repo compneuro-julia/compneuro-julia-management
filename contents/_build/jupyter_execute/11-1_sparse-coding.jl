@@ -1,35 +1,140 @@
-# 13.1 Sparse coding (Olshausen & Field, 1996) モデル
-視覚におけるSparse codingのモデル ([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))の実装を目標とする。
+# 11.1 Sparse coding (Olshausen & Field, 1996) モデル
 
+## 11.1.1 Sparse codingと生成モデル
+Sparse codingモデル([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である。まず、画像パッチ $\boldsymbol{I} (\boldsymbol{x})$が基底関数(basis function)あるいは特徴量(features) $\Phi = [\phi_i(\boldsymbol{x})]$ のノイズを含む線形和で表されるとする (係数は$\boldsymbol{r}=[r_i]$とする)。
+
+$$
+\boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \boldsymbol{\epsilon}(\boldsymbol{x})\quad \tag{1}
+$$
+
+ただし、$\boldsymbol{x}$は画像上の座標, $\epsilon$は平均0, 分散$\sigma^2$のGaussianノイズを表す (各ノイズは独立とする)。このモデルを神経ネットワークのモデルと考えると、$\Phi$は重み行列、係数$\boldsymbol{r}$は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、$r_i$は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。
+
+Sparse codingでは神経活動$\boldsymbol{r}$が潜在変数の推定量を表現しているという仮定の下、少数の基底で画像 (や目的変数)を表すことを目的とする。要は上式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数$\boldsymbol{r}$を求めたい。
+
+### 確率的モデルの記述
+````{margin}
 ```{note}
-Sparse codingをどこに入れるかは迷ったが、生成モデルではあるのでこの章に入れた。
+以後の記述は([Olshausen & Field, 1997](https://pubmed.ncbi.nlm.nih.gov/9425546/))に従ったものである。
 ```
+````
 
-## 13.1.1 画像のsparse coding
-
-画像 $\boldsymbol{I} (\boldsymbol{x})$が基底関数(basis function) $\Phi = [\phi_i(\boldsymbol{x})]$ の線形和で表されるとする。
-
-$$
-\boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \epsilon(\boldsymbol{x})
-$$
-
-ただし、$\boldsymbol{x}$は画像上の座標, $\epsilon$は平均0のGaussianノイズを表す。また、$\boldsymbol{r}$は係数であるが、モデルにおいては入力よりも高次の神経細胞の活動とみなす。この場合、$\Phi$は重み行列となる。
-
-Sparse codingは、少数の基底で画像 (や目的変数)を表すことを目的とする。要は(1)式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数$\boldsymbol{r}$を求めたい。
-
-## 13.1.2 目的関数の設定
-Sparse codingのための目的関数(cost function) $E$は(2)式のようになる。
+入力される画像パッチの真の分布を$q(\boldsymbol{I})$, 生成モデルの分布を$p(\boldsymbol{I}|\Phi)$とする。さらに潜在変数 $\boldsymbol{r}$の事前分布 (prior)を$p(\boldsymbol{r})$, 画像パッチ $\boldsymbol{I}$の尤度 (likelihood)を$p(\boldsymbol{I}|\boldsymbol{r}, \Phi)$とする。このとき、
 
 $$
-E = \underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(\frac{r_i}{\sigma}\right)}_{\text{sparseness of}\ r_i}
+p(\boldsymbol{I}|\Phi)=\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r} \quad \tag{2}
 $$
 
-ただし、$\lambda$は正則化係数、$\sigma$は定数(scaling constant)である。ここで、第一項が復元損失、第二項が罰則項 (係数が大きな値とならないようにする項)となっている。
+が成り立つ。$p(\boldsymbol{I}|\boldsymbol{r}, \Phi)$は、(1)式においてノイズ項を$\epsilon_j \sim\mathcal{N}(0, \sigma^2)$としたことから、
 
-$S(x)$としては $-\exp(-x^2), \ln(1+x^2), |x|$ などの関数が用いられる。これらの関数は原点において尖った形状をしており、解が0になりやすくなっている。
+$$
+\begin{align}
+p(\boldsymbol{I}|\ \boldsymbol{r}, \Phi)&=\mathcal{N}\left(\boldsymbol{I}|\ \Phi \boldsymbol{r}, \sigma^2 \right)\\
+&=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\boldsymbol{I} - \Phi \boldsymbol{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
+\end{align}
+$$
 
-##  13.1.3 Locally Competitive Algorithm (LCA) 
-$\boldsymbol{r}$の勾配法による更新則は、目的関数 $E$の微分により次のように得られる。
+と表せる。ただし、$Z_{\sigma}$は規格化定数である。
+
+### 事前分布の設定
+事前分布$p(\boldsymbol{r})$としては、0においてピークがあり、裾の重い(heavy tail)を持つsparse distributionあるいは **super-Gaussian distribution** (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い。このような分布では、$\boldsymbol{r}$の各要素$r_i$はほとんど0に等しく、ある入力に対しては大きな値を取る。$p(\boldsymbol{r})$は一般化して式(4), (5)のように表記する。
+
+$$
+\begin{align}
+p(\boldsymbol{r})&=\prod_i p(r_i) \quad \tag{4}\\
+p(r_i)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
+\end{align}
+$$
+
+ただし、$\beta$は逆温度(inverse temperature), $Z_{\beta}$は規格化定数 (分配関数) である[^can]。$S(x)$と分布の関係をまとめた表が以下となる (cf. [Harpur, 1997](https://pdfs.semanticscholar.org/be08/da912362bf40fe3ded78bdadc644f921b4e7.pdf))。
+
+[^can]: これらの用語は統計力学における正準分布 (ボルツマン分布)から来ている。
+
+|$S(r)$|$\dfrac{dS(r)}{dr}$|$p(r)$|分布名|尖度(kurtosis)|
+|:-:|:-:|:-:|:-:|:-:|
+|$r^2$|$2r$|$\dfrac{1}{\alpha \sqrt{2\pi}}\exp\left(-\dfrac{r^2}{2\alpha^2}\right)$|Gaussian 分布|0|
+|$\vert r\vert$|$\text{sign}(r)$|$\dfrac{1}{2\alpha}\exp\left(-\dfrac{\vert r\vert}{\alpha}\right)$|Laplace 分布|3.0|
+|$\ln (\alpha^2+r^2)$|$\dfrac{2r}{\alpha^2+r^2}$|$\dfrac{\alpha}{\pi}\dfrac{1}{\alpha^2+r^2}=\dfrac{\alpha}{\pi}\exp[-\ln (\alpha^2+r^2)]$|Cauchy 分布|-|
+
+分布$p(r)$や$S(r)$を描画すると次のようになる。
+
+using PyPlot
+
+x = range(-5, 5, length=300)
+figure(figsize=(7,3))
+subplot(1,2,1)
+title(L"$p(x)$")
+plot(x, 1/sqrt(2pi)*exp.(-(x.^2)/2), color="black", linestyle="--",label="Gaussian")
+plot(x, 1/2*exp.(-abs.(x)), label="Laplace")
+plot(x, 1 ./ (pi*(1 .+ x.^2)), label="Cauchy")
+xlim(-5, 5); 
+xlabel(L"$x$")
+legend()
+
+subplot(1,2,2)
+title(L"S(x)")
+plot(x, x.^2, color="black", linestyle="--",label="Gaussian")
+plot(x, abs.(x), label="Laplace")
+plot(x, log.(1 .+ x.^2), label="Cauchy")
+xlim(-5, 5); ylim(0, 5)
+xlabel(L"$x$")
+
+tight_layout()
+
+## 11.1.2 MAP推定と目的関数の設定
+最適な生成モデルを得るために、入力される画像パッチの真の分布 $q(\boldsymbol{I})$と生成モデルの分布 $p(\boldsymbol{I}|\Phi)$を近づける。すなわち、2つの分布のKullback-Leibler ダイバージェンス $D_{\text{KL}}\left(q(\boldsymbol{I}) \Vert\ p(\boldsymbol{I}|\Phi)\right)$を最小化する。ただし、
+
+$$
+\begin{align}
+D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))&=\int q(\boldsymbol{I}) \log \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)} d\boldsymbol{I}\\
+&=\mathbb{E}_q \left[\ln \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)}\right]\\
+&=\mathbb{E}_q \left[\ln q(\boldsymbol{I})\right]-\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right] \tag{6}
+\end{align}
+$$
+
+が成り立つ。(6)式の1番目の項は一定なので、$D_{\text{KL}}$を最小化するには$\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]$を最大化すればよい。ここで、(2)式より、
+
+$$
+\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]=\mathbb{E}_q \left[\ln \int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}\right]\tag{7}
+$$
+
+が成り立つ。ここで近似として $\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}$ を $p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r}) \left(=p(\boldsymbol{I}, \boldsymbol{r}| \Phi)\right)$ の最大値で評価することにする。この近似の下、最適な$\Phi=\Phi^*$は次のようにして求められる。
+
+$$
+\begin{align}
+\Phi^*&=\text{arg} \min_{\Phi} \min_{\boldsymbol{r}} D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))\\
+&=\text{arg} \max_{\Phi} \max_{\boldsymbol{r}} \mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]\\
+&\approx \text{arg} \max_{\Phi}\max_{\boldsymbol{r}} \ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
+&=\text{arg}\min_{\Phi} \min_{\boldsymbol{r}}\ E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\tag{8}
+\end{align}
+$$
+
+ただし、$E(\boldsymbol{I}, \boldsymbol{r}|\Phi)$はコスト関数であり、次式のように表される。
+
+$$
+\begin{align}
+E(\boldsymbol{I}, \boldsymbol{r}|\Phi):=&-\ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
+=&\underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
+\end{align}
+$$
+
+ただし、$\lambda=2\sigma^2\beta$は正則化係数[^lam]であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。勾配法により、$E(\boldsymbol{I}, \boldsymbol{r}|\Phi)$を最小化する。これには$\Phi$を固定した下で$E(\boldsymbol{I}, \boldsymbol{r}|\Phi)$を最小化する$\boldsymbol{r}=\hat{\boldsymbol{r}}$を求める ([11.1.3](#locally-competitive-algorithm-lca))。
+
+$$
+\hat{\boldsymbol{r}}=\text{arg}\min_{\boldsymbol{r}}E(\boldsymbol{I}, \boldsymbol{r}|\Phi)
+$$
+
+次に$\hat{\boldsymbol{r}}$を用いて
+
+$$
+\Phi^*=\text{arg}\min_{\Phi}\langle E(\boldsymbol{I}, \hat{\boldsymbol{r}}|\Phi)\rangle
+$$
+
+とすることにより、$\Phi$を最適化する ([11.1.4](#id6))。ただし、$\langle\cdot \rangle$は複数の画像に対する平均を取ることを意味する。
+
+[^lam]: この式から逆温度$\beta$が正則化の度合いを調整するパラメータであることがわかる。
+
+##  11.1.3 Locally Competitive Algorithm (LCA) 
+$\boldsymbol{r}$の勾配法による更新則は、$E$の微分により次のように得られる。
 
 $$
 \begin{align}
@@ -53,13 +158,13 @@ $$
 
 1. $\boldsymbol{r}(0)$を要素が全て0のベクトルで初期化
 2. $\boldsymbol{r}_*(t+1)=\boldsymbol{r}(t)+\eta_\boldsymbol{r}\cdot \Phi^T(\boldsymbol{I}-\Phi\boldsymbol{r}(t))$
-3. $\boldsymbol{r}(t+1) = S_\lambda(\boldsymbol{r}_*(t+1))$
+3. $\boldsymbol{r}(t+1) = \Theta_\lambda(\boldsymbol{r}_*(t+1))$
 4. $\boldsymbol{r}$が収束するまで2と3を繰り返す
 
-ここで$S_\lambda(\cdot)$は**軟判定閾値関数** (Soft thresholding function)と呼ばれ、次式で表される。
+ここで$\Theta_\lambda(\cdot)$は**軟判定閾値関数** (Soft thresholding function)と呼ばれ、次式で表される。
 
 $$
-S_\lambda(y)= 
+\Theta_\lambda(y)= 
 \begin{cases} 
 y-\lambda & (y>\lambda)\\ 
 0 & (-\lambda\leq y\leq\lambda)\\ 
@@ -67,29 +172,59 @@ y-\lambda & (y>\lambda)\\
 \end{cases}
 $$
 
-$S_\lambda(\cdot)$を関数として定義すると次のようになる。
+$\Theta_\lambda(\cdot)$を関数として定義すると次のようになる [^softthr]。
+
+
+[^softthr]: なお、ReLU (ランプ関数)は`max(x, 0)`で実装できる。この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる ([Papyan et al., 2018](https://ieeexplore.ieee.org/document/8398588))。
 
 # thresholding function of S(x)=|x|
 function soft_thresholding_func(x, lmda)
     max(x - lmda, 0) - max(-x - lmda, 0)
 end
 
-次に$S_\lambda(\cdot)$を描画すると次のようになる。ただし、先に`PyPlot`を読み込んでおく。
+次に$\Theta_\lambda(\cdot)$を描画すると次のようになる。
 
-using PyPlot
-
-x = range(-5, 5, length=100)
+xmin, xmax = -5, 5
+x = range(xmin, xmax, length=100)
 y = soft_thresholding_func.(x, 1)
 
+figure(figsize=(4,4.5))
+subplot(2,2,1)
+title(L"$S(x)=|x|$")
+plot(x, abs.(x))
+xlim(xmin, xmax); ylim(0, 10)
+hlines(y=xmax, xmin=xmin, xmax=xmax, color="k", alpha=0.2)
+vlines(x=0, ymin=0, ymax=xmax*2, color="k", alpha=0.2)
 
-figure(figsize=(5,4))
-plot(x, x, "k--", label="y=x")
-plot(x, y, label="Soft thresholding (lambda=1)")
-xlabel("x")
-ylabel("S (x)")
-legend()
+subplot(2,2,2)
+title(L"$\frac{\partial S(x)}{\partial x}$")
+plot(x, x, "k--")
+plot(x, sign.(x))
+xlim(xmin, xmax); ylim(xmin, xmax)
+hlines(y=0, xmin=xmin, xmax=xmax, color="k", alpha=0.2)
+vlines(x=0, ymin=xmin, ymax=xmax, color="k", alpha=0.2)
 
-なお、Soft thresholding関数は次の目的関数$C$を最小化する$x$を求めることで導出できる。
+subplot(2,2,3)
+title(L"$f_\lambda(x)=x+\lambda\cdot\frac{\partial S(x)}{\partial x}$")
+plot(x, x, "k--")
+plot(x, x + 1*sign.(x))
+xlabel(L"$x$")
+xlim(-5, 5); ylim(-5, 5)
+hlines(y=0, xmin=xmin, xmax=xmax, color="k", alpha=0.2)
+vlines(x=0, ymin=xmin, ymax=xmax, color="k", alpha=0.2)
+
+subplot(2,2,4)
+title(L"$\Theta_\lambda(x)$")
+plot(x, x, "k--")
+plot(x, y)
+xlabel(L"$x$")
+xlim(-5, 5); ylim(-5, 5)
+hlines(y=0, xmin=xmin, xmax=xmax, color="k", alpha=0.2)
+vlines(x=0, ymin=xmin, ymax=xmax, color="k", alpha=0.2)
+
+tight_layout()
+
+なお、軟判定閾値関数は次の目的関数$C$を最小化する$x$を求めることで導出できる。
 
 $$
 C=\frac{1}{2}(y-x)^2+\lambda |x|
@@ -103,7 +238,9 @@ $$
 
 となる。(7)式の最小値を与える$x$は場合分けをして考えると、$y-\lambda\geq0$のとき二次関数の頂点を考えて$x=y-\lambda$となる。 一方で$y-\lambda<0$のときは$x\geq0$において単調増加な関数となるので、最小となるのは$x=0$のときである。同様の議論を$x\leq0$に対しても行うことで (5)式が得られる。
 
-## 13.1.4 重み行列の更新則
+閾値関数としては軟判定閾値関数だけではなく、硬判定閾値関数や$y=x - \text{tanh}(x)$ (Tanhshrink)など様々な関数を用いることができます。
+
+## 11.1.4 重み行列の更新則
 $\boldsymbol{r}$が収束したら勾配法により$\Phi$を更新する。
 
 $$
@@ -113,13 +250,16 @@ $$
 \end{aligned}
 $$
 
-## 13.1.5 Sparse coding networkの実装
+## 11.1.5 Sparse coding networkの実装
 ネットワークは入力層を含め2層の単純な構造である。今回は、入力はランダムに切り出した16×16 (＝256)の画像パッチとし、これを入力層の256個のニューロンが受け取るとする。入力層のニューロンは次層の100個のニューロンに投射するとする。100個のニューロンが入力をSparseに符号化するようにその活動および重み行列を最適化する。
 
 ### 画像データの読み込み
-データは<http://www.rctn.org/bruno/sparsenet/>からダウンロードできる。`IMAGES_RAW.mat`は10枚の自然画像で、`IMAGES.mat`はそれを白色化したものである。`mat`ファイルの読み込みには[MAT.jl](https://github.com/JuliaIO/MAT.jl)を用いる。
+データは<http://www.rctn.org/bruno/sparsenet/>からダウンロードできる [^datasets]。`IMAGES_RAW.mat`は10枚の自然画像で、`IMAGES.mat`はそれを白色化したものである。`mat`ファイルの読み込みには[MAT.jl](https://github.com/JuliaIO/MAT.jl)を用いる。
+
+[^datasets]: これはアメリカ北西部で撮影された自然画像であり、[van Hateren's Natural Image Dataset](http://bethgelab.org/datasets/vanhateren/)から取得されたものである。
 
 using MAT
+#using PyPlot
 
 # datasets from http://www.rctn.org/bruno/sparsenet/
 mat_images_raw = matopen("_static/datasets/IMAGES_RAW.mat")
@@ -309,3 +449,9 @@ suptitle("Receptive fields", fontsize=14)
 subplots_adjust(top=0.925)
 
 白色が**ON領域**(興奮)、黒色が**OFF領域**(抑制)を表す。Gaborフィルタ様の局所受容野が得られており、これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している。
+
+```{admonition} 論文以外の参考資料
+- Bruno Olshausen: “Sparse coding in brains and machines”([Stanford talks](https://talks.stanford.edu/bruno-olshausen-sparse-coding-in-brains-and-machines/)), [Slide](http://www.rctn.org/bruno/public/Simons-sparse-coding.pdf)
+- <https://redwood.berkeley.edu/wp-content/uploads/2018/08/sparse-coding-LCA.pdf>
+- <https://redwood.berkeley.edu/wp-content/uploads/2018/08/Dylan-lca_overcompleteness_09-27-2018.pdf>
+```

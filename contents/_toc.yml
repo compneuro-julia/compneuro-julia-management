@@ -12,7 +12,7 @@
     - file: 2-1_hodgkinhuxley
     - file: 2-2_lif
     - file: 2-3_iz
-    - file: 2-5_isi
+    - file: 2-7_isi
 
 - file: 3_intro
   expand_sections: true

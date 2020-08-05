@@ -164,3 +164,39 @@ plot(p1, p2, p3, p4,
     xlabel = ["" "" "Times (ms)" "Times (ms)"], 
     ylabel= ["Membrane\n potential (mV)" "" "Injection\n current (pA)" ""],
     layout = grid(2, 2, heights=[0.7, 0.3], widths=[0.5, 0.5]), legend = false, size=(600, 300))
+
+## 2.3.3 ランダムネットワークのシミュレーション
+1000個のIzニューロン(興奮性800個, 抑制性200個)によるランダムネットワークのシミュレーションを行う。これは([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))においてMATLABコードが示されており、それをJuliaに移植したものである。このシミュレーションではRS(regular spiking)ニューロンを興奮性細胞、FS(fast spiking)ニューロンを抑制性細胞のモデルとして用いている。
+
+# Excitatory neurons    Inhibitory neurons
+Ne = 800;               Ni = 200
+re = rand(Ne,1);        ri = rand(Ni,1)
+a = [0.02*ones(Ne,1);   0.02 .+ 0.08*ri]
+b = [0.2*ones(Ne,1);    0.25 .- 0.05*ri]
+c = [-65 .+ 15*re.^2;   -65*ones(Ni,1)]
+d = [8 .- 6*re.^2;      2*ones(Ni,1)]
+S = [0.5*rand(Ne+Ni,Ne) -rand(Ne+Ni,Ni)] # synaptic weight
+v = -65*ones(Ne+Ni,1)   # Initial values of v
+u = b .* v              # Initial values of u
+firings = []            # spike timings
+
+for t=1:1000 # simulation of 1000 ms
+    I=[5*randn(Ne,1); 2*randn(Ni,1)] # thalamic input
+    fired = findall(v[:, 1] .>= 30) # indices of spikes
+    firings = t==1 ? [t .+ 0*fired fired] : [firings; [t .+ 0*fired fired]]
+    v[fired]=c[fired]
+    u[fired]=u[fired]+d[fired]
+    I = I + sum(S[:,fired], dims=2)
+    v = v .+0.5*(0.04*v.^2+5*v .+140 -u+I) # step 0.5 ms for numerical stability
+    v = v .+0.5*(0.04*v.^2+5*v .+140 -u+I) 
+    u = u+a.*(b.*v-u)
+end
+
+膜電位の更新の際、`v`を2回に分けて更新しているが、これは数値的な安定性を高めるためである。計算量は上がるが、前述したモデルにおいても同様の処理を行う実装もある。
+
+シミュレーションの実行後、ネットワークを構成するニューロンの発火を描画する。これを**ラスタープロット** (raster plot)という。この図は横軸が時間、縦軸がニューロンの番号となっており、各ニューロンが発火したことを点で表している。
+
+scatter(firings[:,1], firings[:,2], markersize=1, markercolor="black", 
+    xlabel="Time (ms)", ylabel="# neuron", xlim=(0, 1000), ylim=(0, 1000), legend=false)
+
+初めの400msぐらいまでは100msごとに10Hzの$\alpha$波が

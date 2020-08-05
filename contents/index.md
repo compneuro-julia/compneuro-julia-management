@@ -5,7 +5,7 @@
 内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)。
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia 1.4.0
+Julia 1.5.0
 ```
 
 ## 目次
@@ -18,14 +18,14 @@ Julia 1.4.0
 1. 神経細胞のモデル
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
 	1. FitzHugh–Nagumoモデル
-	1. Morris–Lecarモデル
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
 	1. [Izhikevich モデル](https://compneuro-julia.github.io/2-3_iz.html)
+	1. ケーブル理論
 	1. Multi-compartment モデル
-	1. 発火率モデル
 	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/2-5_isi.html)
 	1. 確率的シナプス電流のノイズによる表現 (Langevin方程式 etc.)
 	1. 確率的集団モデル (Fokker–Planck 方程式)
+	1. 発火率モデル
 1. シナプス伝達のモデル
 	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-1_current-conductance-synapse.html)
 	2. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
@@ -39,7 +39,7 @@ Julia 1.4.0
 7. 神経回路網の学習則
 	1. 学習則と貢献度分配問題 (credit assignment problem)
 	2. Hebb則
-	3. STDP (Spike-timing dependent plasticity) 則
+	3. STDP則
 	4. Burst発火と可塑性
 	5. 競合学習 (competitive learning)
 	6. 勾配法と誤差逆伝播法 (backpropagation)
@@ -51,12 +51,12 @@ Julia 1.4.0
 	11. Reservoir computing (FORCE etc.)
 8. 神経細胞・神経回路の非線形ダイナミクス
 9. 連想記憶モデル
-	1. Ising model
-	2. Hopfield model
+	1. Ising モデル
+	2. Hopfield モデル
 	3. Boltzmann machine
 10. 情報理論と最適化原理
 13. ベイズ脳理論と生成モデル
-	1. Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/13-1_sparse-coding.html)
+	1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/13-1_sparse-coding.html)
 12. 強化学習
 13. 運動制御
 14. 時空間の符号化

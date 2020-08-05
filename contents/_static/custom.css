@@ -17,3 +17,36 @@ h2 {
 .utterances {
   margin-left: inherit!important;
 }
+
+body img {
+  display: block;
+  margin: auto;
+}
+
+.table thead th {
+    vertical-align: middle!important;
+    text-align: center!important;
+    border-bottom: 3px solid #dee2e6;
+}
+
+.table td, .table th {
+    border: 1px solid #dee2e6;
+    vertical-align: middle!important;
+    text-align: center!important;
+}
+
+.bd-content .section table {
+    overflow-y: hidden;
+}
+
+.table td > p{
+  margin-bottom: 0;
+}
+
+.table th > p{
+  margin-bottom: 0;
+}
+
+.table thead th > p{
+  margin-bottom: 0;
+}
