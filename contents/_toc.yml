@@ -1,33 +1,37 @@
 - file: index
-- file: intro
+- file: preface
 
 - file: 1_intro
   expand_sections: true
   sections:
-    - file: 1-2_synapse
+    - file: notation
 
 - file: 2_intro
   expand_sections: true
   sections:
-    - file: 2-1_hodgkinhuxley
-    - file: 2-2_lif
-    - file: 2-3_iz
-    - file: 2-7_isi
+    - file: 2-2_hodgkinhuxley
+    - file: 2-4_lif
+    - file: 2-5_iz
+    - file: 2-8_isi
 
 - file: 3_intro
   expand_sections: true
   sections:
-    - file: 3-1_current-conductance-synapse
-    - file: 3-2_expo-synapse
-    - file: 3-3_kinetic-synapse
-    - file: 3-5_synaptic-weighted
+    - file: 3-1_synapse
+    - file: 3-2_current-conductance-synapse
+    - file: 3-3_expo-synapse
+    - file: 3-4_kinetic-synapse
+    - file: 3-6_synaptic-weighted
 
 - file: 11_intro
   expand_sections: true
   sections:
-    - file: 11-1_sparse-coding
+    - file: 11-1_bayes_statistics
+    - file: 11-2_sparse-coding
+    - file: 11-3_predictive-coding-rao
 
 - file: appendix_intro
   expand_sections: true
   sections:
     - file: tips
+    - file: useful_links

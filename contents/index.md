@@ -9,30 +9,31 @@ Julia 1.5.0
 ```
 
 ## 目次
-- [はじめに](https://compneuro-julia.github.io/intro.html)
+- [まえがき](https://compneuro-julia.github.io/intro.html)
 
-1. 神経生理の基礎
+1. [はじめに](https://compneuro-julia.github.io/1_intro.html)
+	1. 計算論的神経科学とは何か
+	1. [記号の表記](https://compneuro-julia.github.io/notation.html)
+1. [神経細胞のモデル](https://compneuro-julia.github.io/2_intro.html)
 	1. 神経細胞の形態と膜電位変化
-	2. [シナプス伝達](https://compneuro-julia.github.io/1-2_synapse.html)
-	3. 神経回路の可塑性
-1. 神経細胞のモデル
-	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-1_hodgkinhuxley.html)
+	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-2_hodgkinhuxley.html)
 	1. FitzHugh–Nagumoモデル
-	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-2_lif.html)
-	1. [Izhikevich モデル](https://compneuro-julia.github.io/2-3_iz.html)
+	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-4_lif.html)
+	1. [Izhikevich モデル](https://compneuro-julia.github.io/2-5_iz.html)
 	1. ケーブル理論
 	1. Multi-compartment モデル
-	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/2-5_isi.html)
+	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/2-8_isi.html)
 	1. 確率的シナプス電流のノイズによる表現 (Langevin方程式 etc.)
 	1. 確率的集団モデル (Fokker–Planck 方程式)
 	1. 発火率モデル
-1. シナプス伝達のモデル
+1. [シナプス伝達のモデル](https://compneuro-julia.github.io/3_intro.html)
+	1. [シナプス伝達](https://compneuro-julia.github.io/3-1_synapse.html)
 	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-1_current-conductance-synapse.html)
-	2. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
-	3. [動力学モデル](https://compneuro-julia.github.io/3-3_kinetic-synapse.html)
-	4. 増強シナプスと減衰シナプス
-	5. [シナプス入力の重みづけ](https://compneuro-julia.github.io/3-6_synaptic-weighted.html)
-	6. 電気シナプス
+	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
+	1. [動力学モデル](https://compneuro-julia.github.io/3-3_kinetic-synapse.html)
+	1. 増強シナプスと減衰シナプス
+	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/3-6_synaptic-weighted.html)
+	1. 電気シナプス
 4. 神経回路網の構築 (発火率モデル)
 5. 神経回路網の構築 (Spikingモデル)
 6. 神経回路網の演算処理
@@ -44,26 +45,28 @@ Julia 1.5.0
 	5. 競合学習 (competitive learning)
 	6. 勾配法と誤差逆伝播法 (backpropagation)
 	7. 誤差逆伝播法の近似手法
-	
 	8. 経時的貢献度分配問題 (temporal credit assignment problem)
-	9. RTRL vs BPTT
-	10. RTRLの近似手法
+	9. RTRLとBPTT
+	10. 適格度トレース (eligibility trace) とRTRLの近似手法
 	11. Reservoir computing (FORCE etc.)
-8. 神経細胞・神経回路の非線形ダイナミクス
+8. 神経系の非線形ダイナミクス
 9. 連想記憶モデル
 	1. Ising モデル
-	2. Hopfield モデル
+	2. Amari-Hopfield モデル
 	3. Boltzmann machine
 10. 情報理論と最適化原理
-13. ベイズ脳理論と生成モデル
-	1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/13-1_sparse-coding.html)
+11. [ベイズ脳理論と生成モデル](https://compneuro-julia.github.io/11_intro.html)
+    1. [ベイズ統計の基礎](https://compneuro-julia.github.io/11-1_bayes_statistics.html)
+    1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/11-2_sparse-coding.html)
+    1. [Predictive coding (Rao & Ballard, 1999) モデル](https://compneuro-julia.github.io/11-3_predictive-coding-rao.html)
 12. 強化学習
 13. 運動制御
 14. 時空間の符号化
 15. 神経細胞の形態と数理モデル
 
-- 付録
+- [付録](https://compneuro-julia.github.io/appendix_intro.html)
 	- [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
+	- [有用なリンク集](https://compneuro-julia.github.io/useful_links.html)
 
 
 ***

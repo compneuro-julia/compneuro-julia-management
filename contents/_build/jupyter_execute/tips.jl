@@ -36,7 +36,7 @@ B = rand(2, 2, 2)
 import Base.Iterators: flatten
 collect(flatten(B))
 
-単に`B[:]`とするだけでもよい。
+ただし、単に`B[:]`とするだけでもよい。
 
 B[:]
 
@@ -74,3 +74,36 @@ V1 = vcat(A, B')
 V2 = [A; B']
 
 [V2 [A;B']]
+
+## 5. 配列に新しい軸を追加
+要はnumpyでの`A[None, :]`や`A[np.newaxis, :]`のようなことがしたい場合。やや面倒だが、`reshape`を使うか、`[CartesianIndex()]`を用いる。
+
+v = rand(3)
+
+newaxis = [CartesianIndex()]
+v1 = v[newaxis, :]
+
+## 6. Array{Array{Float64, x},1}をArray{Float64, x+1}に変換
+numpyでは`array([matrix for i in range()])`などを用いると、1次元配列のリストを2次元配列に変換できた。Juliaでも同様にする場合は`hcat(...)`や`cat(...)`を用いる。
+
+A1 = [i*rand(3) for i=1:5]
+
+println("Type : ", typeof(A1))
+println("Size : ", size(A1))
+
+A2 = hcat(A1...)'
+
+println("Type : ", typeof(A2))
+println("Size : ", size(A2))
+
+以下は多次元配列の場合。`cat(...)`で配列を結合し、`permitedims`で転置する。
+
+B1 = [i*rand(3, 4, 5) for i=1:6]
+
+println("Type : ", typeof(B1))
+println("Size : ", size(B1))
+
+B2 = permutedims(cat(B1..., dims=4), [4, 1, 2, 3])
+
+println("Type : ", typeof(B2))
+println("Size : ", size(B2))
