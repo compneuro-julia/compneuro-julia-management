@@ -1,15 +1,15 @@
 # 11.2 Sparse coding (Olshausen & Field, 1996) ƒ‚ƒfƒ‹
 
 ## 11.2.1 Sparse coding‚Æ¶¬ƒ‚ƒfƒ‹
-Sparse codingƒ‚ƒfƒ‹([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))‚ÍV1‚Ìƒjƒ…[ƒƒ“‚Ì‰“š“Á«‚ğà–¾‚·‚é**üŒ`¶¬ƒ‚ƒfƒ‹** (linear generative model)‚Å‚ ‚éB‚Ü‚¸A‰æ‘œƒpƒbƒ` $\boldsymbol{I} (\boldsymbol{x})$‚ªŠî’êŠÖ”(basis function)‚ ‚é‚¢‚Í“Á’¥—Ê(features) $\Phi = [\phi_i(\boldsymbol{x})]$ ‚ÌƒmƒCƒY‚ğŠÜ‚ŞüŒ`˜a‚Å•\‚³‚ê‚é‚Æ‚·‚é (ŒW”‚Í$\boldsymbol{r}=[r_i]$‚Æ‚·‚é)B
+Sparse codingƒ‚ƒfƒ‹([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))‚ÍV1‚Ìƒjƒ…[ƒƒ“‚Ì‰“š“Á«‚ğà–¾‚·‚é**üŒ`¶¬ƒ‚ƒfƒ‹** (linear generative model)‚Å‚ ‚éB‚Ü‚¸A‰æ‘œƒpƒbƒ` $\mathbf{x}$ ‚ªŠî’êŠÖ”(basis function) $\mathbf{\Phi} = [\phi_i]$ ‚ÌƒmƒCƒY‚ğŠÜ‚ŞüŒ`˜a‚Å•\‚³‚ê‚é‚Æ‚·‚é (ŒW”‚Í $\mathbf{r}=[r_i]$ ‚Æ‚·‚é)B
 
 $$
-\boldsymbol{I}(\boldsymbol{x}) = \sum_i r_i \phi_i (\boldsymbol{x}) + \epsilon(\boldsymbol{x})= \Phi \boldsymbol{r} + \boldsymbol{\epsilon}(\boldsymbol{x})\quad \tag{1}
+\mathbf{x} = \sum_i r_i \phi_i + \mathbf{\epsilon} = \mathbf{\Phi} \mathbf{r}+ \mathbf{\epsilon} \quad \tag{1}
 $$
 
-‚½‚¾‚µA$\boldsymbol{x}$‚Í‰æ‘œã‚ÌÀ•W, $\epsilon$‚Í•½‹Ï0, •ªU$\sigma^2$‚ÌGaussianƒmƒCƒY‚ğ•\‚· (ŠeƒmƒCƒY‚Í“Æ—§‚Æ‚·‚é)B‚±‚Ìƒ‚ƒfƒ‹‚ğ_Œoƒlƒbƒgƒ[ƒN‚Ìƒ‚ƒfƒ‹‚Æl‚¦‚é‚ÆA$\Phi$‚Íd‚İs—ñAŒW”$\boldsymbol{r}$‚Í“ü—Í‚æ‚è‚à‚Ÿ‚Ì_Œo×–E‚ÌŠˆ“®“x‚ğ•\‚µ‚Ä‚¢‚é‚Æ‰ğß‚Å‚«‚éB‚½‚¾‚µA$r_i$‚Í•‰‚Ì’l‚àæ‚é‚Ì‚Å’Pƒ‚É”­‰Î—¦‚Æ‘¨‚¦‚ç‚ê‚È‚¢‚Ì‚Í‚±‚Ìƒ‚ƒfƒ‹‚ÌŒ‡“_‚Å‚ ‚éB
+‚½‚¾‚µA$\mathbf{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ ‚Å‚ ‚éB‚±‚Ìƒ‚ƒfƒ‹‚ğ_Œoƒlƒbƒgƒ[ƒN‚Ìƒ‚ƒfƒ‹‚Æl‚¦‚é‚ÆA $\mathbf{\Phi}$ ‚Íd‚İs—ñAŒW” $\mathbf{r}$ ‚Í“ü—Í‚æ‚è‚à‚Ÿ‚Ì_Œo×–E‚ÌŠˆ“®“x‚ğ•\‚µ‚Ä‚¢‚é‚Æ‰ğß‚Å‚«‚éB‚½‚¾‚µA$r_i$ ‚Í•‰‚Ì’l‚àæ‚é‚Ì‚Å’Pƒ‚É”­‰Î—¦‚Æ‘¨‚¦‚ç‚ê‚È‚¢‚Ì‚Í‚±‚Ìƒ‚ƒfƒ‹‚ÌŒ‡“_‚Å‚ ‚éB
 
-Sparse coding‚Å‚Í_ŒoŠˆ“®$\boldsymbol{r}$‚ªöİ•Ï”‚Ì„’è—Ê‚ğ•\Œ»‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‰¼’è‚Ì‰ºA­”‚ÌŠî’ê‚Å‰æ‘œ (‚â–Ú“I•Ï”)‚ğ•\‚·‚±‚Æ‚ğ–Ú“I‚Æ‚·‚éB—v‚Íã®‚É‚¨‚¢‚ÄA‚Ù‚Æ‚ñ‚Ç‚ª0‚ÅAˆê•”‚¾‚¯0ˆÈŠO‚Ì’l‚ğæ‚é‚Æ‚¢‚¤‘a (=sparse)‚ÈŒW”$\boldsymbol{r}$‚ğ‹‚ß‚½‚¢B
+Sparse coding‚Å‚Í_ŒoŠˆ“® $\mathbf{r}$ ‚ªöİ•Ï”‚Ì„’è—Ê‚ğ•\Œ»‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‰¼’è‚Ì‰ºA­”‚ÌŠî’ê‚Å‰æ‘œ (‚â–Ú“I•Ï”)‚ğ•\‚·‚±‚Æ‚ğ–Ú“I‚Æ‚·‚éB—v‚Íã®‚É‚¨‚¢‚ÄA‚Ù‚Æ‚ñ‚Ç‚ª0‚ÅAˆê•”‚¾‚¯0ˆÈŠO‚Ì’l‚ğæ‚é‚Æ‚¢‚¤‘a (=sparse)‚ÈŒW”$\mathbf{r}$‚ğ‹‚ß‚½‚¢B
 
 ### Šm—¦“Iƒ‚ƒfƒ‹‚Ì‹Lq
 ````{margin}
@@ -18,29 +18,29 @@ Sparse coding‚Å‚Í_ŒoŠˆ“®$\boldsymbol{r}$‚ªöİ•Ï”‚Ì„’è—Ê‚ğ•\Œ»‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‰
 ```
 ````
 
-“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z‚ğ$q(\boldsymbol{I})$, ¶¬ƒ‚ƒfƒ‹‚Ì•ª•z‚ğ$p(\boldsymbol{I}|\Phi)$‚Æ‚·‚éB‚³‚ç‚Éöİ•Ï” $\boldsymbol{r}$‚Ì–‘O•ª•z (prior)‚ğ$p(\boldsymbol{r})$, ‰æ‘œƒpƒbƒ` $\boldsymbol{I}$‚Ì–Ş“x (likelihood)‚ğ$p(\boldsymbol{I}|\boldsymbol{r}, \Phi)$‚Æ‚·‚éB‚±‚Ì‚Æ‚«A
+“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z‚ğ$q(\mathbf{x})$, ¶¬ƒ‚ƒfƒ‹‚Ì•ª•z‚ğ$p(\mathbf{x}|\mathbf{\Phi})$‚Æ‚·‚éB‚³‚ç‚Éöİ•Ï” $\mathbf{r}$‚Ì–‘O•ª•z (prior)‚ğ$p(\mathbf{r})$, ‰æ‘œƒpƒbƒ` $\mathbf{x}$‚Ì–Ş“x (likelihood)‚ğ$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$‚Æ‚·‚éB‚±‚Ì‚Æ‚«A
 
 $$
-p(\boldsymbol{I}|\Phi)=\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r} \quad \tag{2}
+p(\mathbf{x}|\mathbf{\Phi})=\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r} \quad \tag{2}
 $$
 
-‚ª¬‚è—§‚ÂB$p(\boldsymbol{I}|\boldsymbol{r}, \Phi)$‚ÍA(1)®‚É‚¨‚¢‚ÄƒmƒCƒY€‚ğ$\epsilon_j \sim\mathcal{N}(0, \sigma^2)$‚Æ‚µ‚½‚±‚Æ‚©‚çA
+‚ª¬‚è—§‚ÂB$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$‚ÍA(1)®‚É‚¨‚¢‚ÄƒmƒCƒY€‚ğ$\epsilon_j \sim\mathcal{N}(0, \sigma^2)$‚Æ‚µ‚½‚±‚Æ‚©‚çA
 
 $$
 \begin{align}
-p(\boldsymbol{I}|\ \boldsymbol{r}, \Phi)&=\mathcal{N}\left(\boldsymbol{I}|\ \Phi \boldsymbol{r}, \sigma^2 \right)\\
-&=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\boldsymbol{I} - \Phi \boldsymbol{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
+p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})&=\mathcal{N}\left(\mathbf{x}|\ \mathbf{\Phi} \mathbf{r}, \sigma^2 \mathbf{I} \right)\\
+&=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\mathbf{x} - \mathbf{\Phi} \mathbf{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
 \end{align}
 $$
 
 ‚Æ•\‚¹‚éB‚½‚¾‚µA$Z_{\sigma}$‚Í‹KŠi‰»’è”‚Å‚ ‚éB
 
 ### –‘O•ª•z‚Ìİ’è
-–‘O•ª•z$p(\boldsymbol{r})$‚Æ‚µ‚Ä‚ÍA0‚É‚¨‚¢‚Äƒs[ƒN‚ª‚ ‚èA‚Ìd‚¢(heavy tail)‚ğ‚Âsparse distribution‚ ‚é‚¢‚Í **super-Gaussian distribution** (Laplace •ª•z‚âCauchy•ª•z‚È‚ÇGaussian•ª•z‚æ‚è‚àkurtotic‚È•ª•z)‚ğ—p‚¢‚é‚Ì‚ª—Ç‚¢B‚±‚Ì‚æ‚¤‚È•ª•z‚Å‚ÍA$\boldsymbol{r}$‚ÌŠe—v‘f$r_i$‚Í‚Ù‚Æ‚ñ‚Ç0‚É“™‚µ‚­A‚ ‚é“ü—Í‚É‘Î‚µ‚Ä‚Í‘å‚«‚È’l‚ğæ‚éB$p(\boldsymbol{r})$‚Íˆê”Ê‰»‚µ‚Ä®(4), (5)‚Ì‚æ‚¤‚É•\‹L‚·‚éB
+–‘O•ª•z$p(\mathbf{r})$‚Æ‚µ‚Ä‚ÍA0‚É‚¨‚¢‚Äƒs[ƒN‚ª‚ ‚èA‚Ìd‚¢(heavy tail)‚ğ‚Âsparse distribution‚ ‚é‚¢‚Í **super-Gaussian distribution** (Laplace •ª•z‚âCauchy•ª•z‚È‚ÇGaussian•ª•z‚æ‚è‚àkurtotic‚È•ª•z)‚ğ—p‚¢‚é‚Ì‚ª—Ç‚¢B‚±‚Ì‚æ‚¤‚È•ª•z‚Å‚ÍA$\mathbf{r}$‚ÌŠe—v‘f$r_i$‚Í‚Ù‚Æ‚ñ‚Ç0‚É“™‚µ‚­A‚ ‚é“ü—Í‚É‘Î‚µ‚Ä‚Í‘å‚«‚È’l‚ğæ‚éB$p(\mathbf{r})$‚Íˆê”Ê‰»‚µ‚Ä®(4), (5)‚Ì‚æ‚¤‚É•\‹L‚·‚éB
 
 $$
 \begin{align}
-p(\boldsymbol{r})&=\prod_i p(r_i) \quad \tag{4}\\
+p(\mathbf{r})&=\prod_i p(r_i) \quad \tag{4}\\
 p(r_i)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
 \end{align}
 $$
@@ -81,69 +81,66 @@ xlabel(L"$x$")
 tight_layout()
 
 ## 11.2.2 MAP„’è‚Æ–Ú“IŠÖ”‚Ìİ’è
-Å“K‚È¶¬ƒ‚ƒfƒ‹‚ğ“¾‚é‚½‚ß‚ÉA“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z $q(\boldsymbol{I})$‚Æ¶¬ƒ‚ƒfƒ‹‚Ì•ª•z $p(\boldsymbol{I}|\Phi)$‚ğ‹ß‚Ã‚¯‚éB‚·‚È‚í‚¿A2‚Â‚Ì•ª•z‚ÌKullback-Leibler ƒ_ƒCƒo[ƒWƒFƒ“ƒX $D_{\text{KL}}\left(q(\boldsymbol{I}) \Vert\ p(\boldsymbol{I}|\Phi)\right)$‚ğÅ¬‰»‚·‚éB‚½‚¾‚µA
+Å“K‚È¶¬ƒ‚ƒfƒ‹‚ğ“¾‚é‚½‚ß‚ÉA“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z $q(\mathbf{x})$‚Æ¶¬ƒ‚ƒfƒ‹‚Ì•ª•z $p(\mathbf{x}|\mathbf{\Phi})$‚ğ‹ß‚Ã‚¯‚éB‚·‚È‚í‚¿A2‚Â‚Ì•ª•z‚ÌKullback-Leibler ƒ_ƒCƒo[ƒWƒFƒ“ƒX $D_{\text{KL}}\left(q(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$‚ğÅ¬‰»‚·‚éB‚½‚¾‚µA
 
 $$
 \begin{align}
-D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))&=\int q(\boldsymbol{I}) \log \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)} d\boldsymbol{I}\\
-&=\mathbb{E}_q \left[\ln \frac{q(\boldsymbol{I})}{p(\boldsymbol{I}|\Phi)}\right]\\
-&=\mathbb{E}_q \left[\ln q(\boldsymbol{I})\right]-\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right] \tag{6}
+D_{\text{KL}}(q(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))&=\int q(\mathbf{x}) \log \frac{q(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
+&=\mathbb{E}_q \left[\ln \frac{q(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
+&=\mathbb{E}_q \left[\ln q(\mathbf{x})\right]-\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{6}
 \end{align}
 $$
 
-‚ª¬‚è—§‚ÂB(6)®‚Ì1”Ô–Ú‚Ì€‚Íˆê’è‚È‚Ì‚ÅA$D_{\text{KL}}$‚ğÅ¬‰»‚·‚é‚É‚Í$\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]$‚ğÅ‘å‰»‚·‚ê‚Î‚æ‚¢B‚±‚±‚ÅA(2)®‚æ‚èA
+‚ª¬‚è—§‚ÂB(6)®‚Ì1”Ô–Ú‚Ì€‚Íˆê’è‚È‚Ì‚ÅA$D_{\text{KL}}$‚ğÅ¬‰»‚·‚é‚É‚Í$\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$‚ğÅ‘å‰»‚·‚ê‚Î‚æ‚¢B‚±‚±‚ÅA(2)®‚æ‚èA
 
 $$
-\mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]=\mathbb{E}_q \left[\ln \int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}\right]\tag{7}
+\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]=\mathbb{E}_q \left[\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\right]\tag{7}
 $$
 
-‚ª¬‚è—§‚ÂB‚±‚±‚Å‹ß—‚Æ‚µ‚Ä $\int p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})d\boldsymbol{r}$ ‚ğ $p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r}) \left(=p(\boldsymbol{I}, \boldsymbol{r}| \Phi)\right)$ ‚ÌÅ‘å’l‚Å•]‰¿‚·‚é‚±‚Æ‚É‚·‚éB‚±‚Ì‹ß—‚Ì‰ºAÅ“K‚È$\Phi=\Phi^*$‚ÍŸ‚Ì‚æ‚¤‚É‚µ‚Ä‹‚ß‚ç‚ê‚éB
+‚ª¬‚è—§‚ÂB‚±‚±‚Å‹ß—‚Æ‚µ‚Ä $\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}$ ‚ğ $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)$ ‚ÌÅ‘å’l‚Å•]‰¿‚·‚é‚±‚Æ‚É‚·‚éB‚±‚Ì‹ß—‚Ì‰ºAÅ“K‚È$\mathbf{\Phi}=\mathbf{\Phi}^*$‚ÍŸ‚Ì‚æ‚¤‚É‚µ‚Ä‹‚ß‚ç‚ê‚éB
 
 $$
 \begin{align}
-\Phi^*&=\text{arg} \min_{\Phi} \min_{\boldsymbol{r}} D_{\text{KL}}(q(\boldsymbol{I}) \| p(\boldsymbol{I}|\Phi))\\
-&=\text{arg} \max_{\Phi} \max_{\boldsymbol{r}} \mathbb{E}_q \left[\ln p(\boldsymbol{I}|\Phi)\right]\\
-&\approx \text{arg} \max_{\Phi}\max_{\boldsymbol{r}} \ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
-&=\text{arg}\min_{\Phi} \min_{\boldsymbol{r}}\ E(\boldsymbol{I}, \boldsymbol{r}|\Phi)\tag{8}
+\mathbf{\Phi}^*&=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}(q(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\\
+&=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
+&\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
+&=\text{arg}\min_{\mathbf{\Phi}} \min_{\mathbf{r}}\ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\tag{8}
 \end{align}
 $$
 
-‚½‚¾‚µA$E(\boldsymbol{I}, \boldsymbol{r}|\Phi)$‚ÍƒRƒXƒgŠÖ”‚Å‚ ‚èAŸ®‚Ì‚æ‚¤‚É•\‚³‚ê‚éB
+‚½‚¾‚µA$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$‚ÍƒRƒXƒgŠÖ”‚Å‚ ‚èAŸ®‚Ì‚æ‚¤‚É•\‚³‚ê‚éB
 
 $$
 \begin{align}
-E(\boldsymbol{I}, \boldsymbol{r}|\Phi):=&-\ln p(\boldsymbol{I}|\boldsymbol{r}, \Phi)p(\boldsymbol{r})\\
-=&\underbrace{\left\|\boldsymbol{I}-\Phi \boldsymbol{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
+E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
+=&\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
 \end{align}
 $$
 
-‚½‚¾‚µA$\lambda=2\sigma^2\beta$‚Í³‘¥‰»ŒW”[^lam]‚Å‚ ‚èA1s–Ú‚©‚ç2s–Ú‚Ö‚Í®(3), (4), (5)‚ğ—p‚¢‚½B‚±‚±‚ÅA‘æ1€‚ª•œŒ³‘¹¸A‘æ2€‚ª”±‘¥€ (³‘¥‰»€)‚Æ‚È‚Á‚Ä‚¢‚éBŒù”z–@‚É‚æ‚èA$E(\boldsymbol{I}, \boldsymbol{r}|\Phi)$‚ğÅ¬‰»‚·‚éB‚±‚ê‚É‚Í$\Phi$‚ğŒÅ’è‚µ‚½‰º‚Å$E(\boldsymbol{I}, \boldsymbol{r}|\Phi)$‚ğÅ¬‰»‚·‚é$\boldsymbol{r}=\hat{\boldsymbol{r}}$‚ğ‹‚ß‚é ([11.1.3](#locally-competitive-algorithm-lca))B
+‚½‚¾‚µA$\lambda=2\sigma^2\beta$‚Í³‘¥‰»ŒW”[^lam]‚Å‚ ‚èA1s–Ú‚©‚ç2s–Ú‚Ö‚Í®(3), (4), (5)‚ğ—p‚¢‚½B‚±‚±‚ÅA‘æ1€‚ª•œŒ³‘¹¸A‘æ2€‚ª”±‘¥€ (³‘¥‰»€)‚Æ‚È‚Á‚Ä‚¢‚éBŒù”z–@‚É‚æ‚èA$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$‚ğÅ¬‰»‚·‚éB‚±‚ê‚É‚Í$\mathbf{\Phi}$‚ğŒÅ’è‚µ‚½‰º‚Å$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$‚ğÅ¬‰»‚·‚é$\mathbf{r}=\hat{\mathbf{r}}$‚ğ‹‚ß‚é ([11.1.3](#locally-competitive-algorithm-lca))B
 
 $$
-\hat{\boldsymbol{r}}=\text{arg}\min_{\boldsymbol{r}}E(\boldsymbol{I}, \boldsymbol{r}|\Phi)
+\hat{\mathbf{r}}=\text{arg}\min_{\mathbf{r}}E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})
 $$
 
-Ÿ‚É$\hat{\boldsymbol{r}}$‚ğ—p‚¢‚Ä
+Ÿ‚É$\hat{\mathbf{r}}$‚ğ—p‚¢‚Ä
 
 $$
-\Phi^*=\text{arg}\min_{\Phi}\langle E(\boldsymbol{I}, \hat{\boldsymbol{r}}|\Phi)\rangle
+\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}}\langle E(\mathbf{x}, \hat{\mathbf{r}}|\mathbf{\Phi})\rangle
 $$
 
-‚Æ‚·‚é‚±‚Æ‚É‚æ‚èA$\Phi$‚ğÅ“K‰»‚·‚é ([11.1.4](#id6))B‚½‚¾‚µA$\langle\cdot \rangle$‚Í•¡”‚Ì‰æ‘œ‚É‘Î‚·‚é•½‹Ï‚ğæ‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
+‚Æ‚·‚é‚±‚Æ‚É‚æ‚èA$\mathbf{\Phi}$‚ğÅ“K‰»‚·‚é ([11.1.4](#id6))B‚½‚¾‚µA$\langle\cdot \rangle$‚Í•¡”‚Ì‰æ‘œ‚É‘Î‚·‚é•½‹Ï‚ğæ‚é‚±‚Æ‚ğˆÓ–¡‚·‚éB
 
 [^lam]: ‚±‚Ì®‚©‚ç‹t‰·“x$\beta$‚ª³‘¥‰»‚Ì“x‡‚¢‚ğ’²®‚·‚éƒpƒ‰ƒ[ƒ^‚Å‚ ‚é‚±‚Æ‚ª‚í‚©‚éB
 
 ##  11.2.3 Locally competitive algorithm (LCA) 
-$\boldsymbol{r}$‚ÌŒù”z–@‚É‚æ‚éXV‘¥‚ÍA$E$‚Ì”÷•ª‚É‚æ‚èŸ‚Ì‚æ‚¤‚É“¾‚ç‚ê‚éB
+$\mathbf{r}$‚ÌŒù”z–@‚É‚æ‚éXV‘¥‚ÍA$E$‚Ì”÷•ª‚É‚æ‚èŸ‚Ì‚æ‚¤‚É“¾‚ç‚ê‚éB
 
 $$
-\begin{align}
-\frac{d \boldsymbol{r}}{dt} &= -\frac{\eta_\boldsymbol{r}}{2}\frac{\partial E}{\partial \boldsymbol{r}}\\
-&=\eta_\boldsymbol{r} \cdot\left[\Phi^T (\boldsymbol{I}-\Phi\boldsymbol{r})- \frac{\lambda}{2}S'\left(r_i\right)\right]
-\end{align}
+\frac{d \mathbf{r}}{dt}= -\frac{\eta_\mathbf{r}}{2}\frac{\partial E}{\partial \mathbf{r}}=\eta_\mathbf{r} \cdot\left[\mathbf{\Phi}^T (\mathbf{x}-\mathbf{\Phi}\mathbf{r})- \frac{\lambda}{2}S'\left(\mathbf{r}\right)\right]
 $$
 
-‚½‚¾‚µA$\eta_{\boldsymbol{r}}$‚ÍŠwK—¦‚Å‚ ‚éB‚±‚Ì®‚É‚æ‚è$\boldsymbol{r}$‚ªû‘©‚·‚é‚Ü‚ÅÅ“K‰»‚·‚é‚ªA’P‚È‚éŒù”z–@‚Å‚Í‚È‚­A(Olshausen & Field, 1996)‚Å‚Í**‹¤–ğŒù”z–@** (conjugate gradient method)‚ğ—p‚¢‚Ä‚¢‚éB‚µ‚©‚µA‹¤–ğŒù”z–@‚ÍÀ‘•‚ª”ÏG‚Å”ñŒø—¦‚Å‚ ‚é‚½‚ßA‚æ‚èŒø—¦“I‚©‚Â¶—Šw“I‚È‘Ã“–«‚Ì‚‚¢ŠwK–@‚Æ‚µ‚ÄA**LCA**  (locally competitive algorithm)‚ª’ñˆÄ‚³‚ê‚Ä‚¢‚é ([Rozell et al., *Neural Comput*. 2008](https://www.ece.rice.edu/~eld1/papers/Rozell08.pdf))BLCA‚Í**‘¤—}§** (local competition, lateral inhibition)‚Æ**è‡’lŠÖ”** (thresholding function)‚ğ—p‚¢‚éXV‘¥‚Å‚ ‚éBLCA‚É‚æ‚éXV‚ğs‚¤RNN‚Í’Êí‚ÌRNN‚Æ‚ÍˆÙ‚È‚èAƒRƒXƒgŠÖ”(‚Ü‚½‚ÍƒGƒlƒ‹ƒM[ŠÖ”)‚ğÅ¬‰»‚·‚é“®“IƒVƒXƒeƒ€‚Å‚ ‚éB‚±‚Ì‚æ‚¤‚È‹@\‚ÍHopfield network‚Å—p‚¢‚ç‚ê‚Ä‚¢‚é‚½‚ß‚ÉAOlshausen‚Í**Hopfield trick**‚ÆŒÄ‚ñ‚Å‚¢‚éB
+‚½‚¾‚µA$\eta_{\mathbf{r}}$‚ÍŠwK—¦‚Å‚ ‚éB‚±‚Ì®‚É‚æ‚è$\mathbf{r}$‚ªû‘©‚·‚é‚Ü‚ÅÅ“K‰»‚·‚é‚ªA’P‚È‚éŒù”z–@‚Å‚Í‚È‚­A(Olshausen & Field, 1996)‚Å‚Í**‹¤–ğŒù”z–@** (conjugate gradient method)‚ğ—p‚¢‚Ä‚¢‚éB‚µ‚©‚µA‹¤–ğŒù”z–@‚ÍÀ‘•‚ª”ÏG‚Å”ñŒø—¦‚Å‚ ‚é‚½‚ßA‚æ‚èŒø—¦“I‚©‚Â¶—Šw“I‚È‘Ã“–«‚Ì‚‚¢ŠwK–@‚Æ‚µ‚ÄA**LCA**  (locally competitive algorithm)‚ª’ñˆÄ‚³‚ê‚Ä‚¢‚é ([Rozell et al., *Neural Comput*. 2008](https://www.ece.rice.edu/~eld1/papers/Rozell08.pdf))BLCA‚Í**‘¤—}§** (local competition, lateral inhibition)‚Æ**è‡’lŠÖ”** (thresholding function)‚ğ—p‚¢‚éXV‘¥‚Å‚ ‚éBLCA‚É‚æ‚éXV‚ğs‚¤RNN‚Í’Êí‚ÌRNN‚Æ‚ÍˆÙ‚È‚èAƒRƒXƒgŠÖ”(‚Ü‚½‚ÍƒGƒlƒ‹ƒM[ŠÖ”)‚ğÅ¬‰»‚·‚é“®“IƒVƒXƒeƒ€‚Å‚ ‚éB‚±‚Ì‚æ‚¤‚È‹@\‚ÍHopfield network‚Å—p‚¢‚ç‚ê‚Ä‚¢‚é‚½‚ß‚ÉAOlshausen‚Í**Hopfield trick**‚ÆŒÄ‚ñ‚Å‚¢‚éB
 
 ### “î”»’èè‡’lŠÖ”‚ğ—p‚¢‚éê‡ (ISTA)
 $S(x)=|x|$‚Æ‚µ‚½ê‡‚Ìè‡’lŠÖ”‚ğ—p‚¢‚éè–@‚Æ‚µ‚Ä**ISTA**(Iterative Shrinkage Thresholding Algorithm)‚ª‚ ‚éBISTA‚ÍL1-norm³‘¥‰»€‚É‘Î‚·‚é‹ßÚŒù”z–@‚ÅA—v‚ÍLasso‰ñ‹A‚É—p‚¢‚éŒù”z–@‚Å‚ ‚éB
@@ -151,15 +148,15 @@ $S(x)=|x|$‚Æ‚µ‚½ê‡‚Ìè‡’lŠÖ”‚ğ—p‚¢‚éè–@‚Æ‚µ‚Ä**ISTA**(Iterative Shrinkage Thr
 ‰ğ‚­‚×‚«–â‘è‚ÍŸ®‚Å•\‚³‚ê‚éB
 
 $$
-\boldsymbol{r} = \mathop{\rm arg~min}\limits_{\boldsymbol{r}}\left\{\|\boldsymbol{I}-\Phi\boldsymbol{r}\|^2_2+\lambda\|\boldsymbol{r}\|_1\right\}
+\mathbf{r} = \mathop{\rm arg~min}\limits_{\mathbf{r}}\left\{\|\mathbf{x}-\mathbf{\Phi}\mathbf{r}\|^2_2+\lambda\|\mathbf{r}\|_1\right\}
 $$
 
 Ú×‚ÍŒãq‚·‚é‚ªAŸ‚Ì‚æ‚¤‚ÉXV‚·‚é‚±‚Æ‚Å‰ğ‚ª“¾‚ç‚ê‚éB
 
-1. $\boldsymbol{r}(0)$‚ğ—v‘f‚ª‘S‚Ä0‚ÌƒxƒNƒgƒ‹‚Å‰Šú‰»
-2. $\boldsymbol{r}_*(t+1)=\boldsymbol{r}(t)+\eta_\boldsymbol{r}\cdot \Phi^T(\boldsymbol{I}-\Phi\boldsymbol{r}(t))$
-3. $\boldsymbol{r}(t+1) = \Theta_\lambda(\boldsymbol{r}_*(t+1))$
-4. $\boldsymbol{r}$‚ªû‘©‚·‚é‚Ü‚Å2‚Æ3‚ğŒJ‚è•Ô‚·
+1. $\mathbf{r}(0)$‚ğ—v‘f‚ª‘S‚Ä0‚ÌƒxƒNƒgƒ‹‚Å‰Šú‰»F$\mathbf{r}(0)=\mathbf{0}$
+2. $\mathbf{r}_*(t+1)=\mathbf{r}(t)+\eta_\mathbf{r}\cdot \mathbf{\Phi}^T(\mathbf{x}-\mathbf{\Phi}\mathbf{r}(t))$
+3. $\mathbf{r}(t+1) = \Theta_\lambda(\mathbf{r}_*(t+1))$
+4. $\mathbf{r}$‚ªû‘©‚·‚é‚Ü‚Å2‚Æ3‚ğŒJ‚è•Ô‚·
 
 ‚±‚±‚Å$\Theta_\lambda(\cdot)$‚Í**“î”»’èè‡’lŠÖ”** (Soft thresholding function)‚ÆŒÄ‚Î‚êAŸ®‚Å•\‚³‚ê‚éB
 
@@ -175,7 +172,7 @@ $$
 $\Theta_\lambda(\cdot)$‚ğŠÖ”‚Æ‚µ‚Ä’è‹`‚·‚é‚ÆŸ‚Ì‚æ‚¤‚É‚È‚é [^softthr]B
 
 
-[^softthr]: ‚È‚¨AReLU (ƒ‰ƒ“ƒvŠÖ”)‚Í`max(x, 0)`‚ÅÀ‘•‚Å‚«‚éB‚±‚Ì“_‚©‚çl‚¦‚ê‚ÎReLU‚ğ“î”»’è”ñ•‰è‡’lŠÖ” (soft nonnegative thresholding function)‚Æ‘¨‚¦‚é‚±‚Æ‚à‚Å‚«‚é ([Papyan et al., 2018](https://ieeexplore.ieee.org/document/8398588))B
+[^softthr]: ReLU (ƒ‰ƒ“ƒvŠÖ”)‚Í`max(x, 0)`‚ÅÀ‘•‚Å‚«‚éB‚±‚Ì“_‚©‚çl‚¦‚ê‚ÎReLU‚ğ“î”»’è”ñ•‰è‡’lŠÖ” (soft nonnegative thresholding function)‚Æ‘¨‚¦‚é‚±‚Æ‚à‚Å‚«‚é ([Papyan et al., 2018](https://ieeexplore.ieee.org/document/8398588))B
 
 # thresholding function of S(x)=|x|
 function soft_thresholding_func(x, lmda)
@@ -241,13 +238,10 @@ $$
 ‚È‚¨Aè‡’lŠÖ”‚Æ‚µ‚Ä‚Í“î”»’èè‡’lŠÖ”‚¾‚¯‚Å‚Í‚È‚­Ad”»’èè‡’lŠÖ”‚â$y=x - \text{tanh}(x)$ (Tanh-shrink)‚È‚Ç—lX‚ÈŠÖ”‚ğ—p‚¢‚é‚±‚Æ‚ª‚Å‚«‚éB
 
 ## 11.2.4 d‚İs—ñ‚ÌXV‘¥
-$\boldsymbol{r}$‚ªû‘©‚µ‚½‚çŒù”z–@‚É‚æ‚è$\Phi$‚ğXV‚·‚éB
+$\mathbf{r}$‚ªû‘©‚µ‚½‚çŒù”z–@‚É‚æ‚è$\mathbf{\Phi}$‚ğXV‚·‚éB
 
 $$
-\begin{aligned}
-\Delta \phi_i(\boldsymbol{x}) &= -\eta \frac{\partial E}{\partial \Phi}\\
-&=\eta\cdot\left[\left([\boldsymbol{I}-\Phi\boldsymbol{r}\right)\boldsymbol{r}^T\right]
-\end{aligned}
+\Delta \phi_i(\boldsymbol{x}) = -\eta \frac{\partial E}{\partial \mathbf{\Phi}}=\eta\cdot\left[\left([\mathbf{x}-\mathbf{\Phi}\mathbf{r}\right)\mathbf{r}^T\right]
 $$
 
 ## 11.2.5 Sparse coding network‚ÌÀ‘•
@@ -435,7 +429,7 @@ plot(1:num_iter, errorarr)
 tight_layout()
 
 ### d‚İs—ñ (ó—e–ì)‚Ì•`‰æ
-ŠwKŒã‚Ìd‚İs—ñ `Phi` ($\Phi$)‚ğ‰Â‹‰»‚µ‚Ä‚İ‚æ‚¤B
+ŠwKŒã‚Ìd‚İs—ñ `Phi` ($\mathbf{\Phi}$)‚ğ‰Â‹‰»‚µ‚Ä‚İ‚æ‚¤B
 
 # Plot Receptive fields
 figure(figsize=(4.2, 4))
