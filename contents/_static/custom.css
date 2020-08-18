@@ -67,12 +67,32 @@ div.cell div.cell_output pre{
     font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace!important;
 }
 
+div.highlight pre{
+    background-color: #323443;
+    border: 0px!important;
+    font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace!important;
+}
+
+pre span.n {color: #f8f8f2 !important}
+pre span.nn {color: #f8f8f2 !important}
+pre span.kn {color: #ebd247 !important}
+pre span.p {color: #f8f8f2 !important}
 pre span.k {color: #ebd247 !important}
 pre span.ow {color: #ebd247 !important}
 pre span.o {color: #e18095 !important}
 pre span.mf {color: #a980f5 !important}
 pre span.mi {color: #a980f5 !important}
+pre span.se {color: #a980f5 !important}
 pre span.nb {color: #f8f8f2 !important}
 pre span.nd {color: #8BDF4C !important}
+pre span.c {color: #9dabae !important}
 pre span.c1 {color: #9dabae !important}
 pre span.s2 {color: #41b7d7 !important}
+pre span.sa {color: #f8f8f2 !important}
+pre span.s1 {color: #f8f8f2 !important}
+
+code {
+  color: #252525!important;
+  background: #f0f0f0!important;
+  padding: 2px;
+}

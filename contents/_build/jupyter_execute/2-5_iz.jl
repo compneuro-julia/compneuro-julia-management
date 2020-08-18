@@ -199,4 +199,4 @@ end
 scatter(firings[:,1], firings[:,2], markersize=1, markercolor="black", 
     xlabel="Time (ms)", ylabel="# neuron", xlim=(0, 1000), ylim=(0, 1000), legend=false)
 
-‰‚ß‚Ì400ms‚®‚ç‚¢‚Ü‚Å‚Í100ms‚²‚Æ‚É10Hz‚Ì$\alpha$”g‚ª
+‰‚ß‚Ì400ms‚®‚ç‚¢‚Ü‚Å‚Í100ms‚²‚Æ‚É–ñ10Hz‚Ì$\alpha$”g‚ªŒ©‚ç‚êA800ms•t‹ß‚É‚Í–ñ40Hz‚Ì$\gamma$”g‚ªŒ©‚ç‚ê‚éB
