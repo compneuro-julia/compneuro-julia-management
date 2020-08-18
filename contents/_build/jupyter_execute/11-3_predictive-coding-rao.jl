@@ -16,7 +16,7 @@ $$
 \boldsymbol{r} = \boldsymbol{r}^{td}+\boldsymbol{n}^{td}=f(U^h \boldsymbol{r}^h)+\boldsymbol{n}^{td} \tag{2}
 $$
 
-ただし、Top-downの予測信号を $\boldsymbol{r}^{td}:=f(U^h \boldsymbol{r}^h)$とした。また、$\boldsymbol{r}^{td} \in \mathbb{R}^{n_1}, \boldsymbol{r}^{h} \in \mathbb{R}^{n_2}, U^h \in \mathbb{R}^{n_1 \times n_2} $である。$\boldsymbol{n}^{td} \in \mathbb{R}^{n_1} $は平均0, 分散 $\sigma_{td}^2$ のGaussian ノイズ項とする。
+ただし、Top-downの予測信号を $\boldsymbol{r}^{td}:=f(U^h \boldsymbol{r}^h)$とした。また、$\boldsymbol{r}^{td} \in \mathbb{R}^{n_1}$, $\boldsymbol{r}^{h} \in \mathbb{R}^{n_2}$, $U^h \in \mathbb{R}^{n_1 \times n_2}$ である。 $\boldsymbol{n}^{td} \in \mathbb{R}^{n_1} $は平均0, 分散 $\sigma_{td}^2$ のGaussian ノイズ項とする。
 
 話は飛ぶが、Predictive codingのネットワークの特徴は
 - 階層的な構造
@@ -25,7 +25,7 @@ $$
 
 である。ここまでは高次表現による低次表現の予測、というFeedback信号について説明してきたが、この部分はSparse codingでも同じである。それではPredictive codingのもう一つの要となる、低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか。結論から言えば、これは**復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる**。
 
-## 損失関数と学習則
+## 11.3.2 損失関数と学習則
 ### 損失関数の設定
 前節では2層までのパラメータを最適化することを考えました、高次の活動も考慮して損失関数 $E$を次のように再定義する。
 

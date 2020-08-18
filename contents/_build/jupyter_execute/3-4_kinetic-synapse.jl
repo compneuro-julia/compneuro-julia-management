@@ -1,5 +1,5 @@
-# 3.3 動力学モデル
-## 3.3.1 チャネル動態の動力学的表現
+# 3.4 動力学モデル
+## 3.4.1 チャネル動態の動力学的表現
 指数関数型シナプスとモデルの振る舞いはほぼ同一だが, 式の構成が少し異なるモデルとして**動力学モデル** (Kinetic model, またはMarkov kinetic model)がある ([Destexhe et al., 1994](https://link.springer.com/article/10.1007/BF00961734); [Destexhe et al., 2002](http://cns.iaf.cnrs-gif.fr/files/handbook98.pdf))。動力学モデルはHHモデルのゲート変数の式と類似した式で表される。このモデルではチャネルが開いた状態(Open)と閉じた状態(Close), および神経伝達物質(neurotransmitter)の放出状態(T)の2つの要素に関する状態がある。また, 閉$\to$開の反応速度を$\alpha$, 開$\to$閉の反応速度を$\beta$とする。このとき、これらを表す状態遷移の式は次のようになる。
 
 $$
@@ -16,9 +16,29 @@ $$
 \end{equation}
 $$
 
-となる。ただし, Tはシナプス前細胞が発火したときにインパルス的に1だけ増加するとする。また, $\alpha, \beta$は速度なので, 時定数の逆数であることに注意しよう。 $\alpha=2000 \text{ms}^{-1}$, $\beta=200 \text{ms}^{-1}$とすると, シナプス動態は図のようになる。
+となる。ただし, Tはシナプス前細胞が発火したときにインパルス的に1だけ増加するとする。また, $\alpha, \beta$は速度なので, 時定数の逆数であることに注意しよう。 $\alpha=2000 \text{ms}^{-1}$, $\beta=200 \text{ms}^{-1}$とすると, シナプス動態は次のようになる。
 
-## 3.3.2 Hodgkin-Huxleyモデルにおけるシナプスモデル
+using PyPlot
+
+dt = 1e-4 # タイムステップ (sec)
+α = 1/5e-4; β = 1/5e-3
+T = 0.05 # シミュレーション時間 (sec)
+nt = Int(T/dt) # シミュレーションの総ステップ
+
+r = zeros(nt)
+
+for t in 1:nt-1
+    spike = ifelse(t == 1, 1, 0)
+    r[t+1] = r[t] + dt * (α*spike*(1-r[t]) - β*r[t])
+end
+
+time = (1:nt)*dt
+figure(figsize=(4, 3))
+plot(time, r)
+xlabel("Time (s)"); ylabel("Post-synaptic current (pA)")
+tight_layout()
+
+## 3.4.2 Hodgkin-Huxleyモデルにおけるシナプスモデル
 これまで明示的にスパイクの発生が表現されたモデルを用いてきたが、HHモデルでは単なる膜電位の変数があるのみである。ここでは前述した動力学的モデルを用いてHHモデルにおけるシナプス動態の記述を行う ([Destexhe et al., 1994](https://www.mitpressjournals.org/doi/10.1162/neco.1994.6.1.14); [Batista et al., 2014](https://www.sciencedirect.com/science/article/pii/S0378437114004592))。
 
 $r_{j}$を$j$番目のニューロンのpre-synaptic dynamicsとすると、$r_{j}$は次式に従う。
@@ -29,7 +49,6 @@ $$
 
 ただし、時定数 $\tau_r=0.5, \tau_d = 8$ (ms), 反転電位 $V_0 = -20$ (mV)とする。前節で既に$r$の描画は行ったが、パルス波を印加した場合の挙動を確認する。
 
-using Plots
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
 
@@ -97,10 +116,11 @@ end
 
 描画してみる。
 
-p1 = plot(t, varr[:, 1])
-p2 = plot(t, rarr[:, 1])
-p3 = plot(t, I[:, 1])
-plot(p1, p2, p3, 
-    xlabel = ["" "" "Times (ms)"], 
-    ylabel= ["Membrane\n potential (mV)" "Pre-synaptic\n dynamics" "Injection\n current (nA)"],
-    layout = grid(3, 1, heights=[0.4, 0.3, 0.3]), legend = false)
+figure(figsize=(5,5))
+subplot(3, 1, 1)
+plot(t, varr[:, 1]); ylabel("Membrane\n potential (mV)")
+subplot(3, 1, 2)
+plot(t, rarr[:, 1]); ylabel("Pre-synaptic\n dynamics")
+subplot(3, 1, 3)
+plot(t, I[:, 1]); xlabel("Times (ms)"); ylabel("Injection\n current (nA)")
+tight_layout()

@@ -1,5 +1,5 @@
-# 3.1 Current-based vs Conductance-based シナプス
-## 3.1.1 化学シナプスの2つの記述形式
+# 3.2 Current-based vs Conductance-based シナプス
+## 3.2.1 化学シナプスの2つの記述形式
 具体的なシナプスのモデルの前に, この節では化学シナプスにおけるシナプス入力(synaptic drive)の2つの形式, **Current-based シナプス**と**Conductance-based シナプス**について説明する。簡単に言うと、Current-based シナプスは入力電流が変化するというモデルで, Conductance-based シナプスはイオンチャネルのコンダクタンス (電気抵抗の逆数, 電流の流れやすさ)が変化するというモデルである (cf. [Cavallari et al., 2014](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3943173/))。
 
 以下では例として, 次のLIFニューロンの方程式におけるシナプス入力を考える。
@@ -12,7 +12,7 @@ $$
 
 [^syn]: シナプス(synapse)入力であることを明らかにするためにsynと添え字をつけている。
 
-## 3.1.2 Current-based シナプス
+## 3.2.2 Current-based シナプス
 Current-based シナプスは単純に**入力電流が変化**するというモデルで, 簡略化したい場合によく用いられる。シナプス入力$I_{\text{syn}}(t)$はシナプス効率(synaptic efficacy)[^syneff]を$J_{\text{syn}}$ (単位はpA)とし , シナプスの動態(synaptic kinetics)を$s_{\text{syn}}(t)$とすると, 次式のようになる。ただし, シナプスの動態とは, 前細胞に注目すれば神経伝達物質の放出量, 後細胞に注目すれば神経伝達物質の結合量やイオンチャネルの開口率を表す。
 
 $$
@@ -33,7 +33,7 @@ $$
 
 [^syneff]: シナプス強度(Synaptic strength)とは違い, 受容体の種類(GABA受容体やAMPA受容体,  およびそのサブタイプなど)によって決まる。
 
-## 3.1.3 Conductance-based シナプス
+## 3.2.3 Conductance-based シナプス
 Conductance-based シナプスはイオンチャネルの**コンダクタンスが変化**するというモデルである。関連して、例えば Hodgkin-Huxley モデルはConductance-based モデルの1つである。Current-basedよりもConductance-based の方が生理学的に妥当である。例えば抑制性シナプスは膜電位が平衡電位と比べて脱分極側にあるか, 過分極側にあるかで抑制的に働くか興奮的に働くかが逆転する。これはCurrent-based シナプスでは再現できない。
 
 Conductance-based モデルにおけるシナプス入力は$I_{\text{syn}}(t)$は次のようになる。 

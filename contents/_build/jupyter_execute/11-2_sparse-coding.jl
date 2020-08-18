@@ -361,7 +361,6 @@ function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
             idx = rand(1:num_images)
             img = imgs[:, :, idx]
             clop = img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1][:]
-            #clop = collect(flatten(img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1]))
             inputs[i, :] = clop .- mean(clop)
         end
 
@@ -378,7 +377,7 @@ function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
 
             # Compute norm of r
             dr_norm = sqrt(sum(dr.^2)) / sqrt(sum(r_tm1.^2) + 1e-8)
-            r_tm1 = copy(model.r) # update r_tm1
+            r_tm1 .= model.r # update r_tm1
 
             # Check convergence of r, then update weights
             if dr_norm < eps
@@ -394,16 +393,16 @@ function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
                 break
             end
         end
-        """
         # Print moving average error
         if iter % 100 == 0
             moving_average_error = mean(errorarr[iter-99:iter])
             println("iter: ", iter, "/", num_iter, ", Moving average error:", moving_average_error)
         end
-        """
     end
     return model, errorarr
 end
+
+`r_tm1 .= model.r`の部分は、要素ごとのコピーを実行している。`r_tm1 = copy(model.r)`でもよいが、新たなメモリ割り当てが生じるので避けている。`@. r_tm1 = model.r`としてもよい。
 
 ### シミュレーションの実行
 

@@ -1,4 +1,4 @@
-# 3.5 シナプス入力の重みづけ
+# 3.6 シナプス入力の重みづけ
 ここまでは, シナプス前細胞と後細胞がそれぞれ1つずつである場合について考えていたが, 実際には多数の細胞がネットワークを作っている。また, それぞれの入力は均等ではなく, 異なるシナプス強度 (Synaptic strength)を持つ。この場合のシナプス入力の計算について述べておく。
 
 シナプス前細胞が$N_{\text{pre}}$個, シナプス後細胞が$N_{\text{post}}$個あるとする。このとき**シナプス前過程に注目した**シナプス動態を$\boldsymbol{s_{\text{syn}}}\in \mathbb{R}^{N_{\text{pre}}}$, シナプス後細胞の入力電流を$\boldsymbol{I_{\text{syn}}}\in \mathbb{R}^{N_{\text{post}}}$, シナプス結合強度の行列を$W\in \mathbb{R}^{N_{\text{post}} \times N_{\text{pre}}}$とすると, Current-basedの場合は

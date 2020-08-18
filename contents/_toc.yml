@@ -10,6 +10,7 @@
   expand_sections: true
   sections:
     - file: 2-2_hodgkinhuxley
+    - file: 2-3_fhn
     - file: 2-4_lif
     - file: 2-5_iz
     - file: 2-8_isi
@@ -29,6 +30,11 @@
     - file: 11-1_bayes_statistics
     - file: 11-2_sparse-coding
     - file: 11-3_predictive-coding-rao
+
+- file: 12_intro
+  expand_sections: true
+  sections:
+    - file: 12-1_td_learning
 
 - file: appendix_intro
   expand_sections: true

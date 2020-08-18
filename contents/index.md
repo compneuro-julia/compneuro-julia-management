@@ -17,7 +17,7 @@ Julia 1.5.0
 1. [神経細胞のモデル](https://compneuro-julia.github.io/2_intro.html)
 	1. 神経細胞の形態と膜電位変化
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/2-2_hodgkinhuxley.html)
-	1. FitzHugh–Nagumoモデル
+	1. [FitzHugh–Nagumoモデル](https://compneuro-julia.github.io/2-3_fhn.html)
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/2-4_lif.html)
 	1. [Izhikevich モデル](https://compneuro-julia.github.io/2-5_iz.html)
 	1. ケーブル理論
@@ -28,9 +28,9 @@ Julia 1.5.0
 	1. 発火率モデル
 1. [シナプス伝達のモデル](https://compneuro-julia.github.io/3_intro.html)
 	1. [シナプス伝達](https://compneuro-julia.github.io/3-1_synapse.html)
-	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-1_current-conductance-synapse.html)
-	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-2_expo-synapse.html)
-	1. [動力学モデル](https://compneuro-julia.github.io/3-3_kinetic-synapse.html)
+	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/3-2_current-conductance-synapse.html)
+	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/3-3_expo-synapse.html)
+	1. [動力学モデル](https://compneuro-julia.github.io/3-4_kinetic-synapse.html)
 	1. 増強シナプスと減衰シナプス
 	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/3-6_synaptic-weighted.html)
 	1. 電気シナプス
@@ -55,11 +55,13 @@ Julia 1.5.0
 	2. Amari-Hopfield モデル
 	3. Boltzmann machine
 10. 情報理論と最適化原理
-11. [ベイズ脳理論と生成モデル](https://compneuro-julia.github.io/11_intro.html)
+11. [ベイズ脳仮説](https://compneuro-julia.github.io/11_intro.html)
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/11-1_bayes_statistics.html)
     1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/11-2_sparse-coding.html)
     1. [Predictive coding (Rao & Ballard, 1999) モデル](https://compneuro-julia.github.io/11-3_predictive-coding-rao.html)
-12. 強化学習
+12. [強化学習](https://compneuro-julia.github.io/12_intro.html)
+	1. [TD学習](https://compneuro-julia.github.io/12-1_td_learning.html)
+	2. 分布型TD学習
 13. 運動制御
 14. 時空間の符号化
 15. 神経細胞の形態と数理モデル

@@ -150,9 +150,9 @@ using Plots
 
 ニューロンの膜電位 `v`, ゲート変数 `m, h, n`, 刺激電流 `I`の描画をする。入力電流の単位は $\mu\text{A/cm}^2$である。
 
-p1 = plot(t, varr[:, 1], label="", color="black")
-p2 = plot(t, gatearr[:, :, 1], label = ["m" "h" "n"])
-p3 = plot(t, I[:, 1], label="", color="black")
+p1 = plot(t, varr[:, 1], label=false, color="black")
+p2 = plot(t, gatearr[:, :, 1], label=["m" "h" "n"])
+p3 = plot(t, I[:, 1], label=false, color="black")
 plot(p1, p2, p3, 
     xlabel = ["" "" "Times (ms)"], 
     ylabel= ["V (mV)" "Gating Value" "Current"],
@@ -240,9 +240,9 @@ end
 
 結果は次のようになる。
 
-p1 = plot(t, varr2[:, 1], label="", color="black")
-p2 = plot(t, gatearr2[:, :, 1], label = ["m" "h" "n"])
-p3 = plot(t, I[:, 1], label="", color="black")
+p1 = plot(t, varr2[:, 1], label=false, color="black")
+p2 = plot(t, gatearr2[:, :, 1], label=["m" "h" "n"])
+p3 = plot(t, I[:, 1], label=false, color="black")
 plot(p1, p2, p3, 
     xlabel = ["" "" "Times (ms)"], 
     ylabel= ["V (mV)" "Gating Value" "Injection\n current"],
