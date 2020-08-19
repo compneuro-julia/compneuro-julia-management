@@ -4,33 +4,30 @@
 Sparse codingモデル([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である。まず、画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_i]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_i]$ とする)。
 
 $$
-\mathbf{x} = \sum_i r_i \phi_i + \mathbf{\epsilon} = \mathbf{\Phi} \mathbf{r}+ \mathbf{\epsilon} \quad \tag{1}
+\mathbf{x} = \sum_i r_i \phi_i +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon} \quad \tag{1}
 $$
 
-ただし、$\mathbf{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ である。このモデルを神経ネットワークのモデルと考えると、 $\mathbf{\Phi}$ は重み行列、係数 $\mathbf{r}$ は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、$r_i$ は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。
+ただし、$\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ である。このモデルを神経ネットワークのモデルと考えると、 $\mathbf{\Phi}$ は重み行列、係数 $\mathbf{r}$ は入力よりも高次の神経細胞の活動度を表していると解釈できる。ただし、$r_i$ は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である。
 
 Sparse codingでは神経活動 $\mathbf{r}$ が潜在変数の推定量を表現しているという仮定の下、少数の基底で画像 (や目的変数)を表すことを目的とする。要は上式において、ほとんどが0で、一部だけ0以外の値を取るという疎 (=sparse)な係数$\mathbf{r}$を求めたい。
 
 ### 確率的モデルの記述
 ````{margin}
 ```{note}
-以後の記述は([Olshausen & Field, 1997](https://pubmed.ncbi.nlm.nih.gov/9425546/))に従ったものである。
+以後の記述は([Olshausen & Field, 1997](https://pubmed.ncbi.nlm.nih.gov/9425546/); [Barello et al., 2018](https://www.biorxiv.org/content/10.1101/399246v2.full))を参考にした。
 ```
 ````
 
-入力される画像パッチの真の分布を$q(\mathbf{x})$, 生成モデルの分布を$p(\mathbf{x}|\mathbf{\Phi})$とする。さらに潜在変数 $\mathbf{r}$の事前分布 (prior)を$p(\mathbf{r})$, 画像パッチ $\mathbf{x}$の尤度 (likelihood)を$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$とする。このとき、
+入力される画像パッチの真の分布を$p^*(\mathbf{x})$, 重み$\mathbf{\Phi}$のモデルから生成される$\mathbf{x}$の分布を$p(\mathbf{x}|\mathbf{\Phi})$とする。さらに潜在変数 $\mathbf{r}$の事前分布 (prior)を$p(\mathbf{r})$, 画像パッチ $\mathbf{x}$の尤度 (likelihood)を$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$とする。このとき、
 
 $$
 p(\mathbf{x}|\mathbf{\Phi})=\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r} \quad \tag{2}
 $$
 
-が成り立つ。$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$は、(1)式においてノイズ項を$\epsilon_j \sim\mathcal{N}(0, \sigma^2)$としたことから、
+が成り立つ。$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$は、(1)式においてノイズ項を$\boldsymbol{\epsilon} \sim\mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$としたことから、
 
 $$
-\begin{align}
-p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})&=\mathcal{N}\left(\mathbf{x}|\ \mathbf{\Phi} \mathbf{r}, \sigma^2 \mathbf{I} \right)\\
-&=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\mathbf{x} - \mathbf{\Phi} \mathbf{r})\|^2}{2\sigma^2}\right)\quad \tag{3}
-\end{align}
+p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})=\mathcal{N}\left(\mathbf{x}|\ \mathbf{\Phi} \mathbf{r}, \sigma^2 \mathbf{I} \right)=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\mathbf{x} - \mathbf{\Phi} \mathbf{r}\|^2}{2\sigma^2}\right)\quad \tag{3}
 $$
 
 と表せる。ただし、$Z_{\sigma}$は規格化定数である。
@@ -80,29 +77,30 @@ xlabel(L"$x$")
 
 tight_layout()
 
-## 11.2.2 MAP推定と目的関数の設定
-最適な生成モデルを得るために、入力される画像パッチの真の分布 $q(\mathbf{x})$と生成モデルの分布 $p(\mathbf{x}|\mathbf{\Phi})$を近づける。すなわち、2つの分布のKullback-Leibler ダイバージェンス $D_{\text{KL}}\left(q(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$を最小化する。ただし、
+## 11.2.2 目的関数の設定と最適化
+最適な生成モデルを得るために、入力される画像パッチの真の分布 $p^*(\mathbf{x})$と生成される$\mathbf{x}$の分布 $p(\mathbf{x}|\mathbf{\Phi})$を近づける。このために、2つの分布のKullback-Leibler ダイバージェンス $D_{\text{KL}}\left(p^*(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$を最小化する。ただし、
 
 $$
 \begin{align}
-D_{\text{KL}}(q(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))&=\int q(\mathbf{x}) \log \frac{q(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
-&=\mathbb{E}_q \left[\ln \frac{q(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
-&=\mathbb{E}_q \left[\ln q(\mathbf{x})\right]-\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{6}
+D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))&=\int p^*(\mathbf{x}) \log \frac{p^*(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
+&=\mathbb{E}_{p^*} \left[\ln \frac{p^*(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
+&=\mathbb{E}_{p^*} \left[\ln p^*(\mathbf{x})\right]-\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{6}
 \end{align}
 $$
 
-が成り立つ。(6)式の1番目の項は一定なので、$D_{\text{KL}}$を最小化するには$\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$を最大化すればよい。ここで、(2)式より、
+が成り立つ。(6)式の1番目の項は一定なので、$D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))$を最小化するには$\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$を最大化すればよい。ここで、2つの近似を行う。まず、一番目の近似として $\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$ の値を $\ln p(\mathbf{x}|\mathbf{\Phi})$ で評価する。さらに(2)式より、
 
 $$
-\mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]=\mathbb{E}_q \left[\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\right]\tag{7}
+\ln p(\mathbf{x}|\mathbf{\Phi})=\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\tag{7}
 $$
 
-が成り立つ。ここで近似として $\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}$ を $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)$ の最大値で評価することにする。この近似の下、最適な$\mathbf{\Phi}=\mathbf{\Phi}^*$は次のようにして求められる。
+が成り立つので、二番目の近似として $\displaystyle \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}$ を $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)$ で評価する。これらの近似の下、最適な$\mathbf{\Phi}=\mathbf{\Phi}^*$は次のようにして求められる。
 
 $$
 \begin{align}
-\mathbf{\Phi}^*&=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}(q(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\\
-&=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_q \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
+\mathbf{\Phi}^*&=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\\
+&=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
+&\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{\Phi})\\
 &\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
 &=\text{arg}\min_{\mathbf{\Phi}} \min_{\mathbf{r}}\ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\tag{8}
 \end{align}
@@ -117,19 +115,21 @@ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{
 \end{align}
 $$
 
-ただし、$\lambda=2\sigma^2\beta$は正則化係数[^lam]であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。勾配法により、$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$を最小化する。これには$\mathbf{\Phi}$を固定した下で$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$を最小化する$\mathbf{r}=\hat{\mathbf{r}}$を求める ([11.1.3](#locally-competitive-algorithm-lca))。
+ただし、$\lambda=2\sigma^2\beta$は正則化係数[^lam]であり、1行目から2行目へは式(3), (4), (5)を用いた。ここで、第1項が復元損失、第2項が罰則項 (正則化項)となっている。よって $E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$ を最小化するような $\mathbf{r}$ と $\mathbf{\Phi}$ を求める。
+
+ここで、$n$ 番目の画像パッチを$\mathbf{x}_n$とし、学習データを $\mathbf{X}={\mathbf{x}_1, \cdots, \mathbf{x}_N}$とする。さらに$\mathbf{x}_n$に対する神経活動を $\mathbf{r}_n$とする。まず、 $\mathbf{\Phi}$を固定した下で$E(\mathbf{x}_n, \mathbf{r}_n|\mathbf{\Phi})$を最小化する$\mathbf{r}_n=\hat{\mathbf{r}}_n$を求める ([11.1.3](#locally-competitive-algorithm-lca))。
 
 $$
-\hat{\mathbf{r}}=\text{arg}\min_{\mathbf{r}}E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})
+\hat{\mathbf{r}}_n=\text{arg}\min_{\mathbf{r}_n}E(\mathbf{x}_n, \mathbf{r}_n|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{r}_n}p(\mathbf{r}_n|\mathbf{x}_n)\right)
 $$
 
-次に$\hat{\mathbf{r}}$を用いて
+これは $\mathbf{r}$ について **MAP推定** (maximum a posteriori estimation)を行うことに等しい。次に$\hat{\mathbf{r}}$を用いて
 
 $$
-\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}}\langle E(\mathbf{x}, \hat{\mathbf{r}}|\mathbf{\Phi})\rangle
+\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}} \frac{1}{N}\sum_{n=1}^N E(\mathbf{x}_n, \hat{\mathbf{r}}_n|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{\Phi}} \prod_{n=1}^N p(\mathbf{x}_n|\mathbf{r}_n, \mathbf{\Phi})\right)
 $$
 
-とすることにより、$\mathbf{\Phi}$を最適化する ([11.1.4](#id6))。ただし、$\langle\cdot \rangle$は複数の画像に対する平均を取ることを意味する。
+とすることにより、$\mathbf{\Phi}$を最適化する ([11.1.4](#id6))。こちらは $\mathbf{\Phi}$ について **最尤推定** (maximum likelihood estimation)を行うことに等しい。
 
 [^lam]: この式から逆温度$\beta$が正則化の度合いを調整するパラメータであることがわかる。
 
@@ -442,6 +442,79 @@ suptitle("Receptive fields", fontsize=14)
 subplots_adjust(top=0.925)
 
 白色が**ON領域**(興奮)、黒色が**OFF領域**(抑制)を表す。Gaborフィルタ様の局所受容野が得られており、これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している。
+
+### 画像の再構成
+学習したモデルを用いて入力画像が再構成されるか確認しよう。
+
+H, W, num_images = size(imgs)
+num_inputs = sz^2
+
+# Get the coordinates of the upper left corner of clopping image randomly.
+beginx = rand(1:W-sz, batch_size)
+beginy = rand(1:H-sz, batch_size)
+
+inputs = zeros(batch_size, num_inputs)  # Input image patches
+
+# Get images randomly
+for i in 1:batch_size        
+    idx = rand(1:num_images)
+    img = imgs[:, :, idx]
+    clop = img[beginy[i]:beginy[i]+sz-1, beginx[i]:beginx[i]+sz-1][:]
+    inputs[i, :] = clop .- mean(clop)
+end
+
+model.r = zeros(batch_size, num_units) # Reset r states
+
+# Input image patches until latent variables are converged 
+r_tm1 = zeros(batch_size, num_units)  # set previous r (t minus 1)
+
+for t in 1:nt_max
+    # Update r without update weights 
+    error = updateOF!(model, model.param, inputs, false)
+
+    dr = model.r - r_tm1 
+
+    # Compute norm of r
+    dr_norm = sqrt(sum(dr.^2)) / sqrt(sum(r_tm1.^2) + 1e-8)
+    r_tm1 .= model.r # update r_tm1
+
+    # Check convergence of r, then update weights
+    if dr_norm < eps
+        break
+    end
+end
+
+神経活動 $\mathbf{r}$がスパースになっているか確認しよう。
+
+println(model.r[1, :])
+
+要素がほとんど0のスパースなベクトルになっていることがわかる。次に画像を再構成する。
+
+reconst = model.r * model.Phi'
+println(size(reconst))
+
+再構成した結果を描画する。
+
+figure(figsize=(7.5, 3))
+subplots_adjust(hspace=0.1, wspace=0.1)
+num_show = 5
+for i in 1:num_show
+    subplot(2, num_show, i)
+    imshow(reshape(inputs[i, :], (sz, sz)), cmap="gray")
+    xticks([]); yticks([]); 
+    if i == 1
+        ylabel("Input\n images")
+    end
+
+    subplot(2, num_show, num_show+i)
+    imshow(reshape(reconst[i, :], (sz, sz)), cmap="gray")
+    xticks([]); yticks([]); 
+    if i == 1
+        ylabel("Reconstructed\n images")
+    end
+end
+
+上段が入力画像、下段が再構成された画像である。差異はあるものの、概ね再構成されていることがわかる。
 
 ```{admonition} 論文以外の参考資料
 - <http://www.scholarpedia.org/article/Sparse_coding>

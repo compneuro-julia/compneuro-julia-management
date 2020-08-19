@@ -63,8 +63,11 @@ Julia 1.5.0
 	1. [TD学習](https://compneuro-julia.github.io/12-1_td_learning.html)
 	2. 分布型TD学習
 13. 運動制御
-14. 時空間の符号化
-15. 神経細胞の形態と数理モデル
+	1. 躍度最小モデルとトルク変化最小モデル
+	2. 終点誤差分散最小モデル
+	3. 最適フィードバック制御モデル (optimal feedback control; OFC)
+15. 時空間の符号化
+16. 神経細胞の形態と数理モデル
 
 - [付録](https://compneuro-julia.github.io/appendix_intro.html)
 	- [JuliaのTips集](https://compneuro-julia.github.io/tips.html)
@@ -77,7 +80,7 @@ Julia 1.5.0
 『**ゼロから作るSpiking Neural Networks**』 (通称：SNN本) は**Python**でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です。本サイトはこの本をベースとして作成しています。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入いただければと思います。なお、物理本は完売し、再販の予定はありません。
 
 ```{admonition} 『ゼロから作るSpiking Neural Networks』Links
-- [pdf](https://compneuro-julia.github.io/_static/pdf/SNN_from_scratch_with_python_ver2_05.pdf) (Ver. 2.05)
+- [pdf](https://compneuro-julia.github.io/_static/pdf/SNN_from_scratch_with_python_ver2_1.pdf) (Ver. 2.1)
 - [GitHub](https://github.com/takyamamoto/SNN-from-scratch-with-Python)
 - [BOOTH](https://booth.pm/ja/items/1585421)
 ```

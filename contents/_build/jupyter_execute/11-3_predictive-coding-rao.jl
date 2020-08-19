@@ -2,21 +2,23 @@
 Predictive codingの初めの数理的モデルとなる ([Rao & Ballard, *Nat. Neurosci*. 1999](https://www.nature.com/articles/nn0199_79))を実装する。
 
 ## 11.3.1 観測世界の階層的予測
-構築するネットワークは入力層を含め、3層のネットワークとする。網膜への入力として画像 $\boldsymbol{I} \in \mathbb{R}^{n_0}$を考える。画像 $\boldsymbol{I}$ の観測世界における隠れ変数、すなわち**潜在変数** (latent variable)を$\boldsymbol{r} \in \mathbb{R}^{n_1}$とし、ニューロン群によって発火率で表現されているとする (真の変数と $\boldsymbol{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)。このとき、
+構築するネットワークは入力層を含め、3層のネットワークとする。網膜への入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える。画像 $\mathbf{x}$ の観測世界における隠れ変数、すなわち**潜在変数** (latent variable)を$\mathbf{r} \in \mathbb{R}^{n_1}$とし、ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)。このとき、
 
 $$
-\boldsymbol{I} = f(U\boldsymbol{r}) + \boldsymbol{n} \tag{1}
+\mathbf{x} = f(\mathbf{U}\mathbf{r}) + \boldsymbol{\epsilon} \tag{1}
 $$
 
-が成立しているとする。ただし、$f(\cdot)$は活性化関数 (activation function)、$U \in \mathbb{R}^{n_0 \times n_1}$は重み行列である。$\boldsymbol{n} \in \mathbb{R}^{n_0} $は平均0, 分散 $\sigma^2$ のGaussian ノイズ項とする。
+が成立しているとする。ただし、$f(\cdot)$は活性化関数 (activation function)、$\mathbf{U} \in \mathbb{R}^{n_0 \times n_1}$は重み行列である。
+$\boldsymbol{\epsilon} \in \mathbb{R}^{n_0}$ は $\mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ からサンプリングされるとする。
 
-潜在変数 $\boldsymbol{r}$はさらに高次 (higher-level)の潜在変数 $\boldsymbol{r}^h$により、次式で表現される。
+潜在変数 $\mathbf{r}$はさらに高次 (higher-level)の潜在変数 $\mathbf{r}^h$により、次式で表現される。
 
 $$
-\boldsymbol{r} = \boldsymbol{r}^{td}+\boldsymbol{n}^{td}=f(U^h \boldsymbol{r}^h)+\boldsymbol{n}^{td} \tag{2}
+\mathbf{r} = \mathbf{r}^{td}+\boldsymbol{\epsilon}^{td}=f(\mathbf{U}^h \mathbf{r}^h)+\boldsymbol{\epsilon}^{td} \tag{2}
 $$
 
-ただし、Top-downの予測信号を $\boldsymbol{r}^{td}:=f(U^h \boldsymbol{r}^h)$とした。また、$\boldsymbol{r}^{td} \in \mathbb{R}^{n_1}$, $\boldsymbol{r}^{h} \in \mathbb{R}^{n_2}$, $U^h \in \mathbb{R}^{n_1 \times n_2}$ である。 $\boldsymbol{n}^{td} \in \mathbb{R}^{n_1} $は平均0, 分散 $\sigma_{td}^2$ のGaussian ノイズ項とする。
+ただし、Top-downの予測信号を $\mathbf{r}^{td}:=f(\mathbf{U}^h \mathbf{r}^h)$とした。また、$\mathbf{r}^{td} \in \mathbb{R}^{n_1}$, $\mathbf{r}^{h} \in \mathbb{R}^{n_2}$, $\mathbf{U}^h \in \mathbb{R}^{n_1 \times n_2}$ である。
+$\boldsymbol{\epsilon}^{td} \in \mathbb{R}^{n_1}$は$\mathcal{N}(\mathbf{0}$, $\sigma_{td}^2 \mathbf{I}$) からサンプリングされるとする。
 
 話は飛ぶが、Predictive codingのネットワークの特徴は
 - 階層的な構造
@@ -26,32 +28,52 @@ $$
 である。ここまでは高次表現による低次表現の予測、というFeedback信号について説明してきたが、この部分はSparse codingでも同じである。それではPredictive codingのもう一つの要となる、低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか。結論から言えば、これは**復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる**。
 
 ## 11.3.2 損失関数と学習則
-### 損失関数の設定
-前節では2層までのパラメータを最適化することを考えました、高次の活動も考慮して損失関数 $E$を次のように再定義する。
+### 事前分布の設定
+$\mathbf{r}$の事前分布$p(\mathbf{r})$はCauchy分布を用いる。$p(\mathbf{r})$の負の対数事前分布を$g(\mathbf{r}):=-\log p(\mathbf{r})$としておく。
 
 $$
 \begin{align}
-E=\underbrace{\frac{1}{\sigma^{2}}\|\boldsymbol{I}-f(U \boldsymbol{r})\|^2+\frac{1}{\sigma_{t d}^{2}}\left\|\boldsymbol{r}-f(U^h \boldsymbol{r}^h)\right\|^2}_{\text{reconstruction error}}+\underbrace{g(\boldsymbol{r})+g(\boldsymbol{r}^{h})+h(U)+h(U^h)}_{\text{sparsity penalty}}\tag{8}
+p(\mathbf{r})&=\prod_i p(r_i)=\prod_i \exp\left[-\alpha \ln(1+r_i^2)\right]\\
+g(\mathbf{r})&=-\ln p(\mathbf{r})=\alpha \sum_i \ln(1+r_i^2)\\
+g'(\mathbf{r})&=\frac{\partial g(\mathbf{r})}{\partial \mathbf{r}}=\left[\frac{2\alpha r_i}{1+r_i^2}\right]_i
 \end{align}
 $$
 
+次に重み行列$\mathbf{U}$の事前分布 $p(\mathbf{U})$はGaussian分布とする。$p(\mathbf{U})$の負の対数事前分布を$h(\mathbf{U}):=-\ln p(\mathbf{U})$とすると、次のように表される。
+
+$$
+\begin{align}
+p(\mathbf{U})&=\exp(-\lambda\|\mathbf{U}\|^2_F)\\
+h(\mathbf{U})&=-\ln p(\mathbf{U})=\lambda\|\mathbf{U}\|^2_F\\
+h'(\mathbf{U})&=\frac{\partial h(\mathbf{U})}{\partial \mathbf{U}}=2\lambda \mathbf{U}
+\end{align}
+$$
+
+ただし、$\|\cdot \| _ F^2$はフロベニウスノルムを意味する。
+
+### 損失関数の設定
+[11-2](https://compneuro-julia.github.io/11-2_sparse-coding.html)と同様に考えることにより、損失関数 $E$を次のように定義する。
+
+$$
+\begin{align}
+E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\frac{1}{\sigma_{t d}^{2}}\left\|\mathbf{r}-f(\mathbf{U}^h \mathbf{r}^h)\right\|^2}_{\text{reconstruction error}}+\underbrace{g(\mathbf{r})+g(\mathbf{r}^{h})+h(\mathbf{U})+h(\mathbf{U}^h)}_{\text{sparsity penalty}}\tag{4}
+\end{align}
+$$
 
 ### 再帰ネットワークの更新則
-簡単のために$\boldsymbol{x}:=U\boldsymbol{r}, \boldsymbol{x}^h:=U^h\boldsymbol{r}^h$とする。
+簡単のために$\mathbf{z}:=\mathbf{U}\mathbf{r}, \mathbf{z}^h:=\mathbf{U}^h\mathbf{r}^h$とする。
 
 $$
 \begin{align}
-\frac{d \boldsymbol{r}}{d t}&=-\frac{k_{1}}{2} \frac{\partial E}{\partial \boldsymbol{r}}=k_{1}\cdot\Bigg(\frac{1}{\sigma^{2}} U^{T}\bigg[\frac{\partial f(\boldsymbol{x})}{\partial \boldsymbol{x}}\odot\underbrace{(\boldsymbol{I}-f(\boldsymbol{x}))}_{\text{bottom-up error}}\bigg]-\frac{1}{\sigma_{t d}^{2}}\underbrace{\left(\boldsymbol{r}-f(\boldsymbol{x}^h)\right)}_{\text{top-down error}}-\frac{1}{2}g'(\boldsymbol{r})\Bigg)\tag{9}\\
-\frac{d \boldsymbol{r}^h}{d t}&=-\frac{k_{1}}{2} \frac{\partial E}{\partial \boldsymbol{r}^h}=k_{1}\cdot\Bigg(\frac{1}{\sigma_{t d}^{2}}(U^h)^T\bigg[\frac{\partial f(\boldsymbol{x}^h)}{\partial \boldsymbol{x}^h}\odot\underbrace{\left(\boldsymbol{r}-f(\boldsymbol{x}^h)\right)}_{\text{bottom-up error}}\bigg]-\frac{1}{2}g'(\boldsymbol{r}^h)\Bigg)\tag{10}
+\frac{d \mathbf{r}}{d t}&=-\frac{k_{1}}{2} \frac{\partial E}{\partial \mathbf{r}}=k_{1}\cdot\Bigg(\frac{1}{\sigma^{2}} \mathbf{U}^{T}\bigg[\frac{\partial f(\mathbf{z})}{\partial \mathbf{z}}\odot\underbrace{(\mathbf{x}-f(\mathbf{z}))}_{\text{bottom-up error}}\bigg]-\frac{1}{\sigma_{t d}^{2}}\underbrace{\left(\mathbf{r}-f(\mathbf{z}^h)\right)}_{\text{top-down error}}-\frac{1}{2}g'(\mathbf{r})\Bigg)\tag{5}\\
+\frac{d \mathbf{r}^h}{d t}&=-\frac{k_{1}}{2} \frac{\partial E}{\partial \mathbf{r}^h}=k_{1}\cdot\Bigg(\frac{1}{\sigma_{t d}^{2}}(\mathbf{U}^h)^T\bigg[\frac{\partial f(\mathbf{z}^h)}{\partial \mathbf{z}^h}\odot\underbrace{\left(\mathbf{r}-f(\mathbf{z}^h)\right)}_{\text{bottom-up error}}\bigg]-\frac{1}{2}g'(\mathbf{r}^h)\Bigg)\tag{6}
 \end{align}
 $$
 
-ただし、$k_1$は更新率 (updating rate)である。または、発火率の時定数を$\tau:=1/k_1$として、$k_1$は発火率の時定数$\tau$の逆数であると捉えることもできる。ここで(9)式において、中間表現 $\boldsymbol{r}$ のダイナミクスはbottom-up errorとtop-down errorで記述されている。このようにbottom-up errorが $\boldsymbol{r}$ への入力となることは自然に導出される。なお、top-down errorに関しては高次からの予測 (prediction)の項 $f(\boldsymbol{x}^h)$とleaky-integratorとしての項 $-\boldsymbol{r}$に分割することができる。また$U^T, (U^h)^T$は重み行列の転置となっており、bottom-upとtop-downの投射において対称な重み行列を用いることを意味している。$-g'(\boldsymbol{r})$は発火率を抑制してスパースにすることを目的とする項だが、無理やり解釈をすると自己再帰的な抑制と言える。
-
-using PyPlot
+ただし、$k_1$は更新率 (updating rate)である。または、発火率の時定数を$\tau:=1/k_1$として、$k_1$は発火率の時定数$\tau$の逆数であると捉えることもできる。ここで(5)式において、中間表現 $\mathbf{r}$ のダイナミクスはbottom-up errorとtop-down errorで記述されている。このようにbottom-up errorが $\mathbf{r}$ への入力となることは自然に導出される。なお、top-down errorに関しては高次からの予測 (prediction)の項 $f(\mathbf{x}^h)$とleaky-integratorとしての項 $-\mathbf{r}$に分割することができる。また$\mathbf{U}^T, (\mathbf{U}^h)^T$は重み行列の転置となっており、bottom-upとtop-downの投射において対称な重み行列を用いることを意味している。$-g'(\mathbf{r})$は発火率を抑制してスパースにすることを目的とする項だが、無理やり解釈をすると自己再帰的な抑制と言える。
 
 ### 画像データの読み込み
-データは<http://www.rctn.org/bruno/sparsenet/>からダウンロードできる。`IMAGES_RAW.mat`は10枚の自然画像で、`IMAGES.mat`はそれを白色化したものである。`mat`ファイルの読み込みには[MAT.jl](https://github.com/JuliaIO/MAT.jl)を用いる。
+11-2と同様にデータは<http://www.rctn.org/bruno/sparsenet/>からダウンロードできるファイルを用いる。
 
 using MAT
 
@@ -70,6 +92,7 @@ using LinearAlgebra
 using Random
 using Statistics
 using ProgressMeter
+using PyPlot
 
 モデルを定義する。
 
@@ -260,7 +283,7 @@ plot(1:size(moving_average_error)[1], moving_average_error)
 tight_layout()
 
 ### 重み行列 (受容野)の描画
-学習後の重み行列 `Phi` ($\Phi$)を可視化してみよう。
+学習後の重み行列 ($\mathbf{U}$)を可視化してみよう。
 
 # Plot Receptive fields
 figure(figsize=(6, 3))
@@ -270,10 +293,10 @@ for i in 1:32
     imshow(reshape(model.U[:, i], (16, 16)), cmap="gray")
     axis("off")
 end
-suptitle("Receptive fields", fontsize=14)
+suptitle("Receptive fields of level 1", fontsize=14)
 subplots_adjust(top=0.9)
 
-白色が**ON領域**(興奮)、黒色が**OFF領域**(抑制)を表す。Gaborフィルタ様の局所受容野が得られており、これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している。
+白色が**ON領域**(興奮)、黒色が**OFF領域**(抑制)を表す。Gaborフィルタ様の局所受容野が得られている。次に、Level2のニューロンの受容野は$\mathbf{U}$と$\mathbf{U}^h$の積を計算することで描画できる。
 
 # Plot Receptive fields of level 2
 zero_padding = zeros(80, 32)
