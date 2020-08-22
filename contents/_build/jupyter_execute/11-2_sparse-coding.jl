@@ -1,13 +1,13 @@
 # 11.2 Sparse coding (Olshausen & Field, 1996) ƒ‚ƒfƒ‹
 
 ## 11.2.1 Sparse coding‚Æ¶¬ƒ‚ƒfƒ‹
-Sparse codingƒ‚ƒfƒ‹([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))‚ÍV1‚Ìƒjƒ…[ƒƒ“‚Ì‰“š“Á«‚ğà–¾‚·‚é**üŒ`¶¬ƒ‚ƒfƒ‹** (linear generative model)‚Å‚ ‚éB‚Ü‚¸A‰æ‘œƒpƒbƒ` $\mathbf{x}$ ‚ªŠî’êŠÖ”(basis function) $\mathbf{\Phi} = [\phi_i]$ ‚ÌƒmƒCƒY‚ğŠÜ‚ŞüŒ`˜a‚Å•\‚³‚ê‚é‚Æ‚·‚é (ŒW”‚Í $\mathbf{r}=[r_i]$ ‚Æ‚·‚é)B
+Sparse codingƒ‚ƒfƒ‹([Olshausen & Field, *Nature*. 1996](https://www.nature.com/articles/381607a0))‚ÍV1‚Ìƒjƒ…[ƒƒ“‚Ì‰“š“Á«‚ğà–¾‚·‚é**üŒ`¶¬ƒ‚ƒfƒ‹** (linear generative model)‚Å‚ ‚éB‚Ü‚¸A‰æ‘œƒpƒbƒ` $\mathbf{x}$ ‚ªŠî’êŠÖ”(basis function) $\mathbf{\Phi} = [\phi_j]$ ‚ÌƒmƒCƒY‚ğŠÜ‚ŞüŒ`˜a‚Å•\‚³‚ê‚é‚Æ‚·‚é (ŒW”‚Í $\mathbf{r}=[r_j]$ ‚Æ‚·‚é)B
 
 $$
-\mathbf{x} = \sum_i r_i \phi_i +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon} \quad \tag{1}
+\mathbf{x} = \sum_j r_j \phi_j +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon} \quad \tag{1}
 $$
 
-‚½‚¾‚µA$\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ ‚Å‚ ‚éB‚±‚Ìƒ‚ƒfƒ‹‚ğ_Œoƒlƒbƒgƒ[ƒN‚Ìƒ‚ƒfƒ‹‚Æl‚¦‚é‚ÆA $\mathbf{\Phi}$ ‚Íd‚İs—ñAŒW” $\mathbf{r}$ ‚Í“ü—Í‚æ‚è‚à‚Ÿ‚Ì_Œo×–E‚ÌŠˆ“®“x‚ğ•\‚µ‚Ä‚¢‚é‚Æ‰ğß‚Å‚«‚éB‚½‚¾‚µA$r_i$ ‚Í•‰‚Ì’l‚àæ‚é‚Ì‚Å’Pƒ‚É”­‰Î—¦‚Æ‘¨‚¦‚ç‚ê‚È‚¢‚Ì‚Í‚±‚Ìƒ‚ƒfƒ‹‚ÌŒ‡“_‚Å‚ ‚éB
+‚½‚¾‚µA$\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ ‚Å‚ ‚éB‚±‚Ìƒ‚ƒfƒ‹‚ğ_Œoƒlƒbƒgƒ[ƒN‚Ìƒ‚ƒfƒ‹‚Æl‚¦‚é‚ÆA $\mathbf{\Phi}$ ‚Íd‚İs—ñAŒW” $\mathbf{r}$ ‚Í“ü—Í‚æ‚è‚à‚Ÿ‚Ì_Œo×–E‚ÌŠˆ“®“x‚ğ•\‚µ‚Ä‚¢‚é‚Æ‰ğß‚Å‚«‚éB‚½‚¾‚µA$r_j$ ‚Í•‰‚Ì’l‚àæ‚é‚Ì‚Å’Pƒ‚É”­‰Î—¦‚Æ‘¨‚¦‚ç‚ê‚È‚¢‚Ì‚Í‚±‚Ìƒ‚ƒfƒ‹‚ÌŒ‡“_‚Å‚ ‚éB
 
 Sparse coding‚Å‚Í_ŒoŠˆ“® $\mathbf{r}$ ‚ªöİ•Ï”‚Ì„’è—Ê‚ğ•\Œ»‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‰¼’è‚Ì‰ºA­”‚ÌŠî’ê‚Å‰æ‘œ (‚â–Ú“I•Ï”)‚ğ•\‚·‚±‚Æ‚ğ–Ú“I‚Æ‚·‚éB—v‚Íã®‚É‚¨‚¢‚ÄA‚Ù‚Æ‚ñ‚Ç‚ª0‚ÅAˆê•”‚¾‚¯0ˆÈŠO‚Ì’l‚ğæ‚é‚Æ‚¢‚¤‘a (=sparse)‚ÈŒW”$\mathbf{r}$‚ğ‹‚ß‚½‚¢B
 
@@ -18,7 +18,7 @@ Sparse coding‚Å‚Í_ŒoŠˆ“® $\mathbf{r}$ ‚ªöİ•Ï”‚Ì„’è—Ê‚ğ•\Œ»‚µ‚Ä‚¢‚é‚Æ‚¢‚¤‰¼’
 ```
 ````
 
-“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z‚ğ$p^*(\mathbf{x})$, d‚İ$\mathbf{\Phi}$‚Ìƒ‚ƒfƒ‹‚©‚ç¶¬‚³‚ê‚é$\mathbf{x}$‚Ì•ª•z‚ğ$p(\mathbf{x}|\mathbf{\Phi})$‚Æ‚·‚éB‚³‚ç‚Éöİ•Ï” $\mathbf{r}$‚Ì–‘O•ª•z (prior)‚ğ$p(\mathbf{r})$, ‰æ‘œƒpƒbƒ` $\mathbf{x}$‚Ì–Ş“x (likelihood)‚ğ$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$‚Æ‚·‚éB‚±‚Ì‚Æ‚«A
+“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ` $\mathbf{x}_i\ (i=1, \cdots, N)$ ‚Ì^‚Ì•ª•z‚ğ $p_{data}(\mathbf{x})$ ‚Æ‚·‚éB‚Ü‚½A$\mathbf{x}$ ‚Ì¶¬ƒ‚ƒfƒ‹‚ğ $p(\mathbf{x}|\mathbf{\Phi})$ ‚Æ‚·‚éB‚³‚ç‚Éöİ•Ï” $\mathbf{r}$ ‚Ì–‘O•ª•z (prior)‚ğ $p(\mathbf{r})$, ‰æ‘œƒpƒbƒ` $\mathbf{x}$ ‚Ì–Ş“x (likelihood)‚ğ $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$ ‚Æ‚·‚éB‚±‚Ì‚Æ‚«A
 
 $$
 p(\mathbf{x}|\mathbf{\Phi})=\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r} \quad \tag{2}
@@ -37,8 +37,8 @@ $$
 
 $$
 \begin{align}
-p(\mathbf{r})&=\prod_i p(r_i) \quad \tag{4}\\
-p(r_i)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_i)\right] \quad \tag{5}
+p(\mathbf{r})&=\prod_j p(r_j) \quad \tag{4}\\
+p(r_j)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right] \quad \tag{5}
 \end{align}
 $$
 
@@ -78,55 +78,67 @@ xlabel(L"$x$")
 tight_layout()
 
 ## 11.2.2 –Ú“IŠÖ”‚Ìİ’è‚ÆÅ“K‰»
-Å“K‚È¶¬ƒ‚ƒfƒ‹‚ğ“¾‚é‚½‚ß‚ÉA“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z $p^*(\mathbf{x})$‚Æ¶¬‚³‚ê‚é$\mathbf{x}$‚Ì•ª•z $p(\mathbf{x}|\mathbf{\Phi})$‚ğ‹ß‚Ã‚¯‚éB‚±‚Ì‚½‚ß‚ÉA2‚Â‚Ì•ª•z‚ÌKullback-Leibler ƒ_ƒCƒo[ƒWƒFƒ“ƒX $D_{\text{KL}}\left(p^*(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$‚ğÅ¬‰»‚·‚éB‚½‚¾‚µA
+Å“K‚È¶¬ƒ‚ƒfƒ‹‚ğ“¾‚é‚½‚ß‚ÉA“ü—Í‚³‚ê‚é‰æ‘œƒpƒbƒ`‚Ì^‚Ì•ª•z $p_{data}(\mathbf{x})$‚Æ$\mathbf{x}$‚Ì¶¬ƒ‚ƒfƒ‹ $p(\mathbf{x}|\mathbf{\Phi})$‚ğ‹ß‚Ã‚¯‚éB‚±‚Ì‚½‚ß‚ÉA2‚Â‚Ì•ª•z‚ÌKullback-Leibler ƒ_ƒCƒo[ƒWƒFƒ“ƒX $D_{\text{KL}}\left(p_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$‚ğÅ¬‰»‚µ‚½‚¢B‚µ‚©‚µA^‚Ì•ª•z‚Í“¾‚ç‚ê‚È‚¢‚Ì‚ÅAŒoŒ±•ª•z 
+
+$$
+\hat{p}_{data}(\mathbf{x}):=\frac{1}{N}\sum_{i=1}^N \delta(\mathbf{x}-\mathbf{x}_i) \tag{6}
+$$
+
+‚ğ‹ß—‚Æ‚µ‚Ä—p‚¢‚é ($\delta(\cdot)$ ‚ÍDirac‚Ìƒfƒ‹ƒ^ŠÖ”‚Å‚ ‚é)B‚ä‚¦‚É$D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$‚ğÅ¬‰»‚·‚éB
 
 $$
 \begin{align}
-D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))&=\int p^*(\mathbf{x}) \log \frac{p^*(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
-&=\mathbb{E}_{p^*} \left[\ln \frac{p^*(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
-&=\mathbb{E}_{p^*} \left[\ln p^*(\mathbf{x})\right]-\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{6}
+D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)&=\int \hat{p}_{data}(\mathbf{x}) \log \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
+&=\mathbb{E}_{\hat{p}_{data}} \left[\ln \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
+&=\mathbb{E}_{\hat{p}_{data}} \left[\ln \hat{p}_{data}(\mathbf{x})\right]-\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right] \tag{7}
 \end{align}
 $$
 
-‚ª¬‚è—§‚ÂB(6)®‚Ì1”Ô–Ú‚Ì€‚Íˆê’è‚È‚Ì‚ÅA$D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))$‚ğÅ¬‰»‚·‚é‚É‚Í$\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$‚ğÅ‘å‰»‚·‚ê‚Î‚æ‚¢B‚±‚±‚ÅA2‚Â‚Ì‹ß—‚ğs‚¤B‚Ü‚¸Aˆê”Ô–Ú‚Ì‹ß—‚Æ‚µ‚Ä $\mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$ ‚Ì’l‚ğ $\ln p(\mathbf{x}|\mathbf{\Phi})$ ‚Å•]‰¿‚·‚éB‚³‚ç‚É(2)®‚æ‚èA
+‚ª¬‚è—§‚ÂB(7)®‚Ì1”Ô–Ú‚Ì€‚Íˆê’è‚È‚Ì‚ÅA$D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$ ‚ğÅ¬‰»‚·‚é‚É‚Í$\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$‚ğÅ‘å‰»‚·‚ê‚Î‚æ‚¢B‚±‚±‚ÅA
 
 $$
-\ln p(\mathbf{x}|\mathbf{\Phi})=\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}\tag{7}
+\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]=\sum_{i=1}^N \hat{p}_{data}(\mathbf{x}_i)\ln p(\mathbf{x}_i|\mathbf{\Phi})=\frac{1}{N}\sum_{i=1}^N \ln p(\mathbf{x}_i|\mathbf{\Phi}) \tag{8}
 $$
 
-‚ª¬‚è—§‚Â‚Ì‚ÅA“ñ”Ô–Ú‚Ì‹ß—‚Æ‚µ‚Ä $\displaystyle \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}$ ‚ğ $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)$ ‚Å•]‰¿‚·‚éB‚±‚ê‚ç‚Ì‹ß—‚Ì‰ºAÅ“K‚È$\mathbf{\Phi}=\mathbf{\Phi}^*$‚ÍŸ‚Ì‚æ‚¤‚É‚µ‚Ä‹‚ß‚ç‚ê‚éB
+‚ª¬‚è—§‚ÂB‚Ü‚½A(2)®‚æ‚è
+
+$$
+\ln p(\mathbf{x}|\mathbf{\Phi})=\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}
+$$
+
+‚ª¬‚è—§‚Â‚Ì‚ÅA‹ß—‚Æ‚µ‚Ä $\displaystyle \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}$ ‚ğ $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)$ ‚Å•]‰¿‚·‚éB‚±‚ê‚ç‚Ì‹ß—‚Ì‰ºAÅ“K‚È$\mathbf{\Phi}=\mathbf{\Phi}^*$‚ÍŸ‚Ì‚æ‚¤‚É‚µ‚Ä‹‚ß‚ç‚ê‚éB
 
 $$
 \begin{align}
-\mathbf{\Phi}^*&=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}(p^*(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi}))\\
-&=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_{p^*} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
-&\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{\Phi})\\
-&\approx \text{arg} \max_{\mathbf{\Phi}}\max_{\mathbf{r}} \ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
-&=\text{arg}\min_{\mathbf{\Phi}} \min_{\mathbf{r}}\ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\tag{8}
+\mathbf{\Phi}^*&=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi})\right)\\
+&=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
+&= \text{arg} \max_{\mathbf{\Phi}}\sum_{i=1}^N \max_{\mathbf{r}_i} \ln p(\mathbf{x}_i|\mathbf{\Phi})\\
+&\approx \text{arg} \max_{\mathbf{\Phi}}\sum_{i=1}^N \max_{\mathbf{r}_i} \ln p(\mathbf{x}_i|\mathbf{r}_i, \mathbf{\Phi})p(\mathbf{r}_i)\\
+&=\text{arg}\min_{\mathbf{\Phi}} \sum_{i=1}^N \min_{\mathbf{r}_i}\ E(\mathbf{x}_i, \mathbf{r}_i|\mathbf{\Phi})\tag{9}
 \end{align}
 $$
 
-‚½‚¾‚µA$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$‚ÍƒRƒXƒgŠÖ”‚Å‚ ‚èAŸ®‚Ì‚æ‚¤‚É•\‚³‚ê‚éB
+‚½‚¾‚µA$\mathbf{x}_i$‚É‘Î‚·‚é_ŒoŠˆ“®‚ğ $\mathbf{r}_i$‚Æ‚µ‚½B‚Ü‚½A$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$‚ÍƒRƒXƒgŠÖ”‚Å‚ ‚èAŸ®‚Ì‚æ‚¤‚É•\‚³‚ê‚éB
 
 $$
 \begin{align}
 E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
-=&\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_i S\left(r_i\right)}_{\text{sparseness of}\ r_i}\tag{9}
+=&\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_j S\left(r_j\right)}_{\text{sparseness of}\ r_j}\tag{10}
 \end{align}
 $$
 
-‚½‚¾‚µA$\lambda=2\sigma^2\beta$‚Í³‘¥‰»ŒW”[^lam]‚Å‚ ‚èA1s–Ú‚©‚ç2s–Ú‚Ö‚Í®(3), (4), (5)‚ğ—p‚¢‚½B‚±‚±‚ÅA‘æ1€‚ª•œŒ³‘¹¸A‘æ2€‚ª”±‘¥€ (³‘¥‰»€)‚Æ‚È‚Á‚Ä‚¢‚éB‚æ‚Á‚Ä $E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$ ‚ğÅ¬‰»‚·‚é‚æ‚¤‚È $\mathbf{r}$ ‚Æ $\mathbf{\Phi}$ ‚ğ‹‚ß‚éB
+‚½‚¾‚µA$\lambda=2\sigma^2\beta$‚Í³‘¥‰»ŒW”[^lam]‚Å‚ ‚èA1s–Ú‚©‚ç2s–Ú‚Ö‚Í®(3), (4), (5)‚ğ—p‚¢‚½B‚±‚±‚ÅA‘æ1€‚ª•œŒ³‘¹¸A‘æ2€‚ª”±‘¥€ (³‘¥‰»€)‚Æ‚È‚Á‚Ä‚¢‚éB
 
-‚±‚±‚ÅA$n$ ”Ô–Ú‚Ì‰æ‘œƒpƒbƒ`‚ğ$\mathbf{x}_n$‚Æ‚µAŠwKƒf[ƒ^‚ğ $\mathbf{X}={\mathbf{x}_1, \cdots, \mathbf{x}_N}$‚Æ‚·‚éB‚³‚ç‚É$\mathbf{x}_n$‚É‘Î‚·‚é_ŒoŠˆ“®‚ğ $\mathbf{r}_n$‚Æ‚·‚éB‚Ü‚¸A $\mathbf{\Phi}$‚ğŒÅ’è‚µ‚½‰º‚Å$E(\mathbf{x}_n, \mathbf{r}_n|\mathbf{\Phi})$‚ğÅ¬‰»‚·‚é$\mathbf{r}_n=\hat{\mathbf{r}}_n$‚ğ‹‚ß‚é ([11.1.3](#locally-competitive-algorithm-lca))B
+®(9)‚Å•\‚³‚ê‚éÅ“K‰»è‡‚ğÅ“K‚È$\mathbf{r}$‚Æ$\mathbf{\Phi}$‚ğ‹‚ß‚é‰ß’ö‚É•ªŠ„‚µ‚æ‚¤B‚Ü‚¸A $\mathbf{\Phi}$‚ğŒÅ’è‚µ‚½‰º‚Å$E(\mathbf{x}_n, \mathbf{r}_i|\mathbf{\Phi})$‚ğÅ¬‰»‚·‚é$\mathbf{r}_i=\hat{\mathbf{r}}_i$‚ğ‹‚ß‚é ([11.1.3](#locally-competitive-algorithm-lca))B
 
 $$
-\hat{\mathbf{r}}_n=\text{arg}\min_{\mathbf{r}_n}E(\mathbf{x}_n, \mathbf{r}_n|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{r}_n}p(\mathbf{r}_n|\mathbf{x}_n)\right)
+\hat{\mathbf{r}}_i=\text{arg}\min_{\mathbf{r}_i}E(\mathbf{x}_i, \mathbf{r}_i|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{r}_i}p(\mathbf{r}_i|\mathbf{x}_i)\right)
 $$
 
 ‚±‚ê‚Í $\mathbf{r}$ ‚É‚Â‚¢‚Ä **MAP„’è** (maximum a posteriori estimation)‚ğs‚¤‚±‚Æ‚É“™‚µ‚¢BŸ‚É$\hat{\mathbf{r}}$‚ğ—p‚¢‚Ä
 
 $$
-\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}} \frac{1}{N}\sum_{n=1}^N E(\mathbf{x}_n, \hat{\mathbf{r}}_n|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{\Phi}} \prod_{n=1}^N p(\mathbf{x}_n|\mathbf{r}_n, \mathbf{\Phi})\right)
+\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}} \sum_{i=1}^N E(\mathbf{x}_i, \hat{\mathbf{r}}_i|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{\Phi}} \prod_{i=1}^N p(\mathbf{x}_i|\hat{\mathbf{r}}_i, \mathbf{\Phi})\right)
 $$
 
 ‚Æ‚·‚é‚±‚Æ‚É‚æ‚èA$\mathbf{\Phi}$‚ğÅ“K‰»‚·‚é ([11.1.4](#id6))B‚±‚¿‚ç‚Í $\mathbf{\Phi}$ ‚É‚Â‚¢‚Ä **Å–Ş„’è** (maximum likelihood estimation)‚ğs‚¤‚±‚Æ‚É“™‚µ‚¢B
