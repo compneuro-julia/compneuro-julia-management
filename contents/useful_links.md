@@ -17,6 +17,7 @@
 ## ワークショップの資料
 - [Neuromatch Academy Tutorial](https://github.com/NeuromatchAcademy/course-content/tree/master/tutorials)：Pythonのnotebookと講義動画が大変よくまとまっている (このサイトを作るのを辞めようと思ったほど)。
 - [neurotheory-seminar-2019](https://github.com/RainerEngelken/neurotheory-seminar-2019)：一部、スライドとコードが公開されている。
+- [Computational Psychiatry Course](https://www.translationalneuromodeling.org/cpcourse/)：[code](https://bitbucket.org/fpetzschner/workspace/projects/CPC)
 
 ## その他
 - [Insights from the brain: The road towards Machine Intelligence](https://www.insightsfromthebrain.com/)：神経科学と人工知能の関連についてまとまった資料。

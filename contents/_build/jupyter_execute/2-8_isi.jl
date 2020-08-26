@@ -280,7 +280,7 @@ function GammaISIplot(dt, fr, k, n=1000)
     plot!(p, minimum(isi):maximum(isi), gamma_pdf, color="black")
 end
 
-結果を尿がする。上段はISIの分布、下段はラスタープロットである。左の$k=1$の場合をポアソン過程モデルのスパイク列と比較しよう (同じ外観になっていることが分かる)。右は$k=12$とした場合である。
+結果を描画する。上段はISIの分布、下段はラスタープロットである。左の$k=1$の場合をポアソン過程モデルのスパイク列と比較しよう (同じ外観になっていることが分かる)。右は$k=12$とした場合である。
 
 p1 = GammaISIplot(dt, fr, 1)
 p2 = GammaISIplot(dt, fr, 12)
