@@ -78,7 +78,7 @@ mybookname/
 
 このうち、Markdownファイル (.md)とJupyter notebookファイル (.ipynb)および参考文献を記述するためのBiBTeXファイル(.bib)が実際のサイトの元ファイルとなる。`_config.yml`はサイトの情報を指定するファイルであり、`_toc.yml`はサイトの構成を指定するファイルである。また、ディレクトリとファイルの構成例として`quantecon-mini-example` ([Github pages](https://executablebooks.github.io/quantecon-mini-example/docs/index.html), [Github](https://github.com/executablebooks/quantecon-mini-example)) が用意されている。
 
-Jupyter bookの機能を確認する場合は先に "8. サイトのbuild" を参照。
+Jupyter bookの機能を確認する場合は先に [8. サイトのbuild](#build)を参照。
 
 ### 6. `_config.yml`にサイトの情報を記述
 [Configure book settings](https://jupyterbook.org/customize/config.html)を参照。サイトの名前、著者、ロゴ、リポジトリへのリンク、colabで立ち上げるボタンの追加、など様々なことが設定できる。
@@ -95,7 +95,7 @@ jb build mybookname
 
 によりbuildする。このとき、Jupyter notebookはbuild時に実行される。Ijulia.jlが入っていなかったり、実行不可能であればエラーが生じる。build完了後、`./build/html`というディレクトリの下に他の依存ファイルを含めたサイトのHTMLが生成される。
 
-### 8. GitHub pagesでサイトを公開する
+### 9. GitHub pagesでサイトを公開する
 `./build/html`の中身を同じリポジトリの`gh-pages`ブランチにcommitするか、別のリポジトリを用意してcommitする。本サイトの場合はコンテンツの管理は<https://github.com/compneuro-julia/compneuro-julia-management>で、サイトのホスティングは<https://github.com/compneuro-julia/compneuro-julia.github.io>で行っている。
 
 なお、GitHub pagesはデフォルトではJekyllで処理されるので、`.nojekyll`という名前の空ファイルを作成しておく (空ファイルだとuploadされない場合もあるので注意)。
@@ -118,6 +118,25 @@ Jupyter bookは通常のMarkdown記法に加え、**MyST** (Markedly Structured 
 ```
 
 これはMarkdownファイルにも、Jupyter notebookのMarkdown cellにも記述できる。詳細は[MyST Markdown Overview](https://jupyterbook.org/content/myst.html)や[MyST Cheat Sheet](https://jupyterbook.org/reference/cheatsheet.html)などを参照 (特に後者はMySTでどのようなことができるか一目でわかる)。
+
+### 数式について
+通常のMarkdownやJupyter notebookと同様に行える。次のように入力すれば
+
+```tex
+$$
+F(\omega) = \cfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}f(t)e^{i\omega t}dt
+$$
+```
+
+以下のように出力される。
+
+$$
+F(\omega) = \cfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}f(t)e^{i\omega t}dt
+$$
+
+### 入力・出力を隠す
+Jupyter notebookのcellのtagを変更してcellの入力や出力を隠すことができる。詳細は[Hiding cell contents](https://myst-nb.readthedocs.io/en/latest/use/hiding.html)。
+
 
 
 ## Syntax highlightingについて

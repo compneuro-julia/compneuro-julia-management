@@ -92,9 +92,11 @@ pre span.nd {color: #8BDF4C !important}
 pre span.c {color: #9dabae !important}
 pre span.c1 {color: #9dabae !important}
 pre span.s {color: #41b7d7 !important}
+pre span.sb {color: #41b7d7 !important}
 pre span.s2 {color: #41b7d7 !important}
 pre span.sa {color: #f8f8f2 !important}
 pre span.s1 {color: #f8f8f2 !important}
+pre span.m {color: #f8f8f2 !important}
 
 code {
   color: #252525!important;

@@ -7,7 +7,7 @@ HHモデルには等価な電気回路モデルがあり, **膜の並列等価�
 
 **イオンチャネル** (ion channel)は特定のイオン(例えばナトリウムイオンやカリウムイオンなど)を選択的に通す膜輸送体の一種である。それぞれのイオンの種類において, 異なるイオンチャネルがある (同じイオンでも複数の種類のイオンチャネルがある)。また, イオンチャネルにはイオンの種類に応じて異なる**コンダクタンス**(抵抗の逆数で電流の「流れやすさ」を意味する)と**平衡電位**(equilibrium potential)がある。HHモデルでは, ナトリウム(Na$^{+}$)チャネル, カリウム(K$^{+}$)チャネル, 漏れ電流(leak current)のイオンチャネルを仮定する。漏れ電流のイオンチャネルは当時特定できなかったチャネルで, 膜から電流が漏れ出すチャネルを意味する。なお, 現在では漏れ電流の多くはCl$^{-}$イオン(chloride ion)によることが分かっている。
 
-```{figure} ./_static/images/chapter2/parallel_conductance_model.JPG
+```{figure} ../_static/images/chapter2/parallel_conductance_model.JPG
 ---
 width: 300px
 name: parallel_conductance_model
