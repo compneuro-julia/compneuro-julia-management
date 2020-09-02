@@ -72,6 +72,7 @@ Julia 1.5.0
 - [付録](https://compneuro-julia.github.io/appendix/appendix_intro.html)
 	- [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
 	- [有用なリンク集](https://compneuro-julia.github.io/appendix/useful_links.html)
+	- [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage_jupyter_book.html)
 
 
 ***

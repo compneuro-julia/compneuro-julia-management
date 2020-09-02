@@ -73,6 +73,7 @@ div.highlight pre{
     font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace!important;
 }
 
+pre {color: #f8f8f2}
 pre span.n {color: #f8f8f2 !important}
 pre span.nn {color: #f8f8f2 !important}
 pre span.kn {color: #ebd247 !important}

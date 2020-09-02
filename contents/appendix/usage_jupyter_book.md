@@ -106,14 +106,14 @@ jb build mybookname
 Jupyter bookは通常のMarkdown記法に加え、**MyST** (Markedly Structured Text)と呼ばれる形式のMarkdown記法に対応している。例えば
 
 ````
-​```{note}
+```{note}
 これはノートです。
 ```
 ````
 
 と記述すれば次のように変換される。
 
-​```{note}
+```{note}
 これはノートです。
 ```
 
