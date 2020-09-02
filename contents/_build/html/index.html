@@ -1,0 +1,429 @@
+
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Juliaで学ぶ計算論的神経科学 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css" integrity="sha384-KA6wR/X5RY4zFAHpv/CnoG2UW1uogYfdnP67Uv7eULvTveboZJg0qUpmJZb5VqzN" crossorigin="anonymous">
+    <link href="_static/css/index.css" rel="stylesheet">
+    <link rel="stylesheet" href="_static/sphinx-book-theme.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-dropdown.css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/custom.js"></script>
+    <script src="_static/sphinx-book-theme.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/index.html" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="まえがき" href="preface.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="docsearch:language" content="en">
+
+
+<!-- Opengraph tags -->
+<meta property="og:url"         content="https://compneuro-julia.github.io/index.html" />
+<meta property="og:type"        content="article" />
+<meta property="og:title"       content="Juliaで学ぶ計算論的神経科学" />
+<meta property="og:description" content="Juliaで学ぶ計算論的神経科学  このサイトは計算論的神経科学 (Computational Neuroscience) をプログラミング言語 Juliaを通して学習することを目標とします。  内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)。  " />
+<meta property="og:image"       content="https://compneuro-julia.github.io/_static/logo.svg" />
+
+<meta name="twitter:card" content="summary" />
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="#">
+  
+  <img src="_static/logo.svg" class="logo" alt="logo">
+  
+  
+  <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+  
+</a>
+</div>
+
+<form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form>
+
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+  <ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="#">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chap1/1_intro.html">
+   1. はじめに
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chap2/2_intro.html">
+   2. 神経細胞のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chap3/3_intro.html">
+   3. シナプス伝達のモデル
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chap11/11_intro.html">
+   11. ベイズ脳仮説
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="chap12/12_intro.html">
+   12. 強化学習
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="appendix/appendix_intro.html">
+   付録
+  </a>
+ </li>
+</ul>
+
+</nav>
+
+ <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="row topbar fixed-top container-xl">
+    <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show">
+    </div>
+    <div class="col pl-2 topbar-main">
+        
+        <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+            data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+            aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+            title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+            <i class="fas fa-bars"></i>
+            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-up"></i>
+        </button>
+        
+        <div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/index.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+    
+</div>
+        <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/index.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+
+        <!-- Full screen (wrap in <a> to have style consistency -->
+        <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                data-placement="bottom" onclick="toggleFullScreen()" title="Fullscreen mode"><i
+                    class="fas fa-expand"></i></button></a>
+
+        <!-- Launch buttons -->
+
+    </div>
+
+    <!-- Table of contents -->
+    <div class="d-none d-md-block col-md-2 bd-toc show">
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i> Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   目次
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spiking-neural-networks">
+   『ゼロから作るSpiking Neural Networks』について
+  </a>
+ </li>
+</ul>
+
+        </nav>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="julia">
+<h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h1>
+<p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目標とします。</p>
+<p>内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)。</p>
+<div class="admonition-julia admonition">
+<p class="admonition-title">記事で使用しているJuliaのバージョン</p>
+<p>Julia 1.5.0</p>
+</div>
+<div class="section" id="id1">
+<h2>目次<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/intro.html">まえがき</a></p></li>
+</ul>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap1/1_intro.html">はじめに</a></p>
+<ol class="simple">
+<li><p>計算論的神経科学とは何か</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap1/notation.html">記号の表記</a></p></li>
+</ol>
+</li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap2/2_intro.html">神経細胞のモデル</a></p>
+<ol class="simple">
+<li><p>神経細胞の形態と膜電位変化</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap2/2-2_hodgkinhuxley.html">Hodgkin-Huxleyモデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap2/2-3_fhn.html">FitzHugh–Nagumoモデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap2/2-4_lif.html">Leaky integrate-and-fire モデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap2/2-5_iz.html">Izhikevich モデル</a></p></li>
+<li><p>ケーブル理論</p></li>
+<li><p>Multi-compartment モデル</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap2/2-8_isi.html">Inter-spike interval モデル</a></p></li>
+<li><p>確率的シナプス電流のノイズによる表現 (Langevin方程式 etc.)</p></li>
+<li><p>確率的集団モデル (Fokker–Planck 方程式)</p></li>
+<li><p>発火率モデル</p></li>
+</ol>
+</li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap3/3_intro.html">シナプス伝達のモデル</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap3/3-1_synapse.html">シナプス伝達</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap3/3-2_current-conductance-synapse.html">Current-based vs Conductance-based シナプス</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap3/3-3_expo-synapse.html">指数関数型シナプスモデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap3/3-4_kinetic-synapse.html">動力学モデル</a></p></li>
+<li><p>増強シナプスと減衰シナプス</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap3/3-6_synaptic-weighted.html">シナプス入力の重みづけ</a></p></li>
+<li><p>電気シナプス</p></li>
+</ol>
+</li>
+<li><p>神経回路網の構築 (発火率モデル)</p></li>
+<li><p>神経回路網の構築 (Spikingモデル)</p></li>
+<li><p>神経回路網の演算処理</p></li>
+<li><p>神経回路網の学習則</p>
+<ol class="simple">
+<li><p>学習則と貢献度分配問題 (credit assignment problem)</p></li>
+<li><p>Hebb則</p></li>
+<li><p>STDP則</p></li>
+<li><p>Burst発火と可塑性</p></li>
+<li><p>競合学習 (competitive learning)</p></li>
+<li><p>勾配法と誤差逆伝播法 (backpropagation)</p></li>
+<li><p>誤差逆伝播法の近似手法</p></li>
+<li><p>経時的貢献度分配問題 (temporal credit assignment problem)</p></li>
+<li><p>RTRLとBPTT</p></li>
+<li><p>適格度トレース (eligibility trace) とRTRLの近似手法</p></li>
+<li><p>Reservoir computing (FORCE etc.)</p></li>
+</ol>
+</li>
+<li><p>神経系の非線形ダイナミクス</p></li>
+<li><p>連想記憶モデル</p>
+<ol class="simple">
+<li><p>Ising モデル</p></li>
+<li><p>Amari-Hopfield モデル</p></li>
+<li><p>Boltzmann machine</p></li>
+</ol>
+</li>
+<li><p>情報理論と最適化原理</p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap11/11_intro.html">ベイズ脳仮説</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap11/11-1_bayes_statistics.html">ベイズ統計の基礎</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap11/11-2_sparse-coding.html">Sparse coding (Olshausen &amp; Field, 1996) モデル</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap11/11-3_predictive-coding-rao.html">Predictive coding (Rao &amp; Ballard, 1999) モデル</a></p></li>
+</ol>
+</li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap12/12_intro.html">強化学習</a></p>
+<ol class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/chap12/12-1_td_learning.html">TD学習</a></p></li>
+<li><p>分布型TD学習</p></li>
+</ol>
+</li>
+<li><p>運動制御</p>
+<ol class="simple">
+<li><p>躍度最小モデルとトルク変化最小モデル</p></li>
+<li><p>終点誤差分散最小モデル</p></li>
+<li><p>最適フィードバック制御モデル (optimal feedback control; OFC)</p></li>
+</ol>
+</li>
+<li><p>時空間の符号化</p></li>
+<li><p>神経細胞の形態と数理モデル</p></li>
+</ol>
+<ul class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/appendix_intro.html">付録</a></p>
+<ul>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/tips.html">JuliaのTips集</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/useful_links.html">有用なリンク集</a></p></li>
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/usage_jupyter_book.html">Jupyter bookの使い方 (Julia言語版)</a></p></li>
+</ul>
+</li>
+</ul>
+</div>
+<hr class="docutils" />
+<div class="section" id="spiking-neural-networks">
+<h2>『ゼロから作るSpiking Neural Networks』について<a class="headerlink" href="#spiking-neural-networks" title="Permalink to this headline">¶</a></h2>
+<p>『<strong>ゼロから作るSpiking Neural Networks</strong>』 (通称：SNN本) は<strong>Python</strong>でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です。本サイトはこの本をベースとして作成しています。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入いただければと思います。なお、物理本は完売し、再販の予定はありません。</p>
+<div class="admonition-spiking-neural-networkslinks admonition">
+<p class="admonition-title">『ゼロから作るSpiking Neural Networks』Links</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://compneuro-julia.github.io/_static/pdf/SNN_from_scratch_with_python_ver2_1.pdf">pdf</a> (Ver. 2.1)</p></li>
+<li><p><a class="reference external" href="https://github.com/takyamamoto/SNN-from-scratch-with-Python">GitHub</a></p></li>
+<li><p><a class="reference external" href="https://booth.pm/ja/items/1585421">BOOTH</a></p></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        </div>
+    </div>
+    
+    
+    <div class='prev-next-bottom'>
+        
+    <a class='right-next' id="next-link" href="preface.html" title="next page">まえがき</a>
+
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    <script src="_static/js/index.js"></script>
+    
+    <!-- Google Analytics -->
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-172979897-1', 'auto');
+      ga('set', 'anonymizeIp', true);
+      ga('send', 'pageview');
+    </script>
+    <script async src='https://www.google-analytics.com/analytics.js'></script>
+    <!-- End Google Analytics -->
+    
+  </body>
+</html>
