@@ -27,11 +27,13 @@ using ProgressMeter
 train_x, _ = MNIST.traindata()
 size(train_x)
 
+figure(figsize=(4, 1.5))
 for i in 1:4
     subplot(1,4,i)
     imshow(train_x[:, :, i]', cmap="gray")
     axis("off")
 end
+tight_layout()
 
 num_data = 100
 input_size = 28*28
@@ -128,17 +130,20 @@ num_testdata = 4
 testdata = data[1:num_testdata, :] + noise_scale * randn(num_testdata, input_size)
 testdata[:, num_see+1:num_v] .= 0.5
 
+figure(figsize=(4, 1.5))
 for i in 1:4
     subplot(1,4,i)
     imshow(reshape(testdata[i, :], (width, width))', cmap="gray")
     axis("off")
 end
+tight_layout()
 
 energy(v, h) = -v' * vbias - h' * hbias - h' * W * v
 # free_energy(v) = -v' * vbias .- sum(log.(1 .+ exp.(W * v + hbias)))
 
 # Results of Test data
 energy_arr = zeros(num_testdata, num_draws_test)
+figure(figsize=(4, 1.5))
 
 for i in 1:num_testdata
     v = 0.5 * ones(num_v, 1) # init state
@@ -146,8 +151,8 @@ for i in 1:num_testdata
     sum_v = zeros(num_v, 1)
     for j in 1:num_draws_test
         v[1:num_see, 1] = testdata[i, 1:num_see]'
-        h = floor.(sigmoid.(W * v + hbias) + rand(num_h, 1))
-        v = floor.(sigmoid.(W' * h + vbias) + rand(num_v, 1))
+        h = 1.0f0 * (sigmoid.(W * v + hbias) .≥ rand(num_h, 1))
+        v = 1.0f0 * (sigmoid.(W' * h + vbias) .≥ rand(num_v, 1))
         sum_v += v
         energy_arr[i, j] = energy(v, h)[1]
     end
@@ -158,6 +163,8 @@ for i in 1:num_testdata
     imshow(reshape(sum_v, (width, width))', cmap="gray")
     axis("off")
 end
+
+tight_layout()
 
 エネルギーの変化を見る
 
