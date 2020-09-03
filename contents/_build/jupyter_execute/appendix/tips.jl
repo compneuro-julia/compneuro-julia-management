@@ -107,3 +107,18 @@ B2 = permutedims(cat(B1..., dims=4), [4, 1, 2, 3])
 
 println("Type : ", typeof(B2))
 println("Size : ", size(B2))
+
+## 7. 二項分布 (bernoulli distribution)のサンプリング
+
+p = 0.7
+N = 100
+
+using BenchmarkTools
+
+@benchmark floor.(p .+ rand(N))
+
+println(sum(floor.(p .+ rand(N)) .== 1.0) / N) 
+
+@benchmark 1.0f0 * (p .≥ rand(N))
+
+println(sum(1.0f0 * (p .≥ rand(N)) .== 1.0) / N) 

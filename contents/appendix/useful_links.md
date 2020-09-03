@@ -21,3 +21,7 @@
 
 ## その他
 - [Insights from the brain: The road towards Machine Intelligence](https://www.insightsfromthebrain.com/)：神経科学と人工知能の関連についてまとまった資料。
+
+## Juliaの参考資料
+- [MATLAB–Python–Julia cheatsheet](https://cheatsheets.quantecon.org/)
+

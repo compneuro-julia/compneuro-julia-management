@@ -50,12 +50,12 @@ Julia 1.5.0
 	10. 適格度トレース (eligibility trace) とRTRLの近似手法
 	11. Reservoir computing (FORCE etc.)
 8. 神経系の非線形ダイナミクス
-9. 連想記憶モデル
+9. [連想記憶モデル](https://compneuro-julia.github.io/chap9/9_intro.html)
 	1. Ising モデル
 	2. Amari-Hopfield モデル
-	3. Boltzmann machine
+	3. [ボルツマンマシン](https://compneuro-julia.github.io/chap9/9-3_boltzmann_machine.html)
 10. 情報理論と最適化原理
-11. [ベイズ脳仮説](https://compneuro-julia.github.io/chap11/11_intro.html)
+11. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/chap11/11_intro.html)
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/chap11/11-1_bayes_statistics.html)
     1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/chap11/11-2_sparse-coding.html)
     1. [Predictive coding (Rao & Ballard, 1999) モデル](https://compneuro-julia.github.io/chap11/11-3_predictive-coding-rao.html)
