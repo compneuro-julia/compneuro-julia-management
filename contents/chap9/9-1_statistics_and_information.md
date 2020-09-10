@@ -1,11 +1,6 @@
-# 11.1 ベイズ統計の基礎
+# 9.1 統計と情報理論の基礎
 
-この節では本章で用いるベイズ統計の基礎的概念の説明を行う (予定)。
-
-```{note}
-悪いこと言わないので[渡辺澄夫先生のHP](http://watanabe-www.math.dis.titech.ac.jp/users/swatanab/index-j.html)の講義録、特に[ベイズ統計入門](http://watanabe-www.math.dis.titech.ac.jp/users/swatanab/joho-gakushu6.html)を読もう。
-```
-
+https://arxiv.org/abs/2009.01791
 ### 期待値 (Expectation)
 
 $$
@@ -45,3 +40,7 @@ D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&:=\int p(x) \ln \frac{p(x)}{q(x)} dx\
 $$
 
 ### 相互情報量 (Mutual information)
+
+$$
+\mathbb{I}(x；y):=\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
+$$
