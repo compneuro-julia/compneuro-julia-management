@@ -1,7 +1,9 @@
 # 2.2 Hodgkin-Huxleyモデル
 
 ## 2.2.1 Hodgkin-Huxleyモデルにおける膜の等価回路モデル
-**Hodgkin-Huxleyモデル** (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである ([Hodgkin & Huxley, 1952](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1392413/))。Hodgkinらはヤリイカの巨大神経軸索に対する**電位固定法**(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した。
+**Hodgkin-Huxleyモデル** (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである ([Hodgkin & Huxley, 1952](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1392413/))。Hodgkinらはヤリイカの巨大神経軸索に対する**電位固定法**(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した[^hh]。
+
+[^hh]: HHモデルの構築に関する歴史については([Schwiening, 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3424716/))を参照。
 
 HHモデルには等価な電気回路モデルがあり, **膜の並列等価回路モデル** (parallel conductance model)と呼ばれている。膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える。
 
@@ -56,12 +58,6 @@ $$
 $$
 
 なお、この式は6.3℃の条件下においてイカの巨大軸索の活動から得たデータを用いて導かれたものであることに注意しよう。
-
-````{margin} 
-```{note}
-HHモデルの構築に関する歴史については([Schwiening, 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3424716/))を参照。
-```
-````
 
 ## 2.2.2 Hodgkin-Huxley モデルの定義
 これまでに説明した式を用いてHHモデルを実装する。まず必要なパッケージを読み込む。
