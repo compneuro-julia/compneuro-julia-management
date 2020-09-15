@@ -1,6 +1,5 @@
 # 9.1 統計と情報理論の基礎
 
-https://arxiv.org/abs/2009.01791
 ### 期待値 (Expectation)
 
 $$
@@ -41,6 +40,3 @@ $$
 
 ### 相互情報量 (Mutual information)
 
-$$
-\mathbb{I}(x；y):=\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
-$$

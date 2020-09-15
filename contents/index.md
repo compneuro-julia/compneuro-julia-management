@@ -50,24 +50,29 @@ Julia 1.5.0
 	10. 適格度トレース (eligibility trace) とRTRLの近似手法
 	11. Reservoir computing (FORCE etc.)
 8. 神経系の非線形ダイナミクス
-9. [連想記憶モデル](https://compneuro-julia.github.io/chap9/9_intro.html)
+9. [情報理論と最適化原理](https://compneuro-julia.github.io/chap9/9_intro.html)
+	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/chap9/9-1_statistics_and_information.html)
+
+10. [連想記憶モデル](https://compneuro-julia.github.io/chap10/10_intro.html)
 	1. Ising モデル
 	2. Amari-Hopfield モデル
-	3. [ボルツマンマシン](https://compneuro-julia.github.io/chap9/9-3_boltzmann_machine.html)
-10. 情報理論と最適化原理
+	3. [ボルツマンマシン](https://compneuro-julia.github.io/chap10/10-3_boltzmann_machine.html)
+
 11. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/chap11/11_intro.html)
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/chap11/11-1_bayes_statistics.html)
     1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/chap11/11-2_sparse-coding.html)
     1. [Predictive coding (Rao & Ballard, 1999) モデル](https://compneuro-julia.github.io/chap11/11-3_predictive-coding-rao.html)
 12. [強化学習](https://compneuro-julia.github.io/chap12/12_intro.html)
-	1. [TD学習](https://compneuro-julia.github.io/chap12/12-1_td_learning.html)
-	2. 分布型TD学習
+    1. [TD学習](https://compneuro-julia.github.io/chap12/12-1_td_learning.html)
+    2. 分布型TD学習
 13. 運動制御
-	1. 躍度最小モデルとトルク変化最小モデル
-	2. 終点誤差分散最小モデル
-	3. 最適フィードバック制御モデル (optimal feedback control; OFC)
-15. 時空間の符号化
-16. 神経細胞の形態と数理モデル
+    1. 躍度最小モデルとトルク変化最小モデル
+    2. 終点誤差分散最小モデル
+    3. 最適フィードバック制御モデル (optimal feedback control; OFC)
+14. [時空間の符号化](https://compneuro-julia.github.io/chap14/14_intro.html)
+    1. [格子細胞のデコーディング](https://compneuro-julia.github.io/chap14/14-1_grid_cells.html)
+    2. 自己速度積分モデル
+15. 神経細胞の形態と数理モデル
 
 - [付録](https://compneuro-julia.github.io/appendix/appendix_intro.html)
 	- [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)

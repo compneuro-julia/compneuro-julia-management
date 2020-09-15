@@ -27,7 +27,12 @@
 - file: chap9/9_intro
   expand_sections: true
   sections:
-    - file: chap9/9-3_boltzmann_machine
+    - file: chap9/9-1_statistics_and_information
+
+- file: chap10/10_intro
+  expand_sections: true
+  sections:
+    - file: chap10/10-3_boltzmann_machine
 
 - file: chap11/11_intro
   expand_sections: true
@@ -40,6 +45,11 @@
   expand_sections: true
   sections:
     - file: chap12/12-1_td_learning
+
+- file: chap14/14_intro
+  expand_sections: true
+  sections:
+    - file: chap14/14-1_grid_cells
 
 - file: appendix/appendix_intro
   expand_sections: true

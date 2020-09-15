@@ -1,6 +1,6 @@
-# 9.3 ボルツマンマシン
+# 10.3 ボルツマンマシン
 
-## 9.3.1 エネルギーベースモデル (Energy-based model)
+## 10.3.1 エネルギーベースモデル (Energy-based model)
 入力 $\mathbf{x}\in \mathbb{R}^d$, エネルギー関数 $E_\theta: \mathbb{R}^d\to \mathbb{R}$を考える。
 
 $$
@@ -12,9 +12,9 @@ $$
 
 $Z_\theta$は分配関数。
 
-## 9.3.2 ボルツマンマシン (Boltzmann machine)
+## 10.3.2 ボルツマンマシン (Boltzmann machine)
 
-## 9.3.3 制限ボルツマンマシン (Restricted Boltzmann machine) 
+## 10.3.3 制限ボルツマンマシン (Restricted Boltzmann machine) 
 (cf.) <http://deeplearning.net/tutorial/rbm.html>
 
 データの読み込み
@@ -46,9 +46,9 @@ width = 28   # MNIST dataの幅
 num_v = input_size # visible variables
 num_h = 100 # hidden variables
 num_units = num_v + num_h # all units
-η = 0.01 # Coefficient of learning 
-num_epoch = 50 # cycle of learning 
-num_draws = 20  # The number of samples to draw 1 5 20 50 100
+η = 0.01 # learning rate
+num_epoch = 50 # epoch of learning 
+num_draws = 20  # The number of samples to draw
 
 離散の観測変数(visible variable) $\mathbf{v}$, 潜在変数(hidden variable) $\mathbf{h}$とする。各ユニットの値は$\{0, 1\}$の2値 (binary)である。
 
@@ -122,8 +122,8 @@ end
 
 ### テストデータで確認
 
-num_draws_test = 50 # MCMC for TEST
-num_see = 392  # Visible units in testy 5 10 15 20 25 
+num_draws_test = 50 # draws for in test
+num_see = 392  # Visible units in test
 noise_scale = 0.1 # テスト時のノイズレベル
 num_testdata = 4
 
