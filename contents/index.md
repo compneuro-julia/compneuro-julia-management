@@ -5,8 +5,11 @@
 内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia 1.5.0
+Julia 1.6.0-beta1
 ```
+
+### 依存ライブラリ
+`LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BenchmarkTools`
 
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)
@@ -66,10 +69,10 @@ Julia 1.5.0
 12. [強化学習](https://compneuro-julia.github.io/chap12/12_intro.html)
     1. [TD学習](https://compneuro-julia.github.io/chap12/12-1_td_learning.html)
     2. 分布型TD学習
-13. 運動制御
+13. [運動制御](https://compneuro-julia.github.io/chap13/13_intro.html)
     1. 躍度最小モデルとトルク変化最小モデル
     2. 終点誤差分散最小モデル
-    3. 最適フィードバック制御モデル (optimal feedback control; OFC)
+    3. [最適フィードバック制御モデル (optimal feedback control; OFC)](https://compneuro-julia.github.io/chap13/13-3_optimal_feedback_control.html)
 14. [時空間の符号化](https://compneuro-julia.github.io/chap14/14_intro.html)
     1. [格子細胞のデコーディング](https://compneuro-julia.github.io/chap14/14-1_grid_cells.html)
     2. 自己速度積分モデル

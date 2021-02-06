@@ -2,12 +2,10 @@
 - file: preface
 
 - file: chap1/1_intro
-  expand_sections: true
   sections:
     - file: chap1/notation
 
 - file: chap2/2_intro
-  expand_sections: true
   sections:
     - file: chap2/2-2_hodgkinhuxley
     - file: chap2/2-3_fhn
@@ -16,7 +14,6 @@
     - file: chap2/2-8_isi
 
 - file: chap3/3_intro
-  expand_sections: true
   sections:
     - file: chap3/3-1_synapse
     - file: chap3/3-2_current-conductance-synapse
@@ -25,39 +22,36 @@
     - file: chap3/3-6_synaptic-weighted
 
 - file: chap7/7_intro
-  expand_sections: true
   sections:
     - file: chap7/7-9_bptt
 
 - file: chap9/9_intro
-  expand_sections: true
   sections:
     - file: chap9/9-1_statistics_and_information
 
 - file: chap10/10_intro
-  expand_sections: true
   sections:
     - file: chap10/10-3_boltzmann_machine
 
 - file: chap11/11_intro
-  expand_sections: true
   sections:
     - file: chap11/11-1_bayes_statistics
     - file: chap11/11-2_sparse-coding
     - file: chap11/11-3_predictive-coding-rao
 
 - file: chap12/12_intro
-  expand_sections: true
   sections:
     - file: chap12/12-1_td_learning
 
+- file: chap13/13_intro
+  sections:
+    - file: chap13/13-3_optimal_feedback_control
+
 - file: chap14/14_intro
-  expand_sections: true
   sections:
     - file: chap14/14-1_grid_cells
 
 - file: appendix/appendix_intro
-  expand_sections: true
   sections:
     - file: appendix/tips
     - file: appendix/useful_links

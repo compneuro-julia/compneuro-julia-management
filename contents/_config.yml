@@ -39,3 +39,7 @@ launch_buttons:
   notebook_interface        : jupyterlab  # The interface interactive links will activate ["classic", "jupyterlab"]
   #binderhub_url: https://mybinder.org  # The URL for your BinderHub (e.g., https://mybinder.org)
   colab_url: https://colab.research.google.com
+
+execute:
+  execute_notebooks: cache
+  timeout: -1
