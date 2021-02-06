@@ -37,7 +37,7 @@ Julia 1.5.0
 4. 神経回路網の構築 (発火率モデル)
 5. 神経回路網の構築 (Spikingモデル)
 6. 神経回路網の演算処理
-7. 神経回路網の学習則
+7. [神経回路網の学習則](https://compneuro-julia.github.io/chap7/7_intro.html)
 	1. 学習則と貢献度分配問題 (credit assignment problem)
 	2. Hebb則
 	3. STDP則
@@ -46,9 +46,10 @@ Julia 1.5.0
 	6. 勾配法と誤差逆伝播法 (backpropagation)
 	7. 誤差逆伝播法の近似手法
 	8. 経時的貢献度分配問題 (temporal credit assignment problem)
-	9. RTRLとBPTT
-	10. 適格度トレース (eligibility trace) とRTRLの近似手法
-	11. Reservoir computing (FORCE etc.)
+	9. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/chap7/7-9_bptt.html)
+	10. RTRL (real time recurrent learning)
+	11. 適格度トレース (eligibility trace) とRTRLの近似手法
+	12. Reservoir computing (FORCE etc.)
 8. 神経系の非線形ダイナミクス
 9. [情報理論と最適化原理](https://compneuro-julia.github.io/chap9/9_intro.html)
 	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/chap9/9-1_statistics_and_information.html)

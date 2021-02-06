@@ -24,6 +24,11 @@
     - file: chap3/3-4_kinetic-synapse
     - file: chap3/3-6_synaptic-weighted
 
+- file: chap7/7_intro
+  expand_sections: true
+  sections:
+    - file: chap7/7-9_bptt
+
 - file: chap9/9_intro
   expand_sections: true
   sections:
