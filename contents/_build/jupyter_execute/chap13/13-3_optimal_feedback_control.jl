@@ -1,26 +1,39 @@
 # 13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
 
 ## 13.3.1 最適フィードバック制御モデルの構造
+**最適フィードバック制御モデル(optimal feedback control; OFC)** の特徴として目標軌道を必要としないことが挙げられる．**Kalman フィルタ**による状態推定と**線形2次レギュレーター(LQR: linear-quadratic regurator)** により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．このモデルは**線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御**と呼ばれる．
 
 > Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. Neural Computation 17(5): 1084-1108
 
-目標軌道を必要としない．Kalman filterによる状態推定と推定された状態に基づいて運動指令を生成
-
-Compute optimal controller and estimator for generalized LQG
+本記事はTodorovの[MATLABコード](https://homes.cs.washington.edu/~todorov/software/gLQG.zip)を元にして記述されている (現状ほぼJuliaへの単なる移植であることを明言しておく)．
 
 $$
+\begin{aligned}
+&\text {Dynamics} \quad \mathbf{x}_{t+1}=A \mathbf{x}_{t}+B \mathbf{u}_{t}+\boldsymbol{\xi}_{t}+\sum_{i=1}^{c} \varepsilon_{t}^{i} C_{i} \mathbf{u}_{t}\\
+&\text {Feedback} \quad \mathbf{y}_{t}=H \mathbf{x}_{t}+\omega_{t}+\sum_{i=1}^{d} \epsilon_{t}^{i} D_{i} \mathbf{x}_{t}\\
+&\text{Cost per step}\quad \mathbf{x}_{t}^{T} Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^{T} R \mathbf{u}_{t}
+\end{aligned}
+$$
+
+Linear-Quadratic Regulator
+$$
 \begin{align}
-u(t) &= -L(t) x(t)\\
-x(t+1) &= A x(t) + B (I + \sum(C(i) rnd_1)) u(t) + C0 rnd_n\\
-y(t) &= H x(t) + \sum (D(i) rnd_1) x(t) + D0 rnd_n\\
-\hat{x}(t+1) &= A \hat{x}(t) + B u(t) + K(t) (y(t) - H \hat{x}(t)) + E0 rnd_n\\
-x(1) &\sim mean X1, covariance S1\\
+\mathbf{u}_{t}&=-L_{t} \widehat{\mathbf{x}}_{t}\\
+L_{t}&=\left(R+B^{\top} S_{t+1} B\right)^{-1} B^{\top} S_{t+1} A\\
+S_{t}&=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
 \end{align}
 $$
 
+Kalman Filter
 $$
-cost(t) = u(t)' R u(t) + x(t)' Q(t) x(t)
+\begin{align}
+\widehat{\mathbf{x}}_{t+1}&=A \widehat{\mathbf{x}}_{t}+B \mathbf{u}_{t}+K_{t}\left(\mathbf{y}_{t}-H \widehat{\mathbf{x}}_{t}\right)+\boldsymbol{\eta}_{t} \\ 
+K_{t}&=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\right)^{-1} \\ 
+\Sigma_{t+1}&=\Omega^{\xi}+\left(A-K_{t} H\right) \Sigma_{t} A^{\top}
+\end{align}
 $$
+
+$K$はFilter gains，$L$はControl gainsである．実装上は$\boldsymbol{\xi}_{t}=$ `C0 * randn`，$\omega_{t}=$ `D0 * randn`，$\boldsymbol{\eta}_{t}=$ `E0 * randn`
 
 ## 13.3.2 最適フィードバック制御モデルの実装
 
@@ -67,18 +80,15 @@ function convertScalar2Vec!(C, D, C0, D0, E0)
     return C, D, C0, D0, E0
 end
 
-- NSim : number of simulated trajectories (default 0)  (optional)
-- Init : 0 - open loop; 1 (default) - LQG; 2 - random  (optional)
-- Niter : iterations; 0 (default) - until convergence   (optional)
-
-- K : Filter gains
-- L : Control gains
-- Cost : Expected cost (per iteration)
-- Xa : Expected trajectory
-- XSim : Simulated trajectories
-- CostSim : Empirical cost
-
 function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=500, Eps=10^-8)
+    """
+    - Init : 0 - open loop; 1 (default) - LQG; 2 - random  (optional)
+    - Niter : iterations; 0 (default) - until convergence   (optional)
+
+    - K : Filter gains
+    - L : Control gains
+    - Cost : Expected cost (per iteration)
+    """
     # determine sizes
     szX = size(A,1);
     szU = size(B,2);
@@ -189,7 +199,6 @@ function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=
         # adjust cost
         Cost[iter] += (X1' * Sx * X1)[1] + tr((Se + Sx) * S1)
         # check convergence of Cost
-
         if iter > 1
             CostError = abs(Cost[iter-1]-Cost[iter])
             if (Niter>0 && iter>=Niter) || (Niter==0 && CostError < Eps)
@@ -207,7 +216,8 @@ function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=
     return K, L, Cost
 end
 
-# 軌跡の平均を計算
+`Xa` : Expected trajectory．ノイズが無い場合の軌跡
+
 function computeAverageTrajectory(A, B, X1, L, N)
     szX = size(A,1)
     Xa = zeros(szX,N)
@@ -222,6 +232,11 @@ end
 
 # simulate noisy trajectories
 function simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K, NSim)
+    """
+    - NSim : number of simulated trajectories (default 0)  (optional)
+    - XSim : Simulated trajectories
+    - CostSim : Empirical cost
+    """
     szX = size(A,1);
     szU = size(B,2);
     szY = size(H,1);
@@ -260,7 +275,7 @@ function simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K,
         # compute noisy observation
         y = H*XSim[:,:,k] + D0 * randn(szD0,NSim)
         if size(D,2)==1
-            y += XSim[:,:,k] .* randn(szY,NSim) .* repeat(D, 1,NSim)
+            y += XSim[:,:,k] .* randn(szY,NSim) .* repeat(D, 1, NSim)
         else
             for i=1:szD
                 y += (D[:,:,i] * XSim[:,:,k]).*repeat(randn(1,NSim), szY, 1)
@@ -279,10 +294,10 @@ function simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K,
 end
 
 function kalman_lqg(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1, NSim)
-    C, D, C0, D0, E0 = convertScalar2Vec!(C, D, C0, D0, E0);
-    K, L, Cost = gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1);
-    Xa = computeAverageTrajectory(A, B, X1, L, N);
-    XSim, CostSim = simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K, NSim);
+    C, D, C0, D0, E0 = convertScalar2Vec!(C, D, C0, D0, E0)
+    K, L, Cost = gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1)
+    Xa = computeAverageTrajectory(A, B, X1, L, N)
+    XSim, CostSim = simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K, NSim)
     return K, L, Cost, Xa, XSim, CostSim
 end
 
@@ -352,12 +367,12 @@ figure(figsize=(8, 5))
 subplot(2,2,1)
 plot(XSim[1,:,:]', "r", alpha=0.5)
 plot(Xa[1,:], "k")
-xlabel("time step"); ylabel("position")
+ylabel("position")
 
 subplot(2,2,2)
 plot(XSim[2,:,:]', "r", alpha=0.5)
 plot(Xa[2,:], "k")
-xlabel("time step"); ylabel("velocity")
+ylabel("velocity")
 
 subplot(2,2,3)
 plot(XSim[3,:,:]', "r", alpha=0.5)
