@@ -1,8 +1,8 @@
 # Juliaで学ぶ計算論的神経科学
 
-このサイトは**計算論的神経科学 (Computational Neuroscience)** をプログラミング言語 [**Julia**](https://julialang.org/)を通して学習することを目標とします。
+このサイトは**計算論的神経科学 (Computational Neuroscience)** をプログラミング言語 [**Julia**](https://julialang.org/)を通して学習することを目標とします．
 
-内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)。
+内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
 Julia 1.5.0
@@ -84,7 +84,7 @@ Julia 1.5.0
 ***
 
 ## 『ゼロから作るSpiking Neural Networks』について
-『**ゼロから作るSpiking Neural Networks**』 (通称：SNN本) は**Python**でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です。本サイトはこの本をベースとして作成しています。技術書典7で頒布し、BOOTHで有料で販売してきましたが、無料で公開することとしました。それでも購入していただける方はBOOTHから購入いただければと思います。なお、物理本は完売し、再販の予定はありません。
+『**ゼロから作るSpiking Neural Networks**』 (通称：SNN本) は**Python**でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です．本サイトはこの本をベースとして作成しています．技術書典7で頒布し，BOOTHで有料で販売してきましたが，無料で公開することとしました．それでも購入していただける方はBOOTHから購入いただければと思います．なお，物理本は完売し，再販の予定はありません．
 
 ```{admonition} 『ゼロから作るSpiking Neural Networks』Links
 - [pdf](https://compneuro-julia.github.io/_static/pdf/SNN_from_scratch_with_python_ver2_1.pdf) (Ver. 2.1)
