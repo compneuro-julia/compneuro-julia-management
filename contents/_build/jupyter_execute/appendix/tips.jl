@@ -122,3 +122,41 @@ println(sum(floor.(p .+ rand(N)) .== 1.0) / N)
 @benchmark 1.0f0 * (p .≥ rand(N))
 
 println(sum(1.0f0 * (p .≥ rand(N)) .== 1.0) / N) 
+
+## 8. Roth's column lemma
+
+Roth's column lemmaは，例えば，$A, B, C$が与えられていて，$X$を未知とするときの方程式 $AXB = C$を考えると，この方程式は
+
+$$
+(B^\top \otimes A)\text{vec}(X) = \text{vec}(AXB)=\text{vec}(C)
+$$
+
+の形に書き下すことができる，というものである．$\text{vec}(\cdot)$はvec作用素（行列を列ベクトル化する作用素）である．`vec(X) = vcat(X...)`で実現できる．Roth's column lemmaを用いれば，$AXB = C$の解は
+
+$$
+X = \text{vec}^{-1}\left((B^\top \otimes A)^{-1}\text{vec}(C)\right)
+$$
+
+として得られる．ただし，$\text{vec}(\cdot)^{-1}$は列ベクトルを行列に戻す作用素(inverse of the vectorization operator)である．`reshape()`で実現できる．2つの作用素をまとめると，
+
+$$
+\begin{align}
+\text{vec} &: R^{m\times n}\to R^{mn}\\
+\text{vec}^{−1} &: R^{mn}\to R^{m×n}
+\end{align}
+$$
+
+であり，$\text{vec}^{−1}\left(\text{vec}(X)\right)=X\ (\text{for all}\ X\in R^{m\times n})，\text{vec}\left(\text{vec}^{−1}(x)\right)=x\ (\text{for all}\ x \in R^{mn})$となる．
+
+using LinearAlgebra, Kronecker, Random
+
+m = 4
+A = randn(m, m)
+B = randn(m, m)
+C = convert(Array{Float64}, reshape(1:16, (m, m)))
+
+vec(X) = vcat(X...)
+
+X = reshape((B' ⊗ A)^-1 * vec(C), (m, m))
+
+A * X * B
