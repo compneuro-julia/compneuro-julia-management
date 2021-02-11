@@ -46,6 +46,7 @@
 - file: chap13/13_intro
   sections:
     - file: chap13/13-3_optimal_feedback_control
+    - file: chap13/13-4_infinite_horizon_ofc
 
 - file: chap14/14_intro
   sections:

@@ -1,11 +1,15 @@
 # 13.3 最適フィードバック制御モデル (optimal feedback control; OFC)
 
 ## 13.3.1 最適フィードバック制御モデルの構造
-**最適フィードバック制御モデル(optimal feedback control; OFC)** の特徴として目標軌道を必要としないことが挙げられる．**Kalman フィルタ**による状態推定と**線形2次レギュレーター(LQR: linear-quadratic regurator)** により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．このモデルは**線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御**と呼ばれる．
+> Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. *Neural Computation* 17(5): 1084-1108
 
-> Todorov, E. (2005) Stochastic optimal control and estimation methods adapted to the noise characteristics of the sensorimotor system. Neural Computation 17(5): 1084-1108
+本節はTodorovの[MATLABコード](https://homes.cs.washington.edu/~todorov/software/gLQG.zip)を元にしている (現状ほぼJuliaへの単なる移植であることを明言しておく)．
 
-本記事はTodorovの[MATLABコード](https://homes.cs.washington.edu/~todorov/software/gLQG.zip)を元にして記述されている (現状ほぼJuliaへの単なる移植であることを明言しておく)．
+**最適フィードバック制御モデル(optimal feedback control; OFC)** の特徴として目標軌道を必要としないことが挙げられる．**Kalman フィルタ**による状態推定と**線形2次レギュレーター(LQR: linear-quadratic regurator)** により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．ここで考える制御問題は**線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御**と呼ばれる．
+
+
+
+### 系の状態変化
 
 $$
 \begin{aligned}
@@ -15,7 +19,8 @@ $$
 \end{aligned}
 $$
 
-Linear-Quadratic Regulator
+### 運動制御 (Linear-Quadratic Regulator)
+
 $$
 \begin{align}
 \mathbf{u}_{t}&=-L_{t} \widehat{\mathbf{x}}_{t}\\
@@ -24,7 +29,8 @@ S_{t}&=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
 \end{align}
 $$
 
-Kalman Filter
+### 状態推定 (Kalman Filter)
+
 $$
 \begin{align}
 \widehat{\mathbf{x}}_{t+1}&=A \widehat{\mathbf{x}}_{t}+B \mathbf{u}_{t}+K_{t}\left(\mathbf{y}_{t}-H \widehat{\mathbf{x}}_{t}\right)+\boldsymbol{\eta}_{t} \\ 
@@ -33,7 +39,7 @@ K_{t}&=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\right)^{
 \end{align}
 $$
 
-$K$はFilter gains，$L$はControl gainsである．実装上は$\boldsymbol{\xi}_{t}=$ `C0 * randn`，$\omega_{t}=$ `D0 * randn`，$\boldsymbol{\eta}_{t}=$ `E0 * randn`
+$K$はカルマンゲイン(Kalman gains)，$L$はフィードバックゲイン(feedback gains)である．$K, L$は時間に依存する行列であることに注意しよう．実装上は$\boldsymbol{\xi}_{t}=$ `C0 * randn`，$\omega_{t}=$ `D0 * randn`，$\boldsymbol{\eta}_{t}=$ `E0 * randn`
 
 ## 13.3.2 最適フィードバック制御モデルの実装
 
@@ -45,6 +51,9 @@ using PyPlot
 
 eye(T::Type, n) = Diagonal{T}(I, n)
 eye(n) = eye(Float64, n)
+
+### 前処理
+一部のスカラーをベクトルに変換する．
 
 function convertScalar2Vec!(C, D, C0, D0, E0)
     szX = size(A,1);
@@ -79,6 +88,10 @@ function convertScalar2Vec!(C, D, C0, D0, E0)
     end
     return C, D, C0, D0, E0
 end
+
+### gLQG
+
+メインとなるgeneralized LQGの関数．カルマンゲイン$K$とフィードバックゲイン$L$を学習する．
 
 function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=500, Eps=10^-8)
     """
@@ -200,13 +213,13 @@ function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=
         Cost[iter] += (X1' * Sx * X1)[1] + tr((Se + Sx) * S1)
         # check convergence of Cost
         if iter > 1
-            CostError = abs(Cost[iter-1]-Cost[iter])
-            if (Niter>0 && iter>=Niter) || (Niter==0 && CostError < Eps)
+            ΔCost = abs(Cost[iter-1]-Cost[iter])
+            if (Niter>0 && iter>=Niter) || (Niter==0 && ΔCost < Eps)
                 # print result
                 if Cost[iter-1]!=Cost[iter]
-                   println("Log10DeltaCost = ", log10(CostError))
+                   println("Log10ΔCost = ", log10(ΔCost))
                 else
-                   println("DeltaCost = 0")
+                   println("ΔCost = 0")
                 end
 
                 break
@@ -216,7 +229,9 @@ function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=
     return K, L, Cost
 end
 
-`Xa` : Expected trajectory．ノイズが無い場合の軌跡
+### 理想的な軌跡の計算
+
+学習したフィードバックゲインを用い，系の状態の予測が実際の状態と一致している場合の軌跡`Xa`を計算する．この場合，系の内部状態の正解が得られているのと同じなので，カルマンゲインは用いない．
 
 function computeAverageTrajectory(A, B, X1, L, N)
     szX = size(A,1)
@@ -229,6 +244,9 @@ function computeAverageTrajectory(A, B, X1, L, N)
     end
     return Xa
 end
+
+### ノイズを含む軌跡のシミュレーション
+`NSim`回のシミュレーションを並列で計算する．
 
 # simulate noisy trajectories
 function simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K, NSim)
@@ -293,6 +311,9 @@ function simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K,
     return XSim, CostSim
 end
 
+### メイン関数
+上記の関数をまとめた関数を記述する．
+
 function kalman_lqg(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1, NSim)
     C, D, C0, D0, E0 = convertScalar2Vec!(C, D, C0, D0, E0)
     K, L, Cost = gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1)
@@ -302,11 +323,12 @@ function kalman_lqg(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1, NSim)
 end
 
 ## 13.3.3 シミュレーションの実行
+`N`で到達時刻，`T`で目標位置を設定する．
 
 dt = 0.01;        # time step (sec)
 m = 1;            # mass (kg)
 b = 0;            # damping (N/sec)
-tau = 40;         # time constant (msec)
+τ = 40;          # time constant (msec)
 c = 0.5;          # control-dependent noise
 r = 0.00001;      # control signal penalty
 v = 0.2;          # endpoint velocity penalty
@@ -315,10 +337,12 @@ pos = 0.5*0.02;   # position noise
 vel = 0.5*0.2;    # velocity noise
 frc = 0.5*1.0;    # force noise
 
-N = 30;               # duration in number of time steps
-T = 0.2;              # target distance
+N = 40;               # duration in number of time steps
+T = 0.5;              # target distance
 
-dtt = dt/(tau/1000);
+dtt = dt/(τ/1000);
+
+系の状態を決定する定数，定行列を定義する．
 
 A = zeros(5,5);
 A[1,1] = 1;
@@ -359,28 +383,23 @@ S1 = zeros(5,5);
 
 NSim = 10;
 
+シミュレーションを実行する．
+
 K, L, Cost, Xa, XSim, CostSim = kalman_lqg(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1, NSim);
 
 ## 13.3.4 結果の描画
 
+tarray = (1:N) * dt
+label = [L"Position ($m$)", L"Velocity ($m/s$)", L"Acceleration ($m/s^2$)", L"Jerk ($m/s^3$)"]
+
 figure(figsize=(8, 5))
-subplot(2,2,1)
-plot(XSim[1,:,:]', "r", alpha=0.5)
-plot(Xa[1,:], "k")
-ylabel("position")
-
-subplot(2,2,2)
-plot(XSim[2,:,:]', "r", alpha=0.5)
-plot(Xa[2,:], "k")
-ylabel("velocity")
-
-subplot(2,2,3)
-plot(XSim[3,:,:]', "r", alpha=0.5)
-plot(Xa[3,:], "k")
-xlabel("time step"); ylabel("acceleration ")
-
-subplot(2,2,4)
-plot(XSim[4,:,:]', "r", alpha=0.5)
-plot(Xa[4,:], "k")
-xlabel("time step"); ylabel("jerk")
+for i in 1:4
+    subplot(2,2,i)
+    plot(tarray, XSim[i,:,:]', "tab:red", alpha=0.5)
+    plot(tarray, Xa[i,:], "k")
+    ylabel(label[i]); grid()
+    if i >= 3
+        xlabel(L"Time ($ms$)")
+    end
+end
 tight_layout()
