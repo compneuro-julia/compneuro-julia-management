@@ -9,7 +9,7 @@ Julia 1.6.0-beta1
 ```
 
 ### 依存ライブラリ
-`LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BenchmarkTools`
+`LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools`
 
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)
@@ -73,7 +73,7 @@ Julia 1.6.0-beta1
     1. 躍度最小モデルとトルク変化最小モデル
     2. [終点誤差分散最小モデル](https://compneuro-julia.github.io/chap13/13-2_minimum_variance.html)
     3. [最適フィードバック制御モデル (optimal feedback control; OFC)](https://compneuro-julia.github.io/chap13/13-3_optimal_feedback_control.html)
-    4. 無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/chap13/13-4_infinite_horizon_ofc.html)
+    4. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/chap13/13-4_infinite_horizon_ofc.html)
 14. [時空間の符号化](https://compneuro-julia.github.io/chap14/14_intro.html)
     1. [格子細胞のデコーディング](https://compneuro-julia.github.io/chap14/14-1_grid_cells.html)
     2. 自己速度積分モデル

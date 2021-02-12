@@ -45,9 +45,7 @@ $K$はカルマンゲイン(Kalman gains)，$L$はフィードバックゲイン
 
 ライブラリの読み込み．
 
-using LinearAlgebra
-using Random
-using PyPlot
+using LinearAlgebra, Kronecker, Random, BlockDiagonals, PyPlot
 
 eye(T::Type, n) = Diagonal{T}(I, n)
 eye(n) = eye(Float64, n)
@@ -342,46 +340,25 @@ T = 0.5;              # target distance
 
 dtt = dt/(τ/1000);
 
+n = 4
+NSim = 10;
+
 系の状態を決定する定数，定行列を定義する．
 
-A = zeros(5,5);
-A[1,1] = 1;
-A[1,2] = dt;
-A[2,2] = 1-dt*b/m;
-A[2,3] = dt/m;
-A[3,3] = 1-dtt;
-A[3,4] = dtt;
-A[4,4] = 1-dtt;
-A[5,5] = 1;
-
-B = zeros(5,1);
-B[4,1] = dtt;
-
-C = c;
-C0 = 0;
-
-H = zeros(3,5);
-H[1:3,1:3] = eye(3);
-
-D = 0;
-D0 = Diagonal([pos, vel, frc]);
-
-E0 = 0;
-R = r/N;
-Q = zeros(5,5,N);
-
-d = zeros(3,5);
-d[1,1] = 1;
-d[1,5] = -1;
-d[2,2] = v;
-d[3,3] = f;
-Q[:,:,N] = d'*d;
-
-X1 = zeros(5,1);
-X1[5] = T;
-S1 = zeros(5,5);
-
-NSim = 10;
+A = Tridiagonal(zeros(n), [1.0, 1-dt*b/m, 1-dtt, 1-dtt, 1.0], [dt, dt/m, dtt, 0])
+B = [zeros(3); dtt; 0][:,:]
+C = c
+C0 = 0
+H = [eye(3) zeros(3, 2)]
+D = 0
+D0 = Diagonal([pos, vel, frc])
+E0 = 0
+R = r/N
+d = Matrix([Diagonal([1.0, v, f]) zeros(3) [-1; zeros(2)]])
+Q = zeros(n+1, n+1, N);
+Q[:,:,N] = d'*d
+X1 = [zeros(n); T][:,:]
+S1 = zeros(n+1, n+1);
 
 シミュレーションを実行する．
 
