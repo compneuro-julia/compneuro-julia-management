@@ -45,6 +45,7 @@
 
 - file: chap13/13_intro
   sections:
+    - file: chap13/13-2_minimum_variance
     - file: chap13/13-3_optimal_feedback_control
     - file: chap13/13-4_infinite_horizon_ofc
 
