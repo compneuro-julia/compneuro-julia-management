@@ -70,7 +70,7 @@ Julia 1.6.0-beta1
     1. [TD学習](https://compneuro-julia.github.io/chap12/12-1_td_learning.html)
     2. 分布型TD学習
 13. [運動制御](https://compneuro-julia.github.io/chap13/13_intro.html)
-    1. 躍度最小モデルとトルク変化最小モデル
+    1. [躍度最小モデル](https://compneuro-julia.github.io/chap13/13-1_minimum_jerk.html)
     2. [終点誤差分散最小モデル](https://compneuro-julia.github.io/chap13/13-2_minimum_variance.html)
     3. [最適フィードバック制御モデル (optimal feedback control; OFC)](https://compneuro-julia.github.io/chap13/13-3_optimal_feedback_control.html)
     4. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/chap13/13-4_infinite_horizon_ofc.html)
