@@ -1,29 +1,16 @@
 # 13.2 終点誤差分散最小モデル (minimum-variance model)
-終点誤差分散最小モデル (minimum-variance model; Harris & Wolpert, 1998)を実装する．
+**終点誤差分散最小モデル** (minimum-variance model; Harris & Wolpert, 1998)を実装する．
 
-## 13.2.1 等式制約下での二次計画法 (Equality Constrained Quadratic Programming)
-
-以下，wikipediaより引用（後日改訂）
-
-二次計画問題は行列 Q が正値定符号であり、等式制約のみを含む時、特に簡単になり、解の過程は線形となる。ラグランジュの未定乗数法を用い、ラグランジアンの極値を探せば、以下の等式制約問題
-
-$$
-\begin{align}
-&{\text{Minimize}}\quad {\frac {1}{2}}\mathbf {x} ^\top P\mathbf {x} +\mathbf {q} ^{\top}\mathbf {x}\\
-&{\text{subject to}}\quad A\mathbf {x} =\mathbf {b}
-\end{align}
-$$
-
-の解は次の線形システム
-
-$$
-{\begin{bmatrix}P&A^\top\\A&0\end{bmatrix}}{\begin{bmatrix}\mathbf {x} \\
-\lambda \end{bmatrix}}={\begin{bmatrix}-\mathbf {q} \\\mathbf {b} \end{bmatrix}}
-$$
-
-の解として与えられることが容易に示される。ここで $\lambda$  はラグランジュ乗数の集合で x と共に計算される。
+## 13.2.1 終点誤差分散最小モデルの実装
+以下では田中先生の<https://motorcontrol.jp/mc13/MC2019_2_OptimalControlStochastic.pdf>のコードを参考に作成した．
 
 using LinearAlgebra, Random, ToeplitzMatrices, PyPlot
+
+eye(T::Type, n) = Diagonal{T}(I, n)
+eye(n) = eye(Float64, n)
+vec(X) = vcat(X...)
+
+13.1で用いたものと同じ．
 
 # Equality Constrained Quadratic Programming
 function solveEqualityConstrainedQuadProg(P, q, A, b)
@@ -32,118 +19,107 @@ function solveEqualityConstrainedQuadProg(P, q, A, b)
     subject to : A*x = b
     """
     K = [P A'; A zeros(size(A)[1], size(A)[1])]
-    sol = K^-1 * [-q; b]
+    sol = K \ [-q; b]
     return sol[1:size(A)[2]]
 end
 
-P = diagm([1.0, 0.0])
-q = [3.0, 4.0]
-A = [1.0, 1.0]'
-b = [1.0]
-x = solveEqualityConstrainedQuadProg(P, q, A, b)
+t1 = 224*1e-3 # time const of eye dynamics (s)
+t2 = 13*1e-3  # another time const of eye dynamics (s)
+tm = 10*1e-3
+dt = 1e-3     # simulation time step (s)
+tf = 50*1e-3  # movement duration (s)
+tp = 20*1e-3  # post-movement duration (s)
+K = round(Int, tf/dt)
+L = round(Int, tp/dt)
+trange = (1:K+L) * dt * 1e3 # ms
 
-## 13.2.2 終点誤差分散最小モデルの実装
-サッカードするときの眼球運動のシミュレーションを行う．
+x0 = zeros(3)       # initial state (pos=0, vel=0, acc=0)
+xf = [10; zeros(2)] # final state (pos=10, vel=0, acc=0)
+α1 = -1/(t1*t2*tm)
+α2 = -1/(t1*t2)-1/(t1*tm)-1/(t2*tm)
+α3 = -1/t1-1/t2-1/tm
+Ac = [0 1 0; 0 0 1; α1 α2 α3];
+Bc = [zeros(2); 1]
+A = exp(Ac*dt);
+B = Ac^-1 * (eye(3) - exp(Ac*dt))*Bc
+Q = zeros(K+L, K+L);
 
-> Yazdani M, Gamble G, Henderson G, Hecht-Nielsen R. A simple control policy for achieving minimum jerk trajectories. Neural Netw. 2012;27:74–80. doi:10.1016/j.neunet.2011.11.005
+# calculation of Q
+for ell=0:K+L-1
+    if ell<K
+        for k=K:K+L-1
+            tmpQ = A^(k-ell-1) * B * B' * A'^(k-ell-1)
+            Q[ell+1, ell+1] += tmpQ[1,1]
+        end
+    else
+        for k=ell+1:K+L-1
+            tmpQ = A^(k-ell-1) * B * B' * A'^(k-ell-1)
+            Q[ell+1, ell+1] = Q[ell, ell] + tmpQ[1,1]
+        end
+    end
+end
 
-を参考に作成 (元はPythonでcvxoptを用いた実装)．MATLABの場合は田中先生の<https://motorcontrol.jp/mc13/MC2019_2_OptimalControlStochastic.pdf>にコードが記載してある．
+Q *= 10^13; # for numerical stability
 
-# setup sample rate
-nt = 100 # number of samples
-dt = 1.0/nt # sample rate
-n = range(0, 1, length=nt); #one second worth of samples
+制約条件における行列Cとベクトルdの計算．
 
-row_jerk = [[-1, 3, -3, 1]; zeros(nt-4)]
-col_jerk = [-1; zeros(nt-4)];
-D_jerk = Toeplitz(col_jerk, row_jerk);
+# calculation of C
+C = [];
+for p=1:L+1
+    Ctmp = [];
+    for q=1:K+L
+        if q == 1
+            if K-1-(q-1)+(p-1)>0
+                Ctmp = A^(K-1-(q-1)+(p-1))*B
+            elseif K-1-(q-1)+(p-1)==0
+                Ctmp = B
+            else
+                Ctmp = zeros(3)
+            end
+        else
+            if K-1-(q-1)+(p-1)>0
+                Ctmp = [Ctmp A^(K-1-(q-1)+(p-1))*B];
+            elseif K-1-(q-1)+(p-1)==0
+                Ctmp = [Ctmp B];
+            else
+                Ctmp = [Ctmp zeros(3)];
+            end
+        end
+    end
+    if p == 1
+        C = Ctmp
+    else
+        C = [C; Ctmp]
+    end
+end
 
-init_pos = [1; zeros(nt-1)]'
-final_pos = [zeros(nt-1); 1]'
-init_vel = [[-1, 1]; zeros(nt-2)]'
-final_vel = [zeros(nt-2); [-1, 1]]'
-init_accel = [[1, -2, 1]; zeros(nt-3)]'
-final_accel = [zeros(nt-3); [1, -2, 1]]';
+# calculation of d
+d = vec([xf-A^(K+ell)*x0 for ell=0:L]);
 
-Aeq = [init_pos; final_pos; init_vel; final_vel; init_accel; final_accel];
+制御信号を二次計画法で計算．
 
-beq = zeros(6) # (init or final) or (pos, vel, acc) = 2*3
-beq[1] = 0 # initial position (m)
-beq[2] = 2; # final position (m) 
+# solution by quadratic programming
+u = solveEqualityConstrainedQuadProg(Q, zeros(K+L), C, d);
 
-二次計画法を解く．
+シミュレーションの実行．
 
-sol_pos = solveEqualityConstrainedQuadProg(D_jerk' * D_jerk, zeros(nt), Aeq, beq);
+# forward solution
+x = zeros(3, K+L);
+x[:,1] = x0;
+for k=1:K+L-1
+    x[:,k+1] = A*x[:, k] + B*u[k]
+end
 
-位置解を速度，加速度，躍度に変換する．
+結果の描画．
 
-# set D_vel and D_accel
-row_vel = [[-1, 1]; zeros(nt-2)]
-col_vel = [-1; zeros(nt-2)]
-D_vel = nt * Toeplitz(col_vel, row_vel);
-
-row_accel = [[1,-2,1]; zeros(nt-3)] 
-col_accel = [1; zeros(nt-3)]
-D_accel = nt^2 * Toeplitz(col_accel, row_accel);
-
-# compute solution of vel, accel and jerk
-sol_vel = D_vel * sol_pos;
-sol_accel = D_accel * sol_pos;
-sol_jerk = D_jerk * sol_pos;
-
-結果を描画する．
-
-figure(figsize=(6, 4))
-subplot(2,2,1)
-plot(n, sol_pos)
-ylabel(L"Position ($m$)"); grid()
-
-subplot(2,2,2)
-plot(n[1:nt-1], sol_vel)
-ylabel(L"Velocity ($m/s$)"); grid()
-
-subplot(2,2,3)
-plot(n[1:nt-2], sol_accel)
-ylabel(L"Acceleration ($m/s^2$)"); xlabel("Time (s)"); grid()
-
-subplot(2,2,4)
-plot(n[1:nt-3], sol_jerk)
-ylabel(L"Jerk ($m/s^3$)"); xlabel("Time (s)"); grid()
-
-tight_layout()
-
-## 13.2.3 中継点を通る場合
-
-via_point_pos = zeros(nt)'
-via_point_pos[Int(nt/2)] = 1;
-
-Aeq2 = [init_pos; final_pos; via_point_pos; init_vel; final_vel; init_accel; final_accel];
-
-beq2 = zeros(7) # (init or final) or (pos, vel, acc) + via_point_pos = 2*3 + 1 = 7 
-beq2[1] = 2 #inital position
-beq2[2] = 4 #final position
-beq2[3] = 6; #via point position
-
-sol2_pos = solveEqualityConstrainedQuadProg(D_jerk' * D_jerk, zeros(nt), Aeq2, beq2);
-sol2_vel = D_vel * sol2_pos;
-sol2_accel = D_accel * sol2_pos;
-sol2_jerk = D_jerk * sol2_pos;
-
-figure(figsize=(6, 4))
-subplot(2,2,1)
-plot(n, sol2_pos)
-ylabel(L"Position ($m$)"); grid()
-
-subplot(2,2,2)
-plot(n[1:nt-1], sol2_vel)
-ylabel(L"Velocity ($m/s$)"); grid()
-
-subplot(2,2,3)
-plot(n[1:nt-2], sol2_accel)
-ylabel(L"Acceleration ($m/s^2$)"); xlabel("Time (s)"); grid()
-
-subplot(2,2,4)
-plot(n[1:nt-3], sol2_jerk)
-ylabel(L"Jerk ($m/s^3$)"); xlabel("Time (s)"); grid()
-
+figure(figsize=(10, 3))
+subplot(1,3,1)
+plot(trange, x[1, :])
+ylabel("Eye position (deg)"); xlabel("Time (ms)"); grid()
+subplot(1,3,2)
+plot(trange, x[2, :])
+ylabel("Eye velocity (deg/s)"); xlabel("Time (ms)"); grid()
+subplot(1,3,3)
+plot(trange, u)
+ylabel("Control signal"); xlabel("Time (ms)"); grid()
 tight_layout()
