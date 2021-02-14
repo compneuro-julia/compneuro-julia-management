@@ -3,7 +3,6 @@
 ## 13.4.1 モデルの構造
 > Qian N, Jiang Y, Jiang ZP, Mazzoni P. Movement duration, Fitts's law, and an infinite-horizon optimal feedback control model for biological motor systems. Neural Comput. 2013.
 
-> Li Z, Mazzoni P, Song S, Qian N. A Single, Continuously Applied Control Policy for Modeling Reaching Movements with and without Perturbation. Neural Comput. 2018.
 
 $$
 \begin{array}{l}
@@ -212,14 +211,86 @@ label = [L"Position ($m$)", L"Velocity ($m/s$)", L"Acceleration ($m/s^2$)", L"Je
 figure(figsize=(10, 3))
 for i in 1:2
     subplot(1,3,i)
-    plot(tarray, XSimAll[:,i,:]', "tab:red", alpha=0.5)
-    plot(tarray, Xa[i,:], "k")
-    ylabel(label[i]); grid()
-    xlabel(L"Time ($s$)")
+    plot(tarray, XSimAll[:,i,:]', "tab:gray", alpha=0.5)
+    plot(tarray, Xa[i,:], "tab:red")
+    ylabel(label[i]); xlabel(L"Time ($s$)"); xlim(0, T); grid()
 end
 subplot(1,3,3)
-plot(tarray, uSimAll', "tab:red", alpha=0.5)
-plot(tarray, ua, "k")
-ylabel(L"Control signal ($N\cdot m$)"); grid()
-xlabel(L"Time ($s$)")
+plot(tarray, uSimAll', "tab:gray", alpha=0.5)
+plot(tarray, ua, "tab:red")
+ylabel(L"Control signal ($N\cdot m$)"); xlabel(L"Time ($s$)"); xlim(0, T); grid()
+
+tight_layout()
+
+## 13.4.3 Target jump
+
+> Li Z, Mazzoni P, Song S, Qian N. A Single, Continuously Applied Control Policy for Modeling Reaching Movements with and without Perturbation. Neural Comput. 2018.
+
+T = 1.0   # sec
+Ttj = 0.4 # target jumping timing (sec)
+nt = round(Int, T/dt)
+ntj = round(Int, Ttj/dt)
+tj_dist = 0.1; # target jump distance
+
+Xtj = zeros(4, nt)
+utj = zeros(nt)
+Xtj[1, 1] = -0.5 # m; initial position (target position is zero)
+
+for k=1:nt-1
+    if k == ntj
+        Xtj[1,k] -= tj_dist # When k == ntj, target jumpさせる（実際には現在の位置をずらす）
+    end
+    utj[k] = -L * Xtj[:, k]
+    Xtj[:, k+1] = Xtj[:,k] + (A * Xtj[:,k] + B * utj[k]) * dt
+end
+
+Xtj[1, 1:ntj-1] .-= tj_dist;
+
+XtjAll = zeros(nsim, 4, nt)
+utjAll = zeros(nsim, nt)
+for i in 1:nsim
+    XSim = zeros(4, nt)
+    Xhat = zeros(4, nt)
+    u = zeros(nt)
+    XSim[1, 1] = -0.5 # m; initial position (target position is zero)
+    Xhat[1, 1] = XSim[1, 1]
+    
+    for k=1:nt-1
+        if k == ntj
+            XSim[1,k] -= tj_dist
+            Xhat[1,k] -= tj_dist
+        end
+        u[k] = -L * Xhat[:, k]
+        XSim[:, k+1] = XSim[:,k] + (A * XSim[:,k] + B * u[k]) * dt + sqrtdt * (Y * u[k] * randn() + G * randn(n))
+        dy = C * XSim[:,k] * dt + D * sqrtdt * randn(n-1)
+        Xhat[:, k+1] = Xhat[:,k] + (A * Xhat[:,k] + B * u[k]) * dt + K * (dy - C * Xhat[:,k] * dt)
+    end
+    XtjAll[i,:,:] = XSim
+    utjAll[i, :] = u
+end
+
+XtjAll[:, 1, 1:ntj-1] .-= tj_dist;
+
+tarray = (1:nt) * dt
+target_pos = zeros(nt)
+target_pos[1:ntj-1] .-= tj_dist; 
+
+figure(figsize=(10, 3))
+for i in 1:2
+    subplot(1,3,i)
+    if i == 1
+        plot(tarray, target_pos, "tab:green")
+    end
+    plot(tarray, XtjAll[:,i,:]', "tab:gray", alpha=0.5)
+    plot(tarray, Xtj[i,:], "tab:red")
+    axvline(x=Ttj, color="gray", linestyle="dashed")
+    ylabel(label[i]); xlabel(L"Time ($s$)"); xlim(0, T); grid()
+     
+end
+subplot(1,3,3)
+plot(tarray, utjAll', "tab:gray", alpha=0.5)
+plot(tarray, utj, "tab:red")
+axvline(x=Ttj, color="gray", linestyle="dashed")
+ylabel(L"Control signal ($N\cdot m$)"); xlabel(L"Time ($s$)"); xlim(0, T); grid()
+
 tight_layout()
