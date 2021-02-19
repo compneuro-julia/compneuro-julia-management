@@ -18,7 +18,7 @@ function solveEqualityConstrainedQuadProg(P, q, A, b)
     minimize   : 1/2 * x'*P*x + q'*x
     subject to : A*x = b
     """
-    K = [P A'; A zeros(size(A)[1], size(A)[1])]
+    K = [P A'; A zeros(size(A)[1], size(A)[1])] # KKT matrix
     sol = K \ [-q; b]
     return sol[1:size(A)[2]]
 end
@@ -41,46 +41,32 @@ xf = [10; zeros(2)] # final state (pos=10, vel=0, acc=0)
 Ac = [0 1 0; 0 0 1; α1 α2 α3];
 Bc = [zeros(2); 1]
 A = exp(Ac*dt);
-B = Ac^-1 * (eye(3) - exp(Ac*dt))*Bc
-Q = zeros(K+L, K+L);
+B = Ac^-1 * (eye(3) - exp(Ac*dt))*Bc;
 
 # calculation of Q
+diagQ = zeros(K+L);
 for ell=0:K+L-1
-    if ell<K
-        for k=K:K+L-1
-            tmpQ = A^(k-ell-1) * B * B' * A'^(k-ell-1)
-            Q[ell+1, ell+1] += tmpQ[1,1]
-        end
+    if ell < K
+        diagQ[ell+1] = sum([(A^(k-ell-1) * B * B' * A'^(k-ell-1))[1,1] for k=K:K+L-1])
     else
-        for k=ell+1:K+L-1
-            tmpQ = A^(k-ell-1) * B * B' * A'^(k-ell-1)
-            Q[ell+1, ell+1] = Q[ell, ell] + tmpQ[1,1]
-        end
+        diagQ[ell+1] = diagQ[ell] + (A^(K+L-ell-2) * B * B' * A'^(K+L-ell-2))[1,1]
     end
 end
-
-Q *= 10^13; # for numerical stability
+diagQ *= 10^13 # for numerical stability
+Q = Diagonal(diagQ); 
 
 制約条件における行列Cとベクトルdの計算．
 
 # calculation of C
-C = [];
+C = []
 for p=1:L+1
-    Ctmp = [];
+    Ctmp = []
     for q=1:K+L
         if q == 1
-            if K-1-(q-1)+(p-1)>0
-                Ctmp = A^(K-1-(q-1)+(p-1))*B
-            elseif K-1-(q-1)+(p-1)==0
-                Ctmp = B
-            else
-                Ctmp = zeros(3)
-            end
+            Ctmp = A^(K-1-(q-1)+(p-1))*B
         else
-            if K-1-(q-1)+(p-1)>0
-                Ctmp = [Ctmp A^(K-1-(q-1)+(p-1))*B];
-            elseif K-1-(q-1)+(p-1)==0
-                Ctmp = [Ctmp B];
+            if K-1-(q-1)+(p-1) >= 0
+                Ctmp = [Ctmp A^(K-1-(q-1)+(p-1))*B]; # if K-1-(q-1)+(p-1) == 0; A^(K-1-(q-1)+(p-1))*B equal to B
             else
                 Ctmp = [Ctmp zeros(3)];
             end
@@ -94,7 +80,7 @@ for p=1:L+1
 end
 
 # calculation of d
-d = vec([xf-A^(K+ell)*x0 for ell=0:L]);
+d = vec([xf - A^(K+ell) * x0 for ell=0:L]);
 
 制御信号を二次計画法で計算．
 
