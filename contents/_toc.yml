@@ -28,6 +28,7 @@
 - file: chap9/9_intro
   sections:
     - file: chap9/9-1_statistics_and_information
+    - file: chap9/9-4_slow_feature_analysis
 
 - file: chap10/10_intro
   sections:
