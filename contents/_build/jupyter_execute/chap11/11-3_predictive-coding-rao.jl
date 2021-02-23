@@ -90,11 +90,7 @@ close(mat_images)
 
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using LinearAlgebra
-using Random
-using Statistics
-using ProgressMeter
-using PyPlot
+using LinearAlgebra, Random, Statistics, PyPlot, ProgressMeter
 
 モデルを定義する．
 
@@ -252,7 +248,7 @@ function run_simulation(imgs, num_iter, nt_max, eps)
         # Print moving average error
         if iter % 1000 == 0
             moving_average_error = mean(errorarr[iter-999:iter])
-            println("iter: ", iter, "/", num_iter, ", Moving average error:", moving_average_error)
+            println("[", iter, "/", num_iter, "] Moving average error:", moving_average_error)
         end
     end
     return model, errorarr
@@ -265,7 +261,7 @@ num_iter = 5000 # number of iterations
 nt_max = 1000 # Maximum number of simulation time
 eps = 1e-3 # small value which determines convergence
 
-model, errorarr = run_simulation(imgs, num_iter, nt_max, eps)
+model, errorarr = run_simulation(imgs, num_iter, nt_max, eps);
 
 ### 訓練中の損失の描画
 訓練中の損失の変化を描画してみよう．損失が低下し，学習が進行したことが分かる．

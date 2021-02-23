@@ -1,6 +1,24 @@
 # 13.2 終点誤差分散最小モデル (minimum-variance model)
 **終点誤差分散最小モデル** (minimum-variance model; Harris & Wolpert, 1998)を実装する．
 
+$$
+\mathbf{x}_{t+1} = A \mathbf{x}_t + B(u_t + w_t)
+$$
+
+$A\in \mathbb{R}^{n\times n}$, $B\in \mathbb{R}^{n}$
+
+$\mathbf{x}_t$の平均は
+
+$$
+\mathrm{E}\left[\mathbf{x}_{t}\right]=A^{t} \mathbf{x}_{0}+\sum_{i=0}^{t-1} A^{t-1-i} \boldsymbol{B} u_{i}
+$$
+
+$\mathbf{x}_t$の分散は
+
+$$
+\operatorname{Cov}\left[\mathbf{x}_{t}\right]=k \sum_{i=0}^{t-1}\left(A^{t-1-i} \boldsymbol{B}\right)\left(A^{t-1-i} \boldsymbol{B}\right)^{\mathrm{T}} u_{i}^{2}
+$$
+
 ## 13.2.1 終点誤差分散最小モデルの実装
 以下では田中先生の<https://motorcontrol.jp/mc13/MC2019_2_OptimalControlStochastic.pdf>のコードを参考に作成した．
 
@@ -29,9 +47,10 @@ tm = 10*1e-3
 dt = 1e-3     # simulation time step (s)
 tf = 50*1e-3  # movement duration (s)
 tp = 20*1e-3  # post-movement duration (s)
-K = round(Int, tf/dt)
-L = round(Int, tp/dt)
-trange = (1:K+L) * dt * 1e3 # ms
+ntf = round(Int, tf/dt)
+ntp = round(Int, tp/dt)
+nt = ntf + ntp # total time steps
+trange = (1:nt) * dt * 1e3 # ms
 
 x0 = zeros(3)       # initial state (pos=0, vel=0, acc=0)
 xf = [10; zeros(2)] # final state (pos=10, vel=0, acc=0)
@@ -44,12 +63,12 @@ A = exp(Ac*dt);
 B = Ac^-1 * (eye(3) - exp(Ac*dt))*Bc;
 
 # calculation of Q
-diagQ = zeros(K+L);
-for ell=0:K+L-1
-    if ell < K
-        diagQ[ell+1] = sum([(A^(k-ell-1) * B * B' * A'^(k-ell-1))[1,1] for k=K:K+L-1])
+diagQ = zeros(nt);
+for i=0:nt-1
+    if i < ntf
+        diagQ[i+1] = sum([(A^(k-i-1) * B * B' * A'^(k-i-1))[1,1] for k=ntf:nt-1])
     else
-        diagQ[ell+1] = diagQ[ell] + (A^(K+L-ell-2) * B * B' * A'^(K+L-ell-2))[1,1]
+        diagQ[i+1] = diagQ[i] + (A^(nt-i-2) * B * B' * A'^(nt-i-2))[1,1]
     end
 end
 diagQ *= 10^13 # for numerical stability
@@ -58,41 +77,30 @@ Q = Diagonal(diagQ);
 制約条件における行列Cとベクトルdの計算．
 
 # calculation of C
-C = []
-for p=1:L+1
-    Ctmp = []
-    for q=1:K+L
-        if q == 1
-            Ctmp = A^(K-1-(q-1)+(p-1))*B
-        else
-            if K-1-(q-1)+(p-1) >= 0
-                Ctmp = [Ctmp A^(K-1-(q-1)+(p-1))*B]; # if K-1-(q-1)+(p-1) == 0; A^(K-1-(q-1)+(p-1))*B equal to B
-            else
-                Ctmp = [Ctmp zeros(3)];
-            end
+C = zeros((ntp+1)*3, nt);
+for p=1:ntp+1
+    for q=1:nt
+        if ntf-1+(p-1)-(q-1) >= 0
+            idx = 3*(p-1)+1:3*p
+            C[idx, q] = A^(ntf-1-(q-1)+(p-1))*B # if ntf-1-(q-1)+(p-1) == 0; A^(ntf-1-(q-1)+(p-1))*B equal to B
         end
-    end
-    if p == 1
-        C = Ctmp
-    else
-        C = [C; Ctmp]
     end
 end
 
 # calculation of d
-d = vec([xf - A^(K+ell) * x0 for ell=0:L]);
+d = vec([xf - A^(ntf+i) * x0 for i=0:ntp]);
 
 制御信号を二次計画法で計算．
 
 # solution by quadratic programming
-u = solveEqualityConstrainedQuadProg(Q, zeros(K+L), C, d);
+u = solveEqualityConstrainedQuadProg(Q, zeros(nt), C, d);
 
 シミュレーションの実行．
 
 # forward solution
-x = zeros(3, K+L);
+x = zeros(3, nt);
 x[:,1] = x0;
-for k=1:K+L-1
+for k=1:nt-1
     x[:,k+1] = A*x[:, k] + B*u[k]
 end
 
