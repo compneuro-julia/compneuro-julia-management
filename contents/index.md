@@ -56,6 +56,9 @@ Julia 1.6.0-beta1
 8. 神経系の非線形ダイナミクス
 9. [情報理論と最適化原理](https://compneuro-julia.github.io/chap9/9_intro.html)
 	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/chap9/9-1_statistics_and_information.html)
+	2. 主成分分析
+	3. 独立成分分析
+	4. [Slow Feature Analysis](https://compneuro-julia.github.io/chap9/9-4_slow_feature_analysis.html)
 
 10. [連想記憶モデル](https://compneuro-julia.github.io/chap10/10_intro.html)
 	1. Ising モデル
