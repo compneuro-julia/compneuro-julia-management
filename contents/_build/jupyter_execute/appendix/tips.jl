@@ -160,3 +160,6 @@ vec(X) = vcat(X...)
 X = reshape((B' ⊗ A)^-1 * vec(C), (m, m))
 
 A * X * B
+
+### 9. "splat" operator ... 
+https://docs.julialang.org/en/v1/base/base/#...
