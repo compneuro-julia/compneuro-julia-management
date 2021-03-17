@@ -23,6 +23,7 @@
 
 - file: chap7/7_intro
   sections:
+    - file: chap7/7-6_backpropagation_Zipser-Andersen
     - file: chap7/7-9_bptt
 
 - file: chap9/9_intro
