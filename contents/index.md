@@ -46,7 +46,7 @@ Julia 1.6.0-beta1
 	3. STDP則
 	4. Burst発火と可塑性
 	5. 競合学習 (competitive learning)
-	6. 勾配法と誤差逆伝播法 (backpropagation)
+	6. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/chap7/7-6_backpropagation_Zipser-Andersen.html)
 	7. 誤差逆伝播法の近似手法
 	8. 経時的貢献度分配問題 (temporal credit assignment problem)
 	9. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/chap7/7-9_bptt.html)
