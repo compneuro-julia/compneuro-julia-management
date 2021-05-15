@@ -58,6 +58,7 @@
 
 - file: appendix/appendix_intro
   sections:
+    - file: appendix/appendix_rat-trajectory
     - file: appendix/tips
     - file: appendix/useful_links
     - file: appendix/usage_jupyter_book
