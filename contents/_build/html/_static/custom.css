@@ -1,0 +1,111 @@
+@font-face {
+    font-family: JuliaMono-Regular;
+    src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
+}
+
+.bd-sidebar h1.site-logo{
+   font-size:0!important;
+}
+
+nav.bd-links p.caption {
+    font-size: 1.1em!important;
+}
+
+h1 {
+    font-size: 2em!important;
+}
+
+h2 {
+    font-size: 1.7em!important;
+}
+
+.utterances {
+  margin-left: inherit!important;
+}
+
+body img {
+  display: block;
+  margin: auto;
+}
+
+.table thead th {
+    vertical-align: middle!important;
+    text-align: center!important;
+    border-bottom: 3px solid #dee2e6;
+}
+
+.table td, .table th {
+    border: 1px solid #dee2e6;
+    vertical-align: middle!important;
+    text-align: center!important;
+}
+
+.bd-content .section table {
+    overflow-y: hidden;
+}
+
+.table td > p{
+  margin-bottom: 0;
+}
+
+.table th > p{
+  margin-bottom: 0;
+}
+
+.table thead th > p{
+  margin-bottom: 0;
+}
+
+div.cell div.cell_input {
+    background-color: #323443;
+    border: 0px!important;
+}
+
+div.cell div.cell_input pre{
+    color: #f8f8f2;
+    font-family: "JuliaMono-Regular", "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace!important;
+}
+
+div.cell div.cell_output pre{
+    background-color: #eeeeff;
+    color: black;
+    font-family: "JuliaMono-Regular", "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace!important;
+}
+
+div.highlight pre{
+    background-color: #323443;
+    border: 0px!important;
+    font-family: "JuliaMono-Regular", "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace!important;
+}
+
+pre {color: #f8f8f2}
+pre span.n {color: #f8f8f2 !important}
+pre span.nt {color: #f8f8f2 !important}
+pre span.nn {color: #f8f8f2 !important}
+pre span.kn {color: #ebd247 !important}
+pre span.p {color: #f8f8f2 !important}
+pre span.k {color: #ebd247 !important}
+pre span.kc {color: #ebd247 !important}
+pre span.kp {color: #ebd247 !important}
+pre span.kt {color: #ebd247 !important}
+pre span.ow {color: #ebd247 !important}
+pre span.o {color: #e18095 !important}
+pre span.mf {color: #a980f5 !important}
+pre span.mi {color: #a980f5 !important}
+pre span.se {color: #a980f5 !important}
+pre span.nb {color: #f8f8f2 !important}
+pre span.nd {color: #8BDF4C !important}
+pre span.c {color: #9dabae !important}
+pre span.c1 {color: #9dabae !important}
+pre span.s {color: #41b7d7 !important}
+pre span.sb {color: #41b7d7 !important}
+pre span.s2 {color: #41b7d7 !important}
+pre span.sa {color: #f8f8f2 !important}
+pre span.s1 {color: #f8f8f2 !important}
+pre span.m {color: #f8f8f2 !important}
+
+code {
+  color: #252525!important;
+  background: #f0f0f0!important;
+  padding: 2px;
+}
