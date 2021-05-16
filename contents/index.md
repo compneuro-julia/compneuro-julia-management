@@ -9,7 +9,7 @@ Julia 1.6.0
 ```
 
 ### 依存ライブラリ
-`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick`
+`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, Seaborn`
 
 ※ PyCallに関してはPythonライブラリ `scipy`を使用．
 
