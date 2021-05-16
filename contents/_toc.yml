@@ -1,64 +1,67 @@
 - file: index
 - file: preface
 
-- file: chap1/1_intro
+- file: chap1/intro_ch1
   sections:
     - file: chap1/notation
 
-- file: chap2/2_intro
+- file: chap2/intro_ch2
   sections:
-    - file: chap2/2-2_hodgkinhuxley
-    - file: chap2/2-3_fhn
-    - file: chap2/2-4_lif
-    - file: chap2/2-5_iz
-    - file: chap2/2-8_isi
+    - file: chap2/hodgkin-huxley
+    - file: chap2/fhn
+    - file: chap2/lif
+    - file: chap2/izhikevich
+    - file: chap2/isi
 
-- file: chap3/3_intro
+- file: chap3/intro_ch3
   sections:
-    - file: chap3/3-1_synapse
-    - file: chap3/3-2_current-conductance-synapse
-    - file: chap3/3-3_expo-synapse
-    - file: chap3/3-4_kinetic-synapse
-    - file: chap3/3-6_synaptic-weighted
+    - file: chap3/synapse
+    - file: chap3/current-conductance-synapse
+    - file: chap3/expo-synapse
+    - file: chap3/kinetic-synapse
+    - file: chap3/synaptic-weighted
 
-- file: chap7/7_intro
+- file: chap7/intro_ch7
   sections:
-    - file: chap7/7-6_backpropagation_Zipser-Andersen
-    - file: chap7/7-9_bptt
+    - file: chap7/backpropagation-zipser-andersen
+    - file: chap7/bptt
+    - file: chap7/semantic-development-dnn
 
-- file: chap9/9_intro
+- file: chap9/intro_ch9
   sections:
-    - file: chap9/9-1_statistics_and_information
-    - file: chap9/9-4_slow_feature_analysis
+    - file: chap9/statistics-information
+    - file: chap9/slow-feature-analysis
 
-- file: chap10/10_intro
+- file: chap10/intro_ch10
   sections:
-    - file: chap10/10-3_boltzmann_machine
+    - file: chap10/boltzmann-machine
 
-- file: chap11/11_intro
+- file: chap11/intro_ch11
   sections:
-    - file: chap11/11-1_bayes_statistics
-    - file: chap11/11-2_sparse-coding
-    - file: chap11/11-3_predictive-coding-rao
+    - file: chap11/bayes-statistics
+    - file: chap11/sparse-coding
+    - file: chap11/predictive-coding-rao
 
-- file: chap12/12_intro
+- file: chap12/intro_ch12
   sections:
-    - file: chap12/12-1_td_learning
+    - file: chap12/td-learning
 
-- file: chap13/13_intro
+- file: chap13/intro_ch13
   sections:
-    - file: chap13/13-1_minimum_jerk
-    - file: chap13/13-2_minimum_variance
-    - file: chap13/13-3_optimal_feedback_control
-    - file: chap13/13-4_infinite_horizon_ofc
+    - file: chap13/minimum-jerk
+    - file: chap13/minimum-variance
+    - file: chap13/optimal-feedback-control
+    - file: chap13/infinite-horizon-ofc
 
-- file: chap14/14_intro
+- file: chap14/intro_ch14
   sections:
-    - file: chap14/14-1_grid_cells
+    - file: chap14/grid-cells-decoding
 
-- file: appendix/appendix_intro
+- file: appendix/intro_appendix
   sections:
-    - file: appendix/appendix_rat-trajectory
+    - file: appendix/linear-regression
+    - file: appendix/quantile-expectile-regression
+    - file: appendix/rat-trajectory
     - file: appendix/tips
-    - file: appendix/useful_links
-    - file: appendix/usage_jupyter_book
+    - file: appendix/useful-links
+    - file: appendix/usage-jupyter-book
