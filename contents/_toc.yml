@@ -1,63 +1,63 @@
 - file: index
 - file: preface
 
-- file: chap1/intro_ch1
+- file: introduction/intro
   sections:
-    - file: chap1/notation
+    - file: introduction/notation
 
-- file: chap2/intro_ch2
+- file: neuron-model/intro
   sections:
-    - file: chap2/hodgkin-huxley
-    - file: chap2/fhn
-    - file: chap2/lif
-    - file: chap2/izhikevich
-    - file: chap2/isi
+    - file: neuron-model/hodgkin-huxley
+    - file: neuron-model/fhn
+    - file: neuron-model/lif
+    - file: neuron-model/izhikevich
+    - file: neuron-model/isi
 
-- file: chap3/intro_ch3
+- file: synapse-model/intro
   sections:
-    - file: chap3/synapse
-    - file: chap3/current-conductance-synapse
-    - file: chap3/expo-synapse
-    - file: chap3/kinetic-synapse
-    - file: chap3/synaptic-weighted
+    - file: synapse-model/synapse
+    - file: synapse-model/current-conductance-synapse
+    - file: synapse-model/expo-synapse
+    - file: synapse-model/kinetic-synapse
+    - file: synapse-model/synaptic-weighted
 
-- file: chap7/intro_ch7
+- file: learning-rule/intro
   sections:
-    - file: chap7/backpropagation-zipser-andersen
-    - file: chap7/bptt
-    - file: chap7/semantic-development-dnn
+    - file: learning-rule/backpropagation-zipser-andersen
+    - file: learning-rule/bptt
+    - file: learning-rule/semantic-development-dnn
 
-- file: chap9/intro_ch9
+- file: information-theory/intro
   sections:
-    - file: chap9/statistics-information
-    - file: chap9/slow-feature-analysis
+    - file: information-theory/statistics-information
+    - file: information-theory/slow-feature-analysis
 
-- file: chap10/intro_ch10
+- file: associative-memory-model/intro
   sections:
-    - file: chap10/boltzmann-machine
+    - file: associative-memory-model/boltzmann-machine
 
-- file: chap11/intro_ch11
+- file: bayesian-brain/intro
   sections:
-    - file: chap11/bayes-statistics
-    - file: chap11/sparse-coding
-    - file: chap11/predictive-coding
+    - file: bayesian-brain/bayes-statistics
+    - file: bayesian-brain/sparse-coding
+    - file: bayesian-brain/predictive-coding
 
-- file: chap12/intro_ch12
+- file: reinforcement-learning/intro
   sections:
-    - file: chap12/td-learning
+    - file: reinforcement-learning/td-learning
 
-- file: chap13/intro_ch13
+- file: motor-learning/intro
   sections:
-    - file: chap13/minimum-jerk
-    - file: chap13/minimum-variance
-    - file: chap13/optimal-feedback-control
-    - file: chap13/infinite-horizon-ofc
+    - file: motor-learning/minimum-jerk
+    - file: motor-learning/minimum-variance
+    - file: motor-learning/optimal-feedback-control
+    - file: motor-learning/infinite-horizon-ofc
 
-- file: chap14/intro_ch14
+- file: spatiotemporal-coding/intro
   sections:
-    - file: chap14/grid-cells-decoding
+    - file: spatiotemporal-coding/grid-cells-decoding
 
-- file: appendix/intro_appendix
+- file: appendix/intro
   sections:
     - file: appendix/linear-regression
     - file: appendix/quantile-expectile-regression
