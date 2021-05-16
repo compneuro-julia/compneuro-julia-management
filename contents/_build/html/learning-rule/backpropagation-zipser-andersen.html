@@ -1,0 +1,1009 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして） &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="BPTT (backpropagation through time)" href="bptt.html" />
+    <link rel="prev" title="神経回路網の学習則" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   神経回路網の学習則
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../associative-memory-model/intro.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/learning-rule/backpropagation-zipser-andersen.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/learning-rule/backpropagation-zipser-andersen.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/learning-rule/backpropagation-zipser-andersen.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/learning-rule/backpropagation-zipser-andersen.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   ニューラルネットワークモデル
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#optimizer">
+     Optimizerの作成
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     順伝播・逆伝播の実装
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   Zipser-Andersenモデル
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     データセットの生成
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#monotonic-format">
+   補足：Monotonic formatによる位置のエンコーディング
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="zipser-andersen">
+<h1>勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）<a class="headerlink" href="#zipser-andersen" title="Permalink to this headline">¶</a></h1>
+<p><strong>誤差逆伝播法(back-propagation)</strong> を <strong>Zipser-Andersenモデル</strong>(<a class="reference external" href="https://www.nature.com/articles/331679a0">Zipser &amp; Andersen, Nature. 1988</a>)を例にして解説する．</p>
+<div class="section" id="id1">
+<h2>ニューラルネットワークモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>この節では入力層，隠れ層，出力層からなる3層ニューラルネットワークを実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Statistics</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">ProgressMeter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">NN</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">n_batch</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c"># batch size</span>
+    <span class="n">n_in</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c"># number of input units</span>
+    <span class="n">n_hid</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c"># number of hidden units</span>
+    <span class="n">n_out</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c"># number of output units</span>
+    
+    <span class="n">params</span><span class="o">::</span><span class="kt">Dict</span><span class="p">{</span><span class="kt">Any</span><span class="p">,</span> <span class="kt">Any</span><span class="p">}</span> <span class="c"># weights and bias</span>
+    <span class="n">grads</span><span class="o">::</span><span class="kt">Dict</span><span class="p">{</span><span class="kt">Any</span><span class="p">,</span> <span class="kt">Any</span><span class="p">}</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">()</span> <span class="c"># gradient of params</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">NN</span><span class="p">(</span><span class="n">n_batch</span><span class="p">,</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_hid</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">()</span>
+    <span class="n">params</span><span class="p">[</span><span class="s">&quot;W1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">n_in</span><span class="p">,</span> <span class="n">n_hid</span><span class="p">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_in</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s">&quot;W2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">2</span><span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">/</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">n_hid</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s">&quot;b1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_hid</span><span class="p">)</span>
+    <span class="n">params</span><span class="p">[</span><span class="s">&quot;b2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_out</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kt">NN</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">n_batch</span><span class="o">=</span><span class="n">n_batch</span><span class="p">,</span> <span class="n">n_in</span><span class="o">=</span><span class="n">n_in</span><span class="p">,</span> <span class="n">n_hid</span><span class="o">=</span><span class="n">n_hid</span><span class="p">,</span> <span class="n">n_out</span><span class="o">=</span><span class="n">n_out</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>mutable struct <code class="docutils literal notranslate"><span class="pre">NN</span></code>を用意し，<strong>重みの初期化(weight initialization)</strong> を行う同名の関数<code class="docutils literal notranslate"><span class="pre">NN</span></code>を用意する．重みの初期化の手法は複数ある(Glorot &amp; Bengio, 2010)が，ここでは重みを<span class="math notranslate nohighlight">\(w\)</span>として，<span class="math notranslate nohighlight">\(w \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)\)</span>とする．ただし，<span class="math notranslate nohighlight">\(n\)</span>は入力ユニット数である．</p>
+<div class="section" id="optimizer">
+<h3>Optimizerの作成<a class="headerlink" href="#optimizer" title="Permalink to this headline">¶</a></h3>
+<p>abstract typeとして<code class="docutils literal notranslate"><span class="pre">Optimizer</span></code>タイプを作成する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">abstract type</span> <span class="kt">Optimizer</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>確率的勾配降下法(stochastic gradient descent; SGD)</strong> を実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># SGD optimizer</span>
+<span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">SGD</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="kt">Optimizer</span>
+    <span class="n">η</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">optimizer_update!</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">grad</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">::</span><span class="kt">SGD</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">η</span> <span class="o">=</span> <span class="n">optimizer</span>
+    <span class="n">param</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">-=</span> <span class="n">η</span> <span class="o">*</span> <span class="n">grad</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>optimizer_update! (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<p>次に<strong>Adam</strong> (<a class="reference external" href="https://arxiv.org/abs/1412.6980">Kingma &amp; Ba, 2014</a>) を実装する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Adam optimizer</span>
+<span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">Adam</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">&lt;:</span> <span class="kt">Optimizer</span>
+    <span class="n">α</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mf">1e-4</span>
+    <span class="n">β1</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.9</span>
+    <span class="n">β2</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.999</span>
+    <span class="n">ϵ</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">1e-8</span>
+    <span class="n">ms</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">()</span>
+    <span class="n">vs</span> <span class="o">=</span> <span class="kt">Dict</span><span class="p">()</span>
+<span class="k">end</span>
+
+<span class="c"># Adam optimizer</span>
+<span class="k">function</span> <span class="n">optimizer_update!</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">grad</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">::</span><span class="kt">Adam</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">α</span><span class="p">,</span> <span class="n">β1</span><span class="p">,</span> <span class="n">β2</span><span class="p">,</span> <span class="n">ϵ</span><span class="p">,</span> <span class="n">ms</span><span class="p">,</span> <span class="n">vs</span> <span class="o">=</span> <span class="n">optimizer</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">objectid</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+    <span class="k">if</span> <span class="o">!</span><span class="n">haskey</span><span class="p">(</span><span class="n">ms</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span> 
+        <span class="n">ms</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">vs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">param</span><span class="p">)),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">size</span><span class="p">(</span><span class="n">param</span><span class="p">))</span>
+    <span class="k">end</span>    
+    <span class="n">m</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="n">ms</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">vs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+    <span class="n">m</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">β1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">grad</span> <span class="o">-</span> <span class="n">m</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">+=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">β2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">grad</span> <span class="o">.*</span> <span class="n">grad</span> <span class="o">-</span> <span class="n">v</span><span class="p">)</span>
+    <span class="n">param</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">-=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">m</span> <span class="o">./</span> <span class="p">(</span><span class="n">sqrt</span><span class="o">.</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">.+</span> <span class="n">ϵ</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>optimizer_update! (generic function with 2 methods)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id2">
+<h3>順伝播・逆伝播の実装<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>活性化関数を用意する．今回はsigmoid関数のみ使用する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">));</span>
+<span class="n">relu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">=</span> <span class="n">x</span> <span class="o">.*</span> <span class="p">(</span><span class="n">x</span> <span class="o">.&gt;</span> <span class="mi">0</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p><span class="math notranslate nohighlight">\(f(\cdot)\)</span>を活性化関数とする．順伝播(feedforward propagation)は以下のようになる．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{入力層 : }&amp;\mathbf{z}^{(0)}=\mathbf{x}\\
+\text{隠れ層 : }&amp;\mathbf{z}^{(\ell)}=f\left(\mathbf{a}^{(\ell)}\right)\\
+&amp;\mathbf{a}^{(\ell+1)}=W^{(\ell+1)}\mathbf{z}^{(\ell)}+\mathbf{b}^{(\ell+1)}\\
+\text{出力層 : }&amp;\hat{\mathbf{y}}=\mathbf{z}^{(L)}
+\end{align}
+\end{split}\]</div>
+<p>逆伝播(backward propagation)</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{目的関数 : }&amp;\mathcal{L}=\frac{1}{2}\left\|\hat{\mathbf{y}}-\mathbf{y}\right\|^{2}\\
+\text{最急降下法 : }&amp;\Delta W^{(\ell)}=-\eta \frac{\partial \mathcal{L}}{\partial W^{(\ell)}}\\
+&amp;\Delta \mathbf{b}^{(\ell)}=-\eta \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(\ell)}}\\
+\text{誤差逆伝播法 : }&amp;\frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(L)}}=\hat{\mathbf{y}}-\mathbf{y}\\
+&amp;\delta^{(L)}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(L)}} \frac{\partial \mathbf{z}^{(L)}}{\partial \mathbf{a}^{(L)}}=\left(\hat{\mathbf{y}}-\mathbf{y}\right) \odot f^{\prime}\left(\mathbf{a}^{(L)}\right)\\
+&amp;\mathbf{\delta}^{(\ell)}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}}=\left(W^{(\ell+1)}\right)^\top \delta^{(\ell+1)} \odot f^{\prime}\left(\mathbf{a}^{(\ell)}\right)\\
+&amp;\frac{\partial \mathcal{L}}{\partial W^{(\ell)}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}} \frac{\partial \mathbf{a}^{(\ell)}}{\partial W^{(\ell)}}=\delta^{(\ell)}\left(\mathbf{z}^{(\ell-1)}\right)^\top\\
+&amp;\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(\ell)}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}} \frac{\partial \mathbf{a}^{(\ell)}}{\partial \mathbf{b}^{(\ell)}}=\delta^{(\ell)}
+\end{align}
+\end{split}\]</div>
+<p>バッチ処理を考慮すると，行列を乗ずる順番が変わる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="kt">NN</span><span class="p">,</span> <span class="n">x</span><span class="o">::</span><span class="kt">Array</span><span class="p">,</span> <span class="n">y</span><span class="o">::</span><span class="kt">Array</span><span class="p">,</span> <span class="n">training</span><span class="o">::</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">::</span><span class="kt">Optimizer</span><span class="o">=</span><span class="n">SGD</span><span class="p">(),</span> <span class="n">losstype</span><span class="o">::</span><span class="kt">String</span><span class="o">=</span><span class="s">&quot;binary_crossentropy&quot;</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">n_batch</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">variable</span> 
+    <span class="n">W1</span><span class="p">,</span> <span class="n">W2</span><span class="p">,</span> <span class="n">b1</span><span class="p">,</span> <span class="n">b2</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="s">&quot;W1&quot;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s">&quot;W2&quot;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s">&quot;b1&quot;</span><span class="p">],</span> <span class="n">params</span><span class="p">[</span><span class="s">&quot;b2&quot;</span><span class="p">]</span>
+    
+    <span class="c"># feedforward</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="n">W1</span> <span class="o">.+</span> <span class="n">b1</span><span class="p">)</span> <span class="c"># hidden</span>
+    <span class="n">ŷ</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="o">.</span><span class="p">(</span><span class="n">h</span> <span class="o">*</span> <span class="n">W2</span> <span class="o">.+</span> <span class="n">b2</span><span class="p">)</span> <span class="c"># output</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">ŷ</span> <span class="o">-</span> <span class="n">y</span>
+    
+    <span class="k">if</span> <span class="n">training</span> <span class="c"># backward </span>
+        <span class="k">if</span> <span class="n">losstype</span> <span class="o">==</span> <span class="s">&quot;binary_crossentropy&quot;</span>
+            <span class="n">δ2</span> <span class="o">=</span> <span class="n">error</span> 
+        <span class="k">elseif</span> <span class="n">losstype</span> <span class="o">==</span> <span class="s">&quot;squared_error&quot;</span>
+            <span class="n">δ2</span> <span class="o">=</span> <span class="n">error</span> <span class="o">.*</span> <span class="n">ŷ</span> <span class="o">.*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">.-</span> <span class="n">ŷ</span><span class="p">)</span>
+        <span class="k">end</span>
+        <span class="n">δ1</span> <span class="o">=</span> <span class="n">δ2</span> <span class="o">*</span> <span class="n">W2</span><span class="o">&#39;</span> <span class="o">.*</span> <span class="n">h</span> <span class="o">.*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">.-</span> <span class="n">h</span><span class="p">)</span>
+
+        <span class="c"># get gradients</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s">&quot;W1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">δ1</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s">&quot;W2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">h</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">δ2</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s">&quot;b1&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">δ1</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">grads</span><span class="p">[</span><span class="s">&quot;b2&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">δ2</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c"># update params</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="k">in</span> <span class="n">keys</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">params</span><span class="p">)</span> 
+            <span class="n">optimizer_update!</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">grads</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">/</span> <span class="n">n_batch</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">error</span><span class="p">,</span> <span class="n">ŷ</span><span class="p">,</span> <span class="n">h</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>update! (generic function with 3 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="math notranslate nohighlight">
+\[
+\frac{d}{dx} \text{Sigmoid}(x) = \text{Sigmoid}(x) \cdot \left(1 - \text{Sigmoid}(x)\right)
+\]</div>
+<p>であることに注意．</p>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>Zipser-Andersenモデル<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<p>Zipser-Andersenモデル(<a class="reference external" href="https://www.nature.com/articles/331679a0">Zipser &amp; Andersen, Nature. 1988</a>)は頭頂葉の7a野のモデルであり，網膜座標系における物体の位置と眼球位置を入力として，頭部中心座標(head centered coordinate)に変換する．隠れ層はPPC(Posterior parietal cortex)の細胞のモデルになっている．</p>
+<div class="section" id="id4">
+<h3>データセットの生成<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>物体位置の表現にはGaussian形式とmonotonic形式があるが，簡単のために，Gaussian形式を用いる．なお，monotonic形式については末尾の補足を参照してほしい．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gaussian 2d</span>
+<span class="k">function</span> <span class="n">Gaussian2d</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">sizex</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">sizey</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">σ</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">x</span><span class="p">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">y</span><span class="p">)],</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">j</span> <span class="k">in</span> <span class="n">y</span><span class="p">]</span>
+    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="n">pos</span>
+    <span class="k">return</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">X</span> <span class="o">.-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">.-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="n">σ</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Gaussian2d (generic function with 4 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<p>入力は64(網膜座標系での位置)+2(眼球位置信号)=66とする．眼球位置信号は原著ではmonotonic形式による32(=8ユニット×2(x, y方向)×2 (傾き正負))ユニットで構成されるが，簡単のために眼球位置信号も<span class="math notranslate nohighlight">\(x, y\)</span>の2次元とする．視覚刺激は-40度から40度までの範囲であり，10度で離散化する．よって，網膜座標系での位置は<span class="math notranslate nohighlight">\(8\times 8\)</span>の行列で表現される．位置は2次元のGaussianで表現する．ただし，1/e幅（ピークから1/eに減弱する幅）は15度である．<span class="math notranslate nohighlight">\(1/e\)</span>の代わりに<span class="math notranslate nohighlight">\(1/2\)</span>とすれば半値全幅(FWHM)となる．スポットサイズを<span class="math notranslate nohighlight">\(w\)</span>，Gaussianを<span class="math notranslate nohighlight">\(G(x)\)</span>とすると．<span class="math notranslate nohighlight">\(G(x+w/2)=G/e\)</span>より，<span class="math notranslate nohighlight">\(\sigma=\frac{\sqrt{2}w}{4}\)</span>と求まる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># dataset parameter</span>
+<span class="n">θmax</span> <span class="o">=</span> <span class="mf">40.0</span> <span class="c"># degree, θ∈[-θmax, θmax]</span>
+<span class="n">Δθ</span> <span class="o">=</span> <span class="mf">10.0</span> <span class="c"># degree</span>
+<span class="n">stimuli_size</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="mi">2</span><span class="n">θmax</span> <span class="o">/</span> <span class="n">Δθ</span><span class="p">)</span>
+<span class="n">w</span> <span class="o">=</span> <span class="mf">15.0</span> <span class="c"># degree; 1/e width</span>
+<span class="n">σ</span> <span class="o">=</span> <span class="o">√</span><span class="mi">2</span><span class="n">w</span><span class="o">/</span><span class="p">(</span><span class="mi">4</span><span class="n">Δθ</span><span class="p">);</span>
+
+<span class="c"># training parameter</span>
+<span class="n">n_data</span> <span class="o">=</span> <span class="mi">10000</span>
+<span class="n">n_traindata</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">n_data</span><span class="o">*</span><span class="mf">0.95</span><span class="p">)</span>
+<span class="n">n_batch</span> <span class="o">=</span> <span class="mi">25</span> <span class="c"># batch size</span>
+<span class="n">n_iter_per_epoch</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">n_traindata</span><span class="o">/</span><span class="n">n_batch</span><span class="p">)</span>
+<span class="n">n_epoch</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span> <span class="c"># number of epoch</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># generate positions</span>
+<span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">retinal_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">n_data</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="n">θmax</span> <span class="c"># ∈ [-40, 40]</span>
+<span class="n">head_centered_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">rand</span><span class="p">(</span><span class="n">n_data</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">.-</span> <span class="mf">0.5</span><span class="p">)</span> <span class="o">*</span> <span class="mi">2</span><span class="n">θmax</span> <span class="c"># ∈ [-40, 40]</span>
+<span class="n">eye_pos</span> <span class="o">=</span> <span class="n">head_centered_pos</span> <span class="o">-</span> <span class="n">retinal_pos</span><span class="p">;</span> <span class="c"># ∈ [-80, 80]</span>
+
+<span class="c"># convert</span>
+<span class="n">input_retina</span> <span class="o">=</span> <span class="p">[</span><span class="n">hcat</span><span class="p">(</span><span class="n">Gaussian2d</span><span class="p">((</span><span class="n">retinal_pos</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">.+</span> <span class="n">θmax</span><span class="p">)</span><span class="o">/</span><span class="n">Δθ</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span><span class="o">...</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_data</span><span class="p">];</span>
+<span class="n">input_retina</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">(</span><span class="n">input_retina</span><span class="o">...</span><span class="p">)</span>
+<span class="n">eye_pos</span> <span class="o">/=</span> <span class="mi">2</span><span class="n">θmax</span><span class="p">;</span>
+
+<span class="c"># concat</span>
+<span class="n">x_data</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">input_retina</span><span class="p">,</span> <span class="n">eye_pos</span><span class="p">)</span> <span class="c">#_encoded)</span>
+<span class="n">y_data</span> <span class="o">=</span> <span class="n">vcat</span><span class="p">([</span><span class="n">hcat</span><span class="p">(</span><span class="n">Gaussian2d</span><span class="p">((</span><span class="n">head_centered_pos</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">.+</span> <span class="n">θmax</span><span class="p">)</span><span class="o">/</span><span class="n">Δθ</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span><span class="o">...</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_data</span><span class="p">]</span><span class="o">...</span><span class="p">);</span>
+
+<span class="c"># split</span>
+<span class="n">x_traindata</span><span class="p">,</span> <span class="n">y_traindata</span> <span class="o">=</span> <span class="n">x_data</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">n_traindata</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">y_data</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">n_traindata</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+<span class="n">x_testdata</span><span class="p">,</span> <span class="n">y_testdata</span> <span class="o">=</span> <span class="n">x_data</span><span class="p">[</span><span class="n">n_traindata</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">y_data</span><span class="p">[</span><span class="n">n_traindata</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>モデルの定義を行う．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># model parameter</span>
+<span class="n">n_in</span> <span class="o">=</span> <span class="n">stimuli_size</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span> <span class="c"># number of inputs</span>
+<span class="n">n_hid</span> <span class="o">=</span> <span class="mi">16</span>   <span class="c"># number of hidden units</span>
+<span class="n">n_out</span> <span class="o">=</span> <span class="n">stimuli_size</span><span class="o">^</span><span class="mi">2</span>   <span class="c"># number of outputs</span>
+<span class="n">η</span> <span class="o">=</span> <span class="mf">1e-2</span>  <span class="c"># learning rate</span>
+<span class="n">losstype</span> <span class="o">=</span> <span class="s">&quot;binary_crossentropy&quot;</span> <span class="c"># &quot;squared_error&quot;</span>
+
+<span class="n">nn</span> <span class="o">=</span> <span class="n">NN</span><span class="p">(</span><span class="n">n_batch</span><span class="p">,</span> <span class="n">n_in</span><span class="p">,</span> <span class="n">n_hid</span><span class="p">,</span> <span class="n">n_out</span><span class="p">);</span>
+<span class="n">optimizer</span> <span class="o">=</span> <span class="n">SGD</span><span class="p">(</span><span class="n">η</span><span class="o">=</span><span class="n">η</span><span class="p">);</span> 
+<span class="c">#optimizer = Adam();</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>学習を行う．</p>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">error_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">n_epoch</span><span class="p">);</span> <span class="c"># memory array of each epoch error</span>
+
+<span class="nd">@showprogress</span> <span class="s">&quot;Training...&quot;</span> <span class="k">for</span> <span class="n">e</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_epoch</span>
+    <span class="k">for</span> <span class="n">iter</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_iter_per_epoch</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="p">(</span><span class="n">iter</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">n_batch</span><span class="o">+</span><span class="mi">1</span><span class="o">:</span><span class="n">iter</span><span class="o">*</span><span class="n">n_batch</span>
+        <span class="n">error</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">x_traindata</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">y_traindata</span><span class="p">[</span><span class="n">idx</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="nb">true</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">,</span> <span class="n">losstype</span><span class="p">)</span>
+        <span class="n">error_arr</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">+=</span> <span class="n">sum</span><span class="p">(</span><span class="n">error</span> <span class="o">.^</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="k">end</span> 
+    <span class="n">error_arr</span><span class="p">[</span><span class="n">e</span><span class="p">]</span> <span class="o">/=</span> <span class="n">n_traindata</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>損失の変化を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">semilogy</span><span class="p">(</span><span class="n">error_arr</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Epoch&quot;</span><span class="p">);</span> <span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_epoch</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/backpropagation-zipser-andersen_29_0.png" src="../_images/backpropagation-zipser-andersen_29_0.png" />
+</div>
+</div>
+<p>テストデータを用いて，出力を確認する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x_testdata</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">y_testdata</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span>
+<span class="n">error</span><span class="p">,</span> <span class="n">ŷ</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">nn</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+<span class="n">id</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;input&quot;</span><span class="p">)</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">id</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="mi">64</span><span class="p">],</span> <span class="p">(</span><span class="n">stimuli_size</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">θmax</span><span class="p">,</span> <span class="n">θmax</span><span class="p">,</span> <span class="n">θmax</span><span class="p">,</span> <span class="o">-</span><span class="n">θmax</span><span class="p">])</span>
+<span class="n">ax1</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">id</span><span class="p">,</span> <span class="mi">65</span><span class="o">:</span><span class="mi">66</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="n">θmax</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="nb">false</span><span class="p">))</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;output&quot;</span><span class="p">)</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">ŷ</span><span class="p">[</span><span class="n">id</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">stimuli_size</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">θmax</span><span class="p">,</span> <span class="n">θmax</span><span class="p">,</span> <span class="n">θmax</span><span class="p">,</span> <span class="o">-</span><span class="n">θmax</span><span class="p">])</span>
+<span class="n">ax2</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">id</span><span class="p">,</span> <span class="mi">65</span><span class="o">:</span><span class="mi">66</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="n">θmax</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="nb">false</span><span class="p">))</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+
+<span class="n">ax3</span> <span class="o">=</span> <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;target&quot;</span><span class="p">)</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">id</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="p">(</span><span class="n">stimuli_size</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">))</span><span class="o">&#39;</span><span class="p">,</span> <span class="n">interpolation</span><span class="o">=</span><span class="s">&quot;gaussian&quot;</span><span class="p">,</span> <span class="n">extent</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="n">θmax</span><span class="p">,</span> <span class="n">θmax</span><span class="p">,</span> <span class="n">θmax</span><span class="p">,</span> <span class="o">-</span><span class="n">θmax</span><span class="p">])</span>
+<span class="n">ax3</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">Circle</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="n">id</span><span class="p">,</span> <span class="mi">65</span><span class="o">:</span><span class="mi">66</span><span class="p">])</span><span class="o">*</span><span class="mi">2</span><span class="n">θmax</span><span class="p">,</span> <span class="n">radius</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="nb">false</span><span class="p">))</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span>
+
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/backpropagation-zipser-andersen_31_0.png" src="../_images/backpropagation-zipser-andersen_31_0.png" />
+</div>
+</div>
+<p>重み<code class="docutils literal notranslate"><span class="pre">W1</span></code>におけるゲインフィールドの描画を行う．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Gain fields</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mf">3.2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Gain fields&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">top</span><span class="o">=</span><span class="mf">0.925</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">n_hid</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s">&quot;W1&quot;</span><span class="p">][</span><span class="mi">1</span><span class="o">:</span><span class="n">stimuli_size</span><span class="o">^</span><span class="mi">2</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="n">stimuli_size</span><span class="p">,</span> <span class="n">stimuli_size</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;hot&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/backpropagation-zipser-andersen_33_0.png" src="../_images/backpropagation-zipser-andersen_33_0.png" />
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="monotonic-format">
+<h2>補足：Monotonic formatによる位置のエンコーディング<a class="headerlink" href="#monotonic-format" title="Permalink to this headline">¶</a></h2>
+<p>monotonic形式を入力の眼球位置と出力の頭部中心座標で用いるという仮定には，視覚刺激を中心窩で捉えた際，得られる眼球位置信号を頭部中心座標での位置の教師信号として使用できるという利点がある．(<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/6827308/">Andersen &amp; Mountcastle, J. Neurosci. 1983</a>)では Parietal visual neurons (PVNs)の活動を調べ，傾き正あるいは負．0度をピークとして減少あるいは上昇の4種類あることを示した．前者は一次関数（とReLU関数）で記述可能である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">get_line</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">)</span> <span class="o">=</span> <span class="p">[(</span><span class="n">p2</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">p1</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">-</span> <span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">p2</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">p2</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">p1</span><span class="p">[</span><span class="mi">1</span><span class="p">])]</span> <span class="c"># [slope, intercept]</span>
+<span class="n">eye_pos_coding</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">linear_param</span><span class="p">)</span> <span class="o">=</span> <span class="n">relu</span><span class="p">(</span><span class="n">linear_param</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">*</span> <span class="n">x</span> <span class="o">.+</span> <span class="n">linear_param</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">])</span>
+
+<span class="n">x</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span><span class="n">θmax</span><span class="o">:</span><span class="mi">1</span><span class="o">:</span><span class="mi">2</span><span class="n">θmax</span>
+<span class="n">slope_param</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([</span><span class="n">get_line</span><span class="p">([</span><span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">80</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">/</span><span class="n">stimuli_size</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">stimuli_size</span><span class="p">]</span><span class="o">...</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">(</span><span class="n">eye_pos_coding</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">;</span> <span class="n">linear_param</span><span class="o">=</span><span class="n">slope_param</span><span class="p">)</span><span class="o">...</span><span class="p">)</span>
+<span class="n">eye_pos_encoded</span> <span class="o">=</span> <span class="n">eye_pos_coding</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">;</span> <span class="n">linear_param</span><span class="o">=</span><span class="n">slope_param</span><span class="p">)</span>
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="o">&#39;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Eye position&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Firing rate&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">imshow</span><span class="p">(</span><span class="n">eye_pos_encoded</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span><span class="o">&#39;</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Eye position $=-10^\circ$&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Units&quot;</span><span class="p">)</span> 
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/backpropagation-zipser-andersen_35_0.png" src="../_images/backpropagation-zipser-andersen_35_0.png" />
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./learning-rule"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">神経回路網の学習則</a>
+    <a class='right-next' id="next-link" href="bptt.html" title="next page">BPTT (backpropagation through time)</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

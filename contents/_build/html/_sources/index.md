@@ -16,78 +16,49 @@ Julia 1.6.0
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)
 
-1. [はじめに](https://compneuro-julia.github.io/chap1/1_intro.html)
-	1. 計算論的神経科学とは何か
-	1. [記号の表記](https://compneuro-julia.github.io/chap1/notation.html)
-1. [神経細胞のモデル](https://compneuro-julia.github.io/chap2/2_intro.html)
-	1. 神経細胞の形態と膜電位変化
-	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/chap2/2-2_hodgkinhuxley.html)
-	1. [FitzHugh–Nagumoモデル](https://compneuro-julia.github.io/chap2/2-3_fhn.html)
-	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/chap2/2-4_lif.html)
-	1. [Izhikevich モデル](https://compneuro-julia.github.io/chap2/2-5_iz.html)
-	1. ケーブル理論
-	1. Multi-compartment モデル
-	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/chap2/2-8_isi.html)
-	1. 確率的シナプス電流のノイズによる表現 (Langevin方程式 etc.)
-	1. 確率的集団モデル (Fokker–Planck 方程式)
-	1. 発火率モデル
-1. [シナプス伝達のモデル](https://compneuro-julia.github.io/chap3/3_intro.html)
-	1. [シナプス伝達](https://compneuro-julia.github.io/chap3/3-1_synapse.html)
-	1. [Current-based vs Conductance-based シナプス](https://compneuro-julia.github.io/chap3/3-2_current-conductance-synapse.html)
-	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/chap3/3-3_expo-synapse.html)
-	1. [動力学モデル](https://compneuro-julia.github.io/chap3/3-4_kinetic-synapse.html)
-	1. 増強シナプスと減衰シナプス
-	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/chap3/3-6_synaptic-weighted.html)
-	1. 電気シナプス
-4. 神経回路網の構築 (発火率モデル)
-5. 神経回路網の構築 (Spikingモデル)
-6. 神経回路網の演算処理
-7. [神経回路網の学習則](https://compneuro-julia.github.io/chap7/7_intro.html)
-	1. 学習則と貢献度分配問題 (credit assignment problem)
-	2. Hebb則
-	3. STDP則
-	4. Burst発火と可塑性
-	5. 競合学習 (competitive learning)
-	6. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/chap7/7-6_backpropagation_Zipser-Andersen.html)
-	7. 誤差逆伝播法の近似手法
-	8. 経時的貢献度分配問題 (temporal credit assignment problem)
-	9. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/chap7/7-9_bptt.html)
-	10. RTRL (real time recurrent learning)
-	11. 適格度トレース (eligibility trace) とRTRLの近似手法
-	12. Reservoir computing (FORCE etc.)
-8. 神経系の非線形ダイナミクス
-9. [情報理論と最適化原理](https://compneuro-julia.github.io/chap9/9_intro.html)
-	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/chap9/9-1_statistics_and_information.html)
-	2. 主成分分析
-	3. 独立成分分析
-	4. [Slow Feature Analysis](https://compneuro-julia.github.io/chap9/9-4_slow_feature_analysis.html)
-
-10. [連想記憶モデル](https://compneuro-julia.github.io/chap10/10_intro.html)
-	1. Ising モデル
-	2. Amari-Hopfield モデル
-	3. [ボルツマンマシン](https://compneuro-julia.github.io/chap10/10-3_boltzmann_machine.html)
-
-11. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/chap11/11_intro.html)
-    1. [ベイズ統計の基礎](https://compneuro-julia.github.io/chap11/11-1_bayes_statistics.html)
-    1. [Sparse coding (Olshausen & Field, 1996) モデル](https://compneuro-julia.github.io/chap11/11-2_sparse-coding.html)
-    1. [Predictive coding (Rao & Ballard, 1999) モデル](https://compneuro-julia.github.io/chap11/11-3_predictive-coding-rao.html)
-12. [強化学習](https://compneuro-julia.github.io/chap12/12_intro.html)
-    1. [TD学習](https://compneuro-julia.github.io/chap12/12-1_td_learning.html)
-    2. 分布型TD学習
-13. [運動制御](https://compneuro-julia.github.io/chap13/13_intro.html)
-    1. [躍度最小モデル](https://compneuro-julia.github.io/chap13/13-1_minimum_jerk.html)
-    2. [終点誤差分散最小モデル](https://compneuro-julia.github.io/chap13/13-2_minimum_variance.html)
-    3. [最適フィードバック制御モデル (optimal feedback control; OFC)](https://compneuro-julia.github.io/chap13/13-3_optimal_feedback_control.html)
-    4. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/chap13/13-4_infinite_horizon_ofc.html)
-14. [時空間の符号化](https://compneuro-julia.github.io/chap14/14_intro.html)
-    1. [格子細胞のデコーディング](https://compneuro-julia.github.io/chap14/14-1_grid_cells.html)
-    2. 自己速度積分モデル
-15. 神経細胞の形態と数理モデル
-
-- [付録](https://compneuro-julia.github.io/appendix/appendix_intro.html)
-	- [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
-	- [有用なリンク集](https://compneuro-julia.github.io/appendix/useful_links.html)
-	- [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage_jupyter_book.html)
+1. [はじめに](https://compneuro-julia.github.io/introduction/intro.html)
+	1. [記号の表記](https://compneuro-julia.github.io/introduction/notation.html)
+1. [神経細胞のモデル](https://compneuro-julia.github.io/neuron-model/intro.html)
+	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/neuron-model/hodgkinhuxley.html)
+	1. [FitzHugh–Nagumoモデル](https://compneuro-julia.github.io/neuron-model/fhn.html)
+	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/neuron-model/lif.html)
+	1. [Izhikevich モデル](https://compneuro-julia.github.io/neuron-model/izhikevich.html)
+	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/neuron-model/isi.html)
+1. [シナプス伝達のモデル](https://compneuro-julia.github.io/synapse-model/intro.html)
+	1. [シナプス伝達](https://compneuro-julia.github.io/synapse-model/synapse.html)
+	1. [Current-based / Conductance-based シナプス](https://compneuro-julia.github.io/synapse-model/current-conductance-synapse.html)
+	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/synapse-model/expo-synapse.html)
+	1. [動力学モデル](https://compneuro-julia.github.io/synapse-model/kinetic-synapse.html)
+	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/synapse-model/synaptic-weighted.html)
+1. [神経回路網の学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
+	1. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
+	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
+	1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/semantic-development-dnn.html)
+1. [情報理論と最適化原理](https://compneuro-julia.github.io/information-theory/intro.html)
+	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/information-theory/statistics-information.html)
+	1. [Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
+1. [連想記憶モデル](https://compneuro-julia.github.io/associative-memory-model/intro.html)
+	1. [ボルツマンマシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html)
+1. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/bayesian-brain/intro.html)
+    1. [ベイズ統計の基礎](https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html)
+    1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
+    1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
+1. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
+    1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
+1. [運動制御](https://compneuro-julia.github.io/motor-learning/intro.html)
+    1. [躍度最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-jerk.html)
+    1. [終点誤差分散最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-variance.html)
+    1. [最適フィードバック制御モデル (optimal feedback control; OFC)](https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html)
+    1. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html)
+1. [時空間の符号化](https://compneuro-julia.github.io/spatiotemporal-coding/intro.html)
+    1. [格子細胞のデコーディング](https://compneuro-julia.github.io/spatiotemporal-coding/grid-cells-decoding.html)
+- [付録](https://compneuro-julia.github.io/appendix/intro.html)
+	1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
+	1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+	1. [ラット自由行動下の軌跡のシミュレーション](https://compneuro-julia.github.io/appendix/rat-trajectory.html)
+	1. [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
+	1. [有用なリンク集](https://compneuro-julia.github.io/appendix/useful-links.html)
+	1. [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage-jupyter-book.html)
 
 
 ***

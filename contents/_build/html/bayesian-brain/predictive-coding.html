@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>予測符号化 (predictive coding) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="強化学習" href="../reinforcement-learning/intro.html" />
+    <link rel="prev" title="スパース符号化 (sparse coding)" href="sparse-coding.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../learning-rule/intro.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../associative-memory-model/intro.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/bayesian-brain/predictive-coding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/bayesian-brain/predictive-coding.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/bayesian-brain/predictive-coding.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/bayesian-brain/predictive-coding.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   観測世界の階層的予測
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   損失関数と学習則
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     事前分布の設定
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     損失関数の設定
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     再帰ネットワークの更新則
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     画像データの読み込み
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     モデルの定義
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     シミュレーションの実行
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id9">
+     訓練中の損失の描画
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id10">
+     重み行列 (受容野)の描画
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="predictive-coding">
+<h1>予測符号化 (predictive coding)<a class="headerlink" href="#predictive-coding" title="Permalink to this headline">¶</a></h1>
+<p>Predictive codingの初めの数理的モデルとなる (<a class="reference external" href="https://www.nature.com/articles/nn0199_79">Rao &amp; Ballard, <em>Nat. Neurosci</em>. 1999</a>)を実装する．</p>
+<div class="section" id="id1">
+<h2>観測世界の階層的予測<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>構築するネットワークは入力層を含め，3層のネットワークとする．網膜への入力として画像 <span class="math notranslate nohighlight">\(\mathbf{x} \in \mathbb{R}^{n_0}\)</span>を考える．画像 <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> の観測世界における隠れ変数，すなわち<strong>潜在変数</strong> (latent variable)を<span class="math notranslate nohighlight">\(\mathbf{r} \in \mathbb{R}^{n_1}\)</span>とし，ニューロン群によって発火率で表現されているとする (真の変数と <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{x} = f(\mathbf{U}\mathbf{r}) + \boldsymbol{\epsilon} \tag{1}
+\]</div>
+<p>が成立しているとする．ただし，<span class="math notranslate nohighlight">\(f(\cdot)\)</span>は活性化関数 (activation function)，<span class="math notranslate nohighlight">\(\mathbf{U} \in \mathbb{R}^{n_0 \times n_1}\)</span>は重み行列である．
+<span class="math notranslate nohighlight">\(\boldsymbol{\epsilon} \in \mathbb{R}^{n_0}\)</span> は <span class="math notranslate nohighlight">\(\mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})\)</span> からサンプリングされるとする．</p>
+<p>潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span>はさらに高次 (higher-level)の潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}^h\)</span>により，次式で表現される．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{r} = \mathbf{r}^{td}+\boldsymbol{\epsilon}^{td}=f(\mathbf{U}^h \mathbf{r}^h)+\boldsymbol{\epsilon}^{td} \tag{2}
+\]</div>
+<p>ただし，Top-downの予測信号を <span class="math notranslate nohighlight">\(\mathbf{r}^{td}:=f(\mathbf{U}^h \mathbf{r}^h)\)</span>とした．また，<span class="math notranslate nohighlight">\(\mathbf{r}^{td} \in \mathbb{R}^{n_1}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{r}^{h} \in \mathbb{R}^{n_2}\)</span>, <span class="math notranslate nohighlight">\(\mathbf{U}^h \in \mathbb{R}^{n_1 \times n_2}\)</span> である．
+<span class="math notranslate nohighlight">\(\boldsymbol{\epsilon}^{td} \in \mathbb{R}^{n_1}\)</span>は<span class="math notranslate nohighlight">\(\mathcal{N}(\mathbf{0}\)</span>, <span class="math notranslate nohighlight">\(\sigma_{td}^2 \mathbf{I}\)</span>) からサンプリングされるとする．</p>
+<p>話は飛ぶが，Predictive codingのネットワークの特徴は</p>
+<ul class="simple">
+<li><p>階層的な構造</p></li>
+<li><p>高次による低次の予測 (Feedback or Top-down信号)</p></li>
+<li><p>低次から高次への誤差信号の伝搬 (Feedforward or Bottom-up 信号)</p></li>
+</ul>
+<p>である．ここまでは高次表現による低次表現の予測，というFeedback信号について説明してきたが，この部分はSparse codingでも同じである．それではPredictive codingのもう一つの要となる，低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか．結論から言えば，これは<strong>復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる</strong>．</p>
+</div>
+<div class="section" id="id2">
+<h2>損失関数と学習則<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id3">
+<h3>事前分布の設定<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p><span class="math notranslate nohighlight">\(\mathbf{r}\)</span>の事前分布<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>はCauchy分布を用いる．<span class="math notranslate nohighlight">\(p(\mathbf{r})\)</span>の負の対数事前分布を<span class="math notranslate nohighlight">\(g(\mathbf{r}):=-\log p(\mathbf{r})\)</span>としておく．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p(\mathbf{r})&amp;=\prod_i p(r_i)=\prod_i \exp\left[-\alpha \ln(1+r_i^2)\right]\\
+g(\mathbf{r})&amp;=-\ln p(\mathbf{r})=\alpha \sum_i \ln(1+r_i^2)\\
+g'(\mathbf{r})&amp;=\frac{\partial g(\mathbf{r})}{\partial \mathbf{r}}=\left[\frac{2\alpha r_i}{1+r_i^2}\right]_i
+\end{align}
+\end{split}\]</div>
+<p>次に重み行列<span class="math notranslate nohighlight">\(\mathbf{U}\)</span>の事前分布 <span class="math notranslate nohighlight">\(p(\mathbf{U})\)</span>はGaussian分布とする．<span class="math notranslate nohighlight">\(p(\mathbf{U})\)</span>の負の対数事前分布を<span class="math notranslate nohighlight">\(h(\mathbf{U}):=-\ln p(\mathbf{U})\)</span>とすると，次のように表される．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+p(\mathbf{U})&amp;=\exp(-\lambda\|\mathbf{U}\|^2_F)\\
+h(\mathbf{U})&amp;=-\ln p(\mathbf{U})=\lambda\|\mathbf{U}\|^2_F\\
+h'(\mathbf{U})&amp;=\frac{\partial h(\mathbf{U})}{\partial \mathbf{U}}=2\lambda \mathbf{U}
+\end{align}
+\end{split}\]</div>
+<p>ただし，<span class="math notranslate nohighlight">\(\|\cdot \| _ F^2\)</span>はフロベニウスノルムを意味する．</p>
+</div>
+<div class="section" id="id4">
+<h3>損失関数の設定<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://compneuro-julia.github.io/11-2_sparse-coding.html">11-2</a>と同様に考えることにより，損失関数 <span class="math notranslate nohighlight">\(E\)</span>を次のように定義する．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{align}
+E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\frac{1}{\sigma_{t d}^{2}}\left\|\mathbf{r}-f(\mathbf{U}^h \mathbf{r}^h)\right\|^2}_{\text{reconstruction error}}+\underbrace{g(\mathbf{r})+g(\mathbf{r}^{h})+h(\mathbf{U})+h(\mathbf{U}^h)}_{\text{sparsity penalty}}\tag{4}
+\end{align}
+\]</div>
+<p>潜在変数 <span class="math notranslate nohighlight">\(\mathbf{r}, \mathbf{r}^h\)</span> と 重み行列 <span class="math notranslate nohighlight">\(\mathbf{U}, \mathbf{U}^h\)</span> のそれぞれに事前分布を仮定しているため，これらについてのMAP推定を行うことに相当する．</p>
+</div>
+<div class="section" id="id5">
+<h3>再帰ネットワークの更新則<a class="headerlink" href="#id5" title="Permalink to this headline">¶</a></h3>
+<p>簡単のために<span class="math notranslate nohighlight">\(\mathbf{z}:=\mathbf{U}\mathbf{r}, \mathbf{z}^h:=\mathbf{U}^h\mathbf{r}^h\)</span>とする．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\frac{d \mathbf{r}}{d t}&amp;=-\frac{k_{1}}{2} \frac{\partial E}{\partial \mathbf{r}}=k_{1}\cdot\Bigg(\frac{1}{\sigma^{2}} \mathbf{U}^{T}\bigg[\frac{\partial f(\mathbf{z})}{\partial \mathbf{z}}\odot\underbrace{(\mathbf{x}-f(\mathbf{z}))}_{\text{bottom-up error}}\bigg]-\frac{1}{\sigma_{t d}^{2}}\underbrace{\left(\mathbf{r}-f(\mathbf{z}^h)\right)}_{\text{top-down error}}-\frac{1}{2}g'(\mathbf{r})\Bigg)\tag{5}\\
+\frac{d \mathbf{r}^h}{d t}&amp;=-\frac{k_{1}}{2} \frac{\partial E}{\partial \mathbf{r}^h}=k_{1}\cdot\Bigg(\frac{1}{\sigma_{t d}^{2}}(\mathbf{U}^h)^\top\bigg[\frac{\partial f(\mathbf{z}^h)}{\partial \mathbf{z}^h}\odot\underbrace{\left(\mathbf{r}-f(\mathbf{z}^h)\right)}_{\text{bottom-up error}}\bigg]-\frac{1}{2}g'(\mathbf{r}^h)\Bigg)\tag{6}
+\end{align}
+\end{split}\]</div>
+<p>ただし，<span class="math notranslate nohighlight">\(k_1\)</span>は更新率 (updating rate)である．または，発火率の時定数を<span class="math notranslate nohighlight">\(\tau:=1/k_1\)</span>として，<span class="math notranslate nohighlight">\(k_1\)</span>は発火率の時定数<span class="math notranslate nohighlight">\(\tau\)</span>の逆数であると捉えることもできる．ここで(5)式において，中間表現 <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> のダイナミクスはbottom-up errorとtop-down errorで記述されている．このようにbottom-up errorが <span class="math notranslate nohighlight">\(\mathbf{r}\)</span> への入力となることは自然に導出される．なお，top-down errorに関しては高次からの予測 (prediction)の項 <span class="math notranslate nohighlight">\(f(\mathbf{x}^h)\)</span>とleaky-integratorとしての項 <span class="math notranslate nohighlight">\(-\mathbf{r}\)</span>に分割することができる．また<span class="math notranslate nohighlight">\(\mathbf{U}^\top, (\mathbf{U}^h)^\top\)</span>は重み行列の転置となっており，bottom-upとtop-downの投射において対称な重み行列を用いることを意味している．<span class="math notranslate nohighlight">\(-g'(\mathbf{r})\)</span>は発火率を抑制してスパースにすることを目的とする項だが，無理やり解釈をすると自己再帰的な抑制と言える．</p>
+</div>
+<div class="section" id="id6">
+<h3>画像データの読み込み<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>「スパース符号化」と同様にデータは<a class="reference external" href="http://www.rctn.org/bruno/sparsenet/">http://www.rctn.org/bruno/sparsenet/</a>からダウンロードできるファイルを用いる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">MAT</span>
+
+<span class="c"># datasets from http://www.rctn.org/bruno/sparsenet/</span>
+<span class="n">mat_images</span> <span class="o">=</span> <span class="n">matopen</span><span class="p">(</span><span class="s">&quot;../_static/datasets/IMAGES.mat&quot;</span><span class="p">)</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">mat_images</span><span class="p">,</span> <span class="s">&quot;IMAGES&quot;</span><span class="p">)</span>
+
+<span class="n">close</span><span class="p">(</span><span class="n">mat_images</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>モデルの定義<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h3>
+<p>必要なパッケージを読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+<span class="k">using</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span><span class="p">,</span> <span class="n">Statistics</span><span class="p">,</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">ProgressMeter</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>モデルを定義する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">RBParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">α</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">αh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.05</span>
+    <span class="n">var</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">vartd</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">10</span>
+    <span class="n">inv_var</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">var</span>       
+    <span class="n">inv_vartd</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="n">vartd</span>
+    <span class="n">k1</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.3</span> <span class="c"># k_1: update rate</span>
+    <span class="n">λ</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.02</span> <span class="c"># regularization parameter</span>
+<span class="k">end</span>
+
+<span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">RaoBallard1999Model</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="kt">RBParameter</span> <span class="o">=</span> <span class="kt">RBParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}()</span>
+    <span class="n">num_units_lv0</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">256</span> <span class="c"># number of units of level0</span>
+    <span class="n">num_units_lv1</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">32</span>
+    <span class="n">num_units_lv2</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">128</span>
+    <span class="n">num_lv1</span><span class="o">::</span><span class="kt">UInt16</span> <span class="o">=</span> <span class="mi">3</span>
+    <span class="n">k2</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.2</span> <span class="c"># k_2: learning rate</span>
+    <span class="n">r</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_lv1</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">)</span> <span class="c"># activity of neurons</span>
+    <span class="n">rh</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_units_lv2</span><span class="p">)</span> <span class="c"># activity of neurons</span>
+    <span class="n">U</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_units_lv0</span><span class="o">+</span><span class="n">num_units_lv1</span><span class="p">))</span>
+    <span class="n">Uh</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">randn</span><span class="p">(</span><span class="n">num_lv1</span><span class="o">*</span><span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">)</span> <span class="o">.*</span> <span class="n">sqrt</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">/</span> <span class="p">(</span><span class="n">num_lv1</span><span class="o">*</span><span class="n">num_units_lv1</span><span class="o">+</span><span class="n">num_units_lv2</span><span class="p">))</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>パラメータを更新する関数を定義する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="kt">RaoBallard1999Model</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="kt">RBParameter</span><span class="p">,</span> <span class="n">inputs</span><span class="o">::</span><span class="kt">Array</span><span class="p">,</span> <span class="n">training</span><span class="o">::</span><span class="kt">Bool</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">,</span> <span class="n">num_lv1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">Uh</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">α</span><span class="p">,</span> <span class="n">αh</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">vartd</span><span class="p">,</span> <span class="n">inv_var</span><span class="p">,</span> <span class="n">inv_vartd</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">λ</span> <span class="o">=</span> <span class="n">param</span>
+
+    <span class="n">r_reshaped</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="c"># (96)</span>
+
+    <span class="n">fx</span> <span class="o">=</span> <span class="n">r</span> <span class="o">*</span> <span class="n">U</span><span class="o">&#39;</span> <span class="c"># (3, 256)</span>
+    <span class="n">fxh</span> <span class="o">=</span> <span class="n">Uh</span> <span class="o">*</span> <span class="n">rh</span> <span class="c"># (96, )</span>
+
+    <span class="c"># Calculate errors</span>
+    <span class="n">error</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">-</span> <span class="n">fx</span> <span class="c"># (3, 256)</span>
+    <span class="n">errorh</span> <span class="o">=</span> <span class="n">r_reshaped</span> <span class="o">-</span> <span class="n">fxh</span> <span class="c"># (96, ) </span>
+    <span class="n">errorh_reshaped</span> <span class="o">=</span> <span class="n">reshape</span><span class="p">(</span><span class="n">errorh</span><span class="p">,</span> <span class="p">(</span><span class="n">num_lv1</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">))</span> <span class="c"># (3, 32)</span>
+
+    <span class="n">g_r</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">r</span> <span class="o">./</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">.+</span> <span class="n">r</span> <span class="o">.^</span> <span class="mi">2</span><span class="p">)</span> <span class="c"># (3, 32)</span>
+    <span class="n">g_rh</span> <span class="o">=</span> <span class="n">αh</span> <span class="o">*</span> <span class="n">rh</span> <span class="o">./</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">.+</span> <span class="n">rh</span> <span class="o">.^</span> <span class="mi">2</span><span class="p">)</span> <span class="c"># (64, )</span>
+
+    <span class="c"># Update r and rh</span>
+    <span class="n">dr</span> <span class="o">=</span> <span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_var</span> <span class="o">*</span> <span class="n">error</span> <span class="o">*</span> <span class="n">U</span> <span class="o">-</span> <span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">errorh_reshaped</span> <span class="o">-</span> <span class="n">g_r</span><span class="p">)</span>
+    <span class="n">drh</span> <span class="o">=</span> <span class="n">k1</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">Uh</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">errorh</span> <span class="o">-</span> <span class="n">g_rh</span><span class="p">)</span>
+    
+    <span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dr</span>
+    <span class="n">rh</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">drh</span>
+    
+    <span class="k">if</span> <span class="n">training</span> 
+        <span class="n">U</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_var</span> <span class="o">*</span> <span class="n">error</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">r</span> <span class="o">-</span> <span class="n">num_lv1</span> <span class="o">*</span> <span class="n">λ</span> <span class="o">*</span> <span class="n">U</span><span class="p">)</span>
+        <span class="n">Uh</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">k2</span> <span class="o">*</span> <span class="p">(</span><span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">errorh</span> <span class="o">*</span> <span class="n">rh</span><span class="o">&#39;</span> <span class="o">-</span> <span class="n">λ</span> <span class="o">*</span> <span class="n">Uh</span><span class="p">)</span>
+    <span class="k">end</span>
+
+    <span class="k">return</span> <span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">drh</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<p>入力に乗じるGaussianフィルタを定義する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gaussian mask for inputs</span>
+<span class="k">function</span> <span class="n">GaussianMask</span><span class="p">(</span><span class="n">sizex</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sizey</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="n">x</span><span class="p">,</span> <span class="n">j</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">y</span><span class="p">)]</span>
+    <span class="n">Y</span> <span class="o">=</span> <span class="p">[</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">j</span> <span class="k">in</span> <span class="n">y</span><span class="p">]</span>
+    
+    <span class="n">x0</span> <span class="o">=</span> <span class="p">(</span><span class="n">sizex</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="p">(</span><span class="n">sizey</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">exp</span><span class="o">.</span><span class="p">(</span><span class="o">-</span><span class="p">((</span><span class="n">X</span> <span class="o">.-</span> <span class="n">x0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="p">(</span><span class="n">Y</span> <span class="o">.-</span> <span class="n">y0</span><span class="p">)</span> <span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="p">(</span><span class="n">sigma</span><span class="o">^</span><span class="mi">2</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">mask</span> <span class="o">./</span> <span class="n">sum</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GaussianMask (generic function with 4 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gau</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">()</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Gaussian mask&quot;</span><span class="p">)</span>
+<span class="n">imshow</span><span class="p">(</span><span class="n">gau</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/predictive-coding_13_0.png" src="../_images/predictive-coding_13_0.png" />
+</div>
+</div>
+<p>損失関数を定義する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">variable</span><span class="o">::</span><span class="kt">RaoBallard1999Model</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="kt">RBParameter</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">num_units_lv0</span><span class="p">,</span> <span class="n">num_units_lv1</span><span class="p">,</span> <span class="n">num_units_lv2</span><span class="p">,</span> <span class="n">num_lv1</span><span class="p">,</span> <span class="n">k2</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">rh</span><span class="p">,</span> <span class="n">U</span><span class="p">,</span> <span class="n">Uh</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">α</span><span class="p">,</span> <span class="n">αh</span><span class="p">,</span> <span class="n">var</span><span class="p">,</span> <span class="n">vartd</span><span class="p">,</span> <span class="n">inv_var</span><span class="p">,</span> <span class="n">inv_vartd</span><span class="p">,</span> <span class="n">k1</span><span class="p">,</span> <span class="n">λ</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="n">recon_error</span> <span class="o">=</span> <span class="n">inv_var</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">error</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">inv_vartd</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">errorh</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sparsity_r</span> <span class="o">=</span> <span class="n">α</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">r</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">αh</span> <span class="o">*</span> <span class="n">sum</span><span class="p">(</span><span class="n">rh</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sparsity_U</span> <span class="o">=</span> <span class="n">λ</span> <span class="o">*</span> <span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">U</span><span class="o">.^</span><span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="n">sum</span><span class="p">(</span><span class="n">Uh</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">recon_error</span> <span class="o">+</span> <span class="n">sparsity_r</span> <span class="o">+</span> <span class="n">sparsity_U</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>calculate_total_error (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<p>シミュレーションを実行する関数を定義する．外側の<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">loop</span></code>では画像パッチの作成と<code class="docutils literal notranslate"><span class="pre">r</span></code>の初期化を行う．内側の<code class="docutils literal notranslate"><span class="pre">for</span> <span class="pre">loop</span></code>では<code class="docutils literal notranslate"><span class="pre">r</span></code>が収束するまで更新を行い，収束したときに重み行列<code class="docutils literal notranslate"><span class="pre">Phi</span></code>を更新する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+    <span class="c"># Define model</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="kt">RaoBallard1999Model</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}()</span>
+    
+    <span class="c"># Simulation constants</span>
+    <span class="n">H</span><span class="p">,</span> <span class="n">W</span><span class="p">,</span> <span class="n">num_images</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span>
+    <span class="n">input_scale</span> <span class="o">=</span> <span class="mi">40</span> <span class="c"># scale factor of inputs</span>
+    <span class="n">gmask</span> <span class="o">=</span> <span class="n">GaussianMask</span><span class="p">()</span> <span class="c"># Gaussian mask</span>
+    <span class="n">errorarr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">num_iter</span><span class="p">)</span> <span class="c"># Vector to save errors    </span>
+    
+    <span class="c"># Run simulation</span>
+    <span class="nd">@showprogress</span> <span class="s">&quot;Computing...&quot;</span> <span class="k">for</span> <span class="n">iter</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_iter</span>
+        <span class="c"># Get images randomly</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">num_images</span><span class="p">)</span>
+        <span class="n">img</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="o">:</span><span class="p">,</span> <span class="n">idx</span><span class="p">]</span>
+
+        <span class="c"># Get the coordinates of the upper left corner of clopping image randomly.</span>
+        <span class="n">beginx</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">W</span><span class="o">-</span><span class="mi">27</span><span class="p">)</span>
+        <span class="n">beginy</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">H</span><span class="o">-</span><span class="mi">17</span><span class="p">)</span>
+        <span class="n">img_clopped</span> <span class="o">=</span> <span class="n">img</span><span class="p">[</span><span class="n">beginy</span><span class="o">:</span><span class="n">beginy</span><span class="o">+</span><span class="mi">15</span><span class="p">,</span> <span class="n">beginx</span><span class="o">:</span><span class="n">beginx</span><span class="o">+</span><span class="mi">25</span><span class="p">]</span>
+
+        <span class="c"># Clop three patches</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="n">hcat</span><span class="p">([(</span><span class="n">gmask</span> <span class="o">.*</span> <span class="n">img_clopped</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="o">+</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">:</span><span class="n">i</span><span class="o">*</span><span class="mi">5</span><span class="o">+</span><span class="mi">16</span><span class="p">])[</span><span class="o">:</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mi">2</span><span class="p">]</span><span class="o">...</span><span class="p">)</span><span class="o">&#39;</span>
+        <span class="n">inputs</span> <span class="o">=</span> <span class="p">(</span><span class="n">inputs</span> <span class="o">.-</span> <span class="n">mean</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span> <span class="o">.*</span> <span class="n">input_scale</span>
+
+        <span class="c"># Reset states</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">r</span> <span class="o">=</span> <span class="n">inputs</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">U</span> 
+        <span class="n">model</span><span class="o">.</span><span class="n">rh</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">Uh</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">r</span><span class="p">[</span><span class="o">:</span><span class="p">]</span>
+
+        <span class="c"># Input an image patch until latent variables are converged </span>
+        <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt_max</span>
+            <span class="c"># Update r and rh without update weights </span>
+            <span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">drh</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="nb">false</span><span class="p">)</span>
+
+            <span class="c"># Compute norm of r and rh</span>
+            <span class="n">dr_norm</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">dr</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
+            <span class="n">drh_norm</span> <span class="o">=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">sum</span><span class="p">(</span><span class="n">drh</span><span class="o">.^</span><span class="mi">2</span><span class="p">))</span>
+
+            <span class="c"># Check convergence of r and rh, then update weights</span>
+            <span class="k">if</span> <span class="n">dr_norm</span> <span class="o">&lt;</span> <span class="n">eps</span> <span class="o">&amp;&amp;</span> <span class="n">drh_norm</span> <span class="o">&lt;</span> <span class="n">eps</span>
+                <span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">dr</span><span class="p">,</span> <span class="n">drh</span> <span class="o">=</span> <span class="n">update!</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span> <span class="nb">true</span><span class="p">)</span>
+                <span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_total_error</span><span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">errorh</span><span class="p">,</span> <span class="n">model</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">param</span><span class="p">)</span> <span class="c"># Append errors</span>
+                <span class="k">break</span>
+            <span class="k">end</span>
+
+            <span class="c"># If failure to convergence, break and print error</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">nt_max</span><span class="o">-</span><span class="mi">2</span>
+                <span class="n">println</span><span class="p">(</span><span class="s">&quot;Error at patch:&quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">)</span>
+                <span class="n">println</span><span class="p">(</span><span class="n">dr_norm</span><span class="p">,</span> <span class="n">drh_norm</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">end</span>
+        <span class="k">end</span>
+
+
+        <span class="c"># Decay learning rate         </span>
+        <span class="k">if</span> <span class="n">iter</span> <span class="o">%</span> <span class="mi">40</span> <span class="o">==</span> <span class="mi">39</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">k2</span> <span class="o">/=</span> <span class="mf">1.015</span>
+        <span class="k">end</span>
+
+        <span class="c"># Print moving average error</span>
+        <span class="k">if</span> <span class="n">iter</span> <span class="o">%</span> <span class="mi">1000</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="n">moving_average_error</span> <span class="o">=</span> <span class="n">mean</span><span class="p">(</span><span class="n">errorarr</span><span class="p">[</span><span class="n">iter</span><span class="o">-</span><span class="mi">999</span><span class="o">:</span><span class="n">iter</span><span class="p">])</span>
+            <span class="n">println</span><span class="p">(</span><span class="s">&quot;[&quot;</span><span class="p">,</span> <span class="n">iter</span><span class="p">,</span> <span class="s">&quot;/&quot;</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="s">&quot;] Moving average error:&quot;</span><span class="p">,</span> <span class="n">moving_average_error</span><span class="p">)</span>
+        <span class="k">end</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>run_simulation (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h3>シミュレーションの実行<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Simulation constants</span>
+<span class="n">num_iter</span> <span class="o">=</span> <span class="mi">5000</span> <span class="c"># number of iterations</span>
+<span class="n">nt_max</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># Maximum number of simulation time</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-3</span> <span class="c"># small value which determines convergence</span>
+
+<span class="n">model</span><span class="p">,</span> <span class="n">errorarr</span> <span class="o">=</span> <span class="n">run_simulation</span><span class="p">(</span><span class="n">imgs</span><span class="p">,</span> <span class="n">num_iter</span><span class="p">,</span> <span class="n">nt_max</span><span class="p">,</span> <span class="n">eps</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h3>訓練中の損失の描画<a class="headerlink" href="#id9" title="Permalink to this headline">¶</a></h3>
+<p>訓練中の損失の変化を描画してみよう．損失が低下し，学習が進行したことが分かる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">ret</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="o">:</span><span class="n">end</span><span class="p">]</span> <span class="o">=</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span><span class="o">:</span><span class="n">end</span><span class="p">]</span> <span class="o">-</span> <span class="n">ret</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">ret</span><span class="p">[</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="p">]</span> <span class="o">/</span> <span class="n">n</span>
+<span class="k">end</span>
+
+<span class="c"># Plot error</span>
+<span class="n">moving_average_error</span> <span class="o">=</span> <span class="n">moving_average</span><span class="p">(</span><span class="n">errorarr</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Moving error&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Iterations&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">size</span><span class="p">(</span><span class="n">moving_average_error</span><span class="p">)[</span><span class="mi">1</span><span class="p">],</span> <span class="n">moving_average_error</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/predictive-coding_21_0.png" src="../_images/predictive-coding_21_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id10">
+<h3>重み行列 (受容野)の描画<a class="headerlink" href="#id10" title="Permalink to this headline">¶</a></h3>
+<p>学習後の重み行列 (<span class="math notranslate nohighlight">\(\mathbf{U}\)</span>)を可視化してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">32</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Receptive fields of level 1&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/predictive-coding_23_0.png" src="../_images/predictive-coding_23_0.png" />
+</div>
+</div>
+<p>白色が<strong>ON領域</strong>(興奮)，黒色が<strong>OFF領域</strong>(抑制)を表す．Gaborフィルタ様の局所受容野が得られている．次に，Level2のニューロンの受容野は<span class="math notranslate nohighlight">\(\mathbf{U}\)</span>と<span class="math notranslate nohighlight">\(\mathbf{U}^h\)</span>の積を計算することで描画できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot Receptive fields of level 2</span>
+<span class="n">zero_padding</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">80</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">U0</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">]</span>
+<span class="n">U1</span> <span class="o">=</span> <span class="p">[</span><span class="n">zero_padding</span><span class="p">;</span> <span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">]</span>
+<span class="n">U2</span> <span class="o">=</span> <span class="p">[</span><span class="n">zero_padding</span><span class="p">;</span> <span class="n">zero_padding</span><span class="p">;</span> <span class="n">model</span><span class="o">.</span><span class="n">U</span><span class="p">]</span>
+<span class="n">U_</span> <span class="o">=</span> <span class="p">[</span><span class="n">U0</span> <span class="n">U1</span> <span class="n">U2</span><span class="p">]</span>
+<span class="n">Uh_</span> <span class="o">=</span> <span class="n">U_</span> <span class="o">*</span> <span class="n">model</span><span class="o">.</span><span class="n">Uh</span> 
+
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">hspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">wspace</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">24</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+    <span class="n">imshow</span><span class="p">(</span><span class="n">reshape</span><span class="p">(</span><span class="n">Uh_</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">26</span><span class="p">)),</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">)</span>
+    <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Receptive fields of level 2&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">subplots_adjust</span><span class="p">(</span><span class="n">top</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/predictive-coding_25_0.png" src="../_images/predictive-coding_25_0.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./bayesian-brain"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="sparse-coding.html" title="previous page">スパース符号化 (sparse coding)</a>
+    <a class='right-next' id="next-link" href="../reinforcement-learning/intro.html" title="next page">強化学習</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>
