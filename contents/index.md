@@ -19,7 +19,7 @@ Julia 1.6.0
 1. [はじめに](https://compneuro-julia.github.io/introduction/intro.html)
 	1. [記号の表記](https://compneuro-julia.github.io/introduction/notation.html)
 1. [神経細胞のモデル](https://compneuro-julia.github.io/neuron-model/intro.html)
-	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/neuron-model/hodgkinhuxley.html)
+	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/neuron-model/hodgkin-huxley.html)
 	1. [FitzHugh–Nagumoモデル](https://compneuro-julia.github.io/neuron-model/fhn.html)
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/neuron-model/lif.html)
 	1. [Izhikevich モデル](https://compneuro-julia.github.io/neuron-model/izhikevich.html)
