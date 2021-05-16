@@ -1,0 +1,870 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>分位点回帰とエクスペクタイル回帰 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="ラット自由行動下の軌跡のシミュレーション" href="rat-trajectory.html" />
+    <link rel="prev" title="線形回帰と最小二乗法" href="linear-regression.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap2/intro_ch2.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap3/intro_ch3.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_appendix.html">
+   付録
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/appendix/quantile-expectile-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix/quantile-expectile-regression.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/appendix/quantile-expectile-regression.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/appendix/quantile-expectile-regression.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#quantile-regression">
+   分位点回帰 (Quantile Regression)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#expectile-regression">
+   エクスペクタイル回帰 (Expectile regression)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   勾配法を用いた分位点回帰・エクスペクタイル回帰
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id3">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="id1">
+<h1>分位点回帰とエクスペクタイル回帰<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="quantile-regression">
+<h2>分位点回帰 (Quantile Regression)<a class="headerlink" href="#quantile-regression" title="Permalink to this headline">¶</a></h2>
+<p>線形回帰(linear regression)は，誤差が正規分布と仮定したとき(必ずしも正規分布を仮定しなくてもよい)の<span class="math notranslate nohighlight">\(X\)</span>(説明変数)に対する<span class="math notranslate nohighlight">\(Y\)</span>(目的変数)の期待値<span class="math notranslate nohighlight">\(E[Y]\)</span>を求める，というものであった．<strong>分位点回帰(quantile regression)</strong> では，Xに対するYの分布における分位点を通るような直線を引く．</p>
+<p><strong>分位点</strong>(または分位数)において，代表的なものが<strong>四分位数</strong>である．四分位数は箱ひげ図などで用いるが，例えば第一四分位数は分布を25:75に分ける数，第二四分位数(中央値)は分布を50:50に分ける数である．同様に<span class="math notranslate nohighlight">\(q\)</span>分位数(<span class="math notranslate nohighlight">\(q\)</span>-quantile)というと分布を<span class="math notranslate nohighlight">\(q:1-q\)</span>に分ける数となっている．分位点回帰の話に戻る．下図は<span class="math notranslate nohighlight">\(x\sim U(0, 5),\quad y=3x+x\cdot \xi,\quad \xi\sim N(0,1)\)</span>とした500個の点に対する分位点回帰である．赤い領域はX=1,2,3,4でのYの分布を示している．深緑，緑，黄色の直線はそれぞれ10, 50, 90%tile回帰の結果である．例えば50%tile回帰の結果は，Xが与えられたときのYの中央値(50%tile点)を通るような直線となっている．同様に90%tile回帰の結果は90%tile点を通るような直線となっている．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">Random</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">QuantileGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">τ</span><span class="p">;</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">initθ</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_iters</span>
+        <span class="n">ŷ</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θ</span> <span class="c"># predictions</span>
+        <span class="n">δ</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">ŷ</span>  <span class="c"># error</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">τ</span> <span class="o">.-</span> <span class="mf">1.0</span><span class="p">(</span><span class="n">δ</span> <span class="o">.&lt;=</span> <span class="mf">0.</span><span class="p">))</span> <span class="o">.*</span> <span class="n">sign</span><span class="o">.</span><span class="p">(</span><span class="n">δ</span><span class="p">)</span> <span class="c"># gradient</span>
+        <span class="n">θ</span> <span class="o">+=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">grad</span> <span class="c"># Update</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">θ</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="n">gaussian_func</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">μ</span><span class="p">,</span> <span class="n">σ</span><span class="p">)</span>
+    <span class="k">return</span> <span class="mf">0.8</span><span class="o">/</span><span class="n">σ</span><span class="o">*</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span><span class="n">μ</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="n">σ</span><span class="o">^</span><span class="mi">2</span><span class="p">))</span>
+<span class="k">end</span><span class="p">;</span>
+
+<span class="c"># Generate Toy datas</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">500</span> <span class="c"># sample size</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="mf">5.5</span><span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">3</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="c"># design matrix</span>
+<span class="n">X</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+<span class="n">τs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">τs</span><span class="p">)</span> 
+<span class="n">Ŷ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span> <span class="c"># memory array</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+    <span class="n">initθ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="c"># init variables</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">QuantileGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">τs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">Ŷ</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θ</span>
+<span class="k">end</span>
+
+<span class="c"># Results plot</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Quantile Regression&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">loc</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">5</span>
+    <span class="n">ξy</span> <span class="o">=</span> <span class="mi">0</span><span class="o">:</span><span class="mf">1e-3</span><span class="o">:</span><span class="mi">6</span><span class="n">loc</span>
+    <span class="n">ξx</span> <span class="o">=</span> <span class="n">loc</span> <span class="o">.+</span> <span class="n">gaussian_func</span><span class="o">.</span><span class="p">(</span><span class="n">ξy</span><span class="p">,</span> <span class="mi">3</span><span class="n">loc</span><span class="p">,</span> <span class="mf">1.2</span><span class="n">loc</span><span class="p">)</span>
+    <span class="n">fill_between</span><span class="p">(</span><span class="n">ξx</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">ξy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">ξx</span><span class="p">,</span> <span class="n">ξy</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">cmvir</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="ss">:viridis</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Ŷ</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">string</span><span class="p">(</span><span class="kt">Int</span><span class="p">(</span><span class="n">τs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span><span class="o">*</span><span class="s">&quot;%tile&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cmvir</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">m</span><span class="p">))</span> <span class="c"># regression line</span>
+<span class="k">end</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># samples</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">5.5</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">25</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/quantile-expectile-regression_3_0.png" src="../_images/quantile-expectile-regression_3_0.png" />
+</div>
+</div>
+<p>分位点回帰の利点としては，外れ値に対して堅牢(ロバスト)である，Yの分布が非対称である場合にも適応できる，などがある (<a class="reference external" href="https://www.nature.com/articles/s41592-019-0406-y">Das et al., <em>Nat Methods</em>. 2019</a>)．</p>
+</div>
+<div class="section" id="expectile-regression">
+<h2>エクスペクタイル回帰 (Expectile regression)<a class="headerlink" href="#expectile-regression" title="Permalink to this headline">¶</a></h2>
+<p>エクスペクタイル(expectile)は(<a class="reference external" href="https://www.jstor.org/stable/1911031?seq=1">Newey and Powell 1987</a>) によって導入された統計汎関数 (statistical functional; SF)の一種であり，期待値(expectation)と分位数(quantile)を合わせたような概念である．簡単に言えば，中央値(median)に対する分位数(quantile)が，平均(mean)あるいは期待値(expectation)に対するエクスペクタイル(expectile)の関係と同じである．</p>
+</div>
+<div class="section" id="id2">
+<h2>勾配法を用いた分位点回帰・エクスペクタイル回帰<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<p>予測誤差<span class="math notranslate nohighlight">\(\delta\)</span>と<span class="math notranslate nohighlight">\(\tau\)</span>の関数を</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{分位点回帰：}&amp;\quad
+\rho_q(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta \leq 0}\right)\cdot \delta\\
+\text{エクスペクタイル回帰：}&amp;\quad
+\rho_e(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot \delta^2
+\end{align}
+\end{split}\]</div>
+<p>と定義する．<span class="math notranslate nohighlight">\(\rho_q(\delta; \tau)\)</span>のみ，チェック関数 (check function)あるいは非対称絶対損失関数(asymmetric absolute loss function)と呼ぶ．ただし，<span class="math notranslate nohighlight">\(\tau\)</span>は分位点(quantile)，<span class="math notranslate nohighlight">\(\mathbb{I}\)</span>は指示関数(indicator function)である．この場合，<span class="math notranslate nohighlight">\(\mathbb{I}_{\delta \leq 0}\)</span>は<span class="math notranslate nohighlight">\(\delta \gt 0\)</span>なら0, <span class="math notranslate nohighlight">\(\delta \leq 0\)</span>なら1となる．このとき，目的関数は</p>
+<div class="math notranslate nohighlight">
+\[
+L_{\tau}(\delta)
+=\sum_{i=1}^n \rho(\delta_i; \tau)
+\]</div>
+<p>である．<span class="math notranslate nohighlight">\(\rho(\delta; \tau)\)</span>を色々な <span class="math notranslate nohighlight">\(\tau\)</span>についてplotすると次図のようになる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">δ</span> <span class="o">=</span> <span class="o">-</span><span class="mi">5</span><span class="o">:</span><span class="mf">0.1</span><span class="o">:</span><span class="mi">5</span>
+<span class="n">τ</span><span class="o">=</span> <span class="mf">0.1</span><span class="o">:</span><span class="mf">0.2</span><span class="o">:</span><span class="mf">0.9</span>
+<span class="n">cmbrg</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="ss">:brg</span><span class="p">)</span> 
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Quantile&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">τ</span><span class="p">)</span>
+    <span class="n">indic</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">(</span><span class="n">δ</span> <span class="o">.&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="p">(</span><span class="n">τ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">.-</span> <span class="n">indic</span><span class="p">)</span> <span class="o">.*</span> <span class="n">δ</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">δ</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cmbrg</span><span class="p">(</span><span class="mf">0.5</span><span class="n">i</span><span class="o">/</span><span class="n">length</span><span class="p">(</span><span class="n">τ</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">au=$&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">τ</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">end</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Expectile&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">length</span><span class="p">(</span><span class="n">τ</span><span class="p">)</span>
+    <span class="n">indic</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">(</span><span class="n">δ</span> <span class="o">.&lt;=</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">τ</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">.-</span> <span class="n">indic</span><span class="p">)</span> <span class="o">.*</span> <span class="n">δ</span><span class="o">.^</span><span class="mi">2</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">δ</span><span class="p">,</span> <span class="n">z</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cmbrg</span><span class="p">(</span><span class="mf">0.5</span><span class="n">i</span><span class="o">/</span><span class="n">length</span><span class="p">(</span><span class="n">τ</span><span class="p">)),</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;$</span><span class="se">\t</span><span class="s">au=$&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">τ</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+<span class="k">end</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Error&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Loss&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/quantile-expectile-regression_7_0.png" src="../_images/quantile-expectile-regression_7_0.png" />
+</div>
+</div>
+<p>分位点の場合，<span class="math notranslate nohighlight">\(\rho_q(\delta; \tau)\)</span>がチェックマーク✓に類似していることからこのような名前が付いている．</p>
+<p><span class="math notranslate nohighlight">\(L_\tau\)</span>を最小化するような<span class="math notranslate nohighlight">\(\theta\)</span>の更新式について考える．まず，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\text{分位点回帰：}&amp;\quad
+\frac{\partial \rho_q(\delta; \tau)}{\partial \delta}= \rho_q^{\prime}(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\operatorname{sign}(\delta)\\
+\text{エクスペクタイル回帰：}&amp;\quad
+\frac{\partial \rho_e(\delta; \tau)}{\partial \delta}= \rho_e^{\prime}(\delta; \tau)=2\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\delta
+\end{align}
+\end{split}\]</div>
+<p>である (ただし<span class="math notranslate nohighlight">\(\text{sign}(\cdot)\)</span>は符号関数)．さらに</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial L_{\tau}}{\partial \theta}=\frac{\partial L_{\tau}}{\partial \delta}\frac{\partial \delta(\theta)}{\partial \theta}=-\frac{1}{n} \rho^{\prime}(\delta; \tau) X
+\]</div>
+<p>が成り立つので，<span class="math notranslate nohighlight">\(\theta\)</span>の更新式は<span class="math notranslate nohighlight">\(\theta \leftarrow \theta + \alpha\cdot \dfrac{1}{n} \rho^{\prime}(\delta; \tau) X\)</span>と書ける (<span class="math notranslate nohighlight">\(\alpha\)</span>は学習率である)．分位点回帰を単純な勾配法で求める場合，勾配が0となって解が求まらない可能性があるが，目的関数を滑らかにすることで回避できるという研究もある (<a class="reference external" href="https://link.springer.com/article/10.1007/s13042-011-0031-2">Zheng. <em>IJMLC</em>. 2011</a>)．この点，Expectileならこの問題を回避できる (?)．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">QuantileGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">τ</span><span class="p">;</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">initθ</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_iters</span>
+        <span class="n">ŷ</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θ</span> <span class="c"># predictions</span>
+        <span class="n">δ</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">ŷ</span>  <span class="c"># error</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">τ</span> <span class="o">.-</span> <span class="mf">1.0</span><span class="p">(</span><span class="n">δ</span> <span class="o">.&lt;=</span> <span class="mf">0.</span><span class="p">))</span> <span class="o">.*</span> <span class="n">sign</span><span class="o">.</span><span class="p">(</span><span class="n">δ</span><span class="p">)</span> <span class="c"># gradient</span>
+        <span class="n">θ</span> <span class="o">+=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">grad</span> <span class="c"># Update</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">θ</span>
+<span class="k">end</span>
+
+<span class="k">function</span> <span class="n">ExpectileGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">τ</span><span class="p">;</span> <span class="n">lr</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">num_iters</span><span class="o">=</span><span class="mi">10000</span><span class="p">)</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="n">initθ</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">num_iters</span>
+        <span class="n">ŷ</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θ</span> <span class="c"># predictions</span>
+        <span class="n">δ</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">ŷ</span>  <span class="c"># error</span>
+        <span class="n">grad</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">τ</span> <span class="o">.-</span> <span class="mf">1.0</span><span class="p">(</span><span class="n">δ</span> <span class="o">.&lt;=</span> <span class="mf">0.</span><span class="p">))</span> <span class="o">.*</span> <span class="n">δ</span> <span class="c"># gradient</span>
+        <span class="n">θ</span> <span class="o">+=</span> <span class="n">lr</span> <span class="o">*</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">grad</span> <span class="c"># Update</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">θ</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Generate Toy datas</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">500</span> <span class="c"># sample size</span>
+<span class="n">dims</span> <span class="o">=</span> <span class="mi">3</span> <span class="c"># dimensions</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">sort</span><span class="p">(</span><span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span>  <span class="n">x</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="n">x</span> <span class="o">+</span> <span class="mi">5</span><span class="n">x</span> <span class="o">.*</span> <span class="n">randn</span><span class="p">(</span><span class="n">N</span><span class="p">);</span>
+<span class="n">X</span> <span class="o">=</span> <span class="p">[</span><span class="n">ones</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="n">x</span> <span class="n">x</span><span class="o">.^</span><span class="mi">2</span><span class="p">];</span> <span class="c"># design matrix</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">τs</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">,</span> <span class="mf">0.99</span><span class="p">]</span>
+<span class="n">m</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">τs</span><span class="p">)</span> 
+<span class="n">initθ</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">dims</span><span class="p">)</span>
+
+<span class="c"># Quantile regression</span>
+<span class="n">Ŷq</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span> <span class="c"># memory array</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+    <span class="n">θq</span> <span class="o">=</span> <span class="n">QuantileGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">τs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">Ŷq</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θq</span>
+<span class="k">end</span>
+
+<span class="c"># Expectile regression</span>
+<span class="n">Ŷe</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">N</span><span class="p">);</span> <span class="c"># memory array</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+    <span class="n">θe</span> <span class="o">=</span> <span class="n">ExpectileGradientDescent</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">initθ</span><span class="p">,</span> <span class="n">τs</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">Ŷe</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θe</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># normal equation</span>
+<span class="n">θ</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">X</span><span class="p">)</span> <span class="o">\</span> <span class="n">X</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">y</span>
+<span class="n">ŷ</span> <span class="o">=</span> <span class="n">X</span> <span class="o">*</span> <span class="n">θ</span><span class="p">;</span> <span class="c"># predictions</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Results plot</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Quantile Regression&quot;</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="ss">:viridis</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Ŷq</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">string</span><span class="p">(</span><span class="kt">Int</span><span class="p">(</span><span class="n">τs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span><span class="o">*</span><span class="s">&quot;%tile&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cm</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">m</span><span class="p">))</span> <span class="c"># regression line</span>
+<span class="k">end</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ŷ</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span>  <span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Ordinary reg.&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># samples</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;y&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c"># Results plot</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Expectile Regression&quot;</span><span class="p">)</span>
+<span class="n">cm</span> <span class="o">=</span> <span class="n">get_cmap</span><span class="p">(</span><span class="ss">:viridis</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Ŷe</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="n">string</span><span class="p">(</span><span class="kt">Int</span><span class="p">(</span><span class="n">τs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span><span class="o">*</span><span class="s">&quot;%tile&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">cm</span><span class="p">(</span><span class="n">i</span><span class="o">/</span><span class="n">m</span><span class="p">))</span> <span class="c"># regression line</span>
+<span class="k">end</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ŷ</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="s">&quot;--&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Ordinary reg.&quot;</span><span class="p">)</span>  <span class="c"># regression line</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># samples</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&quot;Quantile &amp; Expectile Regression&quot;</span><span class="p">)</span>
+<span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Ŷq</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">Ŷq</span><span class="p">[</span><span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Quantile reg.&quot;</span><span class="p">)</span>
+<span class="n">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">Ŷe</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">Ŷe</span><span class="p">[</span><span class="k">end</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;Expectile reg.&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="c"># samples</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;x&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/quantile-expectile-regression_14_0.png" src="../_images/quantile-expectile-regression_14_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id3">
+<h2>参考文献<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://en.wikipedia.org/wiki/Quantile_regression">https://en.wikipedia.org/wiki/Quantile_regression</a></p></li>
+<li><p>Das, K., Krzywinski, M. &amp; Altman, N. Quantile regression. Nat Methods 16, 451–452 (2019) doi:<a class="reference external" href="https://www.nature.com/articles/s41592-019-0406-y">10.1038/s41592-019-0406-y</a></p></li>
+<li><p>Quantile and Expectile Regressions (<a class="reference external" href="https://freakonometrics.hypotheses.org/files/2017/05/erasmus-1.pdf">pdf</a>)</p></li>
+</ul>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="linear-regression.html" title="previous page">線形回帰と最小二乗法</a>
+    <a class='right-next' id="next-link" href="rat-trajectory.html" title="next page">ラット自由行動下の軌跡のシミュレーション</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

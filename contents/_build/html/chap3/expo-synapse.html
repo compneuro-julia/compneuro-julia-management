@@ -1,0 +1,820 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>指数関数型シナプスモデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap3/expo-synapse.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="動力学モデル" href="kinetic-synapse.html" />
+    <link rel="prev" title="Current / Conductance-based シナプス" href="current-conductance-synapse.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap2/intro_ch2.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_ch3.html">
+   シナプス伝達のモデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro_appendix.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chap3/expo-synapse.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap3/expo-synapse.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap3/expo-synapse.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap3/expo-synapse.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#single-exponential-model">
+   単一指数関数型モデル(Single exponential model)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     微分方程式による表現
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#double-exponential-model">
+   二重指数関数型モデル(Double exponential model)
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#alpha">
+     <span class="math notranslate nohighlight">
+      \(\alpha\)
+     </span>
+     関数
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     微分方程式による表現
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="id1">
+<h1>指数関数型シナプスモデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p>シナプスのモデルは複数あるが, 良く用いられるのが<strong>指数関数型シナプスモデル</strong>(exponential synapse model)である．このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう．指数関数型シナプスモデルには2つの種類, <strong>単一指数関数型モデル</strong> (single exponential model)と<strong>二重指数関数型モデル</strong> (double exponential model)がある．</p>
+<p>数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて<span class="math notranslate nohighlight">\(t=0\)</span>でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに<strong>シナプス強度</strong> (Synaptic strength)<a class="footnote-reference brackets" href="#synstr" id="id2">1</a>を乗じて総和を取ったものとなる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">td</span><span class="p">,</span> <span class="n">tr</span> <span class="o">=</span> <span class="mf">2e-2</span><span class="p">,</span> <span class="mf">2e-3</span> <span class="c"># synaptic decay time, synaptic rise time (sec)</span>
+<span class="n">dt</span><span class="p">,</span> <span class="n">T</span> <span class="o">=</span> <span class="mf">5e-5</span><span class="p">,</span> <span class="mf">0.1</span> <span class="c"># タイムステップ, シミュレーション時間 (sec)</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># シミュレーションの総ステップ</span>
+
+<span class="c"># 単一指数関数型シナプス</span>
+<span class="n">r_single</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">r_single</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">r_single</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">/</span><span class="n">td</span><span class="p">)</span> <span class="o">+</span> <span class="n">spike</span><span class="o">/</span><span class="n">td</span>
+    <span class="c">#r_single[t+1] = r_single[t]*exp(-dt/td) + spike/td</span>
+<span class="k">end</span>
+
+<span class="c"># 二重指数関数型シナプス</span>
+<span class="n">r_double</span><span class="p">,</span> <span class="n">hr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">t</span> <span class="o">==</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">r_double</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">r_double</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">/</span><span class="n">tr</span><span class="p">)</span> <span class="o">+</span> <span class="n">hr</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="n">dt</span>
+    <span class="n">hr</span><span class="p">[</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">hr</span><span class="p">[</span><span class="n">t</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">dt</span><span class="o">/</span><span class="n">td</span><span class="p">)</span> <span class="o">+</span> <span class="n">spike</span><span class="o">/</span><span class="p">(</span><span class="n">tr</span><span class="o">*</span><span class="n">td</span><span class="p">)</span>
+    <span class="c">#r_double[t+1] = r_double[t]*exp(-dt/tr) + hr[t]*dt</span>
+    <span class="c">#hr[t+1] = hr[t]*exp(-dt/td) + spike/(tr*td)</span>
+<span class="k">end</span>   
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">time</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">r_single</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;single exponential&quot;</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">time</span><span class="p">,</span> <span class="n">r_double</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;double exponential&quot;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (s)&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Post-synaptic current (pA)&quot;</span><span class="p">)</span>
+<span class="n">legend</span><span class="p">();</span> <span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/expo-synapse_3_0.png" src="../_images/expo-synapse_3_0.png" />
+</div>
+</div>
+<p>2種類の指数関数型シナプスの動態．破線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである．</p>
+<div class="section" id="single-exponential-model">
+<h2>単一指数関数型モデル(Single exponential model)<a class="headerlink" href="#single-exponential-model" title="Permalink to this headline">¶</a></h2>
+<p>シナプス前ニューロンにおいてスパイクが生じてからのシナプス後電流の変化はおおよそ指数関数的に減少する, というのが単一指数関数型モデルである <a class="footnote-reference brackets" href="#comp" id="id3">2</a>. 式は次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+f(t)=\frac{1}{\tau_{s}}\exp\left(-\frac{t}{\tau_s}\right)    
+\end{equation}
+\]</div>
+<p>この関数を時間的なフィルターとして, 過去の全てのスパイクについての総和を取る．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+r(t)=\sum_{t_{k}&lt; t} f\left(t-t_{k}\right)
+\end{equation}
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\({r(t)}\)</span>は前節におけるシナプス動態(<span class="math notranslate nohighlight">\(s_{\text{syn}}\)</span>)で, <span class="math notranslate nohighlight">\(t_{k}\)</span>はあるニューロンの<span class="math notranslate nohighlight">\(k\)</span>番目のスパイクの発生時刻である．<span class="math notranslate nohighlight">\({t_{k}&lt;t}\)</span>の意味は現在の時刻<span class="math notranslate nohighlight">\(t\)</span>までに発生したスパイクについての和を取るという意味である．なお，スパイクが生じてから, ある程度の時間が経過した後はそのスパイクの影響はないと見なせるので, 一定の時間までの総和を取るのがよい．</p>
+<p>別の表記法としてスパイク列に対する畳み込みを行うというものもある．畳み込み演算子を<span class="math notranslate nohighlight">\(*\)</span>とし, シナプス前細胞のスパイク列を<span class="math notranslate nohighlight">\(S(t)=\sum_{t_{k}&lt; t} \delta\left(t-t_{k}\right)\)</span>とする (ただし, <span class="math notranslate nohighlight">\(\delta\)</span>はDiracのdelta関数において<span class="math notranslate nohighlight">\(\delta(0)=1\)</span>とした関数)．このとき, <span class="math notranslate nohighlight">\(r(t)=f*S(t)\)</span>と表すことができる．畳み込み演算子を用いると簡略な表記ができるが，実装上は他と同じ手法を用いる．</p>
+<div class="section" id="id4">
+<h3>微分方程式による表現<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>上の手法ではニューロンの発火時刻を記憶し, 時間毎に全てのスパイクについての和を取る必要がある．そこで, 実装する場合は次の等価な微分方程式を用いる．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\frac{dr}{dt}=-\frac{r}{\tau_{s}}+\frac{1}{\tau_{s}} \sum_{t_{k}&lt; t} \delta\left(t-t_{k}\right)   
+\end{equation}
+\]</div>
+<p>ここで<span class="math notranslate nohighlight">\(\tau_s\)</span>はシナプスの時定数(synaptic time constant)である． また, <span class="math notranslate nohighlight">\(\delta(\cdot)\)</span>はDiracのdelta関数です(ただし<span class="math notranslate nohighlight">\(\delta(0)=1\)</span>です). これをEuler法で差分化すると</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+r(t+\Delta t)=\left(1-\frac{\Delta t}{\tau_{s}}\right)r(t)+\frac{1}{\tau_{s}}\delta_{t,t_{k}} 
+\end{equation}
+\]</div>
+<p>となる．ここで<span class="math notranslate nohighlight">\(\delta_{t,t_{k}}\)</span>はKroneckerのdelta関数で, <span class="math notranslate nohighlight">\(t=t_{k}\)</span>のときに1, それ以外は0となる．また減衰度として<span class="math notranslate nohighlight">\(\left(1-\Delta  t/\tau_{d}\right)\)</span>の代わりに<span class="math notranslate nohighlight">\(\exp\left(-\Delta t/\tau_{d}\right)\)</span>を用いる場合もある．</p>
+</div>
+</div>
+<div class="section" id="double-exponential-model">
+<h2>二重指数関数型モデル(Double exponential model)<a class="headerlink" href="#double-exponential-model" title="Permalink to this headline">¶</a></h2>
+<p>2重の指数関数によりシナプス後電流の立ち上がりも考慮するのが, 二重指数関数型モデル(Double exponential model)である<a class="footnote-reference brackets" href="#comp2" id="id5">3</a>．<span class="math notranslate nohighlight">\(t=0\)</span>にシナプス前細胞が発火したときのシナプス後電流の時間変化の関数は次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+f(t)=A\left[\exp\left(-\frac{t}{\tau_d}\right)-\exp\left(-\frac{t}{\tau_r}\right)\right]    
+\end{equation}
+\]</div>
+<p>ただし, <span class="math notranslate nohighlight">\({\tau_r}\)</span>は立ち上がり時定数(synaptic rise time constant), <span class="math notranslate nohighlight">\({\tau_d}\)</span>は減衰時定数(synaptic decay time constant)である．<span class="math notranslate nohighlight">\(\tau_{d}\)</span>は<span class="math notranslate nohighlight">\(\tau_{s}\)</span>と同じく神経伝達物質の減少速度を決定している．<span class="math notranslate nohighlight">\(A\)</span>は規格化定数で次のように表される．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+A=\frac{\tau_d}{\tau_d-\tau_r}\cdot \left(\frac{\tau_r}{\tau_d}\right)^\frac{\tau_r}{\tau_r-\tau_d}    
+\end{equation}
+\]</div>
+<p>規格化定数<span class="math notranslate nohighlight">\(A\)</span>を乗じることで最大値が1となる．ただし, シミュレーションをする上で実際に規格化をする場合は少ない．</p>
+<div class="section" id="alpha">
+<h3><span class="math notranslate nohighlight">\(\alpha\)</span>関数<a class="headerlink" href="#alpha" title="Permalink to this headline">¶</a></h3>
+<p>上記の式において, <span class="math notranslate nohighlight">\(\tau=\tau_{r}=\tau_{d}\)</span>の場合は <span class="math notranslate nohighlight">\(\boldsymbol{\alpha}\)</span> <strong>関数</strong> (alpha function, alpha synapse)と呼ぶ (<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/6055351/">Rall, 1967</a>)．式としては次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\alpha(t)=\frac{t}{\tau}\exp\left(1-\frac{t}{\tau}\right)    
+\end{equation}
+\]</div>
+<p>この式は二重指数関数型シナプスの式に単に代入するだけでは導出できない．これらの式の対応については後述する．</p>
+</div>
+<div class="section" id="id6">
+<h3>微分方程式による表現<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h3>
+<p>ここで, 二重指数関数型シナプスの式に対応する, 補助変数<span class="math notranslate nohighlight">\(h\)</span>を用いた微分方程式を導入する．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align} 
+\frac{dr}{dt}&amp;=-\frac{r}{\tau_{d}}+h\\
+\frac{dh}{dt}&amp;=-\frac{h}{\tau_{r}}+\frac{1}{\tau_{r} \tau_{d}} \sum_{t_{k}&lt; t} \delta\left(t-t_{k}\right) 
+\end{align} 
+\end{split}\]</div>
+<p>単一指数関数型シナプスの場合と同様にEuler法で差分化すると</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align} 
+r(t+\Delta t)&amp;=\left(1-\frac{\Delta t}{\tau_{d}}\right)r(t)+h(t)\cdot \Delta t\\ 
+h(t+\Delta t)&amp;=\left(1-\frac{\Delta t}{\tau_{r}}\right)h(t)+\frac{1}{\tau_{r}\tau_{d}} \delta_{t,t_{j k}}
+\end{align}
+\end{split}\]</div>
+<p>となる．</p>
+<p>念のため, 微分方程式と元の式が一致することを確認しておこう．<span class="math notranslate nohighlight">\(t=0\)</span>のときにシナプス前細胞が発火したとし, それ以降の発火はないとする．このとき, <span class="math notranslate nohighlight">\(h(0)=1/\tau_{r}\tau_{d}, r(0)=0\)</span> である．<span class="math notranslate nohighlight">\(h\)</span>についての微分方程式の解は</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+h(t)=h(0)\cdot \exp\left(-\frac{t}{\tau_r}\right)    
+\end{equation}
+\]</div>
+<p>となるので, これを<span class="math notranslate nohighlight">\(r\)</span>についての式に代入して</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\frac{dr}{dt}=-\frac{r}{\tau_{d}}+h(0)\cdot \exp\left(-\frac{t}{\tau_r}\right) 
+\end{equation}
+\]</div>
+<p>となる．これを解くには両辺に積分因子<span class="math notranslate nohighlight">\(\exp({t}/{\tau_d})\)</span>をかけてから積分をするかLaplace変換をするかである．今回はLaplace変換を用いる．右辺一項目を移行した後に両辺をLaplace変換すると以下のようになる．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\mathcal{L}\left[\frac{dr}{dt}+r/\tau_{d}\right]&amp;=\mathcal{L}\left[h(0)\cdot \exp\left(-t/\tau_r\right)\right]\\
+sF(s)-r(0)+\frac{1}{\tau_{d}}F(s)&amp;=\frac{h(0)}{s+1/\tau_r}\\
+F(s)&amp;=\frac{h(0)}{(s+1/\tau_r)(s+1/\tau_d)}
+\end{align}
+\end{split}\]</div>
+<p>ただし<span class="math notranslate nohighlight">\(r(t)\)</span>のLaplace変換を<span class="math notranslate nohighlight">\(F(s)\)</span>とした. ここで逆Laplace変換を行うと次のようになる．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+r(t)&amp;=\mathcal{L}^{-1}(F(s))\\
+&amp;=\mathcal{L}^{-1}\left[\frac{h(0)}{(s+1/\tau_r)(s+1/\tau_d)}\right]\\
+&amp;=\mathcal{L}^{-1}\left[\frac{h(0)}{1/\tau_r-1/\tau_d}\left(\frac{1}{s+1/\tau_d}-\frac{1}{s+1/\tau_r}\right)\right]\\
+&amp;=\frac{1}{\tau_d-\tau_r}\left[\exp(-t/\tau_d)-\exp(-t/\tau_r)\right]
+\end{align}
+\end{split}\]</div>
+<p>この式の最大値<span class="math notranslate nohighlight">\(r_{\max}\)</span>を求めておこう． <span class="math notranslate nohighlight">\(r(t)\)</span>を微分して0と置いた式の解<span class="math notranslate nohighlight">\(t_{\max}\)</span>を代入すれば求められる．計算すると,</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+t_{\max}=\dfrac{\ln(\tau_d/\tau_r)}{1/\tau_r-1/\tau_d},\ \ r_{\max}=\dfrac{1}{\tau_{d}}\cdot \left(\dfrac{\tau_{r}}{\tau_{d}}\right)^{\frac{\tau_{r}}{\tau_d-\tau_{r}}}    
+\end{equation}
+\]</div>
+<p>となる．</p>
+<p>なお, <span class="math notranslate nohighlight">\(\alpha\)</span>関数の導出は逆Laplace変換をする前に<span class="math notranslate nohighlight">\(\tau=\tau_d=\tau_r\)</span>とすればよく,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+F_\alpha(s)&amp;=\frac{h(0)}{(s+1/\tau)^2}\\
+\alpha(t)&amp;=\frac{t}{\tau^2}\exp\left(-\frac{t}{\tau}\right)
+\end{align}
+\end{split}\]</div>
+<p>となる．若干の係数の違いはあるが, 同じ形の関数が導出された．</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="synstr"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>シナプス強度というのは便宜上の呼称で, 実際には神経伝達物質の種類や, その受容体の数など複数の要因によって決定されている. また, このシナプス強度はシナプス重みということもある．これはどちらかと言えば機械学習の表現に引っ張られたものである．このため, このサイトでは重みという語も使う．</p>
+</dd>
+<dt class="label" id="comp"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>薬学動態の静注1コンパートメントモデルと同じ式である．</p>
+</dd>
+<dt class="label" id="comp2"><span class="brackets"><a class="fn-backref" href="#id5">3</a></span></dt>
+<dd><p>薬学動態の内服1コンパートメントモデルと同じ式である．</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./chap3"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="current-conductance-synapse.html" title="previous page">Current / Conductance-based シナプス</a>
+    <a class='right-next' id="next-link" href="kinetic-synapse.html" title="next page">動力学モデル</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

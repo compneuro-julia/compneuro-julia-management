@@ -1,0 +1,1038 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inter-spike interval モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap2/isi.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="シナプス伝達のモデル" href="../chap3/intro_ch3.html" />
+    <link rel="prev" title="Izhikevich モデル" href="izhikevich.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_ch2.html">
+   神経細胞のモデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap3/intro_ch3.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro_appendix.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chap2/isi.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap2/isi.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap2/isi.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap2/isi.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   ポアソン過程モデル
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     点過程とポアソン過程
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     定常ポアソン過程
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#isi">
+       ISIの累積により発火時刻を求める手法
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#delta-t-lambda-delta-t">
+       <span class="math notranslate nohighlight">
+        \(\Delta t\)
+       </span>
+       間の発火確率が
+       <span class="math notranslate nohighlight">
+        \(\lambda\Delta t\)
+       </span>
+       であることを利用する方法
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     非定常ポアソン過程
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#poisson-process-with-dead-time-ppd">
+   死時間付きポアソン過程モデル (Poisson process with dead time, PPD)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   ガンマ過程モデル
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="inter-spike-interval">
+<h1>Inter-spike interval モデル<a class="headerlink" href="#inter-spike-interval" title="Permalink to this headline">¶</a></h1>
+<p>これまで紹介したモデルでは，入力に対する膜電位などの時間変化に基づき発火が起こるかどうか，ということを考えてきた．この節では，発火が生じるまでの過程を考慮せず，発火の時間間隔(<strong>inter-spike interval, ISI</strong>)の統計による現象論的モデルを考える．これを<strong>Inter-spike interval (ISI)</strong> モデルと呼ぶ．ISIモデルは<strong>点過程(point process)</strong> という統計的モデルに基づいており，各モデルにはISIが従う分布の名称がついている．</p>
+<p>この節では，使用頻度の高い <strong>ポアソン過程 (Poisson process) モデル</strong>，ポアソン過程モデルにおいて不応期を考慮した <strong>死時間付きポアソン過程 (Poisson process with dead time, PPD) モデル</strong>，皮質の定常発火においてポアソン過程モデルよりも当てはまりがよいとされる <strong>ガンマ過程 (Gamma process) モデル</strong>について説明する．</p>
+<p>なお，SNNにおいて，ISIモデルは主に画像入力の際に<strong>連続値からスパイク列へのエンコード</strong>に用いられる．これに限らず入力として用いられることが多い．</p>
+<div class="margin sidebar">
+<p class="sidebar-title"></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>この節は (<a class="reference external" href="https://www.neuralengine.org/res/book/index.html">島崎, “スパイク統計モデル入門”</a>; <a class="reference external" href="http://www.gatsby.ucl.ac.uk/~marius/papers/SpikTrainStats.pdf">Pachitariu, Probabilistic models for spike trains of single neurons”</a>) を特に参考にした．</p>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>ポアソン過程モデル<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="id2">
+<h3>点過程とポアソン過程<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>時間に応じて変化する確率変数のことを<strong>確率過程(stochastic process)</strong> という．さらに確率過程の中で，連続時間軸上において離散的に生起する点事象の系列を<strong>点過程(point process)</strong> という．スパイクは離散的に起こるので，点過程を用いてモデル化ができるという話である．</p>
+<p>ポアソン過程 (Poisson process)は点過程の1つである．ポアソン過程モデルはスパイクの発生をポアソン過程でモデル化したもので，このモデルによって生じるスパイクをポアソンスパイク(Poisson spike)と呼ぶ．ポアソン過程では，時刻<span class="math notranslate nohighlight">\(t\)</span>までに起こった点の数<span class="math notranslate nohighlight">\(N(t)\)</span>はポアソン分布に従う．すなわち，点が起こる確率が強度<span class="math notranslate nohighlight">\(\lambda\)</span>のポアソン分布に従う場合, 時刻<span class="math notranslate nohighlight">\(t\)</span>までに事象が<span class="math notranslate nohighlight">\(n\)</span>回起こる確率は<span class="math notranslate nohighlight">\(P[N(t)=n]=\dfrac{(\lambda t)^{n}}{n !} e^{-\lambda t}\)</span>となる．</p>
+<p>ポアソン過程において点が起こる回数がポアソン分布に従うことは，ポアソン過程という名称の由来となっている．これを定義とする場合もあれば，次の4条件を満たす点過程をポアソン過程とするという定義もある．</p>
+<ul class="simple">
+<li><p>時刻0における初期の点の数は0 : <span class="math notranslate nohighlight">\(P[N(0)=0]=1\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\([t, t+\Delta t)\)</span>に点が1つ生じる確率 : <span class="math notranslate nohighlight">\(P[N(t+\Delta t)-N(t)=1]=\lambda(t)\Delta t+o(\Delta t)\)</span></p></li>
+<li><p>微小時間<span class="math notranslate nohighlight">\(\Delta t\)</span>の間に点は2つ以上生じない : <span class="math notranslate nohighlight">\(P[N(t+\Delta t)-N(t)=2]=o(\Delta t)\)</span></p></li>
+<li><p>任意の時点<span class="math notranslate nohighlight">\(t_1 &lt; t_2 &lt; \cdots&lt; t_n\)</span>に対して，増分 <span class="math notranslate nohighlight">\(N(t_2)-N(t_1), N(t_3)-N(t_2), \cdots, N(t_n)-N(t_{n−1})\)</span>は互いに独立である．</p></li>
+</ul>
+<p>ただし, <span class="math notranslate nohighlight">\(o(\cdot)\)</span>はLandauの記号(Landauのsmall o)であり, <span class="math notranslate nohighlight">\(o(x)\)</span>は<span class="math notranslate nohighlight">\(x\to 0\)</span>のとき，<span class="math notranslate nohighlight">\(o(x)/x\to 0\)</span>となる微小な量を表す．ポアソン過程に従ってスパイクが生じるとする場合，条件2の強度関数<span class="math notranslate nohighlight">\(\lambda(t)\)</span>は<strong>発火率</strong>を意味する (また実装において有用)．条件3は不応期より小さいタイムステップにおいては，1つのタイムステップにおいて1つしかスパイクは生じないということを表す．条件4はスパイクは独立に発生する，ということを意味する．また，これらの条件から<span class="math notranslate nohighlight">\(N(t)\)</span>の分布は強度母数<span class="math notranslate nohighlight">\(\lambda(t)\)</span>のポアソン分布に従うことが示せる．</p>
+<p>強度関数(点がスパイクの場合，発火率)が<span class="math notranslate nohighlight">\(\lambda(t)=\lambda\)</span> (定数)となる場合は点の時間間隔(点がスパイクの場合，ISI)の確率変数<span class="math notranslate nohighlight">\(T\)</span>が強度母数<span class="math notranslate nohighlight">\(\lambda\)</span>の <strong>指数分布</strong>に従う．なお，指数分布の確率密度関数は確率変数を<span class="math notranslate nohighlight">\(T\)</span>とするとき，</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+f(t;\lambda )=\left\{{\begin{array}{ll}\lambda e^{-\lambda t}&amp;(t\geq 0)\\0&amp;(t&lt;0)\end{array}}\right.
+\end{split}\]</div>
+<p>となる．このことは4条件とChapman-Kolmogorovの式により求められるが，ややこしいので, <span class="math notranslate nohighlight">\(P[N(t)=n]=\dfrac{(\lambda t)^{n}}{n !} e^{-\lambda t}\)</span>から導出できることを簡単に示す．指数分布の累積分布関数を<span class="math notranslate nohighlight">\(F(t; \lambda)\)</span>とすると，</p>
+<div class="math notranslate nohighlight">
+\[
+F(t; \lambda) = P(T&lt;t)=1-P(T&gt;t)=1-P(N(t)=0)=1-e^{-\lambda t}
+\]</div>
+<p>となる．よって</p>
+<div class="math notranslate nohighlight">
+\[
+f(t; \lambda)=\frac{dF(t; \lambda)}{dt}=\lambda e^{-\lambda t}
+\]</div>
+<p>が成り立つ．</p>
+</div>
+<div class="section" id="id3">
+<h3>定常ポアソン過程<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>ここからポアソン過程によるスパイクのシミュレーションを実装する．実装方法にはISIが指数分布に従うことを利用したものと，ポアソン過程の条件2を利用したものの2通りがある．実装は後者が楽で計算量も少ないが，後のガンマ過程のために前者の実装を先に行う．</p>
+<div class="section" id="isi">
+<h4>ISIの累積により発火時刻を求める手法<a class="headerlink" href="#isi" title="Permalink to this headline">¶</a></h4>
+<p>ISIが指数分布に従うことを利用してポアソン過程モデルの実装を行う．まずISIを指数分布に従う乱数とする．次にISIを累積することで発火時刻を得る．最後に発火時間を整数値に丸めてindexとすることで<span class="math notranslate nohighlight">\(\{0, 1\}\)</span>のスパイク列が得られる．ISIの取得には<code class="docutils literal notranslate"><span class="pre">Random.randexp()</span></code>を用いる．この関数は scale 1の指数分布に従う乱数を返す．このscaleは指数分布の確率密度関数を<span class="math notranslate nohighlight">\(f(t; \frac{1}{\beta}) = \frac{1}{\beta} e^{-t/\beta}\)</span>とした際の<span class="math notranslate nohighlight">\(\beta = 1/\lambda\)</span>である(この時，平均は<span class="math notranslate nohighlight">\(\beta\)</span>となる)．よって発火率を<code class="docutils literal notranslate"><span class="pre">fr</span></code>(1/s), 単位時間を<code class="docutils literal notranslate"><span class="pre">dt</span></code>(s)としたときのISIは <code class="docutils literal notranslate"><span class="pre">isi</span> <span class="pre">=</span> <span class="pre">1/(fr*dt)</span> <span class="pre">*</span> <span class="pre">randexp()</span></code>として得ることができる．</p>
+<p>まず必要なパッケージを読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Random</span>
+<span class="k">using</span> <span class="n">Plots</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>乱数のseed値を設定し，必要な定数を定義した後に<code class="docutils literal notranslate"><span class="pre">isi</span></code>を計算する．<code class="docutils literal notranslate"><span class="pre">isi</span></code>を累積することでスパイクの生じた時刻を記録する配列<code class="docutils literal notranslate"><span class="pre">spike_time</span></code>を作成する．作成後，<code class="docutils literal notranslate"><span class="pre">spike_time</span></code>を用いてラスタープロットを描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># set random seed</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+
+<span class="n">n_neurons</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># ニューロンの数</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="mi">30</span> <span class="c"># ポアソンスパイクの発火率(Hz)</span>
+
+<span class="n">isi</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span><span class="p">)</span> <span class="o">*</span> <span class="n">randexp</span><span class="p">(</span><span class="kt">Int32</span><span class="p">(</span><span class="n">nt</span><span class="o">*</span><span class="mf">1.5</span><span class="o">/</span><span class="n">fr</span><span class="p">),</span> <span class="n">n_neurons</span><span class="p">)</span>
+<span class="n">spike_time</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">isi</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># ISIを累積</span>
+
+<span class="c"># raster plot</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">xlabel</span> <span class="o">=</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Neuron index&quot;</span><span class="p">,</span> <span class="n">xlim</span> <span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="o">+</span><span class="mi">10</span><span class="p">),</span> <span class="n">legend</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">n_neurons</span>
+    <span class="n">scatter!</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">spike_time</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="o">*</span><span class="n">ones</span><span class="p">(</span><span class="kt">Int32</span><span class="p">(</span><span class="n">nt</span><span class="o">*</span><span class="mf">1.5</span><span class="o">/</span><span class="n">fr</span><span class="p">)),</span> <span class="n">shape</span><span class="o">=</span><span class="ss">:vline</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/isi_5_0.svg" src="../_images/isi_5_0.svg" /></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">spike_time</span></code>のように発火時刻で記録しておく方がメモリを節約できるが，シミュレーションにおいてはスパイク列<span class="math notranslate nohighlight">\(S\)</span>はタイムステップごとに発火しているかを表す<span class="math notranslate nohighlight">\(\{0,1\}\)</span>配列で保持しておくと楽に扱うことができる．そのため冗長ではあるが，発火時刻の配列を<span class="math notranslate nohighlight">\(\{0,1\}\)</span>配列<code class="docutils literal notranslate"><span class="pre">spikes</span></code>に変換しスパイクの数と発火率を計算する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">spike_time</span><span class="p">[</span><span class="n">spike_time</span> <span class="o">.&gt;</span> <span class="n">nt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span> <span class="c"># ntを超える場合を1に</span>
+<span class="n">spike_time</span> <span class="o">=</span> <span class="n">round</span><span class="o">.</span><span class="p">(</span><span class="kt">Int32</span><span class="p">,</span> <span class="n">spike_time</span><span class="p">)</span> <span class="c"># float to int</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">)</span> <span class="c"># スパイク記録変数</span>
+
+<span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">n_neurons</span>    
+    <span class="n">spikes</span><span class="p">[</span><span class="n">spike_time</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span>
+<span class="k">end</span>
+
+<span class="n">spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># (spike_time=1)の発火を削除</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Num. of spikes : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Firing rate : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_neurons</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="s">&quot;Hz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num. of spikes : 293
+Firing rate : 29.3Hz
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="delta-t-lambda-delta-t">
+<h4><span class="math notranslate nohighlight">\(\Delta t\)</span> 間の発火確率が <span class="math notranslate nohighlight">\(\lambda\Delta t\)</span> であることを利用する方法<a class="headerlink" href="#delta-t-lambda-delta-t" title="Permalink to this headline">¶</a></h4>
+<p>次に2番目のポアソン過程モデルの実装を行う．こちらは<span class="math notranslate nohighlight">\(\lambda\)</span>を発火率とした場合, 区間<span class="math notranslate nohighlight">\([t, t+\Delta t)\)</span>の間にポアソンスパイクが発生する確率は<span class="math notranslate nohighlight">\(\lambda \Delta t\)</span>となることを利用する．これはポアソン過程の条件だが，ポアソン分布から導けることを簡単に示しておく．事象が起こる確率が強度<span class="math notranslate nohighlight">\(\lambda\)</span>のポアソン分布に従う場合, 時刻<span class="math notranslate nohighlight">\(t\)</span>までに事象が<span class="math notranslate nohighlight">\(n\)</span>回起こる確率は<span class="math notranslate nohighlight">\(P[N(t)=n]=\dfrac{(\lambda t)^{n}}{n !} e^{-\lambda t}\)</span>となる．よって, 微小時間<span class="math notranslate nohighlight">\(\Delta t\)</span>において事象が<span class="math notranslate nohighlight">\(1\)</span>回起こる確率は</p>
+<div class="math notranslate nohighlight">
+\[
+P[N(\Delta t)=1]=\dfrac{\lambda \Delta t}{1 !} e^{-\lambda \Delta t}\simeq \lambda \Delta t+o(\Delta t)
+\]</div>
+<p>となる．ただし, <span class="math notranslate nohighlight">\(e^{-\lambda \Delta t}\)</span>についてはマクローリン展開による近似を行っている．このことから, 一様分布<span class="math notranslate nohighlight">\(U(0,1)\)</span>に従う乱数<span class="math notranslate nohighlight">\(\xi\)</span>を取得し, <span class="math notranslate nohighlight">\(\xi&lt;\lambda dt\)</span>なら発火<span class="math notranslate nohighlight">\((y=1)\)</span>, それ以外では<span class="math notranslate nohighlight">\((y=0)\)</span>となるようにすればポアソンスパイクを実装できる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># set random seed</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+
+<span class="n">n_neurons</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c"># ニューロンの数</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="mi">30</span> <span class="c"># ポアソンスパイクの発火率(Hz)</span>
+
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">nt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Num. of spikes : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Firing rate : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_neurons</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="s">&quot;Hz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num. of spikes : 304
+Firing rate : 30.4Hz
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">rasterplot</span><span class="p">(</span><span class="n">spikes</span><span class="p">,</span> <span class="n">plotsize</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="mi">200</span><span class="p">))</span>
+    <span class="c"># input spike -&gt; time, #neurons</span>
+    <span class="n">spike_inds</span> <span class="o">=</span> <span class="kt">Tuple</span><span class="o">.</span><span class="p">(</span><span class="n">findall</span><span class="p">(</span><span class="n">x</span> <span class="o">-&gt;</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">spikes</span><span class="p">))</span>
+    <span class="n">spike_time</span> <span class="o">=</span> <span class="n">first</span><span class="o">.</span><span class="p">(</span><span class="n">spike_inds</span><span class="p">)</span>
+    <span class="n">neuron_inds</span> <span class="o">=</span> <span class="n">last</span><span class="o">.</span><span class="p">(</span><span class="n">spike_inds</span><span class="p">)</span>
+    
+    <span class="c"># raster plot</span>
+    <span class="n">scatter</span><span class="p">(</span><span class="n">spike_time</span><span class="p">,</span> <span class="n">neuron_inds</span><span class="p">,</span>
+        <span class="n">xlabel</span> <span class="o">=</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Neuron index&quot;</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="ss">:vline</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span>
+        <span class="n">legend</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">plotsize</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>rasterplot (generic function with 2 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rasterplot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/isi_11_0.svg" src="../_images/isi_11_0.svg" /></div>
+</div>
+<p>なお，ここでは全時間における発火をまとめて計算しているが，タイムステップごとに発火の有無を計算することもできる．前者は発火情報を保持するためのメモリが必要だが，計算時間は短くなる．後者はメモリの節約になるが，計算時間は長くなる．そのため，これら2つの方法はメモリと計算時間のトレードオフとなる．また，他には発火情報を疎行列(sparse matrix)の形式で保持しておくとメモリの節約になると思われる．</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>非定常ポアソン過程<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h3>
+<p>これまでの実装は発火率<span class="math notranslate nohighlight">\(\lambda\)</span>が一定であるとする，定常ポアソン過程 (homogeneous poisson process)であったが，ここからは発火率<span class="math notranslate nohighlight">\(\lambda(t)\)</span>が時間変化するとする<strong>非定常ポアソン過程</strong> (inhomogeneous poisson process)について考える．とはいえ，定常ポアソン過程における発火率を，時間についての関数で置き換えるだけで実装できる．以下は<span class="math notranslate nohighlight">\(\lambda(t)=\sin^2(\alpha t)\)</span>(ただし<span class="math notranslate nohighlight">\(\alpha\)</span>は定数)とした場合の実装である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># set random seed</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+
+<span class="n">n_neurons</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c"># ニューロンの数</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="mi">30</span><span class="p">(</span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="mf">1e-2</span><span class="n">t</span><span class="p">))</span><span class="o">.^</span><span class="mi">2</span> <span class="c"># ポアソンスパイクの発火率(Hz)</span>
+
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">nt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span>
+
+<span class="n">p1</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">ylabel</span> <span class="o">=</span><span class="s">&quot;Firing rate (Hz)&quot;</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">rasterplot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">T</span><span class="o">+</span><span class="mi">10</span><span class="p">),</span> <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span><span class="mi">300</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/isi_14_0.svg" src="../_images/isi_14_0.svg" /></div>
+</div>
+<p>上が発火率<span class="math notranslate nohighlight">\(\lambda(t)\)</span>の時間変化, 下がラスタープロットである．</p>
+</div>
+</div>
+<div class="section" id="poisson-process-with-dead-time-ppd">
+<h2>死時間付きポアソン過程モデル (Poisson process with dead time, PPD)<a class="headerlink" href="#poisson-process-with-dead-time-ppd" title="Permalink to this headline">¶</a></h2>
+<p>ポアソン過程は簡易的で有用だが，不応期を考慮していない．そのため，時には生理的範疇を超えたバースト発火が起こる場合もある<a class="footnote-reference brackets" href="#burst" id="id5">1</a>．そこで，ポアソン過程において不応期のようなイベントの生起が起こらない <strong>死時間(dead time)</strong> <a class="footnote-reference brackets" href="#deadtime" id="id6">2</a>を考慮した<strong>死時間付きポアソン過程 (Poisson process with dead time, PPD)</strong> (またはdead time modified Poisson process)というモデルを導入する．</p>
+<p>実装においてはLIFニューロンの時と同じような不応期の処理をする．つまり，現在が不応期かどうかを判断し，不応期なら発火を許可しないようにする．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># set random seed</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+<span class="n">tref</span> <span class="o">=</span> <span class="mf">5f0</span> <span class="c"># 不応期 (ms)</span>
+
+<span class="n">n_neurons</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c"># ニューロンの数</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="mi">30</span> <span class="c"># ポアソンスパイクの発火率(Hz)</span>
+
+<span class="n">tlast</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">)</span> <span class="c"># 発火時刻の記録変数</span>
+<span class="n">spikes</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">)</span>
+
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">fire</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span>
+    <span class="n">spikes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">dt</span><span class="o">*</span><span class="n">i</span><span class="p">)</span> <span class="o">.&gt;</span> <span class="p">(</span><span class="n">tlast</span> <span class="o">.+</span> <span class="n">tref</span><span class="p">))</span> <span class="o">.*</span> <span class="n">fire</span>
+    <span class="n">tlast</span><span class="p">[</span><span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">tlast</span> <span class="o">.*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">.-</span> <span class="n">fire</span><span class="p">)</span> <span class="o">+</span> <span class="n">dt</span><span class="o">*</span><span class="n">i</span> <span class="o">*</span> <span class="n">fire</span> <span class="c"># 発火時刻の更新</span>
+<span class="k">end</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Num. of spikes : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Firing rate : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_neurons</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="s">&quot;Hz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.438333 seconds (1.65 M allocations: 91.384 MiB, 3.89% gc time, 98.86% compilation time)
+Num. of spikes : 267.0
+Firing rate : 26.700000000000003Hz
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">struct</span></code>や<code class="docutils literal notranslate"><span class="pre">function</span></code>を定義しても良いが，ここではforループ内に直接処理を書いた．forループ内に関しては以下のようにニューロンごとに処理しても良い (速度に大きな差はない)．</p>
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">fire</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">n_neurons</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span>
+    <span class="k">for</span> <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">n_neurons</span>
+        <span class="n">spikes</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">dt</span><span class="o">*</span><span class="n">i</span> <span class="o">&gt;</span> <span class="n">tlast</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">+</span> <span class="n">tref</span><span class="p">,</span> <span class="n">fire</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">tlast</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">dt</span><span class="o">*</span><span class="n">i</span><span class="o">*</span><span class="n">fire</span><span class="p">[</span><span class="n">j</span><span class="p">],</span> <span class="n">tlast</span><span class="p">[</span><span class="n">j</span><span class="p">])</span> <span class="c"># 発火時刻の更新</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>また，不応期があるために発火率は設定値の30Hzよりも低くなっていることが分かる．次にラスタープロットを描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">rasterplot</span><span class="p">(</span><span class="n">spikes</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/isi_19_0.svg" src="../_images/isi_19_0.svg" /></div>
+</div>
+<p>通常のPoisson spikeと差はあまり感じられないが，高頻度発火の場合に通常のモデルとの違いが明瞭となる．</p>
+</div>
+<div class="section" id="id7">
+<h2>ガンマ過程モデル<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>ガンマ過程(gamma process)は点の時間間隔がガンマ分布に従うとするモデルである．ガンマ過程はポアソン過程よりも皮質における定常発火への当てはまりが良いとされている (<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/14629869/">Shinomoto, et al., 2003</a>; <a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/19447097/">Maimon &amp; Assad,2009</a>)．</p>
+<p>時間間隔の確率変数を<span class="math notranslate nohighlight">\(T\)</span>とした場合，ガンマ分布の確率密度関数は</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+f(t;k,\theta) =  t^{k-1}\frac{e^{-t/\theta}}{\theta^k\Gamma(k)}
+\end{equation}
+\]</div>
+<p>と表される．ただし，<span class="math notranslate nohighlight">\(t &gt; 0\)</span>であり， 2つの母数は<span class="math notranslate nohighlight">\(k, \theta &gt; 0\)</span>である．また，<span class="math notranslate nohighlight">\(\Gamma (\cdot)\)</span>はガンマ関数であり，</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\Gamma (k)=\int _{0}^{\infty }x^{k-1}e^{-x}\,dx
+\end{equation}
+\]</div>
+<p>と定義される．ガンマ分布の平均は<span class="math notranslate nohighlight">\(k\theta\)</span>だが，発火率はISIの平均の逆数なので，<span class="math notranslate nohighlight">\(\lambda=1/k\theta\)</span>となる．また，<span class="math notranslate nohighlight">\(k=1\)</span>のとき，ガンマ分布は指数分布となる．さらに<span class="math notranslate nohighlight">\(k\)</span>が正整数のとき，ガンマ分布はアーラン分布となる．</p>
+<p>ガンマ過程モデルの実装はポアソン過程モデルのISIを累積する手法と同様に書くことができる．ただしこの時，<a class="reference external" href="https://github.com/JuliaStats/Distributions.jl">Distributions.jl</a>を用いる．基本的には<code class="docutils literal notranslate"><span class="pre">randexp(shape)</span></code>を<code class="docutils literal notranslate"><span class="pre">rand(Gamma(a,b),</span> <span class="pre">shape)</span></code>に置き換えればよい (もちろん多少の修正は必要とする)．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Distributions</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p>スパイク列を生成する関数を書く．少々冗長なのが気になる点である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">GammaSpike</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">nt</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span><span class="p">))</span> <span class="c"># fr = 1/(k*theta)</span>
+
+    <span class="n">isi</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">theta</span><span class="p">),</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">round</span><span class="p">(</span><span class="n">nt</span><span class="o">*</span><span class="mf">1.5</span><span class="o">/</span><span class="n">fr</span><span class="p">)),</span> <span class="n">n_neurons</span><span class="p">)</span>
+    <span class="n">spike_time</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">isi</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># ISIを累積</span>
+
+    <span class="n">spike_time</span><span class="p">[</span><span class="n">spike_time</span> <span class="o">.&gt;</span> <span class="n">nt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span> <span class="c"># ntを超える場合を1に</span>
+    <span class="n">spike_time</span> <span class="o">=</span> <span class="n">round</span><span class="o">.</span><span class="p">(</span><span class="kt">Int32</span><span class="p">,</span> <span class="n">spike_time</span><span class="p">)</span> <span class="c"># float to int</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">)</span> <span class="c"># スパイク記録変数</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">n_neurons</span>    
+        <span class="n">spikes</span><span class="p">[</span><span class="n">spike_time</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+
+    <span class="n">spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># (spike_time=1)の発火を削除</span>
+    <span class="k">return</span> <span class="n">spikes</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GammaSpike (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">GammaSpike</span></code> 関数を用いて <span class="math notranslate nohighlight">\(k=1, 12\)</span> の場合のシミュレーションを実行する．なお，<span class="math notranslate nohighlight">\(k=1\)</span>のときはポアソン過程に一致することに注意しよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">Random</span><span class="o">.</span><span class="n">seed!</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="c"># set random seed</span>
+
+<span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">1f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+
+<span class="n">n_neurons</span> <span class="o">=</span> <span class="mi">10</span> <span class="c"># ニューロンの数</span>
+<span class="n">fr</span> <span class="o">=</span> <span class="mi">30</span> <span class="c"># ガンマスパイクの発火率(Hz)</span>
+
+<span class="c"># k=1のときはポアソン過程に一致</span>
+<span class="n">spikes1</span> <span class="o">=</span> <span class="n">GammaSpike</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">spikes2</span> <span class="o">=</span> <span class="n">GammaSpike</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Num. of spikes : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes1</span><span class="p">),</span> <span class="s">&quot;, &quot;</span><span class="p">,</span><span class="n">sum</span><span class="p">(</span><span class="n">spikes2</span><span class="p">))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;Firing rate : &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes1</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_neurons</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="s">&quot;Hz, &quot;</span><span class="p">,</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikes2</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_neurons</span><span class="o">*</span><span class="n">T</span><span class="p">)</span><span class="o">*</span><span class="mf">1e3</span><span class="p">,</span> <span class="s">&quot;Hz&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Num. of spikes : 289, 301
+Firing rate : 28.9Hz, 30.099999999999998Hz
+</pre></div>
+</div>
+</div>
+</div>
+<p>ISIの分布を描画するための関数を定義する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">GammaISIplot</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span><span class="p">))</span> <span class="c"># fr = 1/(k*theta)</span>
+    <span class="n">isi</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">theta</span><span class="p">),</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">gamma_pdf</span> <span class="o">=</span> <span class="n">pdf</span><span class="o">.</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">theta</span><span class="p">),</span> <span class="n">minimum</span><span class="p">(</span><span class="n">isi</span><span class="p">)</span><span class="o">:</span><span class="n">maximum</span><span class="p">(</span><span class="n">isi</span><span class="p">))</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">plot</span><span class="p">(</span><span class="n">legend</span><span class="o">=</span><span class="nb">false</span><span class="p">,</span> <span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;ISI (ms)&quot;</span><span class="p">,</span> <span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;Density&quot;</span><span class="p">)</span>
+    <span class="n">histogram!</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">isi</span><span class="p">,</span> <span class="n">normed</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+    <span class="n">plot!</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">minimum</span><span class="p">(</span><span class="n">isi</span><span class="p">)</span><span class="o">:</span><span class="n">maximum</span><span class="p">(</span><span class="n">isi</span><span class="p">),</span> <span class="n">gamma_pdf</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GammaISIplot (generic function with 2 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<p>結果を描画する．上段はISIの分布，下段はラスタープロットである．左の<span class="math notranslate nohighlight">\(k=1\)</span>の場合をポアソン過程モデルのスパイク列と比較しよう (同じ外観になっていることが分かる)．右は<span class="math notranslate nohighlight">\(k=12\)</span>とした場合である．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">p1</span> <span class="o">=</span> <span class="n">GammaISIplot</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">GammaISIplot</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">p3</span> <span class="o">=</span> <span class="n">rasterplot</span><span class="p">(</span><span class="n">spikes1</span><span class="p">)</span>
+<span class="n">p4</span> <span class="o">=</span> <span class="n">rasterplot</span><span class="p">(</span><span class="n">spikes2</span><span class="p">)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">,</span> <span class="n">p3</span><span class="p">,</span> <span class="n">p4</span><span class="p">,</span>
+    <span class="n">layout</span> <span class="o">=</span> <span class="n">grid</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">widths</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="n">heights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">]),</span> <span class="n">legend</span> <span class="o">=</span> <span class="nb">false</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">600</span><span class="p">,</span> <span class="mi">300</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/isi_30_0.svg" src="../_images/isi_30_0.svg" /></div>
+</div>
+<p>なお，前述したようにガンマ過程モデルの方がポアソン過程モデルよりも皮質ニューロンのモデルとしては優れているが，入力画像のエンコーディングをガンマ過程モデルにすることでSNNの認識精度が向上するかどうかはまだ十分に研究されていない．また，(<a class="reference external" href="https://pubmed.ncbi.nlm.nih.gov/21964584/">Deger, et al., 2012</a>)ではPPDやガンマ過程の重ね合わせによるスパイク列を生成するアルゴリズムを考案している．</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="burst"><span class="brackets"><a class="fn-backref" href="#id5">1</a></span></dt>
+<dd><p>複数のニューロンからの発火の重ね合わせ(superposition)であると考えることもできる．</p>
+</dd>
+<dt class="label" id="deadtime"><span class="brackets"><a class="fn-backref" href="#id6">2</a></span></dt>
+<dd><p>例えば，ガイガー・カウンター(Geiger counter)などの放射線の検出器には放射線の到達を機器の物理的特性として検出できない時間(つまり死時間)がある．そのため放射線の到達数がポアソン分布に従うとした場合，放射線測定装置のモデルとしてPPDが用いられる．</p>
+</dd>
+</dl>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./chap2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="izhikevich.html" title="previous page">Izhikevich モデル</a>
+    <a class='right-next' id="next-link" href="../chap3/intro_ch3.html" title="next page">シナプス伝達のモデル</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

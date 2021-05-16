@@ -1,0 +1,823 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Jupyter bookの使い方 (Julia言語版) &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/appendix/usage-jupyter-book.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="有用なリンク集" href="useful-links.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap2/intro_ch2.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap2/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap3/intro_ch3.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_appendix.html">
+   付録
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/appendix/usage-jupyter-book.md"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.md</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/appendix/usage-jupyter-book.md"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#julia">
+   Julia言語のサイトを構築する方法
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#jupyter-book">
+   Jupyter bookの導入
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#anacondainstall">
+     1. Anacondaをinstall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jupyter-notebookinstall">
+     2. jupyter-notebookをinstall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#juliainstallijuliainstall">
+     3. Juliaをinstallし、Ijuliaをinstall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#jupyter-bookinstall">
+     4. jupyter bookをinstall
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id1">
+     5. テンプレートの作成
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#config-yml">
+     6.
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       _config.yml
+      </span>
+     </code>
+     にサイトの情報を記述
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#toc-yml">
+     7.
+     <code class="docutils literal notranslate">
+      <span class="pre">
+       _toc.yml
+      </span>
+     </code>
+     にサイトの構成を記述
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#build">
+     8. サイトのbuild
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#github-pages">
+     9. GitHub pagesでサイトを公開する
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#myst-markdown">
+   MyST Markdown形式について
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id2">
+     数式について
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     入力・出力を隠す
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#syntax-highlighting">
+   Syntax highlightingについて
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#css">
+   カスタムCSSの追加
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="jupyter-book-julia">
+<h1>Jupyter bookの使い方 (Julia言語版)<a class="headerlink" href="#jupyter-book-julia" title="Permalink to this headline">¶</a></h1>
+<p>このサイトの構築方法について (2020/09/02)。</p>
+<div class="section" id="julia">
+<h2>Julia言語のサイトを構築する方法<a class="headerlink" href="#julia" title="Permalink to this headline">¶</a></h2>
+<p>Julia言語でサイトを構築するには<a class="reference external" href="https://github.com/JuliaDocs/Documenter.jl"><strong>Documenter.jl</strong></a>や<a class="reference external" href="https://github.com/tlienart/Franklin.jl"><strong>Franklin.jl</strong></a>, <a class="reference external" href="https://github.com/JunoLab/Weave.jl"><strong>Weave.jl</strong></a>などのパッケージを用いるのが一般的である。これらはMarkdown (.mdや.jmd)などのファイルをHTMLに変換できるが、Jupyter notebookからHTMLに変換するのはやや手間である (と自分は思っているが、今後改善される可能性は十分にある)。詳細は次項で説明するが、このサイトを構築している<a class="reference external" href="https://jupyterbook.org/intro.html"><strong>Jupyter book</strong></a>はJuliaで完結してはいないものの、より簡単にJupyter notebookをHTMLに変換できる。また、LaTeX形式やpdf形式に変換することもできる (これはWeave.jlでも同じことができるということは述べておく)。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://qiita.com/SatoshiTerasaki/items/b0ac17088f3b2c374099">Julia の Documenter.jl でホームページを作成する準備． - Qiita</a></p></li>
+<li><p><a class="reference external" href="https://qiita.com/SatoshiTerasaki/items/3a913f897b2ef4b82979">Weave.jl で Markdown + Julia の文章をHTMLに変換して自分のホームページで公開しよう - Qiita</a></p></li>
+<li><p><a class="reference external" href="http://otepipi.hatenablog.com/entry/2019/03/30/221635">Weave.jlを使ってJuliaのノートブックを作成する - システムとモデリング</a></p></li>
+</ul>
+</div>
+<div class="section" id="jupyter-book">
+<h2>Jupyter bookの導入<a class="headerlink" href="#jupyter-book" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="https://jupyterbook.org/intro.html">Jupyter book</a>は<a class="reference external" href="https://www.sphinx-doc.org/ja/master/">Sphinx</a>を用いてMarkdownやJupyter notebookからサイトを生成するツールである (以前は<a class="reference external" href="https://jekyllrb.com/">Jekyll</a>が用いられていた)。Sphinx自体はPythonで書かれた文章作成ツールだが、導入においてPythonコードを編集することは基本的にない。</p>
+<p>また、重要な点として、<strong>Jupyter notebookのカーネルはPythonでなくてもよい</strong>ということが挙げられる (Python, R, Julia, Ruby, Go, Scala, Perlなどなど)。カーネルとして用いることのできる言語の一覧は<a class="reference external" href="https://github.com/jupyter/jupyter/wiki/Jupyter-kernels">Jupyter kernels · jupyter/jupyter Wiki</a>を参照。Python以外の言語を用いている例としては<a class="reference external" href="https://myst-nb.readthedocs.io/en/latest/examples/coconut-lang.html">Other Programming Languages</a>がある。ここではCoconutというPython製の関数型言語が用いられている。</p>
+<p>なお、同じサイト内で異なる言語のカーネルを持つJupyter notebookを元としたページも作成できる (例えばあるページはPython, 次のページはJuliaといったように)。同じページ内で複数の言語を用いるのはまだできないようだが。</p>
+<p>とはいえ、Pythonカーネルでやるのが一番楽である。以下にJuliaカーネルを用いる場合の手順を記すが、Pythonカーネルの場合はJuliaのinstallの手順を飛ばせばよい。</p>
+<div class="section" id="anacondainstall">
+<h3>1. Anacondaをinstall<a class="headerlink" href="#anacondainstall" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://www.anaconda.com/products/individual">Anaconda</a> または <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">miniconda</a>をinstallする (使用しているOSに応じてinstallerを選択する)。</p>
+</div>
+<div class="section" id="jupyter-notebookinstall">
+<h3>2. jupyter-notebookをinstall<a class="headerlink" href="#jupyter-notebookinstall" title="Permalink to this headline">¶</a></h3>
+<p>pip (またはconda)で<a class="reference external" href="https://jupyter.org/">Jupyter notebook</a>をinstallする。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install jupyter
+</pre></div>
+</div>
+<p>installしたTerminal (Windowsならanaconda prompt)でJupyter notebookを立ち上げられることを確認する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ jupyter notebook
+</pre></div>
+</div>
+</div>
+<div class="section" id="juliainstallijuliainstall">
+<h3>3. Juliaをinstallし、Ijuliaをinstall<a class="headerlink" href="#juliainstallijuliainstall" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://julialang.org/">Julia</a>をinstallする。次にJuliaを立ち上げて、REPLで<code class="docutils literal notranslate"><span class="pre">]</span></code>を入力してpkg modeにし、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pkg</span><span class="o">&gt;</span> <span class="n">add</span> <span class="n">IJulia</span>
+</pre></div>
+</div>
+<p>により<a class="reference external" href="https://github.com/JuliaLang/IJulia.jl">Ijulia.jl</a>をinstallする。この段階で、Jupyter notebookを立ち上げて新規にnotebookを作成する際にJuliaカーネルを選択できるはずである。うまくいっていない場合はJuliaのPATHが通っていないなどが考えられる。</p>
+</div>
+<div class="section" id="jupyter-bookinstall">
+<h3>4. jupyter bookをinstall<a class="headerlink" href="#jupyter-bookinstall" title="Permalink to this headline">¶</a></h3>
+<p>pip (またはconda)で<code class="docutils literal notranslate"><span class="pre">jupyter-book</span></code> をinstallする。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ pip install jupyter-book
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h3>5. テンプレートの作成<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://jupyterbook.org/start/overview.html">Overview and installation</a>を参照。Terminal (Windowsならanaconda prompt)で次のようにしてテンプレートを作成する。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ cd hogehoge
+$ jupyter-book create mybookname
+</pre></div>
+</div>
+<p>ただし、<code class="docutils literal notranslate"><span class="pre">mybookname</span></code>はサイトの構成ファイルを保存するディレクトリ名であり、変更可能である。<code class="docutils literal notranslate"><span class="pre">jupyter-book</span></code>は<code class="docutils literal notranslate"><span class="pre">jb</span></code>と省略できるので、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ jb create mybookname
+</pre></div>
+</div>
+<p>としてもよい。実行後は次のようなファイルが<code class="docutils literal notranslate"><span class="pre">mybookname</span></code>の下に生成される。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mybookname/
+├── _config.yml
+├── _toc.yml
+├── content.md
+├── intro.md
+├── markdown.md
+├── notebooks.ipynb
+└── references.bib
+</pre></div>
+</div>
+<p>このうち、Markdownファイル (.md)とJupyter notebookファイル (.ipynb)および参考文献を記述するためのBiBTeXファイル(.bib)が実際のサイトの元ファイルとなる。<code class="docutils literal notranslate"><span class="pre">_config.yml</span></code>はサイトの情報を指定するファイルであり、<code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>はサイトの構成を指定するファイルである。また、ディレクトリとファイルの構成例として<code class="docutils literal notranslate"><span class="pre">quantecon-mini-example</span></code> (<a class="reference external" href="https://executablebooks.github.io/quantecon-mini-example/docs/index.html">Github pages</a>, <a class="reference external" href="https://github.com/executablebooks/quantecon-mini-example">Github</a>) が用意されている。</p>
+<p>Jupyter bookの機能を確認する場合は先に <a class="reference external" href="#build">8. サイトのbuild</a>を参照。</p>
+</div>
+<div class="section" id="config-yml">
+<h3>6. <code class="docutils literal notranslate"><span class="pre">_config.yml</span></code>にサイトの情報を記述<a class="headerlink" href="#config-yml" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://jupyterbook.org/customize/config.html">Configure book settings</a>を参照。サイトの名前、著者、ロゴ、リポジトリへのリンク、colabで立ち上げるボタンの追加、など様々なことが設定できる。</p>
+</div>
+<div class="section" id="toc-yml">
+<h3>7. <code class="docutils literal notranslate"><span class="pre">_toc.yml</span></code>にサイトの構成を記述<a class="headerlink" href="#toc-yml" title="Permalink to this headline">¶</a></h3>
+<p><a class="reference external" href="https://jupyterbook.org/customize/toc.html">Table of Contents structure</a>を参照。各ファイルをどのような構成でサイトに変換するか、ということを指定する。</p>
+</div>
+<div class="section" id="build">
+<h3>8. サイトのbuild<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h3>
+<p>コンテンツを含むディレクトリを<code class="docutils literal notranslate"><span class="pre">./mybookname</span></code>としたとき</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">jb</span> <span class="n">build</span> <span class="n">mybookname</span>
+</pre></div>
+</div>
+<p>によりbuildする。このとき、Jupyter notebookはbuild時に実行される。Ijulia.jlが入っていなかったり、実行不可能であればエラーが生じる。build完了後、<code class="docutils literal notranslate"><span class="pre">./build/html</span></code>というディレクトリの下に他の依存ファイルを含めたサイトのHTMLが生成される。</p>
+</div>
+<div class="section" id="github-pages">
+<h3>9. GitHub pagesでサイトを公開する<a class="headerlink" href="#github-pages" title="Permalink to this headline">¶</a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">./build/html</span></code>の中身を同じリポジトリの<code class="docutils literal notranslate"><span class="pre">gh-pages</span></code>ブランチにcommitするか、別のリポジトリを用意してcommitする。本サイトの場合はコンテンツの管理は<a class="reference external" href="https://github.com/compneuro-julia/compneuro-julia-management">https://github.com/compneuro-julia/compneuro-julia-management</a>で、サイトのホスティングは<a class="reference external" href="https://github.com/compneuro-julia/compneuro-julia.github.io">https://github.com/compneuro-julia/compneuro-julia.github.io</a>で行っている。</p>
+<p>なお、GitHub pagesはデフォルトではJekyllで処理されるので、<code class="docutils literal notranslate"><span class="pre">.nojekyll</span></code>という名前の空ファイルを作成しておく (空ファイルだとuploadされない場合もあるので注意)。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://qiita.com/sky_y/items/b96ae52c90457bcd7846">GitHub Pagesで普通の静的ホスティングをしたいときは .nojekyll ファイルを置く - Qiita</a></p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="myst-markdown">
+<h2>MyST Markdown形式について<a class="headerlink" href="#myst-markdown" title="Permalink to this headline">¶</a></h2>
+<p>Jupyter bookは通常のMarkdown記法に加え、<strong>MyST</strong> (Markedly Structured Text)と呼ばれる形式のMarkdown記法に対応している。例えば</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>```{note}
+これはノートです。
+```
+</pre></div>
+</div>
+<p>と記述すれば次のように変換される。</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>これはノートです。</p>
+</div>
+<p>これはMarkdownファイルにも、Jupyter notebookのMarkdown cellにも記述できる。詳細は<a class="reference external" href="https://jupyterbook.org/content/myst.html">MyST Markdown Overview</a>や<a class="reference external" href="https://jupyterbook.org/reference/cheatsheet.html">MyST Cheat Sheet</a>などを参照 (特に後者はMySTでどのようなことができるか一目でわかる)。</p>
+<div class="section" id="id2">
+<h3>数式について<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<p>通常のMarkdownやJupyter notebookと同様に行える。次のように入力すれば</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$$
+F(\omega) = \cfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}f(t)e^{i\omega t}dt
+$$
+</pre></div>
+</div>
+<p>以下のように出力される。</p>
+<div class="math notranslate nohighlight">
+\[
+F(\omega) = \cfrac{1}{\sqrt{2\pi}}\int_{-\infty}^{+\infty}f(t)e^{i\omega t}dt
+\]</div>
+</div>
+<div class="section" id="id3">
+<h3>入力・出力を隠す<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>Jupyter notebookのcellのtagを変更してcellの入力や出力を隠すことができる。Tagの変更はJupyter notebookで<code class="docutils literal notranslate"><span class="pre">View</span> <span class="pre">&gt;</span> <span class="pre">Cell</span> <span class="pre">Toolbar</span> <span class="pre">&gt;</span> <span class="pre">Tags</span></code>とすることで各cellにtagを追加する欄が表示される。詳細は<a class="reference external" href="https://myst-nb.readthedocs.io/en/latest/use/hiding.html">Hiding cell contents</a>を参照。</p>
+</div>
+</div>
+<div class="section" id="syntax-highlighting">
+<h2>Syntax highlightingについて<a class="headerlink" href="#syntax-highlighting" title="Permalink to this headline">¶</a></h2>
+<p>Sphinxはコードの構文解析を<a class="reference external" href="https://pygments.org/">Pygments</a>によって行っている (cf. <a class="reference external" href="https://github.com/sphinx-doc/sphinx/blob/3.x/sphinx/highlighting.py">sphinx/highlighting.py</a>)。これまでは全てPythonLexerでsyntax highlightされていたが、Jupyter book v0.8.0でMyST-NBのv0.10に対応し、Jupyter notebookのカーネルの言語に応じてcode cellがsyntax highlightされるようになった。</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://jupyterbook.org/reference/_changelog.html#v0-8-0-2020-09-01">Change Log - Jupyter book v0.8.0 2020-09-01</a></p></li>
+</ul>
+<p>Syntax highlightの色などはカスタムCSSの追加して調整している (Qiitaの配色が見やすいので参考にした)。具体的な調整については<a class="reference external" href="https://compneuro-julia.github.io/_static/custom.css">https://compneuro-julia.github.io/_static/custom.css</a>および次項を参照。</p>
+</div>
+<div class="section" id="css">
+<h2>カスタムCSSの追加<a class="headerlink" href="#css" title="Permalink to this headline">¶</a></h2>
+<p>本の構成が</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mybook/
+├── _config.yml
+├── _toc.yml
+└── page1.md
+</pre></div>
+</div>
+<p>のようであった場合、</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>mybook/
+├── _config.yml
+├── _toc.yml
+├── page1.md
+└── _static
+    └── myfile.css
+</pre></div>
+</div>
+<p>のように <code class="docutils literal notranslate"><span class="pre">_static</span></code>ディレクトリを作成し、その下にCSSやJavascriptなどのファイルを置いておけばbuildするときに自動で読み込まれる。<code class="docutils literal notranslate"> <span class="pre">_static</span></code>ディレクトリには他に画像ファイルやpdfファイルなどを置くことも可能である。今回、試験的にfontに<a class="reference external" href="https://juliamono.netlify.app/">JuliaMono</a>を用いた。custom.cssに以下を記述し、fontに<code class="docutils literal notranslate"><span class="pre">JuliaMono-Regular</span></code>を指定した。</p>
+<div class="highlight-css notranslate"><div class="highlight"><pre><span></span><span class="p">@</span><span class="k">font-face</span> <span class="p">{</span>
+    <span class="nt">font-family</span><span class="o">:</span> <span class="nt">JuliaMono-Regular</span><span class="o">;</span>
+    <span class="nt">src</span><span class="o">:</span> <span class="nt">url</span><span class="o">(</span><span class="s2">&quot;https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2&quot;</span><span class="o">);</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./appendix"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="useful-links.html" title="previous page">有用なリンク集</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

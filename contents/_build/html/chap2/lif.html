@@ -1,0 +1,900 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaky integrate-and-fire モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap2/lif.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Izhikevich モデル" href="izhikevich.html" />
+    <link rel="prev" title="FitzHugh-Nagumoモデル" href="fhn.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_ch2.html">
+   神経細胞のモデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap3/intro_ch3.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro_appendix.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chap2/lif.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap2/lif.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap2/lif.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap2/lif.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#lif">
+   LIFモデルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   LIFモデルのシミュレーションの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#liff-i-curve">
+   LIFモデルのF-I curve
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#f-i-curve">
+     数値的計算によるF-I curveの描画
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id8">
+     解析的計算によるF-I curveの描画
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="leaky-integrate-and-fire">
+<h1>Leaky integrate-and-fire モデル<a class="headerlink" href="#leaky-integrate-and-fire" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="lif">
+<h2>LIFモデルの定義<a class="headerlink" href="#lif" title="Permalink to this headline">¶</a></h2>
+<p>生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルを<strong>Integrate-and-fire (IF, 積分発火)モデル</strong> という．さらに, IFモデルにおいて膜電位の漏れ(leak)<a class="footnote-reference brackets" href="#leak" id="id1">1</a>も考慮したモデルを <strong>Leaky integrate-and-fire (LIF, 漏れ積分発火) モデル</strong> と呼ぶ．ここではLIFモデルのみを取り扱う．</p>
+<p>ニューロンの膜電位を<span class="math notranslate nohighlight">\(V_m(t)\)</span>, 静止膜電位を<span class="math notranslate nohighlight">\(V_\text{rest}\)</span>, 入力電流<a class="footnote-reference brackets" href="#isyn" id="id2">2</a>を<span class="math notranslate nohighlight">\(I(t)\)</span>, 膜抵抗を<span class="math notranslate nohighlight">\(R_m\)</span>, 膜電位の時定数を<span class="math notranslate nohighlight">\(\tau_m\ (=R_m \cdot C_m)\)</span>とすると, 式は次のようになる<a class="footnote-reference brackets" href="#vrest" id="id3">3</a>．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\tau_m \frac{dV_{m}(t)}{dt}=-(V_{m}(t)-V_\text{rest})+R_mI(t)
+\end{equation}
+\]</div>
+<p>ここで, <span class="math notranslate nohighlight">\(V_m\)</span>が閾値(threshold)<a class="footnote-reference brackets" href="#theta" id="id4">4</a><span class="math notranslate nohighlight">\(V_{\text{th}}\)</span>を超えると, 脱分極が起こり, 膜電位はピーク電位 <span class="math notranslate nohighlight">\(V_{\text{peak}}\)</span>まで上昇する．発火後は再分極が起こり, 膜電位はリセット電位 <span class="math notranslate nohighlight">\(V_{\text{reset}}\)</span>まで低下すると仮定する<a class="footnote-reference brackets" href="#reset" id="id5">5</a>．発火後, 一定の期間<span class="math notranslate nohighlight">\(\tau_{\text{ref}}\)</span> の間は膜電位が変化しない<a class="footnote-reference brackets" href="#ref" id="id6">6</a>, とする．これを <strong>不応期(refractory time period)</strong> と呼ぶ．</p>
+<p>以上を踏まえてLIFモデルを実装してみよう．まず必要なパッケージを読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>HHモデルと同様に変更しない定数を保持する <code class="docutils literal notranslate"><span class="pre">struct</span></code> の <code class="docutils literal notranslate"><span class="pre">LIFParameter</span></code> と, 変数を保持する <code class="docutils literal notranslate"><span class="pre">mutable</span> <span class="pre">struct</span></code> の <code class="docutils literal notranslate"><span class="pre">LIF</span></code> を作成する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">LIFParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">tref</span><span class="o">::</span><span class="kt">FT</span>   <span class="o">=</span> <span class="mi">2</span> <span class="c"># 不応期 (ms)</span>
+    <span class="n">tc_m</span><span class="o">::</span><span class="kt">FT</span>   <span class="o">=</span> <span class="mi">10</span> <span class="c"># 膜時定数 (ms)</span>
+    <span class="n">vrest</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c"># 静止膜電位 (mV) </span>
+    <span class="n">vreset</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span> <span class="c"># リセット電位 (mV) </span>
+    <span class="n">vthr</span><span class="o">::</span><span class="kt">FT</span>   <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c"># 閾値電位 (mV)</span>
+    <span class="n">vpeak</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mi">30</span> <span class="c">#　ピーク電位 (mV)</span>
+<span class="k">end</span>
+
+<span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">LIF</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="kt">LIFParameter</span> <span class="o">=</span> <span class="kt">LIFParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="o">::</span><span class="kt">UInt32</span> <span class="c">#ニューロンの数</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 膜電位 (mV)</span>
+    <span class="n">v_</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">65.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 発火電位も記録する変数</span>
+    <span class="n">fire</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="c"># 発火</span>
+    <span class="n">tlast</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="c"># 最後の発火時刻 (ms)</span>
+    <span class="n">tcount</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># 時間カウント</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">update!</span></code>を書く．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="kt">LIF</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="kt">LIFParameter</span><span class="p">,</span> <span class="n">I</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">v_</span><span class="p">,</span> <span class="n">fire</span><span class="p">,</span> <span class="n">tlast</span><span class="p">,</span> <span class="n">tcount</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">tref</span><span class="p">,</span> <span class="n">tc_m</span><span class="p">,</span> <span class="n">vrest</span><span class="p">,</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">vthr</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="n">param</span>
+    
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="c">#v[i] += dt * ((vrest - v[i] + I[i]) / tc_m) # 不応期を考慮しない場合の更新式</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">((</span><span class="n">dt</span><span class="o">*</span><span class="n">tcount</span><span class="p">)</span> <span class="o">&gt;</span> <span class="p">(</span><span class="n">tlast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">tref</span><span class="p">))</span><span class="o">*</span><span class="p">((</span><span class="n">vrest</span> <span class="o">-</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="n">tc_m</span><span class="p">)</span>
+        <span class="c">#v[i] += dt * ifelse(dt*tcount[1] &gt; tlast[i] + tref, (vrest - v[i] + I[i]) / tc_m, 0)</span>
+    <span class="k">end</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vthr</span>
+        <span class="n">v_</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vpeak</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c">#発火時の電位も含めて記録するための変数 (除いてもよい)</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>        
+        <span class="n">tlast</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">dt</span><span class="o">*</span><span class="n">tcount</span><span class="p">,</span> <span class="n">tlast</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="c"># 発火時刻の更新</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>update! (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<p>いくつかの処理について解説しておく．まず，一番目のforループ内の<code class="docutils literal notranslate"><span class="pre">v[i]</span></code>の<code class="docutils literal notranslate"><span class="pre">((dt*tcount)</span> <span class="pre">&gt;</span> <span class="pre">(tlast[i]</span> <span class="pre">+</span> <span class="pre">tref))</span></code>は最後にニューロンが発火した時刻<code class="docutils literal notranslate"><span class="pre">tlast[i]</span></code>に不応期<code class="docutils literal notranslate"><span class="pre">tref</span></code>を足した時刻よりも現在の時刻<code class="docutils literal notranslate"><span class="pre">dt*tcount[1]</span></code>が大きければ膜電位の更新を許可し，小さければ更新しない．二番目のforループにおける<code class="docutils literal notranslate"><span class="pre">fire[i]</span></code>はニューロンの膜電位が閾値電位<code class="docutils literal notranslate"><span class="pre">vthr</span></code>を超えたら<code class="docutils literal notranslate"><span class="pre">True</span></code>となる．<code class="docutils literal notranslate"><span class="pre">v[i]</span></code>などの更新式にある<code class="docutils literal notranslate"><span class="pre">ifelse(a,</span> <span class="pre">b,</span> <span class="pre">c)</span></code>はaが<code class="docutils literal notranslate"><span class="pre">True</span></code>の時はbを返し，<code class="docutils literal notranslate"><span class="pre">False</span></code>の時はcを返す関数であり，<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">=</span> <span class="pre">ifelse(fire[i],</span> <span class="pre">vreset,</span> <span class="pre">v[i])</span></code>は<code class="docutils literal notranslate"><span class="pre">fire[i]</span></code>が<code class="docutils literal notranslate"><span class="pre">True</span></code>なら<code class="docutils literal notranslate"><span class="pre">v[i]</span></code>をリセット電位<code class="docutils literal notranslate"><span class="pre">vreset</span></code>とし，そうでなければそのままの値を返すという処理である．同様にして<code class="docutils literal notranslate"><span class="pre">tlast[i]</span></code>は発火したときにその時刻を記録する変数となっている．なお，<code class="docutils literal notranslate"><span class="pre">v_[i]</span> <span class="pre">=</span> <span class="pre">ifelse(fire[i],</span> <span class="pre">vpeak,</span> <span class="pre">v[i])</span></code>は実際のシミュレーションにおいて意味をなさない．単に発火時の電位<code class="docutils literal notranslate"><span class="pre">vpeak</span></code>を含めて記録すると描画時の見栄えが良いというだけである．</p>
+<p>これらの<code class="docutils literal notranslate"><span class="pre">struct</span></code>と関数を用いてシミュレーションを実行する．<code class="docutils literal notranslate"><span class="pre">I</span></code> はHHモデルのときと同じように矩形波を入力する．実は<code class="docutils literal notranslate"><span class="pre">I</span></code>は入力電流ではなく入力電流に比例する量となっているが，これは膜抵抗を乗じた後の値であると考えるとよい．</p>
+</div>
+<div class="section" id="id7">
+<h2>LIFモデルのシミュレーションの実行<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>いくつかの定数を設定してシミュレーションを実行する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">450</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># ニューロンの数</span>
+
+<span class="c"># 入力刺激</span>
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">25f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="mf">50f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">250</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">400</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># injection current</span>
+
+<span class="c"># 記録用</span>
+<span class="n">varr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="c"># modelの定義</span>
+<span class="n">neurons</span> <span class="o">=</span> <span class="kt">LIF</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">neurons</span><span class="o">.</span><span class="n">tcount</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">varr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">v_</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.120084 seconds (750.74 k allocations: 23.288 MiB, 64.91% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>発火時電位を含む膜電位<code class="docutils literal notranslate"><span class="pre">v_</span></code>と入力電流<code class="docutils literal notranslate"><span class="pre">I</span></code>を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;V (mV)&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Current&quot;</span><span class="p">);</span>  <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Times (ms)&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/lif_11_0.png" src="../_images/lif_11_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="liff-i-curve">
+<h2>LIFモデルのF-I curve<a class="headerlink" href="#liff-i-curve" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="f-i-curve">
+<h3>数値的計算によるF-I curveの描画<a class="headerlink" href="#f-i-curve" title="Permalink to this headline">¶</a></h3>
+<p>この項目ではLIFモデルにおける入力電流に対する発火率の変化 (F-I curve)を描画する．方法はHHモデルの場合と同様だが，今回は発火したかどうかがモデル内の変数として明示的に記録されているので処理が少ない．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">1000</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># ニューロンの数</span>
+
+<span class="c"># 入力刺激</span>
+<span class="n">mincurrent</span><span class="p">,</span> <span class="n">maxcurrent</span> <span class="o">=</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">40</span>
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">I</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">range</span><span class="p">(</span><span class="n">mincurrent</span><span class="p">,</span><span class="n">maxcurrent</span><span class="p">,</span><span class="n">length</span><span class="o">=</span><span class="n">N</span><span class="p">))</span> <span class="c"># injection current</span>
+
+<span class="c"># modelの定義</span>
+<span class="n">neurons</span> <span class="o">=</span> <span class="kt">LIF</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c"># 記録用</span>
+<span class="n">firearr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">neurons</span><span class="o">.</span><span class="n">tcount</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">firearr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">fire</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.146774 seconds (1.08 M allocations: 67.576 MiB, 5.23% gc time, 23.30% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>発火率を計算し，描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">num_spikes</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">firearr</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">rate_numeric</span> <span class="o">=</span> <span class="n">num_spikes</span><span class="o">/</span><span class="n">T</span><span class="o">*</span><span class="mf">1e3</span><span class="p">;</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="o">:</span><span class="p">],</span> <span class="n">rate_numeric</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Input current&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Firing rate (Hz)&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/lif_16_0.png" src="../_images/lif_16_0.png" />
+</div>
+</div>
+<p>さらに電流を強めると発火率は飽和(saturation)する．なお，不応期がない，すなわち0の場合は閾値付近以外はReLU関数のような挙動をする．</p>
+</div>
+<div class="section" id="id8">
+<h3>解析的計算によるF-I curveの描画<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h3>
+<p>ここまでは数値的なシミュレーションによりF-I curveを求めた．以下では解析的にF-I curveの式を求めよう．具体的には，一定かつ持続的な入力電流を<span class="math notranslate nohighlight">\(I\)</span>としたときのLIFニューロンの発火率(firing rate)が</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\text{rate}\approx \left(\tau_m \ln \frac{R_mI}{R_mI＋V_\text{rest}-V_{\text{th}}}\right)^{-1}
+\end{equation}
+\]</div>
+<p>と近似できることを示す．まず，<span class="math notranslate nohighlight">\(t=t_1\)</span>にスパイクが生じたとする．このとき, 膜電位はリセットされるので<span class="math notranslate nohighlight">\(V_m(t_1)=V_\text{rest}\)</span>である(リセット電位と静止膜電位が同じと仮定する)．<span class="math notranslate nohighlight">\([t_1, t]\)</span>における膜電位はLIFの式を積分することで得られる．</p>
+<div class="math notranslate nohighlight">
+\[
+\begin{equation}
+\tau_m \frac{dV_{m}(t)}{dt}=-(V_{m}(t)-V_\text{rest})+R_m I
+\end{equation}
+\]</div>
+<p>の式を積分すると,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\int_{t_1}^{t} \frac{\tau_m dV_m}{R_mI＋V_\text{rest}-V_m}&amp;=\int_{t_1}^{t} dt\\
+\ln \left(1-\frac{V_m(t)-V_\text{rest}}{R_mI}\right)&amp;=-\frac{t-t_1}{\tau_m} \quad (\because V_m(t_1)=V_\text{rest})\\
+\therefore\ \ V_m(t) &amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t-t_1}{\tau_m}\right)\right] 
+\end{aligned}
+\end{split}\]</div>
+<p>となる．<span class="math notranslate nohighlight">\(t&gt;t_1\)</span>における初めのスパイクが<span class="math notranslate nohighlight">\(t=t_2\)</span>に生じたとすると, そのときの膜電位は<span class="math notranslate nohighlight">\(V_m(t_2)=V_{\text{th}}\)</span>である (実際には閾値以上となっている場合もあるますが近似する)．<span class="math notranslate nohighlight">\(t=t_2\)</span>を上の式に代入して</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+V_{\text{th}}&amp;=V_\text{rest} + R_mI\left[1-\exp\left(-\frac{t_2-t_1}{\tau}\right)\right] \\
+\therefore\ \ T&amp;= t_2-t_1 = \tau_m \ln \frac{R_mI}{R_mI＋V_\text{rest}-V_{\text{th}}}
+\end{align}
+\end{split}\]</div>
+<p>となる．ここで<span class="math notranslate nohighlight">\(T\)</span>は2つのスパイクの時間間隔 (spike interval)である．<span class="math notranslate nohighlight">\(t_1\leq t&lt;t_2\)</span>におけるスパイクは<span class="math notranslate nohighlight">\(t=t_1\)</span>時の1つなので, 発火率は<span class="math notranslate nohighlight">\(1/T\)</span>となる．よって</p>
+<div class="math notranslate nohighlight">
+\[
+\text{rate}\approx \frac{1}{T}=\left(\tau_m \ln \frac{R_mI}{R_mI＋V_\text{rest}-V_{\text{th}}}\right)^{-1}
+\]</div>
+<p>となる．不応期<span class="math notranslate nohighlight">\(\tau_{\text{ref}}\)</span>を考慮すると, 持続的に入力がある場合は単純に<span class="math notranslate nohighlight">\(\tau_{\text{ref}}\)</span>だけ発火が遅れるので発火率は<span class="math notranslate nohighlight">\(1/(\tau_{\text{ref}}+T)\)</span>となる．</p>
+<p>それではこの式に基づいてF-I curveを描画してみよう．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">R</span> <span class="o">=</span> <span class="mf">1.0</span> <span class="c">#膜抵抗 </span>
+<span class="n">tc_m</span><span class="p">,</span> <span class="n">tref</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="c"># 膜時定数, 不応期 (ms)</span>
+<span class="n">vrest</span><span class="p">,</span> <span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mf">60.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">40.0</span> <span class="c"># 静止膜電位, 閾値電位 (mV)</span>
+<span class="n">rate_exact</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="n">R</span><span class="o">*</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">/</span> <span class="p">(</span><span class="n">R</span><span class="o">*</span><span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">vrest</span> <span class="o">-</span> <span class="n">vthr</span><span class="p">)</span>
+    <span class="n">rate_exact</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">z</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="n">tref</span> <span class="o">+</span> <span class="n">tc_m</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">z</span><span class="p">))</span> <span class="o">*</span> <span class="mf">1e3</span> <span class="o">:</span> <span class="mi">0</span>
+<span class="k">end</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">log</span></code>の中身が0になるとErrorが生じるので3項演算子で場合分けをしている．なお，<code class="docutils literal notranslate"><span class="pre">1e3</span></code>を乗じているのは1/msからHzに変換するためである．結果は次のようになる．数値的な計算結果とほぼ一致していることがわかる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">I</span><span class="p">[</span><span class="o">:</span><span class="p">],</span> <span class="n">rate_exact</span><span class="p">[</span><span class="o">:</span><span class="p">]);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Input current&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Firing rate (Hz)&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/lif_21_0.png" src="../_images/lif_21_0.png" />
+</div>
+</div>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="leak"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p>この漏れはイオンの拡散などによるもの．</p>
+</dd>
+<dt class="label" id="isyn"><span class="brackets"><a class="fn-backref" href="#id2">2</a></span></dt>
+<dd><p>シナプス入力による電流がどうなるかは，第三章「シナプス伝達のモデル」で扱う．</p>
+</dd>
+<dt class="label" id="vrest"><span class="brackets"><a class="fn-backref" href="#id3">3</a></span></dt>
+<dd><p><span class="math notranslate nohighlight">\((V_{m}(t)-V_\text{rest})\)</span>の部分は膜電位の基準を静止膜電位としたことにして, 単に<span class="math notranslate nohighlight">\(V_m(t)\)</span>だけの場合もある． また, 右辺の<span class="math notranslate nohighlight">\(RI(t)\)</span>の部分は単に<span class="math notranslate nohighlight">\(I(t)\)</span>とされることもある． 同じ表記だが, この場合の<span class="math notranslate nohighlight">\(I(t)\)</span>はシナプス電流に比例する量, となっている(単位はmV)．</p>
+</dd>
+<dt class="label" id="theta"><span class="brackets"><a class="fn-backref" href="#id4">4</a></span></dt>
+<dd><p>thから始まるので文字<span class="math notranslate nohighlight">\(\theta\)</span>が使われることもある．</p>
+</dd>
+<dt class="label" id="reset"><span class="brackets"><a class="fn-backref" href="#id5">5</a></span></dt>
+<dd><p>リセット電位は静止膜電位と同じ場合もあれば, 過分極を考慮して静止膜電位より低めに設定することもある．</p>
+</dd>
+<dt class="label" id="ref"><span class="brackets"><a class="fn-backref" href="#id6">6</a></span></dt>
+<dd><p>実装によっては不応期の間は膜電位の変化は許容するが発火は生じないようにすることもある．</p>
+</dd>
+</dl>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./chap2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="fhn.html" title="previous page">FitzHugh-Nagumoモデル</a>
+    <a class='right-next' id="next-link" href="izhikevich.html" title="next page">Izhikevich モデル</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

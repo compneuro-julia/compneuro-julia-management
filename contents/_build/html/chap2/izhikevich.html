@@ -1,0 +1,868 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Izhikevich モデル &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/chap2/izhikevich.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Inter-spike interval モデル" href="isi.html" />
+    <link rel="prev" title="Leaky integrate-and-fire モデル" href="lif.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap1/intro_ch1.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap1/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro_ch2.html">
+   神経細胞のモデル
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap3/intro_ch3.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap3/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap7/intro_ch7.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap7/semantic-development-dnn.html">
+     深層線形ニューラルネットの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap9/intro_ch9.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap9/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap10/intro_ch10.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap10/boltzmann-machine.html">
+     ボルツマンマシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap11/intro_ch11.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap11/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap12/intro_ch12.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap12/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap13/intro_ch13.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap13/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../chap14/intro_ch14.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../chap14/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro_appendix.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/chap2/izhikevich.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/chap2/izhikevich.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/chap2/izhikevich.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/chap2/izhikevich.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   Izhikevich モデルの定義
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id6">
+   Izhikevich モデルのシミュレーションの実行
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id7">
+   様々な発火パターンのシミュレーション
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id8">
+   ランダムネットワークのシミュレーション
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="izhikevich">
+<h1>Izhikevich モデル<a class="headerlink" href="#izhikevich" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id1">
+<h2>Izhikevich モデルの定義<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p><strong>Izhikevich モデル</strong> (または<strong>Simple model</strong>)は(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)で考案されたモデルである．HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが，式が複雑化するため，数学的な解析が難しく，計算量が増えるために大規模なシミュレーションも困難となる<a class="footnote-reference brackets" href="#hh" id="id2">1</a>．そこで，生理学的な正しさには目をつぶり，生体内でのニューロンの発火特性を再現するモデルが求められた．その特徴を持つのがIzhikevich モデルである (以下ではIzモデルと表記する)．Izモデルは 2変数しかない<a class="footnote-reference brackets" href="#ber" id="id3">2</a>簡素な微分方程式だが, 様々なニューロンの活動を模倣することができる．定式化には主に2種類ある．まず，(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)で提案されたのが次式である．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+\frac{dv(t)}{dt}&amp;=0.04v(t)^2 + 5v(t)+140-u(t)+I(t) \\
+\frac{du(t)}{dt}&amp;=a(bv(t)-u(t))
+\end{align} 
+\end{split}\]</div>
+<p>ここで，<span class="math notranslate nohighlight">\(v\)</span>と<span class="math notranslate nohighlight">\(u\)</span>が変数であり, <span class="math notranslate nohighlight">\(v\)</span>は膜電位(membrane potential;単位はmV), <span class="math notranslate nohighlight">\(u\)</span>は回復電流(recovery current; 単位はpA)<a class="footnote-reference brackets" href="#rec" id="id4">3</a>である．また，<span class="math notranslate nohighlight">\(a\)</span>は回復時定数(recovery time constant; 単位はms<span class="math notranslate nohighlight">\(^{-1}\)</span>)の逆数 (これが大きいと<span class="math notranslate nohighlight">\(u\)</span>が元に戻る時間が短くなる), <span class="math notranslate nohighlight">\(b\)</span>は<span class="math notranslate nohighlight">\(u\)</span>の<span class="math notranslate nohighlight">\(v\)</span>に対する感受性(共鳴度合い,  resonance; 単位はpA/mV)である．</p>
+<p>この式は簡便だが，生理学的な意味づけが分かりにくい．改善された式として<a class="reference external" href="https://mitpress.mit.edu/books/dynamical-systems-neuroscience">”Dynamical Systems in Neuroscience” (Izhikevich, 2007)</a>のChapter 8で紹介されているのが次式である．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align}
+C\frac{dv(t)}{dt}&amp;=k\left(v(t)-v_r\right)\left(v(t)-v_t\right)-u(t)+I(t) \\
+\frac{du(t)}{dt}&amp;=a\left\{b\left(v(t)-v_{r}\right)-u(t)\right\}
+\end{align} 
+\end{split}\]</div>
+<p>ここで，<span class="math notranslate nohighlight">\(C\)</span>は膜容量(membrane capacitance; 単位はpF), <span class="math notranslate nohighlight">\(v_r\)</span>は静止膜電位(resting membrane potential; 単位はmV), <span class="math notranslate nohighlight">\(v_t\)</span>は閾値電位(instantaneous threshold potential; 単位はmV), <span class="math notranslate nohighlight">\(k\)</span>はニューロンのゲインに関わる定数で，小さいと発火しやすくなる (単位はpA/mV)．以後はこちらの式を用いる．</p>
+<p>Izモデルの<strong>閾値の取り扱い</strong>はLIFモデルと異なり，HHモデルに近い．LIFモデルでは閾値を超えた時に膜電位をピーク電位まで上昇させ (この過程は無くてもよい)，続いて膜電位をリセットする．Izモデルの閾値は<span class="math notranslate nohighlight">\(v_t\)</span>だが, 膜電位のリセットは閾値を超えたかで判断せず，膜電位<span class="math notranslate nohighlight">\(v\)</span>がピーク電位<span class="math notranslate nohighlight">\(v_{\text{peak}}\)</span>になったとき（または超えた時）に行う．そのためIzモデルの実際の閾値は膜電位の挙動が変化する(発火状態に移行する)，つまり分岐(bifurcation) が生じる点であり，パラメータの閾値<span class="math notranslate nohighlight">\(v_t\)</span>との間には差異がある．</p>
+<p>さて，膜電位がピーク電位<span class="math notranslate nohighlight">\(v_{\text{peak}}\)</span>に達したとき (すなわち <code class="docutils literal notranslate"><span class="pre">if</span></code> <span class="math notranslate nohighlight">\(v \geq v_{\text{peak}}\)</span>)，<span class="math notranslate nohighlight">\(u, v\)</span>を次のようにリセットする<a class="footnote-reference brackets" href="#burst" id="id5">4</a>．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{align} 
+u&amp;\leftarrow u+d\\
+v&amp;\leftarrow v_{\text{reset}}
+\end{align}
+\end{split}\]</div>
+<p>とする．ただし, <span class="math notranslate nohighlight">\(v_{\text{reset}}\)</span>は過分極を考慮して静止膜電位<span class="math notranslate nohighlight">\(v_r\)</span>よりも小さい値とする．また，<span class="math notranslate nohighlight">\(d\)</span>はスパイク発火中に活性化される正味の外向き電流の合計を表し，発火後の膜電位の挙動に影響する (単位はpA)．</p>
+<p>以上を踏まえて, シミュレーションを行う．まず，必要なパッケージを読み込む．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>変更しない定数を保持する<code class="docutils literal notranslate"><span class="pre">struct</span></code>の<code class="docutils literal notranslate"><span class="pre">IZParameter</span></code>と，変数を保持する<code class="docutils literal notranslate"><span class="pre">mutable</span> <span class="pre">struct</span></code>の<code class="docutils literal notranslate"><span class="pre">IZ</span></code>を作成する．2つの定式化でパラメータの値が異なるので注意すること．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">IZParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">C</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c"># 膜容量 (pF)</span>
+    <span class="n">a</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.03</span> <span class="c"># 回復時定数の逆数 (1/ms)</span>
+    <span class="n">b</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">2</span> <span class="c"># u の v に対する共鳴度合い (pA/mV)</span>
+    <span class="n">d</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">100</span> <span class="c"># 発火で活性化される正味の外向き電流 (pA)</span>
+    <span class="n">k</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.7</span> <span class="c"># ゲイン (pA/mV)</span>
+    <span class="n">vthr</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span> <span class="c"># 閾値電位 (mV)</span>
+    <span class="n">vrest</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span> <span class="c"># 静止膜電位 (mV)</span>
+    <span class="n">vreset</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mi">50</span> <span class="c"># リセット電位 (mV)</span>
+    <span class="n">vpeak</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">35</span> <span class="c">#　ピーク電位 (mV)</span>
+<span class="k">end</span>
+
+<span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">IZ</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="kt">IZParameter</span> <span class="o">=</span> <span class="kt">IZParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="o">::</span><span class="kt">UInt32</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">vrest</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">u</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">fire</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Bool</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>次に変数を更新する関数<code class="docutils literal notranslate"><span class="pre">update!</span></code>を書く．LIFの場合と異なり，<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">&gt;=</span> <span class="pre">vpeak</span></code>であることに注意する (<code class="docutils literal notranslate"><span class="pre">v[i]</span> <span class="pre">&gt;=</span> <span class="pre">vthr</span></code>ではない)．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">update!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="kt">IZ</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="kt">IZParameter</span><span class="p">,</span> <span class="n">I</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">fire</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">C</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">vthr</span><span class="p">,</span> <span class="n">vrest</span><span class="p">,</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span><span class="o">/</span><span class="n">C</span> <span class="o">*</span> <span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">vrest</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">vthr</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="o">*</span> <span class="p">(</span><span class="n">b</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">vrest</span><span class="p">)</span> <span class="o">-</span> <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]))</span>
+    <span class="k">end</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">vpeak</span>
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">vreset</span><span class="p">,</span> <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">u</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">ifelse</span><span class="p">(</span><span class="n">fire</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">d</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="id6">
+<h2>Izhikevich モデルのシミュレーションの実行<a class="headerlink" href="#id6" title="Permalink to this headline">¶</a></h2>
+<p>いくつかの定数を設定してシミュレーションを実行する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span> <span class="o">=</span> <span class="mi">450</span> <span class="c"># ms</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.01f0</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">UInt32</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">1</span> <span class="c"># ニューロンの数</span>
+
+<span class="c"># 入力刺激</span>
+<span class="n">t</span> <span class="o">=</span> <span class="kt">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="p">)</span><span class="o">*</span><span class="n">dt</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">150f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="mf">300f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">250</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">400</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># injection current</span>
+
+<span class="c"># 記録用</span>
+<span class="n">varr</span><span class="p">,</span> <span class="n">uarr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+
+<span class="c"># modelの定義</span>
+<span class="n">neurons</span> <span class="o">=</span> <span class="kt">IZ</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">)</span>
+
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">varr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">uarr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">u</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.119099 seconds (741.93 k allocations: 22.758 MiB, 7.02% gc time, 64.20% compilation time)
+</pre></div>
+</div>
+</div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Plots</span></code>を読み込み，膜電位<code class="docutils literal notranslate"><span class="pre">v</span></code>, 回復変数<code class="docutils literal notranslate"><span class="pre">u</span></code>, 入力電流<code class="docutils literal notranslate"><span class="pre">I</span></code>を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">suptitle</span><span class="p">(</span><span class="s">&quot;Regular Spiking (RS) Neurons&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Membrane</span><span class="se">\n</span><span class="s"> potential (mV)&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">uarr</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Recovery</span><span class="se">\n</span><span class="s"> current (pA)&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Injection</span><span class="se">\n</span><span class="s"> current (pA)&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Times (ms)&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">(</span><span class="n">rect</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mf">0.96</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/izhikevich_10_0.png" src="../_images/izhikevich_10_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id7">
+<h2>様々な発火パターンのシミュレーション<a class="headerlink" href="#id7" title="Permalink to this headline">¶</a></h2>
+<p>次に様々な発火パターンを模倣するようにIzモデルの定数を変化させてみよう．Intrinsically Bursting (IB)ニューロンとChattering (CH) ニューロン(または fast rhythmic bursting (FRB) ニューロン)のシミュレーションを行う．基本的には定数を変えるだけである．</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>本書で用いている式における発火パターンに対するパラメータは(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)では得られないが，<a class="reference external" href="https://mitpress.mit.edu/books/dynamical-systems-neuroscience">”Dynamical Systems in Neuroscience” (Izhikevich, 2007)</a>には記載がある．他の発火パターンに関してはこの本を参照のこと．</p>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># 記録用</span>
+<span class="n">varr_ib</span><span class="p">,</span> <span class="n">varr_ch</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">repeat</span><span class="p">(</span><span class="mf">500f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">50</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">200</span><span class="p">))</span> <span class="o">+</span> <span class="mf">700f0</span> <span class="o">*</span> <span class="p">((</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">250</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">t</span> <span class="o">.&gt;</span> <span class="mi">400</span><span class="p">)),</span> <span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>  <span class="c"># injection current</span>
+
+<span class="c"># IB neurons</span>
+<span class="n">neurons_ib</span> <span class="o">=</span> <span class="kt">IZ</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> 
+    <span class="n">param</span><span class="o">=</span><span class="kt">IZParameter</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mf">1.2</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">130</span><span class="p">,</span> <span class="n">vrest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">75</span><span class="p">,</span> <span class="n">vreset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">56</span><span class="p">,</span> <span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">45</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="mi">50</span><span class="p">))</span>
+
+<span class="c"># CH neurons</span>
+<span class="n">neurons_ch</span> <span class="o">=</span> <span class="kt">IZ</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> 
+    <span class="n">param</span><span class="o">=</span><span class="kt">IZParameter</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">C</span> <span class="o">=</span> <span class="mi">50</span><span class="p">,</span> <span class="n">a</span> <span class="o">=</span> <span class="mf">0.03</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span><span class="mf">1.5</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">vrest</span> <span class="o">=</span> <span class="o">-</span><span class="mi">60</span><span class="p">,</span> <span class="n">vreset</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="n">vthr</span> <span class="o">=</span> <span class="o">-</span><span class="mi">40</span><span class="p">,</span> <span class="n">vpeak</span> <span class="o">=</span> <span class="mi">35</span><span class="p">))</span>
+
+<span class="c"># simulation</span>
+<span class="nd">@time</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons_ib</span><span class="p">,</span> <span class="n">neurons_ib</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">update!</span><span class="p">(</span><span class="n">neurons_ch</span><span class="p">,</span> <span class="n">neurons_ch</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">I</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">varr_ib</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">varr_ch</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons_ib</span><span class="o">.</span><span class="n">v</span><span class="p">,</span> <span class="n">neurons_ch</span><span class="o">.</span><span class="n">v</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  0.069564 seconds (759.89 k allocations: 19.148 MiB, 8.78% gc time)
+</pre></div>
+</div>
+</div>
+</div>
+<p>これまでと異なり，モデルの定義時に<code class="docutils literal notranslate"><span class="pre">param</span></code>を設定していることに注意しよう．最後に膜電位変化を描画する．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ib</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;IB Neurons&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Membrane</span><span class="se">\n</span><span class="s"> potential (mV)&quot;</span><span class="p">);</span>  <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Times (ms)&quot;</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">varr_ch</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;CH neurons&quot;</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Times (ms)&quot;</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/izhikevich_14_0.png" src="../_images/izhikevich_14_0.png" />
+</div>
+</div>
+</div>
+<div class="section" id="id8">
+<h2>ランダムネットワークのシミュレーション<a class="headerlink" href="#id8" title="Permalink to this headline">¶</a></h2>
+<p>1000個のIzニューロン(興奮性800個, 抑制性200個)によるランダムネットワークのシミュレーションを行う．これは(<a class="reference external" href="https://www.izhikevich.org/publications/spikes.htm">Izhikevich, 2003</a>)においてMATLABコードが示されており，それをJuliaに移植したものである．このシミュレーションではRS(regular spiking)ニューロンを興奮性細胞，FS(fast spiking)ニューロンを抑制性細胞のモデルとして用いている．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Excitatory neurons, Inhibitory neurons</span>
+<span class="n">Ne</span><span class="p">,</span> <span class="n">Ni</span> <span class="o">=</span> <span class="mi">800</span><span class="p">,</span> <span class="mi">200</span><span class="p">;</span>
+<span class="n">re</span><span class="p">,</span> <span class="n">ri</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span> <span class="n">rand</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.02</span><span class="n">ones</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="mf">0.02</span> <span class="o">.+</span> <span class="mf">0.08</span><span class="n">ri</span><span class="p">]</span>
+<span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.2</span><span class="n">ones</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="mf">0.25</span> <span class="o">.-</span> <span class="mf">0.05</span><span class="n">ri</span><span class="p">]</span>
+<span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">65</span> <span class="o">.+</span> <span class="mi">15</span><span class="n">re</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span> <span class="o">-</span><span class="mi">65</span><span class="n">ones</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">d</span> <span class="o">=</span> <span class="p">[</span><span class="mi">8</span> <span class="o">.-</span> <span class="mi">6</span><span class="n">re</span><span class="o">.^</span><span class="mi">2</span><span class="p">;</span> <span class="mi">2</span><span class="n">ones</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span>
+<span class="n">S</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.5</span><span class="n">rand</span><span class="p">(</span><span class="n">Ne</span><span class="o">+</span><span class="n">Ni</span><span class="p">,</span><span class="n">Ne</span><span class="p">)</span> <span class="o">-</span><span class="n">rand</span><span class="p">(</span><span class="n">Ne</span><span class="o">+</span><span class="n">Ni</span><span class="p">,</span><span class="n">Ni</span><span class="p">)]</span> <span class="c"># synaptic weight</span>
+<span class="n">v</span> <span class="o">=</span> <span class="o">-</span><span class="mi">65</span><span class="n">ones</span><span class="p">(</span><span class="n">Ne</span><span class="o">+</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>   <span class="c"># Initial values of v</span>
+<span class="n">u</span> <span class="o">=</span> <span class="n">b</span> <span class="o">.*</span> <span class="n">v</span>              <span class="c"># Initial values of u</span>
+<span class="n">firings</span> <span class="o">=</span> <span class="p">[]</span>            <span class="c"># spike timings</span>
+
+<span class="k">for</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="mi">1000</span> <span class="c"># simulation of 1000 ms</span>
+    <span class="n">I</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="n">randn</span><span class="p">(</span><span class="n">Ne</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="mi">2</span><span class="n">randn</span><span class="p">(</span><span class="n">Ni</span><span class="p">,</span><span class="mi">1</span><span class="p">)]</span> <span class="c"># thalamic input</span>
+    <span class="n">fired</span> <span class="o">=</span> <span class="n">findall</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span> <span class="o">.&gt;=</span> <span class="mi">30</span><span class="p">)</span> <span class="c"># indices of spikes</span>
+    <span class="n">firings</span> <span class="o">=</span> <span class="n">t</span><span class="o">==</span><span class="mi">1</span> <span class="o">?</span> <span class="p">[</span><span class="n">t</span> <span class="o">.+</span> <span class="mi">0</span><span class="o">*</span><span class="n">fired</span> <span class="n">fired</span><span class="p">]</span> <span class="o">:</span> <span class="p">[</span><span class="n">firings</span><span class="p">;</span> <span class="p">[</span><span class="n">t</span> <span class="o">.+</span> <span class="mi">0</span><span class="o">*</span><span class="n">fired</span> <span class="n">fired</span><span class="p">]]</span>
+    <span class="n">v</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span> <span class="o">=</span> <span class="n">c</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span>
+    <span class="n">u</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span> <span class="o">+=</span> <span class="n">d</span><span class="p">[</span><span class="n">fired</span><span class="p">]</span>
+    <span class="n">I</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">sum</span><span class="p">(</span><span class="n">S</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">fired</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">v</span> <span class="o">+=</span> <span class="mf">0.5</span><span class="p">(</span><span class="mf">0.04</span><span class="n">v</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">5</span><span class="n">v</span> <span class="o">.+</span><span class="mi">140</span> <span class="o">-</span> <span class="n">u</span> <span class="o">+</span> <span class="n">I</span><span class="p">)</span> <span class="c"># step 0.5 ms for numerical stability</span>
+    <span class="n">v</span> <span class="o">+=</span> <span class="mf">0.5</span><span class="p">(</span><span class="mf">0.04</span><span class="n">v</span><span class="o">.^</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">5</span><span class="n">v</span> <span class="o">.+</span><span class="mi">140</span> <span class="o">-</span> <span class="n">u</span> <span class="o">+</span> <span class="n">I</span><span class="p">)</span> 
+    <span class="n">u</span> <span class="o">+=</span> <span class="n">a</span> <span class="o">.*</span> <span class="p">(</span><span class="n">b</span> <span class="o">.*</span> <span class="n">v</span> <span class="o">-</span> <span class="n">u</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>膜電位の更新の際，<code class="docutils literal notranslate"><span class="pre">v</span></code>を2回に分けて更新しているが，これは数値的な安定性を高めるためである．計算量は上がるが，前述したモデルにおいても同様の処理を行う実装もある．</p>
+<p>シミュレーションの実行後，ネットワークを構成するニューロンの発火を描画する．これを<strong>ラスタープロット</strong> (raster plot)という．この図は横軸が時間，縦軸がニューロンの番号となっており，各ニューロンが発火したことを点で表している．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">firings</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">firings</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Time (ms)&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;# neuron&quot;</span><span class="p">);</span> <span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1000</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/izhikevich_18_0.png" src="../_images/izhikevich_18_0.png" />
+</div>
+</div>
+<p>初めの400msぐらいまでは100msごとに約10Hzの<span class="math notranslate nohighlight">\(\alpha\)</span>波が見られ，800ms付近には約40Hzの<span class="math notranslate nohighlight">\(\gamma\)</span>波が見られる．</p>
+<hr class="footnotes docutils" />
+<dl class="footnote brackets">
+<dt class="label" id="hh"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p>これに関しては必ずしも正しくない．計算機の発達によりHHモデルで大きなモデルをシミュレーションすることも可能である．</p>
+</dd>
+<dt class="label" id="ber"><span class="brackets"><a class="fn-backref" href="#id3">2</a></span></dt>
+<dd><p>数値計算をする上では簡易的だが，if文が入るために解析をするのは難しくなる．(<a class="reference external" href="https://www.springer.com/gp/book/9781846280399">Bernardo, et al., 2008</a>)を読むといいらしい．</p>
+</dd>
+<dt class="label" id="rec"><span class="brackets"><a class="fn-backref" href="#id4">3</a></span></dt>
+<dd><p>ここでの「回復」というのは脱分極した後の膜電位が静止膜電位へと戻る，という意味である (対義語はactivationで膜電位の上昇を意味する)．
+<span class="math notranslate nohighlight">\(u\)</span>は<span class="math notranslate nohighlight">\(v\)</span>の導関数において<span class="math notranslate nohighlight">\(v\)</span>の上昇を抑制するように<span class="math notranslate nohighlight">\(-u\)</span>で入っているため，<span class="math notranslate nohighlight">\(u\)</span>としてはK<span class="math notranslate nohighlight">\(^+\)</span>チャネル電流やNa<span class="math notranslate nohighlight">\(^+\)</span>チャネルの不活性化動態などが考えられる．</p>
+</dd>
+<dt class="label" id="burst"><span class="brackets"><a class="fn-backref" href="#id5">4</a></span></dt>
+<dd><p>バースト発火(bursting)の挙動を表現するためには，速い回復変数(fast recovery variable)と遅い回復変数(slow recovery variable)の2つが必要となる(従って膜電位も合わせて全部で3変数必要)．一方で，IzモデルではLIFモデルのようなif文によるリセットを用いているため，速い回復変数が必要なく，遅い回復変数<span class="math notranslate nohighlight">\(u\)</span>のみでバースト発火を表現できる．</p>
+</dd>
+</dl>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./chap2"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="lif.html" title="previous page">Leaky integrate-and-fire モデル</a>
+    <a class='right-next' id="next-link" href="isi.html" title="next page">Inter-spike interval モデル</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>
