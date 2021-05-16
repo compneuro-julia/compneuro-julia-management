@@ -40,7 +40,7 @@
   sections:
     - file: chap11/bayes-statistics
     - file: chap11/sparse-coding
-    - file: chap11/predictive-coding-rao
+    - file: chap11/predictive-coding
 
 - file: chap12/intro_ch12
   sections:
