@@ -25,7 +25,7 @@
   sections:
     - file: learning-rule/backpropagation-zipser-andersen
     - file: learning-rule/bptt
-    - file: learning-rule/semantic-development-dnn
+    - file: learning-rule/linear-network-learning-dynamics
 
 - file: information-theory/intro
   sections:
@@ -34,6 +34,8 @@
 
 - file: associative-memory-model/intro
   sections:
+    - file: associative-memory-model/energy-based-model
+    - file: associative-memory-model/amari-hopfield-model
     - file: associative-memory-model/boltzmann-machine
 
 - file: bayesian-brain/intro
