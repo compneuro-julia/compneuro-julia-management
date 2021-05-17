@@ -1,0 +1,811 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>線形多層ニューラルネットワークの学習ダイナミクス &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="情報理論と最適化原理" href="../information-theory/intro.html" />
+    <link rel="prev" title="BPTT (backpropagation through time)" href="bptt.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   神経回路網の学習則
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2">
+    <a class="reference internal" href="backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../associative-memory-model/intro.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/learning-rule/linear-network-learning-dynamics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/learning-rule/linear-network-learning-dynamics.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/learning-rule/linear-network-learning-dynamics.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/learning-rule/linear-network-learning-dynamics.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   線形多層ニューラルネットワークにおける学習ダイナミクスと知識の獲得
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     モデルと学習
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#svd">
+     特異値分解(SVD)による学習ダイナミクスの解析
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   線形多層ニューラルネットワークにおける勾配降下法による低ランク解の獲得
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="id1">
+<h1>線形多層ニューラルネットワークの学習ダイナミクス<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="id2">
+<h2>線形多層ニューラルネットワークにおける学習ダイナミクスと知識の獲得<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>A. M. Saxe, J. L. McClelland, S. Ganguli. “<strong>A mathematical theory of semantic development in deep neural networks</strong>”. <em>PNAS.</em> (2019). (<a class="reference external" href="https://arxiv.org/abs/1810.10531">arXiv</a>). (<a class="reference external" href="https://www.pnas.org/content/early/2019/05/16/1820226116">PNAS</a>)</p>
+</div></blockquote>
+<div class="section" id="id3">
+<h3>モデルと学習<a class="headerlink" href="#id3" title="Permalink to this headline">¶</a></h3>
+<p>入力 <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> は「もの」の項目(例えばカナリア，犬，サーモン，樫など)，出力 <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>はそれぞれの項目の性質・特性となっている．例えばカナリア(Canary)は成長し(Grow)，動き(Move)，空を飛べる(Fly)ので，Canaryという入力に対し，ネットワークが出力するのはGrow, Move, Flyとなる．モデルは3層の全結合線形ネットワークである．</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{y}} =  \mathbf{ W}^{2} \mathbf{ W}^{1}\mathbf{x} 
+\]</div>
+<p>ただし非線形な活性化関数が無いことに注意しよう．このようなネットワークを線形ニューラルネットワーク (linear neural network)と呼ぶ．勘の良い読者であれば <span class="math notranslate nohighlight">\( \mathbf{ W}^{s}=\mathbf{ W}^{2} \mathbf{W}^{1}\)</span>として， 上のネットワークは</p>
+<div class="math notranslate nohighlight">
+\[
+\hat{\mathbf{y}} =  \mathbf{ W}^{s}\mathbf{x}
+\]</div>
+<p>とまとめることができると気づくであろう．なので線形な活性化関数で深いニューラルネットワークを構築しても何の意味もなく，それゆえ非線形な活性化関数が必要となる．しかし，<strong>勾配降下法で学習させると</strong>3層と2層のネットワークの学習ダイナミクスはそれぞれ異なるものとなり，得られる解にも違いが生まれる．加えて，深い(3層の)ネットワークである場合のみ，幼児の発達における非線形な現象が説明できる．</p>
+<p>3層ネットワークの学習(重みの更新)は誤差逆伝搬から導かれる次の2式により行う．</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned} \tau \frac{d}{dt} \mathbf{ W}^{1}&amp;=(\mathbf{W}^2)^\top ( \mathbf{\Sigma}^{yx} - \mathbf{W}^2 \mathbf{W}^1 \mathbf{\Sigma}^{x})\\
+\tau \frac{d}{dt} \mathbf{W}^{2}&amp;=(\mathbf{\Sigma}^{yx} - \mathbf{W}^{2} \mathbf{W}^1 \mathbf{\Sigma}^{x}) (\mathbf{W}^1)^\top
+\end{aligned}
+\end{split}\]</div>
+<p>ただし，<span class="math notranslate nohighlight">\( \mathbf{\Sigma}^{x}\)</span>は入力間の関係を表す行列，<span class="math notranslate nohighlight">\(\mathbf{\Sigma}^{yx}\)</span>は入出力の関係を表す行列である．</p>
+</div>
+<div class="section" id="svd">
+<h3>特異値分解(SVD)による学習ダイナミクスの解析<a class="headerlink" href="#svd" title="Permalink to this headline">¶</a></h3>
+<p>学習ダイナミクスは<span class="math notranslate nohighlight">\( \mathbf{\Sigma}^{yx}\)</span>に対する特異値分解(singular value decomposition; SVD)を用いて説明できる．</p>
+<div class="math notranslate nohighlight">
+\[
+\mathbf{\Sigma}^{yx}=\mathbf{USV}^\top
+\]</div>
+<p>行列<span class="math notranslate nohighlight">\( \mathbf{ S}\)</span>の対角成分の非ゼロ要素が特異値である．次に学習途中の時刻<span class="math notranslate nohighlight">\((t)\)</span>における<span class="math notranslate nohighlight">\(\hat{\mathbf{\Sigma}}^{yx}(t)=\mathbf{W}^2 (t) \mathbf{W}^1(t) \mathbf{\Sigma}^{x}\)</span>に対してSVDを実行し，特異値<span class="math notranslate nohighlight">\(\mathbf{A}(t)=[a_{\alpha}(t)]\)</span>を得る．この <span class="math notranslate nohighlight">\(a _ {\alpha}(t)\)</span>だが，3層のネットワークでは大きな特異値から先に学習されるのに対し，2層のネットワークでは全ての特異値が同時に学習される．このダイナミクスだが，<strong>低ランク近似</strong> (low-rank approximation)が生じていて，特異値の大きな要素から学習されていると捉えることができる．学習が進むとランクが大きくなっていく，ということである．低ランク近似の例として，SVDによる画像の圧縮と復元を見てみよう．カメラマンの画像に対し，低ランク近似を行い，ランクを上げていく．するとランクが上がるにつれて，画像が鮮明になる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">LinearAlgebra</span><span class="p">,</span> <span class="n">TestImages</span>
+<span class="n">eye</span><span class="p">(</span><span class="n">n</span><span class="p">)</span> <span class="o">=</span> <span class="kt">Matrix</span><span class="p">(</span><span class="n">I</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>eye (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Low-rank approximation with SVD</span>
+<span class="k">function</span> <span class="n">LowRankApprox</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">V</span><span class="p">;</span> <span class="n">rank</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">Ur</span><span class="p">,</span> <span class="n">sr</span><span class="p">,</span> <span class="n">Vr</span> <span class="o">=</span> <span class="n">U</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">rank</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">rank</span><span class="p">],</span> <span class="n">V</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="mi">1</span><span class="o">:</span><span class="n">rank</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">Ur</span> <span class="o">*</span> <span class="n">diagm</span><span class="p">(</span><span class="n">sr</span><span class="p">)</span> <span class="o">*</span> <span class="n">Vr</span><span class="o">&#39;</span>
+<span class="k">end</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">img</span> <span class="o">=</span> <span class="n">convert</span><span class="p">(</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">testimage</span><span class="p">(</span><span class="s">&quot;cameraman&quot;</span><span class="p">));</span>
+<span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">img</span><span class="p">);</span> <span class="c"># PythonとJuliaでVに転置がかかっているか否かの違いあり．</span>
+<span class="n">ranklist</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">25</span><span class="p">]</span>
+<span class="n">nr</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">ranklist</span><span class="p">)</span>
+<span class="n">img_approx</span> <span class="o">=</span> <span class="p">[</span><span class="n">LowRankApprox</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">V</span><span class="p">,</span> <span class="n">rank</span><span class="o">=</span><span class="n">r</span><span class="p">)</span> <span class="k">for</span> <span class="n">r</span> <span class="k">in</span> <span class="n">ranklist</span><span class="p">];</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nr</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Original image&quot;</span><span class="p">);</span> <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">nr</span>
+    <span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">nr</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">);</span> <span class="n">imshow</span><span class="p">(</span><span class="n">img_approx</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;rank=&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">ranklist</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span> <span class="n">axis</span><span class="p">(</span><span class="s">&quot;off&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/linear-network-learning-dynamics_5_0.png" src="../_images/linear-network-learning-dynamics_5_0.png" />
+</div>
+</div>
+<p>これと同じことが知識の獲得において生じていると見なすことができる．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Set initial values</span>
+<span class="n">N1</span><span class="p">,</span> <span class="n">N2</span><span class="p">,</span> <span class="n">N3</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">7</span>
+<span class="n">Σyx</span> <span class="o">=</span> <span class="p">[</span><span class="n">ones</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span> <span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&#39;</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span> <span class="n">zeros</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&#39;</span> <span class="n">ones</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">&#39;</span><span class="p">;</span> <span class="n">eye</span><span class="p">(</span><span class="mi">4</span><span class="p">)];</span>
+<span class="n">Σx</span> <span class="o">=</span> <span class="n">eye</span><span class="p">(</span><span class="n">N1</span><span class="p">)</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">Σyx</span><span class="p">);</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="n">W1</span><span class="p">,</span> <span class="n">W2</span> <span class="o">=</span> <span class="n">eps</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="n">N2</span><span class="p">,</span><span class="n">N1</span><span class="p">),</span> <span class="n">eps</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="n">N3</span><span class="p">,</span><span class="n">N2</span><span class="p">)</span> <span class="c"># weight for deep</span>
+<span class="n">Ws</span> <span class="o">=</span> <span class="n">eps</span><span class="o">*</span><span class="n">rand</span><span class="p">(</span><span class="n">N3</span><span class="p">,</span><span class="n">N1</span><span class="p">)</span> <span class="c"># weight for shallow</span>
+
+<span class="c">#Simulation &amp; training</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.005</span>
+<span class="n">Nt</span> <span class="o">=</span> <span class="mi">1500</span>
+<span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Nt</span><span class="p">,</span> <span class="n">N1</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">Nt</span><span class="p">,</span> <span class="n">N1</span><span class="p">);</span> <span class="c"># Singular values for deep, shallow</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Shallow network</span>
+<span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Nt</span>
+    <span class="c"># Update weights</span>
+    <span class="n">Ws</span> <span class="o">+=</span> <span class="p">(</span><span class="n">Σyx</span> <span class="o">-</span> <span class="n">Ws</span> <span class="o">*</span> <span class="n">Σx</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>   
+    <span class="c"># SVD &amp; save results</span>
+    <span class="n">Σ̂yx</span> <span class="o">=</span> <span class="n">Ws</span> <span class="o">*</span> <span class="n">Σx</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">Σ̂yx</span><span class="p">)</span>
+    <span class="n">B</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Deep network</span>
+<span class="k">for</span> <span class="n">t</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="n">Nt</span>
+    <span class="c"># Update weights</span>
+    <span class="n">δ</span> <span class="o">=</span> <span class="n">Σyx</span> <span class="o">-</span> <span class="n">W2</span> <span class="o">*</span> <span class="n">W1</span> <span class="o">*</span> <span class="n">Σx</span>
+    <span class="n">W1</span> <span class="o">+=</span> <span class="p">(</span><span class="n">W2</span><span class="o">&#39;</span> <span class="o">*</span> <span class="n">δ</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="n">W2</span> <span class="o">+=</span> <span class="p">(</span><span class="n">δ</span> <span class="o">*</span> <span class="n">W1</span><span class="o">&#39;</span><span class="p">)</span> <span class="o">*</span> <span class="n">dt</span>
+    <span class="c"># SVD &amp; save results</span>
+    <span class="n">Σ̂yx</span> <span class="o">=</span> <span class="n">W2</span> <span class="o">*</span> <span class="n">W1</span> <span class="o">*</span> <span class="n">Σx</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">svd</span><span class="p">(</span><span class="n">Σ̂yx</span><span class="p">)</span>
+    <span class="n">A</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot results</span>
+<span class="n">T</span> <span class="o">=</span> <span class="n">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">Nt</span><span class="p">)</span>
+<span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">3</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Three-layer network&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;a&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">axhline</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;t&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;A(t)&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="s">&quot;Two-layer network&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="k">in</span> <span class="mi">1</span><span class="o">:</span><span class="mi">4</span>
+    <span class="n">plot</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;b&quot;</span><span class="o">*</span><span class="n">string</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">axhline</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="k">end</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;t&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;B(t)&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">(</span><span class="n">ncol</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/linear-network-learning-dynamics_10_0.png" src="../_images/linear-network-learning-dynamics_10_0.png" />
+</div>
+</div>
+<p>3層線形ネットワーク (deep)では大きな特異値から学習が始まっているのが分かる．また，それぞれの特異値の学習においてはシグモイド関数様の急速な学習段階が見られる．一方で2層線形ネットワーク (shallow)では全ての特異値の学習が初めから起こっていることがわかる．パラメータが少ないため，収束はこちらの方が速い．</p>
+<p>このモデルが面白い理由の一つとして，知識の混同（例えば『芋虫には骨がある』）の仕組みを提供することがある．発達において，大きい特異値から先に学習されるため，「動く」，「成長する」などの動物の要素が先に獲得される．身の回りの動物のほとんどが「骨を持つ」ので，<strong>低ランク近似により，『芋虫にも骨がある』と錯覚してしまう</strong>のではないか，という仮説が立てられている．</p>
+</div>
+</div>
+<div class="section" id="id4">
+<h2>線形多層ニューラルネットワークにおける勾配降下法による低ランク解の獲得<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><p>Jing, L., Zbontar, J. &amp; LeCun, Y. <strong>Implicit Rank-Minimizing Autoencoder</strong>. <em>NeurIPS’ 20</em>, 2020. <a class="reference external" href="https://arxiv.org/abs/2010.00679">https://arxiv.org/abs/2010.00679</a></p>
+</div></blockquote>
+<p>(<a class="reference external" href="https://arxiv.org/abs/1905.13655">Arora et al., <em>NeurIPS’ 19</em>. 2019</a>)は深層線形ニューラルネットワークが低ランクの解を導出できることを理論的及び実験的に実証した．(<a class="reference external" href="https://arxiv.org/abs/1806.00468">Gunasekar et al., <em>NeurIPS’ 18</em>. 2018</a>)は，線形畳み込みニューラルネットワークにおいて勾配降下が正則化作用を持つことを示した．</p>
+<p>証明は省略するが，(<a class="reference external" href="https://arxiv.org/abs/1905.13655">Arora et al., <em>NeurIPS’ 19</em>. 2019</a>)におけるTheorem 3.を紹介する．まず，<span class="math notranslate nohighlight">\(N\)</span>層の線形多層ニューラルネットワークを考え，<span class="math notranslate nohighlight">\(W_j \in \mathbb{R}^{d_j \times d_{j−1}}\)</span>を<span class="math notranslate nohighlight">\(j\)</span>層の重みとする．<span class="math notranslate nohighlight">\(t\)</span>を学習のタイムステップとし，<span class="math notranslate nohighlight">\(W(t) \in \mathbb{R}^{d \times d^\prime}\)</span>を重み行列を全て乗じた行列とする (ただし<span class="math notranslate nohighlight">\(d := d_N, d^\prime := d_0\)</span>)．つまり<span class="math notranslate nohighlight">\(W(t):=\prod_{j=1}^N W_j(t)\)</span>である．</p>
+<p>ここで<span class="math notranslate nohighlight">\(W(t)\)</span>を特異値分解し，<span class="math notranslate nohighlight">\(W(t) = U(t)S(t)V^\top(t)\)</span>と表現する．<span class="math notranslate nohighlight">\(S(t)\)</span>は対角行列で，その要素を<span class="math notranslate nohighlight">\(\sigma_1(t), \ldots , \sigma_{\min\{d, d^\prime\}}(t),\)</span>とする．これが<span class="math notranslate nohighlight">\(W(t)\)</span>の特異値となる．さらに<span class="math notranslate nohighlight">\(U(t), V (t)\)</span>の列ベクトルをそれぞれ <span class="math notranslate nohighlight">\(\mathbf{u}_1(t), \ldots, \mathbf{u}_{\min\{d, d^\prime\}}(t)\)</span>, および <span class="math notranslate nohighlight">\(\mathbf{v}_1(t), \ldots, \mathbf{v}_{\min\{d,d^\prime \}}(t)\)</span>とする．このとき，特異値<span class="math notranslate nohighlight">\( \sigma_r(t)\ (r=1, \ldots, \min\{d,d^\prime \})\)</span>の損失関数<span class="math notranslate nohighlight">\(\mathcal{L}(W(t))\)</span>に対する勾配降下法による変化は</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d \sigma_r(t)}{dt} = - N \cdot \left[\sigma_r(t)\right]^{1 - \frac{1}{N}} \cdot \left\langle \nabla \mathcal{L}(W(t)) , \mathbf{u}_r(t) \mathbf{v}_r^\top(t) \right\rangle
+\]</div>
+<p>と表される (Arora et al., 2019; Theorem 3)．(1)式で重要なのは<span class="math notranslate nohighlight">\(\left[\sigma_r(t)\right]^{1 - \frac{1}{N}}\)</span>の項である．これは<span class="math notranslate nohighlight">\(N\geq 2\)</span>のときに<strong>特異値<span class="math notranslate nohighlight">\(\sigma_r(t)\ (\geq 0)\)</span>を小さくするような正則化作用が生じる</strong>ことを意味している．一方で，隠れ層が1つのニューラルネットワーク (<span class="math notranslate nohighlight">\(N=1\)</span>)の場合 (1)式は</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{d \sigma_r(t)}{dt} = - \left\langle \nabla \mathcal{L}(W(t)) , \mathbf{u}_r(t) \mathbf{v}_r^\top(t) \right\rangle
+\]</div>
+<p>となり，正則化作用は消失する．</p>
+<p>このように線形多層ニューラルネットワークを勾配降下法で学習させると<strong>陰的正則化(implicit regularization)</strong> により低ランクの解が得られるということが複数の研究により明らかとなっている（線形多層ニューラルネットワークの陰的正則化に関して日本語で書かれた資料としては鈴木大慈先生の<a class="reference external" href="https://www.slideshare.net/trinmu/ss-161240890">深層学習の数理</a>のスライドp.64, 65がある)．Jingらはこの性質を用い，<strong>Autoencoderに線形層を複数追加</strong>するという簡便な方法で低次元表現を学習する決定論的Autoencoder (<strong>Implicit Rank-Minimizing Autoencoder; IRMAE)</strong> を考案した．</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./learning-rule"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="bptt.html" title="previous page">BPTT (backpropagation through time)</a>
+    <a class='right-next' id="next-link" href="../information-theory/intro.html" title="next page">情報理論と最適化原理</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

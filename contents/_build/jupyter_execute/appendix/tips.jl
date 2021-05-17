@@ -92,7 +92,7 @@ C = convert(Array{Float64}, reshape(1:16, (m, m)))
 
 vec(X) = vcat(X...)
 
-X = reshape((B' ⊗ A)^-1 * vec(C), (m, m))
+X = reshape((B' ⊗ A) \ vec(C), (m, m))
 
 A * X * B
 
@@ -103,3 +103,6 @@ println(foo.(([1,2],), [3,4,5]))
 println(foo.([[1,2]], [3,4,5]))
 
 var"log(θ+μ)" = 10
+
+a = rand(2,3,5)
+b = reshape(a, (:, 5))

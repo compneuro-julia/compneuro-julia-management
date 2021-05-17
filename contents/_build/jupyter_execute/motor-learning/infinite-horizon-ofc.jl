@@ -1,7 +1,6 @@
 using LinearAlgebra, Kronecker, Random, BlockDiagonals, PyPlot
 
-eye(T::Type, n) = Diagonal{T}(I, n)
-eye(n) = eye(Float64, n)
+eye(n) = Diagonal(I, n)
 vec(X) = vcat(X...)
 
 n = 4 # number of dims
@@ -43,8 +42,8 @@ for i in 1:maxiter
     V = BlockDiagonal([Q, U]) + [1 -1; -1 1] ⊗ (L'* R * L)
     
     # update S, P
-    S = -reshape((I2n' ⊗ (Ā)' +  (Ā)' ⊗ I2n + (Ȳ)' ⊗ (Ȳ)')^-1 * vec(V), (2n, 2n))
-    P = -reshape((I2n' ⊗ Ā +  Ā ⊗ I2n + Ȳ ⊗  Ȳ)^-1 * vec(Ḡ * (Ḡ)'), (2n, 2n))
+    S = -reshape((I2n' ⊗ (Ā)' +  (Ā)' ⊗ I2n + (Ȳ)' ⊗ (Ȳ)') \ vec(V), (2n, 2n))
+    P = -reshape((I2n' ⊗ Ā +  Ā ⊗ I2n + Ȳ ⊗  Ȳ) \ vec(Ḡ * (Ḡ)'), (2n, 2n))
 
     # update K, L
     P22 = P[n+1:2n, n+1:2n]
@@ -54,8 +53,8 @@ for i in 1:maxiter
     Ktm1 = copy(K)
     Ltm1 = copy(L)
 
-    K = P22 * C' * (D * D')^-1
-    L = (R + Y' * (S11 + S22) * Y)^-1 * B' * S11
+    K = P22 * C' / (D * D')
+    L = (R + Y' * (S11 + S22) * Y) \ B' * S11
     if sum(abs.(K - Ktm1)) < eps && sum(abs.(L - Ltm1)) < eps
         break
     end
