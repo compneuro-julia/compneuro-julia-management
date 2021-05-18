@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ゲイン調節と四則演算 &#8212; Juliaで学ぶ計算論的神経科学</title>
+    
+  <link href="../_static/css/theme.css" rel="stylesheet" />
+  <link href="../_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
+
+    
+  <link rel="stylesheet"
+    href="../_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="../_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+
+    
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/sphinx-book-theme.acff12b8f9c144ce68a297486a2fa670.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-main.c949a650a448cc0ae9fd3441c0e17fb0.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/panels-variables.06eb56fa6e07937060861dad626602ad.css" />
+    
+  <link rel="preload" as="script" href="../_static/js/index.1c5a1a01449ed65a7b51.js">
+
+    <script id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+    <script src="../_static/jquery.js"></script>
+    <script src="../_static/underscore.js"></script>
+    <script src="../_static/doctools.js"></script>
+    <script src="../_static/togglebutton.js"></script>
+    <script src="../_static/clipboard.min.js"></script>
+    <script src="../_static/copybutton.js"></script>
+    <script src="../_static/custom.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="../_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
+    <script async="async" src="https://unpkg.com/thebelab@latest/lib/index.js"></script>
+    <script >
+        const thebe_selector = ".thebe"
+        const thebe_selector_input = "pre"
+        const thebe_selector_output = ".output"
+    </script>
+    <script async="async" src="../_static/sphinx-thebe.js"></script>
+    <link rel="canonical" href="https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="神経回路網の学習則" href="../learning-rule/intro.html" />
+    <link rel="prev" title="神経回路網の演算処理" href="intro.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+    
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="../index.html">
+      
+      <img src="../_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <div class="bd-toc-item active">
+        <ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../index.html">
+   Juliaで学ぶ計算論的神経科学
+  </a>
+ </li>
+</ul>
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../preface.html">
+   まえがき
+  </a>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../introduction/intro.html">
+   はじめに
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../introduction/notation.html">
+     記号の表記
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../neuron-model/intro.html">
+   神経細胞のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/>
+  <label for="toctree-checkbox-2">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/hodgkin-huxley.html">
+     Hodgkin-Huxleyモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/fhn.html">
+     FitzHugh-Nagumoモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/lif.html">
+     Leaky integrate-and-fire モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/izhikevich.html">
+     Izhikevich モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../neuron-model/isi.html">
+     Inter-spike interval モデル
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../synapse-model/intro.html">
+   シナプス伝達のモデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/>
+  <label for="toctree-checkbox-3">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synapse.html">
+     シナプス伝達
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/current-conductance-synapse.html">
+     Current / Conductance-based シナプス
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/expo-synapse.html">
+     指数関数型シナプスモデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/kinetic-synapse.html">
+     動力学モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../synapse-model/synaptic-weighted.html">
+     シナプス入力の重みづけ
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 current active has-children">
+  <a class="reference internal" href="intro.html">
+   神経回路網の演算処理
+  </a>
+  <input checked="" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/>
+  <label for="toctree-checkbox-4">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="current">
+   <li class="toctree-l2 current active">
+    <a class="current reference internal" href="#">
+     ゲイン調節と四則演算
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../learning-rule/intro.html">
+   神経回路網の学習則
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" type="checkbox"/>
+  <label for="toctree-checkbox-5">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/backpropagation-zipser-andersen.html">
+     勾配法と誤差逆伝播法（Zipser-Andersenモデルを例にして）
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/bptt.html">
+     BPTT (backpropagation through time)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../learning-rule/linear-network-learning-dynamics.html">
+     線形多層ニューラルネットワークの学習ダイナミクス
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../information-theory/intro.html">
+   情報理論と最適化原理
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" type="checkbox"/>
+  <label for="toctree-checkbox-6">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/statistics-information.html">
+     統計と情報理論の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../information-theory/slow-feature-analysis.html">
+     Slow Feature Analysis (SFA)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../associative-memory-model/intro.html">
+   連想記憶モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" type="checkbox"/>
+  <label for="toctree-checkbox-7">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/energy-based-model.html">
+     エネルギーベースモデル (Energy-based model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/amari-hopfield-model.html">
+     Amari-Hopfield モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../associative-memory-model/boltzmann-machine.html">
+     Boltzmann マシン
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../bayesian-brain/intro.html">
+   ベイズ脳仮説と生成モデル
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-8" name="toctree-checkbox-8" type="checkbox"/>
+  <label for="toctree-checkbox-8">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/bayes-statistics.html">
+     ベイズ統計の基礎
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/sparse-coding.html">
+     スパース符号化 (sparse coding)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../bayesian-brain/predictive-coding.html">
+     予測符号化 (predictive coding)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../reinforcement-learning/intro.html">
+   強化学習
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-9" name="toctree-checkbox-9" type="checkbox"/>
+  <label for="toctree-checkbox-9">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../reinforcement-learning/td-learning.html">
+     TD学習
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../motor-learning/intro.html">
+   運動制御
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-10" name="toctree-checkbox-10" type="checkbox"/>
+  <label for="toctree-checkbox-10">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-jerk.html">
+     躍度最小モデル
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/minimum-variance.html">
+     終点誤差分散最小モデル (minimum-variance model)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/optimal-feedback-control.html">
+     最適フィードバック制御モデル (optimal feedback control; OFC)
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../motor-learning/infinite-horizon-ofc.html">
+     無限時間最適制御モデル (infinite-horizon optimal feedback control model)
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../spatiotemporal-coding/intro.html">
+   時空間の符号化
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-11" name="toctree-checkbox-11" type="checkbox"/>
+  <label for="toctree-checkbox-11">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../spatiotemporal-coding/grid-cells-decoding.html">
+     格子細胞のデコーディング
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="../appendix/intro.html">
+   付録
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-12" name="toctree-checkbox-12" type="checkbox"/>
+  <label for="toctree-checkbox-12">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/linear-regression.html">
+     線形回帰と最小二乗法
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/quantile-expectile-regression.html">
+     分位点回帰とエクスペクタイル回帰
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/rat-trajectory.html">
+     ラット自由行動下の軌跡のシミュレーション
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/tips.html">
+     JuliaのTips集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/useful-links.html">
+     有用なリンク集
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="../appendix/usage-jupyter-book.html">
+     Jupyter bookの使い方 (Julia言語版)
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+    </div>
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="../_sources/neuronal-computation/neuronal-arithmetic.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Connect with source repository"><i class="fab fa-github"></i></button>
+    <div class="dropdown-buttons sourcebuttons">
+        <a class="repository-button"
+            href="https://github.com/compneuro-julia/compneuro-julia-management"><button type="button" class="btn btn-secondary topbarbtn"
+                data-toggle="tooltip" data-placement="left" title="Source repository"><i
+                    class="fab fa-github"></i>repository</button></a>
+        
+        <a class="edit-button" href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/neuronal-computation/neuronal-arithmetic.ipynb"><button
+                type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip" data-placement="left"
+                title="Edit this page"><i class="fas fa-pencil-alt"></i>suggest edit</button></a>
+    </div>
+</div>
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+
+<a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+        data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+        title="Fullscreen mode"><i
+            class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn"
+        aria-label="Launch interactive content"><i class="fas fa-rocket"></i></button>
+    <div class="dropdown-buttons">
+        
+        <a class="binder-button" href="https://mybinder.org/v2/gh/compneuro-julia/compneuro-julia-management/master?urlpath=lab/tree/contents/neuronal-computation/neuronal-arithmetic.ipynb"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Launch Binder" data-toggle="tooltip"
+                data-placement="left"><img class="binder-button-logo"
+                    src="../_static/images/logo_binder.svg"
+                    alt="Interact on binder">Binder</button></a>
+        
+        
+        
+        <a class="colab-button" href="https://colab.research.google.com/github/compneuro-julia/compneuro-julia-management/blob/master/contents/neuronal-computation/neuronal-arithmetic.ipynb"><button type="button" class="btn btn-secondary topbarbtn"
+                title="Launch Colab" data-toggle="tooltip" data-placement="left"><img class="colab-button-logo"
+                    src="../_static/images/logo_colab.png"
+                    alt="Interact on Colab">Colab</button></a>
+        
+        
+    </div>
+</div>
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id4">
+   参考文献
+  </a>
+ </li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="id1">
+<h1>ゲイン調節と四則演算<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<p><span id="id2">[<a class="reference internal" href="#id14">Goldwyn <em>et al.</em>, 2018</a>]</span>を実装．神経演算 (neuronal arithmetic; <span id="id3">[<a class="reference internal" href="#id15">Angus Silver, 2010</a>]</span>)のモデル．</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span> <span class="n">Base</span><span class="o">:</span> <span class="nd">@kwdef</span>
+<span class="k">using</span> <span class="n">Parameters</span><span class="o">:</span> <span class="nd">@unpack</span> <span class="c"># or using UnPack</span>
+<span class="k">using</span> <span class="n">PyPlot</span><span class="p">,</span> <span class="n">ProgressMeter</span><span class="p">,</span> <span class="n">Distributions</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@kwdef</span> <span class="k">struct</span> <span class="kt">HHIAParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">Cm</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mf">1.0</span> <span class="c"># 膜容量(uF/cm^2)</span>
+    <span class="n">gNa</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">37.0</span> <span class="c"># Na+ の最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">gK</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span> <span class="mf">45.0</span> <span class="c"># K+ の最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">gL</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span>  <span class="mf">1.0</span> <span class="c"># 漏れイオンの最大コンダクタンス(mS/cm^2)</span>
+    <span class="n">gA</span><span class="o">::</span><span class="kt">FT</span>  <span class="o">=</span>  <span class="mf">20.0</span>
+    <span class="n">ENa</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">55.0</span> <span class="c"># Na+ の平衡電位(mV)</span>
+    <span class="n">EK</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">80.0</span> <span class="c"># K+ の平衡電位(mV)</span>
+    <span class="n">EL</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">70.0</span> <span class="c">#漏れイオンの平衡電位(mV)</span>
+    <span class="n">gExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">gInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">VExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">VInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">85.0</span>
+    <span class="n">βExc</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.2</span>
+    <span class="n">βInh</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.18</span>
+    <span class="n">tr</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="c"># ms</span>
+    <span class="n">td</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="mf">8.0</span> <span class="c"># ms</span>
+    <span class="n">v0</span><span class="o">::</span><span class="kt">FT</span> <span class="o">=</span> <span class="o">-</span><span class="mf">20.0</span> <span class="c"># mV</span>
+<span class="k">end</span>
+
+<span class="nd">@kwdef</span> <span class="k">mutable struct</span> <span class="kt">HHIA</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span>
+    <span class="n">param</span><span class="o">::</span><span class="kt">HHIAParameter</span> <span class="o">=</span> <span class="kt">HHIAParameter</span><span class="p">{</span><span class="kt">FT</span><span class="p">}()</span>
+    <span class="n">N</span><span class="o">::</span><span class="kt">Int</span>
+    <span class="n">v</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="o">-</span><span class="mf">70.0</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">n</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mf">70.0</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">a</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="o">-</span><span class="mf">70.0</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">b</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">fill</span><span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="o">-</span><span class="mf">70.0</span> <span class="o">+</span> <span class="mi">70</span><span class="p">)</span><span class="o">/</span><span class="mi">6</span><span class="p">)),</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">r</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">sExc</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="n">sInh</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">FT</span><span class="p">}</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">updateHHIA!</span><span class="p">(</span><span class="n">variable</span><span class="o">::</span><span class="kt">HHIA</span><span class="p">,</span> <span class="n">param</span><span class="o">::</span><span class="kt">HHIAParameter</span><span class="p">,</span> <span class="n">spikesExc</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">spikesInh</span><span class="o">::</span><span class="kt">Vector</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="nd">@unpack</span> <span class="n">N</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">sExc</span><span class="p">,</span> <span class="n">sInh</span> <span class="o">=</span> <span class="n">variable</span>
+    <span class="nd">@unpack</span> <span class="n">Cm</span><span class="p">,</span> <span class="n">gNa</span><span class="p">,</span> <span class="n">gK</span><span class="p">,</span> <span class="n">gL</span><span class="p">,</span> <span class="n">gA</span><span class="p">,</span> <span class="n">ENa</span><span class="p">,</span> <span class="n">EK</span><span class="p">,</span> <span class="n">EL</span><span class="p">,</span> <span class="n">gExc</span><span class="p">,</span> <span class="n">gInh</span><span class="p">,</span> <span class="n">VExc</span><span class="p">,</span> <span class="n">VInh</span><span class="p">,</span> <span class="n">βExc</span><span class="p">,</span> <span class="n">βInh</span><span class="p">,</span> <span class="n">tr</span><span class="p">,</span> <span class="n">td</span><span class="p">,</span> <span class="n">v0</span> <span class="o">=</span> <span class="n">param</span>
+    <span class="nd">@inbounds</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">m</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">30</span><span class="p">)</span><span class="o">/</span><span class="mi">15</span><span class="p">)),</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        
+        <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="mf">0.75</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">32</span><span class="p">)</span><span class="o">/</span><span class="mi">8</span><span class="p">))</span> <span class="o">-</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">100</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">80</span><span class="p">)</span><span class="o">/</span><span class="mi">26</span><span class="p">)))</span>
+        <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">50</span><span class="p">)</span><span class="o">/</span><span class="mi">20</span><span class="p">))</span> <span class="o">-</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">2</span>
+        <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">exp</span><span class="p">((</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="mi">70</span><span class="p">)</span><span class="o">/</span><span class="mi">6</span><span class="p">))</span> <span class="o">-</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">/</span> <span class="mi">150</span>
+        
+        <span class="n">sExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">sExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">βExc</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="n">spikesExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">sInh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="o">-</span><span class="n">sInh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="n">βInh</span><span class="o">*</span><span class="n">dt</span> <span class="o">+</span> <span class="n">spikesInh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+        <span class="n">IExc</span><span class="p">,</span> <span class="n">IInh</span> <span class="o">=</span> <span class="n">gExc</span> <span class="o">*</span> <span class="n">sExc</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">VExc</span><span class="p">),</span> <span class="n">gInh</span> <span class="o">*</span> <span class="n">sInh</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">VInh</span><span class="p">)</span>
+
+        <span class="n">IL</span> <span class="o">=</span> <span class="n">gL</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">EL</span><span class="p">)</span>
+        <span class="n">IK</span> <span class="o">=</span> <span class="n">gK</span> <span class="o">*</span> <span class="n">n</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">^</span><span class="mi">4</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">EK</span><span class="p">)</span>
+        <span class="n">IA</span> <span class="o">=</span> <span class="n">gA</span> <span class="o">*</span> <span class="n">a</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">^</span><span class="mi">3</span> <span class="o">*</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">EK</span><span class="p">)</span>
+        <span class="n">INa</span> <span class="o">=</span> <span class="n">gNa</span> <span class="o">*</span> <span class="n">m</span><span class="o">^</span><span class="mi">3</span> <span class="o">*</span> <span class="n">h</span> <span class="o">*</span> <span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">ENa</span><span class="p">)</span>
+        
+        <span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span><span class="o">/</span><span class="n">Cm</span> <span class="o">*</span> <span class="o">-</span><span class="p">(</span><span class="n">IL</span> <span class="o">+</span> <span class="n">IK</span> <span class="o">+</span> <span class="n">IA</span> <span class="o">+</span> <span class="n">INa</span> <span class="o">+</span> <span class="n">IExc</span> <span class="o">+</span> <span class="n">IInh</span><span class="p">)</span>
+        <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">dt</span> <span class="o">*</span> <span class="p">((</span><span class="mi">1</span><span class="o">/</span><span class="n">tr</span> <span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">td</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">-</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">+</span> <span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">v</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">v0</span><span class="p">))</span> <span class="o">-</span> <span class="n">r</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="mi">1</span><span class="o">/</span><span class="n">td</span><span class="p">)</span>
+    <span class="k">end</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>updateHHIA! (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">GammaSpike</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">,</span> <span class="n">fr</span><span class="p">,</span> <span class="n">k</span><span class="p">)</span>
+    <span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+    <span class="n">θ</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">k</span><span class="o">*</span><span class="p">(</span><span class="n">fr</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span><span class="p">))</span> <span class="c"># fr = 1/(k*θ)</span>
+
+    <span class="n">isi</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">Gamma</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">θ</span><span class="p">),</span> <span class="kt">Int</span><span class="p">(</span><span class="n">round</span><span class="p">(</span><span class="n">nt</span><span class="o">*</span><span class="mf">1.5</span><span class="o">/</span><span class="n">fr</span><span class="p">)),</span> <span class="n">n_neurons</span><span class="p">)</span>
+    <span class="n">spike_time</span> <span class="o">=</span> <span class="n">cumsum</span><span class="p">(</span><span class="n">isi</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="c"># ISIを累積</span>
+    <span class="n">spike_time</span><span class="p">[</span><span class="n">spike_time</span> <span class="o">.&gt;</span> <span class="n">nt</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span> <span class="c"># ntを超える場合を1に</span>
+    <span class="n">spike_time</span> <span class="o">=</span> <span class="n">round</span><span class="o">.</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">spike_time</span><span class="p">)</span> <span class="c"># float to int</span>
+    <span class="n">spikes</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Bool</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">n_neurons</span><span class="p">)</span> <span class="c"># スパイク記録変数</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">n_neurons</span>    
+        <span class="n">spikes</span><span class="p">[</span><span class="n">spike_time</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">i</span><span class="p">],</span> <span class="n">i</span><span class="p">]</span> <span class="o">.=</span> <span class="mi">1</span>
+    <span class="k">end</span>
+
+    <span class="n">spikes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># (spike_time=1)の発火を削除</span>
+    <span class="k">return</span> <span class="n">spikes</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GammaSpike (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">HHIAFIcurve</span><span class="p">(</span><span class="n">gA</span><span class="p">,</span> <span class="n">spikesExc</span><span class="p">,</span> <span class="n">T</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">dt</span><span class="o">=</span><span class="mf">0.01f0</span><span class="p">,</span> <span class="n">N</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">frInh</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+    <span class="c"># spike array</span>
+    <span class="n">varr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">spikesInh</span> <span class="o">=</span> <span class="p">(</span><span class="n">frInh</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">?</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span> <span class="o">:</span> <span class="n">GammaSpike</span><span class="p">(</span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">frInh</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>    
+    <span class="n">neurons</span> <span class="o">=</span> <span class="kt">HHIA</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">N</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kt">HHIAParameter</span><span class="p">{</span><span class="kt">Float32</span><span class="p">}(</span><span class="n">gA</span><span class="o">=</span><span class="n">gA</span><span class="p">))</span> <span class="c"># modelの定義</span>
+    <span class="c"># simulation</span>
+    <span class="nd">@showprogress</span> <span class="k">for</span> <span class="n">t</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">nt</span>
+        <span class="n">updateHHIA!</span><span class="p">(</span><span class="n">neurons</span><span class="p">,</span> <span class="n">neurons</span><span class="o">.</span><span class="n">param</span><span class="p">,</span> <span class="n">spikesExc</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">spikesInh</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">dt</span><span class="p">)</span>
+        <span class="n">varr</span><span class="p">[</span><span class="n">t</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">neurons</span><span class="o">.</span><span class="n">v</span>
+    <span class="k">end</span>
+    <span class="n">spike</span> <span class="o">=</span> <span class="p">(</span><span class="n">varr</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">nt</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">.&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="o">.&amp;</span> <span class="p">(</span><span class="n">varr</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="n">nt</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">.&gt;</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">output_spikes</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">spike</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">T</span><span class="o">*</span><span class="mf">1e3</span>
+    <span class="n">input_spikes</span> <span class="o">=</span> <span class="n">sum</span><span class="p">(</span><span class="n">spikesExc</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="n">T</span><span class="o">*</span><span class="mf">1e3</span>
+    <span class="k">return</span> <span class="n">input_spikes</span><span class="p">,</span> <span class="n">output_spikes</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HHIAFIcurve (generic function with 5 methods)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">T</span><span class="p">,</span> <span class="n">dt</span> <span class="o">=</span> <span class="mi">50000</span><span class="p">,</span> <span class="mf">5e-2</span> <span class="c"># ms</span>
+<span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span>
+<span class="n">N</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">maxfrExc</span> <span class="o">=</span> <span class="mi">80</span><span class="p">;</span> <span class="n">frInh</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0f0</span><span class="p">,</span> <span class="mf">50f0</span><span class="p">];</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">HHIAFIcurve_multi</span><span class="p">(</span><span class="n">gA</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">maxfrExc</span><span class="p">,</span> <span class="n">frInh</span><span class="p">)</span>
+    <span class="n">nInh</span> <span class="o">=</span> <span class="n">size</span><span class="p">(</span><span class="n">frInh</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">input_spikes_arr</span><span class="p">,</span> <span class="n">output_spikes_arr</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nInh</span><span class="p">,</span> <span class="n">N</span><span class="p">),</span> <span class="n">zeros</span><span class="p">(</span><span class="n">nInh</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="n">nt</span> <span class="o">=</span> <span class="kt">Int</span><span class="p">(</span><span class="n">T</span><span class="o">/</span><span class="n">dt</span><span class="p">)</span> <span class="c"># number of timesteps</span>
+    <span class="n">frExc</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">N</span><span class="p">)</span> <span class="o">*</span> <span class="n">maxfrExc</span>
+    <span class="n">spikesExc</span> <span class="o">=</span> <span class="n">zeros</span><span class="p">(</span><span class="kt">Int</span><span class="p">,</span> <span class="n">nt</span><span class="p">,</span> <span class="n">N</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">N</span>
+        <span class="n">spikesExc</span><span class="p">[</span><span class="o">:</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">rand</span><span class="p">(</span><span class="n">nt</span><span class="p">)</span> <span class="o">.&lt;</span> <span class="n">frExc</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">dt</span><span class="o">*</span><span class="mf">1e-3</span>
+    <span class="k">end</span>
+    <span class="k">for</span> <span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="o">:</span><span class="n">nInh</span>
+        <span class="n">input_spikes_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes_arr</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="o">:</span><span class="p">]</span> <span class="o">=</span> <span class="n">HHIAFIcurve</span><span class="p">(</span><span class="n">gA</span><span class="p">,</span> <span class="n">spikesExc</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">frInh</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="k">end</span>
+    <span class="k">return</span> <span class="n">input_spikes_arr</span><span class="p">,</span> <span class="n">output_spikes_arr</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HHIAFIcurve_multi (generic function with 1 method)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell tag_remove-output docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">input_spikes1</span><span class="p">,</span> <span class="n">output_spikes1</span> <span class="o">=</span> <span class="n">HHIAFIcurve_multi</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">maxfrExc</span><span class="p">,</span> <span class="n">frInh</span><span class="p">);</span>
+<span class="n">input_spikes2</span><span class="p">,</span> <span class="n">output_spikes2</span> <span class="o">=</span> <span class="n">HHIAFIcurve_multi</span><span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="n">T</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">maxfrExc</span><span class="p">,</span> <span class="n">frInh</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Divisive inhibition (g</span><span class="si">$_A</span><span class="s">=20$)&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">input_spikes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;no inhibition&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">input_spikes1</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes1</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;inhibition&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Input spikes/s&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Output spikes/s&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span> <span class="n">title</span><span class="p">(</span><span class="sa">L</span><span class="s">&quot;Subtractive inhibition (g</span><span class="si">$_A</span><span class="s">=40$)&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">input_spikes2</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes2</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">facecolor</span><span class="o">=</span><span class="s">&quot;white&quot;</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;no inhibition&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">input_spikes2</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes2</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">&quot;inhibition&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Input spikes/s&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Output spikes/s&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
+<span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">);</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">output_spikes1</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes1</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:red&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;g</span><span class="si">$_A</span><span class="s">=20$&quot;</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">output_spikes2</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">output_spikes2</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="o">:</span><span class="p">],</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">&quot;tab:blue&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">L</span><span class="s">&quot;g</span><span class="si">$_A</span><span class="s">=40$&quot;</span><span class="p">)</span>
+<span class="n">xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">);</span> <span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="p">);</span> <span class="n">xlabel</span><span class="p">(</span><span class="s">&quot;Output spike/s</span><span class="se">\n</span><span class="s"> No Inhibition&quot;</span><span class="p">);</span> <span class="n">ylabel</span><span class="p">(</span><span class="s">&quot;Output spike/s</span><span class="se">\n</span><span class="s"> with Inhibition&quot;</span><span class="p">);</span> <span class="n">legend</span><span class="p">()</span>
+<span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/neuronal-arithmetic_9_0.png" src="../_images/neuronal-arithmetic_9_0.png" />
+</div>
+</div>
+<div class="section" id="id4">
+<h2>参考文献<a class="headerlink" href="#id4" title="Permalink to this headline">¶</a></h2>
+<p id="id5"><dl class="citation">
+<dt class="label" id="id15"><span class="brackets"><a class="fn-backref" href="#id3">AS10</a></span></dt>
+<dd><p>R Angus Silver. Neuronal arithmetic. <em>Nat. Rev. Neurosci.</em>, 11(7):474–489, June 2010.</p>
+</dd>
+<dt class="label" id="id14"><span class="brackets"><a class="fn-backref" href="#id2">GSTT18</a></span></dt>
+<dd><p>Joshua H Goldwyn, Bradley R Slabe, Joseph B Travers, and David Terman. Gain control with a-type potassium current: IA as a switch between divisive and subtractive inhibition. <em>PLoS Comput. Biol.</em>, 14(7):e1006292, July 2018.</p>
+</dd>
+</dl>
+</p>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "julia-1.6"
+        },
+        kernelOptions: {
+            kernelName: "julia-1.6",
+            path: "./neuronal-computation"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'julia-1.6'</script>
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="intro.html" title="previous page">神経回路網の演算処理</a>
+    <a class='right-next' id="next-link" href="../learning-rule/intro.html" title="next page">神経回路網の学習則</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Takuto Yamamoto<br/>
+        
+            &copy; Copyright 2020.<br/>
+          <div class="extra_footer">
+            <div>
+<script src="https://utteranc.es/client.js"
+repo="compneuro-julia/compneuro-julia.github.io"
+issue-term="title"
+label="💬"
+theme="github-light"
+crossorigin="anonymous"
+async>
+</script>
+</div>
+
+          </div>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+  
+  <script src="../_static/js/index.1c5a1a01449ed65a7b51.js"></script>
+
+  
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
+  </body>
+</html>

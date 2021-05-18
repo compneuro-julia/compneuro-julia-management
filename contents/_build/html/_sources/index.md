@@ -30,6 +30,8 @@ Julia 1.6.0
 	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/synapse-model/expo-synapse.html)
 	1. [動力学モデル](https://compneuro-julia.github.io/synapse-model/kinetic-synapse.html)
 	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/synapse-model/synaptic-weighted.html)
+1. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
+	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
 1. [神経回路網の学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
 	1. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
 	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
