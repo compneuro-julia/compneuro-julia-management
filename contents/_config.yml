@@ -43,3 +43,6 @@ launch_buttons:
 execute:
   execute_notebooks: cache
   timeout: -1
+
+bibtex_bibfiles:
+    - references.bib
