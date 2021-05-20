@@ -10,6 +10,7 @@ latex:
 
 bibtex_bibfiles:
   - references.bib
+  - neuron-model/references.bib
 sphinx:
   config:
     bibtex_reference_style: author_year
