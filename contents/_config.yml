@@ -9,8 +9,18 @@ latex:
     targetname: compneuro-julia.tex
 
 bibtex_bibfiles:
-  - references.bib
+  - introduction/references.bib
   - neuron-model/references.bib
+  - synapse-model/references.bib
+  - neuronal-computation/references.bib
+  - learning-rule/references.bib
+  - information-theory/references.bib
+  - associative-memory-model/references.bib
+  - bayesian-brain/references.bib
+  - reinforcement-learning/references.bib
+  - motor-learning/references.bib
+  - spatiotemporal-coding/references.bib
+  - appendix/references.bib
 sphinx:
   config:
     bibtex_reference_style: author_year
