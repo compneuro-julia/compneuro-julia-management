@@ -67,6 +67,7 @@
   sections:
     - file: appendix/linear-regression
     - file: appendix/quantile-expectile-regression
+    - file: appendix/bayesian-linear-regression
     - file: appendix/rat-trajectory
     - file: appendix/tips
     - file: appendix/useful-links
