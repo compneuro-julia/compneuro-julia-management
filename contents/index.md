@@ -59,6 +59,7 @@ Julia 1.6.0
 - [付録](https://compneuro-julia.github.io/appendix/intro.html)
 	1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
 	1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+	1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
 	1. [ラット自由行動下の軌跡のシミュレーション](https://compneuro-julia.github.io/appendix/rat-trajectory.html)
 	1. [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
 	1. [有用なリンク集](https://compneuro-julia.github.io/appendix/useful-links.html)

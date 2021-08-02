@@ -72,7 +72,7 @@ end
 xlabel("Error"); ylabel("Loss")
 legend(); tight_layout()
 
-function QuantileGradientDescent(X, y, initθ, τ; lr=1e-4, num_iters=10000)
+function QuantileGradientDescent(X, y, initθ, τ; lr=0.1, num_iters=10000)
     θ = initθ
     for i in 1:num_iters
         ŷ = X * θ # predictions
@@ -83,7 +83,7 @@ function QuantileGradientDescent(X, y, initθ, τ; lr=1e-4, num_iters=10000)
     return θ
 end
 
-function ExpectileGradientDescent(X, y, initθ, τ; lr=1e-4, num_iters=10000)
+function ExpectileGradientDescent(X, y, initθ, τ; lr=0.1, num_iters=10000)
     θ = initθ
     for i in 1:num_iters
         ŷ = X * θ # predictions
@@ -95,44 +95,51 @@ function ExpectileGradientDescent(X, y, initθ, τ; lr=1e-4, num_iters=10000)
 end;
 
 # Generate Toy datas
-N = 500 # sample size
-dims = 3 # dimensions
-x = sort(randn(N))
-y =  x.^2 + 3x + 5x .* randn(N);
-X = [ones(N) x x.^2]; # design matrix
+num_train, num_test = 100, 500 # sample size
+dims = 4 # dimensions
+Random.seed!(0);
+
+x = rand(num_train) #range(0.1, 0.9, length=num_train)
+y =  sin.(2π*x) + 0.3randn(num_train);
+X = hcat([x .^ p for p in 0:dims-1]...); # design matrix
+
+xtest = range(0, 1, length=num_test)
+Xtest =hcat([xtest .^ p for p in 0:dims-1]...);
 
 τs = [0.01, 0.1, 0.5, 0.9, 0.99]
 m = length(τs) 
-initθ = zeros(dims)
 
 # Quantile regression
-Ŷq = zeros(m, N); # memory array
+initθ = zeros(dims)
+Ŷq = zeros(m, num_test); # memory array
 for i in 1:m
-    θq = QuantileGradientDescent(X, y, initθ, τs[i])
-    Ŷq[i, :] = X * θq
+    θq = QuantileGradientDescent(X, y, initθ, τs[i], lr=1e-2, num_iters=1e5)
+    Ŷq[i, :] = Xtest * θq
 end
+
 
 # Expectile regression
-Ŷe = zeros(m, N); # memory array
+initθ = zeros(dims)
+Ŷe = zeros(m, num_test); # memory array
 for i in 1:m
-    θe = ExpectileGradientDescent(X, y, initθ, τs[i])
-    Ŷe[i, :] = X * θe
+    θe = ExpectileGradientDescent(X, y, initθ, τs[i], lr=1e-2, num_iters=1e5)
+    Ŷe[i, :] = Xtest * θe
 end
 
-# normal equation
-θ = (X' * X) \ X' * y
-ŷ = X * θ; # predictions
+normal_equation(Xtest, X, y) = Xtest * ((X' * X) \ X' * y)
+
+ŷ = normal_equation(Xtest, X, y); # predictions
 
 # Results plot
-figure(figsize=(12,4), dpi=100)
+figure(figsize=(15,5), dpi=100)
 subplot(1,3,1)
 title("Quantile Regression")
 cm = get_cmap(:viridis)
 for i in 1:m
-    plot(x, Ŷq[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cm(i/m)) # regression line
+    plot(xtest, Ŷq[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cm(i/m)) # regression line
 end
-plot(x, ŷ, color="tab:red",  "--", label="Ordinary reg.")  # regression line
-scatter(x, y, color="gray", s=5) # samples
+plot(xtest, ŷ, color="tab:red",  "--", label="Ordinary reg.")  # regression line
+scatter(x, y, color="gray", s=10) # samples
 xlabel("x"); ylabel("y"); legend(ncol=2)
 
 # Results plot
@@ -140,16 +147,16 @@ subplot(1,3,2)
 title("Expectile Regression")
 cm = get_cmap(:viridis)
 for i in 1:m
-    plot(x, Ŷe[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cm(i/m)) # regression line
+    plot(xtest, Ŷe[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cm(i/m)) # regression line
 end
-plot(x, ŷ, color="tab:red", "--", label="Ordinary reg.")  # regression line
-scatter(x, y, color="gray", s=5) # samples
+plot(xtest, ŷ, color="tab:red", "--", label="Ordinary reg.")  # regression line
+scatter(x, y, color="gray", s=10) # samples
 xlabel("x"); legend(ncol=2)
 
 subplot(1,3,3)
 title("Quantile & Expectile Regression")
-fill_between(x, Ŷq[1, :], Ŷq[end, :], alpha=0.5, label="Quantile reg.")
-fill_between(x, Ŷe[1, :], Ŷe[end, :], alpha=0.5, label="Expectile reg.")
-scatter(x, y, color="gray", s=5) # samples
+fill_between(xtest, Ŷq[1, :], Ŷq[end, :], alpha=0.5, label="Quantile reg.")
+fill_between(xtest, Ŷe[1, :], Ŷe[end, :], alpha=0.5, label="Expectile reg.")
+scatter(x, y, color="gray", s=10) # samples
 xlabel("x"); legend()
 tight_layout()

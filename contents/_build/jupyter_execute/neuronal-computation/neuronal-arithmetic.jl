@@ -19,6 +19,8 @@ using PyPlot, ProgressMeter, Distributions
     βInh::FT = 0.18
     tr::FT = 0.5 # ms
     td::FT = 8.0 # ms
+    γ1::FT = 1/td
+    γ2::FT = 1/tr - 1/td
     v0::FT = -20.0 # mV
 end
 
@@ -34,20 +36,20 @@ end
     sInh::Vector{FT} = zeros(N)
 end
 
-function updateHHIA!(variable::HHIA, param::HHIAParameter, spikesExc::Vector, spikesInh::Vector, dt)
+function update!(variable::HHIA, param::HHIAParameter, spikesExc::Vector, spikesInh::Vector, dt)
     @unpack N, v, n, a, b, r, sExc, sInh = variable
-    @unpack Cm, gNa, gK, gL, gA, ENa, EK, EL, gExc, gInh, VExc, VInh, βExc, βInh, tr, td, v0 = param
+    @unpack Cm, gNa, gK, gL, gA, ENa, EK, EL, gExc, gInh, VExc, VInh, βExc, βInh, γ1, γ2, v0 = param
     @inbounds for i = 1:N
         m, h = 1 / (1 + exp(-(v[i]+30)/15)), 1 - n[i]
         
-        n[i] += dt * 0.75 * (1.0/(1 + exp(-(v[i] + 32)/8)) - n[i]) / (1 + 100 / (1 + exp((v[i] + 80)/26)))
-        a[i] += dt * (1.0/(1 + exp(-(v[i] + 50)/20)) - a[i]) / 2
+        n[i] += dt * 0.75(1.0/(1 + exp(-0.125(v[i] + 32))) - n[i]) / (1 + 100 / (1 + exp((v[i] + 80)/26)))
+        a[i] += dt * 0.5(1.0/(1 + exp(-0.05(v[i] + 50))) - a[i])
         b[i] += dt * (1.0/(1 + exp((v[i] + 70)/6)) - b[i]) / 150
         
         sExc[i] += -sExc[i] * βExc*dt + spikesExc[i]
         sInh[i] += -sInh[i] * βInh*dt + spikesInh[i]
-
-        IExc, IInh = gExc * sExc[i] * (v[i] - VExc), gInh * sInh[i] * (v[i] - VInh)
+        IExc = gExc * sExc[i] * (v[i] - VExc) 
+        IInh = gInh * sInh[i] * (v[i] - VInh)
 
         IL = gL * (v[i] - EL)
         IK = gK * n[i]^4 * (v[i] - EK)
@@ -55,7 +57,7 @@ function updateHHIA!(variable::HHIA, param::HHIAParameter, spikesExc::Vector, sp
         INa = gNa * m^3 * h * (v[i] - ENa)
         
         v[i] += dt/Cm * -(IL + IK + IA + INa + IExc + IInh)
-        r[i] += dt * ((1/tr - 1/td) * (1.0 - r[i])/(1.0 + exp(-v[i] + v0)) - r[i] * 1/td)
+        r[i] += dt * (γ2 * (1.0 - r[i])/(1.0 + exp(-v[i] + v0)) - r[i] * γ1)
     end
 end
 
@@ -77,17 +79,15 @@ function GammaSpike(T, dt, n_neurons, fr, k)
     return spikes
 end
 
-function HHIAFIcurve(gA, spikesExc, T=5000, dt=0.01f0, N=200, frInh=0)
+function FIcurve(neurons, spikesExc, spikesInh, T=5000, dt=0.01f0)
     nt = Int(T/dt) # number of timesteps
-    # spike array
-    varr = zeros(Float32, nt, N)
-    spikesInh = (frInh == 0) ? zeros(Int, nt, N) : GammaSpike(T, dt, N, frInh, 12)    
-    neurons = HHIA{Float32}(N=N, param=HHIAParameter{Float32}(gA=gA)) # modelの定義
-    # simulation
+    varr = zeros(Float32, nt,  neurons.N)
+    
     @showprogress for t = 1:nt
-        updateHHIA!(neurons, neurons.param, spikesExc[t, :], spikesInh[t, :], dt)
+        update!(neurons, neurons.param, spikesExc[t, :], spikesInh[t, :], dt)
         varr[t, :] = neurons.v
     end
+    
     spike = (varr[1:nt-1, :] .< 0) .& (varr[2:nt, :] .> 0)
     output_spikes = sum(spike, dims=1) / T*1e3
     input_spikes = sum(spikesExc, dims=1) / T*1e3
@@ -109,7 +109,9 @@ function HHIAFIcurve_multi(gA, T, dt, N, maxfrExc, frInh)
         spikesExc[:, j] = rand(nt) .< frExc[j]*dt*1e-3
     end
     for i=1:nInh
-        input_spikes_arr[i, :], output_spikes_arr[i, :] = HHIAFIcurve(gA, spikesExc, T, dt, N, frInh[i])
+        spikesInh = (frInh[i] == 0) ? zeros(Int, nt, N) : GammaSpike(T, dt, N, frInh[i], 12)    
+        neurons = HHIA{Float32}(N=N, param=HHIAParameter{Float32}(gA=gA)) # modelの定義
+        input_spikes_arr[i, :], output_spikes_arr[i, :] = FIcurve(neurons, spikesExc, spikesInh, T, dt)
     end
     return input_spikes_arr, output_spikes_arr
 end
