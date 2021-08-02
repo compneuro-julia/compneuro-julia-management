@@ -1,74 +1,64 @@
-- file: index
+format: jb-article
+root: index
+sections:
 - file: preface
-
 - file: introduction/intro
   sections:
-    - file: introduction/notation
-
+  - file: introduction/notation
 - file: neuron-model/intro
   sections:
-    - file: neuron-model/hodgkin-huxley
-    - file: neuron-model/fhn
-    - file: neuron-model/lif
-    - file: neuron-model/izhikevich
-    - file: neuron-model/isi
-
+  - file: neuron-model/hodgkin-huxley
+  - file: neuron-model/fhn
+  - file: neuron-model/lif
+  - file: neuron-model/izhikevich
+  - file: neuron-model/isi
 - file: synapse-model/intro
   sections:
-    - file: synapse-model/synapse
-    - file: synapse-model/current-conductance-synapse
-    - file: synapse-model/expo-synapse
-    - file: synapse-model/kinetic-synapse
-    - file: synapse-model/synaptic-weighted
-
+  - file: synapse-model/synapse
+  - file: synapse-model/current-conductance-synapse
+  - file: synapse-model/expo-synapse
+  - file: synapse-model/kinetic-synapse
+  - file: synapse-model/synaptic-weighted
 - file: neuronal-computation/intro
   sections:
-    - file: neuronal-computation/neuronal-arithmetic
-
+  - file: neuronal-computation/neuronal-arithmetic
 - file: learning-rule/intro
   sections:
-    - file: learning-rule/backpropagation-zipser-andersen
-    - file: learning-rule/bptt
-    - file: learning-rule/linear-network-learning-dynamics
-
+  - file: learning-rule/backpropagation-zipser-andersen
+  - file: learning-rule/bptt
+  - file: learning-rule/linear-network-learning-dynamics
 - file: information-theory/intro
   sections:
-    - file: information-theory/statistics-information
-    - file: information-theory/slow-feature-analysis
-
+  - file: information-theory/statistics-information
+  - file: information-theory/slow-feature-analysis
 - file: associative-memory-model/intro
   sections:
-    - file: associative-memory-model/energy-based-model
-    - file: associative-memory-model/amari-hopfield-model
-    - file: associative-memory-model/boltzmann-machine
-
+  - file: associative-memory-model/energy-based-model
+  - file: associative-memory-model/amari-hopfield-model
+  - file: associative-memory-model/boltzmann-machine
 - file: bayesian-brain/intro
   sections:
-    - file: bayesian-brain/bayes-statistics
-    - file: bayesian-brain/sparse-coding
-    - file: bayesian-brain/predictive-coding
-
+  - file: bayesian-brain/bayes-statistics
+  - file: bayesian-brain/sparse-coding
+  - file: bayesian-brain/predictive-coding
 - file: reinforcement-learning/intro
   sections:
-    - file: reinforcement-learning/td-learning
-
+  - file: reinforcement-learning/td-learning
 - file: motor-learning/intro
   sections:
-    - file: motor-learning/minimum-jerk
-    - file: motor-learning/minimum-variance
-    - file: motor-learning/optimal-feedback-control
-    - file: motor-learning/infinite-horizon-ofc
-
+  - file: motor-learning/minimum-jerk
+  - file: motor-learning/minimum-variance
+  - file: motor-learning/optimal-feedback-control
+  - file: motor-learning/infinite-horizon-ofc
 - file: spatiotemporal-coding/intro
   sections:
-    - file: spatiotemporal-coding/grid-cells-decoding
-
+  - file: spatiotemporal-coding/grid-cells-decoding
 - file: appendix/intro
   sections:
-    - file: appendix/linear-regression
-    - file: appendix/quantile-expectile-regression
-    - file: appendix/bayesian-linear-regression
-    - file: appendix/rat-trajectory
-    - file: appendix/tips
-    - file: appendix/useful-links
-    - file: appendix/usage-jupyter-book
+  - file: appendix/linear-regression
+  - file: appendix/quantile-expectile-regression
+  - file: appendix/bayesian-linear-regression
+  - file: appendix/rat-trajectory
+  - file: appendix/tips
+  - file: appendix/useful-links
+  - file: appendix/usage-jupyter-book
