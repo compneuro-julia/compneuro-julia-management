@@ -1,7 +1,7 @@
 # Book settings
 title: Juliaで学ぶ計算論的神経科学
 author: Takuto Yamamoto
-copyright: "2020"
+copyright: "2020-2021"
 logo: _static/images/logo.svg
 
 latex:
@@ -20,6 +20,7 @@ bibtex_bibfiles:
   - reinforcement-learning/references.bib
   - motor-learning/references.bib
   - spatiotemporal-coding/references.bib
+  - neural-development/references.bib
   - appendix/references.bib
 sphinx:
   config:

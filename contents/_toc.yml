@@ -53,6 +53,10 @@ sections:
 - file: spatiotemporal-coding/intro
   sections:
   - file: spatiotemporal-coding/grid-cells-decoding
+- file: neural-development/intro
+  sections:
+  - file: neural-development/self-organizing-map
+  - file: neural-development/graph-theory-network-model
 - file: appendix/intro
   sections:
   - file: appendix/linear-regression

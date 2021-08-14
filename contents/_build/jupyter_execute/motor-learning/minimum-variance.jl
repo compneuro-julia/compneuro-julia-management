@@ -45,16 +45,16 @@ for i=0:nt-1
         diagQ[i+1] = diagQ[i] + (A^(nt-i-2) * B * B' * A'^(nt-i-2))[1,1]
     end
 end
-diagQ *= 10^13 # for numerical stability
+diagQ /= maximum(diagQ) # for numerical stability
 Q = Diagonal(diagQ); 
 
 # calculation of C
-C = zeros((ntp+1)*3, nt);
+C = zeros(3(ntp+1), nt);
 for p=1:ntp+1
     for q=1:nt
         if ntf-1+(p-1)-(q-1) >= 0
-            idx = 3*(p-1)+1:3*p
-            C[idx, q] = A^(ntf-1-(q-1)+(p-1))*B # if ntf-1-(q-1)+(p-1) == 0; A^(ntf-1-(q-1)+(p-1))*B equal to B
+            idx = 3(p-1)+1:3p
+            C[idx, q] = A^(ntf-1-(q-1)+(p-1)) * B # if ntf-1-(q-1)+(p-1) == 0; A^(ntf-1-(q-1)+(p-1))*B equal to B
         end
     end
 end
