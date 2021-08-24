@@ -1,7 +1,5 @@
 using LinearAlgebra, Random, ToeplitzMatrices, PyPlot
 
-eye(T::Type, n) = Diagonal{T}(I, n)
-eye(n) = eye(Float64, n)
 vec(X) = vcat(X...)
 
 # Equality Constrained Quadratic Programming
@@ -27,14 +25,17 @@ nt = ntf + ntp # total time steps
 trange = (1:nt) * dt * 1e3 # ms
 
 x0 = zeros(3)       # initial state (pos=0, vel=0, acc=0)
-xf = [10; zeros(2)] # final state (pos=10, vel=0, acc=0)
+xf = [10, 0, 0] # final state (pos=10, vel=0, acc=0)
 α1 = -1/(t1*t2*tm)
 α2 = -1/(t1*t2)-1/(t1*tm)-1/(t2*tm)
 α3 = -1/t1-1/t2-1/tm
+β = 1/tm
 Ac = [0 1 0; 0 0 1; α1 α2 α3];
-Bc = [zeros(2); 1]
-A = exp(Ac*dt);
-B = Ac^-1 * (eye(3) - A) *Bc; # Bを適切な実装に変更する．
+Bc = [0, 0, β]
+A = LinearAlgebra.I + Ac * dt
+B = Bc*dt
+#A = exp(Ac*dt);
+#B = Ac^-1 * (eye(3) - A) *Bc; 
 
 # calculation of V
 diagV = zeros(nt);
