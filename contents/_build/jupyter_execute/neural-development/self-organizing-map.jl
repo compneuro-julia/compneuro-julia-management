@@ -1,9 +1,8 @@
 using Random, PyPlot, ProgressMeter
 
 # inputs 
-N = 500 # num of inputs
+N = 400 # num of inputs
 dims = 2  # dims of inputs 
-
 Random.seed!(1234);
 σv, σw = 0.2, 0.05
 v = [σv*randn(Int(N/2), dims);  1.0 .+ σv*randn(Int(N/2), dims)]
@@ -20,7 +19,6 @@ end;
 function GaussianMask(sizex=9, sizey=9; σ=5)
     x, y = 0:sizex-1, 0:sizey-1
     X, Y = ones(sizey) * x', y * ones(sizex)' 
-    
     x0, y0 = (sizex-1) / 2, (sizey-1) / 2
     mask = exp.(-((X .- x0) .^2 + (Y .- y0) .^2) / (2.0(σ^2)))
     return mask ./ sum(mask)
@@ -32,14 +30,15 @@ function SOM!(v, w; α0=1.0, σ0=6, T=500)
     N = size(v)[1]
     w_history = [copy(w)] # history of w
     @showprogress for t in 1:T
-        α = α0 * (1 - t/T) + 0.1; # update rate
-        σ = round(Int, (σ0 - 1) * (1 - t/T) + 1); # decay from large to small
-        h = GaussianMask(2σ+1, 2σ+1, σ=σ);
+        α = α0 * (1 - t/T); # update rate
+        σ = (σ0 - 1) * (1 - t/T) + 1; # decay from large to small
+        wm = ceil(Int, σ)
+        h = GaussianMask(2wm+1, 2wm+1, σ=σ);
         # loop for the N inputs
         for i in 1:N
             dist = sum([(v[i, j] .- w[:, :, j]).^2 for j in 1:dims]) # distance between input and neurons
             win_idx = argmin(dist) # winner index
-            idx = [max(1,win_idx[j] - σ):min(map_width, win_idx[j] + σ) for j in 1:2] # neighbor indices
+            idx = [max(1,win_idx[j] - wm):min(map_width, win_idx[j] + wm) for j in 1:2] # neighbor indices
             # update the winner & neighbor neuron
             η = α * h[1:length(idx[1]), 1:length(idx[2])]
             for j in 1:dims

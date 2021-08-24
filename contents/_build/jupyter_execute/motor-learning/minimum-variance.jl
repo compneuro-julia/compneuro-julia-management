@@ -20,7 +20,7 @@ t2 = 13*1e-3  # another time const of eye dynamics (s)
 tm = 10*1e-3
 dt = 1e-3     # simulation time step (s)
 tf = 50*1e-3  # movement duration (s)
-tp = 20*1e-3  # post-movement duration (s)
+tp = 30*1e-3  # post-movement duration (s)
 ntf = round(Int, tf/dt)
 ntp = round(Int, tp/dt)
 nt = ntf + ntp # total time steps
@@ -34,19 +34,19 @@ xf = [10; zeros(2)] # final state (pos=10, vel=0, acc=0)
 Ac = [0 1 0; 0 0 1; α1 α2 α3];
 Bc = [zeros(2); 1]
 A = exp(Ac*dt);
-B = Ac^-1 * (eye(3) - exp(Ac*dt))*Bc;
+B = Ac^-1 * (eye(3) - A) *Bc; # Bを適切な実装に変更する．
 
-# calculation of Q
-diagQ = zeros(nt);
+# calculation of V
+diagV = zeros(nt);
 for i=0:nt-1
     if i < ntf
-        diagQ[i+1] = sum([(A^(k-i-1) * B * B' * A'^(k-i-1))[1,1] for k=ntf:nt-1])
+        diagV[i+1] = sum([(A^(k-i-1) * B * B' * A'^(k-i-1))[1,1] for k=ntf:nt-1])
     else
-        diagQ[i+1] = diagQ[i] + (A^(nt-i-2) * B * B' * A'^(nt-i-2))[1,1]
+        diagV[i+1] = diagV[i] + (A^(nt-i-2) * B * B' * A'^(nt-i-2))[1,1]
     end
 end
-diagQ /= maximum(diagQ) # for numerical stability
-Q = Diagonal(diagQ); 
+diagV /= maximum(diagV) # for numerical stability
+V = Diagonal(diagV); 
 
 # calculation of C
 C = zeros(3(ntp+1), nt);
@@ -63,7 +63,7 @@ end
 d = vec([xf - A^(ntf+i) * x0 for i=0:ntp]);
 
 # solution by quadratic programming
-u = solveEqualityConstrainedQuadProg(Q, zeros(nt), C, d);
+u = solveEqualityConstrainedQuadProg(V, zeros(nt), C, d);
 
 # forward solution
 x = zeros(3, nt);
