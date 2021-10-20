@@ -36,7 +36,7 @@ Julia 1.6.2
 	1. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
 	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
 	1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
-1. [情報理論と最適化原理](https://compneuro-julia.github.io/information-theory/intro.html)
+1. [情報理論と教師なし・自己教師あり学習](https://compneuro-julia.github.io/information-theory/intro.html)
 	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/information-theory/statistics-information.html)
 	1. [Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
 1. [連想記憶モデル](https://compneuro-julia.github.io/associative-memory-model/intro.html)
