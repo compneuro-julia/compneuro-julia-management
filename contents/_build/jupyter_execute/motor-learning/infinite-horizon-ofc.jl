@@ -1,7 +1,5 @@
 using LinearAlgebra, Kronecker, Random, BlockDiagonals, PyPlot
-using PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+rc("axes.spines", top=false, right=false)
 
 eye(n) = Diagonal(I, n)
 vec(X) = vcat(X...)

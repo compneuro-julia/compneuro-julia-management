@@ -1,7 +1,5 @@
 using LinearAlgebra, Random, ToeplitzMatrices, PyPlot
-using PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+rc("axes.spines", top=false, right=false)
 
 vec(X) = vcat(X...)
 

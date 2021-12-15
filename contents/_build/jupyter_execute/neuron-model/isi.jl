@@ -1,6 +1,5 @@
-using Random, PyPlot, Distributions, PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+using Random, PyPlot, Distributions
+rc("axes.spines", top=false, right=false)
 
 Random.seed!(0) # set random seed
 

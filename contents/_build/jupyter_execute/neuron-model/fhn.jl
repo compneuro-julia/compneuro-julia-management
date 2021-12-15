@@ -1,8 +1,7 @@
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using PyPlot, PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+using PyPlot
+rc("axes.spines", top=false, right=false)
 
 @kwdef struct FHNParameter{FT}
     a::FT = 0.7

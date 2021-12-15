@@ -1,9 +1,7 @@
 using Base: @kwdef
 using Parameters: @unpack
 using PyPlot, LinearAlgebra, Random, Distributions
-using PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+rc("axes.spines", top=false, right=false)
 
 # Generate Toy datas
 num_train, num_test = 20, 100 # sample size

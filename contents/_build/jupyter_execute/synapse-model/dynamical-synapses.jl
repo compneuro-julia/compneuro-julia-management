@@ -1,7 +1,5 @@
 using PyPlot
-using PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+rc("axes.spines", top=false, right=false)
 
 # ms
 Uf, τfₓ, τfᵤ = 0.15, 200, 1500

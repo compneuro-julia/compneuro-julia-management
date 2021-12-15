@@ -1,8 +1,7 @@
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using PyPlot, ProgressMeter, Distributions, PyCall
-rcParams = PyDict(plt."rcParams")
-rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
+using PyPlot, ProgressMeter, Distributions
+rc("axes.spines", top=false, right=false)
 
 @kwdef struct HHIAParameter{FT}
     Cm::FT  = 1.0 # 膜容量(uF/cm^2)
