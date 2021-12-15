@@ -19,6 +19,7 @@ sections:
   - file: synapse-model/expo-synapse
   - file: synapse-model/kinetic-synapse
   - file: synapse-model/synaptic-weighted
+  - file: synapse-model/dynamical-synapses
 - file: neuronal-computation/intro
   sections:
   - file: neuronal-computation/neuronal-arithmetic

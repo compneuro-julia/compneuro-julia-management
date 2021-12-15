@@ -5,11 +5,11 @@
 （2021/04/03追記）本サイト『Juliaで学ぶ計算論的神経科学』の書籍化企画が**講談社サイエンティフィク**で承認されました．出版予定は**2025年春**です．若輩者ゆえ荷が重くはありますが，神経科学・Julia界隈の方々には何卒応援いただきたく存じます．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia 1.6.2
+Julia 1.7.0
 ```
 
 ## 依存ライブラリ
-`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
+`IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, Kronecker, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
 
 ※ PyCallに関してはPythonライブラリ `scipy`を使用．
 
@@ -30,6 +30,7 @@ Julia 1.6.2
 	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/synapse-model/expo-synapse.html)
 	1. [動力学モデル](https://compneuro-julia.github.io/synapse-model/kinetic-synapse.html)
 	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/synapse-model/synaptic-weighted.html)
+	1. [動的シナプス](https://compneuro-julia.github.io/synapse-model/dynamical-synapses.html)
 1. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
 	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
 1. [神経回路網の学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
