@@ -1,4 +1,7 @@
 using LinearAlgebra, Random, ToeplitzMatrices, PyPlot
+using PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 vec(X) = vcat(X...)
 
@@ -37,7 +40,7 @@ function minimum_variance_model(Ac, Bc, x0, xf, tf, tp, dt)
     V = Diagonal(diagV); 
     
     # 制約条件における行列Cとベクトルdの計算
-    # calculation of C
+    #calculation of C
     C = zeros(dims*(ntp+1), nt);
     for p=1:ntp+1
         for q=1:nt
@@ -51,12 +54,10 @@ function minimum_variance_model(Ac, Bc, x0, xf, tf, tp, dt)
     # calculation of d
     d = vec([xf - A^(ntf+t) * x0 for t=0:ntp]);
     
-    # 制御信号を二次計画法で計算．
-    # solution by quadratic programming
+    # 制御信号を二次計画法で計算 (solution by quadratic programming)
     u = solveEqualityConstrainedQuadProg(V, zeros(nt), C, d);
     
-    # 制御信号を二次計画法で計算．
-    # forward solution
+    # 制御信号を二次計画法で計算 (forward solution)
     x = zeros(dims, nt);
     x[:,1] = x0;
     Σ = zeros(dims, dims, nt);
@@ -92,7 +93,7 @@ Bc₃ = [0, 0, 1/tm];
 x₂, u₂, Σ₂ = minimum_variance_model(Ac₂, Bc₂, x0₂, xf₂, tf, tp, dt);
 x₃, u₃, Σ₃ = minimum_variance_model(Ac₃, Bc₃, x0₃, xf₃, tf, tp, dt);
 
-figure(figsize=(6, 5))
+figure(figsize=(6, 4))
 subplot(2,2,1); plot(trange, x₂[1, :], label="2nd order"); plot(trange, x₃[1, :], "--", label="3rd order"); 
 ylabel("Eye position (deg)"); grid(); legend()
 subplot(2,2,2); plot(trange, x₂[2, :]); plot(trange, x₃[2, :], "--"); 

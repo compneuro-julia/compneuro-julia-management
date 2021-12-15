@@ -1,6 +1,8 @@
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using PyPlot
+using PyPlot, PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 @kwdef struct FHNParameter{FT}
     a::FT = 0.7
@@ -69,5 +71,5 @@ figure(figsize=(4,3))
 streamplot(V, U, dV, dU, density=[0.8, 0.8], linewidth=2) 
 contour(V, U, dU, levels=[0])
 contour(V, U, dV, levels=[0])
-plot(varr, uarr); xlim(vmin, vmax); ylim(umin, umax)
+    plot(varr, uarr); xlim(vmin, vmax); ylim(umin, umax); xlabel(L"$v$"); ylabel(L"$u$")
 tight_layout()

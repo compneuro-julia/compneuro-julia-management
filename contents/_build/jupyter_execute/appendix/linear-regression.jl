@@ -1,4 +1,7 @@
 using PyPlot, LinearAlgebra, Random
+using PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 # Ordinary least squares regression
 function OLSRegGradientDescent(X, y, initθ; lr=1e-4, num_iters=10000)

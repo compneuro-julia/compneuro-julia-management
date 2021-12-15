@@ -1,6 +1,8 @@
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using PyPlot
+using PyPlot, PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 @kwdef struct HHParameter{FT}
     Cm::FT = 1.0 # 膜容量(uF/cm^2)
@@ -40,7 +42,7 @@ function update!(variable::HH, param::HHParameter, Ie::Vector, dt)
 end
 
 T = 450 # ms
-dt = 0.01 # ms
+dt = 0.05 # ms
 nt = Int(T/dt) # number of timesteps
 N = 1 # ニューロンの数
 
@@ -76,7 +78,7 @@ num_spikes = sum(spike, dims=1)
 println("Num. of spikes : ", num_spikes[1])
 
 T = 1000 # ms
-dt = 0.01 # ms
+dt = 0.05 # ms
 nt = Int(T/dt) # number of timesteps
 
 N = 100 # ニューロンの数

@@ -1,4 +1,7 @@
 using LinearAlgebra, Kronecker, Random, BlockDiagonals, PyPlot
+using PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 eye(T::Type, n) = Diagonal{T}(I, n)
 eye(n) = eye(Float64, n)

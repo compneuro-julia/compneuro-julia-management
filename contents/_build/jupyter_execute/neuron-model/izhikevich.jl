@@ -1,6 +1,8 @@
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using PyPlot
+using PyPlot, PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 @kwdef struct IZParameter{FT}
     C::FT = 100  # 膜容量 (pF)

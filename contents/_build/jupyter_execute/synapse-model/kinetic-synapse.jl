@@ -1,4 +1,6 @@
-using PyPlot
+using PyPlot, PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 dt = 1e-4 # タイムステップ (sec)
 α, β = 1/5e-4, 1/5e-3

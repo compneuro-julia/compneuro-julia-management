@@ -11,7 +11,7 @@ Julia 1.7.0
 ## 依存ライブラリ
 `IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, Kronecker, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, TestImages, ImageIO, ImageMagick, ColorTypes`
 
-※ PyCallに関してはPythonライブラリ `scipy`を使用．
+※ PyCallに関してはPythonライブラリ `scipy, networkx`を使用．
 
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)

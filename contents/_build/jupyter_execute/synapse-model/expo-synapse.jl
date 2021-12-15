@@ -1,4 +1,6 @@
-using PyPlot
+using PyPlot, PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 td, tr = 2e-2, 2e-3 # synaptic decay time, synaptic rise time (sec)
 dt, T = 5e-5, 0.1 # タイムステップ, シミュレーション時間 (sec)

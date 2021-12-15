@@ -1,4 +1,7 @@
 using LinearAlgebra, Random, ToeplitzMatrices, PyPlot
+using PyCall
+rcParams = PyDict(plt."rcParams")
+rcParams["axes.spines.top"], rcParams["axes.spines.right"] = false, false;
 
 # Equality Constrained Quadratic Programming
 function solveEqualityConstrainedQuadProg(P, q, A, b)
@@ -15,7 +18,7 @@ P = diagm([1.0, 0.0])
 q = [3.0, 4.0]
 A = [1.0, 1.0]'
 b = [1.0]
-x = solveEqualityConstrainedQuadProg(P, q, A, b)
+x = solveEqualityConstrainedQuadProg(P, q, A, b);
 
 T = 1.0 # simulation time (sec)
 dt = 1e-2 # time step (sec)
