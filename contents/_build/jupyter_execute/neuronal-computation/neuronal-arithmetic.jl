@@ -4,37 +4,25 @@ using PyPlot, ProgressMeter, Distributions
 rc("axes.spines", top=false, right=false)
 
 @kwdef struct HHIAParameter{FT}
-    Cm::FT  = 1.0 # 膜容量(uF/cm^2)
-    gNa::FT = 37.0 # Na+ の最大コンダクタンス(mS/cm^2)
-    gK::FT  = 45.0 # K+ の最大コンダクタンス(mS/cm^2)
-    gL::FT  =  1.0 # 漏れイオンの最大コンダクタンス(mS/cm^2)
-    gA::FT  =  20.0
-    ENa::FT = 55.0 # Na+ の平衡電位(mV)
-    EK::FT = -80.0 # K+ の平衡電位(mV)
-    EL::FT = -70.0 #漏れイオンの平衡電位(mV)
-    gExc::FT = 0.5
-    gInh::FT = 1.0
-    VExc::FT = 0
-    VInh::FT = -85.0
-    βExc::FT = 0.2
-    βInh::FT = 0.18
-    tr::FT = 0.5 # ms
-    td::FT = 8.0 # ms
-    γ1::FT = 1/td
-    γ2::FT = 1/tr - 1/td
-    v0::FT = -20.0 # mV
+    Cm::FT  = 1 # 膜容量(uF/cm^2)
+    gNa::FT = 37; gK::FT = 45; gA::FT = 20; gL::FT = 1 # Na, K, Kₐ, leakの最大コンダクタンス(mS/cm^2)
+    ENa::FT = 55; EK::FT = -80; EL::FT = -70 #Na, K, leakの平衡電位(mV)
+    gExc::FT = 0.5; gInh::FT = 1
+    VExc::FT = 0;   VInh::FT = -85
+    βExc::FT = 0.2; βInh::FT = 0.18
+    tr::FT = 0.5;   td::FT = 8 # ms
+    γ1::FT = 1/td;  γ2::FT = 1/tr - 1/td
+    v0::FT = -20 # mV
 end
 
 @kwdef mutable struct HHIA{FT}
     param::HHIAParameter = HHIAParameter{FT}()
     N::Int
-    v::Vector{FT} = fill(-70.0, N)
-    n::Vector{FT} = fill(1.0/(1 + exp(-(-70.0 + 32)/8)), N)
-    a::Vector{FT} = fill(1.0/(1 + exp(-(-70.0 + 50)/20)), N)
-    b::Vector{FT} = fill(1.0/(1 + exp((-70.0 + 70)/6)), N)
-    r::Vector{FT} = zeros(N)
-    sExc::Vector{FT} = zeros(N)
-    sInh::Vector{FT} = zeros(N)
+    v::Vector{FT} = fill(-70, N); r::Vector{FT} = zeros(N)
+    n::Vector{FT} = fill(1/(1 + exp(-(-70 + 32)/8)), N)
+    a::Vector{FT} = fill(1/(1 + exp(-(-70 + 50)/20)), N)
+    b::Vector{FT} = fill(1/(1 + exp((-70 + 70)/6)), N)
+    sExc::Vector{FT} = zeros(N); sInh::Vector{FT} = zeros(N)
 end
 
 function update!(variable::HHIA, param::HHIAParameter, spikesExc::Vector, spikesInh::Vector, dt)
@@ -43,8 +31,8 @@ function update!(variable::HHIA, param::HHIAParameter, spikesExc::Vector, spikes
     @inbounds for i = 1:N
         m, h = 1 / (1 + exp(-(v[i]+30)/15)), 1 - n[i]
         
-        n[i] += dt * 0.75(1.0/(1 + exp(-0.125(v[i] + 32))) - n[i]) / (1 + 100 / (1 + exp((v[i] + 80)/26)))
-        a[i] += dt * 0.5(1.0/(1 + exp(-0.05(v[i] + 50))) - a[i])
+        n[i] += dt * 0.75(1/(1 + exp(-0.125(v[i] + 32))) - n[i]) / (1 + 100 / (1 + exp((v[i] + 80)/26)))
+        a[i] += dt * 0.5(1/(1 + exp(-0.05(v[i] + 50))) - a[i])
         b[i] += dt * (1.0/(1 + exp((v[i] + 70)/6)) - b[i]) / 150
         
         sExc[i] += -sExc[i] * βExc*dt + spikesExc[i]
@@ -80,7 +68,7 @@ function GammaSpike(T, dt, n_neurons, fr, k)
     return spikes
 end
 
-function FIcurve(neurons, spikesExc, spikesInh, T=5000, dt=0.01f0)
+function FIcurve(neurons, spikesExc, spikesInh, T=5000, dt=0.01)
     nt = Int(T/dt) # number of timesteps
     varr = zeros(Float32, nt,  neurons.N)
     
@@ -98,7 +86,7 @@ end
 T, dt = 50000, 5e-2 # ms
 nt = Int(T/dt)
 N = 100
-maxfrExc = 80; frInh = [0f0, 50f0]; 
+maxfrExc = 80; frInh = [0, 50]; 
 
 function HHIAFIcurve_multi(gA, T, dt, N, maxfrExc, frInh)
     nInh = size(frInh)[1]

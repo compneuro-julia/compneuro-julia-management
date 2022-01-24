@@ -4,16 +4,13 @@ using PyPlot
 rc("axes.spines", top=false, right=false)
 
 @kwdef struct FHNParameter{FT}
-    a::FT = 0.7
-    b::FT = 0.8
-    c::FT = 10.0
+    a::FT = 0.7; b::FT = 0.8; c::FT = 10.0
 end
 
 @kwdef mutable struct FHN{FT}
     param::FHNParameter = FHNParameter{FT}()
     N::UInt16
-    v::Vector{FT} = fill(-1.0, N)
-    u::Vector{FT} = zeros(N)
+    v::Vector{FT} = fill(-1.0, N); u::Vector{FT} = zeros(N)
 end
 
 function update!(variable::FHN, param::FHNParameter, Ie::Vector, dt)
@@ -26,7 +23,7 @@ function update!(variable::FHN, param::FHNParameter, Ie::Vector, dt)
 end
 
 T = 50 # ms
-dt = 0.01f0 # ms
+dt = 0.01 # ms
 nt = UInt32(T/dt) # number of timesteps
 N = 1 # ニューロンの数
 
