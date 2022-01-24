@@ -58,6 +58,7 @@ Julia 1.7.0
 1. [時空間の符号化](https://compneuro-julia.github.io/spatiotemporal-coding/intro.html)
     1. [格子細胞のデコーディング](https://compneuro-julia.github.io/spatiotemporal-coding/grid-cells-decoding.html)
 1. [神経回路の形態・発生の数理モデル](https://compneuro-julia.github.io/neural-development/intro.html)
+    1. [神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
     1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
     1. [グラフ理論とネットワークモデル](https://compneuro-julia.github.io/neural-development/graph-theory-network-model.html)
 - [付録](https://compneuro-julia.github.io/appendix/intro.html)
