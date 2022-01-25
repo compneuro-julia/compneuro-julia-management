@@ -16,7 +16,7 @@ function plot_som(v, w)
 end;
 
 # Gaussian mask for inputs
-function GaussianMask(sizex=9, sizey=9; σ=5)
+function gaussian_mask(sizex=9, sizey=9; σ=5)
     x, y = 0:sizex-1, 0:sizey-1
     X, Y = ones(sizey) * x', y * ones(sizex)' 
     x0, y0 = (sizex-1) / 2, (sizey-1) / 2
@@ -33,7 +33,7 @@ function SOM!(v, w; α0=1.0, σ0=6, T=500)
         α = α0 * (1 - t/T); # update rate
         σ = (σ0 - 1) * (1 - t/T) + 1; # decay from large to small
         wm = ceil(Int, σ)
-        h = GaussianMask(2wm+1, 2wm+1, σ=σ);
+        h = gaussian_mask(2wm+1, 2wm+1, σ=σ);
         # loop for the N inputs
         for i in 1:N
             dist = sum([(v[i, j] .- w[:, :, j]).^2 for j in 1:dims]) # distance between input and neurons
@@ -65,7 +65,7 @@ end
 tight_layout()
 
 product(sets...) = hcat([collect(x) for x in Iterators.product(sets...)]...)' # Array of Cartesian product of sets 
-pol2cart(θ, r) = [r*cos(θ), r*sin(θ)];
+pol2cart(θ, r) = r*[cos(θ), sin(θ)];
 
 # generate stimulus
 Random.seed!(1234);
@@ -94,23 +94,44 @@ w = reshape(w, (map_width, map_width, dims));
 SOM!(v, w, α0=1.0, σ0=5, T=50);
 
 function plot_visual_maps(v, w)
-    figure(figsize=(8, 8))
-    subplot(2,2,1); title("Retinotopic map")
+    figure(figsize=(9, 8))
+    subplot(2,2,1, adjustable="box", aspect=1); title("Retinotopic map")
     plot_som(v, w)
 
-    subplot(2,2,2); title("Ocular dominance (OD) map")
+    ax1 = subplot(2,2,2, adjustable="box", aspect=1); title("Ocular dominance (OD) map")
     imshow(w[:, :, 3], cmap="gray", origin="lower") 
-
-    subplot(2,2,3); title("Orientation (OR) angle map")
+    
+    ins1 = ax1.inset_axes([1.05,0,0.05,1])
+    colorbar(cax=ins1, aspect=40, pad=0.08, shrink=0.6)
+    ins1.text(0, -0.15, "Left", ha="center", va="center")
+    ins1.text(0, 0.15, "Right", ha="center", va="center")
+    
+    subplot(2,2,3, adjustable="box", aspect=1); title("Contours of OD and OR")
     ORmap = atan.(w[:, :, 5], w[:, :, 4]); # get angle of polar 
-    imshow(ORmap, cmap="hsv", origin="lower")
-
-    subplot(2,2,4); title("Contours of OD and OR")
     sizex, sizey = map_width, map_width
     x, y = 0:sizex-1, 0:sizey-1
     X, Y = ones(sizey) * x', y * ones(sizex)';
     contour(X, Y, ORmap, cmap="hsv")
     contour(X, Y, w[:, :, 3], colors="k", levels=1)
+
+    ax2 = subplot(2,2,4, adjustable="box", aspect=1); title("Orientation (OR) angle map")
+    imshow(ORmap, cmap="hsv", origin="lower")
+    
+    cm = get_cmap(:hsv)
+    lines, colors = [], []
+    for i in 1:9
+        θ = (i-1)/8*π
+        c, s = cos(θ), sin(θ)
+        push!(lines, [(-c/2, 15-1.5i -s/2), (c/2, 15-1.5i + s/2)])
+        push!(colors, cm(1/8*(i-1)))
+    end
+    
+    ins2 = ax2.inset_axes([1,0,0.2,1])
+    ins2.add_collection(matplotlib.collections.LineCollection(lines, linewidths=3,color=colors))
+    ins2.set_aspect("equal")
+    ins2.axis("off")
+    ins2.set_xlim(-1, 1); ins2.set_ylim(0, 15)
+    
     tight_layout()
 end;
 
