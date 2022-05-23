@@ -7,6 +7,13 @@
 - contrastive hebbian
 - random (with directed gradient)
 
+## Hebb則の安定化
+- Hebb則は相関ベースの学習とも言える．ただし，正のフィードバックにより不安定化する．‘fire together, wire together’（共に活動，共に結合）
+- 恒常的可塑性 (synaptic scaling)により安定化しているという説がある．
+> Turrigiano, Gina G. 2008. “The Self-Tuning Neuron: Synaptic Scaling of Excitatory Synapses.” Cell 135 (3): 422–35.
+- しかし，この過程は遅すぎるため，Hebb則の不安定化を安定化するに至らない．
+> Zenke, Friedemann, Wulfram Gerstner, and Surya Ganguli. 2017. “The Temporal Paradox of Hebbian Learning and Homeostatic Plasticity.” Current Opinion in Neurobiology 43 (April): 166–76.
+
 ## Sparse coding
 - threshold関数をreluに変えても機能する．
 - 入力は-1, 1に正規化されているとよい (正規化前処理しておく？)．
