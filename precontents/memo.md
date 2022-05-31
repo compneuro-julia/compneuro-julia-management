@@ -12,13 +12,14 @@
 - https://arxiv.org/abs/2205.10316
 - Grid spaceでの探索　＋運動学習
 
-## 潜在変数モデル
+## 潜在変数モデル LVM(latent variable model)
 - sparse coding
 - boltzmann machine
 
 ## neural sampling
 - This is a remarkable result: By simply injecting noise into the continuous-time dynamics normally used for MAP inference in sparse coding, we obtain a dynamical system that naturally samples from the desired posterior distribution (eq. 4). With , we recover the SSC dynamics above (eqs. 25-26) where  converges to the MAP estimate.
 - https://ar5iv.labs.arxiv.org/html/2204.11150
+- ベイズ線形回帰（厳密解） -> MCMC -> GSM
 
 ## Hebb則の安定化
 - 線形変換は$w$と$x$を正規化すれば，$wx$でcosine類似度を計算していると言える．
