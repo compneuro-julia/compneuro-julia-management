@@ -28,9 +28,9 @@ def gabor_fn(sigma, theta, Lambda, psi, gamma, L):
     #gb = np.cos(2 * np.pi / Lambda * x_theta + psi) # Full field
     gb = gb / np.linalg.norm(gb)
     return gb
+
     
-    
- 
+
 
 def mat_plot(M,Title,scale):
     fig = plt.figure()
@@ -42,8 +42,8 @@ def mat_plot(M,Title,scale):
     cbar_ax = fig.add_axes([0.85, 0.4, 0.05, 0.5])
     fig.colorbar(im, cax=cbar_ax)
     fig.savefig(Title +'.png')
-    
-   
+
+
 def plot_filters(filters):
     n_filters = len(filters)
     n_columns = 4
@@ -67,10 +67,10 @@ def plot_filters(filters):
     
             
     fig.savefig('4_filters_16_x_16.png')
-        
-############
+
+# ###########
 #   Main   #
-############
+# ###########
 
 def main():    
     sigma = 1.0
