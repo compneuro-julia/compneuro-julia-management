@@ -22,13 +22,12 @@ xlabel(L"$x$")
 tight_layout()
 
 # thresholding function of S(x)=|x|
-function soft_thresholding_func(x, lmda)
-    max(x - lmda, 0) - max(-x - lmda, 0)
-end
+soft_thres(x, λ) = max(x - λ, 0) - max(-x - λ, 0)
+soft_nonneg_thres(x, λ) = max(x - λ, 0) # relu(x-λ)
 
 xmin, xmax = -5, 5
 x = range(xmin, xmax, length=100)
-y = soft_thresholding_func.(x, 1)
+y = soft_thres.(x, 1)
 
 figure(figsize=(4,4.5))
 subplot(2,2,1)
@@ -91,15 +90,14 @@ subplots_adjust(top=0.9)
 
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
-using LinearAlgebra
-using Random
-using Statistics
-using ProgressMeter
+using LinearAlgebra, Random, Statistics, ProgressMeter
+Random.seed!(0)
+rc("axes.spines", top=false, right=false)
 
 @kwdef struct OFParameter{FT}
     lr_r::FT = 1e-2 # learning rate of r
     lr_Phi::FT = 1e-2 # learning rate of Phi
-    lmda::FT = 5e-3 # regularization parameter
+    λ::FT = 5e-3 # regularization parameter
 end
 
 @kwdef mutable struct OlshausenField1996Model{FT}
@@ -113,13 +111,14 @@ end
 
 function updateOF!(variable::OlshausenField1996Model, param::OFParameter, inputs::Array, training::Bool)
     @unpack num_inputs, num_units, batch_size, r, Phi = variable
-    @unpack lr_r, lr_Phi, lmda = param
+    @unpack lr_r, lr_Phi, λ = param
 
     # Updates                
     error = inputs .- r * Phi'
     r_ = r +lr_r .* error * Phi
 
-    r[:, :] = soft_thresholding_func.(r_, lmda)
+    #r[:, :] = soft_thres.(r_, λ)
+    r[:, :] = soft_nonneg_thres.(r_, λ)
 
     if training 
         error = inputs - r * Phi'
@@ -134,9 +133,9 @@ function normalize_rows(A::Array)
     return A ./ sqrt.(sum(A.^2, dims=1) .+ 1e-8)
 end
 
-function calculate_total_error(error, r, lmda)
+function calculate_total_error(error, r, λ)
     recon_error = mean(error.^2)
-    sparsity_r = lmda*mean(abs.(r)) 
+    sparsity_r = λ*mean(abs.(r)) 
     return recon_error + sparsity_r
 end
 
@@ -181,14 +180,14 @@ function run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
             # Check convergence of r, then update weights
             if dr_norm < eps
                 error = updateOF!(model, model.param, inputs, true)
-                errorarr[iter] = calculate_total_error(error, model.r, model.param.lmda) # Append errors
+                errorarr[iter] = calculate_total_error(error, model.r, model.param.λ) # Append errors
                 break
             end
 
             # If failure to convergence, break and print error
             if t >= nt_max-1
                 print("Error at patch:", iter_, dr_norm)
-                errorarr[iter] = calculate_total_error(error, model.r, model.param.lmda) # Append errors
+                errorarr[iter] = calculate_total_error(error, model.r, model.param.λ) # Append errors
                 break
             end
         end
@@ -210,7 +209,7 @@ sz = 16 # image patch size
 num_units = 100 # number of neurons (units)
 eps = 1e-2 # small value which determines convergence
 
-model, errorarr = run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps)
+model, errorarr = run_simulation(imgs, num_iter, nt_max, batch_size, sz, num_units, eps);
 
 # Plot error
 figure(figsize=(4, 2))
@@ -266,9 +265,12 @@ for t in 1:nt_max
     if dr_norm < eps
         break
     end
-end
+end;
 
-println(model.r[1, :])
+figure(figsize=(3, 2))
+hist(model.r[:], bins=50)
+xlim(0, 0.5)
+tight_layout()
 
 reconst = model.r * model.Phi'
 println(size(reconst))

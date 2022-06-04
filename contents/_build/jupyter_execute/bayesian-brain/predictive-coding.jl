@@ -13,11 +13,11 @@ using LinearAlgebra, Random, Statistics, PyPlot, ProgressMeter
 @kwdef struct RBParameter{FT}
     α::FT = 1.0
     αh::FT = 0.05
-    var::FT = 1.0
-    vartd::FT = 10
-    inv_var::FT = 1/var       
-    inv_vartd::FT = 1/vartd
-    k1::FT = 0.3 # k_1: update rate
+    σ²::FT = 1.0
+    σ²td::FT = 10
+    σ⁻²::FT = 1/σ²       
+    σ⁻²td::FT = 1/σ²td
+    k₁::FT = 0.3 # k_1: update rate
     λ::FT = 0.02 # regularization parameter
 end
 
@@ -27,7 +27,7 @@ end
     num_units_lv1::UInt16 = 32
     num_units_lv2::UInt16 = 128
     num_lv1::UInt16 = 3
-    k2::FT = 0.2 # k_2: learning rate
+    k₂::FT = 0.2 # k_2: learning rate
     r::Array{FT} = zeros(num_lv1, num_units_lv1) # activity of neurons
     rh::Array{FT} = zeros(num_units_lv2) # activity of neurons
     U::Array{FT} = randn(num_units_lv0, num_units_lv1) .* sqrt(2.0 / (num_units_lv0+num_units_lv1))
@@ -35,8 +35,8 @@ end
 end
 
 function update!(variable::RaoBallard1999Model, param::RBParameter, inputs::Array, training::Bool)
-    @unpack num_units_lv0, num_units_lv1, num_units_lv2, num_lv1, k2, r, rh, U, Uh = variable
-    @unpack α, αh, var, vartd, inv_var, inv_vartd, k1, λ = param
+    @unpack num_units_lv0, num_units_lv1, num_units_lv2, num_lv1, k₂, r, rh, U, Uh = variable
+    @unpack α, αh, σ⁻², σ⁻²td, k₁, λ = param
 
     r_reshaped = r[:] # (96)
 
@@ -52,47 +52,43 @@ function update!(variable::RaoBallard1999Model, param::RBParameter, inputs::Arra
     g_rh = αh * rh ./ (1.0 .+ rh .^ 2) # (64, )
 
     # Update r and rh
-    dr = k1 * (inv_var * error * U - inv_vartd * errorh_reshaped - g_r)
-    drh = k1 * (inv_vartd * Uh' * errorh - g_rh)
+    dr = k₁ * (σ⁻² * error * U - σ⁻²td * errorh_reshaped - g_r)
+    drh = k₁ * (σ⁻²td * Uh' * errorh - g_rh)
     
     r[:, :] += dr
     rh[:] += drh
     
     if training 
-        U[:, :] += k2 * (inv_var * error' * r - num_lv1 * λ * U)
-        Uh[:, :] += k2 * (inv_vartd * errorh * rh' - λ * Uh)
+        U[:, :] += k₂ * (σ⁻² * error' * r - num_lv1 * λ * U)
+        Uh[:, :] += k₂ * (σ⁻²td * errorh * rh' - λ * Uh)
     end
 
     return error, errorh, dr, drh
 end
 
 # Gaussian mask for inputs
-function GaussianMask(sizex=16, sizey=16, sigma=5)
-    x = 0:sizex-1
-    y = 0:sizey-1
-    X = [i for i in x, j in 1:length(y)]
-    Y = [j for i in 1:length(x), j in y]
-    
-    x0 = (sizex-1) / 2
-    y0 = (sizey-1) / 2
-    mask = exp.(-((X .- x0) .^2 + (Y .- y0) .^2) / (2.0*(sigma^2)))
-    return mask ./ sum(mask)
+function gaussian_2d(sizex=16, sizey=16, sigma=5)
+    x, y = 0:sizex-1, 0:sizey-1
+    x0, y0 = (sizex-1)/2, (sizey-1)/2
+    f(x,y) = exp(-((x-x0)^2 + (y-y0)^2) / (2.0*(sigma^2)))
+    gau = f.(x', y)
+    return gau ./ sum(gau)
 end
 
-gau = GaussianMask()
+gau = gaussian_2d()
 figure(figsize=(2,2))
 title("Gaussian mask")
 imshow(gau)
 tight_layout()
 
 function calculate_total_error(error, errorh, variable::RaoBallard1999Model, param::RBParameter)
-    @unpack num_units_lv0, num_units_lv1, num_units_lv2, num_lv1, k2, r, rh, U, Uh = variable
-    @unpack α, αh, var, vartd, inv_var, inv_vartd, k1, λ = param
-    recon_error = inv_var * sum(error.^2) + inv_vartd * sum(errorh.^2)
+    @unpack r, rh, U, Uh = variable
+    @unpack α, αh, σ⁻², σ⁻²td, k₁, λ = param
+    recon_error = σ⁻² * sum(error.^2) + σ⁻²td * sum(errorh.^2)
     sparsity_r = α * sum(r.^2) + αh * sum(rh.^2)
     sparsity_U = λ * (sum(U.^2) + sum(Uh.^2))
     return recon_error + sparsity_r + sparsity_U
-end
+end;
 
 function run_simulation(imgs, num_iter, nt_max, eps)
     # Define model
@@ -101,7 +97,7 @@ function run_simulation(imgs, num_iter, nt_max, eps)
     # Simulation constants
     H, W, num_images = size(imgs)
     input_scale = 40 # scale factor of inputs
-    gmask = GaussianMask() # Gaussian mask
+    gmask = gaussian_2d() # Gaussian mask
     errorarr = zeros(num_iter) # Vector to save errors    
     
     # Run simulation
@@ -150,7 +146,7 @@ function run_simulation(imgs, num_iter, nt_max, eps)
 
         # Decay learning rate         
         if iter % 40 == 39
-            model.k2 /= 1.015
+            model.k₂ /= 1.015
         end
 
         # Print moving average error

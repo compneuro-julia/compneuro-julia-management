@@ -1,5 +1,5 @@
 using PyPlot, LinearAlgebra, TestImages
-eye(n) = Matrix(I, n, n)
+eye(n) = Matrix(I, n, n);
 
 # Low-rank approximation with SVD
 function LowRankApprox(U, s, V; rank=1)
@@ -32,7 +32,9 @@ Ws = eps*rand(N3,N1) # weight for shallow
 #Simulation & training
 dt = 0.005
 Nt = 1500
-A, B = zeros(Nt, N1), zeros(Nt, N1); # Singular values for deep, shallow
+
+# Singular values for deep, shallow
+A, B = zeros(Nt, N1), zeros(Nt, N1); 
 
 # Shallow network
 for t in 1:Nt

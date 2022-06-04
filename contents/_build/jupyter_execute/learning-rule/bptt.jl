@@ -104,7 +104,9 @@ y[:, begin_input+1:end, 1] = sin.(tsteps[1:end-begin_input]*0.1)
 y[:, begin_input+1:end, 2] = sin.(tsteps[1:end-begin_input]*0.2)
 
 n_epoch = 25000 # number of epoch
-error_arr = zeros(Float32, n_epoch); # memory array of each epoch error
+
+# memory array of each epoch error
+error_arr = zeros(Float32, n_epoch); 
 
 figure(figsize=(5, 4))
 subplot(2,1,1); plot(x[1, :]); ylabel("x")
@@ -140,7 +142,7 @@ ylabel("y"); xlim(0, tsteps[end])
 legend(loc="upper right", ncol=2, fontsize=8)
 
 subplot(2,1,2)
-imshow(h_', cmap="jet", aspect=0.85)
+imshow(h_', cmap="turbo", aspect=0.85)
 xlabel("Time steps"); ylabel("# hidden units")
 
 tight_layout()
