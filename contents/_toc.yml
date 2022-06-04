@@ -42,6 +42,7 @@ sections:
   - file: bayesian-brain/bayes-statistics
   - file: bayesian-brain/sparse-coding
   - file: bayesian-brain/predictive-coding
+  - file: bayesian-brain/gaussian-scale-mixture
 - file: reinforcement-learning/intro
   sections:
   - file: reinforcement-learning/td-learning
