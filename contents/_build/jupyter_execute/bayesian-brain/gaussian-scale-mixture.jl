@@ -29,10 +29,17 @@ titles = ["", "0°", "±90°", ""]
 for i in 1:4
     subplot(3,3,plot_idx[i])
     title(titles[i])
-    imshow(reshape(A[:, weight_idx[i]], 16,16), cmap="gray")
+    imshow(reshape(A[:, weight_idx[i]], L, L), cmap="gray")
     axis("off")
 end
 subplots_adjust(wspace=0.01, hspace=0.01)
+
+# sampling from p(x|y, z)
+function sampling_x(y, z, A, σₓ)
+    μₓ = z*A*y
+    noise = σₓ * randn(size(μₓ))
+    return μₓ + noise
+end;
 
 K(x₁, x₂, ψ₁, ψ₂) = exp(ψ₁ * cos(abs(x₁-x₂) / ψ₂)) # periodic kernel
 C = K.(θg', θg, 2.0, 0.5) # create covariance matrix
@@ -50,11 +57,22 @@ xlabel(L"$\theta$ (Pref. ori)"); ylabel(L"$\theta$ (Pref. ori)")
 colorbar(ims);
 tight_layout()
 
-# sampling from p(x|y, z)
-function sampling_x(y, z, A, σₓ)
-    μₓ = z*A*y
-    noise = σₓ * randn(size(μₓ))
-    return μₓ + noise
+# log pdf of p(z)
+log_Pz(z, k, θ) = logpdf.(Gamma(k, θ), z)
+
+# pdf of p(z|x)
+function Pz_x(z_range, x, ACAᵀ, σₓ², k, θ)
+    n_contrasts = length(z_range)
+    log_p = zeros(n_contrasts)
+    μxz = zeros(size(x))
+    dz = z_range[2] - z_range[1]
+    for i in 1:n_contrasts
+        Cxz = z_range[i]^2 * ACAᵀ + σₓ² * I
+        log_p[i] = log_Pz(z_range[i], k, θ) + logpdf(MvNormal(μxz, Symmetric(Cxz)), x)
+    end
+    p = exp.(log_p .- maximum(log_p)) # for numerical stability
+    p /= sum(p) * dz
+    return p
 end;
 
 # mean and covariance matrix of p(y|x, z)
@@ -62,25 +80,6 @@ function post_moments(x, z, σₓ², A, AᵀA, C⁻¹)
     Σz = inv(C⁻¹ + (z^2 / σₓ²) * AᵀA)
     μzx = (z/σₓ²) * Σz * A' * x
     return μzx, Σz
-end;
-
-# log pdf of p(z)
-log_Pz(z, k, θ) = logpdf.(Gamma(k, θ), z)
-
-# pdf of p(z|x)
-function Pz_x(z_range, x, ACAᵀ, σₓ², k, θ)
-    n_contrasts = length(z_range)
-    Nx = length(x)
-    log_p = zeros(n_contrasts)
-    μxz = zeros(Nx)
-    dz = z_range[2] - z_range[1]
-    for i in 1:n_contrasts
-        Cxz = z_range[i]^2 * ACAᵀ + σₓ² * I
-        log_p[i] = log_Pz(z_range[i], k, θ) + logpdf(MvNormal(μxz, Symmetric(Cxz)), x)
-    end
-    p = exp.(log_p .- maximum(log_p))
-    p /= sum(p) * dz
-    return p
 end;
 
 AᵀA = A' * A
@@ -92,7 +91,7 @@ k, θ = 2.0, 2.0 # Parameter of the gamma dist. for z (Shape, Scale)
 
 C⁻¹ = inv(C); # We will need the inverse of C
 
-Z = [0.0, 0.25, 0.5, 1.0, 2.0] # set true contrasts
+Z = [0.0, 0.25, 0.5, 1.0, 2.0] # set true contrasts z^*
 n_samples = size(Z)[1]
 y = rand(MvNormal(zeros(Ny), Symmetric(C)), 1) # sampling from P(y)=N(0, C)
 X = hcat(map((z) -> sampling_x(y, z, A, σₓ), Z)...)';
@@ -188,7 +187,7 @@ function confidence_ellipse(x, y, ax, n_std=3, alpha=1, facecolor="none", edgeco
     return ax.add_patch(ellipse)
 end;
 
-fig, ax = subplots(figsize=(4, 4))
+fig, ax = subplots(figsize=(5, 4))
 unit_idx = [10, 25]
 for s in 1:n_samples
     u₁, u₂ = u[s, unit_idx[1], :], u[s, unit_idx[2], :]
@@ -196,4 +195,10 @@ for s in 1:n_samples
     confidence_ellipse(u₁, u₂, ax, 3, 1, "none", cms[s])
 end
 ax.set_xlabel("Neuron #"*string(unit_idx[1])); ax.set_ylabel("Neuron #"*string(unit_idx[2]))
-legend(); tight_layout()
+axins = [ax.inset_axes([1, -0.15,0.1,0.1]), ax.inset_axes([-0.15,1,0.1,0.1])]
+for i in 1:2
+    axins[i].imshow(reshape(A[:,unit_idx[i]], L, L), cmap="gray")
+    axins[i].axis("off")
+end
+ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0)
+tight_layout()
