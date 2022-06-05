@@ -32,6 +32,44 @@
 - https://ar5iv.labs.arxiv.org/html/2204.11150
 - ベイズ線形回帰（厳密解） -> MCMC -> GSM
 
+## probabilistic population codes (PPCs) 
+- distributed reward codingも含めることができるか？
+
+## ベイズ用語
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2939867/
+
+https://med.uth.edu/nba/wp-content/uploads/sites/29/2019/04/correlations.pdf
+
+https://bsd.neuroinf.jp/w/index.php?title=%E7%A5%9E%E7%B5%8C%E7%AC%A6%E5%8F%B7%E5%8C%96
+
+### Expected utility
+the average expected reward associated with a particular decision, α, when the state of the environment, y, is unknown. It can be computed by calculating the average of the utility function, U(α, y), describing the amount of reward obtained when making decision α if the true state of the environment is y, with regard to the posterior distribution, p(y|x), describing the degree of belief about the state of the environment given some sensory input, x: R(α) = ∫ U(α, y) p(y|x) dy
+
+### Likelihood
+the function specifying the probability p(x|y,M) of observing a particular stimulus x for each possible state of the environment, y, under a probabilistic model of the environment, M
+
+#### 尤度
+刺激$x$, 環境の状態を$y$, モデルを$M$としたときのの
+$p(x|y,M)$
+
+### Marginalization
+the process by which the distribution of a subset of variables, y1, is computed from the joint distribution of a larger set of variables, {y1, y2} p(y1) = ∫ p(y1, y2) dy2. (This could be important if, for example, different decisions rely on different subsets of the same set of variables.) Importantly, in a sampling-based representation, in which different neurons represent these different subsets of variables, simply “reading” (e.g. by a downstream brain area) the activities of only those neurons that represent y1 automatically implements such a marginalization operation
+
+### Maximum a posteriori (or MAP) estimate
+in the context of probabilistic inference, it is an approximation by which instead of representing the full posterior distribution, only a single value of y is considered that has the highest probability under the posterior. (Formally, the full posterior is approximated by a Dirac-delta distribution, an infinitely narrow Gaussian, located at its maximum.) As a consequence, uncertainty about y is no longer representedMaximum likelihood estimateas the MAP estimate, it is also an approximation, but the full posterior is approximated by the single value of y which has the highest likelihood
+
+### Posterior
+the probability distribution p(y|x,M) produced by probabilistic inference according to a particular probabilistic model of the environment, M, giving the probability that the environment is in any of its possible states, y, when stimulus x is being observed
+
+### Prior
+the probability distribution p(y|M) defining the expectation about the environment being in any of its possible states, y, before any observation is available according to a probabilistic model of the environment, M
+
+### Probabilistic inference
+the process by which the posterior is computed. It requires a probabilistic model, M, of stimuli x and states of the environment y, containing a prior and a likelihood. It is necessary when environmental states are not directly available to the observer they can only be inferred from stimuli through inverting the relationship between y and x through Bayes’ rule: p(y|x,M) = p(x|y,M) p(y|M)/Z, where Z is a factor independent of y, ensuring that the posterior is a well-defined probability distribution. Note, that the posterior is a full probability distribution, rather than a single estimate over environmental states, y. In contrast with approximate inference methods, such as maximum likelihood or maximum a posteriori that compute single best estimates of y, the posterior fully represents the uncertainty about the inferred variables
+
+### Probabilistic learning
+the process of finding a suitable model for probabilistic inference. This itself can be viewed as a problem of probabilistic inference at a higher level, where the unobserved quantity is the model, M, including its parameters and structure. Thus, the complete description of the results of probabilistic learning is a posterior distribution, p(M|X), over possible models given all stimuli observed so far, X. Even though approximate versions, such as maximum likelihood or MAP, compute only a single best estimates of M, they still need to rely on representing uncertainty about the states of the environment, y. The effect of learning is usually a gradual change in the posterior (or estimate) as more and more stimuli are observed, reflecting the incremental nature of learning
+
 ## Hebb則の安定化
 - 線形変換は$w$と$x$を正規化すれば，$wx$でcosine類似度を計算していると言える．
 - Hebb則は相関ベースの学習とも言える．ただし，正のフィードバックにより不安定化する．‘fire together, wire together’（共に活動，共に結合）
