@@ -48,7 +48,7 @@ Julia v1.8.0-rc1
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html)
     1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
     1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
-    1. [ガウススケール混合モデル (Gaussian scale mixture model)](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
+    1. [ガウス尺度混合モデル (Gaussian scale mixture model)](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
 1. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
     1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
 1. [運動制御](https://compneuro-julia.github.io/motor-learning/intro.html)
