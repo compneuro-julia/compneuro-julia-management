@@ -40,9 +40,12 @@ sections:
 - file: bayesian-brain/intro
   sections:
   - file: bayesian-brain/bayes-statistics
+  - file: bayesian-brain/linear-regression
   - file: bayesian-brain/sparse-coding
   - file: bayesian-brain/predictive-coding
+  - file: bayesian-brain/bayesian-linear-regression
   - file: bayesian-brain/gaussian-scale-mixture
+  - file: bayesian-brain/quantile-expectile-regression
 - file: reinforcement-learning/intro
   sections:
   - file: reinforcement-learning/td-learning
@@ -62,9 +65,6 @@ sections:
   - file: neural-development/graph-theory-network-model
 - file: appendix/intro
   sections:
-  - file: appendix/linear-regression
-  - file: appendix/quantile-expectile-regression
-  - file: appendix/bayesian-linear-regression
   - file: appendix/rat-trajectory
   - file: appendix/tips
   - file: appendix/useful-links
