@@ -70,14 +70,6 @@ the process by which the posterior is computed. It requires a probabilistic mode
 ### Probabilistic learning
 the process of finding a suitable model for probabilistic inference. This itself can be viewed as a problem of probabilistic inference at a higher level, where the unobserved quantity is the model, M, including its parameters and structure. Thus, the complete description of the results of probabilistic learning is a posterior distribution, p(M|X), over possible models given all stimuli observed so far, X. Even though approximate versions, such as maximum likelihood or MAP, compute only a single best estimates of M, they still need to rely on representing uncertainty about the states of the environment, y. The effect of learning is usually a gradual change in the posterior (or estimate) as more and more stimuli are observed, reflecting the incremental nature of learning
 
-## Hebb則の安定化
-- 線形変換は$w$と$x$を正規化すれば，$wx$でcosine類似度を計算していると言える．
-- Hebb則は相関ベースの学習とも言える．ただし，正のフィードバックにより不安定化する．‘fire together, wire together’（共に活動，共に結合）
-- 恒常的可塑性 (synaptic scaling)により安定化しているという説がある．
-> Turrigiano, Gina G. 2008. “The Self-Tuning Neuron: Synaptic Scaling of Excitatory Synapses.” Cell 135 (3): 422–35.
-- しかし，この過程は遅すぎるため，Hebb則の不安定化を安定化するに至らない．
-> Zenke, Friedemann, Wulfram Gerstner, and Surya Ganguli. 2017. “The Temporal Paradox of Hebbian Learning and Homeostatic Plasticity.” Current Opinion in Neurobiology 43 (April): 166–76.
-
 ## gap 結合
 - ギャップ結合を介した伝搬には、受動的なものと能動的なものがある。受動的伝播では、ある細胞の膜電位は、活動電位（AP）を誘発することなく、隣接する細胞の膜電位に影響を与える。一方、能動的な伝搬では、ある細胞のAPが近隣の細胞のAPを誘発する。これは、心筋組織や神経系全体で起こる。**APの伝搬には理想的なギャップ結合のコンダクタンスがあることが実験的に知られており、コンダクタンスが弱くなったり強くなったりすると伝搬が阻害される**。
 - https://arxiv.org/abs/2205.12185
