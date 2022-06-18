@@ -16,8 +16,14 @@ Julia v1.8.0-rc1
 ## 目次
 - [まえがき](https://compneuro-julia.github.io/intro.html)
 
+### 第1部：
+
 1. [はじめに](https://compneuro-julia.github.io/introduction/intro.html)
 	1. [記号の表記](https://compneuro-julia.github.io/introduction/notation.html)
+    1. 基本的なJuliaの使い方
+    1. なぜ計算論的モデルが必要か
+
+### 第2部：
 1. [神経細胞のモデル](https://compneuro-julia.github.io/neuron-model/intro.html)
 	1. [Hodgkin-Huxleyモデル](https://compneuro-julia.github.io/neuron-model/hodgkin-huxley.html)
 	1. [FitzHugh–Nagumoモデル](https://compneuro-julia.github.io/neuron-model/fhn.html)
@@ -33,43 +39,46 @@ Julia v1.8.0-rc1
 	1. [動的シナプス](https://compneuro-julia.github.io/synapse-model/dynamical-synapses.html)
 1. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
 	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
-1. [神経回路網の学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
-	1. [勾配法と誤差逆伝播法 (Zipser-Andersenモデルを例にして)](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
-	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
-	1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
-1. [情報理論と教師なし・自己教師あり学習](https://compneuro-julia.github.io/information-theory/intro.html)
-	1. [統計と情報理論の基礎](https://compneuro-julia.github.io/information-theory/statistics-information.html)
-	1. [Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
-1. [連想記憶モデル](https://compneuro-julia.github.io/associative-memory-model/intro.html)
-	1. [エネルギーベースモデル (Energy-based model)](https://compneuro-julia.github.io/associative-memory-model/energy-based-model.html) 
+    1. 正規化
+    1. winner take all
+
+### 第3部：
+1. [神経回路網と学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
+    1. 学習アルゴリズムについて（教師あり，教師なし...）
+    1. Hebb則と教師なし学習
+        1. PCA 
+        1. ICA
 	1. [Amari-Hopfield モデル](https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html) 
-	1. [Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
+    1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
+	1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
+	1. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
+	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
+
 1. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/bayesian-brain/intro.html)
     1. [ベイズ統計の基礎](https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html)
     1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
     1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
+	1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
     1. [ガウス尺度混合モデル (Gaussian scale mixture model)](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
-1. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
-    1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
+    1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+
+### 第4部：
 1. [運動制御](https://compneuro-julia.github.io/motor-learning/intro.html)
     1. [躍度最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-jerk.html)
     1. [終点誤差分散最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-variance.html)
     1. [最適フィードバック制御モデル (optimal feedback control)](https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html)
     1. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html)
-1. [時空間の符号化](https://compneuro-julia.github.io/spatiotemporal-coding/intro.html)
-    1. [格子細胞のデコーディング](https://compneuro-julia.github.io/spatiotemporal-coding/grid-cells-decoding.html)
-1. [神経回路の形態・発生の数理モデル](https://compneuro-julia.github.io/neural-development/intro.html)
-    1. [神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
-    1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
-    1. [グラフ理論とネットワークモデル](https://compneuro-julia.github.io/neural-development/graph-theory-network-model.html)
-- [付録](https://compneuro-julia.github.io/appendix/intro.html)
-	1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
-	1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
-	1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
 	1. [ラット自由行動下の軌跡のシミュレーション](https://compneuro-julia.github.io/appendix/rat-trajectory.html)
+1. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
+    1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
+- [付録](https://compneuro-julia.github.io/appendix/intro.html)
 	1. [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
 	1. [有用なリンク集](https://compneuro-julia.github.io/appendix/useful-links.html)
 	1. [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage-jupyter-book.html)
+    1. [非掲載：Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
+    1. [非掲載：Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
+    1. [非掲載：深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
+    1. [未分類：神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
 
 
 ***

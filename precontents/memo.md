@@ -9,6 +9,14 @@
 ```
 ````
 
+## LTP LTD
+http://www.scholarpedia.org/article/BCM_theory
+Postulate 1 states that plasticity will occur only in synapses that are stimulated presynaptically. This is what biologists refer to as synapse specificity. Synapse specificity has strong support for both LTP and LTD (Dudek and Bear, 1992). In addition this assumption is consistent with the observation that more presynaptic activity results in a higher degree of plasticity, although this might not be linear.
+
+There is now substantial evidence both in hippocampus and neocortex (Dudek and Bear, 1992, Mulkey and Malenka, 1992, Artola and Singer, 1992, Kirkwood and Bear, 1994, Mayford et al., 1995) in support of postulate 2. There is significant evidence that active synapses undergo LTD or LTP depending on the level of postsynaptic spiking or depolarization in a manner that is consistent with the BCM theory, as shown in Figure 4.
+
+A direct test of the postulate of the moving threshold -- that after a period of increased activity θM increases, promoting synaptic depression, while after a period of decreased activity θM decreases, promoting synaptic potentiation -- has been tested by studying LTD and LTP of layer III synaptic responses in slices of visual cortex prepared from 4-6 week-old light-deprived and control rats (Kirkwood et al., 1996). This experiment shows that in deprived animals θM is lower than in normal animals. In control slices from the hippocampus no change in θM is observed.
+
 ## 学習則
 - ある損失を符号化するニューロンがいるとして（例えばreaching error），その損失を産み出した回路網全体を訓練することを考える．このとき，回路網全体をglobalに変化させる，という仮定を置く．これはcredit assingment problemとなる．
 - このとき，損失を最小化させる，というのが勾配降下法である．問題は，勾配を神経回路網が得られるのか，ということである．
