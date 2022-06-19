@@ -25,6 +25,7 @@ sections:
   - file: neuronal-computation/neuronal-arithmetic
 - file: learning-rule/intro
   sections:
+  - file: learning-rule/hebbian-learning
   - file: learning-rule/backpropagation-zipser-andersen
   - file: learning-rule/bptt
   - file: learning-rule/linear-network-learning-dynamics
@@ -43,8 +44,11 @@ sections:
   - file: bayesian-brain/linear-regression
   - file: bayesian-brain/sparse-coding
   - file: bayesian-brain/predictive-coding
+  - file: bayesian-brain/neural-uncertainty-representation
   - file: bayesian-brain/bayesian-linear-regression
-  - file: bayesian-brain/gaussian-scale-mixture
+  - file: bayesian-brain/mcmc
+  - file: bayesian-brain/neural-sampling
+  - file: bayesian-brain/probabilistic-population-coding
   - file: bayesian-brain/quantile-expectile-regression
 - file: reinforcement-learning/intro
   sections:
