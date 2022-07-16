@@ -9,6 +9,16 @@
 ```
 ````
 
+<<<<<<< Updated upstream
+=======
+## その他
+- 冒頭に微分方程式と確率微分方程式の説明いれる
+- ギブスサンプリングは先に紹介して後の章でmcmcやると書く
+- LIFのresetは一種の境界条件
+- Hebbと同様のことはカハールも考えていた
+  - A history of spike-timing-dependent plasticity
+- 学習の定義について⇒コスト関数の導入
+>>>>>>> Stashed changes
 
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
@@ -41,8 +51,6 @@ A direct test of the postulate of the moving threshold -- that after a period of
 - https://ar5iv.labs.arxiv.org/html/2204.11150
 - ベイズ線形回帰（厳密解） -> MCMC -> GSM
 
-## probabilistic population codes (PPCs) 
-- distributed reward codingも含めることができるか？
 
 ## ベイズ用語
 https://www.ncbi.nlm.nih.gov/pmc/articles/PMC2939867/
@@ -93,13 +101,6 @@ the process of finding a suitable model for probabilistic inference. This itself
 
 ## winner take all
 - softHebb
-
-## モデルの探求
-- 本書では様々なモデルが登場するが，それらはどこから着想されたのだろうか？
-- トップダウン型とボトムアップ型．生理現象を微分方程式などの数式で表したもの（トップダウン？）
-- ある機能を実現する工学由来のモデル．強化学習が代表例．その機能を脳も実現しているという考えから，工学的モデルを生体内で実現可能なように近似していくことでモデルを構築する．こうしたモデルは生理学的に妥当(biologically plausible)であるという．このため，本書では工学的モデルの紹介⇒近似モデルの紹介，という形式を取る場合が多い．
-- どうすれば生理学的に妥当になるかというと：あるニューロンが他のニューロンの内部状態を直接必要としない，計算がlocalで完結する等（追記必要）
-- 注意したいのは生理学的に妥当というのは「現時点で」という但し書きが概して付けられるということである．新しい機能が生体内で発見される可能性もあれば，過去可能だと思われていたことが生体内の条件では実現できない場合もある．
 
 ## 学習則の解明の先には？
 - 完全に個人的な意見であることに注意．
