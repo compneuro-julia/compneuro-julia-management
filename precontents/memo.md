@@ -9,6 +9,7 @@
 ```
 ````
 
+
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
 Postulate 1 states that plasticity will occur only in synapses that are stimulated presynaptically. This is what biologists refer to as synapse specificity. Synapse specificity has strong support for both LTP and LTD (Dudek and Bear, 1992). In addition this assumption is consistent with the observation that more presynaptic activity results in a higher degree of plasticity, although this might not be linear.
