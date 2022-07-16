@@ -9,8 +9,6 @@
 ```
 ````
 
-<<<<<<< Updated upstream
-=======
 ## その他
 - 冒頭に微分方程式と確率微分方程式の説明いれる
 - ギブスサンプリングは先に紹介して後の章でmcmcやると書く
@@ -18,7 +16,6 @@
 - Hebbと同様のことはカハールも考えていた
   - A history of spike-timing-dependent plasticity
 - 学習の定義について⇒コスト関数の導入
->>>>>>> Stashed changes
 
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
