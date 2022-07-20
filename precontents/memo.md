@@ -16,6 +16,7 @@
 - Hebbと同様のことはカハールも考えていた
   - A history of spike-timing-dependent plasticity
 - 学習の定義について⇒コスト関数の導入
+- 2020のneural compを引用
 
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
