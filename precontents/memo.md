@@ -9,6 +9,142 @@
 ```
 ````
 
+
+
+## 微分方程式
+
+## 連続時間モデルから離散時間モデルへの変換
+> このあたりの話は制御工学の教科書が詳しい．
+ 
+時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
+
+$$
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
+$$
+
+### 離散化手法1: 連続時間方程式の解を用いる
+この線形行列微分方程式をLaplace変換を用いて解こう．Laplace変換はFourier変換に似た手法であり，微分方程式を解く上で便利である．
+
+> ToDo: Laplace変換の詳細
+
+$$
+F(s):=\int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
+$$
+
+$e^{-st}$を引っ付けて積分することで，被積分関数が$t\to \infty$で収束し，積分可能となっている．
+
+実用上は次の対応表を用いて計算すればよい．
+
+> ToDo: Laplace変換の対応表
+
+$\boldsymbol{X}(s) := \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) := \mathcal{L}(\mathbf{u}(t))$とすると，
+
+$$
+\begin{aligned}
+s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\boldsymbol{U}(s)\\
+(s\mathbf{I} - \mathbf{A}) \boldsymbol{X}(s) &= \mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s)\\
+\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
+\end{aligned}
+$$
+
+行列指数関数 (matrix exponential)は
+
+$$
+e^\mathbf{A} = \exp(\mathbf{A}) := \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
+$$
+
+として定義される．
+
+天下り的だが，
+
+$$
+\begin{aligned}
+\mathcal{L}(e^{at})&=\frac{1}{s-a}\\
+\mathcal{L}(e^{t\mathbf{A}})&=(s\mathbf{I} - \mathbf{A})^{-1}\\
+\end{aligned}
+$$
+
+となる．よって
+
+$$
+\begin{aligned}
+\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
+&= (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{x}(0) + (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{B}\boldsymbol{U}(s)\\
+\mathbf{x}(t)&=e^{t\mathbf{A}}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau
+\end{aligned}
+$$
+
+となる．最後の式は両辺を逆Laplace変換した．ここで，$\mathcal{L}^{-1}(F(s)G(s))=\int_0^tf(\tau)g(t-\tau)d\tau$であることを用いた．区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
+
+$$
+\begin{aligned}
+\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
+&=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+&=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
+\end{aligned}
+$$
+
+となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}$が正則行列の場合，
+
+$$
+\begin{aligned}
+\mathbf{B}_d &= \left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}\\
+&=\mathbf{A}^{-1}\left[e^{\Delta t \mathbf{A}}-\mathbf{I}\right]\mathbf{B}
+\end{aligned}
+$$
+
+が成り立つ．
+
+スカラーの場合を考えると
+
+$$
+x(t) = e^{at}x(0)
+$$
+
+これより，
+
+$$
+\begin{aligned}
+x(t+\Delta t) &= e^{a (t+\Delta t)}x(0)\\
+&=e^{a\Delta t} x(t)
+\end{aligned}
+$$
+
+### 離散化手法2: Euler法で差分化
+$\Delta t=0$でTaylor展開により1次近似すると
+
+$$
+e^{a \Delta t} \approx 1 + a\Delta t
+$$
+
+となる．このため，いずれの離散化方法を用いてもシミュレーションの結果に大きな影響を及ぼさない場合が多い．
+
+離散化した場合の
+
+$$
+\mathbf{x}_{t+1} = \mathbf{A}\mathbf{x}_t + \mathbf{B}\mathbf{u}_t
+
+$$
+
+状態遷移方程式 (dynamics equations) とも呼ぶ．
+
+## マルコフ連鎖
+
+
+## 確率微分方程式
+
+
+## 学習とコスト関数
+学習の定義⇒コスト関数の導入
+主な学習：教師あり学習，教師なし学習，強化学習
+- 教師あり学習
+- 教師無し学習
+- 強化学習
+
+線形回帰で勾配法を含めて説明する．
+線形回帰⇒Hebb学習⇒パーセプトロン？
+
 ## その他
 - 冒頭に微分方程式と確率微分方程式の説明いれる
 - ギブスサンプリングは先に紹介して後の章でmcmcやると書く
@@ -16,6 +152,7 @@
 - Hebbと同様のことはカハールも考えていた
   - A history of spike-timing-dependent plasticity
 - 学習の定義について⇒コスト関数の導入
+- 指数関数型シナプスの項を書き直す．微分方程式による表現の$\tau_d$にtypo (tau_sが正解)
 
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
