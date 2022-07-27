@@ -15,7 +15,7 @@
 
 ## 連続時間モデルから離散時間モデルへの変換
 > このあたりの話は制御工学の教科書が詳しい．
- 
+
 時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
 
 $$
@@ -153,6 +153,7 @@ $$
   - A history of spike-timing-dependent plasticity
 - 学習の定義について⇒コスト関数の導入
 - 指数関数型シナプスの項を書き直す．微分方程式による表現の$\tau_d$にtypo (tau_sが正解)
+- 2020のneural compを引用
 
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
@@ -167,7 +168,7 @@ A direct test of the postulate of the moving threshold -- that after a period of
 - このとき，損失を最小化させる，というのが勾配降下法である．問題は，勾配を神経回路網が得られるのか，ということである．
 - 初めにBackpropagationを導入する．BPTTも導入する．その後backpropの問題点を挙げ，backpropを近似する手法を紹介する: A deep learning framework for neuroscience
 - 脳内では，真の勾配が得られない場合でも，部分的に沿っているような近似勾配があれば最適化は可能である．
-- feedback aligment -> burst dependent 
+- feedback aligment -> burst dependent
 - contrastive hebbian
 - random (with directed gradient)
 
