@@ -9,11 +9,64 @@
 ```
 ````
 
+# 強化学習
+- 状態$s$の集合を$\mathcal{S}$, 行動$a$の集合を$\mathcal{A}$とする．
+- 報酬$r$の分布を$p(r| s, a)$とする．
+- 状態遷移の分布を$p(s'| s, a)$とする．
+- 状態$s$のときの行動$a$の方策 (policy) を$\pi (a| s)$とする．
 
+Return $G_{t}$: future cumulative reward, which can be written in arecursive form
 
-## 微分方程式
+$$
+\begin{aligned}
+G_{t} &= \sum \limits_{k = 0}^{\infty} \gamma^{k} r_{t+k+1}\\
+&= r_{t+1} + \gamma G_{t+1}
+\end{aligned}
+$$
+
+where $\gamma$ is discount factor that controls the importance of future rewards, and $\gamma \in [0, 1]$. $\gamma$ may also be interpreted as probability of continuing the trajectory.
+Value funtion $V_{\pi}(s_t=s)$: expecation of the return
+
+$$
+\begin{aligned}
+V_{\pi}(s_t=s) &= \mathbb{E} [G_{t}| s_t=s, a_{t:\infty}\sim\pi]\\
+& = \mathbb{E} [ r_{t+1} + \gamma G_{t+1}| s_t=s, a_{t:\infty}\sim\pi]
+\end{aligned}
+$$
+
+With an assumption of Markov process, we thus have:
+
+$$
+\begin{aligned}
+V_{\pi}(s_t=s) &= \mathbb{E} [r_{t+1} + \gamma V_{\pi}(s_{t+1})|s_t=s, a_{t:\infty}\sim\pi]\\
+&= \sum_a \pi(a|s) \sum_{r, s'}p(s', r)(r + V_{\pi}(s_{t+1}=s'))
+\end{aligned}
+$$
+
+## intro: Julia言語の使い方
+
+## intro: 微分方程式
+
+## 付録：Julia, MATLAB, Pythonの対応表
+
+## 付録：ラプラス変換
+
 
 ## 連続時間モデルから離散時間モデルへの変換
+線形微分方程式
+スカラーの場合，
+- 手法1:連続時間方程式の解を用いる方法
+- Euler法等で離散化する方法 (他のRK4や, adaptiveなsolverも説明する．)
+
+両者の比較
+
+線形行列微分方程式の場合
+- 手法1:
+- 手法2:
+
+両者の比較
+
+## 付録：連続時間モデルから離散時間モデルへの変換の詳細
 > このあたりの話は制御工学の教科書が詳しい．
 
 時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
