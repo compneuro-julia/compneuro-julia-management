@@ -9,6 +9,9 @@
 ```
 ````
 
+# Neuromatch
+https://compneuro.neuromatch.io/tutorials/intro.html
+
 # 強化学習
 - 状態$s$の集合を$\mathcal{S}$, 行動$a$の集合を$\mathcal{A}$とする．
 - 報酬$r$の分布を$p(r| s, a)$とする．
@@ -54,11 +57,50 @@ $$
 
 ## 連続時間モデルから離散時間モデルへの変換
 線形微分方程式
+
+$$
+\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
+$$
+
 スカラーの場合，
 - 手法1:連続時間方程式の解を用いる方法
-- Euler法等で離散化する方法 (他のRK4や, adaptiveなsolverも説明する．)
+
+$$
+x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
+$$
+
+より，
+
+$$
+\begin{aligned}
+x(t+\Delta t)&= \underbrace{e^{a_c \Delta t}}_{=: a_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau\right] b_c}_{=: b_d}u(t)\\
+&=a_d x(t)+b_d u(t)\\
+\end{aligned}
+$$
+
+- 手法2:Euler法等で離散化する方法 (他のRK4や, adaptiveなsolverも説明する．)
+
+Euler法は$\dfrac{dx}{dt}=f(x, t)$において，$x_{n+1}=x_t+\Delta t f(x_n, t_n)$とする手法である．
+
+$$
+\begin{aligned}
+x(t+\Delta t)&=x(t) + \left[a_c x(t)+b_c u(t) \right]\Delta t\\
+&=(1+a_c \Delta t)x(t) + b_c\Delta t u(t
+)
+\end{aligned}
+$$
 
 両者の比較
+
+$a_c\neq 0$の場合，
+
+$$
+\begin{aligned}
+\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau&=\frac{1}{a_c}(e^{a_c \Delta t}-1)\\
+&\approx \frac{1}{a_c}\cdot a_c \Delta t=\Delta t
+\end{aligned}
+$$
+
 
 線形行列微分方程式の場合
 - 手法1:
@@ -138,7 +180,7 @@ $$
 \end{aligned}
 $$
 
-となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}$が正則行列の場合，
+となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}_c$が正則行列の場合，
 
 $$
 \begin{aligned}
@@ -207,6 +249,7 @@ $$
 - 学習の定義について⇒コスト関数の導入
 - 指数関数型シナプスの項を書き直す．微分方程式による表現の$\tau_d$にtypo (tau_sが正解)
 - 2020のneural compを引用
+- control as inference
 
 ## LTP LTD
 http://www.scholarpedia.org/article/BCM_theory
