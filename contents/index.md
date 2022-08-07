@@ -17,11 +17,16 @@ Julia v1.8.0-rc1
 - [まえがき](https://compneuro-julia.github.io/intro.html)
 
 ### 第1部：
-
 1. [はじめに](https://compneuro-julia.github.io/introduction/intro.html)
+	1. 計算論的神経科学とは
 	1. [記号の表記](https://compneuro-julia.github.io/introduction/notation.html)
-    1. 基本的なJuliaの使い方
-    1. なぜ計算論的モデルが必要か
+    1. Julia言語の基本構文
+    1. 線形代数
+    1. 微分方程式
+    1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
+    1. 確率論
+    1. 確率微分方程式
+    1. 情報理論
 
 ### 第2部：
 1. [神経細胞のモデル](https://compneuro-julia.github.io/neuron-model/intro.html)
@@ -30,17 +35,19 @@ Julia v1.8.0-rc1
 	1. [Leaky integrate-and-fire モデル](https://compneuro-julia.github.io/neuron-model/lif.html)
 	1. [Izhikevich モデル](https://compneuro-julia.github.io/neuron-model/izhikevich.html)
 	1. [Inter-spike interval モデル](https://compneuro-julia.github.io/neuron-model/isi.html)
-1. [シナプス伝達のモデル](https://compneuro-julia.github.io/synapse-model/intro.html)
-	1. [シナプス伝達](https://compneuro-julia.github.io/synapse-model/synapse.html)
+
+2. [シナプス伝達のモデル](https://compneuro-julia.github.io/synapse-model/intro.html)
+	1. [シナプスの構造と生理](https://compneuro-julia.github.io/synapse-model/synapse.html)
 	1. [Current-based / Conductance-based シナプス](https://compneuro-julia.github.io/synapse-model/current-conductance-synapse.html)
 	1. [指数関数型シナプスモデル](https://compneuro-julia.github.io/synapse-model/expo-synapse.html)
 	1. [動力学モデル](https://compneuro-julia.github.io/synapse-model/kinetic-synapse.html)
 	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/synapse-model/synaptic-weighted.html)
 	1. [動的シナプス](https://compneuro-julia.github.io/synapse-model/dynamical-synapses.html)
-1. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
+
+3. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
 	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
     1. 正規化
-    1. winner take all
+    2. 樹状突起計算
 
 ### 第3部：
 1. [神経回路網と学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
@@ -49,18 +56,25 @@ Julia v1.8.0-rc1
         1. PCA 
         1. ICA
 	1. [Amari-Hopfield モデル](https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html) 
-    1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
-	1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
-	1. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
-	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
-
-1. [ベイズ脳仮説と生成モデル](https://compneuro-julia.github.io/bayesian-brain/intro.html)
-    1. [ベイズ統計の基礎](https://compneuro-julia.github.io/bayesian-brain/bayes-statistics.html)
+    1. [Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
     1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
     1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
-	1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
-    1. [ガウス尺度混合モデル (Gaussian scale mixture model)](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
-    1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+
+1. 競合学習
+    1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
+   
+1. 誤差逆伝播法
+	1. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
+    1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
+	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
+
+1. [ベイズ脳仮説と不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/intro.html)
+    1. [ベイズ脳仮説]
+    1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
+    1. マルコフ連鎖モンテカルロ法
+    2. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
+    3. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+
 
 ### 第4部：
 1. [運動制御](https://compneuro-julia.github.io/motor-learning/intro.html)
@@ -75,9 +89,8 @@ Julia v1.8.0-rc1
 	1. [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
 	1. [有用なリンク集](https://compneuro-julia.github.io/appendix/useful-links.html)
 	1. [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage-jupyter-book.html)
-    1. [非掲載：Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
+	1. Laplace変換
     1. [非掲載：Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
-    1. [非掲載：深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
     1. [未分類：神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
 
 

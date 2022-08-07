@@ -9,6 +9,9 @@
 ```
 ````
 
+# memo
+シナプス重みと対数正規分布はシナプスの結合部分の末尾にコラムとして入れる．重みの初期化と絡める．
+
 # Neuromatch
 https://compneuro.neuromatch.io/tutorials/intro.html
 
