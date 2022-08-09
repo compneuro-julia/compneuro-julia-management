@@ -49,40 +49,45 @@ Julia v1.8.0-rc1
     1. 神経細胞間の接続
     1. ランダムネットワークの構築
 
-1. [神経細胞・回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
+1. [神経細胞による演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
 	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
     1. 正規化
     1. 樹状突起計算
 
 ### 第3部：
-1. [神経回路網と古典的学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
+1. [局所学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
     1. 学習と学習則
-    1. Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則
-    1. STDP則
+    2. Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則
+    3. STDP則
 
-1. エネルギーベースモデル
-	1. [Amari-Hopfield モデル](https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html) 
+2. エネルギーベースモデル
+	1. エネルギーベースモデル
+	2. [Amari-Hopfield モデル](https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html) 
     1. [Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
-    1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
-    1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
+    2. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
+    3. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
    
-1. 神経回路網における貢献度分配問題の解決策
+3. 貢献度分配問題の解決策
     1. 貢献度分配問題
 	1. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
     1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
 	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
+    1. RTRL
+    1. 適格度トレースによるRTRLの近似
+    1. 予測符号化による誤差逆伝播法の近似
+    1. SNNの訓練法
 
-1. [ベイズ推論と不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/intro.html)
+4. [神経回路網によるベイズ推論](https://compneuro-julia.github.io/bayesian-brain/intro.html)
     1. ベイズ脳仮説と不確実性の表現
-    1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
-    1. マルコフ連鎖モンテカルロ法
-    1. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
-    1. 確率的集団符号化 (probabilistic population coding)
-    1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
-    1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
-    1. 自由エネルギー原理
+    2. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
+    3. マルコフ連鎖モンテカルロ法
+    4. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
+    5. 確率的集団符号化 (probabilistic population coding)
+    6. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+    7. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
+    8. 自由エネルギー原理
 
-1.  神経回路の形態・発生の数理モデル
+5.  神経回路網の形態・発生の数理モデル
     1. [神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
     2. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
     
