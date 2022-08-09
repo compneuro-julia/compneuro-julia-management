@@ -18,15 +18,15 @@ Julia v1.8.0-rc1
 
 ### 第1部：
 1. [はじめに](https://compneuro-julia.github.io/introduction/intro.html)
-	1. 計算論的神経科学とは
+    1. 神経科学と数理モデル
 	1. [記号の表記](https://compneuro-julia.github.io/introduction/notation.html)
     1. Julia言語の基本構文
-    1. 線形代数
-    1. 微分方程式
-    1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
-    1. 確率論と確率過程
-    1. 確率微分方程式
-    1. 情報理論
+    2. 線形代数
+    3. 微分方程式
+    4. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
+    5. 確率論と確率過程
+    6. 確率微分方程式
+    7. 情報理論
 
 ### 第2部：
 1. [神経細胞のモデル](https://compneuro-julia.github.io/neuron-model/intro.html)
@@ -57,7 +57,7 @@ Julia v1.8.0-rc1
 ### 第3部：
 1. [神経回路網と古典的学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
     1. 学習と学習則
-    1. Hebb則・BCM理論・Oja則・Sanger則
+    1. Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則
     1. STDP則
 
 1. エネルギーベースモデル
@@ -73,12 +73,14 @@ Julia v1.8.0-rc1
 	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
 
 1. [ベイズ推論と不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/intro.html)
-    1. ベイズ脳仮説
-    2. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
-    3. マルコフ連鎖モンテカルロ法
-    4. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
-    5. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
-    6. 自由エネルギー原理
+    1. ベイズ脳仮説と不確実性の表現
+    1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
+    1. マルコフ連鎖モンテカルロ法
+    1. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
+    1. 確率的集団符号化 (probabilistic population coding)
+    1. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+    1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
+    1. 自由エネルギー原理
 
 1.  神経回路の形態・発生の数理モデル
     1. [神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
@@ -92,18 +94,12 @@ Julia v1.8.0-rc1
     1. [無限時間最適制御モデル (infinite-horizon optimal feedback control model)](https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html)
 	1. [ラット自由行動下の軌跡のシミュレーション](https://compneuro-julia.github.io/appendix/rat-trajectory.html)
 
-1. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
-    1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
-
 - [付録](https://compneuro-julia.github.io/appendix/intro.html)
 	1. [JuliaのTips集](https://compneuro-julia.github.io/appendix/tips.html)
-	1. [有用なリンク集](https://compneuro-julia.github.io/appendix/useful-links.html)
-	1. [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage-jupyter-book.html)
-	1. Laplace変換
+	2. [有用なリンク集](https://compneuro-julia.github.io/appendix/useful-links.html)
+	3. [Jupyter bookの使い方 (Julia言語版)](https://compneuro-julia.github.io/appendix/usage-jupyter-book.html)
+	4. Laplace変換
     1. [非掲載：Slow Feature Analysis](https://compneuro-julia.github.io/information-theory/slow-feature-analysis.html)
-
-
-***
 
 ## 『ゼロから作るSpiking Neural Networks』について
 『**ゼロから作るSpiking Neural Networks**』 (通称：SNN本) は**Python**でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です．本サイトはこの本をベースとして作成しています．技術書典7で頒布し，BOOTHで有料で販売してきましたが，無料で公開することとしました．それでも購入していただける方はBOOTHから購入いただければと思います．なお，物理本は完売し，再販の予定はありません．
