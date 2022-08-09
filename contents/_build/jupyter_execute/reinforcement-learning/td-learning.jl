@@ -1,4 +1,5 @@
 using PyPlot
+rc("axes.spines", top=false, right=false)
 
 num_trial = 60 # 試行回数
 T = 3.0f0 # s
@@ -9,7 +10,7 @@ delta = zeros(num_trial, nt) # TD error
 
 flash_time = UInt(1.1f0/dt)
 delay = UInt(1.2f0/dt)
-reward_trial = 6:40
+reward_trial = 6:40 # 報酬が貰える試行の区間を設定する
 reward = zeros(num_trial, nt)
 reward[reward_trial, flash_time+delay] .= 1.0
 

@@ -1,7 +1,5 @@
-using LinearAlgebra, Random, ToeplitzMatrices, PyPlot
+using LinearAlgebra, Random, PyPlot
 rc("axes.spines", top=false, right=false)
-
-vec(X) = vcat(X...)
 
 # Equality Constrained Quadratic Programming
 function solveEqualityConstrainedQuadProg(P, q, A, b)
@@ -20,10 +18,10 @@ function minimum_variance_model(Ac, Bc, x0, xf, tf, tp, dt)
     ntp = round(Int, tp/dt)
     nt = ntf + ntp # total time steps    
     
-    A = LinearAlgebra.I + Ac * dt
+    A = I(dims) + Ac * dt
     B = Bc*dt
     #A = exp(Ac*dt);
-    #B = Ac^-1 * (eye(3) - A) *Bc; 
+    #B = Ac^-1 * (I(dims) - A) *Bc; 
     
     # calculation of V
     diagV = zeros(nt);
@@ -50,7 +48,7 @@ function minimum_variance_model(Ac, Bc, x0, xf, tf, tp, dt)
     end
     
     # calculation of d
-    d = vec([xf - A^(ntf+t) * x0 for t=0:ntp]);
+    d = vcat([xf - A^(ntf+t) * x0 for t=0:ntp]...);
     
     # 制御信号を二次計画法で計算 (solution by quadratic programming)
     u = solveEqualityConstrainedQuadProg(V, zeros(nt), C, d);

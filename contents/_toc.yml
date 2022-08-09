@@ -39,7 +39,7 @@ sections:
 - file: energy-based-model/intro
   sections:
   - file: energy-based-model/energy-based-model
-  - file: energy-based-model/amari-hopfield-model
+  - file: energy-based-model/hopfield-model
   - file: energy-based-model/boltzmann-machine
   - file: energy-based-model/sparse-coding
   - file: energy-based-model/predictive-coding
