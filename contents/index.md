@@ -24,7 +24,7 @@ Julia v1.8.0-rc1
     1. 線形代数
     1. 微分方程式
     1. [線形回帰と最小二乗法](https://compneuro-julia.github.io/appendix/linear-regression.html)
-    1. 確率論
+    1. 確率論と確率過程
     1. 確率微分方程式
     1. 情報理論
 
@@ -53,36 +53,57 @@ Julia v1.8.0-rc1
 ### 第3部：
 1. [神経回路網と古典的学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
     1. 学習と学習則
-    1. Hebb則・BCM理論・Oja則・Sanger則
-    1. STDP則
+    2. Hebb則・BCM理論・Oja則・Sanger則
+    3. STDP則
 
-1. エネルギーベースモデル
+2. エネルギーベースモデル
     1. エネルギーベースモデルの定義
+
+3. [神経回路網と学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
+    1. 学習アルゴリズムについて（教師あり，教師なし...）
+    2. Hebb則と教師なし学習
+        1. PCA 
+        2. ICA
+4. エネルギーベースモデル
 	1. [Amari-Hopfield モデル](https://compneuro-julia.github.io/associative-memory-model/amari-hopfield-model.html) 
     1. [Boltzmann マシン](https://compneuro-julia.github.io/associative-memory-model/boltzmann-machine.html) 
-    1. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
-    1. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
+    2. [スパース符号化 (sparse coding)](https://compneuro-julia.github.io/bayesian-brain/sparse-coding.html)
+    3. [予測符号化 (predictive coding)](https://compneuro-julia.github.io/bayesian-brain/predictive-coding.html)
    
-1. 神経回路網における貢献度分配問題の解決策
+5. 神経回路網における貢献度分配問題の解決策
     1. 貢献度分配問題
-	1. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
-    1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
-	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
+	2. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
 
-1. リザバーコンピューティング
-
-1. [ベイズ推論と不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/intro.html)
-    1. ベイズ脳仮説
-    1. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
-    1. マルコフ連鎖モンテカルロ法
-    2. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
-    3. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
-    1. 自由エネルギー原理
-
-1. 神経回路の形態・発生の数理モデル
-    1. 神経発生の数理モデル
-    1. [神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
+6. 競合学習
     1. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
+   
+7. 誤差逆伝播法
+	3. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/learning-rule/backpropagation-zipser-andersen.html)
+    1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/learning-rule/linear-network-learning-dynamics.html)
+	4. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/learning-rule/bptt.html)
+
+8. リザバーコンピューティング
+
+9. [ベイズ推論と不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/intro.html)
+    1. ベイズ脳仮説
+    2. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
+    3. マルコフ連鎖モンテカルロ法
+    4. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
+    5. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+    6. 自由エネルギー原理
+
+10. [ベイズ脳仮説と不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/intro.html)
+    1. [ベイズ脳仮説]
+    2. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
+    3. マルコフ連鎖モンテカルロ法
+    4. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/gaussian-scale-mixture.html)
+    5. [分位点回帰とエクスペクタイル回帰](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+
+
+11. 神経回路の形態・発生の数理モデル
+    1. 神経発生の数理モデル
+    2. [神経突起の成長モデル](https://compneuro-julia.github.io/neural-development/neurite-growth-model.html)
+    3. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/neural-development/self-organizing-map.html)
     
 
 ### 第4部：
