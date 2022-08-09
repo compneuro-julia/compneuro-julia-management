@@ -4,17 +4,26 @@ sections:
 - file: preface
 - file: introduction/intro
   sections:
+  - file: introduction/computational-neuroscience
   - file: introduction/notation
+  - file: introduction/usage-julia-lang
+  - file: introduction/linear-algebra
+  - file: introduction/differential-equation
+  - file: introduction/linear-regression
+  - file: introduction/probability-information-theory
+  - file: introduction/stochastic-process-differential-equation
 - file: neuron-model/intro
   sections:
+  - file: neuron-model/neuron-physiol
   - file: neuron-model/hodgkin-huxley
   - file: neuron-model/fhn
   - file: neuron-model/lif
   - file: neuron-model/izhikevich
   - file: neuron-model/isi
+  - file: neuron-model/neurite-growth-model
 - file: synapse-model/intro
   sections:
-  - file: synapse-model/synapse
+  - file: synapse-model/synapse-physiol
   - file: synapse-model/current-conductance-synapse
   - file: synapse-model/expo-synapse
   - file: synapse-model/kinetic-synapse
@@ -23,53 +32,44 @@ sections:
 - file: neuronal-computation/intro
   sections:
   - file: neuronal-computation/neuronal-arithmetic
-- file: learning-rule/intro
+- file: local-learning-rule/intro
   sections:
-  - file: learning-rule/hebbian-learning
-  - file: learning-rule/backpropagation-zipser-andersen
-  - file: learning-rule/bptt
-  - file: learning-rule/linear-network-learning-dynamics
-- file: information-theory/intro
+  - file: local-learning-rule/hebbian-learning
+  - file: local-learning-rule/self-organizing-map
+- file: energy-based-model/intro
   sections:
-  - file: information-theory/statistics-information
-  - file: information-theory/slow-feature-analysis
-- file: associative-memory-model/intro
+  - file: energy-based-model/energy-based-model
+  - file: energy-based-model/amari-hopfield-model
+  - file: energy-based-model/boltzmann-machine
+  - file: energy-based-model/sparse-coding
+  - file: energy-based-model/predictive-coding
+- file: solve-credit-assignment-problem/intro
   sections:
-  - file: associative-memory-model/energy-based-model
-  - file: associative-memory-model/amari-hopfield-model
-  - file: associative-memory-model/boltzmann-machine
-- file: bayesian-brain/intro
-  sections:
-  - file: bayesian-brain/bayes-statistics
-  - file: bayesian-brain/linear-regression
-  - file: bayesian-brain/sparse-coding
-  - file: bayesian-brain/predictive-coding
-  - file: bayesian-brain/neural-uncertainty-representation
-  - file: bayesian-brain/bayesian-linear-regression
-  - file: bayesian-brain/mcmc
-  - file: bayesian-brain/neural-sampling
-  - file: bayesian-brain/probabilistic-population-coding
-  - file: bayesian-brain/quantile-expectile-regression
-- file: reinforcement-learning/intro
-  sections:
-  - file: reinforcement-learning/td-learning
+  - file: solve-credit-assignment-problem/backpropagation-zipser-andersen
+  - file: solve-credit-assignment-problem/linear-network-learning-dynamics
+  - file: solve-credit-assignment-problem/bptt
 - file: motor-learning/intro
   sections:
   - file: motor-learning/minimum-jerk
   - file: motor-learning/minimum-variance
   - file: motor-learning/optimal-feedback-control
   - file: motor-learning/infinite-horizon-ofc
-- file: spatiotemporal-coding/intro
+- file: reinforcement-learning/intro
   sections:
-  - file: spatiotemporal-coding/grid-cells-decoding
-- file: neural-development/intro
+  - file: reinforcement-learning/td-learning
+- file: bayesian-brain/intro
   sections:
-  - file: neural-development/neurite-growth-model
-  - file: neural-development/self-organizing-map
-  - file: neural-development/graph-theory-network-model
+  - file: bayesian-brain/neural-uncertainty-representation
+  - file: bayesian-brain/bayesian-linear-regression
+  - file: bayesian-brain/mcmc
+  - file: bayesian-brain/neural-sampling
+  - file: bayesian-brain/probabilistic-population-coding
+  - file: bayesian-brain/quantile-expectile-regression
 - file: appendix/intro
   sections:
   - file: appendix/rat-trajectory
-  - file: appendix/tips
+  - file: appendix/grid-cells-decoding
+  - file: appendix/slow-feature-analysis
+  - file: appendix/graph-theory-network-model
   - file: appendix/useful-links
   - file: appendix/usage-jupyter-book
