@@ -1,4 +1,6 @@
 using PyPlot, ProgressMeter, Distributions, Random
+using PyPlot: matplotlib
+
 rc("axes.spines", top=false, right=false)
 
 tree_info_eg = Vector{Int64}[[1, 0, 0], [1, 0, 0], [2, 1, 0], [2, 1, 0], [3, 2, 1], 
@@ -67,10 +69,17 @@ function branching_prob(t, dt, γ, n, C, B∞, E, S, τ)
 end;
 
 function neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
-                              turn_rate=5, max_branch_angle=0.1π, max_turn_angle=5e-3π)
+                              turn_rate=5, max_branch_angle=0.1π, max_turn_angle=5e-3π,
+                              history_num=3)
     tree_info = copy(tree_info_init)
     seg_vec = copy(seg_vec_init)
     num_branching = 0
+    
+    if history_num > 1
+        tree_info_history = []
+        seg_vec_history = []
+        history_timing = floor.(Int, collect(range(1, nt, length=history_num+1)))[2:end] 
+    end
     
     @showprogress for tt in 1:nt
         t = tt*dt # Current time
@@ -113,38 +122,59 @@ function neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, 
                 end
             end
         end
+        if history_num > 1
+            if tt in history_timing
+                push!(tree_info_history, copy(tree_info))
+                push!(seg_vec_history, copy(seg_vec))
+            end
+        end
     end
     println("Num. branching: ", num_branching)
-    return tree_info, seg_vec
+    if history_num > 1
+        return tree_info_history, seg_vec_history
+    else
+        return tree_info, seg_vec
+    end
 end;
 
-B∞ = 17.38; E = 0.39; S = 0; τ = 14*24*60*60; 
+B∞ = 13.2; E = 0.319; S = -0.205; τ = 1681541 #14*24*60*60; 
 μₑ = 2.14e-4; σₑ = 3.98e-4;
 
 turn_rate = 3
-max_branch_angle = 0.2π
+max_branch_angle = 0.25π
 max_turn_angle = 1e-2π
 
 T = 18*24*60*60 # duration of growth; convert 18 days to sec
-dt = 200; 
+dt = 200 # sec
 nt = round(Int, T/dt);
 
-tree_info_init = Vector{Int64}[[1, 0, 0], [1, 0, 1]]
-seg_vec_init = Vector{Float64}[[0.0, 0.0], [μₑ, π/2]]
+history_num = 3
+init_branch_num = 8
+tree_info_init = [[1, 0, 0]]
+seg_vec_init = [[0.0, 0.0]]
 
 Random.seed!(0)
-@time tree_info, seg_vec = neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
-                                                turn_rate, max_branch_angle, max_turn_angle);
+for i in 1:init_branch_num
+    push!(tree_info_init, [1, 0, 1])
+    push!(seg_vec_init, [(μₑ + randn() * σₑ)*dt, rand()*2π])
+end
 
-lines, _ = segments_lines(tree_info, seg_vec);
-maxwidth, minwidth = 3, 0.5
-linewidths = range(maxwidth, minwidth, length=length(lines));
+@time tree_info_history, seg_vec_history = neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
+                                                                turn_rate, max_branch_angle, max_turn_angle, history_num);
 
-figure(figsize=(6, 4))
-line_segments = matplotlib.collections.LineCollection(lines, linewidths=linewidths, color="k")
-ax = PyPlot.axes()
-ax.add_collection(line_segments)
-ax.set_aspect("equal")
-scatter(0, 0, s=100, color="k")
-xlabel(L"$x\ (\mu m)$"); ylabel(L"$y\ (\mu m)$")
-tight_layout()
+maxwidth, minwidth = 1.0, 0.5
+days_range = floor.(Int, collect(range(1, 18, history_num+1)))[2:end]
+
+fig, ax = subplots(1, history_num, sharex=true, sharey=true)
+for i in 1:history_num
+    lines, _ = segments_lines(tree_info_history[i], seg_vec_history[i]);
+    linewidths = range(maxwidth, minwidth, length=length(lines));
+
+    line_segments = matplotlib.collections.LineCollection(lines, linewidths=linewidths, color="k")
+    ax[i].add_collection(line_segments)
+    ax[i].set_aspect("equal")
+    ax[i].set_title(string(days_range[i])*" days")
+    ax[i].scatter(0, 0, s=50, color="k", zorder=100)
+    ax[i].set_xlabel(L"$x\ (\mu m)$"); ax[i].set_ylabel(L"$y\ (\mu m)$")
+    ax[i].label_outer()
+end
