@@ -137,7 +137,7 @@ function neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, 
     end
 end;
 
-B∞ = 13.2; E = 0.319; S = -0.205; τ = 1681541 #14*24*60*60; 
+B∞ = 13.2; E = 0.319; S = -0.205; τ = 1681541; 
 μₑ = 2.14e-4; σₑ = 3.98e-4;
 
 turn_rate = 3
@@ -148,21 +148,24 @@ T = 18*24*60*60 # duration of growth; convert 18 days to sec
 dt = 200 # sec
 nt = round(Int, T/dt);
 
-history_num = 3
-init_branch_num = 8
+history_num = 3 # 記録する状態の数; 等間隔で記録．
+init_branch_num = 2 # 初めの神経突起枝の数
+
+# 細胞体のパラメータ
 tree_info_init = [[1, 0, 0]]
 seg_vec_init = [[0.0, 0.0]]
 
+# 初期神経突起のパラメータ （神経突起が放射状に出るように設定）
 Random.seed!(0)
 for i in 1:init_branch_num
     push!(tree_info_init, [1, 0, 1])
-    push!(seg_vec_init, [(μₑ + randn() * σₑ)*dt, rand()*2π])
+    push!(seg_vec_init, [(μₑ + randn()*σₑ)*dt, (i-1)/init_branch_num*2π+1e-2*randn()])
 end
 
 @time tree_info_history, seg_vec_history = neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
                                                                 turn_rate, max_branch_angle, max_turn_angle, history_num);
 
-maxwidth, minwidth = 1.0, 0.5
+maxwidth, minwidth = 1.5, 0.5 # 描画する神経突起の最大/最小の太さ
 days_range = floor.(Int, collect(range(1, 18, history_num+1)))[2:end]
 
 fig, ax = subplots(1, history_num, sharex=true, sharey=true)
@@ -171,10 +174,10 @@ for i in 1:history_num
     linewidths = range(maxwidth, minwidth, length=length(lines));
 
     line_segments = matplotlib.collections.LineCollection(lines, linewidths=linewidths, color="k")
-    ax[i].add_collection(line_segments)
+    ax[i].add_collection(line_segments)  # dendrite
+    ax[i].scatter(0, 0, s=50, color="k") # soma
+    ax[i].set_xlabel(L"$x\ (\mu m)$"); ax[i].set_ylabel(L"$y\ (\mu m)$")
     ax[i].set_aspect("equal")
     ax[i].set_title(string(days_range[i])*" days")
-    ax[i].scatter(0, 0, s=50, color="k", zorder=100)
-    ax[i].set_xlabel(L"$x\ (\mu m)$"); ax[i].set_ylabel(L"$y\ (\mu m)$")
     ax[i].label_outer()
 end

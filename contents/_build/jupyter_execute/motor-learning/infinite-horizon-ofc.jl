@@ -4,8 +4,6 @@ using LinearAlgebra, Kronecker, Random, BlockDiagonals, PyPlot
 rc("axes.spines", top=false, right=false)
 rc("font", family="Arial") 
 
-eye(n) = Diagonal(I, n)
-
 @kwdef struct SaccadeModelParameter
     n = 4 # number of dims
     i = 0.25 # kgm^2, 

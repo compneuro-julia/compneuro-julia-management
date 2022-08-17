@@ -1,310 +1,200 @@
+using Base: @kwdef
+using Parameters: @unpack
 using LinearAlgebra, Kronecker, Random, BlockDiagonals, PyPlot
 rc("axes.spines", top=false, right=false)
+rc("font", family="Arial") 
 
-eye(T::Type, n) = Diagonal{T}(I, n)
-eye(n) = eye(Float64, n)
+@kwdef struct Reaching1DModelParameter
+    n = 4 # number of dims
+    p = 3 # 
+    i = 0.25 # kgm^2, 
+    b = 0.2 # kgm^2/s
+    ta = 0.03 # s
+    te = 0.04 # s
+    L0 = 0.35 # m
 
-function convertScalar2Vec!(C, D, C0, D0, E0)
-    szX = size(A,1);
-    szU = size(B,2);
-    szY = size(H,1);
-    
-    # if C or D are scalar, replicate them into vectors
-    if size(C,1)==1 #&& szU>1
-       C = C*ones(szU,1)
-    end
+    bu = 1 / (ta * te * i)
+    α1 = bu * b
+    α2 = 1/(ta * te) + (1/ta + 1/te) * b/i
+    α3 = b/i + 1/ta + 1/te
 
-    if length(D)==1
-        if D[1]==0
-            D = zeros(szY, szX)
-        else
-            D = D*ones(szX,1)
-            if szX != szY
-                error("D can only be a scalar when szX = szY")
-            end
-        end
-    end
+    A = [zeros(p) I(p); -[0, α1, α2, α3]']
+    B = [zeros(p); bu]
+    C = [I(p) zeros(p)]
+    D = Diagonal([1e-3, 1e-2, 5e-2])
 
-    # if C0,D0,E0 are scalar, set them to 0 matrices and adjust size
-    if length(C0)==1 && C0[1]==0
-        C0 = zeros(szX,1)
-    end
-    if length(D0)==1 && D0[1]==0
-        D0 = zeros(szY,1)
-    end
-    if length(E0)==1 && E0[1]==0
-        E0 = zeros(szX,1);
-    end
-    return C, D, C0, D0, E0
+    Y = 0.02 * B
+    G = 0.03 * I(n)
 end
 
-function gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1; Init=1, Niter=0, MaxIter=500, Eps=10^-8)
-    """
-    - Init : 0 - open loop; 1 (default) - LQG; 2 - random  (optional)
-    - Niter : iterations; 0 (default) - until convergence   (optional)
-
-    - K : Filter gains
-    - L : Control gains
-    - Cost : Expected cost (per iteration)
-    """
-    # determine sizes
-    szX = size(A,1);
-    szU = size(B,2);
-    szY = size(H,1);
-    szC = size(C,3);
-    szC0 = size(C0,2);
-    szD = size(D,3);
-    szD0 = size(D0,2);
-    szE0 = size(E0,2);
-    N = size(Q,3);
+@kwdef struct Reaching1DModelCostParameter
+    n = 4
+    dt = 1e-2 # sec
+    T = 0.5 # sec
+    nt = round(Int, T/dt) # num time steps
+    Q = [zeros(nt-1, n, n); reshape(Diagonal([1.0, 0.1, 1e-3, 1e-4]), (1, n, n))]
+    R = 1e-4 / nt
     
-    # initialize policy and filter
-    K = zeros(szX,szY,N-1) # Filter gains
-    L = zeros(szU,szX,N-1) # Control gains
+    init_pos = -0.5
+    x₁ = [init_pos; zeros(n-1)]#zeros(n)
+    Σ₁ = zeros(n, n)
+end
 
-    Cost = zeros(MaxIter)
-    for iter = 1:MaxIter
-        # initialize covariances
-        SiE = S1
-        SiX = X1 * X1'
-        SiXE = zeros(szX,szX)
+function LQG(param::Reaching1DModelParameter, cost_param::Reaching1DModelCostParameter)
+    @unpack n, p, A, B, C, D, G = param
+    @unpack Q, R, x₁, Σ₁, dt, nt = cost_param
 
-        for k = 1:N-1
-            # compute Kalman gain
-            temp = SiE + SiX + SiXE + SiXE'
+    A = I + A * dt
+    B = B * dt
+    C = C * dt
+    D = sqrt(dt) * D
+    G = sqrt(dt) * G
+    
+    L = zeros(nt-1, n) # Feedback gains
+    K = zeros(nt-1, n, p) # Kalman gains
+    S = copy(Q[end, :, :]) # S_T = Q
+    Σ = copy(Σ₁);
 
-            if size(D,2)==1
-                DSiD = Diagonal((diag(temp).*D.^2)[:, 1])
-            else
-                DSiD = zeros(szY,szY);
-                for i=1:szD
-                    DSiD += D[:,:,i] * temp * D[:,:,i]'
-                end
-            end
+    for t in 1:nt-1
+        K[t, :, :] = A * Σ * C' / (C * Σ * C' + D) # update K
+        Σ = G + (A - K[t, :, :] * C) * Σ * A'      # update Σ
+    end　
 
-            K[:,:,k] = A * SiE * H' * pinv(H * SiE * H' + D0 * D0' + DSiD)
+    cost = 0
+    for t in nt-1:-1:1
+        cost += tr(S * G)
+        L[t, :] = (R + B' * S * B) \ B' * S * A # update L
+        S = Q[t, :, :] + A' * S * (A - B * L[t, :]')     # update S
+    end
+    
+    # adjust cost
+    cost += x₁' * S * x₁
+    return L, K, cost
+end
 
-            # compute new SiE
-            newE = E0 * E0' + C0 * C0' + (A - K[:,:,k] * H) * SiE * A'
-            LSiL = L[:,:,k] * SiX * L[:,:,k]'
+function gLQG(param::Reaching1DModelParameter, cost_param::Reaching1DModelCostParameter, maxiter=200, ϵ=1e-8)
+    @unpack n, p, A, B, C, D, Y, G = param
+    @unpack Q, R, x₁, Σ₁, dt, nt = cost_param
 
-            if size(C,2)==1
-                newE += B * Diagonal(diag(LSiL) .* C.^2) * B'
-            else
-                for i=1:szC
-                    newE += B*C[:,:,i] * LSiL * C[:,:,i]'*B'
-                end
-            end
+    A = I + A * dt
+    B = B * dt
+    C = C * dt
+    D = sqrt(dt) * D
+    G = sqrt(dt) * G
+    Y = sqrt(dt) * Y
+    
+    L = zeros(nt-1, n) # Feedback gains
+    K = zeros(nt-1, n, p) # Kalman gains
+    
+    cost = zeros(maxiter)
+    for i in 1:maxiter
+        Sˣ = copy(Q[end, :, :])
+        Sᵉ = zeros(n, n)
+        Σˣ̂ = x₁ * x₁' # \Sigma TAB \^x TAB \hat TAB
+        Σᵉ = copy(Σ₁)
+        
+        for t in 1:nt-1
+            K[t, :, :] = A * Σᵉ * C' / (C * Σᵉ * C' + D)
 
-            # update SiX, SiE, SiXE
-            AmBL = A - B * L[:,:,k]
-            SiX = E0 * E0' + K[:,:,k] * H * SiE * A' + AmBL * SiX * AmBL' + AmBL * SiXE * H' * K[:,:,k]' + K[:,:,k] * H * SiXE' * AmBL'
-            SiE = newE
-            SiXE = AmBL * SiXE * (A - K[:,:,k]*H)' - E0 * E0'
+            AmBL = A - B * L[t, :]'
+            LΣˣ̂L = L[t, :]' * Σˣ̂ * L[t, :]
+
+            Σˣ̂ = K[t, :, :] * C * Σᵉ * A' + AmBL * Σˣ̂ * AmBL'
+            Σᵉ = G + (A - K[t, :, :] * C) * Σᵉ * A' + Y * LΣˣ̂L * Y'
         end
+        
+        for t in nt-1:-1:1
+            cost[i] += tr(Sˣ * G + Sᵉ * (G + K[t, :, :] * D * K[t, :, :]'))
+            
+            L[t, :] = (R + B' * Sˣ * B + Y' * (Sˣ + Sᵉ) * Y) \ B' * Sˣ * A
 
-        # first pass initialization
-        if iter==1
-            if Init==0         # open loop
-                K = zeros(szX,szY,N-1)
-            elseif Init==2     # random
-                K = randn(szX,szY,N-1)
-            end
+            AmKC = A - K[t, :, :] * C
+            Sᵉ = A' * Sˣ * B * L[t, :]' + AmKC' * Sᵉ * AmKC
+            Sˣ = Q[t, :, :] + A' * Sˣ * (A - B * L[t, :]')
         end
-
-        # initialize optimal cost-to-go function
-        Sx = Q[:,:,N]
-        Se = zeros(szX,szX)
-        Cost[iter] = 0
-
-        # backward pass - recompute control policy
-        for k=N-1:-1:1
-            # update Cost
-            Kk = K[:,:,k]
-            Cost[iter] = Cost[iter] + tr(Sx*C0*C0') + tr(Se * (Kk * D0 * D0' * Kk' + E0 * E0' + C0 * C0'))
-
-            # Controller
-            temp = R .+ B' * Sx * B
-            BSxeB = B' * (Sx + Se) * B
-
-            if size(C,2)==1
-                temp += Diagonal(diag(BSxeB).*C.^2)
-            else
-                for i=1:size(C,3)
-                    temp += C[:,:,i]' * BSxeB * C[:,:,i]
-                end
-            end
-
-            L[:,:,k] = pinv(temp)*B'*Sx*A;
-            Lk = L[:,:,k]
-
-            # compute new Se
-            newE = A' * Sx * B * Lk + (A - Kk * H)'*Se*(A - Kk * H);
-
-            # update Sx and Se
-            Sx = Q[:,:,k] + A' * Sx * (A - B * Lk);
-            KSeK = Kk' * Se * Kk;
-            if size(D,2)==1
-                Sx += Diagonal(diag(KSeK).*D.^2)
-            else
-                for i=1:szD
-                Sx += D[:,:,i]'*KSeK*D[:,:,i]
-                end
-            end    
-            Se = newE;
-        end
-
+        
         # adjust cost
-        Cost[iter] += (X1' * Sx * X1)[1] + tr((Se + Sx) * S1)
-        # check convergence of Cost
-        if iter > 1
-            ΔCost = abs(Cost[iter-1]-Cost[iter])
-            if (Niter>0 && iter>=Niter) || (Niter==0 && ΔCost < Eps)
-                # print result
-                if Cost[iter-1]!=Cost[iter]
-                   println("Log10ΔCost = ", log10(ΔCost))
-                else
-                   println("ΔCost = 0")
-                end
-
-                break
-            end
+        cost[i] += x₁' * Sˣ * x₁ + tr((Sˣ + Sᵉ) * Σ₁)
+        if i > 1 && abs(cost[i] - cost[i-1]) < ϵ
+            cost = cost[1:i]
+            break
         end
     end
-    return K, L, Cost
+    return L, K, cost
 end
 
-function computeAverageTrajectory(A, B, X1, L, N)
-    szX = size(A,1)
-    Xa = zeros(szX,N)
-    Xa[:,1] = X1
-
-    for k=1:N-1
-        u = -L[:,:,k] * Xa[:,k]
-        Xa[:,k+1] = A * Xa[:,k] + B * u
-    end
-    return Xa
-end
-
-# simulate noisy trajectories
-function simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K, NSim)
-    """
-    - NSim : number of simulated trajectories (default 0)  (optional)
-    - XSim : Simulated trajectories
-    - CostSim : Empirical cost
-    """
-    szX = size(A,1);
-    szU = size(B,2);
-    szY = size(H,1);
-    szC0 = size(C0,2);
-    szD = size(D,3);
-    szD0 = size(D0,2);
-    szE0 = size(E0,2);
-    N = size(Q,3);
-
-    # square root of S1
-    u, s, v = svd(S1)
-    sqrtS = u * sqrt(Diagonal(s)) * v'
-
-    # initialize
-    XSim = zeros(szX,NSim,N)
-    Xhat = zeros(szX,NSim,N)
-    Xhat[:,:,1] = repeat(X1, 1, NSim)
-    XSim[:,:,1] = Xhat[:,:,1] + sqrtS * randn(szX,NSim);
-    CostSim = 0
-    # loop over N
-    for k=1:N-1
-        # update control and cost
-        U = -L[:,:,k] * Xhat[:,:,k]
-        CostSim += sum(sum(U.*(R*U))) + sum(sum(XSim[:,:,k].*(Q[:,:,k]*XSim[:,:,k])))
-
-        # compute noisy control
-        Un = copy(U)
-        if size(C,2)==1
-            Un += U .* randn(szU,NSim) .* repeat(C, 1, NSim)
-        else
-            for i=1:szC
-                Un += (C[:,:,i]*U) .* repeat(randn(1,NSim), szU, 1)
-            end
-        end
-
-        # compute noisy observation
-        y = H*XSim[:,:,k] + D0 * randn(szD0,NSim)
-        if size(D,2)==1
-            y += XSim[:,:,k] .* randn(szY,NSim) .* repeat(D, 1, NSim)
-        else
-            for i=1:szD
-                y += (D[:,:,i] * XSim[:,:,k]).*repeat(randn(1,NSim), szY, 1)
-            end
-        end
-
-        XSim[:,:,k+1] = A*XSim[:,:,k] + B*Un + C0*randn(szC0,NSim);
-        Xhat[:,:,k+1] = A*Xhat[:,:,k] + B*U + K[:,:,k] * (y - H * Xhat[:,:,k]) + E0*randn(szE0,NSim);
-    end
-
-    # final cost update
-    CostSim += sum(sum(XSim[:,:,N].*(Q[:,:,N]*XSim[:,:,N])));
-    CostSim /= NSim
+function simulation(param::Reaching1DModelParameter, cost_param::Reaching1DModelCostParameter, 
+                    L, K; noisy=false)
+    @unpack n, p, A, B, C, D, Y, G = param
+    @unpack Q, R, x₁, dt, nt = cost_param
     
-    return XSim, CostSim
-end
+    X = zeros(n, nt)
+    u = zeros(nt)
+    X[:, 1] = x₁ # m; initial position (target position is zero)
 
-function kalman_lqg(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1, NSim)
-    C, D, C0, D0, E0 = convertScalar2Vec!(C, D, C0, D0, E0)
-    K, L, Cost = gLQG(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1)
-    Xa = computeAverageTrajectory(A, B, X1, L, N)
-    XSim, CostSim = simulateNoisyTrajectories(A, B, C, C0, H, D, D0, E0, Q, R, X1,S1, L, K, NSim)
-    return K, L, Cost, Xa, XSim, CostSim
-end
-
-dt = 0.01;        # time step (sec)
-m = 1;            # mass (kg)
-b = 0;            # damping (N/sec)
-τ = 40;          # time constant (msec)
-c = 0.5;          # control-dependent noise
-r = 0.00001;      # control signal penalty
-v = 0.2;          # endpoint velocity penalty
-f = 0.02;         # endpoint force penalty
-pos = 0.5*0.02;   # position noise
-vel = 0.5*0.2;    # velocity noise
-frc = 0.5*1.0;    # force noise
-
-N = 40;               # duration in number of time steps
-T = 0.5;              # target distance
-
-dtt = dt/(τ/1000);
-
-n = 4
-NSim = 10;
-
-A = Tridiagonal(zeros(n), [1.0, 1-dt*b/m, 1-dtt, 1-dtt, 1.0], [dt, dt/m, dtt, 0])
-B = [zeros(3); dtt; 0][:,:]
-C = c
-C0 = 0
-H = [eye(3) zeros(3, 2)]
-D = 0
-D0 = Diagonal([pos, vel, frc])
-E0 = 0
-R = r/N
-d = Matrix([Diagonal([1.0, v, f]) zeros(3) [-1; zeros(2)]])
-Q = zeros(n+1, n+1, N);
-Q[:,:,N] = d'*d
-X1 = [zeros(n); T][:,:]
-S1 = zeros(n+1, n+1);
-
-K, L, Cost, Xa, XSim, CostSim = kalman_lqg(A, B, C, C0, H, D, D0, E0, Q, R, X1, S1, NSim);
-
-tarray = (1:N) * dt
-label = [L"Position ($m$)", L"Velocity ($m/s$)", L"Acceleration ($m/s^2$)", L"Jerk ($m/s^3$)"]
-
-figure(figsize=(8, 5))
-for i in 1:4
-    subplot(2,2,i)
-    plot(tarray, XSim[i,:,:]', "tab:red", alpha=0.5)
-    plot(tarray, Xa[i,:], "k")
-    ylabel(label[i]); grid()
-    if i >= 3
-        xlabel(L"Time ($ms$)")
+    if noisy
+        sqrtdt = √dt
+        X̂ = zeros(n, nt)
+        X̂[1, 1] = X[1, 1]
+        for t in 1:nt-1
+            u[t] = -L[t, :]' * X̂[:, t]
+            X[:, t+1] = X[:,t] + (A * X[:,t] + B * u[t]) * dt + sqrtdt * (Y * u[t] * randn() + G * randn(n))
+            dy = C * X[:,t] * dt + D * sqrtdt * randn(n-1)
+            X̂[:, t+1] = X̂[:,t] + (A * X̂[:,t] + B * u[t]) * dt + K[t, :, :] * (dy - C * X̂[:,t] * dt)
+        end
+    else
+        for t in 1:nt-1
+            u[t] = -L[t, :]' * X[:, t]
+            X[:, t+1] = X[:, t] + (A * X[:, t] + B * u[t]) * dt
+        end
     end
+    return X, u
 end
-tight_layout()
+
+function simulation_all(param, cost_param, L, K)
+    Xa, ua = simulation(param, cost_param, L, K, noisy=false);
+    
+    # noisy
+    nsim = 10
+    XSimAll = []
+    uSimAll = []
+    for i in 1:nsim
+        XSim, u = simulation(param, cost_param, L, K, noisy=true);
+        push!(XSimAll, XSim)
+        push!(uSimAll, u)
+    end
+    
+    # visualization
+    @unpack dt, T = cost_param
+    tarray = collect(dt:dt:T)
+    label = [L"Position ($m$)", L"Velocity ($m/s$)", L"Acceleration ($m/s^2$)", L"Jerk ($m/s^3$)"]
+
+    fig, ax = subplots(1, 3, figsize=(10, 3))
+    for i in 1:2
+        for j in 1:nsim
+            ax[i].plot(tarray, XSimAll[j][i,:]', "tab:gray", alpha=0.5)
+        end
+
+        ax[i].plot(tarray, Xa[i,:], "tab:red")
+        ax[i].set_ylabel(label[i]); ax[i].set_xlabel(L"Time ($s$)"); 
+        ax[i].set_xlim(0, T); ax[i].grid()
+    end
+
+    for j in 1:nsim
+        ax[3].plot(tarray, uSimAll[j], "tab:gray", alpha=0.5)
+    end
+    ax[3].plot(tarray, ua, "tab:red")
+    ax[3].set_ylabel(L"Control signal ($N\cdot m$)"); ax[3].set_xlabel(L"Time ($s$)"); 
+    ax[3].set_xlim(0, T); ax[3].grid()
+
+    tight_layout()
+end
+
+param = Reaching1DModelParameter()
+cost_param = Reaching1DModelCostParameter();
+
+L, K, cost = LQG(param, cost_param);
+simulation_all(param, cost_param, L, K)
+
+L, K, cost = gLQG(param, cost_param);
+simulation_all(param, cost_param, L, K)
