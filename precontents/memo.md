@@ -9,6 +9,74 @@
 ```
 ````
 
+#　運動学習
+- ランダムウォークは末尾に
+- LQR, Kalman, Bellman等の説明
+- finite/infiniteで記号を統一する．
+
+$\mathbf{e}_t=\mathbf{x}_t-\hat{\mathbf{x}}_t$
+
+とする．
+
+OFC
+
+連続時間の場合，確率微分方程式で記述すると次のようになる．
+$$
+\begin{aligned}
+\text{運動方程式:} \quad& d \mathbf{x}_t=(\mathbf{A} \mathbf{x}_t+\mathbf{B} \mathbf{u}_t) dt +\mathbf{Y} \mathbf{u}_t d \boldsymbol{\gamma}_t+\mathbf{G} d \boldsymbol{\omega}_t \\
+\text{観測方程式:} \quad& d \mathbf{y}_t=\mathbf{C} \mathbf{x}_t dt+\mathbf{D} d \boldsymbol{\xi}_t\\
+\text{状態推定:} \quad& d \hat{\mathbf{x}}_t=(\mathbf{A} \hat{\mathbf{x}}_t+\mathbf{B} \mathbf{u}_t) dt+\mathbf{K}_t(d \mathbf{y}_t-\mathbf{C} \hat{\mathbf{x}}_t dt)\\
+\text{フィードバック制御:} \quad& \mathbf{u}_t=-\mathbf{L}_t \hat{\mathbf{x}}_t
+\end{aligned}
+$$
+
+inf OFC：
+$\mathbf{K}$と$\mathbf{L}$が時間に依存しない．
+
+$$
+\begin{aligned}
+\text{運動方程式:} \quad& d \mathbf{x}_t=(\mathbf{A} \mathbf{x}_t+\mathbf{B} \mathbf{u}_t) dt +\mathbf{Y} \mathbf{u}_t d \boldsymbol{\gamma}_t+\mathbf{G} d \boldsymbol{\omega}_t \\
+\text{観測方程式:} \quad& d \mathbf{y}_t=\mathbf{C} \mathbf{x}_t dt+\mathbf{D} d \boldsymbol{\xi}_t\\
+\text{状態推定:} \quad& d \hat{\mathbf{x}}_t=(\mathbf{A} \hat{\mathbf{x}}_t+\mathbf{B} \mathbf{u}_t) dt+\mathbf{K}(d \mathbf{y}_t-\mathbf{C} \hat{\mathbf{x}}_t dt)\\
+\text{フィードバック制御:} \quad& \mathbf{u}_t=-\mathbf{L} \hat{\mathbf{x}}_t
+\end{aligned}
+$$
+
+OFCを離散化すると
+
+$\boldsymbol{\gamma}_t, \boldsymbol{\omega}_t, \boldsymbol{\xi}_t \sim \mathcal{N}(\mathbf{0}, \mathbf{I}dt)$
+
+$$
+\begin{array}{lll}
+\text{運動方程式:} \quad& \mathbf{x}_{t+1}&=(\mathbf{I}+\mathbf{A}dt) \mathbf{x}_t+(\mathbf{B}dt) \mathbf{u}_t +\mathbf{Y} \mathbf{u}_t \boldsymbol{\gamma}_t+\mathbf{G} \boldsymbol{\omega}_t \\
+&&=\mathbf{A}_d \mathbf{x}_t+\mathbf{B}_d \mathbf{u}_t +\mathbf{Y} \mathbf{u}_t \boldsymbol{\gamma}_t+\mathbf{G} \boldsymbol{\omega}_t \\
+\text{観測方程式:} \quad& \mathbf{y}_t&=(\mathbf{C}dt) \mathbf{x}_t+\mathbf{D} \boldsymbol{\xi}_t\\
+&&=\mathbf{C}_d \mathbf{x}_t+\mathbf{D} \boldsymbol{\xi}_t\\
+\text{状態推定:} \quad& \hat{\mathbf{x}}_{t+1}&=(\mathbf{I}+\mathbf{A}dt) \hat{\mathbf{x}}_t+(\mathbf{B} dt) \mathbf{u}_t+\mathbf{K}_t[\mathbf{y}_t-(\mathbf{C}dt) \hat{\mathbf{x}}_t ]\\
+&&=\mathbf{A}_d \hat{\mathbf{x}}_t+\mathbf{B}_d \mathbf{u}_t+\mathbf{K}_t[\mathbf{y}_t-\mathbf{C}_d \hat{\mathbf{x}}_t ]\\
+\text{フィードバック制御:} \quad& \mathbf{u}_t&=-\mathbf{L}_t \hat{\mathbf{x}}_t
+\end{array}
+$$
+
+
+元
+$$
+\begin{array}{l}
+d x=(\mathbf{A} x+\mathbf{B} u) dt +\mathbf{Y} u d \gamma+\mathbf{G} d \omega \\
+d y=\mathbf{C} x dt+\mathbf{D} d \xi\\
+d \hat{x}=(\mathbf{A} \hat{x}+\mathbf{B} u) dt+\mathbf{K}(dy-\mathbf{C} \hat{x} dt)
+\end{array}
+$$
+
+$$
+\begin{aligned}
+&\text {Dynamics} \quad \mathbf{x}_{t+1}=A \mathbf{x}_{t}+B \mathbf{u}_{t}+\boldsymbol{\xi}_{t}+\sum_{i=1}^{c} \varepsilon_{t}^{i} C_{i} \mathbf{u}_{t}\\
+&\text {Feedback} \quad \mathbf{y}_{t}=H \mathbf{x}_{t}+\omega_{t}+\sum_{i=1}^{d} \epsilon_{t}^{i} D_{i} \mathbf{x}_{t}\\
+&\text{Cost per step}\quad \mathbf{x}_{t}^\top Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^\top R \mathbf{u}_{t}
+\end{aligned}
+$$
+
+
 # memo
 シナプス重みと対数正規分布はシナプスの結合部分の末尾にコラムとして入れる．重みの初期化と絡める．
 

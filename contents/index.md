@@ -84,6 +84,7 @@ Julia v1.8.0-rc1
     1. [終点誤差分散最小モデル](https://compneuro-julia.github.io/motor-learning/minimum-variance.html)
     1. [最適フィードバック制御モデル](https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html)
     1. [無限時間最適制御モデル](https://compneuro-julia.github.io/motor-learning/infinite-horizon-ofc.html)
+	1. [ラット自由行動下の軌跡のシミュレーション](https://compneuro-julia.github.io/motor-learning/rat-trajectory.html)
 
 2. [強化学習](https://compneuro-julia.github.io/reinforcement-learning/intro.html)
     1. [TD学習](https://compneuro-julia.github.io/reinforcement-learning/td-learning.html)
@@ -91,15 +92,14 @@ Julia v1.8.0-rc1
 ### 第5部：
 1. [神経回路網によるベイズ推論](https://compneuro-julia.github.io/bayesian-brain/intro.html)
     1. [ベイズ脳仮説と神経活動による不確実性の表現](https://compneuro-julia.github.io/bayesian-brain/neural-uncertainty-representation.html)
-    2. [ベイズ線形回帰](https://compneuro-julia.github.io/appendix/bayesian-linear-regression.html)
+    2. [ベイズ線形回帰](https://compneuro-julia.github.io/bayesian-brain/bayesian-linear-regression.html)
     3. [マルコフ連鎖モンテカルロ法](https://compneuro-julia.github.io/bayesian-brain/mcmc.html)
     4. [神経サンプリング](https://compneuro-julia.github.io/bayesian-brain/neural-sampling.html)
     5. [確率的集団符号化](https://compneuro-julia.github.io/bayesian-brain/probabilistic-population-coding.html)
-    6. [分位点・エクスペクタイル回帰による分布符号化](https://compneuro-julia.github.io/appendix/quantile-expectile-regression.html)
+    6. [分位点・エクスペクタイル回帰による分布符号化](https://compneuro-julia.github.io/bayesian-brain/quantile-expectile-regression.html)
     7. 自由エネルギー原理
 
 - [付録](https://compneuro-julia.github.io/appendix/intro.html)
-	1. [ラット自由行動下の軌跡のシミュレーション](https://compneuro-julia.github.io/appendix/rat-trajectory.html)
     1. [格子細胞のデコーディング](https://compneuro-julia.github.io/appendix/grid-cells-decoding.html)
 	1. [Slow Feature Analysis](https://compneuro-julia.github.io/appendix/slow-feature-analysis.html)
     1. [グラフ理論とネットワークモデル](https://compneuro-julia.github.io/appendix/graph-theory-network-model.html)
@@ -114,6 +114,3 @@ Julia v1.8.0-rc1
 - [GitHub](https://github.com/takyamamoto/SNN-from-scratch-with-Python)
 - [BOOTH](https://booth.pm/ja/items/1585421)
 ```
-
-
-
