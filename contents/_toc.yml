@@ -54,6 +54,7 @@ sections:
   - file: motor-learning/minimum-variance
   - file: motor-learning/optimal-feedback-control
   - file: motor-learning/infinite-horizon-ofc
+  - file: motor-learning/rat-trajectory
 - file: reinforcement-learning/intro
   sections:
   - file: reinforcement-learning/td-learning
@@ -67,7 +68,6 @@ sections:
   - file: bayesian-brain/quantile-expectile-regression
 - file: appendix/intro
   sections:
-  - file: appendix/rat-trajectory
   - file: appendix/grid-cells-decoding
   - file: appendix/slow-feature-analysis
   - file: appendix/graph-theory-network-model
