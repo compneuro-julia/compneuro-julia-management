@@ -1,0 +1,992 @@
+﻿% emathC.sty by tDB (emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{emathC}[2005/09/03 v0.25]%
+%
+%\RequirePackage{epic}%
+%\RequirePackage{eepic}%
+%\RequirePackage{eclarith}%
+\RequirePackage{calc}%
+\RequirePackage{ifthen}%
+%
+\@ifundefined{c@tempcnta}{\newcounter{tempcnta}}{}%% 2005/09/03
+\@ifundefined{templa}{\newdimen\templa}{}%
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          Ifor(#1=#2;#1<#3;#1+=#4){#5} 整数型
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\Ifor#1#2#3{\@ifnextchar[{\@Ifor{#1}{#2}{#3}}{%
+  \@Ifor{#1}{#2}{#3}[1]}}
+\def\@Ifor#1#2#3[#4]\Do#5{\@killglue\edef#1{#2}\def\fr@@tmp{#4}%
+  \ifx\@empty\fr@@tmp\@latexerr{!! Missing Argument!
+    For\string#1\string#2\string#3?Do}\@ehd\fi
+  \ifnum#4>\z@\def\fr@@cnd{\@whilenum#1<#3\do}%
+  \else\def\fr@@cnd{\@whilenum#1>#3\do}\fi
+  \fr@@cnd{#5\IAdd{#1}{#4}{#1}}\ignorespaces}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%          for(#1=#2;#1<#3;#1+=#4){#5}
+%             <#1>オプションを指定したときは，ループ変数を丸める。
+%             ex. <2> としたときは，小数第2位まで（第3位を四捨五入）
+%                                   fp-snap.sty が必要
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\@ifundefined{revised@For}{%
+\def\revised@For{}%
+\def\For{\@ifnextchar<{\@For}{\@For<\empty>}}
+\def\@For<#1>#2#3#4#5\Do#6{\@killglue\edef#2{#3}\def\fr@tmp{#5}%
+  \ifx\@empty\fr@tmp\@latexerr{!! Missing Argument!
+    For\string#2\string#3\string#4?Do}\@ehd\fi
+  \ifdim#5\p@>\z@\def\fr@cnd{\@whiledim#2\p@<#4\p@\do}%
+  \else\def\fr@cnd{\@whiledim#2\p@>#4\p@\do}\fi
+  \fr@cnd{#6\Add{#2}{#5}{#2}%
+    \ifx \empty#1\relax\else\FPround\fr@tmp{#2}{#1}\edef#2{\fr@tmp}\fi
+  }\ignorespaces}
+}{}%
+
+% ----------------------------------------------------------
+% \Cfor#1#2#3\do#4
+%   #1 : 初期設定
+%   #2 : 継続条件 \ifthenelse の書式
+%   #3 : 再設定
+%   #4 : ループ本体
+
+\long\def\Cfor#1#2#3\do#4{%
+  #1\ifthenelse{#2}{\Cfor@sub{#2}{#3}{#4}}{\relax}}%
+%\long\gdef\Cfor@sub#1#2#3{%
+\long\def\Cfor@sub#1#2#3{%  2002/09/28
+  #3\relax#2\relax\ifthenelse{#1}{\Cfor@sub{#1}{#2}{#3}}{\relax}}%
+% ----------------------------------------------------------
+% 文字列操作
+%
+\newtoks\emath@toks@
+%
+\def\repeatchar#1#2{\Ifor\i{0}{#2}\Do{#1}}% 文字列の繰り返し
+%
+% \getAlphnum : \Alph の逆関数
+%
+\def\getAlphnum#1#2{%
+  \setcounter{tempcnta}{\z@}\relax
+  \@whilenum\value{tempcnta}<27\relax\do{\stepcounter{tempcnta}\relax
+    \if #1\Alph{tempcnta}\relax
+      \edef#2{\thetempcnta}\setcounter{tempcnta}{27}\fi
+}}%
+%
+\def\EMedef{\protected@edef}
+\def\edefappend#1#2{%
+   \emath@toks@ = \expandafter{#1}%
+   \edef#1{\the\emath@toks@ #2}%
+}%
+\def\EMedefappend#1#2{%
+   \emath@toks@ = \expandafter{#1}%
+   \protected@edef#1{\the\emath@toks@ #2}%
+}%
+\def\edeffrontappend#1#2{%
+   \emath@toks@ = \expandafter{#1}%
+   \edef#1{#2\the\emath@toks@}%
+}%
+\def\xdefappend#1#2{%
+   \emath@toks@ = \expandafter{#1}%
+   \xdef#1{\the\emath@toks@ #2}%
+}%
+%
+% 引数などが空であるか否か
+\def\@emptymarkA{\@emptymarkB}
+\def\ifempty#1{\@@ifempty #1\@emptymarkA\@emptymarkB}%
+\def\@@ifempty#1#2\@emptymarkB{\ifx #1\@emptymarkA}%
+
+\def\IFempty#1#2#3{\ifempty{#1}#2\else\ifx \empty #1\relax#2\else#3\fi\fi}
+
+\def\Strcat#1#2#3{\edef#3{#1#2}}
+
+% 文字列の比較
+% \strcmp[#1]#2#3#4
+%   文字列 #2, #3 を比較して結果を #4 の制御綴に返す。
+%     戻り値 一致したとき   0
+%            一致しないとき 1
+%   [#1] を与えたときは，先頭から #1個のみを比較する。
+
+\def\strcmp{\@ifnextchar[{\@strcmp}{\@strcmp[1000]}}
+\def\@strcmp[#1]#2#3#4{\edef#4{1}\edef\strcmp@e{0}\edef\strcmp@n{#1}%
+  \Cfor{\headchar{#2}\strcmp@a\strcmp@aa
+    \headchar{#3}\strcmp@b\strcmp@bb}{\strcmp@n>\z@ \and \strcmp@e=\z@}{%
+    \Decr\strcmp@n
+    \headchar\strcmp@aa\strcmp@a\strcmp@aa
+    \headchar\strcmp@bb\strcmp@b\strcmp@bb}\do{%
+    \ifx\strcmp@a\empty\edef\strcmp@e{1}%
+      \ifx\strcmp@b\empty\edef#4{0}\fi\else
+    \ifx\strcmp@b\empty\edef\strcmp@e{1}\else
+    \if\strcmp@a\strcmp@b\else\edef\strcmp@e{1}
+    \fi\fi\fi}%
+  \ifnum\strcmp@n=\z@\edef#4{0}\fi}
+
+%%% 文字列の長さ
+%%% \strlen{文字列} で tempcnta にその長さを得る．
+%%%
+\def\strlen#1{%
+\setcounter{tempcnta}{0}%
+%\def\@c{}%
+\ifx\empty#1\else
+  \expandafter\@tfor\expandafter\@c\expandafter:\expandafter=#1\do{%
+    \stepcounter{tempcnta}%
+  }%
+\fi%
+}%
+
+\def\Strlen#1#2{\edef#2{0}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \IAdd{#2}{1}#2}}%
+\def\bStrlen#1#2{\edef#2{0}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \expandafter\ifnum\expandafter\kcatcode\expandafter`\@@c<18\relax
+      \IAdd{#2}{2}#2\else\IAdd{#2}{1}#2\fi\relax}}%
+
+%% \headchar#1#2#3
+%%               #1 : 文字列
+%%               #2 : 先頭の一文字
+%%               #3 : 先頭の一文字を除いたもの
+\def\headchar#1#2#3{%
+ \def\@headchar##1##2\@nil##3\@@nil##4\@@@nil{\edef##3{##1}\edef##4{##2}}%
+ \edef\headchar@s{#1}%
+ \ifthenelse{\equal\headchar@s\empty}{\edef#2{\empty}\edef#3{\empty}}{%
+   \expandafter\@headchar\headchar@s\@nil#2\@@nil#3\@@@nil}}
+\def\xheadchar#1#2#3{%
+  \def\@headchar##1##2\@nil##3\@@nil##4\@@@nil{\edef##3{##1}\edef##4{##2}}%
+ \edef\headchar@s{#1}%
+ \ifthenelse{\equal\headchar@s\empty}{\edef#2{\empty}\edef#3{\empty}}{%
+   \expandafter\@headchar\headchar@s\@nil#2\@@nil#3\@@@nil}%
+   \xdef#2{#2}\xdef#3{#3}}
+
+%\def\headchar#1#2#3{%
+%  \edef\headchar@tmp{#1}%
+%  \edef\headchar@{}\edef\headchar@remain{}%
+%  \expandafter\@tfor\expandafter\headchar@c\expandafter:%
+%    \expandafter=\headchar@tmp\do{%
+%    \ifthenelse{\equal\headchar@{}}{\edef\headchar@{\headchar@c}}{%
+%      \edef\headchar@remain{\headchar@remain\headchar@c}}}%
+%  \edef#2{\headchar@}%
+%  \edef#3{\headchar@remain}%
+%}
+%
+% \def
+%
+\def\Headchar#1#2#3{%
+  \def\@Headchar##1##2\@nil##3\@@nil##4\@@@nil{\edef##3{##1}\def##4{##2}}%
+  \expandafter\@Headchar#1\@nil#2\@@nil#3\@@@nil}
+%\def\Headchar#1#2{\edef#2{\empty}%
+%\expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+%  \ifthenelse{\equal{#2}{\empty}}{\edef#2{\@@c}}{}}}%
+%
+% \tailchar#1#2#3
+%   #1 : 元文字列
+%   #2 : 最後の文字を除いた文字列
+%   #3 : 最後の文字
+
+\def\tailchar#1#2#3{%
+  \edef\@str{}\edef\tlc@a{}\edef\tlc@b{}%
+  \expandafter\@tfor\expandafter\tlc@@c\expandafter:\expandafter=#1\do{%
+    \edef\tlc@a{\@str}\edef\@str{\@str\tlc@@c}\edef\tlc@b{\tlc@@c}}%
+    \edef#2{\tlc@a}\edef#3{\tlc@b}}
+%\def\tailchar#1#2#3{%
+%  \edef\@str{}\edef#2{}\edef#3{}%
+%  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+%    \edef#2{\@str}\edef\@str{\@str\@@c}\edef#3{\@@c}}}
+
+% 文字列サーチ
+%
+%\def\strchr#1#2#3{%
+% \def\@strchr##1#2##2#2##3\@nil{%
+%   \ifthenelse{\equal{##2}{}}{\edef#3{0}}{\edef#3{1}}}%
+% \expandafter\@strchr#1#2#2\@nil}%
+
+% \Strchr#1#2#3
+%   #1 : 探索の対象となる文字列
+%   #2 : 探索したい文字
+%   #3 : 見つかった位置（見つからなかった場合は 0）
+\def\Strchr#1#2#3{%
+  \IFempty{#1}{\edef#3{0}}{%
+  \edef\Strchr@i{0}%
+  \edef\Strchr@found{0}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \Incr\Strchr@i
+    \ifnum\Strchr@found=\z@
+      \ifthenelse{\equal{#2}\@@c}{\edef\Strchr@found{\Strchr@i}}{}%
+    \fi
+  }%
+  \edef#3{\Strchr@found}%
+}}
+
+% \Strstr
+%   #1 : 文字列
+%   #2 : 探索したい文字列
+%   #3 : 見つかった位置（見つからないときは 0）
+%
+\def\Strstr#1#2#3{%
+  \headchar{#2}\Strstr@head\Strstr@other
+  \Strlen{#2}\Strstr@length
+  \edef\Strstr@found{0}%
+  \edef\Strstr@str{#1}%
+  \Cfor{%
+    \Strchr\Strstr@str\Strstr@head\Strstr@pos\edef\Strstr@Pos{\Strstr@pos}}{%
+    \Strstr@pos>0 \and \Strstr@found=0}{%
+    \Incr\Strstr@pos
+    \Midstr{\Strstr@str}\Strstr@pos\Strstr@str
+    \Strchr\Strstr@str\Strstr@head\Strstr@pos
+    \IAdd\Strstr@Pos\Strstr@pos\Strstr@Pos}\do{%
+    \Midstr{\Strstr@str}\Strstr@pos\Strstr@tmp
+    \Leftstr\Strstr@tmp\Strstr@length\Strstr@tmp
+    \ifthenelse{\equal\Strstr@tmp#2}{\edef\Strstr@found{\Strstr@Pos}}{}%
+  }%
+  \edef#3{\Strstr@found}%
+}
+
+% 文字列を特定の文字で分割する．
+% \strsep#1#2#3#4
+%   #1 : 元文字列
+%   #2 : 識別文字
+%   #3 : 識別文字より前部
+%   #4 : 識別文字より後部
+%
+\def\strsep#1#2#3#4{%
+  \edef\strsep@str{#1}%
+  \edef\strsep@pre{}\edef\strsep@post{}\edef\strsep@found{0}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=\strsep@str\do{%
+    \ifnum\strsep@found=\z@
+      \if \@@c #2\relax\edef\strsep@found{1}%
+      \else\edef\strsep@pre{\strsep@pre\@@c}%
+      \fi
+     \else\edef\strsep@post{\strsep@post\@@c}%
+    \fi
+  }%
+  \edef#3{\strsep@pre}\edef#4{\strsep@post}}
+
+% パターンマッチングによる
+\let\EMdef\def%   必要に応じて \let\EMdef\gdef とする。
+\long\def\Strsep#1#2#3#4{%
+  \long\def\@@Strsep##1#2\@@nil{\EMdef#4{##1}}%
+  \long\def\@Strsep##1#2##2\@nil{\EMdef#3{##1}%
+    \ifthenelse{\equal{##2}\empty}{\EMdef#4{##2}}{%
+      \expandafter\@@Strsep##2\@@nil
+    }%
+  }%
+  \expandafter\@Strsep#1#2\@nil}
+
+% \argsep#1#2#3#4
+% 文字列 #1 を #2 を区切子として切り出す。
+%   #3 : 切り出した部分文字列を格納する配列名
+%   #4 : 得られた配列のサイズを受け取る制御綴
+%
+%   （例）\edef\moziretu{abc;d;ef}
+%         に対して
+%           \argsep\moziretu{;}{foo}\kosuu
+%         を実行すると
+%           \kosuu  : 3
+%           \fooi   : abc
+%           \fooii  : d
+%           \fooiii : ef
+%         という結果が得られる。
+%
+\def\argsep#1#2#3#4{%
+  \Cfor{\edef#4{0}\edef\argsep@b{#1}}{\not\equal{\argsep@b}{\empty}}{}\do{%
+    \strsep\argsep@b{#2}\argsep@a\argsep@b\Incr#4
+    \expandafter\edef\csname #3\romannumeral #4\endcsname{\argsep@a}}}
+%
+\def\Argsep#1#2#3#4{%
+  \Cfor{\edef#4{0}\protected@edef\Argsep@b{#1}}{\not\equal{\Argsep@b}{\empty}}{}\do{%
+    \Strsep\Argsep@b{#2}\Argsep@a\Argsep@b\Incr#4
+    \expandafter\protected@edef\csname #3\romannumeral #4\endcsname{\Argsep@a}}}
+%
+% \mkstrbuf[#1]#2#3
+%   #1 : 文字列を分解した配列名（デフォルトは strbuf）
+%   #2 : 文字列
+%   #3 : 文字列の長さを受け取る制御綴り
+
+\def\mkstrbuf{\@ifnextchar[{\@mkstrbuf}{\@mkstrbuf[strbuf]}}
+\def\@mkstrbuf[#1]#2#3{%
+  \edef\mkstrbufi@{0}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#2\do{%
+    \Incr\mkstrbufi@
+    \expandafter\edef\csname #1\romannumeral\mkstrbufi@\endcsname{\@@c}}%
+    \edef#3{\mkstrbufi@}\Incr\mkstrbufi@
+    \expandafter\edef\csname #1\romannumeral\mkstrbufi@\endcsname{\char0}%
+}
+
+\def\Leftstr#1#2#3{%
+  \mkstrbuf{#1}\Ls@length
+  \edef\Ls@buf{}%
+  \Cfor{\edef\Ls@i{0}}{\Ls@i<#2 \and \Ls@i<\Ls@length}{}\do{\Incr\Ls@i%
+    \edef\Ls@buf{\Ls@buf\csname strbuf\romannumeral\Ls@i\endcsname}}%
+  \edef#3{\Ls@buf}}
+
+\def\Rightstr#1#2#3{%
+  \mkstrbuf{#1}\Rs@length
+  \edef\Rs@buf{}%
+  \Cfor{\ISub\Rs@length{#2}\Rs@i\ifnum\Rs@i<\z@\edef\Rs@i{0}\fi}{%
+    \Rs@i<\Rs@length}{}\do{\Incr\Rs@i%
+    \edef\Rs@buf{\Rs@buf\csname strbuf\romannumeral\Rs@i\endcsname}}%
+  \edef#3{\Rs@buf}}
+
+\def\Midstr{\@ifnextchar[{\@Midstr}{\@Midstr[30000]}}%
+\def\@Midstr[#1]#2#3#4{%
+  \edef\Midstr@str{}%
+  \edef\Midstr@i{0}\edef\Midstr@n{0}\edef\Midstr@str{}%
+  \expandafter\@tfor\expandafter\@@c\expandafter:\expandafter=#2\do{%
+    \Incr\Midstr@i
+    \ifnum\Midstr@i<#3\else
+    \ifnum\Midstr@n<#1\edef\Midstr@str{\Midstr@str\@@c}\Incr\Midstr@n\fi\fi}%
+  \edef#4{\Midstr@str}%
+}
+% 文字（ボックス）の高さ・深さ・幅
+\def\EM@settodim#1#2{\setbox\@tempboxa\hbox{{#2}}\the#1\@tempboxa
+       \setbox\@tempboxa\box\voidb@x}
+\def\EMheight{\EM@settodim\ht}
+\def\EMdepth{\EM@settodim\dp}
+\def\EMwidth{\EM@settodim\wd}
+\def\EMtotalheight#1{{\setbox\@tempboxa\hbox{{#1}}\@tempdima\ht\@tempboxa
+      \advance\@tempdima\dp\@tempboxa\the\@tempdima
+       \setbox\@tempboxa\box\voidb@x}}
+\def\EMsettowidth{\@ifstar{\EMsettowidth@}{\@EMsettowidth}}
+\def\@EMsettowidth#1#2{\setbox0=\hbox{#2}\edef#1{\the\wd0}}
+\def\EMsettowidth@#1#2{\setbox0=\hbox{#2}\edef#1{\strip@pt\wd0}}
+%
+% \\ \par を含む段落 #2 の横幅を #1 の制御綴に返す
+%
+%   from Q&A #11667 Re: 囲み線内に数式はいれられますか？by 北見 けん さん
+%
+%\long\def\Settowidth#1#2{%
+%  \Cfor{\templa=0pt\Strsep{#2}{\par}\Settowidth@tmpa\Settowidth@tmpb}{%
+%    \not\equal\Settowidth@tmpa\empty}{%
+%    \Strsep\Settowidth@tmpb{\par}\Settowidth@tmpa\Settowidth@tmpb}\do{%
+%      \Cfor{\Strsep\Settowidth@tmpa{\\}\Settowidth@tmpc\Settowidth@tmpd}{%
+%      \not\equal\Settowidth@tmpc\empty}{%
+%      \Strsep\Settowidth@tmpd{\\}\Settowidth@tmpc\Settowidth@tmpd}\do{%
+%       \trim\Settowidth@tmpc\to\Settowidth@tmpc@
+%       \setbox0=\hbox{\Settowidth@tmpc@}\ifdim\wd0>\templa\templa=\wd0\fi}}%
+%  \setlength#1{\templa}\advance\templa\parindent
+%}
+\newdimen\Sett@width
+\long\def\Settowidth#1#2{%
+\setbox0=\hbox{%
+  \begin{Settowidth@sub}%
+    #2\relax
+  \end{Settowidth@sub}}%
+  \ifdim\Sett@width>\linewidth\Sett@width=\linewidth\fi
+  \setlength#1{\Sett@width}%
+}
+\def\Settowidth@sub{%
+\leavevmode
+% \hbox\bgroup
+  \vbox\bgroup
+  \def\par{\cr}%
+% \def\\{\cr}%
+  \def\\{\@ifnextchar[{\Sw@}{\cr}}%
+  \def\Sw@[##1]{\cr}%
+  \Sett@width=0pt\relax
+  \halign\bgroup
+  \setbox0\hbox{##}%
+  \ifdim\wd0>\Sett@width\global\Sett@width\wd0\fi
+  \cr
+}
+\def\endSettowidth@sub{\crcr
+%\egroup
+\egroup
+\egroup
+}
+%
+\def\IADD#1#2{\edef\IADD@ans{0}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \IAdd\@@c\IADD@ans\IADD@ans}%
+    \edef#2{\IADD@ans}}
+
+\def\IMUL#1#2{\edef\IMUL@ans{1}%
+  \expandafter\@for\expandafter\@@c\expandafter:\expandafter=#1\do{%
+    \IMul\@@c\IMUL@ans\IMUL@ans}%
+    \edef#2{\IMUL@ans}}
+
+% 空白除去
+% from jytex.tex
+
+\catcode`\^^?=13 \def^^?{\relax}
+
+\def\trimleading#1\to#2{\edef#2{#1}%
+     \expandafter\@trimleading\expandafter#2#2^^?^^?}
+\def\@trimleading#1#2#3^^?{\ifx#2^^?\def#1{}\else\def#1{#2#3}\fi}
+
+\def\trimtrailing#1\to#2{\edef#2{#1}%
+     \expandafter\@trimtrailing\expandafter#2#2^^? ^^?\relax}
+\def\@trimtrailing#1#2 ^^?#3{\ifx#3\relax\toks@={}%
+     \else\def#1{#2}\toks@={\trimtrailing#1\to#1}\fi
+     \the\toks@}
+
+\def\trim#1\to#2{\trimleading#1\to#2\trimtrailing#2\to#2}
+
+\catcode`\^^?=15
+%
+% 数値比較
+%
+\def\GE{EM@GE}
+\def\LE{EM@LE}
+\def\ifEMGL#1#2#3{%
+  \ifthenelse{\equal{#2}{EM@GE}}{%
+    % case \GE
+      \ifthenelse{\lengthtest{#1\p@>#3\p@}
+        \or\lengthtest{#1\p@=#3\p@}}%
+  }{\ifthenelse{\equal{#2}{EM@LE}}{%
+    % case \LE
+      \ifthenelse{\lengthtest{#1\p@<#3\p@}
+        \or\lengthtest{#1\p@=#3\p@}}%
+    }{%
+    % othercase(>,=,<)
+      \ifthenelse{\lengthtest{#1\p@#2#3\p@}}%
+    }
+  }
+}
+%
+\def\EMhikaku#1#2#3{\lengthtest{#1\p@#2#3\p@}}
+%
+% 単位付数値を \unitlength を単位とする無名数に変換
+%
+\def\dtoul#1#2{\@tempdima#1\relax
+  \setlength{\@tempdimb}{\@tempdima*\ratio{\p@}{\unitlength}}%
+  \edef#2{\strip@pt\@tempdimb}}
+\def\dtoux#1#2{%
+  \@ifundefined{xunitlength}{\dtoul{#1}#2}{%
+    \setlength{\@tempdimb}{#1*\ratio{\p@}{\xunitlength}}%
+    \edef#2{\strip@pt\@tempdimb}}%
+  }
+\def\dtouy#1#2{%
+  \@ifundefined{yunitlength}{\dtoul{#1}#2}{%
+    \setlength{\@tempdimb}{#1*\ratio{\p@}{\yunitlength}}%
+    \edef#2{\strip@pt\@tempdimb}}%
+  }
+%
+% 座標を変換
+%
+\def\dtouP#1#2{%
+  \vecXY{#1}\dtouP@x\dtouP@y
+  \dtoux\dtouP@x\dtouP@x
+  \dtouy\dtouP@y\dtouP@y
+  \edef#2{(\dtouP@x,\dtouP@y)}}
+%
+% 整数計算
+\def\Incr{\@ifnextchar[{\@Incr}{\@Incr[1]}}
+\def\@Incr[#1]#2{\IAdd{#2}{#1}#2}
+\def\Decr#1{\ISub{#1}{1}#1}
+\def\xIncr{\@ifnextchar[{\@xIncr}{\@xIncr[1]}}
+\def\@xIncr[#1]#2{\xIAdd{#2}{#1}#2}
+\def\xDecr#1{\xISub{#1}{1}#1}
+
+\def\IAdd#1#2#3{\setcounter{tempcnta}{#1}\advance\c@tempcnta #2%
+    \edef#3{\the\c@tempcnta}}%
+\def\ISub#1#2#3{\setcounter{tempcnta}{#1}\advance\c@tempcnta -#2%
+    \edef#3{\the\c@tempcnta}}%
+\def\IMul#1#2#3{\setcounter{tempcnta}{#1}\multiply\c@tempcnta #2%
+    \edef#3{\the\c@tempcnta}}%
+\def\IDiv#1#2#3{\setcounter{tempcnta}{#1}\divide\c@tempcnta #2%
+    \edef#3{\the\c@tempcnta}}%
+%\def\IMod#1#2#3{\setcounter{tempcnta}{#1}\divide\c@tempcnta #2%
+%   \multiply\c@tempcnta #2\ISub{#1}{\the\c@tempcnta}\@IMod\edef#3{\@IMod}}%
+\def\IMod#1#2#3{\IDiv{#1}{#2}\@IMod\IMul{\@IMod}{#2}\@IMod
+    \ISub{#1}\@IMod\@IMod\edef#3{\@IMod}}%
+\def\IDivMod#1#2#3#4{\IDiv{#1}{#2}\@IMod\edef#3{\@IMod}\IMul{\@IMod}{#2}\@IMod
+    \ISub{#1}\@IMod\@IMod\edef#4{\@IMod}}%
+\def\IAbs#1#2{\ifnum #1<\z@\IMul{#1}{-1}\i@abs\edef#2{\i@abs}\else%
+    \edef#2{#1}\fi}%
+%
+\def\IAddself#1#2{\IAdd{#1}{#2}#1}
+\def\ISubself#1#2{\ISub{#1}{#2}#1}
+\def\IMulself#1#2{\IMul{#1}{#2}#1}
+\def\IDivself#1#2{\IDiv{#1}{#2}#1}
+%
+\def\xIAdd#1#2#3{\setcounter{tempcnta}{#1}\advance\c@tempcnta #2%
+    \xdef#3{\the\c@tempcnta}}%
+\def\xISub#1#2#3{\setcounter{tempcnta}{#1}\advance\c@tempcnta -#2%
+    \xdef#3{\the\c@tempcnta}}%
+\def\xIMul#1#2#3{\setcounter{tempcnta}{#1}\multiply\c@tempcnta #2%
+    \xdef#3{\the\c@tempcnta}}%
+\def\xIDiv#1#2#3{\setcounter{tempcnta}{#1}\divide\c@tempcnta #2%
+    \xdef#3{\the\c@tempcnta}}%
+\def\xIMod#1#2#3{\IDiv{#1}{#2}\@IMod\IMul{\@IMod}{#2}\@IMod
+    \ISub{#1}\@IMod\@IMod\xdef#3{\@IMod}}%
+\def\xIDivMod#1#2#3#4{\IDiv{#1}{#2}\@IMod\xdef#3{\@IMod}\IMul{\@IMod}{#2}\@IMod
+    \ISub{#1}\@IMod\@IMod\xdef#4{\@IMod}}%
+
+\def\Icalc#1#2#3=#4{%
+  \if +#2\relax\IAdd{#1}{#3}#4\relax
+  \else\if -#2\relax\ISub{#1}{#3}#4\relax
+  \else\if *#2\relax\IMul{#1}{#3}#4\relax
+  \else\if /#2\relax\IDiv{#1}{#3}#4\relax
+  \else\if m#2\relax\IMod{#1}{#3}#4\relax
+  \fi\fi\fi\fi\fi}
+
+% IMax
+\def\IMax#1#2{\edef#2{\empty}%
+  \expandafter\@for\expandafter\@c\expandafter:\expandafter=#1\do{%
+    \ifx\empty#2\relax\edef#2{\@c}\else\ifnum\@c>#2\relax\edef#2{\@c}\fi\fi}}
+
+\def\edefhairetu#1#2{\expandafter\edef\csname #1\romannumeral#2\endcsname}
+\def\hairetu#1#2{\csname #1\romannumeral#2\endcsname}
+%
+% 実数の整数部分を取り出す。
+%   #1 の整数部分を #3 へ，
+%     必要ならば，小数部分を #2 へ取り出す。
+\def\Seisuububun#1{\@ifnextchar[{\@Seisuububun{#1}}{\@Seisuububun{#1}[\@dmy]}}
+\def\@Seisuububun#1[#2]#3{\strsep{#1}{.}#3\Seisuububun@tmp
+  \ifthenelse{\equal{#3}{-}}{\edef#3{0}}{%
+    \ifthenelse{\equal{#3}{-0}}{\edef#3{0}}{}%
+  }%
+  \ifx\empty\Seisuububun@tmp
+    \edef#2{\empty}%
+  \else
+    \edef#2{.\Seisuububun@tmp}%
+  \fi}
+%
+% #1 を超えない最大の整数 を #2 へ
+%
+\def\Int#1#2{\Seisuububun{#1}[\Int@a]#2\relax
+    \ifdim #1\p@<\z@
+      \ifx\empty\Int@a\else\Decr#2\relax\fi
+    \fi}
+%
+% 単位(pt)付きの場合
+\begingroup
+  \catcode`P=12
+  \catcode`T=12
+  \lowercase{
+    \def\int@x{\def\int@rem@pt##1.##2PT{##1}}}
+  \expandafter\endgroup\int@x
+\def\seisuu#1{\expandafter\int@rem@pt\the#1}
+\def\@seisuu{\expandafter\int@rem@pt\the}
+%
+% 素因子分解
+% \soinsi#1#2
+%     正の整数 #1 を素因子分解し，
+%       #2i, #2ii, #2iii, ....  に素因数
+%       #2bi, #2bii, #2biii, ...にその冪
+%       n#2 に異なる素因子の個数
+%     を返す．
+%
+\def\soinsi#1#2{{\EMc@hizyosuu#1\relax%
+  \ifnum#1=\@ne
+    \expandafter\xdef\csname n#2\endcsname{1}%
+    \expandafter\xdef\csname #2i\endcsname{1}%
+    \expandafter\xdef\csname #2bi\endcsname{1}%
+  \else
+    \expandafter\xdef\csname n#2\endcsname{0}%
+    \expandafter\xdef\csname #2bi\endcsname{0}%
+    \xdef\@ldsoinsi{1}%
+        \syou@amari{\EMc@hizyosuu}{2}%
+        \@tempcnta\EMc@syou\advance\@tempcnta\@ne%
+        \ifnum\@tempcnta>\tw@%
+        \@whilenum\EMc@zyo@amari=\z@\do{%
+          \xdef\@ldsoinsi{2}%
+          \expandafter\xdef\csname n#2\endcsname{1}%
+          \expandafter\xIncr\csname #2bi\endcsname
+          \expandafter\xdef\csname #2i\endcsname{2}%
+          \global\EMc@hizyosuu\EMc@syou%
+          \syou@amari{\EMc@hizyosuu}{2}%
+          \ifnum\EMc@syou<\tw@%
+              \EMc@zyo@amari=\@ne\fi%
+          }%
+        \fi%
+        \global\@tempcntb=3\relax%
+        \global\loop%
+        \syou@amari{\EMc@hizyosuu}{\@tempcntb}%
+        \@tempcnta\EMc@syou\advance\@tempcnta\@ne%
+        \ifnum\@tempcnta>\@tempcntb%
+        \@whilenum\EMc@zyo@amari=\z@\do{%
+          \ifnum\@tempcntb=\@ldsoinsi
+            \expandafter\xIncr\csname #2b\romannumeral\csname n#2\endcsname
+              \endcsname
+          \else
+            \xdef\@ldsoinsi{\the\@tempcntb}%
+            \expandafter\xIncr\csname n#2\endcsname
+            \expandafter\xdef\csname #2\romannumeral\csname n#2\endcsname
+              \endcsname{\the\@tempcntb}%
+            \expandafter\xdef\csname #2b\romannumeral\csname n#2\endcsname
+              \endcsname{1}%
+          \fi
+            \global\EMc@hizyosuu\EMc@syou%
+            \syou@amari{\EMc@hizyosuu}{\@tempcntb}%
+            \ifnum\EMc@syou<\@tempcntb%
+                \EMc@zyo@amari=\@ne\fi%
+            }%
+        \global\advance\@tempcntb\tw@
+        \syou@amari{\EMc@hizyosuu}{\@tempcntb}%
+        \repeat%
+        \@tempcntb\EMc@hizyosuu
+          \ifnum\@tempcntb=\@ldsoinsi
+            \expandafter\xIncr\csname #2b\romannumeral\csname n#2\endcsname
+              \endcsname
+          \else
+            \xdef\@ldsoinsi{\the\@tempcntb}%
+            \expandafter\xIncr\csname n#2\endcsname
+            \expandafter\xdef\csname #2\romannumeral\csname n#2\endcsname
+              \endcsname{\the\@tempcntb}%
+            \expandafter\xdef\csname #2b\romannumeral\csname n#2\endcsname
+              \endcsname{1}%
+          \fi
+  \fi
+}}%
+
+\if0
+\def\soinsi#1#2{%
+  \ifnum#1=\@ne\edefhairetu{#2}{1}{1}\edefhairetu{#2b}{1}{1}%
+    \expandafter\edef\csname n#2\endcsname{1}%
+  \else
+    \edef\soinsi@a{#1}\edef\soinsi@d{2}\edef\soinsi@n{0}%
+    \edef\soinsi@owari{0}%
+    \Cfor{\edef\soinsi@found{0}}{\soinsi@owari=0}{\edef\soinsi@found{0}}\do{%
+      \Cfor{\IDivMod\soinsi@a\soinsi@d\soinsi@q\soinsi@r}{\soinsi@r=0}{%
+        \IDivMod\soinsi@a\soinsi@d\soinsi@q\soinsi@r}\do{%
+        \ifnum\soinsi@found=\z@
+          \Incr\soinsi@n
+%       \expandafter\edef\csname #2\romannumeral\soinsi@n\endcsname{\soinsi@d}%
+%       \expandafter\edef\csname #2b\romannumeral\soinsi@n\endcsname{1}%
+          \edefhairetu{#2}{\soinsi@n}{\soinsi@d}%
+          \edefhairetu{#2b}{\soinsi@n}{1}%
+          \edef\soinsi@found{1}%
+        \else
+          \expandafter\Incr\csname #2b\romannumeral\soinsi@n\endcsname%
+        \fi
+        \edef\soinsi@a{\soinsi@q}%
+        \ifnum\soinsi@a=\@ne\edef\soinsi@owari{1}\fi%
+      }%
+      \ifnum\soinsi@a=\@ne\else
+        \ifnum\soinsi@d<\soinsi@q
+          \ifnum\soinsi@d=2\edef\soinsi@d{3}\else\Incr[2]\soinsi@d\fi
+        \else
+          \Incr\soinsi@n
+%       \expandafter\edef\csname #2\romannumeral\soinsi@n\endcsname{\soinsi@a}%
+%       \expandafter\edef\csname #2b\romannumeral\soinsi@n\endcsname{1}%
+          \edefhairetu{#2}\soinsi@n{\soinsi@a}%
+          \edefhairetu{#2b}\soinsi@n{1}%
+          \edef\soinsi@owari{1}%
+        \fi
+      \fi
+    }%
+    \expandafter\edef\csname n#2\endcsname{\soinsi@n}%
+  \fi
+}
+\fi
+
+% 素因数分解式
+%   #1 を素因数分解した式を #2 の制御綴りに返す。
+%   ex. \Soinsuubunkai{108}\siki : \siki に 2^2\times 3^3 が返る。
+
+\def\Soinsuubunkai#1#2{%
+\soinsi{#1}{soinsu@buf}
+\Cfor{\edef\i{0}\edef\soinsu@siki{}}{\i<\nsoinsu@buf}{}\do{%
+  \Incr\i
+  \ifthenelse{\equal\soinsu@siki{}}{}{\edefappend\soinsu@siki{\times}}%
+  \edefappend\soinsu@siki{\hairetu{soinsu@buf}{\i}}%
+  \ifthenelse{\hairetu{soinsu@bufb}{\i}>1}{%
+    \edefappend\soinsu@siki{^{\hairetu{soinsu@bufb}{\i}}}}{}%
+}\edef#2{\soinsu@siki}}%
+
+\long\def\IForNext#1#2#3{\@ifnextchar[{\@IForNext{#1}{#2}{#3}}{%
+  \@IForNext{#1}{#2}{#3}[1]}}%
+\long\def\@IForNext#1#2#3[#4]\Do#5{%
+  \edef#1{#2}%
+  \ifnum#4>\z@\@whilenum#1<#3\do{#5\IAdd{#1}{#4}#1}\else%
+  \@whilenum#1>#3\do{#5\IAdd{#1}{#4}#1}\fi%
+  }%
+\long\def\gIForNext#1#2#3{\@ifnextchar[{\@IForNext{#1}{#2}{#3}}{%
+  \@gIForNext{#1}{#2}{#3}[1]}}%
+\long\def\@gIForNext#1#2#3[#4]\Do#5{%
+  \gdef\@gIForNext@sub{#5\xIAdd{#1}{#4}#1%
+    \ifnum#1<#3\relax\let\@next\@gIForNext@sub\else\let\@next\relax\fi%
+    \@next}%
+  \xdef#1{#2}\@gIForNext@sub}%
+
+% 実数計算
+%\@ifundefined{Div}{%
+\newdimen\EMcalc@A
+\def\Add#1#2#3{% #3=#1+#2
+  \EMcalc@A=#1\p@ \advance\EMcalc@A by #2\p@ \edef#3{\strip@pt\EMcalc@A}%
+  \Strsep{#3}{.}\Add@a\Add@b
+  \EMcalc@A=.\Add@b\p@
+  \ifdim\EMcalc@A=\z@\edef#3{\Add@a}\fi
+}
+\def\Sub#1#2#3{% #3=#1-#2
+  \EMcalc@A=#1\p@ \advance\EMcalc@A by -#2\p@ \edef#3{\strip@pt\EMcalc@A}}
+\def\Mul#1#2#3{% #3=#1*#2
+  \EMcalc@A=#1\p@ \EMcalc@A=#2\EMcalc@A \edef#3{\strip@pt\EMcalc@A}}
+\def\Div#1#2#3{% #3=#1/#2
+  \setlength{\EMcalc@A}{\p@*\ratio{#1 pt}{#2 pt}}%
+  \edef#3{\strip@pt\EMcalc@A}}%
+%}{}%
+\def\xAdd#1#2#3{\Add{#1}{#2}#3\xdef#3{#3}}
+\def\xSub#1#2#3{\Sub{#1}{#2}#3\xdef#3{#3}}
+\def\xMul#1#2#3{\Mul{#1}{#2}#3\xdef#3{#3}}
+\def\xDiv#1#2#3{\Div{#1}{#2}#3\xdef#3{#3}}
+\def\Addself#1#2{\Add{#1}{#2}#1}
+\def\Subself#1#2{\Sub{#1}{#2}#1}
+\def\Mulself#1#2{\Mul{#1}{#2}#1}
+\def\Divself#1#2{\Div{#1}{#2}#1}
+%
+% -------------------------------------------
+% 単位換算
+%   \kansan#1#2#3
+%        #1 : 単位付数値
+%        #2 : 換算する単位長
+%        #3 : 結果（無名数）
+%
+%       ex: \kansan{1in}{1cm}\tmp \tmpは2.53963となる。すなわち
+%                  1in=2.53963cm
+%
+\def\kansan#1#2#3{%
+  \ifthenelse{\equal{#1}{0}}{%
+    \edef#3{0}%
+  }{%
+    \setlength{\@tempdimc}{#1*\ratio{\p@}{#2}}%
+    \edef#3{\strip@pt\@tempdimc}}}
+%
+% 特に \unitlength への換算
+%
+\def\ukansan#1#2{%
+  \ifthenelse{\equal{#1}{0}}{%
+    \edef#2{0}%
+  }{%
+    \setlength{\@tempdimc}{#1*\ratio{\p@}{\unitlength}}%
+    \edef#2{\strip@pt\@tempdimc}}}
+\def\uxkansan#1#2{%
+  \ifthenelse{\equal{#1}{0}}{%
+    \edef#2{0}%
+  }{%
+    \@ifundefined{xunitlength}{%
+      \setlength{\@tempdimc}{#1*\ratio{\p@}{\unitlength}}%
+    }{%
+      \setlength{\@tempdimc}{#1*\ratio{\p@}{\xunitlength}}%
+    }%
+  }%
+  \edef#2{\strip@pt\@tempdimc}}
+\def\uykansan#1#2{%
+  \ifthenelse{\equal{#1}{0}}{%
+    \edef#2{0}%
+  }{%
+    \@ifundefined{yunitlength}{%
+      \setlength{\@tempdimc}{#1*\ratio{\p@}{\unitlength}}%
+    }{%
+      \setlength{\@tempdimc}{#1*\ratio{\p@}{\yunitlength}}%
+    }%
+  }%
+  \edef#2{\strip@pt\@tempdimc}}
+% -------------------------------------------
+%
+% \appendU#1#2
+%     #1 : 数値
+%     #2 : #1が単位を伴っていれば #1 そのもの
+%        :         そうでなければ #1\unitlength を pt 単位にした文字列
+%
+\def\appendU#1#2{%
+  \tailchar{#1}\apU@tmp\apU@e
+  \ifthenelse{\isodd{0\apU@e1}}{%
+    \setlength{\@tempdima}{#1\unitlength}
+    \edef#2{\the\@tempdima}%
+  }{%
+    \edef#2{#1}%
+  }%
+}
+%
+%%% -----------------------------------------------
+%     関数
+%%% -----------------------------------------------
+
+% 最大最小
+\def\Max#1#2{\edef#2{\empty}%
+  \expandafter\@for\expandafter\Max@c\expandafter:\expandafter=#1\do{%
+    \ifx\empty#2\relax\edef#2{\Max@c}\else\ifdim\Max@c pt>#2pt\relax
+    \edef#2{\Max@c}\fi\fi}}
+\def\Min#1#2{\edef#2{\empty}%
+  \expandafter\@for\expandafter\Min@c\expandafter:\expandafter=#1\do{%
+    \ifx\empty#2\relax\edef#2{\Min@c}\else\ifdim\Min@c pt<#2pt\relax
+    \edef#2{\Min@c}\fi\fi}}
+
+% 平方根
+%\def\Heihoukon#1#2{%
+%%  \FProot#2{#1}{2}%
+%  \ifdim#1pt>0.0001pt\Sqroot{#1}\Heihoukon@y\edef#2{\Heihoukon@y}\else
+%   \edef#2{0}\fi
+%}%
+\def\Heihoukon#1#2{%
+  \ifthenelse{\lengthtest{#1 pt<0.001pt}}{\edef#2{0}}{%
+  \Cfor{\edef\Heihoukon@x{#1}\edef\Heihoukon@d{1}}{%
+    \lengthtest{\Heihoukon@d pt>0.001pt}}{}\do{%
+      \Div{#1}{\Heihoukon@x}\Heihoukon@y
+      \Add\Heihoukon@y\Heihoukon@x\Heihoukon@y
+      \Div\Heihoukon@y2\Heihoukon@y
+      \Sub\Heihoukon@y\Heihoukon@x\Heihoukon@d\Abs\Heihoukon@d\Heihoukon@d
+      \edef\Heihoukon@x{\Heihoukon@y}}%
+  \edef#2{\Heihoukon@y}}}
+
+% 指数関数
+%
+\def\Exp#1#2{\setlength{\@tempdimd}{#1pt}%
+\ifdim\@tempdimd>\z@%
+\def\@seisuubu{\@seisuu\@tempdimd}\Sub{#1}\@seisuubu\@syousuubu
+%\Add{\@seisuubu}{1}\@seisuubu%
+\Kansuuti{0.00003,0.00020,0.00139,0.00833,0.04167,0.16667,0.5,1,1}%
+\@syousuubu\exp@y%
+\For\exp@n{0}{\@seisuubu}{1}\Do{\Mul{2.7182818}\exp@y\exp@y}\edef#2{\exp@y}%
+\else\ifdim\@tempdimd=\z@\edef#2{1}\else%
+\Exp{-#1}\exp@y\Div{1}{\exp@y}\exp@y\edef#2{\exp@y}\fi\fi}%
+
+% 対数関数
+%
+\def\Napier{2.718281828}% 自然対数の底 e
+\def\Napierh{1.64872127}% \sqrt{e}
+\def\Napierii{7.389056}%  e^2
+\def\Napiermi{0.367879441}% 1/e
+\def\Log#1#2{\setlength{\@tempdimd}{#1pt}%
+\ifdim\@tempdimd>\z@\else\errmessage{Log の真数条件が満たされていません:#1}\fi
+\ifdim\@tempdimd=1pt\relax\edef#2{0}\else%
+\ifdim\@tempdimd>1pt\relax%
+  \ifdim\@tempdimd>\Napierii pt\relax\Div{#1}\Napierii\log@x\def\@seisuubu{2}\else
+  \ifdim\@tempdimd>\Napier pt\relax\Div{#1}\Napier\log@x\def\@seisuubu{1}\else
+  \def\log@x{#1}\def\@seisuubu{0}\fi\fi
+\Add{1}\log@x\log@x
+\Div{2}\log@x\log@x
+\Sub{1}\log@x\log@x%
+\Kansuuti{0.09091,0.11111,0,0.14286,0,0.2,0,0.33333,0,1,0}{\log@x}\log@x%
+\Add\log@x\log@x\log@x\Add\log@x\@seisuubu\log@x\edef#2{\log@x}%
+\else\Div{1}{#1}\l@x\Log\l@x\l@y\edef#2{-\l@y}\fi\fi}%
+
+% 三角関数
+\def\Pis{0.52359878}%     π/6
+%\def\Piq{0.78539816}%    π/4
+\def\Pit{1.04719755}%     π/3
+%\def\Pih{1.57079633}%    π/2
+\def\Pie{3.14159265}%    π
+%\def\Pii{6.28318531}%    2π
+\def\Pihiii{4.71238898}%  3π/2
+\def\Pitii{2.094395}%     2π/3
+\def\Pitiv{4.188790}%     4π/3
+\def\Pitv{5.235988}%      5π/3
+\def\Piqiii{2.356194}%    3π/4
+\def\Piqv{3.926991}%      5π/4
+\def\Piqvii{5.497787}%    7π/4
+\def\Pisv{2.617994}%      5π/6
+\def\Pisvii{3.665191}%    7π/6
+\def\Pisxi{5.759587}%    11π/6
+
+%\def\DegSin#1#2{\DegRad{#1}\@t\Sin\@t\@y\edef#2{\@y}}%
+%\def\DegCos#1#2{\DegRad{#1}\@t\Cos\@t\@y\edef#2{\@y}}%
+%\def\DegTan#1#2{\DegRad{#1}\@t\Tan\@t\@y\edef#2{\@y}}%
+%\def\DegSec#1#2{\DegRad{#1}\@t\Sec\@t\@y\edef#2{\@y}}%
+%\def\Tan#1#2{\Sin{#1}\tan@y\Cos{#1}\tan@x\Div\tan@y\tan@x\tan@y
+%  \edef#2{\tan@y}}%
+\def\Sec#1#2{\Cos{#1}\sec@y\Div{1}\sec@y\sec@y\edef#2{\sec@y}}%
+\def\DegSin#1#2{\CalculateSin{#1}\edef#2{\UseSin{#1}}}
+\def\DegCos#1#2{\CalculateCos{#1}\edef#2{\UseCos{#1}}}
+\def\DegTan#1#2{\CalculateTan{#1}\edef#2{\UseTan{#1}}}
+\def\Sin#1#2{\Mul{180}{#1}\TRIG@s\Div\TRIG@s\Pie\TRIG@s
+  \CalculateSin{\TRIG@s}\edef#2{\UseSin{\TRIG@s}}}
+\def\Cos#1#2{\Mul{180}{#1}\TRIG@c\Div\TRIG@c\Pie\TRIG@c
+  \CalculateCos{\TRIG@c}\edef#2{\UseCos{\TRIG@c}}}
+\def\Tan#1#2{\Mul{180}{#1}\TRIG@t\Div\TRIG@t\Pie\TRIG@t
+  \CalculateTan{\TRIG@t}\edef#2{\UseTan{\TRIG@t}}}
+
+% 逆三角関数
+%
+\def\atan#1#2{%
+  \def\atan@subsub{\Cos\atan@x\atan@c\Mul\atan@a\atan@c\atan@y
+    \Sin\atan@x\atan@s\Sub\atan@y\atan@s\atan@y
+    \Mul\atan@y\atan@c\atan@y\Add\atan@x\atan@y\atan@x
+    }%
+  \def\atan@sub{\def\atan@x{.7854}\atan@subsub\atan@subsub\atan@subsub%
+  \atan@subsub\atan@subsub}%
+  \ifdim #1pt>\@ne pt\relax\Div{1}{#1}\atan@a\atan@sub%
+    \Sub{1.570796}{\atan@x}\atan@x%
+  \else\ifdim #1pt<-1pt\relax\Div{1}{#1}\atan@a\atan@sub%
+    \Sub{-1.570796}{\atan@x}\atan@x%
+  \else\def\atan@a{#1}\atan@sub\fi\fi
+  \RadDeg\atan@x\atan@x\edef#2{\atan@x}}%
+%
+% by perl
+%
+\def\atanperl#1#2{\calcval{RadDeg(atan2(#1,1))}#2}
+%
+\def\acos#1#2{\Abs{#1}\acos@x
+% \ifdim \acos@x pt<0.0125pt\relax\edef#2{90}\else%
+%   \Div{1}{#1}\acos@tmp\Mul\acos@tmp\acos@tmp\acos@tmp%
+%   \Sub\acos@tmp{1}\acos@tmp%
+%   \ifdim \acos@tmp pt>\z@\Sqroot\acos@tmp\acos@tmp\else
+%     \def\acos@tmp{0}\fi%
+  \ifdim \acos@x pt<0.0003pt\relax\edef#2{90}\else%
+    \Mul{#1}{#1}\acos@tmp\Sub{1}\acos@tmp\acos@tmp
+    \Heihoukon\acos@tmp\acos@tmp
+    \Div\acos@tmp{#1}\acos@tmp
+    \atan\acos@tmp\acos@kaku%
+    \ifdim #1pt<\z@\Add{180}\acos@kaku\acos@kaku\fi%
+    \edef#2{\acos@kaku}\fi}%
+\def\asin#1#2{\acos{#1}\asin@x\Sub{90}\asin@x\asin@x\edef#2{\asin@x}}%
+
+% 絶対値
+% \Abs#1#2
+%   #1 の絶対値を #2 に与える．
+
+\def\Abs#1#2{\ifdim #1pt<\z@\Mul{-1}{#1}\@val\edef#2{\@val}\else
+  \edef#2{#1}\fi}%
+
+% 行列式
+%   ２次行列式
+\def\Detii#1#2#3#4{%
+  \Mul{#1}{#4}\Det@ans
+  \Mul{#2}{#3}\Det@tmp
+  \Sub\Det@ans\Det@tmp\Det@ans
+}
+
+%   ３次行列式
+\def\Detiii#1#2#3#4#5#6#7#8#9{%
+  \Mul{#1}{#5}\Det@tmp
+  \Mul\Det@tmp{#9}\Det@ans
+  \Mul{#2}{#6}\Det@tmp
+  \Mul\Det@tmp{#7}\Det@tmp
+  \Add\Det@ans\Det@tmp\Det@ans
+  \Mul{#3}{#4}\Det@tmp
+  \Mul\Det@tmp{#8}\Det@tmp
+  \Add\Det@ans\Det@tmp\Det@ans
+  \Mul{#1}{#6}\Det@tmp
+  \Mul\Det@tmp{#8}\Det@tmp
+  \Sub\Det@ans\Det@tmp\Det@ans
+  \Mul{#2}{#4}\Det@tmp
+  \Mul\Det@tmp{#9}\Det@tmp
+  \Sub\Det@ans\Det@tmp\Det@ans
+  \Mul{#3}{#5}\Det@tmp
+  \Mul\Det@tmp{#7}\Det@tmp
+  \Sub\Det@ans\Det@tmp\Det@ans
+}
+\endinput
+%
+v 0.01 2002/06/27 \Incr などを emath.sty から移す。
+v 0.02 2002/07/24 実数四則計算を eclarith に依存しない形にする。
+v 0.03 2002/09/29 \Strsep : パターンマッチングによる形式
+v 0.04 2002/10/09 \Strsep : \long\def とする。
+                  \Settowidth : \\, \par を含む段落の横幅を得る。
+v 0.05 2002/12/26 \Strchr : \if ---> \ifthenelse
+v 0.06 2003/01/10 \Strchr : 空白の混入を排除
+v 0.07 2003/03/17 \EMheight, \EMdepth, \EMwidth, \EMtotalheight
+v 0.08 2003/03/30 \Settowidth : 改訂
+v 0.09 2003/04/06 \Settowidth : 改訂
+                  \kansan 長さの単位換算,
+                  \ukansan \unitlength への換算
+                  \uxkansan \xunitlength への換算
+                  \uykansan \yunitlength への換算
+v 0.10 2003/07/12 \Setlinewidth : \\に[..]オプションがつく場合にも対応
+v 0.11 2003/09/11 数値を比較する \EMhikaku
+                  \Ifor, \Cfor emath.sty から移籍
+v 0.12 2003/10/29 \Addself など
+v 0.13 2003/11/01 \ifEMGL : 無名数の大小比較
+v 0.14 2003/11/07 \dtoul : 単位つき数値を \unitlength を単位とする無名数に
+v 0.15 2003/11/14 \For : <#1> オプションで，ループ変数を丸める
+v 0.16 2003/11/16 ロード順によって \For の再定義が無効になることへの対策
+v 0.17 2004/03/26 \appendU
+v 0.18 2004/07/08 \getAlphnum : \Alph の逆関数
+v 0.19 2004/09/27 \EMsettowidth
+v 0.20 2004/11/09 \Add 整数値のときは，小数点除去
+v 0.21 2005/01/15 \repeatchar ： 文字列の繰り返し
+v 0.22 2005/02/20 \Headchar : 先頭文字のみを返す
+v 0.23 2005/05/20-28 \Log : 真数条件のチェック
+                  \atanperl : perl を利用した arctan
+v 0.24 2005/06/19 \Argsep : \Strsep, \protected@edef 使用
+                  \EMedef, \EMedefappend : \protected@edef 使用
+v 0.25 2005/09/03 独立使用に配慮

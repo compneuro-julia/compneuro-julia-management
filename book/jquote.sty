@@ -1,0 +1,56 @@
+﻿%%% jquote.sty by tDB(emath@nifty.com)
+%
+\NeedsTeXFormat{LaTeX2e}%
+\ProvidesPackage{jquote}[2005/10/31 v0.01]%
+%
+    \RequirePackage{keyval}%
+%
+%%% インデント
+%%% jquote(#1)(#2)[#3]
+%%%     #1 : 左インデント（デフォルト値 2zw）
+%%%     #2 : 右インデント（デフォルト値 0zw）
+%%%     #3 : \topsep
+%
+  \define@key{jquote}{tsep}{\edef\t@sep{#1}}%
+  \define@key{jquote}{bsep}{\edef\b@sep{#1}}%
+  \define@key{jquote}{vsep}{\edef\t@sep{#1}\edef\b@sep{#1}}%
+%
+\def\jquote{%
+  \def\t@sep{0pt}\def\b@sep{0pt}%
+  \@ifnextchar<{\jquote@}{\@jquote}}
+\def\jquote@<#1>{\setkeys{jquote}{#1}\@jquote}
+\def\@jquote{\@ifnextchar({\@@jquote}{\@@jquote(2zw)}}%
+\def\@@jquote(#1){%
+  \@ifnextchar({\@@@jquote(#1)}{\@@@jquote(#1)(\z@)}}%
+\def\@@@jquote(#1)(#2){%
+    \@ifnextchar[{\@@@@jquote(#1)(#2)}{\@@@@jquote(#1)(#2)[\topsep]}}%
+\def\@@@@jquote(#1)(#2)[#3]{%
+% \leavevmode%
+  \ifdim\t@sep=\z@\else\vspace*{\t@sep}\fi
+  \list{}{\setlength{\leftmargin}{#1}\setlength{\rightmargin}{#2}%
+    \parsep\z@ plus\p@\setlength{\topsep}{#3}}%
+  \item\relax}%
+\def\endjquote{\endlist
+  \ifdim\b@sep=\z@\else\vspace*{\b@sep}\fi
+}
+%
+\def\jquotation{%
+  \def\t@sep{0pt}\def\b@sep{0pt}%
+  \@ifnextchar<{\jquotation@}{\@jquotation}}
+\def\jquotation@<#1>{\setkeys{jquote}{#1}\@jquotation}
+\def\@jquotation{\@ifnextchar({\@@jquotation}{\@@jquotation(2zw)}}%
+\def\@@jquotation(#1){\@ifnextchar({\@@@jquotation(#1)}{%
+\@@@jquotation(#1)(0zw)}}%
+\def\@@@jquotation(#1)(#2){\@ifnextchar[{\@@@@jquotation(#1)(#2)}{%
+    \@@@@jquotation(#1)(#2)[\z@ plus\p@]}}%
+\def\@@@@jquotation(#1)(#2)[#3]{%
+    \ifdim\t@sep=\z@\else\vspace*{\t@sep}\fi
+    \list{}{\leftmargin#1\rightmargin#2\listparindent\parindent%
+    \itemindent\parindent\parsep\z@ plus\p@\topsep#3\relax}%
+    \item\relax}%
+\def\endjquotation{\endlist
+  \ifdim\b@sep=\z@\else\vspace*{\b@sep}\fi
+}
+\endinput
+
+v 0.00 2005/06/30 emath.sty から独立

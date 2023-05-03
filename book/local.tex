@@ -1,0 +1,310 @@
+﻿
+%%% 丸囲み数字
+\newcommand\maru[1]{%
+\parbox{1zw}{\textcircled{\raisebox{-.25ex}{#1}}}
+}
+%%% 丸囲み数字2桁
+\newcommand\maruii[1]{%
+\parbox{1zw}{\textcircled{\raisebox{-.25ex}{\scalebox{0.7}[0.8]{#1}}}}
+}
+
+
+
+% 2倍ダッシュ
+\DeclareRobustCommand*\ddash{\makebox[2zw][s]{---\hss ---\hss ---}}
+
+
+
+%%% II
+\newcommand{\romaNi}{
+  \hskip-0.7mm\mbox{I\hskip-1.3ptI}\hskip-.0pt
+}
+
+
+
+%索引用
+\newcommand*{\idxleader}{\leaders\hbox{\textperiodcentered}\hfill\usefont{OT1}{phv}{m}{sl}}
+\newcommand*{\idxfont}{\fontsize{10.5\JQ}{17H}\selectfont\mc}%% \itemの後ろに入れる
+\renewcommand*{\indexspace}{\vspace*{17H}}
+\newcommand*{\idxsection}[1]{%
+\parbox{0zw}{\rlap{\includegraphics[scale=1.0]{ch-head/idx-head.eps}}}\parbox[c]{4mm}{\hfill\fontsize{10\JQ}{17H}\selectfont\gmbmfamily\usefont{OT1}{phv}{m}{n} \raisebox{1mm}{\textcolor{white} #1}\hfill\mbox{}}\par\nobreak}
+
+
+%%% verbatimフォント
+\makeatletter
+\def\verbatim@font{\cgofamily\usefont{OT1}{pcr}{m}{n}}
+\makeatother
+%%%%%%%%%%%%%%%%%%%
+
+\def\mathbf#1{\bgroup\text{\usefont{T1}{pnc}{b}{n}#1}\egroup}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+\usepackage{listings}
+\lstset{
+language= {C++},
+numbers=left,
+numberstyle=\usefont{T1}{pcr}{m}{n},
+numbersep=2mm,
+basicstyle=\usefont{T1}{pcr}{m}{n},
+keywordstyle=\color{black},
+commentstyle={\color{black}\kanjiskip=-3pt\hspace{-0.2zw}},
+stringstyle=\color{black},
+breaklines=true,
+breakindent=3mm,%% 追加
+framesep=0pt,showstringspaces=false,
+basewidth={0.575em,0.575em},
+%frame=single
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% プログラム アミ囲み
+%%%%%%%%
+\newenvironment{colorQuote}[1][shadecolor]{%
+  \def\FrameCommand##1{%
+\fboxsep=2mm%
+%\fboxrule=0.4mm%
+%\textcolor[gray]{0.5}{\vrule width 0.5mm}%
+    \colorbox[gray]{0.8}{\hskip4mm ##1\hskip4mm}%
+%\textcolor[gray]{0.5}{\vrule width 0.5mm}%
+  }%
+\MakeFramed{\advance\hsize-0.5\width\FrameRestore\advance\hsize-0.5\width}}%
+{\endMakeFramed}%\endquote
+%%%%%%%%
+
+\newenvironment{progbox}{%
+\hrule width0pt\vspace{0.75\Cvs}
+\bgroup
+\fontsize{11Q}{18H}\selectfont\usefont{OT1}{pcr}{m}{n}
+%\begin{colorQuote}
+\hrule width0pt \vspace{-2mm}
+\begin{indentation}{0mm}{0mm}
+\parindent=0zw
+}{
+\par
+\end{indentation}
+\hrule width0pt \vspace{-2mm}
+%\end{colorQuote}%
+\egroup\hrule width0pt\vspace{0.75\Cvs}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% プログラム アミ囲み 番号付き
+\newenvironment{progboxn}{%
+\hrule width0pt\vspace{0.75\Cvs}
+\bgroup
+\fontsize{11Q}{18H}\selectfont\usefont{OT1}{pcr}{m}{n}
+%\begin{colorQuote}
+\hrule width0pt \vspace{-2mm}
+\begin{indentation}{6mm}{6mm}
+\parindent=0zw
+}{
+\par
+\end{indentation}
+\hrule width0pt \vspace{-2mm}
+%\end{colorQuote}%
+\egroup\hrule width0pt\vspace{0.75\Cvs}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%プログラム タイトル付き アミ囲み
+\def\progtitle{}
+\makeatletter
+\newcounter{prog}[chapter]
+\renewcommand{\theprog}{%
+  \ifnum\c@chapter>\z@\thechapter.\fi\@arabic\c@prog}
+ \setcounter{prog}{0}%
+\makeatother
+
+\newenvironment{progboxt}{%
+\hrule width0pt \vspace{0.75\Cvs}
+\bgroup
+\refstepcounter{prog}
+\noindent{\fontsize{12.5\JQ}{22H}\selectfont\bfseries\usefont{OT1}{phv}{m}{n}%
+\parbox[b][2.4mm][t]{1zw}{\vspace*{0mm}\includegraphics[scale=1.0]{ch-head/prog-head.eps}}%
+プログラムリスト\theprog\hskip1zw{\fontsize{12.5Q}{22H}\selectfont\progtitle}}
+\hrule width0pt \vspace{-1mm}
+\fontsize{11Q}{18H}\selectfont\usefont{OT1}{pcr}{m}{n}
+%\begin{colorQuote}
+\hrule width0pt \vspace{-2mm}
+\begin{indentation}{6mm}{6mm}
+\parindent=0zw%
+}{
+\par
+\end{indentation}
+\hrule width0pt \vspace{-2mm}
+%\end{colorQuote}%
+\egroup\hrule width0pt \vspace{0.75\Cvs}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%プログラム タイトルなし アミ囲み（特別仕様）
+%\def\progtitle{}
+%\makeatletter
+%\newcounter{prog}[chapter]
+%\renewcommand{\theprog}{%
+%  \ifnum\c@chapter>\z@\thechapter.\fi\@arabic\c@prog}
+% \setcounter{prog}{0}%
+%\makeatother
+
+\newenvironment{progboxtn}{%
+\hrule width0pt \vspace{0.75\Cvs}
+\bgroup
+%\refstepcounter{prog}
+%\noindent{\fontsize{12.5\JQ}{22H}\selectfont\bfseries\usefont{OT1}{phv}{m}{n}%
+%\parbox[b][2.4mm][t]{1zw}{\vspace*{0mm}\includegraphics[scale=1.0]{ch-head/prog-head.eps}}%
+%プログラムリスト\theprog\hskip1zw{\fontsize{12.5Q}{22H}\selectfont\progtitle}}
+%\hrule width0pt \vspace{-1mm}
+\fontsize{11Q}{18H}\selectfont\usefont{OT1}{pcr}{m}{n}
+%\begin{colorQuote}
+\hrule width0pt \vspace{-2mm}
+\begin{indentation}{6mm}{6mm}
+\parindent=0zw%
+}{
+\par
+\end{indentation}
+\hrule width0pt \vspace{-2mm}
+%\end{colorQuote}%
+\egroup\hrule width0pt \vspace{0.75\Cvs}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 処理結果
+\def\shorikekka{%
+\noindent{\bfseries\usefont{OT1}{phv}{m}{n}%
+\parbox[b][2.4mm][t]{1zw}{\vspace*{0mm}\includegraphics[scale=1.0]{ch-head/prog-head.eps}}処理結果}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 参考文献
+\newenvironment{biblio}{\par
+\hrule width0pt\vspace{1\Cvs}
+\bgroup
+\noindent
+\parbox[t][9mm][t]{0mm}{\vspace*{0mm}\hspace*{0mm}}%\includegraphics[scale=1.0]{ch-head/sankou-head.eps}}%
+\hrule width0pt \vspace{1mm}
+\begin{thebibliography}{99}
+}{
+\end{thebibliography}
+\egroup
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 豆知識　枠
+\def\mamewaku{1}
+%%%%%%%%
+\newenvironment{colorQuotemame}[1][shadecolor]{%
+  \def\FrameCommand##1{%
+%\fboxsep=6mm%
+%\fboxrule=0.4mm%
+%\textcolor[gray]{0.5}{\vrule width 0.5mm}%
+    {##1}%
+%\textcolor[gray]{0.5}{\vrule width 0.5mm}%
+  }%
+\MakeFramed{\advance\hsize-6mm\FrameRestore\advance\hsize-6mm}}%
+{\endMakeFramed}%\endquote
+%%%%%%%%
+\newenvironment{mame}[1]{\par
+%\hrule width0pt\vspace{1\Cvs}
+\bgroup
+\noindent
+\parbox[t][0mm][t]{0mm}{\vspace*{-0mm}\hspace*{-0mm}}%\includegraphics[scale=1.0]{ch-head/mame-waku\mamewaku.eps}}
+%\hrule width0pt \vspace{-6mm}
+%\begin{colorQuotemame}
+%\noindent
+%\hspace{15mm}\hskip1.5mm {\fontsize{14\JQ}{22H}\selectfont\mdgfamily #1}%
+\hrule width0pt \vspace{7mm}
+}{
+\hrule width0pt \vspace{7mm}
+%\end{colorQuotemame}
+\egroup%\hrule width0pt\vspace{1\Cvs}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 練習問題
+\newenvironment{renshuu}{\par
+%\hrule width0pt \vspace{1\Cvs}
+\bgroup
+\noindent
+\parbox[t][9mm][t]{0mm}{\vspace*{0mm}\hspace*{-0.5zw}}%\includegraphics[scale=1.0]{ch-head/renshuu-head.eps}}%
+\hrule width0pt \vspace{-1mm}
+\begin{indentation}{0.5zw}{0zw}
+\begin{itemize}
+}{
+\end{itemize}
+\end{indentation}
+\egroup
+%\hrule width0pt \vspace{1\Cvs}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 黒丸
+\def\kmaru#1{\includegraphics[scale=1.0]{ch-head/kmaru#1.eps}\,}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% fig環境外でcap
+\def\figcap#1{\par%
+\bgroup
+\refstepcounter{figure}
+{\fontsize{11\JQ}{17H}\selectfont{\bfseries\usefont{OT1}{phv}{b}{n} 図\thefigure}\hskip1zw{}#1}
+\egroup
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 付録　ボックス
+\newenvironment{colorQuotei}[1][shadecolor]{%
+\fboxsep=2mm%
+\def\FrameCommand##1{%
+%
+\textcolor[gray]{0}{\vrule width 0.5mm}%
+    \colorbox[gray]{0.95}{##1}%
+\textcolor[gray]{0}{\vrule width 0.5mm}%
+}%
+\MakeFramed{\hrule width0pt\noindent
+\hrule width0pt\advance\hsize-0.5\width\FrameRestore\advance\hsize-0.5\width}}%
+{\endMakeFramed}%\endquote
+%%%%%%%%
+
+\newenvironment{kbox}{%
+\bgroup
+\hrule width0pt \vspace{0.5\Cvs}
+%
+\begin{colorQuotei}
+%%%%%%%%%%%%%%%%%%%%%%
+\noindent\parbox[t][0mm][t]{0mm}{\vspace*{-1\Cvs}\hspace*{-0.8zw}%
+\includegraphics[scale=1.0]{ch-head/kbox-t.eps}}%
+\hrule width0pt \vspace{-0.6\Cvs}
+%%%%%%%%%%%%%%%%%%%%%%
+}{
+\hrule width0pt \vspace{-0.25\Cvs}
+%%%%%%%%%%%%%%%%%%%%%%
+\noindent\parbox[t][0mm][t]{0mm}{\vspace{0.2\Cvs}\hspace*{-0.8zw}%
+\includegraphics[scale=1.0]{ch-head/kbox-b.eps}}%
+%%%%%%%%%%%%%%%%%%%%%%
+\end{colorQuotei}
+\egroup
+\hrule width0pt \vspace{0.7\Cvs}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+
+
+
+
+
+

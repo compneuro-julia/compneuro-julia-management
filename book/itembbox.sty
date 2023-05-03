@@ -1,0 +1,553 @@
+﻿%% itembbox.sty by tDB(CQB00260@nifty.ne.jp)
+
+%% eepic.sty との共存については，
+%% nifty:FSNOTE/MES13/05080 （現 FPIM)
+%% 05080 HGF02265  Roy              screen,itemboxの端がつぶれるのは何故?
+%% からのツリーの中における 松田 一朗 さんのご発言
+%% 05096 JAC01307  松田 一朗        RE:screen,itemboxの端がつぶれるのは何故
+%% 05105 JAC01307  松田 一朗        RE:screen,itemboxの端がつぶれるのは何故
+%% を参考にさせていただきました．お礼を申し上げます．m(__)m
+
+\def\tmpname{LaTeX2e}%
+\ifx\fmtname\tmpname%
+\ProvidesPackage{itembbox}[2004/08/10 v 0.19]%
+\RequirePackage{ascmac}
+\RequirePackage{keyval}
+\def\ltxoval(#1,#2){\@ifnextchar[{\ltx@oval(#1,#2)}{\ltx@oval(#1,#2)[]}}%
+\def\ltx@ovhorz{\hb@xt@\@ovxx{\kern \@ovro
+    \if@ovr \else \kern \@ovdx \fi
+    \leaders \hrule \@height \@wholewidth \hfil
+    \if@ovl \else \kern \@ovdx \fi
+    \kern \@ovri}}
+\def\ltx@oval(#1,#2)[#3]{\begingroup\boxmaxdepth \maxdimen
+  \@ovttrue \@ovbtrue \@ovltrue \@ovrtrue
+  \@tfor\reserved@a :=#3\do{\csname @ov\reserved@a false\endcsname}%
+  \@ovxx
+  #1\unitlength \@ovyy #2\unitlength
+  \@tempdimb \ifdim \@ovyy >\@ovxx \@ovxx\else \@ovyy \fi
+  \advance \@tempdimb -2\p@
+  \@getcirc \@tempdimb
+  \@ovro \ht\@tempboxa \@ovri \dp\@tempboxa
+  \@ovdx\@ovxx \advance\@ovdx -\@tempdima \divide\@ovdx \tw@
+  \@ovdy\@ovyy \advance\@ovdy -\@tempdima \divide\@ovdy \tw@
+  \@circlefnt \setbox\@tempboxa
+  \hbox{\if@ovr \@ovvert32\kern -\@tempdima \fi
+  \if@ovl \kern \@ovxx \@ovvert01\kern -\@tempdima \kern -\@ovxx \fi
+  \if@ovt \ltx@ovhorz \kern -\@ovxx \fi
+  \if@ovb \raise \@ovyy \ltx@ovhorz \fi}\advance\@ovdx\@ovro
+  \advance\@ovdy\@ovro \ht\@tempboxa\z@ \dp\@tempboxa\z@
+  \@put{-\@ovdx}{-\@ovdy}{\box\@tempboxa}%
+  \endgroup}%
+\def\@hobox#1#2#3{\hbox to\@scw{\ltx@oval(#3,#3)[#1]\hfil\ltx@oval(#3,#3)[#2]}}
+\else
+\newdimen\@savetbaselineshift
+\fi%
+
+%%% 共通変数
+%
+%\newtoks\iboxstr@
+\newtoks\iboxpos@
+\newbox\sc@itemb@x%     ascmac.sty の \@iboxstr に相当する．
+                  %     将来的にはそちらに合わせ，削除する．
+\newbox\sc@itemb@x@
+\def\EMitemboxindent{1zw}
+
+\define@key{emIB}{indent}{\def\IBindent{#1}}%
+\define@key{emIB}{sep}{\def\IBsep{#1}}%
+
+%%
+%% (1) 角の丸い，下見出しつきボックス
+%%
+%% itembbox environment
+%%
+%% \begin{itembbox}[配置]{見出し}
+%%        配置のデフォルトは r
+%%
+
+
+\def\itembbox{\@ifnextchar[{\@itembbox}{\@itembbox[r]}}%
+\def\@itembbox[#1]#2{%
+  \@savetbaselineshift\tbaselineshift\tbaselineshift\z@%
+  \par\vspace{.3\baselineskip}%
+  \setbox\sc@itemb@x=\hbox{#2}%                                     %
+  \@itemh\ht\sc@itemb@x\advance\@itemh\dp\sc@itemb@x%               %
+% \vspace{.5\@itemh}%
+  \bgroup\@scw\linewidth
+  \advance\@scw -20pt\iboxpos@={#1}%
+  \setbox\scb@x=\hbox%
+  \bgroup\begin{minipage}{\@scw}
+  \tbaselineshift\@savetbaselineshift\vspace*{.5\baselineskip}%
+  \parindent\EMitemboxindent}%
+
+\def\enditembbox{\end{minipage}\egroup%
+  \setbox\scscb@x=\hbox to\linewidth{%
+  \hfil%
+  \vbox{\offinterlineskip%
+    \thicklines\setlength{\unitlength}{1pt}%
+    \kern-.8pt\hrule height.8pt%
+    \kern9.6pt\@hobox{tl}{tr}{20}\kern-15pt% 上余白
+    \box\scb@x%
+    \kern.5\@itemh%   下余白
+    \@hobox{bl}{br}{20}\kern-.8pt%
+    \hbox to\@scw{\if l\the\iboxpos@\else\@hleader\fi%
+    \ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x}\vss}\ %
+    \if r\the\iboxpos@\else\@hleader\fi}%
+    }\hfil}%
+  \dimen0=\ht\scscb@x%
+  \noindent\hbox to\linewidth{%
+  \hbox to.6pt{\vbox to\dimen0{\@vrf@{10pt}{.8pt}}\hss}%
+  \box\scscb@x%
+  \hbox to.6pt{\hss\vbox to\dimen0{\@vrf@{10pt}{.9pt}}}\hss}%
+  \egroup\vspace{.5\@itemh}}
+%%
+%% (2) 角の丸い上下見出しつきボックス
+%%
+%% itemtbbox environment
+%%
+%% \begin{itemtbbox}<上見出し配置>[下見出し配置]{上見出し}{下見出し}
+%%            上見出し配置のデフォルトは l （左）
+%%            下見出し配置のデフォルトは r （右）
+%%
+\def\itemtbbox{\@ifnextchar<{\itemtb@box}{\itemtb@box<l>}}%
+\def\itemtb@box<#1>{\@ifnextchar[{\@itemtbbox<#1>}{\@itemtbbox<#1>[r]}}%
+\def\@itemtbbox<#1>[#2]#3#4{%
+  \@savetbaselineshift\tbaselineshift\tbaselineshift\z@%
+  \par\vspace{.3\baselineskip}%
+  \setbox\sc@itemb@x=\hbox{#3}%
+  \iboxpos@={#2}%\iboxstr@={#4}%
+  \@iboxpos={#1}%\@iboxstr={#3}%
+  \setbox\sc@itemb@x@=\hbox{#4}%
+  \@itemh\ht\sc@itemb@x\advance\@itemh\dp\sc@itemb@x%
+  \vspace{.5\@itemh}\bgroup\@scw\linewidth
+  \advance\@scw -20pt
+  \setbox\scb@x=\hbox%
+  \bgroup\begin{minipage}{\@scw}
+  \tbaselineshift\@savetbaselineshift\vspace*{.5\@itemh}%
+  \parindent\EMitemboxindent}%
+
+\def\enditemtbbox{\end{minipage}\egroup%
+  \setbox\scscb@x=\hbox to\linewidth{%
+  \hfil\vbox{\offinterlineskip%
+  \thicklines\setlength{\unitlength}{1pt}%
+  \hbox to\@scw{%
+    \if l\the\@iboxpos\else\@hleader\fi%
+%   \ \vbox to.8pt{\vss\hbox{\the\@iboxstr}\vss}\ %
+    \ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x}\vss}\ %
+    \if r\the\@iboxpos\else\@hleader\fi%
+    }%
+  \kern9.6pt\@hobox{tl}{tr}{20}\kern-15pt% 上余白
+  \box\scb@x%
+  \@itemh\ht\sc@itemb@x@\advance\@itemh\dp\sc@itemb@x@%
+  \kern.5\@itemh%   下余白
+  \@hobox{bl}{br}{20}\kern-.8pt%
+  \hbox to\@scw{\if l\the\iboxpos@\else\@hleader\fi%
+% \ifx\empty\the\iboxstr@\else%
+% \ \vbox to.8pt{\vss\hbox{\the\iboxstr@}\vss}\ %
+% \fi%
+  \ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x@}\vss}\ %
+  \if r\the\iboxpos@\else\@hleader\fi}%
+  }\hfil}%
+  \dimen0=\ht\scscb@x%
+  \noindent\hbox to\linewidth{%
+  \hbox to.6pt{\vbox to\dimen0{\@vrf@{10pt}{.8pt}}\hss}%
+  \box\scscb@x%
+  \hbox to.6pt{\hss\vbox to\dimen0{\@vrf@{10pt}{.9pt}}}\hss}%
+  \egroup\vspace{.5\@itemh}}
+
+%% -----------------------------------------------------------------------
+%%
+%% (3) 角の四角な上見出しつきボックス
+%%
+%% itemsquarebox environment
+%%
+%% \begin{itemsquarebox}<key=val>[配置]{見出し}
+%%        key:
+%%          indent=dimen タイトルの位置（[l], [r] オプションの際）
+%%          sep=dimen    タイトルと罫線との間隔
+%%        配置のデフォルトは c （中央）
+%%
+\def\itemsquarebox{\def\IBindent{20pt}\def\IBsep{3.3333pt}%
+  \@ifnextchar<{\itemsquarebox@}{\@itemsquarebox}}
+\def\itemsquarebox@<#1>{\setkeys{emIB}{#1}\@itemsquarebox}
+\def\@itemsquarebox{\@ifnextchar[{\@@itemsquarebox}{\@@itemsquarebox[c]}}
+\def\@@itemsquarebox[#1]#2{%
+  \@savetbaselineshift\tbaselineshift\tbaselineshift\z@
+  \par\vspace{.3\baselineskip}%
+  \setbox\sc@itemb@x=\hbox{#2}\@itemh\ht\sc@itemb@x
+  \advance\@itemh\dp\sc@itemb@x
+  \vspace{.5\@itemh}\bgroup\@scw\linewidth
+  \advance\@scw-20pt\@iboxpos={#1}%
+  \setbox\scb@x=\hbox\bgroup\begin{minipage}{\@scw}%
+  \tbaselineshift\@savetbaselineshift% (KN:1998/02/27)
+  \vspace*{.5\@itemh}%
+  \parindent\EMitemboxindent}%
+\def\enditemsquarebox{\end{minipage}\egroup%
+  \setbox\scscb@x=\hbox to\linewidth{\hfil\vbox{\offinterlineskip%
+  \thicklines\setlength{\unitlength}{1pt}%
+  \hbox to\linewidth{%
+    \if l\the\@iboxpos\vbox{\hrule width \IBindent height.8pt}%
+    \else\@hleader\fi%   横幅変更
+    \hspace{\IBsep}%
+    \vbox to.8pt{\vss\hbox{\box\sc@itemb@x}\vss}%
+    \hspace{\IBsep}%
+    \if r\the\@iboxpos\vbox{\hrule width \IBindent height.8pt}%
+    \else \@hleader\fi}%
+  \kern9.6\p@%            上余白
+  \hbox{\kern10\p@\box\scb@x\hfil}% 本体（左余白附加）
+  \kern10\p@%             下余白
+  \kern-.8pt\hrule height.8pt%
+  }\hfil}\dimen0=\ht\scscb@x%
+  \noindent
+  \hbox to\linewidth{%
+  \hbox to 0.6pt{\vbox to\dimen0{\@vrf@{0pt}{.8pt}}\hss}% 左罫線
+  \box\scscb@x%
+  \hbox to.6pt{\hss\vbox to\dimen0{\@vrf@{0pt}{.9pt}}}% 右罫線（罫線長変更）
+  \hss}%
+  \egroup}
+
+%%
+%% (4) 角の四角な下見出しつきボックス
+%%
+%% itembsquarebox environment
+%%
+%% \begin{itembsquarebox}[配置]{見出し}
+%%        配置のデフォルトは r （右）
+
+\def\itembsquarebox{\@ifnextchar[{\@itembsquarebox}{\@itembsquarebox[r]}}
+\def\@itembsquarebox[#1]#2{%
+\@savetbaselineshift\tbaselineshift\tbaselineshift\z@
+\par\vspace{.3\baselineskip}%
+\setbox\sc@itemb@x@=\hbox{#2}%
+\@itemh\ht\sc@itemb@x@\advance\@itemh\dp\sc@itemb@x@%
+\bgroup\@scw\linewidth%
+\setlength{\@tempdima}{\@scw}%
+\addtolength{\@tempdima}{-20pt}%
+\@iboxpos={#1}%\@iboxstr={#2}%
+\setbox\scb@x=\hbox\bgroup\begin{minipage}{\@tempdima}
+\tbaselineshift\@savetbaselineshift\vspace*{.5\baselineskip}%
+\parindent\EMitemboxindent}%
+
+\def\enditembsquarebox{\end{minipage}\egroup%
+\setbox\scscb@x=\hbox to\linewidth{\hfil\vbox{\offinterlineskip%
+\thicklines\setlength{\unitlength}{1pt}\kern-.8pt%
+\hrule height.8pt%
+\vskip4.8pt
+\hbox to \linewidth{\kern10pt\box\scb@x\hfil}%
+\kern.5\@itemh
+\kern4.8pt%
+\hbox to\linewidth{\if l\the\@iboxpos\vbox{\hrule width 20pt height.8pt}\else
+\@hleader\fi%
+\ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x@}\vss}\ \if r\the\@iboxpos%
+\vbox{\hrule width 20pt height.8pt}\else\@hleader\fi}}\hfil}%
+\dimen0=\ht\scscb@x%
+\advance\dimen0.8pt\relax%    罫線長の調整 2001/04/20
+\noindent\hbox to\linewidth{\hbox to.6pt{\vbox to\dimen0{\@vrf@{0pt}{.8pt}}%
+\hss}\box\scscb@x\hbox to.6pt{\hss\vbox to\dimen0{\@vrf@{0pt}{.9pt}}}\hss}%
+\egroup\vspace{.5\@itemh}}
+
+%%
+%% (5) 角の四角な上下見出しつきボックス
+%%
+%% itemtbsquarebox environment
+%%
+%% \begin{itemtbsquarebox}<上見出し配置>[下見出し配置]{上見出し}{下見出し}
+%%            上見出し配置のデフォルトは l （左）
+%%            下見出し配置のデフォルトは r （右）
+
+\def\itemtbsquarebox{\@ifnextchar<{\itemtb@squarebox}{\itemtb@squarebox<l>}}%
+\def\itemtb@squarebox<#1>{%
+\@ifnextchar[{\@itemtbsquarebox<#1>}{\@itemtbsquarebox<#1>[r]}}%
+\def\@itemtbsquarebox<#1>[#2]#3#4{%
+\@savetbaselineshift\tbaselineshift\tbaselineshift\z@%
+\par\vspace{.3\baselineskip}%
+\setbox\sc@itemb@x=\hbox{#3}%
+\setbox\sc@itemb@x@=\hbox{#4}%
+\@itemh\ht\sc@itemb@x\advance\@itemh\dp\sc@itemb@x%
+\vspace{.5\@itemh}\bgroup\@scw\linewidth%
+\@iboxpos={#1}%\@iboxstr={#3}%
+\iboxpos@={#2}%\iboxstr@={#4}%
+\setlength{\@tempdima}{\@scw}%
+\addtolength{\@tempdima}{-20pt}%
+\setbox\scb@x=\hbox\bgroup\begin{minipage}{\@tempdima}
+\tbaselineshift\@savetbaselineshift\vspace*{.75\@itemh}\parindent\EMitemboxindent}%
+\def\enditemtbsquarebox{\end{minipage}\egroup%
+\setbox\scscb@x=\hbox to\linewidth{\hfil\vbox{\offinterlineskip%
+\thicklines\setlength{\unitlength}{1pt}%
+\hbox to\linewidth{\if l\the\@iboxpos\vbox{\hrule width 20pt height.8pt}%
+\else\@hleader\fi%
+\ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x}\vss}\ \if r\the\@iboxpos%
+\vbox{\hrule width 20pt height.8pt}\else\@hleader\fi}%
+\@itemh\ht\sc@itemb@x@\advance\@itemh\dp\sc@itemb@x@%
+\kern9.6pt%
+\hbox{\kern10pt\box\scb@x}
+\kern.75\@itemh
+\kern4.8pt%
+\hbox to\linewidth{\if l\the\iboxpos@\vbox{\hrule width 20pt height.8pt}\else
+\@hleader\fi
+\ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x@}\vss}\ \if r\the\iboxpos@%
+\vbox{\hrule width 20pt height.8pt}\else\@hleader\fi}}\hfil}%
+\dimen0=\ht\scscb@x%
+\noindent\hbox to\linewidth{\hbox to.6pt{\vbox to\dimen0{\@vrf@{0pt}{.8pt}}%
+\hss}\box\scscb@x\hbox to.6pt{\hss\vbox to\dimen0{\@vrf@{0pt}{.9pt}}}\hss}%
+\egroup\vspace{.5\@itemh}}%
+
+%% -----------------------------------------------------------------------
+%%
+%% (6) 見出しのある影つきボックス
+%%
+%% itemshadebox environment
+%%
+%% \begin{itemshadebox}[配置]{見出し}
+%%        配置のデフォルトは c （中央）
+
+\newdimen\@itemw%
+\newdimen\shaderule\shaderule 5pt
+\def\itemshadebox{\@ifnextchar[{\@itemshadebox}{\itemshadebox[c]}}%
+\def\@itemshadebox[#1]#2{%
+\lineskiplimit=\z@\normallineskiplimit=\z@
+\lineskip=\p@\normallineskip=\p@
+\setbox\sc@itemb@x=\hbox{#2}%
+\@itemh\ht\sc@itemb@x\advance\@itemh\dp\sc@itemb@x%
+\@iboxpos={#1}%\@iboxstr={#2}%
+\dimen0\linewidth \advance\dimen0-20pt
+\advance\dimen0-2\fboxrule \advance\dimen0-\shaderule
+\global\@itemw\dimen0\advance\@itemw19pt%
+\vskip.5\@itemh\noindent%
+\setbox\@tempboxa=\hbox\bgroup\minipage{\dimen0}\vskip\@itemh}
+\def\enditemshadebox{%
+\vspace{.2\baselineskip}%
+\endminipage\egroup\dimen0=10pt \advance\dimen0-\fboxrule
+\setbox\@tempboxa=\hbox{\kern\dimen0\unhbox\@tempboxa\kern\dimen0}%
+\setbox0=\vbox{%
+\hbox to \@itemw{\vspace{-1pt}\if l\the\@iboxpos\vbox{\hrule width 20pt height.8pt}%
+\else\@hleader\fi%
+\ \vbox to.8pt{\vss\hbox{\box\sc@itemb@x}\vss}\ \if r\the\@iboxpos%
+\vbox{\hrule width 20pt height.8pt}\else\@hleader\fi}%
+\hbox{\vrule \@width \fboxrule \hskip-\fboxrule
+\vbox{\vskip\fboxsep \box\@tempboxa\vskip\fboxsep}%
+\hskip-\fboxrule\vrule \@width \fboxrule}\hrule \@height \fboxrule}%
+\dimen0=\ht0 \advance\dimen0-\shaderule
+\leavevmode\hbox{\hbox to \shaderule{\copy0\hss}\kern 0pt
+\vrule width\wd0 height0pt depth\shaderule\hskip-\shaderule
+\vrule width\shaderule height\dimen0}}%
+
+%% -----------------------------------------------------------------------
+%%
+%% squarebox
+%%
+%%    普通の枠
+%%
+\def\squarebox{%
+\@savetbaselineshift\tbaselineshift\tbaselineshift\z@%
+\par\vspace{.3\baselineskip}%
+\bgroup\@scw\linewidth%
+\setlength{\@tempdima}{\@scw}%
+\addtolength{\@tempdima}{-18pt}%
+\setbox\scb@x=\hbox\bgroup\begin{minipage}{\@tempdima}
+\tbaselineshift\@savetbaselineshift\parindent\EMitemboxindent}%
+\def\endsquarebox{\end{minipage}\egroup%
+\setbox\scscb@x=\hbox to\linewidth{\hfil\vbox{\offinterlineskip%
+\thicklines\setlength{\unitlength}{1pt}%
+\kern-.8pt\hrule height.8pt
+\kern6.4pt%
+\hbox to \linewidth{\kern10pt\box\scb@x\hfil}%
+\kern6.4pt%
+\kern-.8pt\hrule height.8pt}\hfil}\dimen0=\ht\scscb@x%
+\advance\dimen0.76pt\relax%    罫線長の調整 2001/04/20
+\noindent\hbox to\linewidth{\hbox to.6pt{\vbox to\dimen0{\@vrf@{0pt}{.8pt}}%
+\hss}\box\scscb@x\hbox to.6pt{\hss\vbox to\dimen0{\@vrf@{0pt}{.9pt}}}\hss}%
+\egroup}%
+
+%% -----------------------------------------------------------------------
+%%
+%% dblbox
+%%
+%%    二重枠
+%%
+\newdimen\dblboxrule\dblboxrule1.2pt%         外枠の太さ
+\newdimen\dblboxrulein\dblboxrulein0.2pt%     内枠の太さ
+\newdimen\dblboxsep\dblboxsep2.5pt%           外枠と内枠の間隔
+\def\@hleaderin{\leaders\hrule height \dblboxrulein depth 0pt\hfil}%
+\def\dblbox{%
+\@savetbaselineshift\tbaselineshift\tbaselineshift\z@%
+\par\vspace{.3\baselineskip}%
+\bgroup\@scw\linewidth%
+\setlength{\@tempdima}{\@scw}%
+\addtolength{\@tempdima}{-20pt}%
+\setbox\scb@x=\hbox\bgroup\begin{minipage}{\@tempdima}
+\tbaselineshift\@savetbaselineshift\parindent\EMitemboxindent}%
+\def\enddblbox{\end{minipage}\egroup%
+\setbox\scscb@x=\hbox to\linewidth{\hfil\vbox{\offinterlineskip%
+\thicklines\setlength{\unitlength}{1pt}%
+\kern-\dblboxrule\hrule height\dblboxrule\vskip\dblboxsep%
+\kern-\dblboxrule%
+\hbox to \linewidth{\hskip\dblboxsep\@hleaderin\hskip\dblboxsep}%
+\kern6.4pt%
+\hbox to \linewidth{\kern10pt\box\scb@x\hfil}%
+\kern6.4pt%
+\kern-\dblboxrule\hbox to \@scw{\hskip\dblboxsep\@hleaderin%
+\hskip\dblboxsep}\vskip\dblboxsep%
+\kern-\dblboxrule\hrule height\dblboxrule}\hfil}%
+\dimen0=\ht\scscb@x%
+\advance\dimen0\dblboxrule% 罫線長の調整 2001/04/20
+%\advance\dimen0-.5\dblboxrulein% 罫線長の調整 2001/04/20
+\advance\dimen0-.6\dblboxrulein% 罫線長の調整 2001/04/20
+\noindent
+\hbox to\linewidth{%
+  \hbox to 0.6pt{%
+    \vbox to\dimen0{\@vrf@{0pt}{.8pt}}\kern2.2pt% 左罫線（罫線長変更）
+    \vbox to\dimen0{\@vrf@{2.4pt}{.2pt}}\hss}%  左内罫線（罫線長変更）
+  \box\scscb@x%
+  \hbox to.6pt{%
+  \hss\vbox to\dimen0{\@vrf@{2.4pt}{.2pt}}\kern2.2pt%
+  \vbox to\dimen0{\@vrf@{0pt}{.9pt}}}% 右罫線（罫線長変更）
+  \hss}%
+\egroup}%
+
+% boxnote
+\def\boxnote{\par\vspace{\baselineskip}
+\@savetbaselineshift\tbaselineshift\tbaselineshift\z@
+\setbox\@nbox=\hbox{\@ascgrp\vrule width1.08pt depth35pt b\hss a\hss b}
+\@whiledim \wd\@nbox<\hsize \do{
+\setbox\@nbox=\hbox{\@ascgrp\unhbox\@nbox \hss a\hss b}}
+\setbox\@nbox=\hbox to\hsize{\@ascgrp\unhbox\@nbox \hss a\hss b%
+\vrule width1.08pt depth35pt}
+\@bw=\wd\@nbox\advance\@bw -40pt
+\begin{lrbox}{\@nbody}\begin{minipage}{\@bw}% (KN:1998/02/27)
+  \tbaselineshift\@savetbaselineshift}%
+\def\endboxnote{\end{minipage}\end{lrbox}%
+\vbox{\parindent=0pt\offinterlineskip\copy\@nbox
+\hbox to\wd\@nbox{\vrule width1.08pt\hfil\box\@nbody\hfil\vrule width1.08pt}
+\hbox to\wd\@nbox{\vrule width1.08pt height15pt\hfil
+\vrule width1.08pt height15pt}\hrule height1.08pt}}
+%
+% shadebox 修正
+%
+\let\asciishadebox\shadebox
+\let\endasciishadebox\endshadebox
+\def\shadebox{\par\noindent\asciishadebox}%
+\def\endshadebox{\endasciishadebox\par}%
+%
+% keytop : okumacro.sty の定義を epic, eepic との併用に向けて修正
+%
+\let\asckeytop\keytop
+\def\removept#1#2{%
+    \edef#2{\expandafter\@removePT\the#1}}%
+{\catcode`p=12 \catcode`t=12 \gdef\@removePT#1pt{#1}}%
+\def\keytop#1{{\leavevmode\kern1pt
+  \setbox1=\hbox{\normalfont\sffamily [}%
+  \dimen1=\ht1
+  \removept{\dimen1}{\tempC}%
+  \setbox0=\hbox{\normalfont\sffamily #1}%
+  \dp0=0pt
+  \dimen0=\wd0
+  \ifdim\dimen0<\ht1 \dimen0=\ht1 \fi
+  \advance \dimen0 by 5pt
+  \removept{\dimen0}{\tempA}%
+  \divide \dimen0 by 2
+  \removept{\dimen0}{\tempB}%
+  \unitlength=1pt
+  \advance \dimen1 by 2pt
+  \hbox{\vrule height\dimen1 depth2pt width0pt}%
+  \begin{picture}(\tempA,\tempC)
+    \put(0,0){\line(0,1){\tempC}}
+    \put(\tempA,0){\line(0,1){\tempC}}
+    \put(\tempB,0){\ltxoval(\tempA,4)[b]}
+    \put(\tempB,\tempC){\ltxoval(\tempA,4)[t]}
+    \put(\tempB,0){\makebox(0,0)[b]{\box0}}
+  \end{picture}\kern1pt}}
+%
+% \EMkeytop
+%
+\def\EMkeytop@font{\normalfont}
+\def\EMkeytopfont#1{\def\EMkeytop@font{#1}}
+\def\EMkeytop@cornersize{4}%
+\def\EMkeytopcornersize#1{\edef\EMkeytop@cornersize{#1}}%
+\def\EMkeytop#1{{\leavevmode%\kern1pt
+  \setbox1=\hbox{\EMkeytop@font [}%
+  \dimen1=\ht1
+  \removept{\dimen1}{\temp@C}%
+  \setbox0=\hbox{\EMkeytop@font #1}%
+  \dimen0=\ht0\removept{\dimen0}{\temp@H}%
+  \dimen0=\dp0\removept{\dimen0}{\temp@D}%
+  \Add\temp@D\temp@H\temp@HD
+  \dimen0=\wd0
+  \ifdim\dimen0<\ht1 \dimen0=\ht1 \fi
+  \advance \dimen0 by \EMkeytop@cornersize\p@
+  \removept{\dimen0}{\temp@A}%
+  \divide \dimen0 by 2
+  \removept{\dimen0}{\temp@B}%
+  \unitlength=1pt
+  \advance \dimen1 by 2pt
+  \Div\EMkeytop@cornersize{2}\EMkeytop@@cornersize
+  \Add\temp@H{\EMkeytop@@cornersize}\temp@HH
+  \Add\temp@D{\EMkeytop@@cornersize}\temp@DD
+  \hbox{\vrule height\temp@HH\p@ depth\temp@DD\p@ width0pt}%
+  \begin{picture}(\temp@A,\temp@C)
+    \put(0,-\temp@D){\line(0,1){\temp@HD}}
+    \put(\temp@A,-\temp@D){\line(0,1){\temp@HD}}
+    \put(\temp@B,-\temp@D){\ltxoval(\temp@A,\EMkeytop@cornersize)[b]}
+    \put(\temp@B,\temp@H){\ltxoval(\temp@A,\EMkeytop@cornersize)[t]}
+    \Tyuuten{(\temp@B,\temp@H)}{(\temp@B,-\temp@D)}\temp@M
+    \Put\temp@M{\makebox(0,0)[c]{\box0}}
+  \end{picture}%\kern1pt%
+}}
+%
+\endinput
+%\end of itembbox.sty
+%
+%% 改版履歴
+%%
+%% ver.0.00   1998/04/11
+%% ver.0.01   1998/08/08
+%%    角の四角なボックス \item(t,b)squarebox
+%%    影つきボックス     \itemshadebox
+%% ver.0.01a  1998/08/25
+%%    tascmac.sty の改変 (1998/02/27) に対応
+%%    eepic との共存を可能とする．
+%% ver.0.01b  1998/10/16
+%%    見出しに \footnotemark をつけると番号が飛ぶ現象を解消
+%% ver.0.01c  1998/11/29
+%%    tascmac.sty の改定に対応
+%% ver.0.02a  1999/04/17
+%   boxnote を color.sty と併用する際の不具合の修正
+%  ver.0.04   1999/07/24
+%   shadebox \leavevmode -> \noindent
+%  v0.05      2000/06/06
+%   \usepackage{ascmac}を付加
+%  v0.06      2000/09/01
+%  v 0.07     2001/04/10
+%     itemsquarebox 下辺罫線長を明示する。
+%     shadebox \hbox の前に \leavevmode 附加。
+%  v 0.08     2001/04/14
+%     各 box 環境内のインデントを1zwとしていたが，
+%       \itemboxindent
+%     で指定できるようにする。
+%  v 0.09     2001/04/20
+%     squrebox, dblbox 罫線長の調整
+%  v 0.10     2001/09/29
+%     tascmac.sty における boxnote 環境の修正に伴い，
+%     当ファイルのパッチは不要となる。
+%  v 0.11     2001/12/26
+%     tascmac.sty 旧版にも対応
+%     list 系環境内での使用可能
+%  v 0.12     2001/12/28
+%     itemsquarebox[l] or [r] における item の位置調整
+%  v 0.13     2001/12/28
+%     itemsquarebox
+%       <#1> オプションでタイトルの位置（左右からの）
+%                        タイトルと罫線との間隔調整
+%  v 0.14     2002/01/27
+%     itemsquarebox
+%       \iboxstr@ ---> \sc@itemb@x
+%  v 0.15     2002/09/30
+%     itemshadebox
+%       \lineskip などをデフォルトに戻す。
+%  v 0.16     2004/06/20
+%     itemtbsquarebox : 罫線の太さ指定が抜けている部分を修正
+%  v 0.17     2004/08/05
+%     \keytop : okumacro の定義を epic, eepic との併用に向けて修正
+%  v 0.18     2004/08/09
+%     ascmac.sty の \keytop を \asckeytop として保存
+%  v 0.19     2004/08/10
+%     \EMkeytop

@@ -1,0 +1,7 @@
+﻿delim_0 "\\idxleader "
+delim_1 "\\idxleader "
+delim_2 "\\idxleader "
+lethead_flag 1
+lethead_head 2
+lethead_prefix "\n\\idxsection{"
+lethead_suffix "}"

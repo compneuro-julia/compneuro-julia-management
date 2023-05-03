@@ -1,0 +1,562 @@
+﻿% itembkbx.sty by tDB(emath@nifty.com)
+
+  \NeedsTeXFormat{LaTeX2e}
+  \ProvidesPackage{itembkbx}[2005/10/02 v 0.16β]%
+  \RequirePackage{eclbkbox}
+  \RequirePackage{itembbox}
+  \RequirePackage{jquote}
+  \RequirePackage{emathC}
+
+  \newdimen\linesep
+  \newdimen\itembkbx@dima
+  \def\frame@color{\empty}%
+  \def\background@color{\empty}%
+
+  \define@key{emBk}{sensyu}{\def\bkbox@sensyu{#1}}%
+  \define@key{emBk}{fboxsep}{\setlength{\fboxsep}{#1}}%
+  \define@key{emBk}{linesep}{\setlength{\linesep}{#1}}%
+  \define@key{emBk}{framecolor}{\def\frame@color{#1}}%
+  \define@key{emBk}{parindent}{\def\breakboxparindent{#1}}%
+  \define@key{emBk}{hsep}{\def\h@sep{#1}}%
+  \define@key{emBk}{topht}{\def\top@ht{#1}}%
+%  \define@key{emBk}{vsep}{\def\v@sep{#1}}%
+
+% 上下の横罫線を引く／引かないのスイッチ
+\def\bkbox@drawtline{1}
+\def\bkbox@drawbline{1}
+
+\def\breakbox{\vskip\breakboxskip\relax
+\setbox\bk@bxb\vbox\bgroup
+\advance\linewidth -2\fboxrule
+\advance\linewidth -2\fboxsep
+\hsize\linewidth\@parboxrestore
+\@setminipage%%% added
+\parindent\breakboxparindent\relax}
+
+% \@tempdimb: amount of vertical skip
+% between the first line (\bk@bxa) and the rest (\bk@bxb)
+\def\bk@split{%
+\@tempdimb\ht\bk@bxb % height of original box
+\advance\@tempdimb\dp\bk@bxb
+\setbox\bk@bxa\vsplit\bk@bxb to\z@ % split it
+\setbox\bk@bxa\vbox{\unvbox\bk@bxa}% recover height & depth of \bk@bxa
+\setbox\@tempboxa\vbox{\copy\bk@bxa\copy\bk@bxb}% naive concatenation
+\advance\@tempdimb-\ht\@tempboxa
+\advance\@tempdimb-\dp\@tempboxa}% gap between two boxes
+
+
+% \@tempdima: height of the first line (\bk@bxa) + fboxsep
+\def\bk@addfsepht{%
+     \setbox\bk@bxa\vbox{\vskip\fboxsep\box\bk@bxa}}
+
+\def\bk@addskipht{%
+     \setbox\bk@bxa\vbox{\vskip\@tempdimb\box\bk@bxa}}
+
+% \@tempdima: depth of the first line (\bk@bxa) + fboxsep
+\def\bk@addfsepdp{%
+     \@tempdima\dp\bk@bxa
+     \advance\@tempdima\fboxsep
+     \dp\bk@bxa\@tempdima}
+
+% \@tempdima: depth of the first line (\bk@bxa) + vertical skip
+\def\bk@addskipdp{%
+     \@tempdima\dp\bk@bxa
+     \advance\@tempdima\@tempdimb
+     \dp\bk@bxa\@tempdima}
+
+\def\bk@line{%
+    \hbox to \linewidth{\ifbkcount\smash{\llap{\the\bk@lcnt\ }}\fi
+{\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}\vrule \@width\fboxrule}\hskip\fboxsep
+    \box\bk@bxa\hfil
+    \hskip\fboxsep
+{\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}\vrule \@width\fboxrule}}}
+%
+\def\ignore@firstln{0}%
+\def\ignorefirstline#1{\def\ignore@firstln{#1}}%
+%
+\def\endbreakbox{\ifvmode \vskip-\lastskip \fi%%% added
+\egroup
+\ifhmode\par\fi{\noindent\bk@lcnt\@ne
+\@bkconttrue\baselineskip\z@\lineskiplimit\z@
+\lineskip\z@\vfuzz\maxdimen
+\bk@split\bk@addfsepht\bk@addskipdp
+\ifvoid\bk@bxb      % Only one line
+\def\bk@fstln{\bk@addfsepdp
+\vbox{\hrule\@height\fboxrule\bk@line\hrule\@height\fboxrule}}%
+\else               % More than one line
+\def\bk@fstln{%
+  \ifnum\ignore@firstln>\z@\ht\bk@bxa=\z@ \dp\bk@bxa=\z@\fi
+  \ifnum\bkbox@drawtline>\z@
+    \vbox{\hrule\@height\fboxrule\bk@line}\hfil%    topline
+  \else
+    \@ifundefined{@drawtline}{}{\@drawtline}%
+    \vbox{\bk@line}\hfill
+  \fi
+\advance\bk@lcnt\@ne
+\loop
+ \bk@split\bk@addskipdp\leavevmode
+\ifvoid\bk@bxb      % The last line
+ \@bkcontfalse\bk@addfsepdp
+  \ifnum\bkbox@drawbline>\z@
+    \vtop{\bk@line\hrule\@height\fboxrule}%
+  \else
+    \vtop{\bk@line}%
+    \@ifundefined{@drawbline}{}{\@drawbline}%
+  \fi
+\else               % 2,...,(n-1)
+ \bk@line
+\fi
+ \hfil\advance\bk@lcnt\@ne
+\if@bkcont\repeat}%
+\fi
+\leavevmode\bk@fstln\par}\vskip\breakboxskip\relax}
+
+% ページをまたぐ itembox環境
+
+\def\breakitembox{\def\frame@color{\empty}%
+  \def\h@sep{0pt}% 2005/06/11
+%  \def\v@sep{0pt}% 2005/06/11
+  \@ifnextchar<{\breakitembox@}{\@breakitembox}}
+\def\breakitembox@<#1>{%
+  \setkeys{emBk}{#1}\@breakitembox}%
+\def\@breakitembox{\@ifnextchar[{\@@breakitembox}{\@@breakitembox[c]}}
+\def\@@breakitembox[#1]#2{%
+  \fboxrule=.8pt\relax
+  \setlength{\fboxsep}{0pt}%
+  \setbox0=\hbox{#2}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vskip.6\itembkbx@dima
+  \itembkbx@dima=.4\itembkbx@dima
+  \setlength\@tempdima{7.5pt}%
+  \ukansan\@tempdima\bkitembox@tmp
+  \ukansan\linewidth\bkitembox@@tmp
+\def\@drawtline{{\unitlength\p@%
+  \setlength\@tempdima{\ht\bk@bxa+9.6pt}%
+  \ukansan{\@tempdima}{\bkitembox@tmp}%
+  \advance\@tempdima 1.5\itembkbx@dima%
+  \ukansan{\@tempdima}{\bkitembox@@tmp}%
+  \noindent
+  \begin{picture}(0,\bkitembox@@tmp)\relax
+    \put(0,\bkitembox@tmp){%
+      \hbox to \linewidth{%
+        {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+          \kern10pt\kern.5\fboxrule
+          \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[lt]}%
+        }%
+        \ifthenelse{\equal{#2}{\empty}}{%
+          {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+          \leaders \hrule \@height .8pt \hfil}%
+        }{%
+          \if l#1\relax
+            \kern5pt\relax\lower\itembkbx@dima\hbox{#2}\kern5pt\relax
+            {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+            \leaders \hrule \@height .8pt \hfil}%
+          \else\if r#1\relax
+            {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+            \leaders \hrule \@height .8pt \hfil}%
+            \kern5pt\relax\lower\itembkbx@dima\hbox{#2}\kern5pt\relax
+          \else\if c#1\relax
+            {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+            \leaders \hrule \@height .8pt \hfil}%
+            \kern5pt\relax\lower\itembkbx@dima\hbox{#2}\kern5pt\relax
+            {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+            \leaders \hrule \@height .8pt \hfil}%
+          \fi\fi\fi
+        }%
+        {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+        \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[rt]}%
+        \kern10pt\kern.5\fboxrule
+        }%
+      }%
+    }%
+\end{picture}}}\relax
+\def\@drawbline{{\unitlength\p@%
+  \par\noindent
+  \ukansan{9.6pt}\bkitembox@tmp
+  \begin{picture}(0,0)\relax
+    \put(0,-\bkitembox@tmp){%
+      \hbox to \linewidth{%
+        {\ifthenelse{\equal\frame@color\empty}{}{\color{\frame@color}}%
+        \kern10pt\kern.5\fboxrule
+        \setlength\itembkbx@dima{-10.4pt}%
+        \lower\itembkbx@dima\hbox{\thicklines\ltx@oval(20,20)[lb]}%\lower.4zh\hbox{}
+        \leaders \hrule \@height .8pt \hfil
+        \lower\itembkbx@dima\hbox{\thicklines\ltx@oval(20,20)[rb]}%
+        \kern10pt\kern.5\fboxrule
+        }%
+      }%
+    }%
+  \end{picture}%
+}}%
+  \def\bkbox@drawtline{0}%
+  \def\bkbox@drawbline{0}%
+  \setlength{\fboxsep}{\z@}%
+  \begin{breakbox}
+    \@tempdima=1zw\relax
+    \advance\@tempdima\h@sep\relax
+    \begin{jquotation}(\the\@tempdima)(\the\@tempdima)\relax%%%%%%%%%%% 2005/06/11
+      \vrule height\ht\strutbox width \z@
+}
+%
+\def\endbreakitembox{%
+  \end{jquotation}%
+  \end{breakbox}%
+%  \vspace{-\baselineskip}
+%  \setlength\@tempdima{8pt}%
+%  \ukansan\@tempdima\bkitembox@tmp
+  \vspace{\bkitembox@tmp\p@}\par
+}
+
+% 下辺に見出し
+%
+\def\breakitembbox{%
+  \def\h@sep{0pt}%
+  \@ifnextchar[{\@breakitembbox}{\@breakitembbox[r]}}
+\def\@breakitembbox[#1]#2{%
+  \def\brkitembox@pos{#1}%
+  \def\brkitembox@ttl{#2}%
+  \fboxrule=.8pt\relax
+\def\@drawtline{{\unitlength\p@%
+  \setlength\@tempdima{\ht\bk@bxa+9.6pt}%
+  \ukansan{\@tempdima}{\bkitembox@tmp}%
+  \advance\@tempdima 6\p@%
+  \ukansan{\@tempdima}{\bkitembox@@tmp}%
+  \noindent
+  \begin{picture}(0,\bkitembox@@tmp)\relax
+    \put(0,\bkitembox@tmp){%
+  \hbox to \linewidth{\kern10pt\kern.5\fboxrule
+    \setlength\itembkbx@dima{9.6pt}%
+    \lower\itembkbx@dima\hbox{\thicklines\ltx@oval(20,20)[lt]}%\lower.4zh\hbox{}
+    \leaders \hrule \@height .8pt \hfil
+    \lower\itembkbx@dima\hbox{\thicklines\ltx@oval(20,20)[rt]}%
+    \kern10pt\kern.5\fboxrule}}%
+  \end{picture}%
+}}\relax
+\def\@drawbline{{\unitlength\p@%
+  \ukansan{9.6pt}\bkitembox@tmp
+  \par\noindent
+  \begin{picture}(0,0)\relax
+    \put(0,-\bkitembox@tmp){%
+      \setbox0=\hbox{\brkitembox@ttl}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+      \itembkbx@dima=.3\itembkbx@dima%\advance\itembkbx@dima9.6\p@
+      \hbox to \linewidth{\kern10pt\kern.5\fboxrule
+        \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[lb]}%
+        \if l\brkitembox@pos\relax
+          \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+          \leaders \hrule \@height .8pt \hfil
+        \else\if r\brkitembox@pos\relax
+          \leaders \hrule \@height .8pt \hfil
+          \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+        \else\if c\brkitembox@pos\relax
+          \leaders \hrule \@height .8pt \hfil
+          \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+          \leaders \hrule \@height .8pt \hfil
+        \fi\fi\fi
+        \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[rb]}%
+        \kern10pt\kern.5\fboxrule
+      }%
+    }%
+  \end{picture}%
+}}%
+  \def\bkbox@drawtline{0}%
+  \def\bkbox@drawbline{0}%
+  \setlength{\fboxsep}{\z@}%
+  \begin{breakbox}
+    \@tempdima=1zw\relax
+    \advance\@tempdima\h@sep\relax
+    \begin{jquotation}(\the\@tempdima)(\the\@tempdima)\relax%%%%%%%%%%% 2005/06/11
+      \vrule height\ht\strutbox width \z@
+}
+
+\def\endbreakitembbox{%
+  \end{jquotation}%
+  \end{breakbox}\vspace{.5\baselineskip}%
+\if0
+  {\noindent
+  \setbox0=\hbox{\brkitembox@ttl}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vskip.7\itembkbx@dima
+  \itembkbx@dima=.3\itembkbx@dima
+%  \smash{\hbox to \linewidth{\vrule height \z@ depth 4pt width \fboxrule
+%    \hfill \vrule width \fboxrule}}%
+  \hbox to \linewidth{\kern10pt\kern.5\fboxrule
+    \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[lb]}%
+    \if l\brkitembox@pos\relax
+      \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height .8pt \hfil
+    \else\if r\brkitembox@pos\relax
+      \leaders \hrule \@height .8pt \hfil
+      \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+    \else\if c\brkitembox@pos\relax
+      \leaders \hrule \@height .8pt \hfil
+      \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height .8pt \hfil
+    \fi\fi\fi
+    \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[rb]}%
+    \kern10pt\kern.5\fboxrule}\vskip.5\baselineskip}%
+\fi
+}
+
+%% breakitemtbbox environment
+%%
+%% \begin{breakitemtbbox}<上見出し配置>[下見出し配置]{上見出し}{下見出し}
+%%            上見出し配置のデフォルトは l （左）
+%%            下見出し配置のデフォルトは r （右）
+%%
+\def\breakitemtbbox{%
+  \def\h@sep{0pt}%
+  \@ifnextchar<{\breakitemtb@box}{\breakitemtb@box<l>}}%
+\def\breakitemtb@box<#1>{\@ifnextchar[{\@breakitemtbbox<#1>}{%
+  \@breakitemtbbox<#1>[r]}}%
+\def\@breakitemtbbox<#1>[#2]#3#4{%
+  \def\brkitembox@pos{#2}%
+  \def\brkitembox@ttl{#4}%
+  \fboxrule=.8pt\relax
+  \setbox0=\hbox{#3}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vskip.6\itembkbx@dima
+  \itembkbx@dima=.4\itembkbx@dima
+\def\@drawtline{{\unitlength\p@%
+  \setlength\@tempdima{\ht\bk@bxa+9.6pt}%
+  \ukansan{\@tempdima}{\bkitembox@tmp}%
+  \advance\@tempdima 1.5\itembkbx@dima%
+  \ukansan{\@tempdima}{\bkitembox@@tmp}%
+  \noindent
+  \begin{picture}(0,\bkitembox@@tmp)\relax
+    \put(0,\bkitembox@tmp){%
+  \hbox to \linewidth{\kern10pt\kern.5\fboxrule
+    \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[lt]}%
+    \ifx l#1\relax
+      \kern5pt\relax\lower\itembkbx@dima\hbox{#3}\kern5pt\relax
+      \leaders \hrule \@height .8pt \hfil
+    \else\if r#1\relax
+      \leaders \hrule \@height .8pt \hfil
+      \kern5pt\relax\lower\itembkbx@dima\hbox{#3}\kern5pt\relax
+    \else\if c#1\relax
+      \leaders \hrule \@height .8pt \hfil
+      \kern5pt\relax\lower\itembkbx@dima\hbox{#3}\kern5pt\relax
+      \leaders \hrule \@height .8pt \hfil
+    \fi\fi\fi
+    \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[rt]}%
+    \kern10pt\kern.5\fboxrule}}%
+  \end{picture}}}\relax
+\def\@drawbline{{\unitlength\p@%
+  \ukansan{9.6pt}\bkitembox@tmp
+  \par\noindent
+  \begin{picture}(0,0)\relax
+    \put(0,-\bkitembox@tmp){%
+      \setbox0=\hbox{\brkitembox@ttl}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+      \itembkbx@dima=.3\itembkbx@dima%\advance\itembkbx@dima9.6\p@
+      \hbox to \linewidth{\kern10pt\kern.5\fboxrule
+        \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[lb]}%
+        \if l\brkitembox@pos\relax
+          \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+          \leaders \hrule \@height .8pt \hfil
+        \else\if r\brkitembox@pos\relax
+          \leaders \hrule \@height .8pt \hfil
+          \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+        \else\if c\brkitembox@pos\relax
+          \leaders \hrule \@height .8pt \hfil
+          \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+          \leaders \hrule \@height .8pt \hfil
+        \fi\fi\fi
+        \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[rb]}%
+        \kern10pt\kern.5\fboxrule
+      }%
+    }%
+  \end{picture}%
+}}%
+  \def\bkbox@drawtline{0}%
+  \def\bkbox@drawbline{0}%
+  \setlength{\fboxsep}{\z@}%
+  \begin{breakbox}
+    \@tempdima=1zw\relax
+    \advance\@tempdima\h@sep\relax
+    \begin{jquotation}(\the\@tempdima)(\the\@tempdima)\relax%%%%%%%%%%% 2005/06/11
+      \vrule height\ht\strutbox width \z@
+}
+
+\def\endbreakitemtbbox{%
+  \end{jquotation}%
+  \end{breakbox}\vspace{.5\baselineskip}%
+\if0
+  {\noindent
+  \setbox0=\hbox{\brkitembox@ttl}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vskip.7\itembkbx@dima
+  \itembkbx@dima=.3\itembkbx@dima
+%  \smash{\hbox to \linewidth{\vrule height \z@ depth 4pt width \fboxrule
+%    \hfill \vrule width \fboxrule}}%
+  \hbox to \linewidth{\kern10pt\kern.5\fboxrule
+    \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[lb]}%
+    \if l\brkitembox@pos\relax
+      \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height .8pt \hfil
+    \else\if r\brkitembox@pos\relax
+      \leaders \hrule \@height .8pt \hfil
+      \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+    \else\if c\brkitembox@pos\relax
+      \leaders \hrule \@height .8pt \hfil
+      \kern5pt\relax\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height .8pt \hfil
+    \fi\fi\fi
+    \lower-10.4pt\hbox{\thicklines\ltx@oval(20,20)[rb]}%
+    \kern10pt\kern.5\fboxrule}\vskip.5\baselineskip}%
+\fi
+}
+
+% 長方形の囲み
+%
+\def\breakitemsquarebox{\@ifnextchar[{\@breakitemsquarebox}{%
+  \@breakitemsquarebox[c]}}
+\def\@breakitemsquarebox[#1]#2{%
+  \setbox0=\hbox{#2}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vskip.6\itembkbx@dima
+  \itembkbx@dima=.4\itembkbx@dima
+  {\noindent
+  \hbox to \linewidth{%\kern10pt\kern.5\fboxrule
+%   \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[lt]}%
+    \if l#1\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+      \kern5pt\lower\itembkbx@dima\hbox{#2}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \else\if r#1\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{#2}\kern5pt\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+    \else\if c#1\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{#2}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \fi\fi\fi
+%    \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[rt]}%
+%    \kern10pt\kern.5\fboxrule
+  }}%
+  \vspace{-4pt}%\vspace{-\fboxsep}
+  \par\noindent
+  \itembkbx@dima\baselineskip\advance\itembkbx@dima-4pt\relax
+  \smash{\hbox to \linewidth{\vrule height \itembkbx@dima width \fboxrule
+    \hfill \vrule width \fboxrule}}\vspace{-4pt}
+  \def\bkbox@drawtline{0}%
+  \begin{breakbox}
+}
+\def\endbreakitemsquarebox{\end{breakbox}}
+
+\def\breakitembsquarebox{\@ifnextchar[{\@breakitembsquarebox}{%
+  \@breakitembsquarebox[r]}}
+\def\@breakitembsquarebox[#1]#2{%
+  \def\brkitembox@pos{#1}%
+  \def\brkitembox@ttl{#2}%
+  \def\bkbox@drawbline{0}%
+  \begin{breakbox}
+}
+
+\def\endbreakitembsquarebox{\end{breakbox}%
+  \vskip-\baselineskip
+  \vskip\fboxsep
+  \setbox0=\hbox{\brkitembox@ttl}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vbox{\smash{\hbox to \linewidth{\vrule depth \baselineskip width \fboxrule
+    \hfill \vrule width \fboxrule}}%
+    \hbox to \linewidth{%
+    \itembkbx@dima=.4\itembkbx@dima
+    \if l\brkitembox@pos\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+      \kern5pt\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \else\if r\brkitembox@pos\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+    \else\if c\brkitembox@pos\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \fi\fi\fi
+  }}%
+}
+
+%%
+%% (5) 角の四角な上下見出しつきボックス
+%%
+%% itemtbsquarebox environment
+%%
+%% \begin{itemtbsquarebox}<上見出し配置>[下見出し配置]{上見出し}{下見出し}
+%%            上見出し配置のデフォルトは l （左）
+%%            下見出し配置のデフォルトは r （右）
+
+\def\breakitemtbsquarebox{\@ifnextchar<{\breakitemtb@squarebox}{\breakitemtb@squarebox<l>}}%
+\def\breakitemtb@squarebox<#1>{%
+\@ifnextchar[{\@breakitemtbsquarebox<#1>}{\@breakitemtbsquarebox<#1>[r]}}%
+\def\@breakitemtbsquarebox<#1>[#2]#3#4{%
+  \def\brkitembox@pos{#2}%
+  \def\brkitembox@ttl{#4}%
+  \setbox0=\hbox{#3}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vskip.6\itembkbx@dima
+  \itembkbx@dima=.4\itembkbx@dima
+  {\noindent
+  \hbox to \linewidth{%\kern10pt\kern.5\fboxrule
+%   \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[lt]}%
+    \if l#1\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+      \kern5pt\lower\itembkbx@dima\hbox{#3}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \else\if r#1\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{#3}\kern5pt\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+    \else\if c#1\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{#3}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \fi\fi\fi
+%    \lower9.6pt\hbox{\thicklines\ltx@oval(20,20)[rt]}%
+%    \kern10pt\kern.5\fboxrule
+  }}%
+  \vspace{-4pt}%\vspace{-\fboxsep}
+  \par\noindent
+  \itembkbx@dima\baselineskip\advance\itembkbx@dima-4pt\relax
+  \smash{\hbox to \linewidth{\vrule height \itembkbx@dima width \fboxrule
+    \hfill \vrule width \fboxrule}}\vspace{-4pt}
+  \def\bkbox@drawtline{0}%
+  \def\bkbox@drawbline{0}%
+  \begin{breakbox}
+}
+
+\def\endbreakitemtbsquarebox{\end{breakbox}%
+  \vskip-\baselineskip
+  \vskip\fboxsep
+  \setbox0=\hbox{\brkitembox@ttl}\itembkbx@dima\ht0\advance\itembkbx@dima\dp0\relax
+  \vbox{\smash{\hbox to \linewidth{\vrule depth \baselineskip width \fboxrule
+    \hfill \vrule width \fboxrule}}%
+    \hbox to \linewidth{%
+    \itembkbx@dima=.4\itembkbx@dima
+    \if l\brkitembox@pos\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+      \kern5pt\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \else\if r\brkitembox@pos\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \hbox to 10pt{\leaders \hrule \@height\fboxrule\hfil}%
+    \else\if c\brkitembox@pos\relax
+      \leaders \hrule \@height \fboxrule \hfil
+      \kern5pt\lower\itembkbx@dima\hbox{\brkitembox@ttl}\kern5pt\relax
+      \leaders \hrule \@height \fboxrule \hfil
+    \fi\fi\fi
+  }}%
+}
+%
+\def\breakscreen{\breakitembox{}}
+\def\endbreakscreen{\endbreakitembox}
+\endinput
+
+v 0.05 emathBk.sty から分離
+v 0.06 breakitembox 見出しを空でも可とする。---> breakscreen
+v 0.07 breakitembox 空き調整
+v 0.08 QandA における，しっぽ愛好家さんの #24810 を取り入れる。
+v 0.09 breakitembox \baselinestretch の再定義に対応
+v 0.10 breakitembox <framecolor=..>オプション
+v 0.11 \frame@color 初期化
+v 0.12 2005/06/12 breakitembox : <hsep=..> を有効
+v 0.13 2005/06/27 emathPh を切り離す
+                  さらに emath とは独立したものを breakitembox.sty
+v 0.14 2005/07/23 breakitembox : 上下ブロックとの繋ぎ見直し
+v 0.15 2005/08/04 上下の罫線を \@drawtline, \@drawbline で制御
+                  \ignorefirstline : 先頭行が空白の場合などを排除
+v 0.16 2005/10/02 \unitlength が変更されている場合に対応
