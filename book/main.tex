@@ -1,70 +1,20 @@
-\documentclass[tombow,paper={182truemm, 232truemm}]{ltjsbook}
-\usepackage[top=15truemm,bottom=15truemm,inner=15truemm,outer=10truemm]{geometry}
+\documentclass[tombow, paper={182truemm, 232truemm}, titlepage]{ltjsbook}
+\usepackage[top=15truemm,bottom=15truemm,inner=15truemm,outer=15truemm]{geometry}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{textgreek}
 \usepackage[svgnames]{xcolor}
 
-% https://github.com/JuliaLang/julia-logo-graphics
-\definecolor{JuliaRed}{HTML}{CB3C33}
-\definecolor{JuliaBlue}{HTML}{4063D8}
-\definecolor{JuliaGreen}{HTML}{389826}
-\definecolor{JuliaPurple}{HTML}{9558B2}
+\usepackage{sty/julia-syntax-highlighting} % 
 
-\usepackage[colorlinks=true,allcolors=JuliaBlue]{hyperref}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
 
-% main text styling
-\usepackage{luatexja-fontspec}
-
-% code styling
-%\setmonofont{DejaVu Sans Mono}
-\setmonofont{JuliaMono}[
-    Path = ./font/,
-    Extension = .ttf,
-    UprightFont = *-Regular,
-    BoldFont = *-Bold
-]
-\ltjsetparameter{jacharrange={-2,-3}}
-
-\usepackage{listings}
-\lstdefinelanguage{julia}%
-  {morekeywords=[1]{function,macro,if,elseif,else,end,return,begin,let,for,struct,while,
-                       try,catch,finally,module,using,import,export,global,const,local,abstract,mutable,
-                       primitive,type,do,break,continue,quote,baremodule,outer},
-  morekeywords = [2]{ %literal
-    false, true, 
-  }
-   sensitive=true,%
-   alsoother={$},%
-   morecomment=[l]\#,%
-   morecomment=[n]{\#=}{=\#},%
-   morestring=[s]{"}{"},%
-   morestring=[s]{\@}{\ },% %macro
-   morestring=[m]{'}{'},%
-}[keywords,comments,strings]%
-
-\lstset{%
-    language = julia,
-    basicstyle=\ttfamily\lst@ifdisplaystyle\small\fi,
-    breaklines=true,
-    breakatwhitespace=true,
-    prebreak=↵,
-    keywordstyle=\bfseries,
-    xleftmargin=15pt,  % indent
-    framexleftmargin=16pt,
-    framextopmargin=6pt,
-    framexbottommargin=6pt, 
-    frame=tb, framerule=0pt,
-    backgroundcolor=\color{gray!5},
-    keywordstyle     = [1]{\bfseries\color{JuliaBlue}},
-    keywordstyle     = [2]{\bfseries\color{JuliaRed}},
-    stringstyle      = \color{JuliaPurple},
-    commentstyle     = \color{JuliaGreen},
-    lineskip=-1pt,
-    showstringspaces=false,
-}
-
-\begin{document}
+\title{\Huge \textbf{Juliaで学ぶ計算論的神経科学}}
+\author{\huge 山本 拓都}
+\date{\huge \today} 
+\begin{document} 
+\maketitle
 
 \section{はじめてのLua\TeX-ja}
 ちゃんと日本語が出るかな？
@@ -73,7 +23,7 @@ $$
 x = 6
 $$
 
-\lstinputlisting[language=julia]{test.jl}
+\lstinputlisting[language=julia]{jl-code/test.jl}
 
 \subsection{出たかな？}
 長い文章を入力するとちゃんと右端のところで折り返されるかな？
