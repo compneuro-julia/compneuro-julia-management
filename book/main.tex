@@ -10,22 +10,22 @@
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 
+\newcommand{\jl}{\lstinline[language=julia]}
+
 \title{\Huge \textbf{Juliaで学ぶ計算論的神経科学}}
 \author{\huge 山本 拓都}
 \date{\huge \today} 
-\begin{document} 
+\begin{document}
 \maketitle
 
 \section{はじめてのLua\TeX-ja}
 ちゃんと日本語が出るかな？
 
 $$
-x = 6
+  x = 6
 $$
 
 \lstinputlisting[language=julia]{jl-code/test.jl}
+\input{text/test.tex}
 
-\subsection{出たかな？}
-長い文章を入力するとちゃんと右端のところで折り返されるかな？
-大丈夫そうな気がするけど．ちょっと不安だけど何事も挑戦だよね．
 \end{document}
