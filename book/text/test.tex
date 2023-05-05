@@ -1,28 +1,50 @@
-\section{神経サンプリング}
-サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)をガウス尺度混合モデルを例にとり実装する．
-
-\subsection{ガウス尺度混合モデル}
-\textbf{ガウス尺度混合 (Gaussian scale mixture; GSM) モデル}は確率的生成モデルの一種である{cite:p}\jl{Wainwright1999-cl}{cite:p}\jl{Orban2016-tm}．GSMモデルでは入力を次式で予測する：
-
-$$
-\text{入力}={z}\left(\sum \text{神経活動} \times \text{基底} \right) + \text{ノイズ}
-$$
-
-前節までのスパース符号化モデル等と同様に，入力が基底の線形和で表されるとしている．ただし，尺度(scale)パラメータ$z$が基底の線形和に乗じられている点が異なる．
-
-\subsubsection{事前分布}$\mathbf{x} \in \mathbb{R}^{N_x}$, $\mathbf{A} \in \mathbb{R}^{N_x\times N_y}$, $\mathbf{y} \in \mathbb{R}^{N_y}$, $\mathbf{z} \in \mathbb{R}$とする．
-
-$$
-p\left(\mathbf{x}\mid\mathbf{y}, z\right)=\mathcal{N}\left(z \mathbf{A} \mathbf{y}, \sigma_{\mathbf{x}}^{2} \mathbf{I}\right)
-$$
-
-事前分布を
-
-$$
-\begin{aligned}
-p\left(\mathbf{y}\right)&=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)\\
-p\left(z\right)&=\Gamma (k, \vartheta)
-\end{aligned}
-$$
-
-とする．$\Gamma(k, \vartheta)$はガンマ分布であり，$k$は形状(shape)パラメータ，$\vartheta$は尺度(scale)パラメータである．$p\left(\mathbf{y}\right)$は$\mathbf{y}$の事前分布であり，刺激がない場合の自発活動の分布を表していると仮定する．
+\input{./text/test0.tex}
+\input{./text/test1.tex}
+\lstinputlisting[language=julia]{./text/test2.jl}
+\lstinputlisting[language=julia]{./text/test3.jl}
+\lstinputlisting[language=julia]{./text/test4.jl}
+\lstinputlisting[language=julia]{./text/test5.jl}
+\input{./text/test6.tex}
+\lstinputlisting[language=julia]{./text/test7.jl}
+\input{./text/test8.tex}
+\lstinputlisting[language=julia]{./text/test9.jl}
+\lstinputlisting[language=julia]{./text/test10.jl}
+\input{./text/test11.tex}
+\input{./text/test12.tex}
+\lstinputlisting[language=julia]{./text/test13.jl}
+\lstinputlisting[language=julia]{./text/test14.jl}
+\input{./text/test15.tex}
+\lstinputlisting[language=julia]{./text/test16.jl}
+\input{./text/test17.tex}
+\lstinputlisting[language=julia]{./text/test18.jl}
+\lstinputlisting[language=julia]{./text/test19.jl}
+\input{./text/test20.tex}
+\lstinputlisting[language=julia]{./text/test21.jl}
+\input{./text/test22.tex}
+\lstinputlisting[language=julia]{./text/test23.jl}
+\lstinputlisting[language=julia]{./text/test24.jl}
+\input{./text/test25.tex}
+\lstinputlisting[language=julia]{./text/test26.jl}
+\input{./text/test27.tex}
+\lstinputlisting[language=julia]{./text/test28.jl}
+\lstinputlisting[language=julia]{./text/test29.jl}
+\lstinputlisting[language=julia]{./text/test30.jl}
+\input{./text/test31.tex}
+\lstinputlisting[language=julia]{./text/test32.jl}
+\lstinputlisting[language=julia]{./text/test33.jl}
+\lstinputlisting[language=julia]{./text/test34.jl}
+\lstinputlisting[language=julia]{./text/test35.jl}
+\lstinputlisting[language=julia]{./text/test36.jl}
+\lstinputlisting[language=julia]{./text/test37.jl}
+\input{./text/test38.tex}
+\lstinputlisting[language=julia]{./text/test39.jl}
+\lstinputlisting[language=julia]{./text/test40.jl}
+\input{./text/test41.tex}
+\lstinputlisting[language=julia]{./text/test42.jl}
+\input{./text/test43.tex}
+\lstinputlisting[language=julia]{./text/test44.jl}
+\lstinputlisting[language=julia]{./text/test45.jl}
+\input{./text/test46.tex}
+\input{./text/test47.tex}
+\input{./text/test48.tex}
+\input{./text/test48.tex}

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  5 MAY 2023 10:54
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  5 MAY 2023 13:58
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/github/compneuro-julia-management/book/main
@@ -893,29 +893,80 @@ LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 
 
 ]
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 22.
+(load cache: extra_lmsans10-regular.luc) [2
+
+]
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 23.00687pt on input line 22.
+(load cache: extra_lmsans17-regular.luc) (./main.toc(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 1.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 1.
+)
+\tf@toc=\write5
+
+\openout5 = main.toc
+ [3] (./text/test.tex (./text/test0.tex
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 13.31586pt on input line 21.
+(Font)              scaled to size 13.31586pt on input line 1.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 13.31586pt on input line 21.
+(Font)              scaled to size 13.31586pt on input line 1.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 13.31586pt on input line 21.
+(Font)              scaled to size 13.31586pt on input line 1.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 13.31586pt on input line 21.
-(load cache: extra_lmsans12-regular.luc)(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 24.
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 24.
-Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 28.
+(Font)              scaled to size 13.31586pt on input line 1.
+(load cache: extra_lmsans12-regular.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 28.
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 28.
+(Font)              scaled to size 11.09656pt on input line 2.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 28.
+(Font)              scaled to size 11.09656pt on input line 2.
+
+
+LaTeX Warning: Citation `Wainwright1999-cl' on page 4 undefined on input line 2.
+
+
+LaTeX Warning: Citation `Orban2016-tm' on page 4 undefined on input line 2.
+
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 4.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 4.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 5.54828pt on input line 9.
+(load cache: extra_lmroman8-bold.luc)
+LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <8> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 9.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 9.
+LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <8> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 9.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 9.
+
+LaTeX Warning: Citation `Orban2016-tm' on page 4 undefined on input line 9.
+
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 9.
+
+LaTeX Warning: Citation `Echeveste2020-sh' on page 4 undefined on input line 9.
+
+(load cache: extra_lmromandemi10-regular.luc)
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 10.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 10.
+) (./text/test1.tex)
+Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 3.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 8.32242pt on input line 3.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 8.32242pt on input line 3.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./jl-code/test.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test2.jl
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <9> not available
 (Font)              Font shape `JT3/gt/m/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -925,66 +976,265 @@ LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <9> not available
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 8.32242pt on input line 1.
 )
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test.tex
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 4.
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 4.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test3.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Overfull \hbox (114.80495pt too wide) in paragraph at lines 5--6
-[]|\JY3/mc/b/n/10 ガ |ウ |ス |尺 |度 |混 |合 \TU/lmr/bx/n/10 (Gaus-sian scale mix-ture; GSM) |\JY3/mc/b/n/10 モ |デ |ル |\JY3/mc/m/n/10 は |確 |率 |的 |生 |成 |モ |デ |ル |の |一 |種 |で |あ |る \TU/lmr/m/n/10 cite:p[][][][][]cite:p[][][][][][]
- []
-
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test4.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test5.jl(load cache: extra_lmroman9-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 8.
-LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 8.
-(load cache: extra_lmsans10-regular.luc)(load cache: extra_lmromandemi10-regular.luc)
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 13.
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 13.
-)(load cache: extra_lmromanslant10-regular.luc)
-LaTeX Font Info:    Font shape `JT3/mc/m/sl' in size <10> not available
-(Font)              Font shape `JT3/mc/m/n' tried instead on input line 31.
-LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 31.
-LaTeX Font Info:    Font shape `JY3/mc/m/sl' in size <10> not available
-(Font)              Font shape `JY3/mc/m/n' tried instead on input line 31.
+(Font)              scaled to size 8.32242pt on input line 3.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 31.
+(Font)              scaled to size 8.32242pt on input line 3.
+(load cache: extra_lmromanslant10-regular.luc)
+LaTeX Font Info:    Font shape `JT3/mc/m/sl' in size <10> not available
+(Font)              Font shape `JT3/mc/m/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 3.
+LaTeX Font Info:    Font shape `JY3/mc/m/sl' in size <10> not available
+(Font)              Font shape `JY3/mc/m/n' tried instead on input line 3.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 3.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[2] (./main.aux)
+[4
+
+])
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test6.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test7.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test8.tex
+
+LaTeX Warning: Citation `Orban2016-tm' on page 5 undefined on input line 1.
+
+
+LaTeX Warning: Citation `Echeveste2020-sh' on page 5 undefined on input line 1.
+
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test9.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test10.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test11.tex) (./text/test12.tex
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[5]
+
+LaTeX Warning: Citation `Echeveste2017-wu' on page 6 undefined on input line 24.
+
+)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test13.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test14.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test15.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test16.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[6])
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test17.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test18.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test19.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test20.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test21.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test22.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test23.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[7])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test24.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test25.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test26.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test27.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test28.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test29.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test30.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[8])
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test31.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test32.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test33.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test34.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test35.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[9])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test36.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test37.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test38.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test39.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test40.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test41.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test42.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test43.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test44.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[10])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/test45.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/test46.tex
+
+LaTeX Warning: Citation `Echeveste2020-sh' on page 11 undefined on input line 3.
+
+
+LaTeX Warning: Citation `Berkes2011-xj' on page 11 undefined on input line 4.
+
+) (./text/test47.tex
+
+LaTeX Warning: Citation `Buesing2011-dm' on page 11 undefined on input line 3.
+
+
+LaTeX Warning: Citation `Masset2022-wh' on page 11 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Zhang2022-bl' on page 11 undefined on input line 5.
+
+) (./text/test48.tex
+
+LaTeX Warning: Citation `Kappel2015-kq' on page 11 undefined on input line 3.
+
+
+LaTeX Warning: Citation `Aitchison2021-wo' on page 11 undefined on input line 4.
+
+) (./text/test48.tex
+
+LaTeX Warning: Citation `Kappel2015-kq' on page 11 undefined on input line 3.
+
+
+LaTeX Warning: Citation `Aitchison2021-wo' on page 11 undefined on input line 4.
+
+))
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[11] (./main.aux)
+
+LaTeX Warning: There were undefined references.
+
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: B6EAD3D0E680DEED12CE589436D0FC89;239.
+(rerunfilecheck)             Checksum: E4619257A910A6F0393660BD20D4EE4E;1017.
 )
 
 Here is how much of LuaTeX's memory you used:
- 18138 strings out of 478263
- 305795,1977958 words of node,token memory allocated
- 3239 words of node memory still in use:
-   23 hlist, 2 vlist, 31 rule, 2 disc, 16 glue, 4 kern, 24 glyph, 878 attribute, 56 glue_spec, 102 attribute_list, 1 write, 26 user_defined nodes
-   avail lists: 1:42,2:62913,3:324,4:5842,5:970,6:82,7:5608,8:28,9:6230,10:12,11:134
- 37606 multiletter control sequences out of 65536+600000
- 94 fonts using 81359631 bytes
- 118i,12n,112p,1861b,920s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromanslant10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (2 pages, 222456 bytes).
+ 19327 strings out of 478263
+ 933262,1977958 words of node,token memory allocated
+ 3456 words of node memory still in use:
+   23 hlist, 2 vlist, 31 rule, 2 disc, 17 glue, 4 kern, 4 sub_mlist, 24 glyph, 966 attribute, 56 glue_spec, 110 attribute_list, 1 write, 26 user_defined, 1 pdf_action nodes
+   avail lists: 1:44,2:189686,3:457,4:19515,5:2847,6:154,7:13462,8:79,9:19080,10:42,11:358
+ 37957 multiletter control sequences out of 65536+600000
+ 100 fonts using 90977023 bytes
+ 118i,12n,112p,1861b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><./font/JuliaMono-Regular.ttf><./font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromanslant10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmmono9-regular.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (11 pages, 336222 bytes).
 
-PDF statistics: 166 PDF objects out of 1000 (max. 8388607)
- 115 compressed objects within 2 object streams
- 24 named destinations out of 1000 (max. 131072)
- 17 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 562 PDF objects out of 1000 (max. 8388607)
+ 487 compressed objects within 5 object streams
+ 325 named destinations out of 1000 (max. 131072)
+ 49 words of extra memory for PDF output out of 10000 (max. 100000000)
 

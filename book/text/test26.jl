@@ -1,0 +1,1 @@
+membrane_potential(y, α=2.4, β=1.9, γ=0.6) = α * max(0, y+β)^γ

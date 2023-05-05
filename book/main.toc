@@ -1,0 +1,13 @@
+\contentsline {section}{\numberline {0.1}神経サンプリング}{4}{section.0.1}%
+\contentsline {subsection}{\numberline {0.1.1}ガウス尺度混合モデル}{4}{subsection.0.1.1}%
+\contentsline {subsubsection}{事前分布}{4}{section*.2}%
+\contentsline {subsubsection}{重み行列$\mathbf {A}$の作成}{4}{section*.3}%
+\contentsline {subsubsection}{分散共分散行列$\mathbf {C}$の作成}{5}{section*.4}%
+\contentsline {subsubsection}{事後分布の計算}{6}{section*.5}%
+\contentsline {subsubsection}{シミュレーション}{7}{section*.6}%
+\contentsline {subsubsection}{結果}{7}{section*.7}%
+\contentsline {subsubsection}{出力のサンプリング}{8}{section*.8}%
+\contentsline {subsection}{\numberline {0.1.2}興奮性・抑制性神経回路によるサンプリング}{9}{subsection.0.1.2}%
+\contentsline {subsection}{\numberline {0.1.3}Spikingニューラルネットワークにおけるサンプリング}{11}{subsection.0.1.3}%
+\contentsline {subsection}{\numberline {0.1.4}シナプスサンプリング}{11}{subsection.0.1.4}%
+\contentsline {subsection}{\numberline {0.1.5}シナプスサンプリング}{11}{subsection.0.1.5}%
