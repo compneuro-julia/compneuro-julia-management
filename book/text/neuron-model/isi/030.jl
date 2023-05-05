@@ -1,0 +1,6 @@
+figure(figsize=(6, 4))
+subplot(2,2,1); GammaISIplot(dt, fr, 1)
+subplot(2,2,2); GammaISIplot(dt, fr, 12)
+subplot(2,2,3); rasterplot(spikes1)
+subplot(2,2,4); rasterplot(spikes2)
+tight_layout()

@@ -1,0 +1,5 @@
+gau = gaussian_2d()
+figure(figsize=(2,2))
+title("Gaussian mask")
+imshow(gau)
+tight_layout()

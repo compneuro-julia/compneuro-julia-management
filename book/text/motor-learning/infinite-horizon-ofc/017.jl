@@ -1,0 +1,1 @@
+Xa, ua = simulation(param, L, K, dt, T, noisy=false);

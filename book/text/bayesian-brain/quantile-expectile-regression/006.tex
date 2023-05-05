@@ -1,0 +1,15 @@
+\subsubsection{勾配法を用いた分位点回帰・エクスペクタイル回帰}予測誤差$\delta$と$\tau$の関数を
+$$
+\begin{align}
+\text{分位点回帰：}&\quad
+\rho_q(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta \leq 0}\right)\cdot \delta\\
+\text{エクスペクタイル回帰：}&\quad
+\rho_e(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot \delta^2
+\end{align}
+$$
+と定義する．$\rho_q(\delta; \tau)$のみ，チェック関数 (check function)あるいは非対称絶対損失関数(asymmetric absolute loss function)と呼ぶ．ただし，$\tau$は分位点(quantile)，$\mathbb{I}$は指示関数(indicator function)である．この場合，$\mathbb{I}_{\delta \leq 0}$は$\delta \gt 0$なら0, $\delta \leq 0$なら1となる．このとき，目的関数は 
+$$
+L_{\tau}(\delta)
+=\sum_{i=1}^n \rho(\delta_i; \tau)
+$$
+である．$\rho(\delta; \tau)$を色々な $\tau$についてplotすると次図のようになる．

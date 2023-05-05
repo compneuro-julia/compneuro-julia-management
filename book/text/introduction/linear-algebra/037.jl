@@ -1,0 +1,1 @@
+X = reshape((B' ⊗ A) \ vec(C), (m, m))

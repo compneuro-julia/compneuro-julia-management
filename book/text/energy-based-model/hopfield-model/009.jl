@@ -1,0 +1,1 @@
+model = AmariHopfieldModel(input_train);

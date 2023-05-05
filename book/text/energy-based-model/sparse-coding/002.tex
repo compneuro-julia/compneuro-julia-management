@@ -1,0 +1,9 @@
+\subsubsection{事前分布の設定}事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは \textbf{super-Gaussian distribution} (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して式(4), (5)のように表記する．
+$$
+\begin{align}
+p(\mathbf{r})&=\prod_j p(r_j) \quad \tag{4}\\
+p(r_j)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right] \quad \tag{5}
+\end{align}
+$$
+ただし，$\beta$は逆温度(inverse temperature), $Z_{\beta}$は規格化定数 (分配関数) である[^can]．$S(x)$と分布の関係をまとめた表が以下となる (cf. [Harpur, 1997](https://pdfs.semanticscholar.org/be08/da912362bf40fe3ded78bdadc644f921b4e7.pdf))．
+[^can]: これらの用語は統計力学における正準分布 (ボルツマン分布)から来ている．

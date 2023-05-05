@@ -1,0 +1,1 @@
+plot(samples[1, :])

@@ -1,0 +1,1 @@
+w_init = rand(MvNormal(μ₀, Σ₀), 1)[:, 1]

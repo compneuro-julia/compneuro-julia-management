@@ -1,0 +1,21 @@
+\subsection{連続時間モデルから離散時間モデルへの変換}\subsubsection{離散化方法1: 解析解を用いた方法}#\subsubsection{1次元の場合}区間$[t, t+\Delta t]$において入力$u(t)$が一定であると仮定すると，
+$$
+\begin{aligned}
+x(t+\Delta t)&= \underbrace{e^{a_c \Delta t}}_{=: a_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau\right] b_c}_{=: b_d}u(t)\\
+&=a_d x(t)+b_d u(t)\\
+\end{aligned}
+$$
+#\subsubsection{n次元の場合}区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
+$$
+\begin{aligned}
+\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}_c}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
+&=e^{\Delta t\mathbf{A}_c}e^{t\mathbf{A}_c}\mathbf{x}(0)+e^{\Delta t\mathbf{A}_c}\int_0^{t} e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}_c}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c} d\tau\right] \mathbf{B}_c}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+&=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
+\end{aligned}
+$$
+離散化した場合の
+$$
+\mathbf{x}_{t+1} = \mathbf{A}_c\mathbf{x}_t + \mathbf{B}_c\mathbf{u}_t
+$$
+状態遷移方程式 (dynamics equations) とも呼ぶ．

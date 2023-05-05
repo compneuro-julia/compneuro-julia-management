@@ -1,0 +1,1 @@
+corr_map = correlate_fft(rate_hist, rate_hist);

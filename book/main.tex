@@ -1,11 +1,17 @@
-\documentclass[tombow, paper={182truemm, 232truemm}, titlepage]{ltjsbook}
-\usepackage[top=15truemm,bottom=15truemm,inner=15truemm,outer=15truemm]{geometry}
+\documentclass[titlepage]{ltjsbook}
+\usepackage[
+  paperheight=232truemm, paperwidth=182truemm,
+  top=20truemm, bottom=15truemm, inner=15truemm, outer=15truemm
+  ]{geometry}
+
+%\documentclass[tombow, paper={182truemm, 232truemm}, titlepage]{ltjsbook}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{textgreek}
+\usepackage[luatex]{graphicx} 
 \usepackage[svgnames]{xcolor}
-
 \usepackage{sty/julia-syntax-highlighting} % 
+\usepackage[export]{adjustbox} % added
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -22,6 +28,12 @@
 \tableofcontents
 \clearpage
 
-\input{text/test.tex}
+%\part{}
+\chapter{局所学習則}
+\input{./text/local-learning-rule/self-organizing-map.tex}
 
+\chapter{神経回路網によるベイズ推論}
+\input{./text/bayesian-brain/probabilistic-population-coding.tex}
+\input{./text/bayesian-brain/mcmc.tex}
+\input{./text/bayesian-brain/neural-sampling.tex}
 \end{document}

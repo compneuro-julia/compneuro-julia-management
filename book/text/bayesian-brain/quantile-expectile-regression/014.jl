@@ -1,0 +1,1 @@
+ŷ = normal_equation(Xtest, X, y); # predictions

@@ -1,0 +1,1 @@
+v, v_labels = make_blobs(N, num_blobs, dims, σv);

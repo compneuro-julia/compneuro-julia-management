@@ -1,0 +1,1 @@
+θm, num_accepted = GaussianMH(log_p, [1.0,0.5], 1.0, 2000)

@@ -1,0 +1,1 @@
+w_history = SOM(v, init_w, α0=2, σ0=6, T=100);

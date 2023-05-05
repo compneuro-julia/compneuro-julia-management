@@ -1,0 +1,15 @@
+\subsection{ガンマ過程モデル}ガンマ過程(gamma process)は点の時間間隔がガンマ分布に従うとするモデルである．ガンマ過程はポアソン過程よりも皮質における定常発火への当てはまりが良いとされている ([Shinomoto, et al., 2003](https://pubmed.ncbi.nlm.nih.gov/14629869/); [Maimon & Assad,2009](https://pubmed.ncbi.nlm.nih.gov/19447097/))．
+時間間隔の確率変数を$T$とした場合，ガンマ分布の確率密度関数は
+$$
+\begin{equation}
+f(t;k,\theta) =  t^{k-1}\frac{e^{-t/\theta}}{\theta^k\Gamma(k)}
+\end{equation}
+$$
+と表される．ただし，$t > 0$であり， 2つの母数は$k, \theta > 0$である．また，$\Gamma (\cdot)$はガンマ関数であり，
+$$
+\begin{equation}
+\Gamma (k)=\int _{0}^{\infty }x^{k-1}e^{-x}\,dx
+\end{equation}
+$$
+と定義される．ガンマ分布の平均は$k\theta$だが，発火率はISIの平均の逆数なので，$\lambda=1/k\theta$となる．また，$k=1$のとき，ガンマ分布は指数分布となる．さらに$k$が正整数のとき，ガンマ分布はアーラン分布となる．
+ガンマ過程モデルの実装はポアソン過程モデルのISIを累積する手法と同様に書くことができる．ただしこの時，[Distributions.jl](https://github.com/JuliaStats/Distributions.jl)を用いる．基本的には\jl{randexp(shape)}を\jl{rand(Gamma(a,b), shape)}に置き換えればよい (もちろん多少の修正は必要とする)．

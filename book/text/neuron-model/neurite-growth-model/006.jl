@@ -1,0 +1,1 @@
+lines_eg, _ = segments_lines(tree_info_eg, seg_vec_eg);

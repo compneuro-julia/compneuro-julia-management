@@ -1,0 +1,14 @@
+\subsection{Van Peltモデル}Van PeltモデルはVan Peltらによって構築された，神経突起の成長についての現象論的モデルである \cite{Van_Pelt2002-vm}．以下では\cite{Koene2009-hv}に基づいて記述する．なお，このモデルでは軸索誘導分子 (axon guidance molecules) 等の存在は無視している．
+神経突起の成長の過程には分岐(branching)，伸長(elongation)，転向(turn)が含まれる．簡略化のため，空間を2次元にし，分節の太さおよび成長円錐が向きを変える時のsegment history tension model (後述) を省略する．またVan Peltモデルを元にした神経回路構築ソフトウェア\textbf{NETMORPH} \cite{Koene2009-hv}ではシナプス結合の形成も含めたシミュレーションを行っている．
+\subsubsection{分岐 (branching)}時刻$[t_i, t_i + \Delta t]$において，$j$番目の末端分節(terminal segment)が分岐する確率は
+$$
+p_{i,j} = n_i^{-E}\cdot B_{\infty} e^{\frac{-t_i}{\tau}} \left(e^{\frac{\Delta t}{\tau}} - 1\right)\cdot \frac{2^{-S\gamma_j}}{C_{n_i}}
+$$
+で表される．ここで，$B_{\infty}, E, S, \tau$は定数である．$\gamma_j$は$j$番目の末端分節の遠心性位数(centrifugal order)であり，$n_i$は時刻$t_i$における末端分節の総計である．さらに
+$$
+{C_{n_i}} = \frac{1}{n_i}\sum\nolimits_{k = 1}^{n_i} {{2^{ - S{\gamma_k}}}}
+$$
+とする．$n_i^{-E}$は末端分節の総計に応じて分岐確率を変化させる項であり，$E$は競合変数(competition parameter)と呼ばれる．
+$B_{\infty} e^{\frac{-t_i}{\tau}} \left(e^{\frac{\Delta t}{\tau}} - 1\right)$は経過時間に応じて分岐確率を変化させる項であり，$B_{\infty}$は$E=0$の場合の末端分節での分岐数の漸近的な期待値である．
+$\frac{2^{-S\gamma_j}}{C_{n_i}}$の項は末端分節の遠心性位数に応じて分岐確率を変化させる項であり，$C_{n_i}$は正規化定数である．
+$S=0$のときは末端分節は全て同じ確率で分岐するが，$S>0$のときは近位の末端分節，$S<0$のときは遠位の末端分節における分岐確率が大きくなる．

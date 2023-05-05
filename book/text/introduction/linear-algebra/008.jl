@@ -1,0 +1,1 @@
+Wnormed = W ./ sum(W, dims=1)

@@ -1,0 +1,5 @@
+plot(x, y)
+hist(rewards, density=true, bins=50, orientation="vertical")
+title("Reward\n distribution")
+xlabel("Density")
+tight_layout()

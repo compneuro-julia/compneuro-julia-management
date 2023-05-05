@@ -1,0 +1,27 @@
+\subsubsection{Expectile モデルとドパミンニューロンからの報酬分布のDecoding}\subsubsection{RPEに対する応答が線形なモデルとExpectile回帰}節の最後で述べたようにドパミンニューロンの活動はsign関数ではなく線形な応答をする，とした方が生理学的に妥当である (発火率を表現するならば$f(\delta)=c+\delta\quad(c > 0)$とした方が良いだろうが)．それでは予測価値の更新式を 
+$$ 
+\begin{cases} V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{+}
+\delta_{i} &\text{for } \delta_{i} \gt 0\\ V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{-} \delta_{i} &\text{for } \delta_{i} \leq 0 \end{cases} 
+$$
+とした場合は，分位点回帰ではなく何に対応するのだろうか．結論から言えば，この場合は **エクスペクタイル回帰(Expectile
+regression)\textbf{ と同じになる．expectileという用語自体はexpectationとquantileを合わせたような概念，というところから来ている．}中央値(median)に対する分位数(quantile)が，平均(mean)あるいは期待値(expectation)に対するexpectileの関係と同じ** であると捉えると良いです．
+もう少し言えば，前者は誤差のL1ノルム, 後者はL2ノルムの損失関数を最小化することにより得られる．
+分位点回帰で用いた損失関数は
+$$
+\rho_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|
+$$
+だったが，最後の$|\delta|$を$\delta^2$として， 
+$$
+\rho^E_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq
+0}\right|\cdot \delta^2
+$$
+とする．これを微分すれば 
+$$ 
+\frac{\partial \rho^E_{\tau}(\delta)}{\partial \delta}=\rho_{\tau}^{E\prime}(\delta)=2 \cdot \left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot \delta 
+$$
+となり，上記の予測価値の更新式がExpectile回帰の損失関数から導けることが分かる．
+#\subsubsection{報酬分布のデコーディング (decoding)}それで，RPEの応答を線形とした場合は報酬分布を上手く学習できるのかという話ですが，実はRPEの応答をsign関数とした場合と同じように学習後の予測価値の分布を求めても報酬分布は復元されません (簡単な修正で確認できます)．そこで報酬分布をデコーディングする方法を考えます．
+デコーデイングには各細胞が学習した予測価値(またはreversal points) $V_i$, asymmetries $\tau_i$, および報酬分布(ただし報酬の下限と上限からの一様分布)からのサンプル $z_m (m=1,2,\cdots,
+M)$を用います．$N$を推定する$V_i$の数，$M=100$を1つの報酬サンプル集合$\{z_m\}$内の要素数としたとき，次の損失関数を最小にする集合$\{z_m\}$を求めます． $$ \mathcal{L}(z, V, \tau)=\frac{1}{M} \sum_{m-1}^{M} \sum_{n=1}^{N}\left|\tau_{n}-\mathbb{I}_{z_{m} \leq
+V_{n}}\right|\left(z_{m}-V_{n}\right)^{2} $$ ここで，集合$\{z_m\}$は20000回サンプリングするとします．損失関数$\mathcal{L}$を最小化する集合の分布が推定された報酬分布となっているので，それをplotします．以下はその結果とコードです
+(このコードはほとんど著者実装のままです)．灰色が元の報酬分布で，紫がデコーデイングされた分布です．完全とはいきませんが，ある程度は推定できていることが分かります．

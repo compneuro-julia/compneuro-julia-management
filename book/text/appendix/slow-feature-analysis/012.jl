@@ -1,0 +1,1 @@
+Y = linsfa(polynomial_expand(X, 2));

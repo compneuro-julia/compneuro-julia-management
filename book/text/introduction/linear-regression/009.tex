@@ -1,0 +1,5 @@
+\subsubsection{正規方程式を用いた推定}条件に基づいて目的関数$L(\mathbf{\theta})$を微分すると次のような方程式が得られる．
+$$
+\mathbf{X}^\top\mathbf{X}\mathbf{\hat\theta}=\mathbf{X}^\top\mathbf{y}
+$$
+これを\textbf{正規方程式} (normal equation)と呼ぶ．この正規方程式より、係数の推定値は$\mathbf{\hat\theta}={(\mathbf{X}^\top\mathbf{X})}^{-1}X^\top\mathbf{y}$という式で得られる．なお，正規方程式自体は$\mathbf{y}=\mathbf{X}\mathbf{\theta}$の左から$\mathbf{X}^\top$をかける，と覚えると良い．

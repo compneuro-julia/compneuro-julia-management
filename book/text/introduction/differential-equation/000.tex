@@ -1,0 +1,21 @@
+\section{微分方程式}\subsection{微分方程式の基礎}微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
+$$
+\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
+$$
+状態変数 $x(t)$は，時間$t$に対する関数である．
+添え字の$c$は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては$b_c=0$の場合を\textbf{同次方程式}, $b_c\neq 0$の場合を\textbf{非同次方程式}という．
+\subsubsection{微分方程式の解}微分方程式を解くとは$x(t)$のような関数の具体的な式を求めることである．上式の解は
+$$
+x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
+$$
+として与えられる．微分方程式を解く手法は様々で，それぞれの方程式について適切な手法を選択する．本書ではLaplace変換を多用するが，細かい説明は付録にて行う．
+\subsubsection{連立線形微分方程式}$n$個の微分方程式
+連立線形微分方程式という．これをベクトル，行列を用いて
+時不変 (time-invariant) の定数行列を$\mathbf{A}_c \in \mathbb{R}^{n\times n}, \mathbf{B}_c \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
+$$
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
+$$
+解は
+$$
+\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau
+$$

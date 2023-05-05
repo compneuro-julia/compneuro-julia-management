@@ -1,0 +1,1 @@
+ulp(w) = log_joint(w, ϕ, y, σy, μ₀, Σ₀)
