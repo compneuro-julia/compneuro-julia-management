@@ -1,0 +1,23 @@
+add IJulia, LinearAlgebra, Random, Parameters, Distributions, Statistics, Plots, PyPlot, ProgressMeter, MAT, MLDatasets, PyCall, StatsBase, Kronecker, BlockDiagonals, ToeplitzMatrices, BenchmarkTools, ImageTransformations, TestImages, ImageIO, ImageMagick, ColorTypes, FFTW
+
+
+julia> ENV["PYTHON"] = ""
+julia> ]
+pkg> build PyCall
+
+
+すれば、Julia専用のminiconda環境をごそっと入れてくれるはず。自前のPythonを使いたいなら
+
+julia> ENV["PYTHON"] = raw"pythonバイナリのフルパス"
+julia> ]
+pkg> build PyCall
+
+https://twitter.com/genkuroki/status/1186622175463108609
+
+build IJulia
+
+C:\Users\yamta\AppData\Local\Programs\Python\Python311\python.exe
+
+C:\Users\yamtak\AppData\Local\Programs\Python\Python310\python.exe
+
+ENV["PYTHON"] = raw"C:\Users\yamtak\AppData\Local\Programs\Python\Python310\python.exe"
