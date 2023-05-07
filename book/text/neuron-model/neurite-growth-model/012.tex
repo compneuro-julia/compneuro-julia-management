@@ -1,8 +1,15 @@
-\subsubsection{伸長 (elongation)}末端分節が伸長する速さ$\nu_e(t_i)\ [\mu m/s]$は正規分布 $\mathcal{N}(\mu_e, \sigma_e^2)$に従うとする \cite{Van_Ooyen2014-fb}．伸長する長さは$\Delta L_j(t_i)=\nu_e(t_i) \cdot \Delta t$となる．
-\subsubsection{転向 (turn)}神経突起は真っ直ぐに伸び続けるわけではなく，向きを時折変えながら伸長する．伸長時に転向するかどうかの確率$p_d(t_i)$を次のようにする．
-$$
+\subsubsection{伸長 (elongation)}
+末端分節が伸長する速さ$\nu_e(t_i)\ [\mu m/s]$は正規分布 $\mathcal{N}(\mu_e, \sigma_e^2)$に従うとする \cite{Van_Ooyen2014-fb}．伸長する長さは$\Delta L_j(t_i)=\nu_e(t_i) \cdot \Delta t$となる．
+
+\subsubsection{転向 (turn)}
+神経突起は真っ直ぐに伸び続けるわけではなく，向きを時折変えながら伸長する．伸長時に転向するかどうかの確率$p_d(t_i)$を次のようにする．
+
+
 p_d(t_i) = r_L\Delta L_j(t_i)
-$$
+
+
 ただし，$r_L\ [\mu m^{-1}]$は回転率を表す．確率$p_d(t_i)$により転向する部分は新しい分節として定義する．転向する角度は\cite{Koene2009-hv}では転向角度の履歴を考慮したsegment history tension modelが導入されているが，本書では前述のように省略する．代わりに転向角度は一様分布$U(-\alpha, \alpha)\ \left(\alpha\in \left[0, \frac{\pi}{2}\right]\right)$に従うとする．
+
 分岐した際にも娘枝の長さと角度の設定が必要となる．ここでは長さは末端分節の伸長と同じ正規分布に従うとする．また，分岐角度は2つの娘枝について一様分布$U(0, \beta_1),\ U(-\beta_2, 0)\ \left(\beta_1, \beta_2\in \left[0, \frac{\pi}{2}\right]\right)$にそれぞれ従うとする．
+
 以上をまとめてシミュレーションを実装する．

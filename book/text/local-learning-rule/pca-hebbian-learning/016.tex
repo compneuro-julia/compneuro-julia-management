@@ -1,0 +1,10 @@
+\subsubsection{Sanger則}
+Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．\textbf{Sanger則 (Sanger's rule)}，あるいは\textbf{一般化Hebb則 (generalized Hebbian algorithm; GHA)} は，Oja則に\textbf{Gram–Schmidtの正規直交化法(Gram–Schmidt orthonormalization)} を組み合わせた学習則であり，次式で表される．
+
+
+\begin{equation}
+\frac{d\mathbf{W}}{dt} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{LT}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
+\end{equation}
+
+
+$\mathrm{LT}(\cdot)$は行列の対角成分より上側の要素を0にした下三角行列(lower triangular matrix)を作り出す作用素である．Sanger則を用いればPCAの第2主成分以降も求めることができる．

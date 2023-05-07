@@ -1,0 +1,38 @@
+\subsubsection{系の状態変化}
+
+
+\begin{aligned}
+&\text {Dynamics} \quad \mathbf{x}_{t+1}=A \mathbf{x}_{t}+B \mathbf{u}_{t}+\boldsymbol{\xi}_{t}+\sum_{i=1}^{c} \varepsilon_{t}^{i} C_{i} \mathbf{u}_{t}\\
+&\text {Feedback} \quad \mathbf{y}_{t}=H \mathbf{x}_{t}+\omega_{t}+\sum_{i=1}^{d} \epsilon_{t}^{i} D_{i} \mathbf{x}_{t}\\
+&\text{Cost per step}\quad \mathbf{x}_{t}^\top Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^\top R \mathbf{u}_{t}
+\end{aligned}
+
+
+\subsubsection{LQG}
+加法ノイズしかない場合($C=D=0$)，制御問題は\textbf{線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御}と呼ばれる．
+
+
+\paragraph{運動制御 (Linear-Quadratic Regulator)}
+
+
+\begin{align}
+\mathbf{u}_{t}&=-L_{t} \widehat{\mathbf{x}}_{t}\\
+L_{t}&=\left(R+B^{\top} S_{t+1} B\right)^{-1} B^{\top} S_{t+1} A\\
+S_{t}&=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
+s_t &= \mathrm{tr}(S_{t+1}\Omega^\xi) + s_{t+1}; s_T=0
+\end{align}
+
+
+$\boldsymbol{S}_{T}=Q$
+
+\paragraph{状態推定 (Kalman Filter)}
+
+
+\begin{align}
+\widehat{\mathbf{x}}_{t+1}&=A \widehat{\mathbf{x}}_{t}+B \mathbf{u}_{t}+K_{t}\left(\mathbf{y}_{t}-H \widehat{\mathbf{x}}_{t}\right)+\boldsymbol{\eta}_{t} \\ 
+K_{t}&=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\right)^{-1} \\ 
+\Sigma_{t+1}&=\Omega^{\xi}+\left(A-K_{t} H\right) \Sigma_{t} A^{\top}
+\end{align}
+
+
+この場合に限り，運動制御と状態推定を独立させることができる．

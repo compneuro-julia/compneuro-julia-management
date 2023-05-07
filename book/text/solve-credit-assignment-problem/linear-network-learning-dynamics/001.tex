@@ -1,22 +1,37 @@
-\subsection{線形多層ニューラルネットワークにおける学習ダイナミクスと知識の獲得}> A. M. Saxe, J. L. McClelland, S. Ganguli. "\textbf{A mathematical theory of semantic development in deep neural networks}". *PNAS.* (2019). ([arXiv](https://arxiv.org/abs/1810.10531)). ([PNAS](https://www.pnas.org/content/early/2019/05/16/1820226116))
-\subsubsection{モデルと学習}入力 $\mathbf{x}$ は「もの」の項目(例えばカナリア，犬，サーモン，樫など)，出力 $\mathbf{y}$はそれぞれの項目の性質・特性となっている．例えばカナリア(Canary)は成長し(Grow)，動き(Move)，空を飛べる(Fly)ので，Canaryという入力に対し，ネットワークが出力するのはGrow, Move, Flyとなる．モデルは3層の全結合線形ネットワークである．
-$$
+\subsection{線形多層ニューラルネットワークにおける学習ダイナミクスと知識の獲得}
+
+> A. M. Saxe, J. L. McClelland, S. Ganguli. "\textbf{A mathematical theory of semantic development in deep neural networks}". *PNAS.* (2019). ([arXiv](https://arxiv.org/abs/1810.10531)). ([PNAS](https://www.pnas.org/content/early/2019/05/16/1820226116))
+
+\subsubsection{モデルと学習}
+入力 $\mathbf{x}$ は「もの」の項目(例えばカナリア，犬，サーモン，樫など)，出力 $\mathbf{y}$はそれぞれの項目の性質・特性となっている．例えばカナリア(Canary)は成長し(Grow)，動き(Move)，空を飛べる(Fly)ので，Canaryという入力に対し，ネットワークが出力するのはGrow, Move, Flyとなる．モデルは3層の全結合線形ネットワークである．
+
+
 \hat{\mathbf{y}}=\mathbf{W}_2 \mathbf{W}_1\mathbf{x} 
-$$
+
+
 ただし非線形な活性化関数が無いことに注意しよう．このようなネットワークを線形ニューラルネットワーク (linear neural network)と呼ぶ．当然， $\mathbf{W}_s=\mathbf{W}_2 \mathbf{W}_1$として， 上のネットワークは
-$$
+
+
 \hat{\mathbf{y}}=\mathbf{W}_s\mathbf{x}
-$$
+
+
 とまとめることができる．このため，線形な活性化関数で深いニューラルネットワークを構築しても意味がなく，それゆえ非線形な活性化関数が必要となる．しかし，\textbf{勾配降下法で学習させると}3層と2層のネットワークの学習ダイナミクスはそれぞれ異なるものとなり，得られる解にも違いが生まれる．加えて，深い(3層の)ネットワークである場合のみ，幼児の発達における非線形な現象が説明できる．
+
 3層ネットワークの学習(重みの更新)は誤差逆伝搬から導かれる次の2式により行う．
-$$
+
+
 \begin{aligned} \tau \frac{d\mathbf{W}_1}{dt} &=\mathbf{W}_2^\top \left(\mathbf{\Sigma}^{yx} - \mathbf{W}_2 \mathbf{W}_1 \mathbf{\Sigma}^{x}\right)\\
 \tau \frac{d\mathbf{W}_2}{dt} &=\left(\mathbf{\Sigma}^{yx} - \mathbf{W}_2 \mathbf{W}_1 \mathbf{\Sigma}^{x}\right) \mathbf{W}_1^\top
 \end{aligned}
-$$
+
+
 ただし，$ \mathbf{\Sigma}^{x}$は入力間の関係を表す行列，$\mathbf{\Sigma}^{yx}$は入出力の関係を表す行列である．
-\subsubsection{特異値分解(SVD)による学習ダイナミクスの解析}学習ダイナミクスは$ \mathbf{\Sigma}^{yx}$に対する特異値分解(singular value decomposition; SVD)を用いて説明できる．
-$$
+
+\subsubsection{特異値分解(SVD)による学習ダイナミクスの解析}
+学習ダイナミクスは$ \mathbf{\Sigma}^{yx}$に対する特異値分解(singular value decomposition; SVD)を用いて説明できる．
+
+
 \mathbf{\Sigma}^{yx}=\mathbf{USV}^\top
-$$
+
+
 行列$ \mathbf{ S}$の対角成分の非ゼロ要素が特異値である．次に学習途中の時刻$(t)$における$\hat{\mathbf{\Sigma}}^{yx}(t)=\mathbf{W}_2 (t) \mathbf{W}_1(t) \mathbf{\Sigma}^{x}$に対してSVDを実行し，特異値$\mathbf{A}(t)=[a_{\alpha}(t)]$を得る．この $a _ {\alpha}(t)$だが，3層のネットワークでは大きな特異値から先に学習されるのに対し，2層のネットワークでは全ての特異値が同時に学習される．このダイナミクスだが，\textbf{低ランク近似} (low-rank approximation)が生じていて，特異値の大きな要素から学習されていると捉えることができる．学習が進むとランクが大きくなっていく，ということである．低ランク近似の例として，SVDによる画像の圧縮と復元を見てみよう．カメラマンの画像に対し，低ランク近似を行い，ランクを上げていく．するとランクが上がるにつれて，画像が鮮明になる．

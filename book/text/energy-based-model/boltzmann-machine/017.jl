@@ -1,4 +1,2 @@
-num_draws_test = 50 # draws for in test
-num_see = 392  # Visible units in test
-noise_scale = 0.1 # テスト時のノイズレベル
-num_testdata = 4
+energy(v, h) = -v' * vbias - h' * hbias - h' * W * v
+# free_energy(v) = -v' * vbias .- sum(log.(1 .+ exp.(W * v + hbias)))

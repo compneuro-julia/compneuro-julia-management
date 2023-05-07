@@ -1,0 +1,23 @@
+Here σ denotes the (point-wise) activation function, $W \in R^{m\times n}$
+is the weight-matrix and $b \in R^n$
+is
+the bias-vector. The vector $x \in R^m$ and the vector $y \in R^n$ denote the input, respectively the output
+
+
+\begin{equation}
+y=\sigma(W^\top x + b)
+\end{equation}
+
+
+
+\begin{align}
+& \text { Initialize } W^0, b^0 \text {; } \\
+& \text { for } k=1,2, \ldots \text { do } \\
+& \qquad \begin{array}{|l}
+\text { for } i=1, \ldots, s \text { do } \\
+e_i=y_i-\sigma\left(\left(W^k\right)^{\top} x_i+b^k\right) \\
+W^{k+1}=W^k+e_i x_i^{\top} \\
+b^{k+1}=b^k+e_i
+\end{array} \\
+& \text { end }
+\end{align}

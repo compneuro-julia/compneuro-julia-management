@@ -1,7 +1,15 @@
-# initial neurons
-map_width = 64
-M = map_width^2
-init_w = product(range(0, 1, length=map_width), range(0, 1, length=map_width))
-init_w += (rand(size(init_w)...) .- 1) * 0.05;
-init_w = [init_w 2l*(rand(M) .- 0.5) hcat(pol2cart.(4π*(rand(M) .- 0.5), r*rand(M))...)']
-#w = reshape(w, (map_width, map_width, dims));
+# generate stimulus
+Random.seed!(1234);
+Nx, Ny, NOD, NOR = 10, 10, 2, 12
+dims = 5  # dims of inputs 
+l, r = 0.14, 0.2
+
+rx, ry = range(0, 1, length=Nx), range(0, 1, length=Ny)
+rOD = range(-l, l, length=NOD)
+rORθ = range(-π/2, π/2, length=NOR+1)[1:end-1]
+
+# stimuli
+v = product(rx, ry, rOD, rORθ, r)
+rORxy = hcat(pol2cart.(2v[:, 4], v[:, 5])...)
+v[:, 4], v[:, 5] = rORxy[1, :], rORxy[2, :];
+v += (rand(size(v)...) .- 1) * 1e-5;

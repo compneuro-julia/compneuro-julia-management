@@ -1,3 +1,3 @@
-spike = (varr_fi[1:nt-1, :] .< 0) .& (varr_fi[2:nt, :] .> 0)
-num_spikes = sum(spike, dims=1)
-rate = num_spikes/T*1e3;
+figure(figsize=(4, 3))
+plot(Ie_range[:], rate[1, :]); xlabel("Input current"); ylabel("Firing rate (Hz)")
+tight_layout()

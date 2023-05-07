@@ -1,6 +1,7 @@
-function neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
-                              turn_rate=5, max_branch_angle=0.1π, max_turn_angle=5e-3π,
-                              history_num=3)
+function neurite_growth_model(
+        tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
+        turn_rate=5, max_branch_angle=0.1π, max_turn_angle=5e-3π,
+        history_num=3)
     tree_info = copy(tree_info_init)
     seg_vec = copy(seg_vec_init)
     num_branching = 0

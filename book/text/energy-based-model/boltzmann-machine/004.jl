@@ -1,4 +1,2 @@
-using MLDatasets
-using PyPlot
-using Random
-using ProgressMeter
+train_x, _ = MNIST.traindata()
+size(train_x)

@@ -1,0 +1,18 @@
+結果は図\ref{fig:online_stdp}のようになります。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.5]{figs/online_stdp.pdf}
+    \caption{オンライン STDP則：(1段目)シナプス前細胞のスパイクトレース (2段目)シナプス前細胞のスパイク (3段目)シナプス後細胞のスパイク (4段目)シナプス後細胞のスパイクトレース (5段目)重みの変化(初期値0)}
+    \label{fig:online_stdp}
+\end{figure}
+\subsubsection{行列を用いたオンラインSTDP則の実装}
+この節ではシナプス前細胞と後細胞の数を一般化し、今まで2つのニューロン間で考えていたSTDP則を行列計算で実装する方法について説明します。\par
+まず、シナプス前細胞、後細胞がそれぞれ$N_\text{pre}$, $N_\text{post}$あるとします。また、Kroneckerのdelta関数の代わりに、スパイクが起こったときに1、 その他は0の値を取る明示的な変数$\boldsymbol{s}(t)$を用いることにします。ここで、シナプス前細胞、後細胞についてスパイク変数は$\boldsymbol{s}_{\text{pre}} \in \mathbb{R}^{N_\text{pre}}, \boldsymbol{s}_{\text{post}} \in \mathbb{R}^{N_\text{post}}$であり、スパイクのトレースは$\boldsymbol{x}_{\text{pre}} \in \mathbb{R}^{N_\text{pre}}, \boldsymbol{x}_{\text{post}} \in \mathbb{R}^{N_\text{post}}$です。さらにシナプスから後細胞へのシナプス強度を$N_\text{post} \times N_\text{pre}$行列の$W$とします。このとき、Online STDP則は
+\begin{align}
+\boldsymbol{x}_{\text{pre}}(t+\Delta t)&=\left(1-\frac{\Delta t}{\tau_{+}}\right)\cdot \boldsymbol{x}_{\text{pre}}(t)+
+\boldsymbol{s}_{\text{pre}}(t)\\
+\boldsymbol{x}_{\text{post}}(t+\Delta t)&=\left(1-\frac{\Delta t}{\tau_{-}}\right)\cdot \boldsymbol{x}_{\text{post}}(t)+\boldsymbol{s}_{\text{post}}(t)\\
+W(t+\Delta t)&=W(t)+A_+ \boldsymbol{s}_{\text{post}}(t)(\boldsymbol{x}_{\text{pre}}(t))^\intercal - A_-\boldsymbol{x}_{\text{post}}(t)(\boldsymbol{s}_{\text{pre}}(t))^\intercal
+\end{align}
+と書けます。ただし、$^\intercal$を転置記号とし、$\boldsymbol{x}$を列ベクトル、$\boldsymbol{x}^\intercal$を行ベクトルとしています。\par
+これらを用いてOnline STDP則と元のSTDPの式が一致しているかの確認をしてみましょう\footnote{コードは\texttt{./SingleFileSimulations/STDP/stdp3.py}です。}。タイムステップ\texttt{dt}を1ms, シミュレーション時間\texttt{T}は50msとし、シミュレーションのタイムステップ数\texttt{nt}と同数のシナプス前細胞、2つのシナプス後細胞があるとします。それぞれのシナプス前細胞は\texttt{dt}だけずれて発火し\footnote{この場合、シナプス前細胞のスパイクを表す\texttt{spike\_pre}行列として \texttt{nt} 次単位行列を与えればよいです。}(つまり発火時刻の範囲は[0ms, 50ms])、2つの後細胞は$t=0, 50$msに発火します。こうすることで、発火の時間差として$[-50\text{ms}, 50\text{ms}]$が生まれます。

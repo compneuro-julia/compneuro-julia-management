@@ -1,0 +1,6 @@
+format: jb-article
+root: index
+sections:
+- file: preface
+  sections:
+  - file: local-learning-rule/pca-hebbian-learning

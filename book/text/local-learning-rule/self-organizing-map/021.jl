@@ -1,5 +1,1 @@
-figure(figsize=(3,3))
-title(L"$U$-matrix")
-imshow(U, interpolation="bicubic")
-scatter(mapped_vpos[:, 1], mapped_vpos[:, 2], color=vcolors, s=10)
-tight_layout()
+U = Umatrix2d(w_history[end]);

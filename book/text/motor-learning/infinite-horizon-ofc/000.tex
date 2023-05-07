@@ -1,1 +1,10 @@
-# 無限時間最適フィードバック制御モデル
+\section{無限時間最適フィードバック制御モデル}
+\subsection{モデルの構造}
+無限時間最適フィードバック制御モデル (infinite-horizon optimal feedback control model) \cite{Qian2013-zy}
+
+
+\begin{aligned}
+d x&=(\mathbf{A} x+\mathbf{B} u) dt +\mathbf{Y} u d \gamma+\mathbf{G} d \omega \\
+d y&=\mathbf{C} x dt+\mathbf{D} d \xi\\
+d \hat{x}&=(\mathbf{A} \hat{x}+\mathbf{B} u) dt+\mathbf{K}(dy-\mathbf{C} \hat{x} dt)
+\end{aligned}
