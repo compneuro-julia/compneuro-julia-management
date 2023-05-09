@@ -1,0 +1,1 @@
+X = [randn(Int(N/2), dims);  3.0 .+ randn(Int(N/2), dims)];

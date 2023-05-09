@@ -1,4 +1,6 @@
-\subsection{躍度最小モデルの実装}1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では \cite{Yazdani2012-sx} での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．
+\subsection{躍度最小モデルの実装}
+1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では \cite{Yazdani2012-sx} での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．
+
 問題設定は以下のようにする．
 $$
 \begin{align}
@@ -6,4 +8,5 @@ $$
 &\text{subject to} \quad \dot{\mathbf{x}}(t)=A \mathbf{x}(t)+B u(t)
 \end{align}
 $$
+
 ただし，$\|\cdot\|_{2}$は$L_{2}$ノルムを意味し，$A=\left[\begin{array}{lll}0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0\end{array}\right], B=\left[\begin{array}{l}0 \\ 0 \\ 1\end{array}\right], \mathbf{x}(t)=\left[\begin{array}{l}x(t) \\ \dot{x}(t) \\ \ddot{x}(t)\end{array}\right], u(t)=\dddot x(t)$とする．すなわち，制御信号$u(t)$は躍度$\dddot x(t)$と等しいとする．

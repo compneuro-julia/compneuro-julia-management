@@ -1,8 +1,13 @@
-\subsection{発火率マップ}発火率$\lambda(\boldsymbol{x})$は，場所$\boldsymbol{x}=(x,y)$で記録されたスパイクの回数を，場所$\boldsymbol{x}$における滞在時間(s)で割ることで得られる． 
-$$ 
+\subsection{発火率マップ}
+
+発火率$\lambda(\boldsymbol{x})$は，場所$\boldsymbol{x}=(x,y)$で記録されたスパイクの回数を，場所$\boldsymbol{x}$における滞在時間(s)で割ることで得られる． 
+
+ 
 \lambda(\boldsymbol{x})=\frac{\displaystyle \sum_{i=1}^n
 g\left(\frac{\boldsymbol{s}_i-\boldsymbol{x}}{h}\right)}{\displaystyle \int_0^T g\left(\frac{\boldsymbol{y}(t)-\boldsymbol{x}}{h}\right)dt} 
-$$ 
+ 
+
 ただし，$n$はスパイクの回数，$T$は計測時間，$g(\cdot)$はGaussain
 Kernel (中身の分子が平均，分母が標準偏差) ，$\boldsymbol{s}_i$は$i$番目のスパイクの発生した位置，$\boldsymbol{y}(t)$は時刻$t$でのラットの位置である．分母は積分になっているが，実際には離散的に記録をするので，累積和に変更し，$dt$を時間のステップ幅(今回は0.02s)とする．
+
 この式の分母はマウスの位置，分子はニューロンが発火したときのマウスの位置についてそれぞれカーネル密度推定 (kernel density estimation)を行うことを意味する．今回はヒストグラムを求め，描画の際にGaussianで平滑化することで計算量を下げることとする．

@@ -7,11 +7,14 @@
 %\documentclass[tombow, paper={182truemm, 232truemm}, titlepage]{ltjsbook}
 \usepackage{amsmath}
 \usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
 \usepackage{textgreek}
 \usepackage[luatex]{graphicx} 
 \usepackage[svgnames]{xcolor}
 \usepackage{sty/julia-syntax-highlighting} % 
-\usepackage[export]{adjustbox} % added
+\usepackage[export]{sty/adjustbox} % added
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
@@ -28,12 +31,75 @@
 \tableofcontents
 \clearpage
 
-%\part{}
+\chapter{はじめに}
+% \input{./text/introduction/computational-neuroscience.tex} % ok
+% \input{./text/introduction/notation.tex} % ok
+% \input{./text/introduction/usage-julia-lang.tex} % ok
+% \input{./text/introduction/linear-algebra.tex} % ok
+% \input{./text/introduction/differential-equation.tex} % ok
+% \input{./text/introduction/linear-regression.tex} % ok
+% \input{./text/introduction/probability-information-theory.tex} % ok
+% \input{./text/introduction/stochastic-process-differential-equation.tex} % ok
+
+\chapter{神経細胞のモデル}
+% \input{./text/neuron-model/neuron-physiol.tex} % ok
+% \input{./text/neuron-model/hodgkin-huxley.tex}
+% \input{./text/neuron-model/fhn.tex}
+% \input{./text/neuron-model/lif.tex} % ok
+% \input{./text/neuron-model/izhikevich.tex} 
+% \input{./text/neuron-model/isi.tex} % ok
+% \input{./text/neuron-model/neurite-growth-model.tex} % ok
+
+\chapter{シナプス伝達のモデル}
+% \input{./text/synapse-model/synapse-physiol.tex} % ok
+% \input{./text/synapse-model/current-conductance-synapse.tex}
+% \input{./text/synapse-model/expo-synapse.tex}
+% \input{./text/synapse-model/kinetic-synapse.tex}
+% \input{./text/synapse-model/synaptic-weighted.tex} % ok
+% \input{./text/synapse-model/dynamical-synapses.tex}
+
+\chapter{神経回路網の演算処理}
+% \input{./text/neuronal-computation/neuronal-arithmetic.tex} % ok
+
 \chapter{局所学習則}
-\input{./text/local-learning-rule/self-organizing-map.tex}
+% \input{./text/local-learning-rule/pca-hebbian-learning.tex} % ok2
+% \input{./text/local-learning-rule/mds-anti-hebbian-learning.tex}
+% \input{./text/local-learning-rule/slow-feature-analysis.tex}
+% \input{./text/local-learning-rule/stdp-learning.tex}
+% \input{./text/local-learning-rule/logistic-regression-perceptron.tex} % ok2
+\input{./text/local-learning-rule/self-organizing-map.tex} % ok2
+
+\chapter{生成モデルとエネルギーベースモデル}
+% \input{./text/energy-based-model/energy-based-model.tex} % ok
+% \input{./text/energy-based-model/hopfield-model.tex} % ok
+% \input{./text/energy-based-model/boltzmann-machine.tex} % ok
+% \input{./text/energy-based-model/sparse-coding.tex} % ok
+% \input{./text/energy-based-model/predictive-coding.tex} % ok
+
+\chapter{貢献度分配問題の解決策}
+% \input{./text/solve-credit-assignment-problem/backpropagation.tex}
+% \input{./text/solve-credit-assignment-problem/linear-network-learning-dynamics.tex}
+% \input{./text/solve-credit-assignment-problem/bptt.tex}
+% \input{./text/solve-credit-assignment-problem/surrogate-gradient-snn.tex}
+% \input{./text/solve-credit-assignment-problem/reservoir-computing.tex}
+
+\chapter{運動制御}
+% \input{./text/motor-learning/minimum-jerk.tex} % ok
+% \input{./text/motor-learning/minimum-variance.tex} % ok
+% \input{./text/motor-learning/optimal-feedback-control.tex} % ok
+% \input{./text/motor-learning/infinite-horizon-ofc.tex} % ok
+% \input{./text/motor-learning/biological-ofc.tex} % 全体修正する
+% \input{./text/motor-learning/rat-trajectory.tex} % ok
+
+\chapter{強化学習}
+% \input{./text/reinforcement-learning/td-learning.tex} % ref修正する
 
 \chapter{神経回路網によるベイズ推論}
-\input{./text/bayesian-brain/probabilistic-population-coding.tex}
-\input{./text/bayesian-brain/mcmc.tex}
-\input{./text/bayesian-brain/neural-sampling.tex}
+% \input{./text/bayesian-brain/neural-uncertainty-representation.tex}
+% \input{./text/bayesian-brain/bayesian-linear-regression.tex}
+% \input{./text/bayesian-brain/mcmc.tex} % ok
+% \input{./text/bayesian-brain/neural-sampling.tex} % ok2
+% \input{./text/bayesian-brain/probabilistic-population-coding.tex}
+% \input{./text/bayesian-brain/quantile-expectile-regression.tex}
+
 \end{document}

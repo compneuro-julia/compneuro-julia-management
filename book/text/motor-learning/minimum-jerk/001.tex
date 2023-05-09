@@ -1,13 +1,19 @@
-\subsection{等式制約下の二次計画法 (Equality Constrained Quadratic Programming)}$n$個の変数があり，$m$個の制約条件がある等式制約二次計画問題を考える．$\mathbf {x}\in \mathbb{R}^n$, 対称行列$\mathbf{P}\in \mathbb{R}^{n\times n}$,  $\mathbf {q}\in \mathbb{R}^{n}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf {b}\in \mathbb{R}^m$．このとき，問題は次のようになる．
+\subsection{等式制約下の二次計画法 (Equality Constrained Quadratic Programming)}
+
+$n$個の変数があり，$m$個の制約条件がある等式制約二次計画問題を考える．$\mathbf {x}\in \mathbb{R}^n$, 対称行列$\mathbf{P}\in \mathbb{R}^{n\times n}$,  $\mathbf {q}\in \mathbb{R}^{n}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf {b}\in \mathbb{R}^m$．このとき，問題は次のようになる．
+
 $$
 \begin{align}
 &{\text{Minimize}}\quad {\frac {1}{2}}\mathbf {x}^\top \mathbf{P}\mathbf {x} +\mathbf {q} ^{\top}\mathbf {x}\\
 &{\text{subject to}}\quad \mathbf{A}\mathbf {x} =\mathbf {b}
 \end{align}
 $$
+
 Lagrangeの未定乗数法を用いると解は
+
 $$
 {\begin{bmatrix}\mathbf{P}&\mathbf{A}^\top\\\mathbf{A}&0\end{bmatrix}}{\begin{bmatrix}\mathbf {x} \\
 \lambda \end{bmatrix}}={\begin{bmatrix}-\mathbf {q} \\\mathbf {b} \end{bmatrix}}
 $$
+
 の解として与えられる．ここで $\lambda \in \mathbb{R}^{m}$  はLagrange乗数のベクトルである．

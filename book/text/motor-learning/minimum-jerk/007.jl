@@ -1,4 +1,4 @@
-T = 1.0 # simulation time (sec)
-dt = 1e-2 # time step (sec)
-nt = Int(T/dt) # number of samples
-trange = range(0, 1, length=nt); # range of time 
+row_jerk = [[-1, 3, -3, 1]; zeros(nt-4)]
+col_jerk = [-1; zeros(nt-4)];
+D_jerk = Toeplitz(col_jerk, row_jerk); 
+# = diagm(0 => -ones(nt-3), 1 =>3*ones(nt-3), 2=>-3*ones(nt-3), 3=>ones(nt-3))[1:end-3, :]

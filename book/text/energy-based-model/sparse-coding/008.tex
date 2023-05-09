@@ -1,20 +1,30 @@
-\subsubsection{軟判定閾値関数を用いる場合 (ISTA)}$S(x)=|x|$とした場合の閾値関数を用いる手法として\textbf{ISTA}(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
+\subsubsection{軟判定閾値関数を用いる場合 (ISTA)}
+$S(x)=|x|$とした場合の閾値関数を用いる手法として\textbf{ISTA}(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
+
 解くべき問題は次式で表される．
-$$
+
+
 \mathbf{r} = \mathop{\rm arg~min}\limits_{\mathbf{r}}\left\{\|\mathbf{x}-\mathbf{\Phi}\mathbf{r}\|^2_2+\lambda\|\mathbf{r}\|_1\right\}
-$$
+
+
 詳細は後述するが，次のように更新することで解が得られる．
-1. $\mathbf{r}(0)$を要素が全て0のベクトルで初期化：$\mathbf{r}(0)=\mathbf{0}$
-2. $\mathbf{r}_*(t+1)=\mathbf{r}(t)+\eta_\mathbf{r}\cdot \mathbf{\Phi}^\top(\mathbf{x}-\mathbf{\Phi}\mathbf{r}(t))$
-3. $\mathbf{r}(t+1) = \Theta_\lambda(\mathbf{r}_*(t+1))$
-4. $\mathbf{r}$が収束するまで2と3を繰り返す
+
+\begin{itemize}
+\item $\mathbf{r}(0)$を要素が全て0のベクトルで初期化：$\mathbf{r}(0)=\mathbf{0}$
+\item $\mathbf{r}_*(t+1)=\mathbf{r}(t)+\eta_\mathbf{r}\cdot \mathbf{\Phi}^\top(\mathbf{x}-\mathbf{\Phi}\mathbf{r}(t))$
+\item $\mathbf{r}(t+1) = \Theta_\lambda(\mathbf{r}_*(t+1))$
+\item $\mathbf{r}$が収束するまで2と3を繰り返す
+\end{itemize}
+
 ここで$\Theta_\lambda(\cdot)$は\textbf{軟判定閾値関数} (Soft thresholding function)と呼ばれ，次式で表される．
-$$
+
+
 \Theta_\lambda(y)= 
 \begin{cases} 
 y-\lambda & (y>\lambda)\\ 
 0 & (-\lambda\leq y\leq\lambda)\\ 
  y+\lambda & (y<-\lambda) 
 \end{cases}
-$$
+
+
 $\Theta_\lambda(\cdot)$を関数として定義すると次のようになる．また，ReLU (ランプ関数)は\jl{max(x, 0)}で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる \cite{Papyan2018-yr}．

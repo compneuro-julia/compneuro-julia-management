@@ -1,1 +1,8 @@
-このような曲線を\textbf{frequency-current (F-I) curve} (または neuronal input/output (I/O) curve)と呼ぶ．
+\subsection{抑制後リバウンド (Postinhibitory rebound; PIR)}
+ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると発火が起こる, というのはニューロンの活動電位発生についての典型的な説明である．それではHHモデルの膜電位閾値はどのくらいの値になるのだろうか．答えは「\textbf{膜電位閾値は一定ではない}」である．それを示す現象として \textbf{抑制後リバウンド} (Postinhibitory rebound; PIR)がある．この時生じる発火を\textbf{リバウンド発火} (rebound spikes) 
+と呼ぶ．抑制後リバウンドは過分極性の電流の印加を止めた際に膜電位が静止膜電位に回復するのみならず, さらに脱分極をして発火をするという現象である．この現象が生じる要因として
+
+1. \textbf{アノーダルブレイク} (anodal break, またはanode break excitation; ABE)
+2. 遅いT型カルシウム電流 (slow T-type calcium current)
+
+がある ([Chik et al., 2004](https://pubmed.ncbi.nlm.nih.gov/15324089/))．HH モデルはこのうちアノーダルブレイクを再現できるため, シミュレーションによりどのような現象か確認してみよう．これは入力電流を変更するだけで行える．

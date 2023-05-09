@@ -1,6 +1,10 @@
-\subsection{Hodgkin-Huxleyモデルにおけるシナプスモデル}これまで明示的にスパイクの発生が表現されたモデルを用いてきたが，HHモデルでは単なる膜電位の変数があるのみである．ここでは前述した動力学的モデルを用いてHHモデルにおけるシナプス動態の記述を行う ([Destexhe et al., 1994](https://www.mitpressjournals.org/doi/10.1162/neco.1994.6.1.14); [Batista et al., 2014](https://www.sciencedirect.com/science/article/pii/S0378437114004592))．
+\subsection{Hodgkin-Huxleyモデルにおけるシナプスモデル}
+これまで明示的にスパイクの発生が表現されたモデルを用いてきたが，HHモデルでは単なる膜電位の変数があるのみである．ここでは前述した動力学的モデルを用いてHHモデルにおけるシナプス動態の記述を行う ([Destexhe et al., 1994](https://www.mitpressjournals.org/doi/10.1162/neco.1994.6.1.14); [Batista et al., 2014](https://www.sciencedirect.com/science/article/pii/S0378437114004592))．
+
 $r_{j}$を$j$番目のニューロンのpre-synaptic dynamicsとすると，$r_{j}$は次式に従う．
-$$
+
+
 \frac{\mathrm{d} r_{j}}{\mathrm{d} t}=\left(\frac{1}{\tau_{r}}-\frac{1}{\tau_{d}}\right) \frac{1-r_{j}}{1+\exp \left(-V_{j}+V_{0}\right)}-\frac{r_{j}}{\tau_{d}}
-$$
+
+
 ただし，時定数 $\tau_r=0.5, \tau_d = 8$ (ms), 反転電位 $V_0 = -20$ (mV)とする．前節で既に$r$の描画は行ったが，パルス波を印加した場合の挙動を確認する．

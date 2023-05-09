@@ -34,7 +34,11 @@ sections:
   - file: neuronal-computation/neuronal-arithmetic
 - file: local-learning-rule/intro
   sections:
-  - file: local-learning-rule/hebbian-learning
+  - file: local-learning-rule/pca-hebbian-learning
+  - file: local-learning-rule/mds-anti-hebbian-learning
+  - file: local-learning-rule/slow-feature-analysis
+  - file: local-learning-rule/stdp-learning
+  - file: local-learning-rule/logistic-regression-perceptron
   - file: local-learning-rule/self-organizing-map
 - file: energy-based-model/intro
   sections:
@@ -45,15 +49,18 @@ sections:
   - file: energy-based-model/predictive-coding
 - file: solve-credit-assignment-problem/intro
   sections:
-  - file: solve-credit-assignment-problem/backpropagation-zipser-andersen
+  - file: solve-credit-assignment-problem/backpropagation
   - file: solve-credit-assignment-problem/linear-network-learning-dynamics
   - file: solve-credit-assignment-problem/bptt
+  - file: solve-credit-assignment-problem/surrogate-gradient-snn
+  - file: solve-credit-assignment-problem/reservoir-computing
 - file: motor-learning/intro
   sections:
   - file: motor-learning/minimum-jerk
   - file: motor-learning/minimum-variance
   - file: motor-learning/optimal-feedback-control
   - file: motor-learning/infinite-horizon-ofc
+  - file: motor-learning/biological-ofc
   - file: motor-learning/rat-trajectory
 - file: reinforcement-learning/intro
   sections:
@@ -69,7 +76,6 @@ sections:
 - file: appendix/intro
   sections:
   - file: appendix/grid-cells-decoding
-  - file: appendix/slow-feature-analysis
   - file: appendix/graph-theory-network-model
   - file: appendix/useful-links
   - file: appendix/usage-jupyter-book

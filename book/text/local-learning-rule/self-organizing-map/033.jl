@@ -1,0 +1,1 @@
+plot_visual_maps(v, w)

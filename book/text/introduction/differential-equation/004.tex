@@ -1,22 +1,36 @@
-\subsubsection{離散化方法2: 微分方程式の数値解法}#\subsubsection{Euler法}Euler法は$\dfrac{dx}{dt}=f(x, t)$において，$x_{n+1}=x_t+\Delta t f(x_n, t_n)$とする手法である．
-$$
+\subsubsection{離散化方法2: 微分方程式の数値解法}
+\paragraph{Euler法}
+Euler法は$\dfrac{dx}{dt}=f(x, t)$において，$x_{n+1}=x_t+\Delta t f(x_n, t_n)$とする手法である．
+
+
 \begin{aligned}
 x(t+\Delta t)&=x(t) + \left[a_c x(t)+b_c u(t) \right]\Delta t\\
 &=(1+a_c \Delta t)x(t) + b_c\Delta t u(t
 )
 \end{aligned}
-$$
+
+
 ここで，解析解を用いる方法とEuler法の離散化係数の比較をしよう．
+
 $\Delta t=0$でTaylor展開により1次近似すると
-$$
+
+
 e^{a \Delta t} \approx 1 + a\Delta t
-$$
+
+
+
 $a_c\neq 0$の場合，
-$$
+
+
 \begin{aligned}
 \int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau&=\frac{1}{a_c}(e^{a_c \Delta t}-1)\\
 &\approx \frac{1}{a_c}\cdot a_c \Delta t=\Delta t
 \end{aligned}
-$$
-#\subsubsection{Runge-Kutta法}#\subsubsection{その他のsolver}adaptiveな方法など．Juliaであれば\jl{DifferentialEquations.jl}などで実装されているsolverを用いる方が効率的である．
+
+
+\paragraph{Runge-Kutta法}
+
+\paragraph{その他のsolver}
+adaptiveな方法など．Juliaであれば\jl{DifferentialEquations.jl}などで実装されているsolverを用いる方が効率的である．
+
 本書では主にEuler法を用いて実装を行う．Euler法は精度が低い手法であるという欠点があるものの，実装が簡便で可読性が高いことや，本書で扱うモデルに関してはEuler法でも定性的に同様の結果が再現できることなどが採用する理由である．

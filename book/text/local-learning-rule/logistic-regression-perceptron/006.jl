@@ -1,0 +1,1 @@
+y = [zeros(Int(N/2)); ones(Int(N/2))];

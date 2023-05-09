@@ -1,8 +1,9 @@
-\section{Inter-spike interval モデル}これまで紹介したモデルでは，入力に対する膜電位などの時間変化に基づき発火が起こるかどうか，ということを考えてきた．この節では，発火が生じるまでの過程を考慮せず，発火の時間間隔(\textbf{inter-spike interval, ISI})の統計による現象論的モデルを考える．これを\textbf{Inter-spike interval (ISI)} モデルと呼ぶ．ISIモデルは\textbf{点過程(point process)} という統計的モデルに基づいており，各モデルにはISIが従う分布の名称がついている．
+\section{Inter-spike interval モデル}
+これまで紹介したモデルでは，入力に対する膜電位などの時間変化に基づき発火が起こるかどうか，ということを考えてきた．この節では，発火が生じるまでの過程を考慮せず，発火の時間間隔(\textbf{inter-spike interval, ISI})の統計による現象論的モデルを考える．これを\textbf{Inter-spike interval (ISI)} モデルと呼ぶ．ISIモデルは\textbf{点過程(point process)} という統計的モデルに基づいており，各モデルにはISIが従う分布の名称がついている．
+
 この節では，使用頻度の高い \textbf{ポアソン過程 (Poisson process) モデル}，ポアソン過程モデルにおいて不応期を考慮した \textbf{死時間付きポアソン過程 (Poisson process with dead time, PPD) モデル}，皮質の定常発火においてポアソン過程モデルよりも当てはまりがよいとされる \textbf{ガンマ過程 (Gamma process) モデル}について説明する．
+
 なお，SNNにおいて，ISIモデルは主に画像入力の際に\textbf{連続値からスパイク列へのエンコード}に用いられる．これに限らず入力として用いられることが多い．
-}`{margin}
-\footnote{
-この節は ([島崎, "スパイク統計モデル入門"](https://www.neuralengine.org/res/book/index.html); [Pachitariu, Probabilistic models for spike trains of single neurons"](http://www.gatsby.ucl.ac.uk/~marius/papers/SpikTrainStats.pdf)) を特に参考にした．
-}
-}`
+
+
+この節は 島崎, "スパイク統計モデル入門"\url{https://www.neuralengine.org/res/book/index.html}; Pachitariu, Probabilistic models for spike trains of single neurons \url{http://www.gatsby.ucl.ac.uk/~marius/papers/SpikTrainStats.pdf} を特に参考にした．

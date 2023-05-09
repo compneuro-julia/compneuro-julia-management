@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  6 MAY 2023 00:36
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  8 MAY 2023 01:26
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/github/compneuro-julia-management/book/main
@@ -462,6 +462,36 @@ Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
 LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
 LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
 (Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+) (c:/texlive/2023/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+) (c:/texlive/2023/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2022/06/29 v1.29 mathematical typesetting tools
+ (c:/texlive/2023/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2017/05/25 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count289
+\calc@Bcount=\count290
+\calc@Adimen=\dimen181
+\calc@Bdimen=\dimen182
+\calc@Askip=\skip54
+\calc@Bskip=\skip55
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count291
+\calc@Cskip=\skip56
+) (c:/texlive/2023/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+)
+\g_MT_multlinerow_int=\count292
+\l_MT_multwidth_dim=\dimen183
+\origjot=\skip57
+\l_MT_shortvdotswithinadjustabove_dim=\dimen184
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen185
+\l_MT_above_intertext_sep=\dimen186
+\l_MT_below_intertext_sep=\dimen187
+\l_MT_above_shortintertext_sep=\dimen188
+\l_MT_below_shortintertext_sep=\dimen189
+\xmathstrut@box=\box71
+\xmathstrut@dim=\dimen190
 ) (c:/texlive/2023/texmf-dist/tex/latex/textgreek/textgreek.sty
 Package: textgreek 2011/10/09 v0.7 Greek symbols in text
 Package textgreek Info: Loading the definitions for the Greek fontencoding. on input line 39.
@@ -484,8 +514,8 @@ Package graphics Info: Driver file: luatex.def on input line 107.
  (c:/texlive/2023/texmf-dist/tex/latex/graphics-def/luatex.def
 File: luatex.def 2022/09/22 v1.2d Graphics/color driver for luatex
 ))
-\Gin@req@height=\dimen181
-\Gin@req@width=\dimen182
+\Gin@req@height=\dimen191
+\Gin@req@width=\dimen192
 ) (c:/texlive/2023/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2022/06/12 v2.14 LaTeX color extensions (UK)
  (c:/texlive/2023/texmf-dist/tex/latex/graphics-cfg/color.cfg
@@ -527,17 +557,17 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
  (c:/texlive/2023/texmf-dist/tex/latex/kvoptions/kvoptions.sty
 Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 ))
-\c@section@level=\count289
+\c@section@level=\count293
 )
-\@linkdim=\dimen183
-\Hy@linkcounter=\count290
-\Hy@pagecounter=\count291
+\@linkdim=\dimen193
+\Hy@linkcounter=\count294
+\Hy@pagecounter=\count295
  (c:/texlive/2023/texmf-dist/tex/latex/hyperref/pd1enc.def
 File: pd1enc.def 2023-04-22 v7.00x Hyperref: PDFDocEncoding definition (HO)
 ) (c:/texlive/2023/texmf-dist/tex/generic/intcalc/intcalc.sty
 Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
 )
-\Hy@SavedSpaceFactor=\count292
+\Hy@SavedSpaceFactor=\count296
  (c:/texlive/2023/texmf-dist/tex/latex/hyperref/puenc.def
 File: puenc.def 2023-04-22 v7.00x Hyperref: PDF Unicode definition (HO)
  (c:/texlive/2023/texmf-dist/tex/latex/hyperref/puenc-greekbasic.def
@@ -551,21 +581,21 @@ Package hyperref Info: Plain pages OFF on input line 4197.
 Package hyperref Info: Backreferencing OFF on input line 4202.
 Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
 Package hyperref Info: Bookmarks ON on input line 4449.
-\c@Hy@tempcnt=\count293
+\c@Hy@tempcnt=\count297
  (c:/texlive/2023/texmf-dist/tex/latex/url/url.sty
 \Urlmuskip=\muskip17
 Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
 )
 LaTeX Info: Redefining \url on input line 4787.
-\XeTeXLinkMargin=\dimen184
+\XeTeXLinkMargin=\dimen194
  (c:/texlive/2023/texmf-dist/tex/generic/bitset/bitset.sty
 Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
  (c:/texlive/2023/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
 Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
 ))
-\Fld@menulength=\count294
-\Field@Width=\dimen185
-\Fld@charsize=\dimen186
+\Fld@menulength=\count298
+\Field@Width=\dimen195
+\Fld@charsize=\dimen196
 Package hyperref Info: Hyper figures OFF on input line 6066.
 Package hyperref Info: Link nesting OFF on input line 6071.
 Package hyperref Info: Hyper index ON on input line 6074.
@@ -577,9 +607,9 @@ Package hyperref Info: PDF/A mode OFF on input line 6096.
 Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
 package with kernel methods
 )
-\Hy@abspage=\count295
-\c@Item=\count296
-\c@Hfootnote=\count297
+\Hy@abspage=\count299
+\c@Item=\count300
+\c@Hfootnote=\count301
 )
 Package hyperref Info: Driver (autodetected): hluatex.
  (c:/texlive/2023/texmf-dist/tex/latex/hyperref/hluatex.def
@@ -590,8 +620,8 @@ Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
 Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
 with kernel methods
 )
-\Fld@listcount=\count298
-\c@bookmark@seq@number=\count299
+\Fld@listcount=\count302
+\c@bookmark@seq@number=\count303
  (c:/texlive/2023/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
 Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
  (c:/texlive/2023/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
@@ -599,7 +629,7 @@ Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
 )
 Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
 )
-\Hy@SectionHShift=\skip54
+\Hy@SectionHShift=\skip58
 ) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec.sty
 Package: luatexja-fontspec 2020-09-14 fontspec support of LuaTeX-ja
  (c:/texlive/2023/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
@@ -610,20 +640,20 @@ Package: xparse 2023-02-02 L3 Experimental document command parser
 Package: fontspec 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
 Lua module: fontspec 2022/01/15 2.8a Font selection for XeLaTeX and LuaLaTeX (c:/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
 Package: fontspec-luatex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTeX
-\l__fontspec_script_int=\count300
-\l__fontspec_language_int=\count301
-\l__fontspec_strnum_int=\count302
-\l__fontspec_tmp_int=\count303
-\l__fontspec_tmpa_int=\count304
-\l__fontspec_tmpb_int=\count305
-\l__fontspec_tmpc_int=\count306
-\l__fontspec_em_int=\count307
-\l__fontspec_emdef_int=\count308
-\l__fontspec_strong_int=\count309
-\l__fontspec_strongdef_int=\count310
-\l__fontspec_tmpa_dim=\dimen187
-\l__fontspec_tmpb_dim=\dimen188
-\l__fontspec_tmpc_dim=\dimen189
+\l__fontspec_script_int=\count304
+\l__fontspec_language_int=\count305
+\l__fontspec_strnum_int=\count306
+\l__fontspec_tmp_int=\count307
+\l__fontspec_tmpa_int=\count308
+\l__fontspec_tmpb_int=\count309
+\l__fontspec_tmpc_int=\count310
+\l__fontspec_em_int=\count311
+\l__fontspec_emdef_int=\count312
+\l__fontspec_strong_int=\count313
+\l__fontspec_strongdef_int=\count314
+\l__fontspec_tmpa_dim=\dimen197
+\l__fontspec_tmpb_dim=\dimen198
+\l__fontspec_tmpc_dim=\dimen199
  (c:/texlive/2023/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
 ) (c:/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec.cfg)(load cache: extra_lmroman10-bold.luc)
@@ -637,7 +667,7 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 3901.
 (load cache: extra_haranoajigothic-medium.luc))) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-27c.sty
 Package: luatexja-fontspec-27c 2020-04-04 fontspec support of LuaTeX-ja
-\g__ltj_fontspec_altnumber_int=\count311
+\g__ltj_fontspec_altnumber_int=\count315
 ))(load cache: extra_juliamono-regular.luc)(load cache: extra_juliamono-bold.luc)
 
 Package fontspec Info: Font family 'JuliaMono(0)' created for font 'JuliaMono'
@@ -669,23 +699,23 @@ Package fontspec Info: Font family 'JuliaMono(0)' created for font 'JuliaMono'
 (fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
 
  (c:/texlive/2023/texmf-dist/tex/latex/listings/listings.sty
-\lst@mode=\count312
-\lst@gtempboxa=\box71
+\lst@mode=\count316
+\lst@gtempboxa=\box72
 \lst@token=\toks32
-\lst@length=\count313
-\lst@currlwidth=\dimen190
-\lst@column=\count314
-\lst@pos=\count315
-\lst@lostspace=\dimen191
-\lst@width=\dimen192
-\lst@newlines=\count316
-\lst@lineno=\count317
-\lst@maxwidth=\dimen193
+\lst@length=\count317
+\lst@currlwidth=\dimen256
+\lst@column=\count318
+\lst@pos=\count319
+\lst@lostspace=\dimen257
+\lst@width=\dimen258
+\lst@newlines=\count320
+\lst@lineno=\count321
+\lst@maxwidth=\dimen259
  (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
-\c@lstnumber=\count318
-\lst@skipnumbers=\count319
-\lst@framebox=\box72
+\c@lstnumber=\count322
+\lst@skipnumbers=\count323
+\lst@framebox=\box73
 ) (c:/texlive/2023/texmf-dist/tex/latex/listings/listings.cfg
 File: listings.cfg 2023/02/27 1.9 listings configuration
 ))
@@ -693,35 +723,39 @@ Package: listings 2023/02/27 1.9 (Carsten Heinz)
  (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjp-listings.sty (c:/texlive/2023/texmf-dist/tex/luatex/luatexbase/luatexbase-cctb.sty
 Package: luatexbase-cctb 2015/10/04 v1.3 luatexbase interface to LuaTeX (legacy subpackage) 
 )
-\ltj@lst@japanese@min=\count320
+\ltj@lst@japanese@min=\count324
 \CatcodeTableLTJlistings=\catcodetable15
-\ltj@lst@frame@lslimit=\dimen194
+\ltj@lst@frame@lslimit=\dimen260
  (c:/texlive/2023/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2023/02/27 1.9 (Carsten Heinz)
 \lst@WFtoken=\toks33
 \lst@WF=\write3
-))) (c:/texlive/texmf-local/tex/latex/local/adjustbox/adjustbox.sty
+))) (./sty/adjustbox.sty
+
+LaTeX Warning: You have requested package `sty/adjustbox',
+               but the package provides `adjustbox'.
+
 Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
- (c:/texlive/texmf-local/tex/latex/local/adjustbox/adjcalc.sty
+(c:/texlive/texmf-local/tex/latex/local/adjustbox/adjcalc.sty
 Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
 ) (c:/texlive/texmf-local/tex/latex/local/adjustbox/trimclip.sty
 Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
  (c:/texlive/2023/texmf-dist/tex/latex/collectbox/collectbox.sty
 Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
-\collectedbox=\box73
+\collectedbox=\box74
 )
-\tc@llx=\dimen195
-\tc@lly=\dimen196
-\tc@urx=\dimen197
-\tc@ury=\dimen198
+\tc@llx=\dimen261
+\tc@lly=\dimen262
+\tc@urx=\dimen263
+\tc@ury=\dimen264
  (c:/texlive/texmf-local/tex/latex/local/adjustbox/tc-pgf.def
 File: tc-pgf.def 2019/01/04 v2.2 trimclip fall-back clipping driver using PGF
  (c:/texlive/2023/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/texlive/2023/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks34
-\pgfutil@tempdima=\dimen199
-\pgfutil@tempdimb=\dimen256
+\pgfutil@tempdima=\dimen265
+\pgfutil@tempdimb=\dimen266
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
-\pgfutil@abb=\box74
+\pgfutil@abb=\box75
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex (c:/texlive/2023/texmf-dist/tex/generic/pgf/pgf.revision.tex)
 Package: pgfrcs 2023-01-15 v3.1.10 (3.1.10)
 ))
@@ -734,26 +768,26 @@ Package: pgfsys 2023-01-15 v3.1.10 (3.1.10)
  (c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfkeyslibraryfiltered.code.tex
 \pgfkeys@tmptoks=\toks37
 ))
-\pgf@x=\dimen257
-\pgf@y=\dimen258
-\pgf@xa=\dimen259
-\pgf@ya=\dimen260
-\pgf@xb=\dimen261
-\pgf@yb=\dimen262
-\pgf@xc=\dimen263
-\pgf@yc=\dimen264
-\pgf@xd=\dimen265
-\pgf@yd=\dimen266
+\pgf@x=\dimen267
+\pgf@y=\dimen268
+\pgf@xa=\dimen269
+\pgf@ya=\dimen270
+\pgf@xb=\dimen271
+\pgf@yb=\dimen272
+\pgf@xc=\dimen273
+\pgf@yc=\dimen274
+\pgf@xd=\dimen275
+\pgf@yd=\dimen276
 \w@pgf@writea=\write4
 \r@pgf@reada=\read2
-\c@pgf@counta=\count321
-\c@pgf@countb=\count322
-\c@pgf@countc=\count323
-\c@pgf@countd=\count324
+\c@pgf@counta=\count325
+\c@pgf@countb=\count326
+\c@pgf@countc=\count327
+\c@pgf@countd=\count328
 \t@pgf@toka=\toks38
 \t@pgf@tokb=\toks39
 \t@pgf@tokc=\toks40
-\pgf@sys@id@count=\count325
+\pgf@sys@id@count=\count329
  (c:/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
 File: pgf.cfg 2023-01-15 v3.1.10 (3.1.10)
 )
@@ -764,59 +798,59 @@ File: pgfsys-luatex.def 2023-01-15 v3.1.10 (3.1.10)
 File: pgfsys-common-pdf.def 2023-01-15 v3.1.10 (3.1.10)
 ))) (c:/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
 File: pgfsyssoftpath.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfsyssoftpath@smallbuffer@items=\count326
-\pgfsyssoftpath@bigbuffer@items=\count327
+\pgfsyssoftpath@smallbuffer@items=\count330
+\pgfsyssoftpath@bigbuffer@items=\count331
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
 File: pgfsysprotocol.code.tex 2023-01-15 v3.1.10 (3.1.10)
 )) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
 Package: pgfcore 2023-01-15 v3.1.10 (3.1.10)
  (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex
-\pgfmath@dimen=\dimen267
-\pgfmath@count=\count328
-\pgfmath@box=\box75
+\pgfmath@dimen=\dimen277
+\pgfmath@count=\count332
+\pgfmath@box=\box76
 \pgfmath@toks=\toks41
 \pgfmath@stack@operand=\toks42
 \pgfmath@stack@operation=\toks43
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonometric.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerarithmetics.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex
-\c@pgfmathroundto@lastzeros=\count329
+\c@pgfmathroundto@lastzeros=\count333
 )) (c:/texlive/2023/texmf-dist/tex/generic/pgf/math/pgfint.code.tex) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.tex
 File: pgfcorepoints.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@picminx=\dimen268
-\pgf@picmaxx=\dimen269
-\pgf@picminy=\dimen270
-\pgf@picmaxy=\dimen271
-\pgf@pathminx=\dimen272
-\pgf@pathmaxx=\dimen273
-\pgf@pathminy=\dimen274
-\pgf@pathmaxy=\dimen275
-\pgf@xx=\dimen276
-\pgf@xy=\dimen277
-\pgf@yx=\dimen278
-\pgf@yy=\dimen279
-\pgf@zx=\dimen280
-\pgf@zy=\dimen281
+\pgf@picminx=\dimen278
+\pgf@picmaxx=\dimen279
+\pgf@picminy=\dimen280
+\pgf@picmaxy=\dimen281
+\pgf@pathminx=\dimen282
+\pgf@pathmaxx=\dimen283
+\pgf@pathminy=\dimen284
+\pgf@pathmaxy=\dimen285
+\pgf@xx=\dimen286
+\pgf@xy=\dimen287
+\pgf@yx=\dimen288
+\pgf@yy=\dimen289
+\pgf@zx=\dimen290
+\pgf@zy=\dimen291
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.code.tex
 File: pgfcorepathconstruct.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@path@lastx=\dimen282
-\pgf@path@lasty=\dimen283
+\pgf@path@lastx=\dimen292
+\pgf@path@lasty=\dimen293
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code.tex
 File: pgfcorepathusage.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@shorten@end@additional=\dimen284
-\pgf@shorten@start@additional=\dimen285
+\pgf@shorten@end@additional=\dimen294
+\pgf@shorten@start@additional=\dimen295
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.tex
 File: pgfcorescopes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfpic=\box76
-\pgf@hbox=\box77
-\pgf@layerbox@main=\box78
-\pgf@picture@serial@count=\count330
+\pgfpic=\box77
+\pgf@hbox=\box78
+\pgf@layerbox@main=\box79
+\pgf@picture@serial@count=\count334
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.code.tex
 File: pgfcoregraphicstate.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgflinewidth=\dimen286
+\pgflinewidth=\dimen296
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformations.code.tex
 File: pgfcoretransformations.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@pt@x=\dimen287
-\pgf@pt@y=\dimen288
-\pgf@pt@temp=\dimen289
+\pgf@pt@x=\dimen297
+\pgf@pt@y=\dimen298
+\pgf@pt@temp=\dimen299
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
 File: pgfcorequick.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.tex
@@ -825,17 +859,17 @@ File: pgfcoreobjects.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfcorepathprocessing.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.tex
 File: pgfcorearrows.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfarrowsep=\dimen290
+\pgfarrowsep=\dimen300
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
 File: pgfcoreshade.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgf@max=\dimen291
-\pgf@sys@shading@range@num=\count331
-\pgf@shadingcount=\count332
+\pgf@max=\dimen301
+\pgf@sys@shading@range@num=\count335
+\pgf@shadingcount=\count336
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
 File: pgfcoreimage.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.tex
 File: pgfcoreexternal.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfexternal@startupbox=\box79
+\pgfexternal@startupbox=\box80
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.tex
 File: pgfcorelayers.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.code.tex
@@ -846,94 +880,84 @@ File: pgfcorepatterns.code.tex 2023-01-15 v3.1.10 (3.1.10)
 File: pgfcorerdf.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ))) (c:/texlive/2023/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
 File: pgfmoduleshapes.code.tex 2023-01-15 v3.1.10 (3.1.10)
-\pgfnodeparttextbox=\box80
+\pgfnodeparttextbox=\box81
 ) (c:/texlive/2023/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
 File: pgfmoduleplot.code.tex 2023-01-15 v3.1.10 (3.1.10)
 ) (c:/texlive/2023/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65.sty
 Package: pgfcomp-version-0-65 2023-01-15 v3.1.10 (3.1.10)
-\pgf@nodesepstart=\dimen292
-\pgf@nodesepend=\dimen293
+\pgf@nodesepstart=\dimen302
+\pgf@nodesepend=\dimen303
 ) (c:/texlive/2023/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18.sty
 Package: pgfcomp-version-1-18 2023-01-15 v3.1.10 (3.1.10)
 )))
 Package trimclip Info: No clipping driver 'tc-luatex.def' available.
 (trimclip)             Using fall-back PGF driver.
 )
-\adjbox@Width=\dimen294
-\adjbox@Height=\dimen295
-\adjbox@Depth=\dimen296
-\adjbox@Totalheight=\dimen297
-\adjbox@pwidth=\dimen298
-\adjbox@pheight=\dimen299
-\adjbox@pdepth=\dimen300
-\adjbox@ptotalheight=\dimen301
+\adjbox@Width=\dimen304
+\adjbox@Height=\dimen305
+\adjbox@Depth=\dimen306
+\adjbox@Totalheight=\dimen307
+\adjbox@pwidth=\dimen308
+\adjbox@pheight=\dimen309
+\adjbox@pdepth=\dimen310
+\adjbox@ptotalheight=\dimen311
  (c:/texlive/2023/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
 Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
-\c@checkoddpage=\count333
+\c@checkoddpage=\count337
 ) (c:/texlive/2023/texmf-dist/tex/latex/varwidth/varwidth.sty
 Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
-\@vwid@box=\box81
-\sift@deathcycles=\count334
-\@vwid@loff=\dimen302
-\@vwid@roff=\dimen303
+\@vwid@box=\box82
+\sift@deathcycles=\count338
+\@vwid@loff=\dimen312
+\@vwid@roff=\dimen313
 )) (c:/texlive/2023/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
-\f@nch@headwidth=\skip55
-\f@nch@O@elh=\skip56
-\f@nch@O@erh=\skip57
-\f@nch@O@olh=\skip58
-\f@nch@O@orh=\skip59
-\f@nch@O@elf=\skip60
-\f@nch@O@erf=\skip61
-\f@nch@O@olf=\skip62
-\f@nch@O@orf=\skip63
-) (./main.aux
-
-LaTeX Warning: Label `cell014.png' multiply defined.
-
-
-LaTeX Warning: Label `cell030.png' multiply defined.
-
-
-LaTeX Warning: Label `cell030.png' multiply defined.
-
-)
+\f@nch@headwidth=\skip59
+\f@nch@O@elh=\skip60
+\f@nch@O@erh=\skip61
+\f@nch@O@olh=\skip62
+\f@nch@O@orh=\skip63
+\f@nch@O@elf=\skip64
+\f@nch@O@erf=\skip65
+\f@nch@O@olf=\skip66
+\f@nch@O@orf=\skip67
+) (./main.aux)
 \openout1 = main.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 24.
-LaTeX Font Info:    Trying loading font information for TS1+cmr on input line 24.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 27.
+LaTeX Font Info:    Trying loading font information for TS1+cmr on input line 27.
  (c:/texlive/2023/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2022/07/10 v2.5l Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for JY3/mc/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for JT3/mc/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for LGR/cmr/m/n on input line 24.
-LaTeX Font Info:    Trying loading font information for LGR+cmr on input line 24.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for JY3/mc/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for JT3/mc/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for LGR/cmr/m/n on input line 27.
+LaTeX Font Info:    Trying loading font information for LGR+cmr on input line 27.
  (c:/texlive/2023/texmf-dist/tex/latex/cbfonts-fd/lgrcmr.fd
 File: lgrcmr.fd 2017/07/29 v1.2 Greek European Computer Regular
 )
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 24.
-LaTeX Font Info:    ... okay on input line 24.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: luatex
@@ -971,16 +995,16 @@ LaTeX Font Info:    ... okay on input line 24.
 
 (c:/texlive/2023/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count335
-\scratchdimen=\dimen304
-\scratchbox=\box82
-\nofMPsegments=\count336
-\nofMParguments=\count337
+\scratchcounter=\count339
+\scratchdimen=\dimen314
+\scratchbox=\box83
+\nofMPsegments=\count340
+\nofMParguments=\count341
 \everyMPshowfont=\toks44
-\MPscratchCnt=\count338
-\MPscratchDim=\dimen305
-\MPnumerator=\count339
-\makeMPintoPDFobject=\count340
+\MPscratchCnt=\count342
+\MPscratchDim=\dimen315
+\MPnumerator=\count343
+\makeMPintoPDFobject=\count344
 \everyMPtoPDFconversion=\toks45
 ) (c:/texlive/2023/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
 Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
@@ -988,7 +1012,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2023/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring ON on input line 24.
+Package hyperref Info: Link coloring ON on input line 27.
  (./main.out) (./main.out)
 \@outlinefile=\write5
 
@@ -999,112 +1023,107 @@ Package fontspec Info: Adjusting the maths setup (use [no-math] to avoid
 
 \symlegacymaths=\mathgroup7
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 24.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 24.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 24.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 24.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 24.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 24.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 24.
-LaTeX Font Info:    Redeclaring math accent \check on input line 24.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 24.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 24.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 24.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 24.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 24.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 27.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 27.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 27.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 27.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 27.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 27.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 27.
+LaTeX Font Info:    Redeclaring math accent \check on input line 27.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 27.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 27.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 27.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 27.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 27.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 24.
+(Font)              `operators' in the math version `normal' on input line 27.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 24.
+(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 27.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 24.
+(Font)              `operators' in the math version `bold' on input line 27.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 24.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 27.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 24.
+(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 24.
+(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 24.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 24.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/m/n on input line 24.
+(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/m/n on input line 27.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 24.
+(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 24.
+(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 24.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 27.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/b/n on input line 24.
-\c@lstlisting=\count341
+(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/b/n on input line 27.
+\c@lstlisting=\count345
 (load cache: extra_lmroman17-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 15.97903pt on input line 26.
+(Font)              scaled to size 15.97903pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 15.97903pt on input line 26.
+(Font)              scaled to size 15.97903pt on input line 29.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 26.
+(Font)              scaled to size 23.00687pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 26.
+(Font)              scaled to size 23.00687pt on input line 29.
 (load cache: extra_lmroman12-bold.luc)
 LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <24.88> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 26.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 29.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 26.
+(Font)              scaled to size 23.00687pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <24.88> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 26.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 29.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 26.
+(Font)              scaled to size 23.00687pt on input line 29.
 (load cache: extra_lmroman12-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 26.
+(Font)              scaled to size 11.09656pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 26.
+(Font)              scaled to size 11.09656pt on input line 29.
 (load cache: extra_lmroman6-regular.luc)
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 5.54828pt on input line 26.
-LaTeX Font Info:    Trying loading font information for U+msa on input line 26.
+(Font)              scaled to size 5.54828pt on input line 29.
+LaTeX Font Info:    Trying loading font information for U+msa on input line 29.
  (c:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying loading font information for U+msb on input line 26.
+LaTeX Font Info:    Trying loading font information for U+msb on input line 29.
  (c:/texlive/2023/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 19.17854pt on input line 26.
+(Font)              scaled to size 19.17854pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 19.17854pt on input line 26.
+(Font)              scaled to size 19.17854pt on input line 29.
  [1
 
 
 {c:/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 28.
+(Font)              scaled to size 9.24713pt on input line 31.
 (load cache: extra_lmsans10-regular.luc) [2
 
 ]
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 28.
-(load cache: extra_lmsans17-regular.luc) (./main.toc(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 2.
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 2.
-)
+(Font)              scaled to size 23.00687pt on input line 31.
+(load cache: extra_lmsans17-regular.luc) (./main.toc)
 \tf@toc=\write6
 
 \openout6 = main.toc
@@ -1114,9 +1133,25 @@ LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 ]
 第1章
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 19.17854pt on input line 32.
+(Font)              scaled to size 19.17854pt on input line 34.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 19.17854pt on input line 32.
+(Font)              scaled to size 19.17854pt on input line 34.
+[5] [6
+
+]
+第2章
+[7] [8
+
+]
+第3章
+[9] [10
+
+]
+第4章
+[11] [12
+
+]
+第5章
 (./text/local-learning-rule/self-organizing-map.tex (./text/local-learning-rule/self-organizing-map/000.tex
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
@@ -1128,58 +1163,63 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
 (load cache: extra_lmsans12-regular.luc)
 
-LaTeX Warning: Citation `Kohonen1982-mn' on page 5 undefined on input line 1.
+LaTeX Warning: Citation `Kohonen1982-mn' on page 13 undefined on input line 2.
 
 
-LaTeX Warning: Citation `Kohonen2013-yt' on page 5 undefined on input line 1.
+LaTeX Warning: Citation `Kohonen2013-yt' on page 13 undefined on input line 2.
 
 
-LaTeX Warning: Citation `Obermayer1990-gq' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Obermayer1990-gq' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `N_V_Swindale1998-ri' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `N_V_Swindale1998-ri' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Durbin1987-bp' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Durbin1987-bp' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Durbin1990-xx' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Durbin1990-xx' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Tanaka2004-vz' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Tanaka2004-vz' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Ringach2007-oe' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Ringach2007-oe' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Das2005-mq' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Das2005-mq' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Goodhill2007-va' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `Goodhill2007-va' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `2002-nm' on page 5 undefined on input line 2.
+LaTeX Warning: Citation `2002-nm' on page 13 undefined on input line 4.
 
 
-LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 5 undefined on input line 3.
+LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 13 undefined on input line 6.
+
+(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 7.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 7.
+
+LaTeX Warning: Citation `Von_der_Malsburg1973-bz' on page 13 undefined on input line 7.
 
 
-LaTeX Warning: Citation `Von_der_Malsburg1973-bz' on page 5 undefined on input line 4.
+LaTeX Warning: Citation `Willshaw1976-zo' on page 13 undefined on input line 7.
 
 
-LaTeX Warning: Citation `Willshaw1976-zo' on page 5 undefined on input line 4.
+LaTeX Warning: Citation `Takeuchi1979-mi' on page 13 undefined on input line 7.
 
 
-LaTeX Warning: Citation `Takeuchi1979-mi' on page 5 undefined on input line 4.
+LaTeX Warning: Citation `Van_Ooyen2011-fz' on page 13 undefined on input line 9.
 
 
-LaTeX Warning: Citation `Van_Ooyen2011-fz' on page 5 undefined on input line 5.
-
-
-LaTeX Warning: Citation `Goodhill2018-ho' on page 5 undefined on input line 5.
+LaTeX Warning: Citation `Goodhill2018-ho' on page 13 undefined on input line 9.
 
 ) (./text/local-learning-rule/self-organizing-map/001.tex
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -1188,27 +1228,28 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 1.
 (load cache: extra_lmromandemi10-regular.luc)
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 1.
+(Font)              scaled to size 6.47299pt on input line 2.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 1.
+(Font)              scaled to size 4.62357pt on input line 2.
 
 
-LaTeX Warning: Citation `Kohonen2013-yt' on page 5 undefined on input line 1.
+LaTeX Warning: Citation `Kohonen2013-yt' on page 13 undefined on input line 2.
 
+[13]
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 5.
+(Font)              scaled to size 6.47299pt on input line 10.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 5.
-[5]
+(Font)              scaled to size 4.62357pt on input line 10.
 
-LaTeX Warning: Citation `Kohonen1982-mn' on page 6 undefined on input line 9.
+
+LaTeX Warning: Citation `Kohonen1982-mn' on page 14 undefined on input line 13.
 
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 21.
+(Font)              scaled to size 7.3977pt on input line 31.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 5.54828pt on input line 21.
+(Font)              scaled to size 5.54828pt on input line 31.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 5.54828pt on input line 21.
+(Font)              scaled to size 5.54828pt on input line 31.
 )
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on input line 3.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -1230,31 +1271,31 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/003.tex)
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/004.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/005.jl(load cache: extra_lmroman9-regular.luc)
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/004.jl(load cache: extra_lmroman9-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 1.
+(Font)              scaled to size 8.32242pt on input line 6.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 1.
+(Font)              scaled to size 8.32242pt on input line 6.
 (load cache: extra_lmromanslant10-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/sl' in size <10> not available
-(Font)              Font shape `JT3/mc/m/n' tried instead on input line 1.
+(Font)              Font shape `JT3/mc/m/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 1.
+(Font)              scaled to size 9.24713pt on input line 6.
 LaTeX Font Info:    Font shape `JY3/mc/m/sl' in size <10> not available
-(Font)              Font shape `JY3/mc/m/n' tried instead on input line 1.
+(Font)              Font shape `JY3/mc/m/n' tried instead on input line 6.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 1.
+(Font)              scaled to size 9.24713pt on input line 6.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[6])
+[14])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/005.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1272,180 +1313,11 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[7])
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
+[15])
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/011.tex)
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/011.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/012.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/013.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/014.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[8])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/output_014.tex
-<./fig/local-learning-rule/self-organizing-map/cell014.png, id=236, 592.2125pt x 391.4625pt>
-File: ./fig/local-learning-rule/self-organizing-map/cell014.png Graphic file (type png)
-<use ./fig/local-learning-rule/self-organizing-map/cell014.png>
-Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell014.png  used on input line 3.
-(luatex.def)             Requested size: 473.77063pt x 313.17041pt.
-) (./text/local-learning-rule/self-organizing-map/015.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/016.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[9<./fig/local-learning-rule/self-organizing-map/cell014.png>])
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/017.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/018.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/019.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/020.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/021.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/output_021.tex
-<./fig/local-learning-rule/self-organizing-map/cell021.png, id=259, 270.00874pt x 291.0875pt>
-File: ./fig/local-learning-rule/self-organizing-map/cell021.png Graphic file (type png)
-<use ./fig/local-learning-rule/self-organizing-map/cell021.png>
-Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell021.png  used on input line 3.
-(luatex.def)             Requested size: 216.00728pt x 232.8703pt.
-) (./text/local-learning-rule/self-organizing-map/022.tex
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/023.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[10] (./text/local-learning-rule/self-organizing-map/024.tex
-
-LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 11 undefined on input line 1.
-
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/025.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/026.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[11<./fig/local-learning-rule/self-organizing-map/cell021.png>])
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/027.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/028.tex
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/029.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[12])
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/030.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/output_030.tex
-<./fig/local-learning-rule/self-organizing-map/cell030.png, id=360, 662.475pt x 592.2125pt>
-File: ./fig/local-learning-rule/self-organizing-map/cell030.png Graphic file (type png)
-<use ./fig/local-learning-rule/self-organizing-map/cell030.png>
-Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell030.png  used on input line 3.
-(luatex.def)             Requested size: 529.98073pt x 473.77063pt.
-))
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[13]
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[14<./fig/local-learning-rule/self-organizing-map/cell030.png>]
-第2章
-(./text/bayesian-brain/probabilistic-population-coding.tex (./text/bayesian-brain/probabilistic-population-coding/000.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/probabilistic-population-coding/001.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/probabilistic-population-coding/002.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/probabilistic-population-coding/003.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.) (./text/bayesian-brain/mcmc.tex (./text/bayesian-brain/mcmc/000.tex) (./text/bayesian-brain/mcmc/001.tex) [15
-
-]
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/002.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/003.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/004.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/mcmc/output_004.tex
-<./fig/bayesian-brain/mcmc/cell004.png, id=404, 342.27875pt x 310.15875pt>
-File: ./fig/bayesian-brain/mcmc/cell004.png Graphic file (type png)
-<use ./fig/bayesian-brain/mcmc/cell004.png>
-Package luatex.def Info: ./fig/bayesian-brain/mcmc/cell004.png  used on input line 3.
-(luatex.def)             Requested size: 273.82335pt x 248.12733pt.
-)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/005.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/012.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
@@ -1455,257 +1327,70 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/006.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/007.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/008.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/009.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/013.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[17<./fig/bayesian-brain/mcmc/cell004.png>])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/mcmc/output_009.tex
-<./fig/bayesian-brain/mcmc/cell009.png, id=465, 495.8525pt x 300.12125pt>
-File: ./fig/bayesian-brain/mcmc/cell009.png Graphic file (type png)
-<use ./fig/bayesian-brain/mcmc/cell009.png>
-Package luatex.def Info: ./fig/bayesian-brain/mcmc/cell009.png  used on input line 3.
-(luatex.def)             Requested size: 396.68254pt x 240.09732pt.
-) (./text/bayesian-brain/mcmc/010.tex)
+[17])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/011.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/014.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/015.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/016.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/017.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/output_017.tex
+<./fig/local-learning-rule/self-organizing-map/cell017.png, id=288, 592.2125pt x 391.4625pt>
+File: ./fig/local-learning-rule/self-organizing-map/cell017.png Graphic file (type png)
+<use ./fig/local-learning-rule/self-organizing-map/cell017.png>
+Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell017.png  used on input line 3.
+(luatex.def)             Requested size: 473.77063pt x 313.17041pt.
+) (./text/local-learning-rule/self-organizing-map/018.tex)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/019.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[18<./fig/bayesian-brain/mcmc/cell009.png>])
+[18])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/012.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/013.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/014.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/mcmc/output_014.tex
-<./fig/bayesian-brain/mcmc/cell014.png, id=485, 495.8525pt x 300.12125pt>
-File: ./fig/bayesian-brain/mcmc/cell014.png Graphic file (type png)
-<use ./fig/bayesian-brain/mcmc/cell014.png>
-Package luatex.def Info: ./fig/bayesian-brain/mcmc/cell014.png  used on input line 3.
-(luatex.def)             Requested size: 396.68254pt x 240.09732pt.
-) (./text/bayesian-brain/mcmc/015.tex)
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/020.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[19]
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/016.jl)
+[19<./fig/local-learning-rule/self-organizing-map/cell017.png>])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/017.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[20<./fig/bayesian-brain/mcmc/cell014.png>])
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/021.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/018.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/022.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/023.tex)
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/019.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/020.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/mcmc/output_020.tex
-<./fig/bayesian-brain/mcmc/cell020.png, id=537, 495.8525pt x 300.12125pt>
-File: ./fig/bayesian-brain/mcmc/cell020.png Graphic file (type png)
-<use ./fig/bayesian-brain/mcmc/cell020.png>
-Package luatex.def Info: ./fig/bayesian-brain/mcmc/cell020.png  used on input line 3.
-(luatex.def)             Requested size: 396.68254pt x 240.09732pt.
-) (./text/bayesian-brain/mcmc/021.tex) (./text/bayesian-brain/mcmc/022.tex
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[21])
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/023.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/024.jl)
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[22<./fig/bayesian-brain/mcmc/cell020.png>]
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/025.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/026.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/027.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/028.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/029.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/030.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/mcmc/output_030.tex
-<./fig/bayesian-brain/mcmc/cell030.png, id=609, 558.085pt x 414.54875pt>
-File: ./fig/bayesian-brain/mcmc/cell030.png Graphic file (type png)
-<use ./fig/bayesian-brain/mcmc/cell030.png>
-Package luatex.def Info: ./fig/bayesian-brain/mcmc/cell030.png  used on input line 3.
-(luatex.def)             Requested size: 446.46861pt x 331.63943pt.
-)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/031.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/032.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/033.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/mcmc/output_033.tex
-<./fig/bayesian-brain/mcmc/cell033.png, id=610, 491.8375pt x 341.275pt>
-File: ./fig/bayesian-brain/mcmc/cell033.png Graphic file (type png)
-<use ./fig/bayesian-brain/mcmc/cell033.png>
-Package luatex.def Info: ./fig/bayesian-brain/mcmc/cell033.png  used on input line 3.
-(luatex.def)             Requested size: 393.47052pt x 273.02036pt.
-)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/mcmc/034.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[23]) (./text/bayesian-brain/neural-sampling.tex (./text/bayesian-brain/neural-sampling/000.tex
-
-LaTeX Warning: Citation `Wainwright1999-cl' on page 24 undefined on input line 2.
-
-
-LaTeX Warning: Citation `Orban2016-tm' on page 24 undefined on input line 2.
-
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[24<./fig/bayesian-brain/mcmc/cell030.png>](load cache: extra_lmroman8-bold.luc)
-LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <8> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 9.
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 9.
-LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <8> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 9.
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 9.
-
-
-LaTeX Warning: Citation `Orban2016-tm' on page 25 undefined on input line 9.
-
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 9.
-
-LaTeX Warning: Citation `Echeveste2020-sh' on page 25 undefined on input line 9.
-
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[25<./fig/bayesian-brain/mcmc/cell033.png>]) (./text/bayesian-brain/neural-sampling/001.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/002.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/003.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/004.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/005.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/006.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/007.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[26])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_007.tex
-<./fig/bayesian-brain/neural-sampling/cell007.png, id=703, 174.6525pt x 174.6525pt>
-File: ./fig/bayesian-brain/neural-sampling/cell007.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell007.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell007.png  used on input line 3.
-(luatex.def)             Requested size: 139.72218pt x 139.72218pt.
-) (./text/bayesian-brain/neural-sampling/008.tex
-
-LaTeX Warning: Citation `Orban2016-tm' on page 27 undefined on input line 1.
-
-
-LaTeX Warning: Citation `Echeveste2020-sh' on page 27 undefined on input line 1.
-
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/024.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/output_024.tex
+<./fig/local-learning-rule/self-organizing-map/cell024.png, id=351, 270.00874pt x 291.0875pt>
+File: ./fig/local-learning-rule/self-organizing-map/cell024.png Graphic file (type png)
+<use ./fig/local-learning-rule/self-organizing-map/cell024.png>
+Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell024.png  used on input line 3.
+(luatex.def)             Requested size: 216.00728pt x 232.8703pt.
+) (./text/local-learning-rule/self-organizing-map/025.tex
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
@@ -1714,277 +1399,127 @@ Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/026.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/027.tex
+
+LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 20 undefined on input line 1.
+
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/028.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[27<./fig/bayesian-brain/neural-sampling/cell007.png>]
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/009.jl)
+[20])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/010.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_010.tex
-<./fig/bayesian-brain/neural-sampling/cell010.png, id=724, 243.91125pt x 190.7125pt>
-File: ./fig/bayesian-brain/neural-sampling/cell010.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell010.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell010.png  used on input line 3.
-(luatex.def)             Requested size: 195.12926pt x 152.57019pt.
-) (./text/bayesian-brain/neural-sampling/011.tex) (./text/bayesian-brain/neural-sampling/012.tex
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/029.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/030.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[28<./fig/bayesian-brain/neural-sampling/cell010.png>]
-
-LaTeX Warning: Citation `Echeveste2017-wu' on page 29 undefined on input line 24.
-
-)
+[21<./fig/local-learning-rule/self-organizing-map/cell024.png>] (./text/local-learning-rule/self-organizing-map/031.tex
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/013.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/032.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[29])
+[22])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/014.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/015.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/016.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/017.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/018.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/019.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[30])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_019.tex
-<./fig/bayesian-brain/neural-sampling/cell019.png, id=808, 391.4625pt x 104.39pt>
-File: ./fig/bayesian-brain/neural-sampling/cell019.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell019.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell019.png  used on input line 3.
-(luatex.def)             Requested size: 313.17041pt x 83.51208pt.
-) (./text/bayesian-brain/neural-sampling/020.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/021.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/022.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/023.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[31<./fig/bayesian-brain/neural-sampling/cell019.png>])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_023.tex
-<./fig/bayesian-brain/neural-sampling/cell023.png, id=846, 740.7675pt x 190.7125pt>
-File: ./fig/bayesian-brain/neural-sampling/cell023.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell023.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell023.png  used on input line 3.
-(luatex.def)             Requested size: 592.6148pt x 152.57019pt.
-)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/024.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_024.tex
-<./fig/bayesian-brain/neural-sampling/cell024.png, id=847, 671.50874pt x 164.615pt>
-File: ./fig/bayesian-brain/neural-sampling/cell024.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell024.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell024.png  used on input line 3.
-(luatex.def)             Requested size: 537.20773pt x 131.69217pt.
-) (./text/bayesian-brain/neural-sampling/025.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/026.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/027.tex)
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[32<./fig/bayesian-brain/neural-sampling/cell023.png>]
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/028.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/029.jl
-Overfull \hbox (77.72293pt too wide) in paragraph at lines 9--10
-[][][][][][][][][][][][][][][][][]  
- []
-
-)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/030.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[33<./fig/bayesian-brain/neural-sampling/cell024.png>])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_030.tex
-<./fig/bayesian-brain/neural-sampling/cell030.png, id=912, 392.46625pt x 285.065pt>
-File: ./fig/bayesian-brain/neural-sampling/cell030.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell030.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell030.png  used on input line 3.
-(luatex.def)             Requested size: 313.9734pt x 228.0523pt.
-) (./text/bayesian-brain/neural-sampling/031.tex)
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[34<./fig/bayesian-brain/neural-sampling/cell030.png>]
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/032.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/033.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/034.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/035.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[35])
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/036.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/037.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/038.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/039.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/040.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/041.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/042.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[36])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_042.tex
-<./fig/bayesian-brain/neural-sampling/cell042.png, id=1013, 591.20876pt x 240.9pt>
-File: ./fig/bayesian-brain/neural-sampling/cell042.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell042.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell042.png  used on input line 3.
-(luatex.def)             Requested size: 472.96764pt x 192.72025pt.
-) (./text/bayesian-brain/neural-sampling/043.tex)
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/044.jl)
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/bayesian-brain/neural-sampling/045.jl
-
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 16.0pt, for example:
-(fancyhdr)                \setlength{\footskip}{16.0pt}.
-
-[37<./fig/bayesian-brain/neural-sampling/cell042.png>])
-Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/bayesian-brain/neural-sampling/output_045.tex
-<./fig/bayesian-brain/neural-sampling/cell045.png, id=1038, 592.2125pt x 240.9pt>
-File: ./fig/bayesian-brain/neural-sampling/cell045.png Graphic file (type png)
-<use ./fig/bayesian-brain/neural-sampling/cell045.png>
-Package luatex.def Info: ./fig/bayesian-brain/neural-sampling/cell045.png  used on input line 3.
-(luatex.def)             Requested size: 473.77063pt x 192.72025pt.
-) (./text/bayesian-brain/neural-sampling/046.tex
-
-LaTeX Warning: Citation `Echeveste2020-sh' on page 38 undefined on input line 3.
-
-
-LaTeX Warning: Citation `Berkes2011-xj' on page 38 undefined on input line 4.
-
-) (./text/bayesian-brain/neural-sampling/047.tex
-
-LaTeX Warning: Citation `Buesing2011-dm' on page 38 undefined on input line 3.
-
-
-LaTeX Warning: Citation `Masset2022-wh' on page 38 undefined on input line 4.
-
-
-LaTeX Warning: Citation `Zhang2022-bl' on page 38 undefined on input line 5.
-
-) (./text/bayesian-brain/neural-sampling/048.tex
-
-LaTeX Warning: Citation `Kappel2015-kq' on page 38 undefined on input line 3.
-
-
-LaTeX Warning: Citation `Aitchison2021-wo' on page 38 undefined on input line 4.
-
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/033.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-learning-rule/self-organizing-map/output_033.tex
+<./fig/local-learning-rule/self-organizing-map/cell033.png, id=457, 661.47125pt x 593.21625pt>
+File: ./fig/local-learning-rule/self-organizing-map/cell033.png Graphic file (type png)
+<use ./fig/local-learning-rule/self-organizing-map/cell033.png>
+Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell033.png  used on input line 3.
+(luatex.def)             Requested size: 529.17772pt x 474.57364pt.
 ))
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[38<./fig/bayesian-brain/neural-sampling/cell045.png>] (./main.aux)
+[23]
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[24<./fig/local-learning-rule/self-organizing-map/cell033.png>]
+第6章
+[25
+
+] [26
+
+]
+第7章
+[27] [28
+
+]
+第8章
+[29] [30
+
+]
+第9章
+[31] [32
+
+]
+第10章
+[33] (./main.aux)
 
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: C0343DFCC6636ABA7550061AF42FB983;2772.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 6433CF24AF17EB72BCC0A9C6BA91090C;1120
+(rerunfilecheck)             After:  E3B22773BA8B0E12D8F3795262B0A3F1;1539.
 )
 
 Here is how much of LuaTeX's memory you used:
- 30201 strings out of 478263
- 597302,1977958 words of node,token memory allocated
- 1679 words of node memory still in use:
-   10 hlist, 2 vlist, 5 rule, 5 glue, 4 kern, 4 sub_mlist, 1 glyph, 467 attribute, 56 glue_spec, 54 attribute_list, 2 write, 13 user_defined, 1 pdf_action nodes
-   avail lists: 1:15,2:137694,3:433,4:14606,5:2273,6:141,7:11824,8:78,9:14108,10:44,11:288
- 46893 multiletter control sequences out of 65536+600000
- 105 fonts using 98939847 bytes
- 118i,12n,112p,1792b,1217s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><./font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromanslant10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><./font/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (38 pages, 1105059 bytes).
+ 29089 strings out of 478263
+ 597276,1977958 words of node,token memory allocated
+ 1244 words of node memory still in use:
+   11 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 1 glyph, 269 attribute, 58 glue_spec, 36 attribute_list, 2 write, 14 user_defined, 1 pdf_action nodes
+   avail lists: 1:42,2:130391,3:440,4:16340,5:2822,6:117,7:10327,8:64,9:15460,10:29,11:375
+ 47382 multiletter control sequences out of 65536+600000
+ 103 fonts using 97152151 bytes
+ 118i,12n,112p,1792b,1253s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><./font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromanslant10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><./font/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (33 pages, 630480 bytes).
 
-PDF statistics: 1226 PDF objects out of 1440 (max. 8388607)
- 1076 compressed objects within 11 object streams
- 781 named destinations out of 1000 (max. 131072)
- 144 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 665 PDF objects out of 1000 (max. 8388607)
+ 557 compressed objects within 6 object streams
+ 323 named destinations out of 1000 (max. 131072)
+ 96 words of extra memory for PDF output out of 10000 (max. 100000000)
 

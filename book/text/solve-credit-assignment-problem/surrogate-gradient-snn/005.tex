@@ -1,0 +1,54 @@
+\section{RNNとしてのSNNのBPTTを用いた教師あり学習}
+この節では発火率ベースのRecurrent neural networks (RNN) の一種のアーキテクチャとしてSpiking neural networksを構成し、\textbf{Backpropagation Through Time (BPTT)法}を用いて教師あり学習をする方法について説明します。これにより、TensorflowやPytorch, Chainerなどの通常のANNのフレームワークでSNNを学習させることができます。この節では、\textbf{Spiking Neural Unit }(SNU) と呼ばれる、LSTMやGRUのような状態(state)を持つRNNのユニットを紹介します(Woźniak et al., 2018)。他の類似の研究としては(Wu et al., 2018; Neftci et al., 2019)などを参照してください\footnote{特に(Neftci et al., 2019)にはJupyter Notebookも用意されています(\url{https://github.com/fzenke/spytorch})。サーベイも詳しく参考になります。}。\par
+Spiking Neural Unit (SNU)は次式で表される、Current-based LIFニューロンが元となっています。
+\begin{equation}
+\tau \frac{dV_{m}(t)}{dt}=-V_{m}(t)+R I(t)    
+\end{equation}
+ただし、$\tau=RC$です。ここでは静止膜電位を0としています\footnote{静止膜電位を考慮する場合は、定数項$V_{\text{rest}}$を加えるとよいです。}。これをEuler近似で時間幅$\Delta t$で離散化し、
+\begin{equation}
+V_{m, t}=\frac{\Delta t}{C} I_{t}+\left(1-\frac{\Delta t}{\tau}\right)V_{m, t-1}
+\end{equation}
+となります。$V_m$が一定の閾値$V_{\text{th}}$を超えるとニューロンは発火し、膜電位はリセットされて静止膜電位に戻ります。閾値を超えると発火、ということを表すために次式で表される変数$y_t$を導入し、ステップ関数により発火した際に$y_t=1$となるようにします。
+\begin{equation}
+y_{t}=f\left(V_{m, t}-V_{\text{th}}\right) 
+\end{equation}
+ただし、$f(\cdot)$はステップ関数で、
+\begin{equation}
+f(x) = \begin{cases}
+    1 & (x>0) \\
+    0 & (x\leq0)
+  \end{cases}    
+\end{equation}
+と表されます。さらに$y_{t-1}=1$なら膜電位がリセットされるように$\left(1-y_{t-1}\right)$を膜電位$V_{m, t-1}$に乗じて膜電位を更新します。
+\begin{equation}
+V_{m, t}=\frac{\Delta t}{C} I_{t}+\left(1-\frac{\Delta t}{\tau}\right)V_{m, t-1}\cdot \left(1-y_{t-1}\right)
+\end{equation}
+ここで、膜電位を$V_{m, t} \to s_t$とし、入力電流を$I_{t} \to Wx_t$とします(ただし、$x_t$は入力、$W$は結合重みの行列)。さらに以前の膜電位を保持する割合を表す変数として$l(\tau)=(1-\frac{\Delta t}{\tau})$を定義します。このとき、SNUの状態を計算する式は
+\begin{align} 
+s_t&=g\left(Wx_t+l(\tau)\odot s_{t-1}\odot (1-y_{t-1})\right)\\
+y_t&=h(s_t +b) 
+\end{align}
+となります。ただし、$g(\cdot)$はReLU関数、$h(\cdot)$はステップ関数です\footnote{なお、$h(\cdot)$をシグモイド関数とするsoft-SNUも提案されています。この場合、特に新しく関数を定義する必要はありません。}。このようにLSTMのような状態$y_t$を上手く設定することで、RNNのユニットとしてモデル化できています。\par
+しかし、このモデルはステップ関数を含むため、このままでは学習できません。というのも、ステップ関数は微分するとDiracのデルタ関数となり、誤差逆伝搬できないためです。そこで(Woźniak et al., 2018)ではステップ関数の\textbf{疑似勾配}(pseudo-derivative)としてtanhの微分を用いています。なお疑似勾配と同じ概念が、(Neftci et al., 2019)では\textbf{代理勾配}(Surrogate Gradient)と呼ばれています。\par
+実装方法としてはステップ関数を新しく定義し、逆伝搬時の勾配にtanhの微分などの関数を用いるようにします。コードは示しませんが\footnote{\url{https://github.com/takyamamoto/SNU_Chainer}を参考にしてください。}、Chainerで実装した結果を示します。この実装では2値化したMNISTデータセットをポアソン過程モデルでエンコードし(これをJittered MNISTと呼びます)、1つの画像につき10 ms(10タイムステップ)の間、ネットワークにエンコードしたポアソンスパイクを入力します。ネットワークは4層(ユニット数は順に784-256-256-10)から構成され、最後の層で最も発火率の高いユニットに対応するラベルを、刺激画像の予測ラベルとします。注意点として、このネットワークではシナプス入力を考えておらず(シナプスフィルターがなく)、重みづけされたスパイク列が直接次の層のユニットに伝わります。\par
+その他、論文の実装と変えたこととしては4点あります。1点目に、ReLUだとdying ReLUが起こっているようで学習がうまく進まなかったので、活性化関数としてExponential Linear Unit (ELU)を代わりに用いました\footnote{この変更は発火特性に影響を与えません。}。2点目に、ステップ関数の疑似勾配を、tanhの微分では学習が進まなかったので、hard sigmoidのような関数の微分
+\begin{equation}
+f'(x) = \begin{cases} 1 & (-0.5<x<0.5) \\ 0 & (\text{otherwise}) \end{cases}
+\end{equation}
+を用いました。3点目に、損失関数を変更しました。平均二乗誤差 (Mean Squared Error)だと学習が進まなかったので、出力ユニットの全スパイク数の和を取り、Softmaxをかけて、正解ラベルとの交差エントロピー(cross entropy)を取りました。また出力ユニットの発火数を抑えるため、代謝コスト(metabolic cost)を損失に加えました。これには正則化の効果もあります。出力層の $i$ 番目のユニットの出力を $y_t^{(i)}$とすると、代謝コスト $C_{\text{met}}$は 
+C_{\text{met}}=\frac{10^{-2}}{N_t \cdot N_{\text{out}}}\sum_{t=1}^{N_t}\sum_{i=1}^{N_{\text{out}}} \left(y_t^{(i)}\right)^2 
+となります。ただし、$N_t$はシミュレーションの総タイムステップ数、$N_{\text{out}}$は出力ユニットの数 (今回だと10個) です。あまり大きくすると、分類誤差よりも代謝コストの方が大きくなってしまうので低めに設定しました。4点目に、optimizerをAdamに変更しました。\par
+この実装により100 epoch学習を行った結果を示します。図は誤差と正解率の学習時における変化です。\par
+この手法の欠点としてはナイーブにBPTTを実行するのであまりシミュレーションの時間ステップを長くできないということが挙げられます。ただし、通常のANNのフレームワークを用いることができるというのは大きな利点であると思います。
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.4]{figs/loss_acc.png}
+    \caption{(左)誤差の変化、(右)正解率の変化。100 epoch目におけるvalidationの正解率は83\%程度となりました。}
+    \label{fig:snu_1}
+\end{figure}
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[scale=0.7]{figs/results.pdf}
+    \caption{(左)入力のポアソンスパイクの時間軸における和。(右)出力ユニットの活動。7番のニューロンがよく活動していることが分かります。}
+    \label{fig:snu_2}
+\end{figure}

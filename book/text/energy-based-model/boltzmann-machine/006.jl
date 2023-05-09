@@ -1,7 +1,6 @@
-figure(figsize=(4, 1.5))
-for i in 1:4
-    subplot(1,4,i)
-    imshow(train_x[:, :, i]', cmap="gray")
-    axis("off")
-end
-tight_layout()
+num_data = 100
+input_size = 28*28
+data = train_x[:, :, 1:num_data]
+data = reshape(data, (input_size, num_data))'
+
+println(size(data))

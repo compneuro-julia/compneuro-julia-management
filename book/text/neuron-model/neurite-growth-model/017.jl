@@ -12,5 +12,6 @@ for i in 1:init_branch_num
     push!(seg_vec_init, [(μₑ + randn()*σₑ)*dt, (i-1)/init_branch_num*2π+1e-2*randn()])
 end
 
-@time tree_info_history, seg_vec_history = neurite_growth_model(tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
-                                                                turn_rate, max_branch_angle, max_turn_angle, history_num);
+@time tree_info_history, seg_vec_history = neurite_growth_model(
+    tree_info_init, seg_vec_init, nt, dt, B∞, E, S, τ, μₑ, σₑ,
+    turn_rate, max_branch_angle, max_turn_angle, history_num);

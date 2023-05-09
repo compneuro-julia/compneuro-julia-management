@@ -1,5 +1,8 @@
-\subsection{ Locally competitive algorithm (LCA) }$\mathbf{r}$の勾配法による更新則は，$E$の微分により次のように得られる．
-$$
+\subsection{ Locally competitive algorithm (LCA) }
+$\mathbf{r}$の勾配法による更新則は，$E$の微分により次のように得られる．
+
+
 \frac{d \mathbf{r}}{dt}= -\frac{\eta_\mathbf{r}}{2}\frac{\partial E}{\partial \mathbf{r}}=\eta_\mathbf{r} \cdot\left[\mathbf{\Phi}^\top (\mathbf{x}-\mathbf{\Phi}\mathbf{r})- \frac{\lambda}{2}S'\left(\mathbf{r}\right)\right]
-$$
+
+
 ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\cite{Olshausen1996-xe}では\textbf{共役勾配法} (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，\textbf{LCA}  (locally competitive algorithm)が提案されている \cite{Rozell2008-wp}．LCAは\textbf{側抑制} (local competition, lateral inhibition)と\textbf{閾値関数} (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは\textbf{Hopfield trick}と呼んでいる．
