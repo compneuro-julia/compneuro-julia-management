@@ -60,7 +60,7 @@ sections:
   - file: motor-learning/minimum-variance
   - file: motor-learning/optimal-feedback-control
   - file: motor-learning/infinite-horizon-ofc
-  - file: motor-learning/biological-ofc
+  - file: motor-learning/local-learning-ofc
   - file: motor-learning/rat-trajectory
 - file: reinforcement-learning/intro
   sections:
