@@ -20,7 +20,7 @@ function run_simulation(imgs, num_iter, nt_max, eps)
         img_clopped = img[beginy:beginy+15, beginx:beginx+25]
 
         # Clop three patches
-        inputs = hcat([(gmask .* img_clopped[:, 1+i*5:i*5+16])[:] for i = 0:2]...)'
+        inputs = stack([(gmask .* img_clopped[:, 1+i*5:i*5+16])[:] for i = 0:2])'
         inputs = (inputs .- mean(inputs)) .* input_scale
 
         # Reset states

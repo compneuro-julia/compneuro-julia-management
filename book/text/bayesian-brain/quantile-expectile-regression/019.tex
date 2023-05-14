@@ -1,3 +1,0 @@
-Classical TD learningではRPEに比例して発火する細胞しかないが，Distributional TD learningではRPEの正負に応じて発火率応答が変化していることがわかる． 特に$\alpha_{i}^{+} \gt \alpha_{i}^{-}$の細胞を\textbf{楽観的細胞 (optimistic cells)}，$\alpha_{i}^{+}\lt
-\alpha_{i}^{-}$の細胞を**悲観的細胞 (pessimistic
-cells)** と著者らは呼んでいる．実際には2群に分かれているわけではなく，gradientに遷移している．収束する予測価値が細胞ごとに異なることで，$V$には報酬の期待値ではなく複雑な形状の報酬分布が符号化される．その仕組みについて，次項から見ていこう．

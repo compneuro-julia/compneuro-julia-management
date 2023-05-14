@@ -1,29 +1,31 @@
-\input{./text/solve-credit-assignment-problem/bptt/000.tex}
-\input{./text/solve-credit-assignment-problem/bptt/001.tex}
-\input{./text/solve-credit-assignment-problem/bptt/002.tex}
+\section{BPTT (backpropagation through time)}
+通時的誤差逆伝播法
+## モデルの定義
+ライブラリの読み込み．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/003.jl}
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/004.jl}
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/005.jl}
-\input{./text/solve-credit-assignment-problem/bptt/006.tex}
+\jl{w_in}は入力層から再帰層への重み，\jl{w_rec}は再帰重み，\jl{w_out}は出力重みである．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/007.jl}
-\input{./text/solve-credit-assignment-problem/bptt/008.tex}
+## 7.9.2 更新関数の定義
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/009.jl}
-\input{./text/solve-credit-assignment-problem/bptt/010.tex}
+\subsection{正弦波の学習}
+例として正弦波を出力するRNNを考える．入力1,中間64, 出力2のRNNである．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/011.jl}
-\input{./text/solve-credit-assignment-problem/bptt/012.tex}
+入力と訓練データの確認をする．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/013.jl}
 \input{./text/solve-credit-assignment-problem/bptt/output_013.tex}
-\input{./text/solve-credit-assignment-problem/bptt/014.tex}
+モデルの定義をする．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/015.jl}
-\input{./text/solve-credit-assignment-problem/bptt/016.tex}
+学習を実行する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/017.jl}
-\input{./text/solve-credit-assignment-problem/bptt/018.tex}
+損失の推移を確認する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/019.jl}
 \input{./text/solve-credit-assignment-problem/bptt/output_019.tex}
-\input{./text/solve-credit-assignment-problem/bptt/020.tex}
+## 学習後の出力の確認
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/021.jl}
-\input{./text/solve-credit-assignment-problem/bptt/022.tex}
+見やすいように出力のピークに応じて中間層のユニットをソートする．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/023.jl}
-\input{./text/solve-credit-assignment-problem/bptt/024.tex}
+出力層，中間層の出力を描画する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/bptt/025.jl}
 \input{./text/solve-credit-assignment-problem/bptt/output_025.tex}

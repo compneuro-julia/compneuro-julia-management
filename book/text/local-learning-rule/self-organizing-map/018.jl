@@ -1,1 +1,0 @@
-U = Umatrix2d(w_history[end]);

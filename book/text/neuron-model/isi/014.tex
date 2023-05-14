@@ -1,2 +1,0 @@
-\subsubsection{非定常ポアソン過程}
-これまでの実装は発火率$\lambda$が一定であるとする，定常ポアソン過程 (homogeneous poisson process)であったが，ここからは発火率$\lambda(t)$が時間変化するとする\textbf{非定常ポアソン過程} (inhomogeneous poisson process)について考える．とはいえ，定常ポアソン過程における発火率を，時間についての関数で置き換えるだけで実装できる．以下は$\lambda(t)=\sin^2(\alpha t)$(ただし$\alpha$は定数)とした場合の実装である．

@@ -1,15 +1,68 @@
-\input{./text/bayesian-brain/quantile-expectile-regression/000.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/001.tex}
+\section{分位点・エクスペクタイル回帰による分布符号化}
+本章では分位点・エクスペクタイル回帰 (quantile/expectile regression) を用いて
+
+\begin{itemize}
+\item Quantileはノンパラ
+\item PPCやDPCはパラメトリック
+\end{itemize}
+
+Distributional Reinforcement Learning in the Brainに
+> Quantile-like codes are non-parametric codes, as they do not a priori assume a specific form of a probability distribution with associated parameters. Previous studies have proposed different population coding schemes. For example, probabilistic population codes (PPCs) [73,74] and distributed distributional codes (DDCs) [75,76] employ population coding schemes from which various statistical parameters of a distribution can be read out, making them parametric codes. As a simple example, a PPC might encode a Gaussian distribution, in which case the mean would be reflected in which specific neurons are most active, and the variance would be reflected in the inverse of the overall activity [73].
+\subsection{分位点・エクスペクタイル回帰}
+\subsubsection{分位点回帰 (Quantile Regression)}
+線形回帰(linear regression)は，誤差が正規分布と仮定したとき(必ずしも正規分布を仮定しなくてもよい)の$X$(説明変数)に対する$Y$(目的変数)の期待値$E[Y]$を求める，というものであった．\textbf{分位点回帰(quantile regression)} では，Xに対するYの分布における分位点を通るような直線を引く．
+
+\textbf{分位点}(または分位数)において，代表的なものが\textbf{四分位数}である．四分位数は箱ひげ図などで用いるが，例えば第一四分位数は分布を25:75に分ける数，第二四分位数(中央値)は分布を50:50に分ける数である．同様に$q$分位数($q$-quantile)というと分布を$q:1-q$に分ける数となっている．分位点回帰の話に戻る．下図は$x\sim U(0, 5),\quad y=3x+x\cdot \xi,\quad \xi\sim N(0,1)$とした500個の点に対する分位点回帰である．赤い領域はX=1,2,3,4でのYの分布を示している．深緑，緑，黄色の直線はそれぞれ10, 50, 90%tile回帰の結果である．例えば50%tile回帰の結果は，Xが与えられたときのYの中央値(50%tile点)を通るような直線となっている．同様に90%tile回帰の結果は90%tile点を通るような直線となっている．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/002.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/003.jl}
 \input{./text/bayesian-brain/quantile-expectile-regression/output_003.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/004.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/005.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/006.tex}
+分位点回帰の利点としては，外れ値に対して堅牢(ロバスト)である，Yの分布が非対称である場合にも適応できる，などがある ([Das et al., *Nat Methods*. 2019](https://www.nature.com/articles/s41592-019-0406-y))．
+\subsubsection{エクスペクタイル回帰 (Expectile regression)}
+エクスペクタイル(expectile)は([Newey and Powell 1987](https://www.jstor.org/stable/1911031?seq=1)) によって導入された統計汎関数 (statistical functional; SF)の一種であり，期待値(expectation)と分位数(quantile)を合わせた概念である．簡単に言えば，中央値(median)の一般化が分位数(quantile)であるのと同様に，期待値(expectation)の一般化がエクスペクタイル(expectile)である．
+\subsubsection{勾配法を用いた分位点回帰・エクスペクタイル回帰}
+予測誤差$\delta$と$\tau$の関数を
+
+
+\begin{align}
+\text{分位点回帰：}&\quad
+\rho_q(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta \leq 0}\right)\cdot \delta\\
+\text{エクスペクタイル回帰：}&\quad
+\rho_e(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot \delta^2
+\end{align}
+
+
+と定義する．$\rho_q(\delta; \tau)$のみ，チェック関数 (check function)あるいは非対称絶対損失関数(asymmetric absolute loss function)と呼ぶ．ただし，$\tau$は分位点(quantile)，$\mathbb{I}$は指示関数(indicator function)である．この場合，$\mathbb{I}_{\delta \leq 0}$は$\delta \gt 0$なら0, $\delta \leq 0$なら1となる．このとき，目的関数は 
+
+
+L_{\tau}(\delta)
+=\sum_{i=1}^n \rho(\delta_i; \tau)
+
+
+である．$\rho(\delta; \tau)$を色々な $\tau$についてplotすると次図のようになる．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/007.jl}
 \input{./text/bayesian-brain/quantile-expectile-regression/output_007.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/008.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/009.tex}
+分位点の場合，$\rho_q(\delta; \tau)$がチェックマーク✓に類似していることからこのような名前が付いている．
+$L_\tau$を最小化するような$\theta$の更新式について考える．まず，
+
+
+
+\begin{align}
+\text{分位点回帰：}&\quad
+\frac{\partial \rho_q(\delta; \tau)}{\partial \delta}= \rho_q^{\prime}(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\operatorname{sign}(\delta)\\
+\text{エクスペクタイル回帰：}&\quad
+\frac{\partial \rho_e(\delta; \tau)}{\partial \delta}= \rho_e^{\prime}(\delta; \tau)=2\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\delta
+\end{align}
+
+
+である (ただし$\text{sign}(\cdot)$は符号関数)．さらに
+
+
+\frac{\partial L_{\tau}}{\partial \theta}=\frac{\partial L_{\tau}}{\partial \delta}\frac{\partial \delta(\theta)}{\partial \theta}=-\frac{1}{n} \rho^{\prime}(\delta; \tau) X
+ 
+
+が成り立つので，$\theta$の更新式は$\theta \leftarrow \theta + \alpha\cdot \dfrac{1}{n} \rho^{\prime}(\delta; \tau) X$と書ける ($\alpha$は学習率である)．分位点回帰を単純な勾配法で求める場合，勾配が0となって解が求まらない可能性があるが，目的関数を滑らかにすることで回避できるという研究もある ([Zheng. *IJMLC*. 2011](https://link.springer.com/article/10.1007/s13042-011-0031-2))．この点，Expectileならこの問題を回避できる (?)．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/010.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/011.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/012.jl}
@@ -17,12 +70,41 @@
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/014.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/015.jl}
 \input{./text/bayesian-brain/quantile-expectile-regression/output_015.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/016.tex}
+\subsection{分布型TD学習}
+分布型TD学習 (Distributional TD learning) は
+
+Distributional TD learningではRPEの正負に応じて，予測報酬の更新を異なる学習率($\alpha_{i}^{+}, \alpha_{i}^{-}$)を用いて行う． 
+
+ 
+\begin{cases} V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{+} f\left(\delta_{i}\right) &\text{for }
+\delta_{i} \gt 0\\ V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{-} f\left(\delta_{i}\right) &\text{for } \delta_{i} \leq 0 \end{cases} 
+ 
+
+ここで，シミュレーションにおいては$\alpha_{i}^{+}, \alpha_{i}^{-}\sim U(0,
+1)$とする($U$は一様分布)．さらにasymmetric scaling factor $\tau_i$を次式により定義する． 
+
+ 
+\tau_i=\frac{\alpha_{i}^{+}}{\alpha_{i}^{+}+ \alpha_{i}^{-}} 
+ 
+
+なお，$\alpha_{i}^{+}, \alpha_{i}^{-}\in [0, 1]$より$\tau_i \in
+[0,1]$である． 
+
+Classical TD learningとDistributional TD learningにおける各ニューロンのRPEに対する発火率を表現したのが次図となる．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/017.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/018.jl}
 \input{./text/bayesian-brain/quantile-expectile-regression/output_018.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/019.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/020.tex}
+Classical TD learningではRPEに比例して発火する細胞しかないが，Distributional TD learningではRPEの正負に応じて発火率応答が変化していることがわかる． 特に$\alpha_{i}^{+} \gt \alpha_{i}^{-}$の細胞を\textbf{楽観的細胞 (optimistic cells)}，$\alpha_{i}^{+}\lt
+\alpha_{i}^{-}$の細胞を**悲観的細胞 (pessimistic
+cells)** と著者らは呼んでいる．実際には2群に分かれているわけではなく，gradientに遷移している．収束する予測価値が細胞ごとに異なることで，$V$には報酬の期待値ではなく複雑な形状の報酬分布が符号化される．その仕組みについて，次項から見ていこう．
+\subsubsection{分位数(Quantile)モデルと報酬分布の符号化}
+
+\paragraph{RPEに対する応答がsign関数のモデルと報酬分布の分位点への予測価値の収束}
+さて，Distributional RLモデルでどのようにして報酬分布が学習されるかについてみていこう．この項ではRPEに対する応答関数$f(\cdot)$が符合関数(sign function)の場合を考える．結論から言うと，この場合はasymmetric scaling factor $\tau_i$は分位数(quantile)となり，**予測価値
+$V_i$は報酬分布の$\tau_i$分位数に収束する**．
+    
+どういうことかを簡単なシミュレーションで見てみよう．今，報酬分布を平均2, 標準偏差5の正規分布とする (すなわち$r \sim N(2, 5^2)$となります)．また，$\tau_i = 0.25, 0.5, 0.75 (i=1,2,3)$とする．このとき，3つの予測価値 $V_i \ (i=1,2,3)$はそれぞれ$N(2, 5^2)$の0.25, 0.5,
+0.75分位数に収束する．下図はシミュレーションの結果である．左が$V_i$の変化で，右が報酬分布と0.25, 0.5, 0.75分位数の位置 (黒短線)となっています．対応する分位数に見事に収束していることが分かる．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/021.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/022.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/023.jl}
@@ -31,14 +113,91 @@
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/025.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/026.jl}
 \input{./text/bayesian-brain/quantile-expectile-regression/output_026.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/027.tex}
+ここでoptimisticな細胞($\tau=0.75$)は中央値よりも高い予測価値，pessimisticな細胞($\tau=0.25$)は中央値よりも低い予測価値に収束しています． つまり細胞の楽観度というものは，細胞が期待する報酬が大きいほど上がります．
+
+同様のシミュレーションを今度は200個の細胞 (ユニット)で行います．報酬は0.1, 1, 2 μLのジュースがそれぞれ確率0.3, 0.6, 0.1で出るとします (Extended Data Fig.1と同じような分布にしています)．なお，著者らはシミュレーションとマウスに対して\textbf{Variable-magnitude task}
+(異なる量の報酬(ジュース)が異なる確率で出る)と\textbf{Variable-probability task} (一定量の報酬がある確率で出る)を行っています．以下はVariable-magnitude taskを行う，ということです．学習結果は次図のようになります．左はGround Truthの報酬分布で，右は$V_i$に対してカーネル密度推定
+(KDE)することによって得た予測価値分布です．2つの分布はほぼ一致していることが分かります．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/028.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/029.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/030.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/031.jl}
 \input{./text/bayesian-brain/quantile-expectile-regression/output_031.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/032.tex}
+そして$V_i$の経験累積分布関数(CDF)は$r$のサンプリングしたCDFとほぼ同一となっています (下図左)．また，$\tau_i$の関数である$V_i$は\textbf{分位点関数 (quantile function)} または累積分布関数の逆関数 (inverse cumulative distribution function)となっています
+(下図右)．右の図を転置すると左の青い曲線とだいたい一致しそうなことが分かります．
 \lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/033.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/034.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/035.tex}
-\input{./text/bayesian-brain/quantile-expectile-regression/036.tex}
+\subsubsection{sign関数を用いたDistributional RLと分位点回帰}
+
+それでは，なぜ予測価値 $V_i$は$\tau_i$ 分位点に収束するのでしょうか．Extended Data Fig.1のように平衡点で考えてもよいのですが，後のために分位点回帰との関連について説明します．
+
+実はDistributional RL (かつ，RPEの応答関数にsign関数を用いた場合)における予測報酬 $V_i$の更新式は，分位点回帰(Quantile
+regression)を勾配法で行うときの更新式とほとんど同じです．分位点回帰では$\delta$の関数$\rho_{\tau}(\delta)$を次のように定義します．  \rho_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta
+\leq 0}\right)\cdot \delta  そして，この関数を最小化することで回帰を行います．ここで$\tau$は分位点です．また$\delta=r-V$としておきます．今回，どんな行動をしても未来の報酬に影響はないので$\gamma=0$としています．\url{br/}
+\url{br/}
+ここで，  \frac{\partial \rho_{\tau}(\delta)}{\partial \delta}=\rho_{\tau}^{\prime}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot \operatorname{sign}(\delta)  なので，$r$を観測値とすると， 
+\frac{\partial \rho_{\tau}(\delta)}{\partial V}=\frac{\partial \rho_{\tau}(\delta)}{\partial \delta}\frac{\partial \delta(V)}{\partial V}=-\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\operatorname{sign}(\delta)  となります．ゆえに$V$の更新式は  V \leftarrow V - \beta\cdot\frac{\partial \rho_{\tau}(\delta)}{\partial V}=V+\beta \left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\operatorname{sign}(\delta)  です．ただし，$\beta$はベースラインの学習率です．個々の$V_i$について考え，符号で場合分けをすると
+ \begin{cases} V_{i} \leftarrow V_{i}+\beta\cdot |\tau_i|\cdot\operatorname{sign}\left(\delta_{i}\right)
+&\text { for } \delta_{i}>0\\ V_{i} \leftarrow V_{i}+\beta\cdot |\tau_i-1|\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i} \leq 0 \end{cases}  となります．$0 \leq
+\tau_i \leq 1$であり，$\tau_i=\alpha_{i}^{+} / \left(\alpha_{i}^{+} + \alpha_{i}^{-}\right)$であることに注意すると上式は次のように書けます．  \begin{cases} V_{i} \leftarrow V_{i}+\beta\cdot
+\frac{\alpha_{i}^{+}}{\alpha_{i}^{+}+\alpha_{i}^{-}}\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i}>0\\ V_{i} \leftarrow V_{i}+\beta\cdot
+\frac{\alpha_{i}^{-}}{\alpha_{i}^{+}+\alpha_{i}^{-}}\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i} \leq 0 \end{cases}  これは前節で述べたDistributional
+RLの更新式とほぼ同じです．いくつか違う点もありますが，RPEが正の場合と負の場合に更新される値の比は同じとなっています．
+
+このようにRPEの応答関数にsign関数を用いた場合，報酬分布を上手く符号化することができます．しかし実際のドパミンニューロンはsign関数のような生理的に妥当でない応答はせず，RPEの大きさに応じた活動をします．そこで次節ではRPEの応答関数を線形にしたときの話をします．
+\subsubsection{Expectile モデルとドパミンニューロンからの報酬分布のDecoding}
+
+\subsubsection{RPEに対する応答が線形なモデルとExpectile回帰}
+節の最後で述べたようにドパミンニューロンの活動はsign関数ではなく線形な応答をする，とした方が生理学的に妥当である (発火率を表現するならば$f(\delta)=c+\delta\quad(c > 0)$とした方が良いだろうが)．それでは予測価値の更新式を 
+
+ 
+\begin{cases} V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{+}
+\delta_{i} &\text{for } \delta_{i} \gt 0\\ V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{-} \delta_{i} &\text{for } \delta_{i} \leq 0 \end{cases} 
+
+
+とした場合は，分位点回帰ではなく何に対応するのだろうか．結論から言えば，この場合は **エクスペクタイル回帰(Expectile
+regression)\textbf{ と同じになる．expectileという用語自体はexpectationとquantileを合わせたような概念，というところから来ている．}中央値(median)に対する分位数(quantile)が，平均(mean)あるいは期待値(expectation)に対するexpectileの関係と同じ** であると捉えると良いです．
+もう少し言えば，前者は誤差のL1ノルム, 後者はL2ノルムの損失関数を最小化することにより得られる．
+
+分位点回帰で用いた損失関数は
+
+
+\rho_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|
+
+
+だったが，最後の$|\delta|$を$\delta^2$として， 
+
+
+\rho^E_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq
+0}\right|\cdot \delta^2
+
+
+とする．これを微分すれば 
+
+ 
+\frac{\partial \rho^E_{\tau}(\delta)}{\partial \delta}=\rho_{\tau}^{E\prime}(\delta)=2 \cdot \left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot \delta 
+
+
+となり，上記の予測価値の更新式がExpectile回帰の損失関数から導けることが分かる．
+
+\paragraph{報酬分布のデコーディング (decoding)}
+それで，RPEの応答を線形とした場合は報酬分布を上手く学習できるのかという話ですが，実はRPEの応答をsign関数とした場合と同じように学習後の予測価値の分布を求めても報酬分布は復元されません (簡単な修正で確認できます)．そこで報酬分布をデコーディングする方法を考えます．
+
+デコーデイングには各細胞が学習した予測価値(またはreversal points) $V_i$, asymmetries $\tau_i$, および報酬分布(ただし報酬の下限と上限からの一様分布)からのサンプル $z_m (m=1,2,\cdots,
+M)$を用います．$N$を推定する$V_i$の数，$M=100$を1つの報酬サンプル集合$\{z_m\}$内の要素数としたとき，次の損失関数を最小にする集合$\{z_m\}$を求めます．  \mathcal{L}(z, V, \tau)=\frac{1}{M} \sum_{m-1}^{M} \sum_{n=1}^{N}\left|\tau_{n}-\mathbb{I}_{z_{m} \leq
+V_{n}}\right|\left(z_{m}-V_{n}\right)^{2}  ここで，集合$\{z_m\}$は20000回サンプリングするとします．損失関数$\mathcal{L}$を最小化する集合の分布が推定された報酬分布となっているので，それをplotします．以下はその結果とコードです
+(このコードはほとんど著者実装のままです)．灰色が元の報酬分布で，紫がデコーデイングされた分布です．完全とはいきませんが，ある程度は推定できていることが分かります．
+\subsection{参考文献}
+\begin{itemize}
+\item https://en.wikipedia.org/wiki/Quantile_regression
+\item Das, K., Krzywinski, M. & Altman, N. Quantile regression. Nat Methods 16, 451–452 (2019) doi:[10.1038/s41592-019-0406-y](https://www.nature.com/articles/s41592-019-0406-y)
+\item Quantile and Expectile Regressions ([pdf](https://freakonometrics.hypotheses.org/files/2017/05/erasmus-1.pdf))
+\item Dabney, W., Kurth-Nelson, Z., Uchida, N. *et al.* A distributional code for value in dopamine-based reinforcement learning. *Nature* (2020). [https://doi.org/10.1038/s41586-019-1924-6](https://www.nature.com/articles/s41586-019-1924-6)
+\item Watabe-Uchida, M. et al. Whole-Brain Mapping of Direct Inputs to Midbrain Dopamine Neurons. Neuron 74, 5, 858 - 873 (2012). [https://doi.org/10.1016/j.neuron.2012.03.017](https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4)[ ](https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4)
+\item Eshel, N., Tian, J., Bukwich, M. *et al.* Dopamine neurons share common response function for reward prediction error. *Nat Neurosci* \textbf{19,} 479–486 (2016). [https://doi.org/10.1038/nn.4239](https://www.nature.com/articles/nn.4239)
+\item Schultz, W., Dayan, P., Montague, P.R. A neural substrate of prediction and reward. *Science*. 275, 1593-9 (1997). [doi:10.1126/science.275.5306.1593](https://science.sciencemag.org/content/275/5306/1593.long)
+\item Chang, C., Esber, G., Marrero-Garcia, Y. *et al.* Brief optogenetic inhibition of dopamine neurons mimics endogenous negative reward prediction errors. *Nat Neurosci* \textbf{19,} 111–116 (2016) [doi:10.1038/nn.4191](https://www.nature.com/articles/nn.4191)  
+\item Bayer, H.M., Lau, B., Glimcher, P.W. Statistics of midbrain dopamine neuron spike trains in the awake primate. *J Neurophysiol*. \textbf{98}(3):1428-39 (2007). [https://doi.org/10.1152/jn.01140.2006](https://www.physiology.org/doi/full/10.1152/jn.01140.2006)
+\item Eshel, N., Bukwich, M., Rao, V. *et al.* Arithmetic and local circuitry underlying dopamine prediction errors. *Nature* \textbf{525,} 243–246 (2015). [https://doi.org/10.1038/nature14855](https://www.nature.com/articles/nature14855)
+\end{itemize}

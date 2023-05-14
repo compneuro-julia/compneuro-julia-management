@@ -3,7 +3,7 @@ num_train, num_test = 20, 100 # sample size
 dims = 4 # dimensions
 σy = 0.3
 
-polynomial_expansion(x; degree=3) = hcat([x .^ p for p in 0:degree]...);
+polynomial_expansion(x; degree=3) = stack([x .^ p for p in 0:degree]);
 
 Random.seed!(0);
 x = rand(num_train)

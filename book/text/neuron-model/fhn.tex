@@ -1,20 +1,28 @@
-\input{./text/neuron-model/fhn/000.tex}
-\input{./text/neuron-model/fhn/001.tex}
-\input{./text/neuron-model/fhn/002.tex}
-\input{./text/neuron-model/fhn/003.tex}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/004.jl}
-\input{./text/neuron-model/fhn/005.tex}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/006.jl}
-\input{./text/neuron-model/fhn/007.tex}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/008.jl}
-\input{./text/neuron-model/fhn/009.tex}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/010.jl}
-\input{./text/neuron-model/fhn/011.tex}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/012.jl}
-\input{./text/neuron-model/fhn/output_012.tex}
-\input{./text/neuron-model/fhn/013.tex}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/014.jl}
-\input{./text/neuron-model/fhn/015.tex}
+\section{FitzHugh-Nagumoモデル}
+\subsection{FitzHugh-Nagumoモデルの定義}
+
+
+\begin{align} 
+\frac{dv}{dt} &= c\left(v-\frac{v^3}{3}-u+I_e\right)\\ 
+\frac{du}{dt} &= v-bu+a 
+\end{align}
+ここで$a,b,c$は定数であり，$a=0.7, b=0.8, c=10$がよく使われる．$v$は膜電位で，$u$は回復変数(recovery variable)である． $I_e$は外部刺激電流に対応する．
+まず必要なパッケージを読み込む．
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/003.jl}
+変更しない定数を保持する \jl{struct} の \jl{FHNParameter} と, 変数を保持する \jl{mutable struct} の \jl{FHN} を作成する．
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/005.jl}
+次に変数を更新する関数\jl{update!}を書く．ソルバーとしては陽的Euler法または4次のRunge-Kutta法を用いる．以下ではEuler法を用いている．Juliaではforループを用いて1つのニューロンごとにパラメータを更新する方がベクトルを用いるよりも高速である．
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/007.jl}
+\subsection{FitzHugh-Nagumoモデルのシミュレーションの実行}
+いくつかの定数を設定してシミュレーションを実行する．
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/009.jl}
+結果を描画する．
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/011.jl}
+\input{./text/neuron-model/fhn/output_011.tex}
+発火回数を求める．
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/013.jl}
+\subsection{相図の描画}
+phase plot
+\lstinputlisting[language=julia]{./text/neuron-model/fhn/015.jl}
 \lstinputlisting[language=julia]{./text/neuron-model/fhn/016.jl}
-\lstinputlisting[language=julia]{./text/neuron-model/fhn/017.jl}
-\input{./text/neuron-model/fhn/output_017.tex}
+\input{./text/neuron-model/fhn/output_016.tex}

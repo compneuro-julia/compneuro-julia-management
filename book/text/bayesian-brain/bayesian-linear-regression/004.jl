@@ -1,25 +1,7 @@
-@kwdef mutable struct BayesianLinearReg
-    μ̂::Array
-    Σ̂::Array
-end
+α, β = 1e-3, 5.0;
 
-# Training params & definition of model
-function BayesianLinearReg(ϕ, y, α, β)
-    Σ̂ = inv(α * I + β * ϕ' * ϕ)
-    μ̂ = β * Σ̂  * ϕ' * y;
-    return BayesianLinearReg(μ̂=μ̂, Σ̂=Σ̂)
-end;
+blr = BayesianLinearReg(ϕ, y, α, β);
+μtest, σtest = predict(ϕtest, blr, β);
 
-function predict(ϕ, blr::BayesianLinearReg, β)
-    @unpack μ̂, Σ̂ = blr
-    μp = ϕ * μ̂
-    σp = sqrt.(1/β .+ diag(ϕ * Σ̂ * ϕ'));
-    return μp, σp
-end;
-
-function sampling_func(ϕ, blr::BayesianLinearReg, num_sampling::Int)
-    @unpack μ̂, Σ̂ = blr
-    dist = MvNormal(μ̂, Matrix(Hermitian(Σ̂)))
-    sampled_params = rand(dist, num_sampling);
-    return ϕ * sampled_params 
-end;
+num_sampling = 5
+sampled_func = sampling_func(ϕtest, blr, num_sampling);

@@ -1,5 +1,5 @@
 # Fdb version 4
-["pdflatex"] 1683701925 "d:/github/compneuro-julia-management/book/main.tex" "main.pdf" "main" 1683701926 2
+["pdflatex"] 1683961445 "d:/github/compneuro-julia-management/book/main.tex" "main.pdf" "main" 1683961446 2
   "c:/texlive/2023/texmf-dist/tex/generic/iftex/iftex.sty" 1683603747 7237 bdd120a32c8fdb4b433cf9ca2e7cd98a ""
   "c:/texlive/2023/texmf-dist/tex/generic/infwarerr/infwarerr.sty" 1683603787 8356 7bbb2c2373aa810be568c29e333da8ed ""
   "c:/texlive/2023/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty" 1683605233 17859 4409f8f50cd365c68e684407e5350b1b ""
@@ -15,7 +15,7 @@
   "c:/texlive/2023/texmf-var/web2c/pdftex/pdflatex.fmt" 1683611082 7886674 1f20289e8c8d3c7228d396e0bb3c064a ""
   "c:/texlive/2023/texmf.cnf" 1683610931 713 e69b156964470283e0530f5060668171 ""
   "d:/github/compneuro-julia-management/book/main.tex" 1683701919 4392 5c3f42b44d9932651f75989895fbe24f ""
-  "main.aux" 1683701925 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "main.aux" 1683961445 34 3985256e7290058c681f74d7a3565a19 "pdflatex"
   "main.tex" 1683701919 4392 5c3f42b44d9932651f75989895fbe24f ""
   (generated)
   "main.aux"

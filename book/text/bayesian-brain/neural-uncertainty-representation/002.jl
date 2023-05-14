@@ -8,7 +8,7 @@ samples = rand(mixed_gauss, Ns); # サンプリング
 U = kde(samples); # サンプリングのkde
 
 μs = range(-2, 2, length=Np)
-tuning_curves = hcat([gaussian.(x, μ, 0.5) for μ in μs]...)';
+tuning_curves = stack([gaussian.(x, μ, 0.5) for μ in μs])';
 
 ppc_fr = exp.(-(μs .- μ_dist).^2/0.5);
 act = ppc_fr' * tuning_curves;

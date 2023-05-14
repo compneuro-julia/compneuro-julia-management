@@ -5,5 +5,5 @@ imgs = [convert(Array{Float64}, imresize(Gray.(testimage(imagename)), ratio=1/8)
 imgs_binarized = map(binarize, imgs);
 imgs_corrupted = map(corrupted, imgs_binarized);
 
-input_train = reshape(cat(imgs_binarized..., dims=3), (:, num_data))';
-input_test = reshape(cat(imgs_corrupted..., dims=3), (:, num_data))';
+input_train = reshape(stack(imgs_binarized), (:, num_data))';
+input_test = reshape(stack(imgs_corrupted), (:, num_data))';

@@ -1,4 +1,4 @@
-B2 = permutedims(cat(B1..., dims=4), [4, 1, 2, 3])
+B1 = [i*rand(3, 4, 5) for i=1:6]
 
-println("Type : ", typeof(B2))
-println("Size : ", size(B2))
+println("Type : ", typeof(B1))
+println("Size : ", size(B1))

@@ -1,7 +1,201 @@
-\input{./text/introduction/differential-equation/000.tex}
-\input{./text/introduction/differential-equation/001.tex}
-\input{./text/introduction/differential-equation/002.tex}
-\input{./text/introduction/differential-equation/003.tex}
-\input{./text/introduction/differential-equation/004.tex}
-\input{./text/introduction/differential-equation/005.tex}
+\section{微分方程式}
+\subsection{微分方程式の基礎}
+微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
+
+
+\begin{equation}
+\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
+\end{equation}
+
+
+状態変数 $x(t)$は，時間$t$に対する関数である．
+
+添え字の$c$は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては$b_c=0$の場合を\textbf{同次方程式}, $b_c\neq 0$の場合を\textbf{非同次方程式}という．
+
+\subsubsection{微分方程式の解}
+微分方程式を解くとは$x(t)$のような関数の具体的な式を求めることである．上式の解は
+
+
+\begin{equation}
+x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
+\end{equation}
+
+
+として与えられる．微分方程式を解く手法は様々で，それぞれの方程式について適切な手法を選択する．本書ではLaplace変換を多用するが，細かい説明は付録にて行う．
+
+\subsubsection{連立線形微分方程式}
+$n$個の微分方程式
+
+連立線形微分方程式という．これをベクトル，行列を用いて
+
+時不変 (time-invariant) の定数行列を$\mathbf{A}_c \in \mathbb{R}^{n\times n}, \mathbf{B}_c \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
+
+
+\begin{equation}
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
+\end{equation}
+
+
+解は
+
+
+\begin{equation}
+\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau
+\end{equation}
+\subsubsection{ラプラス変換}
+
+Laplace変換はFourier変換に似た手法であり，微分方程式を解く上で便利である．
+ToDo: Laplace変換の詳細
+
+
+\begin{equation}
+F(s):=\int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
+\end{equation}
+
+
+$e^{-st}$を引っ付けて積分することで，被積分関数が$t\to \infty$で収束し，積分可能となっている．
+
+実用上は次の対応表を用いて計算すればよい．
+ToDo: Laplace変換の対応表
+\subsubsection{1階線形行列微分方程式の解}
+時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
+
+
+\begin{equation}
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
+\end{equation}
+
+
+この線形行列微分方程式をLaplace変換 $\mathcal{L}$を用いて解こう．$\boldsymbol{X}(s) := \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) := \mathcal{L}(\mathbf{u}(t))$とすると，
+
+
+\begin{align}
+s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\boldsymbol{U}(s)\\
+(s\mathbf{I} - \mathbf{A}) \boldsymbol{X}(s) &= \mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s)\\
+\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
+\end{align}
+
+
+行列指数関数 (matrix exponential)は
+
+
+\begin{equation}
+e^\mathbf{A} = \exp(\mathbf{A}) := \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
+\end{equation}
+
+
+として定義される．
+
+天下り的だが，
+
+
+\begin{align}
+\mathcal{L}(e^{at})&=\frac{1}{s-a}\\
+\mathcal{L}(e^{t\mathbf{A}})&=(s\mathbf{I} - \mathbf{A})^{-1}\\
+\end{align}
+
+
+となる．よって
+
+
+\begin{align}
+\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
+&= (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{x}(0) + (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{B}\boldsymbol{U}(s)\\
+\mathbf{x}(t)&=e^{t\mathbf{A}}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau
+\end{align}
+
+
+となる．最後の式は両辺を逆Laplace変換した．ここで，$\mathcal{L}^{-1}(F(s)G(s))=\int_0^tf(\tau)g(t-\tau)d\tau$であることを用いた．区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
+
+
+\begin{align}
+\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
+&=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+&=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
+\end{align}
+
+
+となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}_c$が正則行列の場合，
+
+
+\begin{align}
+\mathbf{B}_d &= \left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}\\
+&=\mathbf{A}^{-1}\left[e^{\Delta t \mathbf{A}}-\mathbf{I}\right]\mathbf{B}
+\end{align}
+
+
+が成り立つ．
+
+\subsection{連続時間モデルから離散時間モデルへの変換}
+\subsubsection{離散化方法1: 解析解を用いた方法}
+\paragraph{1次元の場合}
+
+区間$[t, t+\Delta t]$において入力$u(t)$が一定であると仮定すると，
+
+
+\begin{align}
+x(t+\Delta t)&= \underbrace{e^{a_c \Delta t}}_{=: a_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau\right] b_c}_{=: b_d}u(t)\\
+&=a_d x(t)+b_d u(t)\\
+\end{align}
+
+
+\paragraph{n次元の場合}
+区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
+
+
+\begin{align}
+\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}_c}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
+&=e^{\Delta t\mathbf{A}_c}e^{t\mathbf{A}_c}\mathbf{x}(0)+e^{\Delta t\mathbf{A}_c}\int_0^{t} e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}_c}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c} d\tau\right] \mathbf{B}_c}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+&=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
+\end{align}
+
+
+
+離散化した場合の
+
+
+\begin{equation}
+\mathbf{x}_{t+1} = \mathbf{A}_c\mathbf{x}_t + \mathbf{B}_c\mathbf{u}_t
+\end{equation}
+
+
+状態遷移方程式 (dynamics equations) とも呼ぶ．
+\subsubsection{離散化方法2: 微分方程式の数値解法}
+\paragraph{Euler法}
+Euler法は$\dfrac{dx}{dt}=f(x, t)$において，$x_{n+1}=x_t+\Delta t f(x_n, t_n)$とする手法である．
+
+
+\begin{align}
+x(t+\Delta t)&=x(t) + \left[a_c x(t)+b_c u(t) \right]\Delta t\\
+&=(1+a_c \Delta t)x(t) + b_c\Delta t u(t)
+\end{align}
+
+
+ここで，解析解を用いる方法とEuler法の離散化係数の比較をしよう．
+
+$\Delta t=0$でTaylor展開により1次近似すると
+
+
+e^{a \Delta t} \approx 1 + a\Delta t
+
+
+
+$a_c\neq 0$の場合，
+
+
+\begin{align}
+\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau&=\frac{1}{a_c}(e^{a_c \Delta t}-1)\\
+&\approx \frac{1}{a_c}\cdot a_c \Delta t=\Delta t
+\end{align}
+
+
+\paragraph{Runge-Kutta法}
+
+\paragraph{その他のsolver}
+adaptiveな方法など．Juliaであれば\jl{DifferentialEquations.jl}などで実装されているsolverを用いる方が効率的である．
+
+本書では主にEuler法を用いて実装を行う．Euler法は精度が低い手法であるという欠点があるものの，実装が簡便で可読性が高いことや，本書で扱うモデルに関してはEuler法でも定性的に同様の結果が再現できることなどが採用する理由である．
+ToDo: phase space, fixed points
 \lstinputlisting[language=julia]{./text/introduction/differential-equation/006.jl}
