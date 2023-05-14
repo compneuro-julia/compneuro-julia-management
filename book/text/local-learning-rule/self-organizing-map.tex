@@ -45,7 +45,7 @@ ToDo: dimsをv, wで修正
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/006.jl}
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/007.jl}
 近傍関数 (neighborhood function)のための二次元ガウス関数を実装する．Winnerニューロンからの距離に応じて値が減弱する関数である．ここでは一つの入力に対して全てのニューロンの活動ベクトルを更新するということはせず，winner neuronの近傍のニューロンのみ更新を行う．つまり，更新においてはglobalではなくlocalな処理のみを行うということである  (Winner neuronの決定にはWTAによるglobalな評価が必要ではあるが) ．
-自己組織化マップのメインとなる関数を書く．ナイーブに実装する．この方法だと空間が球体やトーラスのように周期性を持つ場合にも適応できる．
+自己組織化マップのメインとなる関数を書く．ナイーブに実装する．この方法だと空間が円，球体やトーラスのように周期性を持つ場合にも適応できる．
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/010.jl}
 今回のように2次元のみを扱う場合はwinner neuronの周辺だけをsliceで抜き出して重み更新する方が高速である．
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/012.jl}

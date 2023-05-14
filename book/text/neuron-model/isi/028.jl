@@ -1,4 +1,4 @@
-function GammaISIplot(dt, fr, k, n=1000)
+function gamma_isi_plot(dt, fr, k, n=1000)
     theta = 1/(k*(fr*dt*1e-3)) # fr = 1/(k*theta)
     isi = rand(Gamma(k, theta), n)
     gamma_pdf = pdf.(Gamma(k, theta), minimum(isi):maximum(isi))

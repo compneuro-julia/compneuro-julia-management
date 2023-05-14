@@ -1,4 +1,4 @@
-function SOM(v, init_w; α0=1.0, σ0=6, T=500, dist_mat=nothing, return_history=true)
+function som(v, init_w; α0=1.0, σ0=6, T=500, dist_mat=nothing, return_history=true)
     # α0: update rate, σ0 : width, T : training steps
     w = copy(init_w)
     num_w = size(init_w)[1]

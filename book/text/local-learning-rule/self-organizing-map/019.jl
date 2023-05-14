@@ -1,4 +1,4 @@
-function Umatrix2d(w)
+function u_matrix2d(w)
     num_w = size(w)[1]
     num_w_sqrt = Int(sqrt(num_w))
     pos = hcat([[i, j] for i in 1:num_w_sqrt for j in 1:num_w_sqrt]...)

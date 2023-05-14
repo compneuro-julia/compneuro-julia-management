@@ -1,4 +1,4 @@
-function GammaSpike(T, dt, n_neurons, fr, k)
+function gamma_spike(T, dt, n_neurons, fr, k)
     nt = Int32(T/dt) # number of timesteps
     theta = 1/(k*(fr*dt*1e-3)) # fr = 1/(k*theta)
 

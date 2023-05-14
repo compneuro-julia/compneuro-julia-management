@@ -120,7 +120,7 @@ f(t;k,\theta) =  t^{k-1}\frac{e^{-t/\theta}}{\theta^k\Gamma(k)}
 ガンマ過程モデルの実装はポアソン過程モデルのISIを累積する手法と同様に書くことができる．ただしこの時，Distributions.jl \url{https://github.com/JuliaStats/Distributions.jl} を用いる．基本的には\jl{randexp(shape)}を\jl{rand(Gamma(a,b), shape)}に置き換えればよい (もちろん多少の修正は必要とする)．
 スパイク列を生成する関数を書く．
 \lstinputlisting[language=julia]{./text/neuron-model/isi/024.jl}
-\jl{GammaSpike} 関数を用いて $k=1, 12$ の場合のシミュレーションを実行する．なお，$k=1$のときはポアソン過程に一致することに注意しよう．
+\jl{gamma_spike} 関数を用いて $k=1, 12$ の場合のシミュレーションを実行する．なお，$k=1$のときはポアソン過程に一致することに注意しよう．
 \lstinputlisting[language=julia]{./text/neuron-model/isi/026.jl}
 ISIの分布を描画するための関数を定義する．
 \lstinputlisting[language=julia]{./text/neuron-model/isi/028.jl}

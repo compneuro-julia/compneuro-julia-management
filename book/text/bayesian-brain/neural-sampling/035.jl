@@ -1,4 +1,4 @@
-function NeuralLMC(∇log_p::Function, u_init::Vector{Float64}, α::Float64, ρ::Float64, dt::Float64, nt::Int)
+function neural_lmc(∇log_p::Function, u_init::Vector{Float64}, α::Float64, ρ::Float64, dt::Float64, nt::Int)
     d = length(u_init)
     u = zeros(nt, d)
     u[1, :] = u_init
@@ -10,7 +10,7 @@ function NeuralLMC(∇log_p::Function, u_init::Vector{Float64}, α::Float64, ρ:
     return u
 end
 
-function NeuralHMC(∇log_p::Function, u_init::Vector{Float64}, M::Matrix{Float64}, 
+function neural_hmc(∇log_p::Function, u_init::Vector{Float64}, M::Matrix{Float64}, 
         α_in::Vector{Float64}, α_ext::Vector{Float64}, ρ::Float64, dt::Float64, nt::Int)
     d = length(u_init)
     u, v = zeros(nt, d), zeros(nt, d)

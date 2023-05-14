@@ -1,13 +1,13 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.9)  13 MAY 2023 16:40
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  14 MAY 2023 13:02
  restricted system commands enabled.
  file:line:error style messages enabled.
-**d:/github/compneuro-julia-management/book/main
-(d:/github/compneuro-julia-management/book/main.tex
+**d:/data/Github/compneuro-julia-management/book/main
+(d:/data/Github/compneuro-julia-management/book/main.tex
 LaTeX2e <2022-11-01> patch level 1
 Lua module: luaotfload 2022-10-03 3.23 Lua based OpenType font support
 Lua module: lualibs 2022-10-04 2.75 ConTeXt Lua standard libraries.
 Lua module: lualibs-extended 2022-10-04 2.75 ConTeXt Lua libraries -- extended collection.
-luaotfload | conf : Root cache directory is "C:/Users/yamta/.texlive2023/texmf-var/luatex-cache/generic/names".
+luaotfload | conf : Root cache directory is "C:/texlive/2023/texmf-var/luatex-cache/generic/names".
 luaotfload | init : Loading fontloader "fontloader-2022-10-03.lua" from kpse-resolved path "c:/texlive/2023/texmf-dist/tex/luatex/luaotfload/fontloader-2022-10-03.lua".
 Lua-only attribute luaotfload@noligature = 1
 luaotfload | init : Context OpenType loader version 3.120
@@ -16,7 +16,7 @@ Inserting `luaotfload.node_processor' in `hpack_filter'.
 Inserting `luaotfload.glyph_stream' in `glyph_stream_provider'.
 Inserting `luaotfload.define_font' in `define_font'.
 Lua-only attribute luaotfload_color_attribute = 2
-luaotfload | conf : Root cache directory is "C:/Users/yamta/.texlive2023/texmf-var/luatex-cache/generic/names".
+luaotfload | conf : Root cache directory is "C:/texlive/2023/texmf-var/luatex-cache/generic/names".
 Inserting `luaotfload.harf.strip_prefix' in `find_opentype_file'.
 Inserting `luaotfload.harf.strip_prefix' in `find_truetype_file'.
 Removing  `luaotfload.glyph_stream' from `glyph_stream_provider'.
@@ -33,11 +33,11 @@ Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.fixup_fontdata' in `luaotfload.patch_font_unsafe'.
 Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
-Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'. L3 programming layer <2023-05-05>
+Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'. L3 programming layer <2023-04-20>
 Inserting `tracingstacklevels' in `input_level_string'. (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/ltjsbook.cls
 Document Class: ltjsbook 2022/09/12 ltjsclasses 
 (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/luatexja.sty
-Package: luatexja 2023-05-03 Japanese Typesetting with Lua(La)TeX
+Package: luatexja 2023-02-11 Japanese Typesetting with Lua(La)TeX
  (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
 Package: luatexja-core 2023-04-06 Core of LuaTeX-ja
  (c:/texlive/2023/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
@@ -118,7 +118,7 @@ Custom whatsit stack_marker = 2
 Custom whatsit begin_par = 3
 Custom whatsit direction = 4
 Custom whatsit box_boundary = 5
-Custom whatsit ja_al_boundary = 6(load cache: ltj-cid-auto-adobe-japan1.luc)
+Custom whatsit ja_al_boundary = 6(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/ltj-cid-auto-adobe-japan1.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/ltj-cid-auto-adobe-japan1.luc)
 Lua module: luatexja.charrange 2022-08-19 Handling the range of Japanese characters
 Lua module: luatexja.stack 2022-08-20 LuaTeX-ja stack system
 Inserting `ltj.create_dir_whatsit' in `hpack_filter'.
@@ -234,10 +234,10 @@ Package: ltj-base 2021-03-16
 \ltj@@lua@unboxcheckdir@inner=\luafunction52
 \ltj@@lua@uncopycheckdir@inner=\luafunction53
 \ltj@@lua@uncopy@restore@whatsit@inner=\luafunction54
-(load cache: ltj-kinsoku_default.luc) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+ (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/ltj-kinsoku.tex(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/ltj-kinsoku_default.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/ltj-kinsoku_default.luc)) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
 Package: ltj-latex 2022-10-15 LaTeX support of LuaTeX-ja
 Inserting `ltj.direction' in `pre_shipout_filter'. (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
-Package: lltjfont 2023-04-13 Patch to NFSS2 for LuaTeX-ja
+Package: lltjfont 2023-04-06 Patch to NFSS2 for LuaTeX-ja
 \ltj@@latex@plv=\count192
  (c:/texlive/2023/texmf-dist/tex/latex/base/tuenc.def
 File: tuenc.def 2021/04/29 v2.0v Standard LaTeX file
@@ -280,14 +280,15 @@ LaTeX Info: Redefining \fontshapeforce on input line 955.
 \ltj@@cipath@clear@inner=\luafunction68
 ) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
 Package: lltjdefs 2022-01-23 Default font settings of LuaTeX-ja
-luaotfload | db : Font names database loaded from C:/Users/yamta/.texlive2023/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz(load cache: extra_lmroman10-regular.luc)
+luaotfload | db : Font names database not found, generating new one.
+luaotfload | db : This can take several minutes; please be patient.(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman10-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman10-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 79.
 
 (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 79.
-(load cache: extra_haranoajimincho-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_haranoajimincho-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_haranoajimincho-regular.luc)
 (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua)
 \symmincho=\mathgroup4
 LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
@@ -295,7 +296,7 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 ) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
 Package: lltjcore 2023-02-26 Patch to LaTeX2e Kernel for LuaTeX-ja
  (c:/texlive/2023/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2023-05-05 L3 programming layer (loader) 
+Package: expl3 2023-04-20 L3 programming layer (loader) 
  (c:/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2023-04-19 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count193
@@ -315,7 +316,7 @@ Inserting `l3color' in `luaotfload.parse_color'.
 \@Br=\box65
 \@CL=\box66
 \@CR=\box67
-(load cache: extra_lmmono9-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmmono9-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmmono9-regular.luc)
 \@bannertoken=\toks25
 \@@paperheight=\dimen155
 \@@paperwidth=\dimen156
@@ -332,7 +333,7 @@ Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
 \ltj@temp@cctb=\catcodetable14
 ) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty
 Package: luatexja-compat 2020-08-08 Compatibility with pTeX
-(load cache: ltj-jisx0208.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/ltj-jisx0208.luc)
 \hour=\count194
 \minute=\count195
 ))
@@ -342,7 +343,7 @@ Package: luatexja-compat 2020-08-08 Compatibility with pTeX
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 424.
 \fullwidth=\dimen160
-(load cache: extra_lmroman8-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman8-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman8-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 7.3977pt on input line 573.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
@@ -656,7 +657,7 @@ Package: fontspec-luatex 2022/01/15 v2.8a Font selection for XeLaTeX and LuaLaTe
 \l__fontspec_tmpc_dim=\dimen199
  (c:/texlive/2023/texmf-dist/tex/latex/base/fontenc.sty
 Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
-) (c:/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec.cfg)(load cache: extra_lmroman10-bold.luc)
+) (c:/texlive/2023/texmf-dist/tex/latex/fontspec/fontspec.cfg)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman10-bold.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman10-bold.luc)
 LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <10> not available
 (Font)              Font shape `JT3/gt/m/n' tried instead on input line 3901.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -665,10 +666,10 @@ LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <10> not available
 (Font)              Font shape `JY3/gt/m/n' tried instead on input line 3901.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 3901.
-(load cache: extra_haranoajigothic-medium.luc))) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-27c.sty
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_haranoajigothic-medium.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_haranoajigothic-medium.luc))) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-27c.sty
 Package: luatexja-fontspec-27c 2020-04-04 fontspec support of LuaTeX-ja
 \g__ltj_fontspec_altnumber_int=\count315
-))(load cache: extra_juliamono-regular.luc)(load cache: extra_juliamono-bold.luc)
+))(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_juliamono-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_juliamono-regular.luc)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_juliamono-bold.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_juliamono-bold.luc)
 
 Package fontspec Info: Font family 'JuliaMono(0)' created for font 'JuliaMono'
 (fontspec)             with options
@@ -1074,7 +1075,7 @@ LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
 (Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/b/n on input line 27.
 \c@lstlisting=\count345
-(load cache: extra_lmroman17-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman17-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman17-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 15.97903pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
@@ -1083,7 +1084,7 @@ LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 23.00687pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 (Font)              scaled to size 23.00687pt on input line 29.
-(load cache: extra_lmroman12-bold.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman12-bold.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman12-bold.luc)
 LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <24.88> not available
 (Font)              Font shape `JT3/gt/m/n' tried instead on input line 29.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -1092,12 +1093,12 @@ LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <24.88> not available
 (Font)              Font shape `JY3/gt/m/n' tried instead on input line 29.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 23.00687pt on input line 29.
-(load cache: extra_lmroman12-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman12-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman12-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 29.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 29.
-(load cache: extra_lmroman6-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman6-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman6-regular.luc)
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 (Font)              scaled to size 5.54828pt on input line 29.
 LaTeX Font Info:    Trying loading font information for U+msa on input line 29.
@@ -1118,16 +1119,16 @@ LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 {c:/texlive/2023/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 31.
-(load cache: extra_lmsans10-regular.luc) [2
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmsans10-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmsans10-regular.luc) [2
 
 ]
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 23.00687pt on input line 31.
-(load cache: extra_lmsans17-regular.luc) (./main.toc(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmsans17-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmsans17-regular.luc) (./main.toc(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman7-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman7-regular.luc)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman5-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman5-regular.luc)
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 11.
+(Font)              scaled to size 6.47299pt on input line 9.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 11.
+(Font)              scaled to size 4.62357pt on input line 9.
 )
 \tf@toc=\write6
 
@@ -1178,7 +1179,7 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
-(load cache: extra_lmsans12-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmsans12-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmsans12-regular.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 2.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
@@ -1187,7 +1188,7 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 
 LaTeX Warning: Citation `Qian2013-zy' on page 19 undefined on input line 3.
 
-(load cache: extra_lmromandemi10-regular.luc)
+(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmromandemi10-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmromandemi10-regular.luc)
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 6.47299pt on input line 10.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
@@ -1212,13 +1213,13 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-learning/infinite-horizon-ofc/004.jl(load cache: extra_lmroman9-regular.luc)
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-learning/infinite-horizon-ofc/004.jl(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman9-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmroman9-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 8.32242pt on input line 2.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 (Font)              scaled to size 8.32242pt on input line 2.
  [19])
-Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_lmromanslant10-regular.luc)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmromanslant10-regular.lua.gz)(save cache: C:/Users/yamta/.texlive2023/texmf-var/luatexja/extra_lmromanslant10-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/sl' in size <10> not available
 (Font)              Font shape `JT3/mc/m/n' tried instead on input line 66.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
@@ -1284,7 +1285,7 @@ Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-learning/infinite-horizon-ofc/017.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/motor-learning/infinite-horizon-ofc/output_017.tex
-<./fig/motor-learning/infinite-horizon-ofc/cell017.png, id=337, 992.70876pt x 291.0875pt>
+<./fig/motor-learning/infinite-horizon-ofc/cell017.png, id=329, 992.70876pt x 291.0875pt>
 File: ./fig/motor-learning/infinite-horizon-ofc/cell017.png Graphic file (type png)
 <use ./fig/motor-learning/infinite-horizon-ofc/cell017.png>
 Package luatex.def Info: ./fig/motor-learning/infinite-horizon-ofc/cell017.png  used on input line 3.
@@ -1331,7 +1332,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
 [26] (./text/motor-learning/infinite-horizon-ofc/output_023.tex
-<./fig/motor-learning/infinite-horizon-ofc/cell023.png, id=453, 992.70876pt x 291.0875pt>
+<./fig/motor-learning/infinite-horizon-ofc/cell023.png, id=444, 992.70876pt x 291.0875pt>
 File: ./fig/motor-learning/infinite-horizon-ofc/cell023.png Graphic file (type png)
 <use ./fig/motor-learning/infinite-horizon-ofc/cell023.png>
 Package luatex.def Info: ./fig/motor-learning/infinite-horizon-ofc/cell023.png  used on input line 3.
@@ -1355,42 +1356,29 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 LaTeX Warning: There were undefined references.
 
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
 Package rerunfilecheck Warning: File `main.out' has changed.
 (rerunfilecheck)                Rerun to get outlines right
 (rerunfilecheck)                or use package `bookmark'.
 
 Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 184C8A2DB9C4F7341FF177EC49946A05;2020
+(rerunfilecheck)             Before: 06F0B22CE77875AD10021A6CADFF4FAB;1641
 (rerunfilecheck)             After:  D93DBB800B2EFF4E0284A0DEC5EC0EF5;1627.
 )
 
 Here is how much of LuaTeX's memory you used:
- 28739 strings out of 478309
- 597257,1977958 words of node,token memory allocated
+ 28731 strings out of 478263
+ 597259,1977958 words of node,token memory allocated
  1247 words of node memory still in use:
    11 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 271 attribute, 60 glue_spec, 37 attribute_list, 2 write, 14 user_defined nodes
-   avail lists: 1:47,2:115315,3:421,4:14838,5:2729,6:117,7:8908,8:43,9:14254,10:19,11:379
- 47242 multiletter control sequences out of 65536+600000
+   avail lists: 1:45,2:115315,3:421,4:14838,5:2729,6:117,7:8908,8:43,9:14254,10:19,11:379
+ 47280 multiletter control sequences out of 65536+600000
  99 fonts using 89321335 bytes
- 118i,15n,112p,1792b,1215s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-warning  (pdf backend): unreferenced destination with name 'subsection.10.1.4'
-
-warning  (pdf backend): unreferenced destination with name 'subsection.10.1.3'
-
-warning  (pdf backend): unreferenced destination with name 'subsection.10.1.2'
-
-warning  (pdf backend): unreferenced destination with name 'subsection.10.1.1'
-
-warning  (pdf backend): unreferenced destination with name 'section.10.1'
+ 118i,15n,112p,1797b,1215s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromanslant10-regular.otf><./font/JuliaMono-Regular.ttf><./font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
-Output written on main.pdf (31 pages, 388061 bytes).
+Output written on main.pdf (31 pages, 383939 bytes).
 
-PDF statistics: 600 PDF objects out of 1000 (max. 8388607)
- 508 compressed objects within 6 object streams
- 286 named destinations out of 1000 (max. 131072)
- 136 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 590 PDF objects out of 1000 (max. 8388607)
+ 499 compressed objects within 5 object streams
+ 281 named destinations out of 1000 (max. 131072)
+ 128 words of extra memory for PDF output out of 10000 (max. 100000000)
 
