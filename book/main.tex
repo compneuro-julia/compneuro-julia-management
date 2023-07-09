@@ -14,6 +14,7 @@
 \usepackage[luatex]{graphicx} 
 \usepackage[svgnames]{xcolor}
 \usepackage{sty/julia-syntax-highlighting} % 
+\usepackage{sty/indexing} % 
 \usepackage[export]{sty/adjustbox} % added
 
 \usepackage{fancyhdr}
@@ -25,11 +26,15 @@
 \author{\huge 山本 拓都}
 \date{\huge \today} 
 \begin{document}
+\mainmatter
 \maketitle
 
 \setcounter{tocdepth}{2}
 \tableofcontents
 \clearpage
+
+ぼくのかんがえたさいきょうの\index{ぼくのかんがえたさいきょうの@ぼくのかんがえたさいきょうの}\index{さくいんすたいるふぁいる@索引スタイルファイル}\index{.ist}\index{index style}索引スタイルファイルです。
+
 
 \chapter{はじめに}
 % \input{./text/introduction/computational-neuroscience.tex} % ok
@@ -101,5 +106,6 @@
 % \input{./text/bayesian-brain/neural-sampling.tex} % ok2
 % \input{./text/bayesian-brain/probabilistic-population-coding.tex}
 % \input{./text/bayesian-brain/quantile-expectile-regression.tex}
-
+\backmatter
+\printindex
 \end{document}

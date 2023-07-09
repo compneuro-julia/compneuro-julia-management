@@ -1,0 +1,9 @@
+heading_flag     1
+heading_prefix   "\n\\makeidxhead{"
+heading_suffix   "}"
+letter_head      2
+symhead_positive "\\symbolindexname"
+delim_0          "\\idxdelim "
+delim_1          "\\idxdelim "
+delim_2          "\\idxdelim "
+group_skip       "\n\n"

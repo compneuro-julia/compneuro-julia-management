@@ -1,0 +1,19 @@
+\begin{theindex}
+
+\makeidxhead{\symbolindexname}
+  \item .ist\idxdelim \hyperpage{4}
+
+
+\makeidxhead{I}
+  \item index style\idxdelim \hyperpage{4}
+
+
+\makeidxhead{さ}
+  \item 索引スタイルファイル\idxdelim \hyperpage{4}
+
+
+\makeidxhead{は}
+  \item ぼくのかんがえたさいきょうの\idxdelim 
+		\hyperpage{4}
+
+\end{theindex}
