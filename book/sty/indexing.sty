@@ -1,10 +1,10 @@
 % https://qiita.com/munepi/items/2e1524859e24b5fb44bc
-% https://www.physicsread.com/latex-square-symbol/
 %%索引 theindex 環境
 \usepackage{needspace}
-\usepackage{makeidx}\makeindex
+\usepackage{makeidx}
+\makeindex
+
 \usepackage{multicol}
-\usepackage{stix}
 \makeatletter
 \renewenvironment{theindex}{%
    \columnsep2\zw
@@ -38,7 +38,7 @@
   \vspace{\baselineskip}%
   \hbox to \columnwidth{\hfil
     \normalsize\sffamily\bfseries
-    ${\color{gray}\smblksquare}$\hspace{.5\zw}#1\hspace{.5\zw}${\color{gray}\smblksquare}$\hfil}\par
+    \blacksquare\hspace{.5\zw}#1\hspace{.5\zw}\blacksquare\hfil}\par
   \nopagebreak
 }
 \makeatother

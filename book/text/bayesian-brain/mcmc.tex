@@ -1,5 +1,5 @@
 \section{マルコフ連鎖モンテカルロ法 (MCMC)}
-前節では解析的に事後分布の計算をした．事後分布を近似的に推論する方法の1つに\textbf{\index{まるこふれんさもんてかるろほう (Markov chain Monte Carlo methods; MCMC)@マルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC)}} がある．他の近似推論の手法としてはLaplace近似や変分推論 (variational inference) などがある．MCMCは他の手法に比して，事後分布の推論だけでなく，確率分布を神経活動で表現する方法を提供するという利点がある．
+前節では解析的に事後分布の計算をした．事後分布を近似的に推論する方法の1つに\textbf{マルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC)}\index{まるこふれんさもんてかるろほう (Markov chain Monte Carlo methods; MCMC)@マルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC)} がある．他の近似推論の手法としてはLaplace近似や変分推論 (variational inference) などがある．MCMCは他の手法に比して，事後分布の推論だけでなく，確率分布を神経活動で表現する方法を提供するという利点がある．
 
 \footnote{
 変分推論は入れた方がいいと思うが，紙幅の都合上いれられるか微妙である．
@@ -47,7 +47,7 @@ Euler–Maruyama法により，
 \subsection{ハミルトニアン・モンテカルロ法 (HMC法)}
 ハミルトニアン・モンテカルロ法(Hamiltonian Monte Calro)あるいはハイブリッド・モンテカルロ法(Hybrid Monte Calro)という
 
-一般化座標を$\mathbf{q}$, 一般化運動量を$\mathbf{p}$とする．ポテンシャルエネルギーを$U(\mathbf{q})$としたとき，古典力学 (解析力学) において保存力のみが作用する場合の\textbf{\index{はみるとにあん (Hamiltonian)@ハミルトニアン (Hamiltonian)}} $\mathcal{H}(\mathbf{q}, \mathbf{p})$は
+一般化座標を$\mathbf{q}$, 一般化運動量を$\mathbf{p}$とする．ポテンシャルエネルギーを$U(\mathbf{q})$としたとき，古典力学 (解析力学) において保存力のみが作用する場合の\textbf{ハミルトニアン (Hamiltonian)}\index{はみるとにあん (Hamiltonian)@ハミルトニアン (Hamiltonian)} $\mathcal{H}(\mathbf{q}, \mathbf{p})$は
 
 
 \begin{equation}
@@ -63,7 +63,7 @@ Euler–Maruyama法により，
 \end{equation}
 
 
-これを\textbf{\index{はみるとんのうんどうほうていしき(hamilton's equations of motion)@ハミルトンの運動方程式(hamilton's equations of motion)}} あるいは\textbf{\index{せいじゅんほうていしき (canonical equations)@正準方程式 (canonical equations)}} という．
+これを\textbf{ハミルトンの運動方程式(hamilton's equations of motion)}\index{はみるとんのうんどうほうていしき(hamilton's equations of motion)@ハミルトンの運動方程式(hamilton's equations of motion)} あるいは\textbf{正準方程式 (canonical equations)}\index{せいじゅんほうていしき (canonical equations)@正準方程式 (canonical equations)} という．
 
 
 この処理をMetropolis-Hastings法における採用・不採用アルゴリズムという．

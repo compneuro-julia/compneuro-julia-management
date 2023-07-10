@@ -1,7 +1,7 @@
 \section{神経突起の成長モデル}
-神経細胞は他の細胞に比して特異な形態を持つ．またニューロンの種類およびその役割により基本的な細胞体，樹状突起，軸索等の構造は共通するものの，各部分の形態は異なる．このような形態はどのようにして発達するのだろうか．本節では\textbf{\index{しんけいとっき(neurite)@神経突起(neurite)}} の\textbf{\index{せいちょうもでる(growth model)@成長モデル(growth model)}} を取り扱う．神経突起とは神経細胞において細胞体から伸びる突起の総称である．
+神経細胞は他の細胞に比して特異な形態を持つ．またニューロンの種類およびその役割により基本的な細胞体，樹状突起，軸索等の構造は共通するものの，各部分の形態は異なる．このような形態はどのようにして発達するのだろうか．本節では\textbf{神経突起(neurite)}\index{しんけいとっき(neurite)@神経突起(neurite)} の\textbf{成長モデル(growth model)}\index{せいちょうもでる(growth model)@成長モデル(growth model)} を取り扱う．神経突起とは神経細胞において細胞体から伸びる突起の総称である．
 \subsection{神経突起の木構造}
-神経突起の形態は\textbf{\index{じゅじょう@樹状}}突起 (dendrites; ギリシャ語で木を意味する*déndron*に由来) に代表されるように (生物としての) 木に類似している．さらに分節(segment)に離散化することでグラフ理論における\textbf{\index{き@木}}(tree; 連結で閉路を持たないグラフ)として捉えることができる．
+神経突起の形態は\textbf{樹状}\index{じゅじょう@樹状}突起 (dendrites; ギリシャ語で木を意味する*déndron*に由来) に代表されるように (生物としての) 木に類似している．さらに分節(segment)に離散化することでグラフ理論における\textbf{木}\index{き@木}(tree; 連結で閉路を持たないグラフ)として捉えることができる．
 
 シミュレーション用にデータ構造を作成しよう．なお，Juliaで木構造を扱うためのライブラリ\jl{AbstractTrees.jl}は使用しない．\jl{tree_info}はInt型vector (要素数3) のlistであり，接続している分節の番号，遠心性位数，分節の種類(1: 末端, 0:中間)を表す．\jl{seg_vec}は Float型vector (要素数2) のlistであり，分節の2次元極座標ベクトル(半径，角度)を表す．3次元に拡張することも可能であるが，本書では簡単のために2次元とする．多次元配列ではなくvectorのlistにしているのは，成長に伴って要素を追加していく際に配列に結合\jl{cat}するよりlist化して追加\jl{push!}する方が高速なためである．
 \lstinputlisting[language=julia]{./text/neuron-model/neurite-growth-model/002.jl}
@@ -16,7 +16,7 @@
 \subsection{Van Peltモデル}
 Van PeltモデルはVan Peltらによって構築された，神経突起の成長についての現象論的モデルである \cite{Van_Pelt2002-vm}．以下では\cite{Koene2009-hv}に基づいて記述する．なお，このモデルでは軸索誘導分子 (axon guidance molecules) 等の存在は無視している．
 
-神経突起の成長の過程には分岐(branching)，伸長(elongation)，転向(turn)が含まれる．簡略化のため，空間を2次元にし，分節の太さおよび成長円錐が向きを変える時のsegment history tension model (後述) を省略する．またVan Peltモデルを元にした神経回路構築ソフトウェア\textbf{\index{NETMORPH}} \cite{Koene2009-hv}ではシナプス結合の形成も含めたシミュレーションを行っている．
+神経突起の成長の過程には分岐(branching)，伸長(elongation)，転向(turn)が含まれる．簡略化のため，空間を2次元にし，分節の太さおよび成長円錐が向きを変える時のsegment history tension model (後述) を省略する．またVan Peltモデルを元にした神経回路構築ソフトウェア\textbf{NETMORPH}\index{NETMORPH} \cite{Koene2009-hv}ではシナプス結合の形成も含めたシミュレーションを行っている．
 
 \subsubsection{分岐 (branching)}
 時刻$[t_i, t_i + \Delta t]$において，$j$番目の末端分節(terminal segment)が分岐する確率は

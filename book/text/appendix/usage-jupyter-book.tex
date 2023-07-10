@@ -2,7 +2,7 @@
 このサイトの構築方法について (2020/09/02)。
 
 \subsection{Julia言語のサイトを構築する方法}
-Julia言語でサイトを構築するには[\textbf{\index{Documenter.jl}}](https://github.com/JuliaDocs/Documenter.jl)や[\textbf{\index{Franklin.jl}}](https://github.com/tlienart/Franklin.jl), [\textbf{\index{Weave.jl}}](https://github.com/JunoLab/Weave.jl)などのパッケージを用いるのが一般的である。これらはMarkdown (.mdや.jmd)などのファイルをHTMLに変換できるが、Jupyter notebookからHTMLに変換するのはやや手間である (と自分は思っているが、今後改善される可能性は十分にある)。詳細は次項で説明するが、このサイトを構築している[\textbf{\index{Jupyter book}}](https://jupyterbook.org/intro.html)はJuliaで完結してはいないものの、より簡単にJupyter notebookをHTMLに変換できる。また、LaTeX形式やpdf形式に変換することもできる (これはWeave.jlでも同じことができるということは述べておく)。
+Julia言語でサイトを構築するには[\textbf{Documenter.jl}\index{Documenter.jl}](https://github.com/JuliaDocs/Documenter.jl)や[\textbf{Franklin.jl}\index{Franklin.jl}](https://github.com/tlienart/Franklin.jl), [\textbf{Weave.jl}\index{Weave.jl}](https://github.com/JunoLab/Weave.jl)などのパッケージを用いるのが一般的である。これらはMarkdown (.mdや.jmd)などのファイルをHTMLに変換できるが、Jupyter notebookからHTMLに変換するのはやや手間である (と自分は思っているが、今後改善される可能性は十分にある)。詳細は次項で説明するが、このサイトを構築している[\textbf{Jupyter book}\index{Jupyter book}](https://jupyterbook.org/intro.html)はJuliaで完結してはいないものの、より簡単にJupyter notebookをHTMLに変換できる。また、LaTeX形式やpdf形式に変換することもできる (これはWeave.jlでも同じことができるということは述べておく)。
 
 \begin{itemize}
 \item [Julia の Documenter.jl でホームページを作成する準備． - Qiita](https://qiita.com/SatoshiTerasaki/items/b0ac17088f3b2c374099)
@@ -13,7 +13,7 @@ Julia言語でサイトを構築するには[\textbf{\index{Documenter.jl}}](htt
 \subsection{Jupyter bookの導入}
 [Jupyter book](https://jupyterbook.org/intro.html)は[Sphinx](https://www.sphinx-doc.org/ja/master/)を用いてMarkdownやJupyter notebookからサイトを生成するツールである (以前は[Jekyll](https://jekyllrb.com/)が用いられていた)。Sphinx自体はPythonで書かれた文章作成ツールだが、導入においてPythonコードを編集することは基本的にない。
 
-また、重要な点として、\textbf{\index{Jupyter notebookのかーねるはPythonでなくてもよい@Jupyter notebookのカーネルはPythonでなくてもよい}}ということが挙げられる (Python, R, Julia, Ruby, Go, Scala, Perlなどなど)。カーネルとして用いることのできる言語の一覧は[Jupyter kernels · jupyter/jupyter Wiki](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels)を参照。Python以外の言語を用いている例としては[Other Programming Languages](https://myst-nb.readthedocs.io/en/latest/examples/coconut-lang.html)がある。ここではCoconutというPython製の関数型言語が用いられている。
+また、重要な点として、\textbf{Jupyter notebookのカーネルはPythonでなくてもよい}\index{Jupyter notebookのかーねるはPythonでなくてもよい@Jupyter notebookのカーネルはPythonでなくてもよい}ということが挙げられる (Python, R, Julia, Ruby, Go, Scala, Perlなどなど)。カーネルとして用いることのできる言語の一覧は[Jupyter kernels · jupyter/jupyter Wiki](https://github.com/jupyter/jupyter/wiki/Jupyter-kernels)を参照。Python以外の言語を用いている例としては[Other Programming Languages](https://myst-nb.readthedocs.io/en/latest/examples/coconut-lang.html)がある。ここではCoconutというPython製の関数型言語が用いられている。
 
 なお、同じサイト内で異なる言語のカーネルを持つJupyter notebookを元としたページも作成できる (例えばあるページはPython, 次のページはJuliaといったように)。同じページ内で複数の言語を用いるのはまだできないようだが。
 
@@ -107,7 +107,7 @@ jb build mybookname
 \end{itemize}
 
 \subsection{MyST Markdown形式について}
-Jupyter bookは通常のMarkdown記法に加え、\textbf{\index{MyST}} (Markedly Structured Text)と呼ばれる形式のMarkdown記法に対応している。例えば
+Jupyter bookは通常のMarkdown記法に加え、\textbf{MyST}\index{MyST} (Markedly Structured Text)と呼ばれる形式のMarkdown記法に対応している。例えば
 
 }`
 \footnote{

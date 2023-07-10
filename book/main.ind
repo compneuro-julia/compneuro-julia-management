@@ -1,22 +1,8 @@
 \begin{theindex}
 
-\makeidxhead{\symbolindexname}
-  \item .ist\idxdelim \hyperpage{4}
-
-
 \makeidxhead{I}
-  \item index style\idxdelim \hyperpage{4}
   \item infinite-horizon optimal feedback control model\idxdelim 
 		\hyperpage{19}
-
-
-\makeidxhead{さ}
-  \item 索引スタイルファイル\idxdelim \hyperpage{4}
-
-
-\makeidxhead{は}
-  \item ぼくのかんがえたさいきょうの\idxdelim 
-		\hyperpage{4}
 
 
 \makeidxhead{ま}

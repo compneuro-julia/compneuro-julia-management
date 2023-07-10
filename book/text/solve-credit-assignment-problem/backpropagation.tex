@@ -1,16 +1,16 @@
 \section{勾配法と誤差逆伝播法}
-\textbf{\index{ごさぎゃくでんぱほう(back-propagation)@誤差逆伝播法(back-propagation)}}
+\textbf{誤差逆伝播法(back-propagation)}\index{ごさぎゃくでんぱほう(back-propagation)@誤差逆伝播法(back-propagation)}
 \subsection{ニューラルネットワークモデル}
 この節では入力層，隠れ層，出力層からなる3層ニューラルネットワークを実装する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/backpropagation/001.jl}
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/backpropagation/002.jl}
-mutable struct \jl{NN}を用意し，\textbf{\index{おもみのしょきか(weight initialization)@重みの初期化(weight initialization)}} を行う同名の関数\jl{NN}を用意する．重みの初期化の手法は複数ある(Glorot & Bengio, 2010)が，ここでは重みを$w$として，$w \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)$とする．ただし，$n$は入力ユニット数である．
+mutable struct \jl{NN}を用意し，\textbf{重みの初期化(weight initialization)}\index{おもみのしょきか(weight initialization)@重みの初期化(weight initialization)} を行う同名の関数\jl{NN}を用意する．重みの初期化の手法は複数ある(Glorot & Bengio, 2010)が，ここでは重みを$w$として，$w \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)$とする．ただし，$n$は入力ユニット数である．
 \subsubsection{Optimizerの作成}
 abstract typeとして\jl{Optimizer}タイプを作成する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/backpropagation/005.jl}
-\textbf{\index{かくりつてきこうばいこうかほう(stochastic gradient descent; SGD)@確率的勾配降下法(stochastic gradient descent; SGD)}} を実装する．
+\textbf{確率的勾配降下法(stochastic gradient descent; SGD)}\index{かくりつてきこうばいこうかほう(stochastic gradient descent; SGD)@確率的勾配降下法(stochastic gradient descent; SGD)} を実装する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/backpropagation/007.jl}
-次に\textbf{\index{Adam}} ([Kingma & Ba, 2014](https://arxiv.org/abs/1412.6980)) を実装する．
+次に\textbf{Adam}\index{Adam} ([Kingma & Ba, 2014](https://arxiv.org/abs/1412.6980)) を実装する．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/backpropagation/009.jl}
 \subsubsection{順伝播・逆伝播の実装}
 活性化関数を用意する．今回はsigmoid関数のみ使用する．
