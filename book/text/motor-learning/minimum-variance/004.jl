@@ -37,7 +37,7 @@ function minimum_variance_model(Ac, Bc, x0, xf, tf, tp, dt)
     d = vcat([xf - A^(ntf+t) * x0 for t=0:ntp]...);
     
     # 制御信号を二次計画法で計算 (solution by quadratic programming)
-    u = solveEqualityConstrainedQuadProg(V, zeros(nt), C, d);
+    u = solve_quad_prog(V, zeros(nt), C, d);
     
     # 制御信号を二次計画法で計算 (forward solution)
     x = zeros(dims, nt);

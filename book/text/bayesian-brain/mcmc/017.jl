@@ -1,5 +1,5 @@
 # Hamiltonian Monte Carlo method; log_p: unnormalized log-posterior
-function HMC(log_p::Function, θ_init::Vector{Float64}, ϵ::Float64, L::Int, num_iter::Int)
+function hmc(log_p::Function, θ_init::Vector{Float64}, ϵ::Float64, L::Int, num_iter::Int)
     grad(θ)= ForwardDiff.gradient(log_p, θ)
     d = length(θ_init)
     samples = zeros(d, num_iter)

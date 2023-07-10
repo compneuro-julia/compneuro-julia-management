@@ -1,6 +1,6 @@
 \section{スパース符号化}
 \subsection{Sparse codingと生成モデル}
-\textbf{Sparse codingモデル} \cite{Olshausen1996-xe} \cite{Olshausen1997-qu}はV1のニューロンの応答特性を説明する\textbf{線形生成モデル} (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
+\textbf{\index{Sparse codingもでる@Sparse codingモデル}} \cite{Olshausen1996-xe} \cite{Olshausen1997-qu}はV1のニューロンの応答特性を説明する\textbf{\index{せんけいせいせいもでる@線形生成モデル}} (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
 
 
 \begin{equation}
@@ -30,7 +30,7 @@ p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})=\mathcal{N}\left(\mathbf{x}|\ \mathbf{
 
 と表せる．ただし，$Z_{\sigma}$は規格化定数である．
 \subsubsection{事前分布の設定}
-事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは \textbf{super-Gaussian distribution} (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して式(4), (5)のように表記する．
+事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは \textbf{\index{super-Gaussian distribution}} (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して式(4), (5)のように表記する．
 
 
 \begin{align}
@@ -53,7 +53,7 @@ p(r_j)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right]
 
 
 \begin{equation}
-\hat{p}_{data}(\mathbf{x}):=\frac{1}{N}\sum_{i=1}^N \delta(\mathbf{x}-\mathbf{x}_i)
+\hat{p}_{data}(\mathbf{x})\triangleq\frac{1}{N}\sum_{i=1}^N \delta(\mathbf{x}-\mathbf{x}_i)
 \end{equation}
 
 
@@ -99,7 +99,7 @@ D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})
 
 
 \begin{align}
-E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
+E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})\triangleq&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
 =&\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_j S\left(r_j\right)}_{\text{sparseness of}\ r_j}
 \end{align}
 
@@ -114,7 +114,7 @@ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{
 \end{equation}
 
 
-これは $\mathbf{r}$ について \textbf{MAP推定} (maximum a posteriori estimation)を行うことに等しい．次に$\hat{\mathbf{r}}$を用いて
+これは $\mathbf{r}$ について \textbf{\index{MAPすいてい@MAP推定}} (maximum a posteriori estimation)を行うことに等しい．次に$\hat{\mathbf{r}}$を用いて
 
 
 \begin{equation}
@@ -122,7 +122,7 @@ E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{
 \end{equation}
 
 
-とすることにより，$\mathbf{\Phi}$を最適化する．こちらは $\mathbf{\Phi}$ について \textbf{最尤推定} (maximum likelihood estimation)を行うことに等しい．
+とすることにより，$\mathbf{\Phi}$を最適化する．こちらは $\mathbf{\Phi}$ について \textbf{\index{さいゆうすいてい@最尤推定}} (maximum likelihood estimation)を行うことに等しい．
 \subsection{ Locally competitive algorithm (LCA) }
 $\mathbf{r}$の勾配法による更新則は，$E$の微分により次のように得られる．
 
@@ -132,9 +132,9 @@ $\mathbf{r}$の勾配法による更新則は，$E$の微分により次のよ�
 \end{equation}
 
 
-ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\cite{Olshausen1996-xe}では\textbf{共役勾配法} (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，\textbf{LCA}  (locally competitive algorithm)が提案されている \cite{Rozell2008-wp}．LCAは\textbf{側抑制} (local competition, lateral inhibition)と\textbf{閾値関数} (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは\textbf{Hopfield trick}と呼んでいる．
+ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\cite{Olshausen1996-xe}では\textbf{\index{きょうやくこうばいほう@共役勾配法}} (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，\textbf{\index{LCA}}  (locally competitive algorithm)が提案されている \cite{Rozell2008-wp}．LCAは\textbf{\index{そくよくせい@側抑制}} (local competition, lateral inhibition)と\textbf{\index{いきちかんすう@閾値関数}} (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは\textbf{\index{Hopfield trick}}と呼んでいる．
 \subsubsection{軟判定閾値関数を用いる場合 (ISTA)}
-$S(x)=|x|$とした場合の閾値関数を用いる手法として\textbf{ISTA}(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
+$S(x)=|x|$とした場合の閾値関数を用いる手法として\textbf{\index{ISTA}}(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
 
 解くべき問題は次式で表される．
 
@@ -153,7 +153,7 @@ $S(x)=|x|$とした場合の閾値関数を用いる手法として\textbf{ISTA}
 \item $\mathbf{r}$が収束するまで2と3を繰り返す
 \end{itemize}
 
-ここで$\Theta_\lambda(\cdot)$は\textbf{軟判定閾値関数} (Soft thresholding function)と呼ばれ，次式で表される．
+ここで$\Theta_\lambda(\cdot)$は\textbf{\index{なんはんていいきちかんすう@軟判定閾値関数}} (Soft thresholding function)と呼ばれ，次式で表される．
 
 
 \begin{equation}
@@ -229,7 +229,7 @@ $\mathbf{r}$が収束したら勾配法により$\mathbf{\Phi}$を更新する�
 学習後の重み行列 \jl{Phi} ($\mathbf{\Phi}$)を可視化してみよう．
 \lstinputlisting[language=julia]{./text/energy-based-model/sparse-coding/037.jl}
 \input{./text/energy-based-model/sparse-coding/output_037.tex}
-白色が\textbf{ON領域}(興奮)，黒色が\textbf{OFF領域}(抑制)を表す．Gaborフィルタ様の局所受容野が得られており，これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している．
+白色が\textbf{\index{ONりょういき@ON領域}}(興奮)，黒色が\textbf{\index{OFFりょういき@OFF領域}}(抑制)を表す．Gaborフィルタ様の局所受容野が得られており，これは一次視覚野(V1)における単純型細胞(simple cells)の受容野に類似している．
 \subsubsection{画像の再構成}
 学習したモデルを用いて入力画像が再構成されるか確認しよう．
 \lstinputlisting[language=julia]{./text/energy-based-model/sparse-coding/040.jl}

@@ -13,7 +13,7 @@ Hopfieldモデルと呼ばれることが多いが，Amariの先駆的研究\cit
 \end{equation}
 
 
-ここで$\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}:=-\dfrac{d\mathbf{y}}{dt}$となるような$\mathcal{L}\in \mathbb{R}$を仮定すると，
+ここで$\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}\triangleq-\dfrac{d\mathbf{y}}{dt}$となるような$\mathcal{L}\in \mathbb{R}$を仮定すると，
 
 
 \begin{equation}
@@ -64,7 +64,7 @@ E=-{\frac 12}\sum _{{i,j}}{w_{{ij}}{s_{i}}{s_{j}}}+\sum _{i}{\theta _{i}}{s_{i}}
 \lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/014.jl}
 \input{./text/energy-based-model/hopfield-model/output_014.tex}
 \subsection{稠密連想記憶 (dense associative memory) モデル}
-\textbf{Dense Associative Memory (DAM)} モデル (Modern Hopfield networksとも呼ばれる) ．
+\textbf{\index{Dense Associative Memory (DAM)}} モデル (Modern Hopfield networksとも呼ばれる) ．
 
 \begin{itemize}
 \item Krotov, Dmitry, and John J. Hopfield. 2016. “Dense Associative Memory for Pattern Recognition.” arXiv. arXiv. \url{http://arxiv.org/abs/1606.01164}.

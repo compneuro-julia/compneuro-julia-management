@@ -1,1 +1,1 @@
-@time samples, num_accepted = HMC(ulp, w_init, 1e-2, 10, 500)
+@time samples, num_accepted = hmc(ulp, w_init, 1e-2, 10, 500)

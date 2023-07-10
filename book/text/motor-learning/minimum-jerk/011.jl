@@ -1,1 +1,1 @@
-sol_pos = solveEqualityConstrainedQuadProg(D_jerk' * D_jerk, zeros(nt), Aeq, beq);
+sol_pos = solve_quad_prog(D_jerk' * D_jerk, zeros(nt), Aeq, beq);

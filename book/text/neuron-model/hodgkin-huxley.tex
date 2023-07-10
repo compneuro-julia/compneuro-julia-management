@@ -1,12 +1,12 @@
 \section{Hodgkin-Huxleyモデル}
 \subsection{Hodgkin-Huxleyモデルにおける膜の等価回路モデル}
-\textbf{Hodgkin-Huxleyモデル} (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである \cite{Hodgkin1952-gy}．Hodgkinらはヤリイカの巨大神経軸索に対する\textbf{電位固定法}(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した[^hh]．
+\textbf{\index{Hodgkin-Huxleyもでる@Hodgkin-Huxleyモデル}} (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである \cite{Hodgkin1952-gy}．Hodgkinらはヤリイカの巨大神経軸索に対する\textbf{\index{でんいこていほう@電位固定法}}(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した[^hh]．
 
 [^hh]: HHモデルの構築に関する歴史については([Schwiening, 2012](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC3424716/))を参照．
 
-HHモデルには等価な電気回路モデルがあり, \textbf{膜の並列等価回路モデル} (parallel conductance model)と呼ばれている．膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える．
+HHモデルには等価な電気回路モデルがあり, \textbf{\index{まくのへいれつとうかかいろもでる@膜の並列等価回路モデル}} (parallel conductance model)と呼ばれている．膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える．
 
-\textbf{イオンチャネル} (ion channel)は特定のイオン(例えばナトリウムイオンやカリウムイオンなど)を選択的に通す膜輸送体の一種である．それぞれのイオンの種類において, 異なるイオンチャネルがある (同じイオンでも複数の種類のイオンチャネルがある)．また, イオンチャネルにはイオンの種類に応じて異なる\textbf{コンダクタンス}(抵抗の逆数で電流の「流れやすさ」を意味する)と\textbf{平衡電位}(equilibrium potential)がある．HHモデルでは, ナトリウム(Na$^{+}$)チャネル, カリウム(K$^{+}$)チャネル, 漏れ電流(leak current)のイオンチャネルを仮定する．漏れ電流のイオンチャネルは当時特定できなかったチャネルで, 膜から電流が漏れ出すチャネルを意味する．なお, 現在では漏れ電流の多くはCl$^{-}$イオン(chloride ion)によることが分かっている．
+\textbf{\index{いおんちゃねる@イオンチャネル}} (ion channel)は特定のイオン(例えばナトリウムイオンやカリウムイオンなど)を選択的に通す膜輸送体の一種である．それぞれのイオンの種類において, 異なるイオンチャネルがある (同じイオンでも複数の種類のイオンチャネルがある)．また, イオンチャネルにはイオンの種類に応じて異なる\textbf{\index{こんだくたんす@コンダクタンス}}(抵抗の逆数で電流の「流れやすさ」を意味する)と\textbf{\index{へいこうでんい@平衡電位}}(equilibrium potential)がある．HHモデルでは, ナトリウム(Na$^{+}$)チャネル, カリウム(K$^{+}$)チャネル, 漏れ電流(leak current)のイオンチャネルを仮定する．漏れ電流のイオンチャネルは当時特定できなかったチャネルで, 膜から電流が漏れ出すチャネルを意味する．なお, 現在では漏れ電流の多くはCl$^{-}$イオン(chloride ion)によることが分かっている．
 }{figure} ../_static/images/chapter2/parallel_conductance_model.JPG
 ---
 width: 300px
@@ -91,13 +91,13 @@ E_{\text{Na}}=50.0, E_{\text{K}}=-77, E_{\text{L}}=-54.387
 \lstinputlisting[language=julia]{./text/neuron-model/hodgkin-huxley/019.jl}
 \lstinputlisting[language=julia]{./text/neuron-model/hodgkin-huxley/020.jl}
 \input{./text/neuron-model/hodgkin-huxley/output_020.tex}
-このような曲線を\textbf{frequency-current (F-I) curve} (または neuronal input/output (I/O) curve)と呼ぶ．
+このような曲線を\textbf{\index{frequency-current (F-I) curve}} (または neuronal input/output (I/O) curve)と呼ぶ．
 \subsection{抑制後リバウンド (Postinhibitory rebound; PIR)}
-ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると発火が起こる, というのはニューロンの活動電位発生についての典型的な説明である．それではHHモデルの膜電位閾値はどのくらいの値になるのだろうか．答えは「\textbf{膜電位閾値は一定ではない}」である．それを示す現象として \textbf{抑制後リバウンド} (Postinhibitory rebound; PIR)がある．この時生じる発火を\textbf{リバウンド発火} (rebound spikes) 
+ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると発火が起こる, というのはニューロンの活動電位発生についての典型的な説明である．それではHHモデルの膜電位閾値はどのくらいの値になるのだろうか．答えは「\textbf{\index{まくでんいいきちはいっていではない@膜電位閾値は一定ではない}}」である．それを示す現象として \textbf{\index{よくせいのちりばうんど@抑制後リバウンド}} (Postinhibitory rebound; PIR)がある．この時生じる発火を\textbf{\index{りばうんどはっか@リバウンド発火}} (rebound spikes) 
 と呼ぶ．抑制後リバウンドは過分極性の電流の印加を止めた際に膜電位が静止膜電位に回復するのみならず, さらに脱分極をして発火をするという現象である．この現象が生じる要因として
 
 \begin{enumerate}
-\item \textbf{アノーダルブレイク} (anodal break, またはanode break excitation; ABE)
+\item \textbf{\index{あのーだるぶれいく@アノーダルブレイク}} (anodal break, またはanode break excitation; ABE)
 \end{enumerate}
 2. 遅いT型カルシウム電流 (slow T-type calcium current)
 
@@ -106,7 +106,7 @@ E_{\text{Na}}=50.0, E_{\text{K}}=-77, E_{\text{L}}=-54.387
 結果は次のようになる．
 \lstinputlisting[language=julia]{./text/neuron-model/hodgkin-huxley/025.jl}
 \input{./text/neuron-model/hodgkin-huxley/output_025.tex}
-なぜこのようなことが起こるか, というと過分極の状態から静止膜電位へと戻る際にNa$^+$チャネルが活性化 (Na$^+$チャネルの活性化パラメータ$m$が増加し, 不活性化パラメータ$h$が減少)し, 膜電位が脱分極することで再度Na$^+$チャネルが活性化する, というポジティブフィードバック過程(\textbf{自己再生的過程})に突入するためである (もちろん, この過程は通常の活動電位発生のメカニズムである)． この際, 発火に必要な閾値が膜電位の低下に応じて下がった, ということもできる．
+なぜこのようなことが起こるか, というと過分極の状態から静止膜電位へと戻る際にNa$^+$チャネルが活性化 (Na$^+$チャネルの活性化パラメータ$m$が増加し, 不活性化パラメータ$h$が減少)し, 膜電位が脱分極することで再度Na$^+$チャネルが活性化する, というポジティブフィードバック過程(\textbf{\index{じこさいせいてきかてい@自己再生的過程}})に突入するためである (もちろん, この過程は通常の活動電位発生のメカニズムである)． この際, 発火に必要な閾値が膜電位の低下に応じて下がった, ということもできる．
 
 このように膜電位閾値は一定ではない．しかし, この後の節で紹介するLIFモデルなどでは簡略化のためにif文を用い, 膜電位閾値を超えたから発火, というものもある．実際には違うということを頭の片隅に残しながら読み進めることを推奨する．
 

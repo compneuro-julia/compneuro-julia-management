@@ -48,7 +48,7 @@ L(\theta)=\sum_{i=1}^n \delta_i^2 = \|\mathbf{\delta}\|^2=\mathbf{\delta}^\top \
 \end{equation}
 
 
-これを\textbf{正規方程式} (normal equation)と呼ぶ．この正規方程式より、係数の推定値は$\mathbf{\hat\theta}={(\mathbf{X}^\top\mathbf{X})}^{-1}X^\top\mathbf{y}$という式で得られる．なお，正規方程式自体は$\mathbf{y}=\mathbf{X}\mathbf{\theta}$の左から$\mathbf{X}^\top$をかける，と覚えると良い．
+これを\textbf{\index{せいきほうていしき@正規方程式}} (normal equation)と呼ぶ．この正規方程式より、係数の推定値は$\mathbf{\hat\theta}={(\mathbf{X}^\top\mathbf{X})}^{-1}X^\top\mathbf{y}$という式で得られる．なお，正規方程式自体は$\mathbf{y}=\mathbf{X}\mathbf{\theta}$の左から$\mathbf{X}^\top$をかける，と覚えると良い．
 \lstinputlisting[language=julia]{./text/introduction/linear-regression/009.jl}
 \lstinputlisting[language=julia]{./text/introduction/linear-regression/010.jl}
 \input{./text/introduction/linear-regression/output_010.tex}

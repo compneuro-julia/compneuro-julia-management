@@ -1,5 +1,5 @@
 # Metropolis-Hastings method; log_p: unnormalized log-posterior
-function GaussianMH(log_p::Function, θ_init::Vector{Float64}, σ::Float64, num_iter::Int)
+function gaussian_mh(log_p::Function, θ_init::Vector{Float64}, σ::Float64, num_iter::Int)
     d = length(θ_init)
     samples = zeros(d, num_iter)
     num_accepted = 0

@@ -1,6 +1,6 @@
 \section{無限時間最適フィードバック制御モデル}
 \subsection{モデルの構造}
-無限時間最適フィードバック制御モデル (infinite-horizon optimal feedback control model) \cite{Qian2013-zy}
+\textbf{\index{むげんじかんさいてきふぃーどばっくせいぎょもでる@無限時間最適フィードバック制御モデル}} (\textbf{\index{infinite-horizon optimal feedback control model}}) \cite{Qian2013-zy}
 
 
 \begin{align}
@@ -21,23 +21,23 @@ d \hat{x}&=(\mathbf{A} \hat{x}+\mathbf{B} u) dt+\mathbf{K}(dy-\mathbf{C} \hat{x}
 \lstinputlisting[language=julia]{./text/motor-learning/infinite-horizon-ofc/004.jl}
 
 \begin{align}
-\mathbf{X}:=\left[\begin{array}{l}
+\mathbf{X}\triangleq\begin{bmatrix}
 x \\
 \tilde{x}
-\end{array}\right], d \bar{\omega} :=\left[\begin{array}{c}
+\end{bmatrix}, d \bar{\omega} \triangleq\begin{bmatrix}
 d \omega \\
 d \xi
-\end{array}\right], \bar{\mathbf{A}} :=\left[\begin{array}{cc}
+\end{bmatrix}, \bar{\mathbf{A}} \triangleq\begin{bmatrix}
 \mathbf{A}-\mathbf{B} \mathbf{L} & \mathbf{B} \mathbf{L} \\
 \mathbf{0} & \mathbf{A}-\mathbf{K} \mathbf{C}
-\end{array}\right] \\
-\bar{\mathbf{Y}} :=\left[\begin{array}{cc}
+\end{bmatrix}\\
+\bar{\mathbf{Y}} \triangleq\begin{bmatrix}
 -\mathbf{Y} \mathbf{L} & \mathbf{Y} \mathbf{L} \\
 -\mathbf{Y} \mathbf{L} & \mathbf{Y} \mathbf{L}
-\end{array}\right], \bar{G} :=\left[\begin{array}{cc}
+\end{bmatrix}, \bar{G} \triangleq\begin{bmatrix}
 \mathbf{G} & \mathbf{0} \\
 \mathbf{G} & -\mathbf{K} \mathbf{D}
-\end{array}\right]
+\end{bmatrix}
 \end{align}
 
 
@@ -45,14 +45,14 @@ d \xi
 
 
 \begin{align}
-\mathbf{P} &:=\left[\begin{array}{cc}
+\mathbf{P} &\triangleq\begin{bmatrix}
 \mathbf{P}_{11} & \mathbf{P}_{12} \\
 \mathbf{P}_{12} & \mathbf{P}_{22}
-\end{array}\right] := E\left[\mathbf{X} \mathbf{X}^\top\right] \\
-\mathbf{V} &:=\left[\begin{array}{cc}
+\end{bmatrix} = \mathbb{E}\left[\mathbf{X} \mathbf{X}^\top\right] \\
+\mathbf{V} &\triangleq\begin{bmatrix}
 \mathbf{Q}+\mathbf{L}^\top R \mathbf{L} & -\mathbf{L}^\top R \mathbf{L} \\
 -\mathbf{L}^\top R \mathbf{L} & \mathbf{L}^\top R \mathbf{L}+\mathbf{U}
-\end{array}\right]
+\end{bmatrix}
 \end{align}
 
 

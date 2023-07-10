@@ -1,6 +1,6 @@
 \section{Izhikevich モデル}
 \subsection{Izhikevich モデルの定義}
-\textbf{Izhikevich モデル} (または\textbf{Simple model})は([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))で考案されたモデルである．HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが，式が複雑化するため，数学的な解析が難しく，計算量が増えるために大規模なシミュレーションも困難となる\footnote{これに関しては必ずしも正しくない．計算機の発達によりHHモデルで大きなモデルをシミュレーションすることも可能である．}．そこで，生理学的な正しさには目をつぶり，生体内でのニューロンの発火特性を再現するモデルが求められた．その特徴を持つのがIzhikevich モデルである (以下ではIzモデルと表記する)．Izモデルは 2変数しかない\footnote{数値計算をする上では簡易的だが，if文が入るために解析をするのは難しくなる．([Bernardo, et al., 2008](https://www.springer.com/gp/book/9781846280399))を読むといいらしい．}
+\textbf{\index{Izhikevich もでる@Izhikevich モデル}} (または\textbf{\index{Simple model}})は([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))で考案されたモデルである．HHモデルのような生理学的な知見に基づいたモデルは実際のニューロンの発火特性をよく再現できるが，式が複雑化するため，数学的な解析が難しく，計算量が増えるために大規模なシミュレーションも困難となる\footnote{これに関しては必ずしも正しくない．計算機の発達によりHHモデルで大きなモデルをシミュレーションすることも可能である．}．そこで，生理学的な正しさには目をつぶり，生体内でのニューロンの発火特性を再現するモデルが求められた．その特徴を持つのがIzhikevich モデルである (以下ではIzモデルと表記する)．Izモデルは 2変数しかない\footnote{数値計算をする上では簡易的だが，if文が入るために解析をするのは難しくなる．([Bernardo, et al., 2008](https://www.springer.com/gp/book/9781846280399))を読むといいらしい．}
 簡素な微分方程式だが, 様々なニューロンの活動を模倣することができる．定式化には主に2種類ある．まず，([Izhikevich, 2003](https://www.izhikevich.org/publications/spikes.htm))で提案されたのが次式である．
 
 
@@ -24,7 +24,7 @@ C\frac{dv(t)}{dt}&=k\left(v(t)-v_r\right)\left(v(t)-v_t\right)-u(t)+I(t) \\
 
 ここで，$C$は膜容量(membrane capacitance; 単位はpF), $v_r$は静止膜電位(resting membrane potential; 単位はmV), $v_t$は閾値電位(instantaneous threshold potential; 単位はmV), $k$はニューロンのゲインに関わる定数で，小さいと発火しやすくなる (単位はpA/mV)．以後はこちらの式を用いる．
 
-Izモデルの\textbf{閾値の取り扱い}はLIFモデルと異なり，HHモデルに近い．LIFモデルでは閾値を超えた時に膜電位をピーク電位まで上昇させ (この過程は無くてもよい)，続いて膜電位をリセットする．Izモデルの閾値は$v_t$だが, 膜電位のリセットは閾値を超えたかで判断せず，膜電位$v$がピーク電位$v_{\text{peak}}$になったとき (または超えた時) に行う．そのためIzモデルの実際の閾値は膜電位の挙動が変化する(発火状態に移行する)，つまり分岐(bifurcation) が生じる点であり，パラメータの閾値$v_t$との間には差異がある．
+Izモデルの\textbf{\index{いきちのとりあつかい@閾値の取り扱い}}はLIFモデルと異なり，HHモデルに近い．LIFモデルでは閾値を超えた時に膜電位をピーク電位まで上昇させ (この過程は無くてもよい)，続いて膜電位をリセットする．Izモデルの閾値は$v_t$だが, 膜電位のリセットは閾値を超えたかで判断せず，膜電位$v$がピーク電位$v_{\text{peak}}$になったとき (または超えた時) に行う．そのためIzモデルの実際の閾値は膜電位の挙動が変化する(発火状態に移行する)，つまり分岐(bifurcation) が生じる点であり，パラメータの閾値$v_t$との間には差異がある．
 
 さて，膜電位がピーク電位$v_{\text{peak}}$に達したとき (すなわち \jl{if} $v \geq v_{\text{peak}}$)，$u, v$を次のようにリセットする\footnote{バースト発火(bursting)の挙動を表現するためには，速い回復変数(fast recovery variable)と遅い回復変数(slow recovery variable)の2つが必要となる(従って膜電位も合わせて全部で3変数必要)．一方で，IzモデルではLIFモデルのようなif文によるリセットを用いているため，速い回復変数が必要なく，遅い回復変数$u$のみでバースト発火を表現できる．}．
 
@@ -62,7 +62,7 @@ v&\leftarrow v_{\text{reset}}
 \lstinputlisting[language=julia]{./text/neuron-model/izhikevich/015.jl}
 膜電位の更新の際，\jl{v}を2回に分けて更新しているが，これは数値的な安定性を高めるためである．計算量は上がるが，前述したモデルにおいても同様の処理を行う実装もある．
 
-シミュレーションの実行後，ネットワークを構成するニューロンの発火を描画する．これを\textbf{ラスタープロット} (raster plot)という．この図は横軸が時間，縦軸がニューロンの番号となっており，各ニューロンが発火したことを点で表している．
+シミュレーションの実行後，ネットワークを構成するニューロンの発火を描画する．これを\textbf{\index{らすたーぷろっと@ラスタープロット}} (raster plot)という．この図は横軸が時間，縦軸がニューロンの番号となっており，各ニューロンが発火したことを点で表している．
 \lstinputlisting[language=julia]{./text/neuron-model/izhikevich/017.jl}
 \input{./text/neuron-model/izhikevich/output_017.tex}
 初めの400msぐらいまでは100msごとに約10Hzの$\alpha$波が見られ，800ms付近には約40Hzの$\gamma$波が見られる．

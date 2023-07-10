@@ -1,5 +1,5 @@
 # Equality Constrained Quadratic Programming
-function solveEqualityConstrainedQuadProg(P, q, A, b)
+function solve_quad_prog(P, q, A, b)
     """
     minimize   : 1/2 * x'*P*x + q'*x
     subject to : A*x = b

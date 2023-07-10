@@ -6,6 +6,8 @@
 
 \makeidxhead{I}
   \item index style\idxdelim \hyperpage{4}
+  \item infinite-horizon optimal feedback control model\idxdelim 
+		\hyperpage{19}
 
 
 \makeidxhead{さ}
@@ -15,5 +17,10 @@
 \makeidxhead{は}
   \item ぼくのかんがえたさいきょうの\idxdelim 
 		\hyperpage{4}
+
+
+\makeidxhead{ま}
+  \item 無限時間最適フィードバック制御モデル\idxdelim 
+		\hyperpage{19}
 
 \end{theindex}

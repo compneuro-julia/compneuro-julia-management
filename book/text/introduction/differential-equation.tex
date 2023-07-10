@@ -10,7 +10,7 @@
 
 状態変数 $x(t)$は，時間$t$に対する関数である．
 
-添え字の$c$は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては$b_c=0$の場合を\textbf{同次方程式}, $b_c\neq 0$の場合を\textbf{非同次方程式}という．
+添え字の$c$は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては$b_c=0$の場合を\textbf{\index{どうじほうていしき@同次方程式}}, $b_c\neq 0$の場合を\textbf{\index{ひどうじほうていしき@非同次方程式}}という．
 
 \subsubsection{微分方程式の解}
 微分方程式を解くとは$x(t)$のような関数の具体的な式を求めることである．上式の解は
@@ -49,7 +49,7 @@ ToDo: Laplace変換の詳細
 
 
 \begin{equation}
-F(s):=\int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
+F(s)\triangleq\int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
 \end{equation}
 
 
@@ -66,7 +66,7 @@ ToDo: Laplace変換の対応表
 \end{equation}
 
 
-この線形行列微分方程式をLaplace変換 $\mathcal{L}$を用いて解こう．$\boldsymbol{X}(s) := \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) := \mathcal{L}(\mathbf{u}(t))$とすると，
+この線形行列微分方程式をLaplace変換 $\mathcal{L}$を用いて解こう．$\boldsymbol{X}(s) \triangleq \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) \triangleq \mathcal{L}(\mathbf{u}(t))$とすると，
 
 
 \begin{align}
@@ -80,7 +80,7 @@ s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\bo
 
 
 \begin{equation}
-e^\mathbf{A} = \exp(\mathbf{A}) := \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
+e^\mathbf{A} = \exp(\mathbf{A}) \triangleq \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
 \end{equation}
 
 

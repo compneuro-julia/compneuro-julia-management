@@ -1,6 +1,6 @@
 \section{TD学習}
 
-TD (Temporal difference) learningにおいて，\textbf{報酬予測誤差}(reward prediction error, \textbf{RPE}) $\delta_{i}$は次のように計算される． 
+TD (Temporal difference) learningにおいて，\textbf{\index{ほうしゅうよそくごさ@報酬予測誤差}}(reward prediction error, \textbf{\index{RPE}}) $\delta_{i}$は次のように計算される． 
 
  
 \begin{equation}
@@ -9,7 +9,7 @@ TD (Temporal difference) learningにおいて，\textbf{報酬予測誤差}(rewa
  
 
 ただし，現在の状態を$x$, 次の状態を$x'$, 予測価値分布を$V(x)$, 報酬信号を$r$, 時間割引率(time discount)を$\gamma$としました．
-また，$V_{j}\left(x^{\prime}\right)$は予測価値分布$V\left(x^{\prime}\right)$からのサンプルです． このRPEは脳内において主に中脳の\textbf{VTA}(腹側被蓋野)や\textbf{SNc}(黒質緻密部)における\textbf{ドパミン(dopamine)ニューロン}の発火率として表現されています．
+また，$V_{j}\left(x^{\prime}\right)$は予測価値分布$V\left(x^{\prime}\right)$からのサンプルです． このRPEは脳内において主に中脳の\textbf{\index{VTA}}(腹側被蓋野)や\textbf{\index{SNc}}(黒質緻密部)における\textbf{\index{どぱみん(dopamine)にゅーろん@ドパミン(dopamine)ニューロン}}の発火率として表現されています．
 
 ただし，VTAとSNcのドパミンニューロンの役割は同一ではありません．ドパミンニューロンへの入力が異なっています [(Watabe-Uchida et al., _Neuron._ 2012)](https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4)． また，細かいですがドパミンニューロンの発火は報酬量に対して線形ではなく，やや飽和する非線形な応答関数 (Hill functionで近似可能)を持ちます([Eshel et al., _Nat. Neurosci._ 2016](https://www.nature.com/articles/nn.4239))．このため著者実装では報酬 $r$に非線形関数がかかっているものもあります．
 

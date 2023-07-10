@@ -1,7 +1,7 @@
 # STDP則による教師なし学習
 \subsection{STDP(spike-timing-dependent plasticity)則}
 \subsubsection{Pair-based STDP則}
-\textbf{Spike-timing-dependent plasticity} (STDP)はシナプス前細胞と後細胞の発火時刻の差によってシナプス強度が変化するという現象です(Markram et al. 1997; Bi and Poo 1998)．典型的なSTDP側は \textbf{Pair-based STDP則} と呼ばれ，シナプス前細胞と後細胞の2つのスパイクのペアの発火時刻によってLTPやLTDが起こります．この節ではこのPair-based STDP則について説明します．
+\textbf{\index{Spike-timing-dependent plasticity}} (STDP)はシナプス前細胞と後細胞の発火時刻の差によってシナプス強度が変化するという現象です(Markram et al. 1997; Bi and Poo 1998)．典型的なSTDP側は \textbf{\index{Pair-based STDPのり@Pair-based STDP則}} と呼ばれ，シナプス前細胞と後細胞の2つのスパイクのペアの発火時刻によってLTPやLTDが起こります．この節ではこのPair-based STDP則について説明します．
 
 シナプス後細胞におけるスパイク(postsynaptic spike)の発生時刻$t_\text{post}$とシナプス前細胞におけるスパイク(presynaptic spike)の発生時刻$t_\text{pre}$の差を$\Delta t_{\text{spike}}=t_\text{post}-t_\text{pre}$とします\footnote{$\Delta t_{\text{spike}}$の定義は元々は逆になっており，(Song et al,, 2000)では$\Delta t_{\text{spike}}=t_\text{pre}-t_\text{post}$としています．また，添え字は離散時のタイムステップと混同しないために付けています．}．$\Delta t_{\text{spike}}$はシナプス前細胞，後細胞の順で発火すれば正，逆なら負となります．Pair-based STDP則では，シナプス前細胞から後細胞へのシナプス強度($w$)\footnote{シナプス強度$w$に添え字をつけていませんが，この場合はシナプス前細胞と後細胞の2つの細胞しかないと仮定して考えています．}の変化$\Delta w$は$\Delta t_{\text{spike}}$に依存的に以下の式に従って変化します(Song et al., 2000)．
 
@@ -14,7 +14,7 @@ A_{+} \exp\left(-\dfrac{\Delta t_{\text{spike}}}{\tau_{+}}\right) &(\Delta t_{\t
 \end{equation}
 
 
-$A_+, A_-$は正の定数，または重み依存的な関数 (後述) です．$\Delta t_{\text{spike}}>0$のときはLTPが起こり，$\Delta t_{\text{spike}}<0$のときはLTDが起こります．このタイプのSTDP則は\textbf{Hebbian STDP} と呼ばれ，Hebb則に従うシナプス強度の変化が起こります\footnote{Hebb則に従わないSTDPもあり，例えばLTPとLTDの挙動が逆のものを\textbf{Anti-Hebbian STDP}と呼びます(Bell et al., 1997など)．}．
+$A_+, A_-$は正の定数，または重み依存的な関数 (後述) です．$\Delta t_{\text{spike}}>0$のときはLTPが起こり，$\Delta t_{\text{spike}}<0$のときはLTDが起こります．このタイプのSTDP則は\textbf{\index{Hebbian STDP}} と呼ばれ，Hebb則に従うシナプス強度の変化が起こります\footnote{Hebb則に従わないSTDPもあり，例えばLTPとLTDの挙動が逆のものを\textbf{\index{Anti-Hebbian STDP}}と呼びます(Bell et al., 1997など)．}．
 $A_+=0.01$, $A_-/A_+=1.05$, $\tau_{+}=\tau_{-}=20$ msとしたときの$\Delta t_{\text{spike}}$に対する$\Delta w$は図\ref{fig:stdp}のようになります．
 \lstinputlisting[language=julia]{./text/local-learning-rule/stdp-learning/002.jl}
 \subsection{オンライン STDP則}
@@ -83,8 +83,8 @@ W(t+\Delta t)&=W(t)+A_+ \boldsymbol{s}_{\text{post}}(t)(\boldsymbol{x}_{\text{pr
 \end{figure}
 
 \subsection{重み依存的なSTDP}
-生理学的にはシナプス強度$w$には$w_{\min} < w < w_{\max}$というような制限(bound)が存在すると考えられます\footnote{受容体の数が際限なく増加したり減少したりすることはないと考えられるためです。もしLTPによりシナプス強度が限りなく増大した場合，シナプス後細胞の発火頻度が高くなり，実際には発火を誘発していないシナプス前細胞とのシナプス強度も大きくなってしまいます。LTPの暴走を防ぐための機構の1つとして\textbf{恒常性可塑性}(homeostatic scaling)または}シナプススケーリング}(synaptic scaling)と呼ばれる現象があります。}。多くの場合では$w_{\min}=0$となっているので，以下では$w\in [0, w_{\max}]$となる場合を考えます。また，前節までは正の定数としていた$A_+, A_-$を重み依存的な関数であるとします(つまり$A_\pm=A_\pm(w)$とします)。
-重みの制限には\textbf{ソフト制限(soft bound)}と}ハード制限(hard bound)}があります(Gerstner and Kistler, 2002, Chapter 11)。ソフト制限は，重みが上界 (または下界) に近づくにつれ重みの変化が小さくなるというものです。
+生理学的にはシナプス強度$w$には$w_{\min} < w < w_{\max}$というような制限(bound)が存在すると考えられます\footnote{受容体の数が際限なく増加したり減少したりすることはないと考えられるためです。もしLTPによりシナプス強度が限りなく増大した場合，シナプス後細胞の発火頻度が高くなり，実際には発火を誘発していないシナプス前細胞とのシナプス強度も大きくなってしまいます。LTPの暴走を防ぐための機構の1つとして\textbf{\index{こうじょうせいかそせい}(homeostatic scaling)または@恒常性可塑性}(homeostatic scaling)または}}シナプススケーリング}(synaptic scaling)と呼ばれる現象があります。}。多くの場合では$w_{\min}=0$となっているので，以下では$w\in [0, w_{\max}]$となる場合を考えます。また，前節までは正の定数としていた$A_+, A_-$を重み依存的な関数であるとします(つまり$A_\pm=A_\pm(w)$とします)。
+重みの制限には\textbf{\index{そふとせいげん(soft bound)}と@ソフト制限(soft bound)}と}}ハード制限(hard bound)}があります(Gerstner and Kistler, 2002, Chapter 11)。ソフト制限は，重みが上界 (または下界) に近づくにつれ重みの変化が小さくなるというものです。
 \begin{align}
 A_+(w) &= \eta_+\cdot (w_{\max}-w) \\
 A_-(w) &= \eta_-\cdot w
@@ -97,8 +97,8 @@ A_-(w) &= \eta_-\cdot \Theta(-w)
 \end{align}
 となります。
 \subsubsection{STDP則と2層WTAネットワークによる教師なし学習}
-この節ではSTDP則と\textbf{Winner-take-all (WTA)}の機構を用いた}自己組織化マップ}(self-organizing map, SOM)による教師なし学習の研究について紹介します(Diehl \& Cook, 2015)\footnote{Brianを用いた実装は\url{https://github.com/peter-u-diehl/stdp-mnist}, Brian2を用いた実装は\url{https://github.com/zxzhijia/Brian2STDPMNIST}で公開されています(ただしPython2). }. Diehlらの提案するモデルにより，MNISTデータセットにおいて教師なし学習でテストデータに対し, 95\%の正解率を出しています. 現在でもDiehlらの研究を発展させて, Spiking CNNの学習に応用する研究が進んでいます. 
-WTA (Winner-take-all)というのはネットワーク内のニューロンが互いに抑制しあう\footnote{これを\textbf{側抑制}(lateral inhibition)と言います. }ことで, 最も発火率の高いニューロン以外は抑制されて発火しないようになる, という機構です\footnote{例えばANNで用いられるSoftmaxやMax-poolingの操作はWTAのメカニズムのモデル化の1つといえます. }. WTAの機構による学習は}競合学習}(Competitive learning)と呼んだりします。Diehlらが提案したネットワークは2層から成り立っており, 1層目は入力層($28\times 28=$784ニューロン)で, MNISTデータセットの画像1画素に1つのニューロンが対応します. このとき, 画像はポアソン過程モデルでスパイク列に符号化(encoding)されます. 2層目は興奮性ニューロンおよび同数の抑制性ニューロンから成ります(図\ref{fig:diehl}). 1つの興奮性ニューロンは1つの抑制性ニューロンに投射し, 抑制性ニューロンは自分に入力したニューロン以外の興奮性ニューロンを抑制します. こうすることで側抑制の仕組みが実装されています. 
+この節ではSTDP則と\textbf{\index{Winner-take-all (WTA)}のきこうをもちいた@Winner-take-all (WTA)}の機構を用いた}}自己組織化マップ}(self-organizing map, SOM)による教師なし学習の研究について紹介します(Diehl \& Cook, 2015)\footnote{Brianを用いた実装は\url{https://github.com/peter-u-diehl/stdp-mnist}, Brian2を用いた実装は\url{https://github.com/zxzhijia/Brian2STDPMNIST}で公開されています(ただしPython2). }. Diehlらの提案するモデルにより，MNISTデータセットにおいて教師なし学習でテストデータに対し, 95\%の正解率を出しています. 現在でもDiehlらの研究を発展させて, Spiking CNNの学習に応用する研究が進んでいます. 
+WTA (Winner-take-all)というのはネットワーク内のニューロンが互いに抑制しあう\footnote{これを\textbf{\index{そくよくせい}(lateral inhibition)といいます. }ことで, もっともはっかりつのたかいにゅーろんいがいはよくせいされてはっかしないようになる, というきこうです\footnote{たとえばANNでもちいられるSoftmaxやMax-poolingのそうさはWTAのめかにずむのもでるかの1つといえます. }. WTAのきこうによるがくしゅうは@側抑制}(lateral inhibition)と言います. }ことで, 最も発火率の高いニューロン以外は抑制されて発火しないようになる, という機構です\footnote{例えばANNで用いられるSoftmaxやMax-poolingの操作はWTAのメカニズムのモデル化の1つといえます. }. WTAの機構による学習は}}競合学習}(Competitive learning)と呼んだりします。Diehlらが提案したネットワークは2層から成り立っており, 1層目は入力層($28\times 28=$784ニューロン)で, MNISTデータセットの画像1画素に1つのニューロンが対応します. このとき, 画像はポアソン過程モデルでスパイク列に符号化(encoding)されます. 2層目は興奮性ニューロンおよび同数の抑制性ニューロンから成ります(図\ref{fig:diehl}). 1つの興奮性ニューロンは1つの抑制性ニューロンに投射し, 抑制性ニューロンは自分に入力したニューロン以外の興奮性ニューロンを抑制します. こうすることで側抑制の仕組みが実装されています. 
 \begin{figure}[htbp]
     \centering
     \includegraphics[scale=1.5]{figs/diehl.pdf}

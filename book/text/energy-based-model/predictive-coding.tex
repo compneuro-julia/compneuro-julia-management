@@ -1,6 +1,6 @@
 \section{予測符号化}
 \subsection{観測世界の階層的予測}
-\textbf{階層的予測符号化(hierarchical predictive coding; HPC)} は\cite{Rao1999-zv}により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち\textbf{潜在変数} (latent variable)を$\mathbf{r} \in \mathbb{R}^{n_1}$とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
+\textbf{\index{かいそうてきよそくふごうか(hierarchical predictive coding; HPC)@階層的予測符号化(hierarchical predictive coding; HPC)}} は\cite{Rao1999-zv}により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち\textbf{\index{せんざいへんすう@潜在変数}} (latent variable)を$\mathbf{r} \in \mathbb{R}^{n_1}$とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
 
 
 \begin{equation}
@@ -19,7 +19,7 @@ $\boldsymbol{\epsilon} \in \mathbb{R}^{n_0}$ は $\mathcal{N}(\mathbf{0}, \sigma
 \end{equation}
 
 
-ただし，Top-downの予測信号を $\mathbf{r}^{td}:=f(\mathbf{U}^h \mathbf{r}^h)$とした．また，$\mathbf{r}^{td} \in \mathbb{R}^{n_1}$, $\mathbf{r}^{h} \in \mathbb{R}^{n_2}$, $\mathbf{U}^h \in \mathbb{R}^{n_1 \times n_2}$ である．
+ただし，Top-downの予測信号を $\mathbf{r}^{td}\triangleqf(\mathbf{U}^h \mathbf{r}^h)$とした．また，$\mathbf{r}^{td} \in \mathbb{R}^{n_1}$, $\mathbf{r}^{h} \in \mathbb{R}^{n_2}$, $\mathbf{U}^h \in \mathbb{R}^{n_1 \times n_2}$ である．
 $\boldsymbol{\epsilon}^{td} \in \mathbb{R}^{n_1}$は$\mathcal{N}(\mathbf{0}$, $\sigma_{td}^2 \mathbf{I}$) からサンプリングされるとする．
 
 話は飛ぶが，Predictive codingのネットワークの特徴は
@@ -29,10 +29,10 @@ $\boldsymbol{\epsilon}^{td} \in \mathbb{R}^{n_1}$は$\mathcal{N}(\mathbf{0}$, $\
 \item 低次から高次への誤差信号の伝搬 (Feedforward or Bottom-up 信号)
 \end{itemize}
 
-である．ここまでは高次表現による低次表現の予測，というFeedback信号について説明してきたが，この部分はSparse codingでも同じである．それではPredictive codingのもう一つの要となる，低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか．結論から言えば，これは\textbf{復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる}．
+である．ここまでは高次表現による低次表現の予測，というFeedback信号について説明してきたが，この部分はSparse codingでも同じである．それではPredictive codingのもう一つの要となる，低次から高次への予測誤差の伝搬というFeedforward信号はどのように導かれるのだろうか．結論から言えば，これは\textbf{\index{ふくげんごさ (reconstruction error)のさいしょうかをおこなうさいきてきねっとわーく (recurrent network)をこうりょすることでしぜんにみちびかれる@復元誤差 (reconstruction error)の最小化を行う再帰的ネットワーク (recurrent network)を考慮することで自然に導かれる}}．
 \subsection{損失関数と学習則}
 \subsubsection{事前分布の設定}
-$\mathbf{r}$の事前分布$p(\mathbf{r})$はCauchy分布を用いる．$p(\mathbf{r})$の負の対数事前分布を$g(\mathbf{r}):=-\log p(\mathbf{r})$としておく．
+$\mathbf{r}$の事前分布$p(\mathbf{r})$はCauchy分布を用いる．$p(\mathbf{r})$の負の対数事前分布を$g(\mathbf{r})\triangleq-\log p(\mathbf{r})$としておく．
 
 
 \begin{align}
@@ -42,7 +42,7 @@ g'(\mathbf{r})&=\frac{\partial g(\mathbf{r})}{\partial \mathbf{r}}=\left[\frac{2
 \end{align}
 
 
-次に重み行列$\mathbf{U}$の事前分布 $p(\mathbf{U})$はGaussian分布とする．$p(\mathbf{U})$の負の対数事前分布を$h(\mathbf{U}):=-\ln p(\mathbf{U})$とすると，次のように表される．
+次に重み行列$\mathbf{U}$の事前分布 $p(\mathbf{U})$はGaussian分布とする．$p(\mathbf{U})$の負の対数事前分布を$h(\mathbf{U})\triangleq-\ln p(\mathbf{U})$とすると，次のように表される．
 
 
 \begin{align}
@@ -66,7 +66,7 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 潜在変数 $\mathbf{r}, \mathbf{r}^h$ と 重み行列 $\mathbf{U}, \mathbf{U}^h$ のそれぞれに事前分布を仮定しているため，これらについてのMAP推定を行うことに相当する．
 
 \subsubsection{再帰ネットワークの更新則}
-簡単のために$\mathbf{z}:=\mathbf{U}\mathbf{r}, \mathbf{z}^h:=\mathbf{U}^h\mathbf{r}^h$とする．
+簡単のために$\mathbf{z}\triangleq\mathbf{U}\mathbf{r}, \mathbf{z}^h\triangleq\mathbf{U}^h\mathbf{r}^h$とする．
 
 
 \begin{align}
@@ -75,7 +75,7 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 \end{align}
 
 
-ただし，$k_1$は更新率 (updating rate)である．または，発火率の時定数を$\tau:=1/k_1$として，$k_1$は発火率の時定数$\tau$の逆数であると捉えることもできる．ここで1番目の式において，中間表現 $\mathbf{r}$ のダイナミクスはbottom-up errorとtop-down errorで記述されている．このようにbottom-up errorが $\mathbf{r}$ への入力となることは自然に導出される．なお，top-down errorに関しては高次からの予測 (prediction)の項 $f(\mathbf{x}^h)$とleaky-integratorとしての項 $-\mathbf{r}$に分割することができる．また$\mathbf{U}^\top, (\mathbf{U}^h)^\top$は重み行列の転置となっており，bottom-upとtop-downの投射において対称な重み行列を用いることを意味している．$-g'(\mathbf{r})$は発火率を抑制してスパースにすることを目的とする項だが，無理やり解釈をすると自己再帰的な抑制と言える．
+ただし，$k_1$は更新率 (updating rate)である．または，発火率の時定数を$\tau\triangleq1/k_1$として，$k_1$は発火率の時定数$\tau$の逆数であると捉えることもできる．ここで1番目の式において，中間表現 $\mathbf{r}$ のダイナミクスはbottom-up errorとtop-down errorで記述されている．このようにbottom-up errorが $\mathbf{r}$ への入力となることは自然に導出される．なお，top-down errorに関しては高次からの予測 (prediction)の項 $f(\mathbf{x}^h)$とleaky-integratorとしての項 $-\mathbf{r}$に分割することができる．また$\mathbf{U}^\top, (\mathbf{U}^h)^\top$は重み行列の転置となっており，bottom-upとtop-downの投射において対称な重み行列を用いることを意味している．$-g'(\mathbf{r})$は発火率を抑制してスパースにすることを目的とする項だが，無理やり解釈をすると自己再帰的な抑制と言える．
 \subsubsection{画像データの読み込み}
 「スパース符号化」と同様にデータは\url{http://www.rctn.org/bruno/sparsenet/}からダウンロードできるファイルを用いる．
 \lstinputlisting[language=julia]{./text/energy-based-model/predictive-coding/003.jl}
@@ -104,6 +104,6 @@ E=\underbrace{\frac{1}{\sigma^{2}}\|\mathbf{x}-f(\mathbf{U} \mathbf{r})\|^2+\fra
 学習後の重み行列 ($\mathbf{U}$)を可視化してみよう．
 \lstinputlisting[language=julia]{./text/energy-based-model/predictive-coding/022.jl}
 \input{./text/energy-based-model/predictive-coding/output_022.tex}
-白色が\textbf{ON領域}(興奮)，黒色が\textbf{OFF領域}(抑制)を表す．Gaborフィルタ様の局所受容野が得られている．次に，Level2のニューロンの受容野は$\mathbf{U}$と$\mathbf{U}^h$の積を計算することで描画できる．
+白色が\textbf{\index{ONりょういき@ON領域}}(興奮)，黒色が\textbf{\index{OFFりょういき@OFF領域}}(抑制)を表す．Gaborフィルタ様の局所受容野が得られている．次に，Level2のニューロンの受容野は$\mathbf{U}$と$\mathbf{U}^h$の積を計算することで描画できる．
 \lstinputlisting[language=julia]{./text/energy-based-model/predictive-coding/024.jl}
 \input{./text/energy-based-model/predictive-coding/output_024.tex}

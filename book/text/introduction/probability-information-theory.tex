@@ -3,7 +3,7 @@
 
 
 \begin{equation}
-\mathbb{E}_{x\sim p(x)}\left[f(x)\right]:=\int f(x)p(x)dx
+\mathbb{E}_{x\sim p(x)}\left[f(x)\right]\triangleq\int f(x)p(x)dx
 \end{equation}
 
 
@@ -14,7 +14,7 @@ $x\sim p(x)$ が明示的な場合は $\mathbb{E}_{p(x)}\left[f(x)\right]$ や $
 
 
 \begin{equation}
-\mathbb{I}(x):=\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
+\mathbb{I}(x)\triangleq\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
 \end{equation}
 
 
@@ -24,8 +24,8 @@ $\mathbf{I}$は単位行列なので注意．
 
 
 \begin{align}
-\mathbb{H}(x)&:=\mathbb{E}[-\ln p(x)]\\
-\mathbb{H}(x\vert y)&:=\mathbb{E}[-\ln p(x\vert y)]
+\mathbb{H}(x)&\triangleq\mathbb{E}[-\ln p(x)]\\
+\mathbb{H}(x\vert y)&\triangleq\mathbb{E}[-\ln p(x\vert y)]
 \end{align}
 
 
@@ -34,7 +34,7 @@ Kullback-Leibler (KL) divergence (Kullback and Leibler, 1951)
 
 
 \begin{align}
-D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&:=\int p(x) \ln \frac{p(x)}{q(x)} dx\\
+D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&\triangleq\int p(x) \ln \frac{p(x)}{q(x)} dx\\
 &=\int p(x) \ln p(x) dx-\int p(x) \ln q(x) dx\\
 &=\mathbb{E}_{x\sim p(x)}[\ln p(x)]-\mathbb{E}_{x\sim p(x)}[\ln q(x)]\\
 &=-\mathbb{H}(x)-\mathbb{E}_{x\sim p(x)}[\ln q(x)]

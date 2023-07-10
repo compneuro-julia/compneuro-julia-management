@@ -1,7 +1,7 @@
 \section{指数関数型シナプスモデル}
-シナプスのモデルは複数あるが, 良く用いられるのが\textbf{指数関数型シナプスモデル}(exponential synapse model)である．このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう．指数関数型シナプスモデルには2つの種類, \textbf{単一指数関数型モデル} (single exponential model)と\textbf{二重指数関数型モデル} (double exponential model)がある．
+シナプスのモデルは複数あるが, 良く用いられるのが\textbf{\index{しすうかんすうかたしなぷすもでる@指数関数型シナプスモデル}}(exponential synapse model)である．このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう．指数関数型シナプスモデルには2つの種類, \textbf{\index{たんいつしすうかんすうかたもでる@単一指数関数型モデル}} (single exponential model)と\textbf{\index{にじゅうしすうかんすうかたもでる@二重指数関数型モデル}} (double exponential model)がある．
 
-数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて$t=0$でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに\textbf{シナプス強度} (Synaptic strength)[^synstr]を乗じて総和を取ったものとなる．
+数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて$t=0$でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに\textbf{\index{しなぷすきょうど@シナプス強度}} (Synaptic strength)[^synstr]を乗じて総和を取ったものとなる．
 
 [^synstr]: シナプス強度というのは便宜上の呼称で, 実際には神経伝達物質の種類や, その受容体の数など複数の要因によって決定されている. また, このシナプス強度はシナプス重みということもある．これはどちらかと言えば機械学習の表現に引っ張られたものである．このため, このサイトでは重みという語も使う．
 \lstinputlisting[language=julia]{./text/synapse-model/expo-synapse/001.jl}
@@ -71,7 +71,7 @@ A=\frac{\tau_d}{\tau_d-\tau_r}\cdot \left(\frac{\tau_r}{\tau_d}\right)^\frac{\ta
 規格化定数$A$を乗じることで最大値が1となる．ただし, シミュレーションをする上で実際に規格化をする場合は少ない．
 
 \subsubsection{$\alpha$関数}
-上記の式において, $\tau=\tau_{r}=\tau_{d}$の場合は $\boldsymbol{\alpha}$ \textbf{関数} (alpha function, alpha synapse)と呼ぶ ([Rall, 1967](https://pubmed.ncbi.nlm.nih.gov/6055351/))．式としては次のようになる．
+上記の式において, $\tau=\tau_{r}=\tau_{d}$の場合は $\boldsymbol{\alpha}$ \textbf{\index{かんすう@関数}} (alpha function, alpha synapse)と呼ぶ ([Rall, 1967](https://pubmed.ncbi.nlm.nih.gov/6055351/))．式としては次のようになる．
 
 
 \begin{equation}
