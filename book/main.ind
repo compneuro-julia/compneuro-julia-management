@@ -1,26 +1,39 @@
 \begin{theindex}
 
+\makeidxhead{E}
+  \item Elastic net\idxdelim \hyperpage{18}
+
+
 \makeidxhead{I}
   \item infinite-horizon optimal feedback control model\idxdelim 
-		\hyperpage{35}
+		\hyperpage{49}
 
 
 \makeidxhead{K}
-  \item Kalman フィルタ\idxdelim \hyperpage{27}
+  \item Kalman フィルタ\idxdelim \hyperpage{41}
 
 
 \makeidxhead{さ}
   \item 最適フィードバック制御モデル (optimal feedback control; OFC)\idxdelim 
-		\hyperpage{27}
-  \item 終点誤差分散最小モデル\idxdelim \hyperpage{23}
+		\hyperpage{41}
+  \item 自己組織化マップ (self-organizing map)\idxdelim 
+		\hyperpage{17}
+  \item 終点誤差分散最小モデル\idxdelim \hyperpage{37}
+  \item 勝者ユニット(best matching unit; BMU)\idxdelim 
+		\hyperpage{18}
   \item 線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御\idxdelim 
-		\hyperpage{28}
+		\hyperpage{42}
   \item 線形2次レギュレーター(LQR: linear-quadratic regurator)\idxdelim 
-		\hyperpage{27}
+		\hyperpage{41}
+
+
+\makeidxhead{た}
+  \item トポグラフィックマッピング (topographic mapping)\idxdelim 
+		\hyperpage{18}
 
 
 \makeidxhead{ま}
   \item 無限時間最適フィードバック制御モデル\idxdelim 
-		\hyperpage{35}
+		\hyperpage{49}
 
 \end{theindex}

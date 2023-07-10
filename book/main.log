@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  10 JUL 2023 21:03
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  10 JUL 2023 23:46
  restricted system commands enabled.
 **main
 (./main.tex
@@ -1202,6 +1202,12 @@ Package: fancyhdr 2022/11/09 v4.1 Extensive control of page headers and footers
 
 LaTeX Warning: Label `cell017.png' multiply defined.
 
+
+LaTeX Warning: Label `cell017.png' multiply defined.
+
+
+LaTeX Warning: Label `cell017.png' multiply defined.
+
 )
 \openout1 = main.aux
 
@@ -1418,9 +1424,9 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (load cache: extra_lmsans17-regular.luc) (./main.toc(load cache: extra_lmroman7-
 regular.luc)(load cache: extra_lmroman5-regular.luc)
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 9.
+(Font)              scaled to size 6.47299pt on input line 6.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 9.
+(Font)              scaled to size 4.62357pt on input line 6.
  [3])
 \tf@toc=\write7
 
@@ -1465,19 +1471,7 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 
 ]
 第5章
-[13] [14
-
-]
-第6章
-[15] [16
-
-]
-第7章
-[17] [18
-
-]
-第8章
-(./text/motor-learning/minimum-jerk.tex
+(./text/local-learning-rule/logistic-regression-perceptron.tex
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
@@ -1487,32 +1481,16 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
 (load cache: extra_lmsans12-regular.luc)
-
-LaTeX Warning: Citation `Flash1985-vj' on page 19 undefined on input line 2.
-
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 4.
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 4.
-(load cache: extra_lmromandemi10-regular.luc)
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 6.
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 6.
-LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 12.
-LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 12.
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
-nput line 25.
+nput line 24.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 25.
+(Font)              scaled to size 8.32242pt on input line 24.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 25.
+(Font)              scaled to size 8.32242pt on input line 24.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-l
-earning/minimum-jerk/001.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/003.jl
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <9> not available
 (Font)              Font shape `JT3/gt/m/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -1526,13 +1504,475 @@ Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-(./text/motor-learning/minimum-jerk/002.jl(load cache: extra_lmroman9-regular.lu
-c)
+(./text/local-learning-rule/logistic-regression-perceptron/004.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/005.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'. [13]
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/006.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/output_006.tex
+<./fig/local-learning-rule/logistic-regression-perceptron/cell006.png, id=228, 
+391.4625pt x 391.4625pt>
+File: ./fig/local-learning-rule/logistic-regression-perceptron/cell006.png Grap
+hic file (type png)
+<use ./fig/local-learning-rule/logistic-regression-perceptron/cell006.png>
+Package luatex.def Info: ./fig/local-learning-rule/logistic-regression-perceptr
+on/cell006.png  used on input line 3.
+(luatex.def)             Requested size: 313.17041pt x 313.17041pt.
+(load cache: extra_lmroman9-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 7.
+(Font)              scaled to size 8.32242pt on input line 4.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 7.
- [19])
+(Font)              scaled to size 8.32242pt on input line 4.
+)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/007.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/008.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/009.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[14<./fig/local-learning-rule/logistic-regression-perceptron/cell006.png>])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/output_009.tex
+<./fig/local-learning-rule/logistic-regression-perceptron/cell009.png, id=247, 
+291.0875pt x 190.7125pt>
+File: ./fig/local-learning-rule/logistic-regression-perceptron/cell009.png Grap
+hic file (type png)
+<use ./fig/local-learning-rule/logistic-regression-perceptron/cell009.png>
+Package luatex.def Info: ./fig/local-learning-rule/logistic-regression-perceptr
+on/cell009.png  used on input line 3.
+(luatex.def)             Requested size: 232.8703pt x 152.57019pt.
+)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 55.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 55.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/011.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[15
+Missing character: There is no σ (U+03C3) in font [lmroman10-regular]:+tlig;!
+<./fig/local-learning-rule/logistic-regression-perceptron/cell009.png>])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/012.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/output_012.tex
+<./fig/local-learning-rule/logistic-regression-perceptron/cell012.png, id=277, 
+291.0875pt x 190.7125pt>
+File: ./fig/local-learning-rule/logistic-regression-perceptron/cell012.png Grap
+hic file (type png)
+<use ./fig/local-learning-rule/logistic-regression-perceptron/cell012.png>
+Package luatex.def Info: ./fig/local-learning-rule/logistic-regression-perceptr
+on/cell012.png  used on input line 3.
+(luatex.def)             Requested size: 232.8703pt x 152.57019pt.
+)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/013.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/014.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/016.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/017.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[16<./fig/local-learning-rule/logistic-regression-perceptron/cell012.png>])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+(./text/local-learning-rule/logistic-regression-perceptron/output_017.tex
+<./fig/local-learning-rule/logistic-regression-perceptron/cell017.png, id=307, 
+391.4625pt x 391.4625pt>
+File: ./fig/local-learning-rule/logistic-regression-perceptron/cell017.png Grap
+hic file (type png)
+<use ./fig/local-learning-rule/logistic-regression-perceptron/cell017.png>
+Package luatex.def Info: ./fig/local-learning-rule/logistic-regression-perceptr
+on/cell017.png  used on input line 3.
+(luatex.def)             Requested size: 313.17041pt x 313.17041pt.
+))
+(./text/local-learning-rule/self-organizing-map.tex
+
+LaTeX Warning: Citation `Kohonen1982-mn' on page 17 undefined on input line 2.
+
+
+LaTeX Warning: Citation `Kohonen2013-yt' on page 17 undefined on input line 2.
+
+
+LaTeX Warning: Citation `Obermayer1990-gq' on page 17 undefined on input line 4
+.
+
+
+LaTeX Warning: Citation `N_V_Swindale1998-ri' on page 17 undefined on input lin
+e 4.
+
+
+LaTeX Warning: Citation `Durbin1987-bp' on page 17 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Durbin1990-xx' on page 17 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 17 undefined on inpu
+t line 4.
+
+
+LaTeX Warning: Citation `Tanaka2004-vz' on page 17 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Ringach2007-oe' on page 17 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Das2005-mq' on page 17 undefined on input line 4.
+
+
+LaTeX Warning: Citation `Goodhill2007-va' on page 17 undefined on input line 4.
+
+
+
+LaTeX Warning: Citation `2002-nm' on page 17 undefined on input line 4.
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[17<./fig/local-learning-rule/logistic-regression-perceptron/cell017.png>]
+
+LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 18 undefined on inpu
+t line 6.
+
+
+LaTeX Warning: Citation `Von_der_Malsburg1973-bz' on page 18 undefined on input
+ line 7.
+
+
+LaTeX Warning: Citation `Willshaw1976-zo' on page 18 undefined on input line 7.
+
+
+
+LaTeX Warning: Citation `Takeuchi1979-mi' on page 18 undefined on input line 7.
+
+
+
+LaTeX Warning: Citation `Van_Ooyen2011-fz' on page 18 undefined on input line 9
+.
+
+
+LaTeX Warning: Citation `Goodhill2018-ho' on page 18 undefined on input line 9.
+
+
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 11.09656pt on input line 10.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 11.09656pt on input line 10.
+(load cache: extra_lmromandemi10-regular.luc)
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 11.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 11.
+
+LaTeX Warning: Citation `Kohonen2013-yt' on page 18 undefined on input line 11.
+
+
+
+LaTeX Warning: Citation `Kohonen1982-mn' on page 18 undefined on input line 22.
+
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[18]
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 40.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 5.54828pt on input line 40.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 5.54828pt on input line 40.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-l
+earning-rule/self-organizing-map/002.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/004.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/005.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/006.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/007.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[19])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-l
+earning-rule/self-organizing-map/010.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[20])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-l
+earning-rule/self-organizing-map/012.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/013.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[21])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-l
+earning-rule/self-organizing-map/014.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/016.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/017.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[22])
+Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/local-lea
+rning-rule/self-organizing-map/output_017.tex
+<./fig/local-learning-rule/self-organizing-map/cell017.png, id=493, 592.2125pt 
+x 391.4625pt>
+File: ./fig/local-learning-rule/self-organizing-map/cell017.png Graphic file (t
+ype png)
+<use ./fig/local-learning-rule/self-organizing-map/cell017.png>
+Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell017.
+png  used on input line 3.
+(luatex.def)             Requested size: 473.77063pt x 313.17041pt.
+)
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[23<./fig/local-learning-rule/self-organizing-map/cell017.png>]
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/019.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/020.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/021.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/022.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/024.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[24] (./text/local-learning-rule/self-organizing-map/output_024.tex
+<./fig/local-learning-rule/self-organizing-map/cell024.png, id=557, 270.00874pt
+ x 291.0875pt>
+File: ./fig/local-learning-rule/self-organizing-map/cell024.png Graphic file (t
+ype png)
+<use ./fig/local-learning-rule/self-organizing-map/cell024.png>
+Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell024.
+png  used on input line 3.
+(luatex.def)             Requested size: 216.00728pt x 232.8703pt.
+)
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/026.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+
+LaTeX Warning: Citation `Carreira-Perpinan2005-gy' on page 25 undefined on inpu
+t line 69.
+
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-l
+earning-rule/self-organizing-map/028.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[25<./fig/local-learning-rule/self-organizing-map/cell024.png>])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/029.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/030.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/032.jl
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[26])
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/local-l
+earning-rule/self-organizing-map/033.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+(./text/local-learning-rule/self-organizing-map/output_033.tex
+<./fig/local-learning-rule/self-organizing-map/cell033.png, id=617, 661.47125pt
+ x 593.21625pt>
+File: ./fig/local-learning-rule/self-organizing-map/cell033.png Graphic file (t
+ype png)
+<use ./fig/local-learning-rule/self-organizing-map/cell033.png>
+Package luatex.def Info: ./fig/local-learning-rule/self-organizing-map/cell033.
+png  used on input line 3.
+(luatex.def)             Requested size: 529.17772pt x 474.57364pt.
+))
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[27]
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 16.0pt, for example:
+(fancyhdr)                \setlength{\footskip}{16.0pt}.
+
+[28<./fig/local-learning-rule/self-organizing-map/cell033.png>]
+第6章
+[29
+
+] [30
+
+]
+第7章
+[31] [32
+
+]
+第8章
+(./text/motor-learning/minimum-jerk.tex
+
+LaTeX Warning: Citation `Flash1985-vj' on page 33 undefined on input line 2.
+
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-l
+earning/minimum-jerk/001.jl)
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/motor-learning/minimum-jerk/002.jl [33])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1548,7 +1988,7 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 (./text/motor-learning/minimum-jerk/004.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
-LaTeX Warning: Citation `Yazdani2012-sx' on page 20 undefined on input line 30.
+LaTeX Warning: Citation `Yazdani2012-sx' on page 34 undefined on input line 30.
 
 
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
@@ -1566,7 +2006,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[20]
+[34]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
@@ -1599,10 +2039,10 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[21])
+[35])
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/motor-lea
 rning/minimum-jerk/output_015.tex
-<./fig/motor-learning/minimum-jerk/cell015.png, id=311, 791.95876pt x 390.45876
+<./fig/motor-learning/minimum-jerk/cell015.png, id=758, 791.95876pt x 390.45876
 pt>
 File: ./fig/motor-learning/minimum-jerk/cell015.png Graphic file (type png)
 <use ./fig/motor-learning/minimum-jerk/cell015.png>
@@ -1619,7 +2059,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[22<./fig/motor-learning/minimum-jerk/cell015.png>])
+[36<./fig/motor-learning/minimum-jerk/cell015.png>])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1632,7 +2072,7 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 (./text/motor-learning/minimum-jerk/019.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 (./text/motor-learning/minimum-jerk/output_019.tex
-<./fig/motor-learning/minimum-jerk/cell019.png, id=338, 791.95876pt x 391.4625p
+<./fig/motor-learning/minimum-jerk/cell019.png, id=784, 791.95876pt x 391.4625p
 t>
 File: ./fig/motor-learning/minimum-jerk/cell019.png Graphic file (type png)
 <use ./fig/motor-learning/minimum-jerk/cell019.png>
@@ -1642,14 +2082,14 @@ Package luatex.def Info: ./fig/motor-learning/minimum-jerk/cell019.png  used on
 ))
 (./text/motor-learning/minimum-variance.tex
 
-LaTeX Warning: Citation `Harris1998-gj' on page 23 undefined on input line 2.
+LaTeX Warning: Citation `Harris1998-gj' on page 37 undefined on input line 2.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[23]
+[37]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-l
@@ -1660,7 +2100,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[24<./fig/motor-learning/minimum-jerk/cell019.png>]
+[38<./fig/motor-learning/minimum-jerk/cell019.png>]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
@@ -1675,7 +2115,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[25])
+[39])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1687,7 +2127,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[26]
+[40]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-l
@@ -1699,7 +2139,7 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 (./text/motor-learning/minimum-variance/008.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 (./text/motor-learning/minimum-variance/output_008.tex
-<./fig/motor-learning/minimum-variance/cell008.png, id=482, 576.1525pt x 391.46
+<./fig/motor-learning/minimum-variance/cell008.png, id=928, 576.1525pt x 391.46
 25pt>
 File: ./fig/motor-learning/minimum-variance/cell008.png Graphic file (type png)
 
@@ -1714,13 +2154,13 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[27]
+[41]
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[28<./fig/motor-learning/minimum-variance/cell008.png>]
+[42<./fig/motor-learning/minimum-variance/cell008.png>]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
@@ -1735,7 +2175,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[29
+[43
 Missing character: There is no ■ (U+25A0) in font [lmsans10-regular]:+tlig;!
 Missing character: There is no ■ (U+25A0) in font [lmsans10-regular]:+tlig;!
 ])
@@ -1749,7 +2189,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[30])
+[44])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1760,13 +2200,13 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[31]
+[45]
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[32])
+[46])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1782,7 +2222,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[33])
+[47])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1798,11 +2238,11 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[34])
+[48])
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/motor-lea
 rning/optimal-feedback-control/output_016.tex
-<./fig/motor-learning/optimal-feedback-control/cell016.png, id=763, 992.70876pt
- x 291.0875pt>
+<./fig/motor-learning/optimal-feedback-control/cell016.png, id=1208, 992.70876p
+t x 291.0875pt>
 File: ./fig/motor-learning/optimal-feedback-control/cell016.png Graphic file (t
 ype png)
 <use ./fig/motor-learning/optimal-feedback-control/cell016.png>
@@ -1816,8 +2256,8 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 (./text/motor-learning/optimal-feedback-control/017.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 (./text/motor-learning/optimal-feedback-control/output_017.tex
-<./fig/motor-learning/optimal-feedback-control/cell017.png, id=764, 992.70876pt
- x 291.0875pt>
+<./fig/motor-learning/optimal-feedback-control/cell017.png, id=1209, 992.70876p
+t x 291.0875pt>
 File: ./fig/motor-learning/optimal-feedback-control/cell017.png Graphic file (t
 ype png)
 <use ./fig/motor-learning/optimal-feedback-control/cell017.png>
@@ -1827,14 +2267,14 @@ png  used on input line 3.
 ))
 (./text/motor-learning/infinite-horizon-ofc.tex
 
-LaTeX Warning: Citation `Qian2013-zy' on page 35 undefined on input line 3.
+LaTeX Warning: Citation `Qian2013-zy' on page 49 undefined on input line 3.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[35<./fig/motor-learning/optimal-feedback-control/cell016.png><./fig/motor-learn
+[49<./fig/motor-learning/optimal-feedback-control/cell016.png><./fig/motor-learn
 ing/optimal-feedback-control/cell017.png>]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1850,14 +2290,14 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[36])
+[50])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[37]
+[51]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/motor-l
@@ -1867,7 +2307,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[38])
+[52])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1883,7 +2323,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[39])
+[53])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1909,11 +2349,11 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[40])
+[54])
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/motor-lea
 rning/infinite-horizon-ofc/output_017.tex
-<./fig/motor-learning/infinite-horizon-ofc/cell017.png, id=951, 992.70876pt x 2
-91.0875pt>
+<./fig/motor-learning/infinite-horizon-ofc/cell017.png, id=1397, 992.70876pt x 
+291.0875pt>
 File: ./fig/motor-learning/infinite-horizon-ofc/cell017.png Graphic file (type 
 png)
 <use ./fig/motor-learning/infinite-horizon-ofc/cell017.png>
@@ -1922,7 +2362,7 @@ Package luatex.def Info: ./fig/motor-learning/infinite-horizon-ofc/cell017.png
 (luatex.def)             Requested size: 794.16809pt x 232.8703pt.
 )
 
-LaTeX Warning: Citation `Li2018-qt' on page 41 undefined on input line 124.
+LaTeX Warning: Citation `Li2018-qt' on page 55 undefined on input line 124.
 
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1933,7 +2373,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[41<./fig/motor-learning/infinite-horizon-ofc/cell017.png>])
+[55<./fig/motor-learning/infinite-horizon-ofc/cell017.png>])
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
@@ -1959,10 +2399,10 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[42])
+[56])
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/motor-lea
 rning/infinite-horizon-ofc/output_023.tex
-<./fig/motor-learning/infinite-horizon-ofc/cell023.png, id=1023, 992.70876pt x 
+<./fig/motor-learning/infinite-horizon-ofc/cell023.png, id=1469, 992.70876pt x 
 291.0875pt>
 File: ./fig/motor-learning/infinite-horizon-ofc/cell023.png Graphic file (type 
 png)
@@ -1976,17 +2416,17 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 16.0pt, for example:
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
-[43<./fig/motor-learning/infinite-horizon-ofc/cell023.png>] [44
+[57<./fig/motor-learning/infinite-horizon-ofc/cell023.png>] [58
 
 ]
 第9章
-[45] [46
+[59] [60
 
 ]
 第10章
-[47]
+[61]
 No file main.bbl.
-(./main.ind [48
+(./main.ind [62
 
 
 
@@ -1999,56 +2439,66 @@ LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <10> not available
 (Font)              Font shape `JY3/gt/m/n' tried instead on input line 3.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 3.
- [49]) (./main.aux)
+ [63]) (./main.aux)
 
 LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 63D9AD3D8E1B56877F568264808A4E15;3297.
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: D2501DE8EA1858DF541005023DD96CD0;3769
+(rerunfilecheck)             After:  B12466D163128583F2A6204D498E052D;3907.
 )
 
 Here is how much of LuaTeX's memory you used:
- 30115 strings out of 478263
- 746622,1977958 words of node,token memory allocated
- 2982 words of node memory still in use:
-   12 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 4 sub_mlist, 1 glyph, 1043 attribu
-te, 63 glue_spec, 108 attribute_list, 3 write, 15 user_defined, 1 pdf_action nod
-es
-   avail lists: 1:29,2:129736,3:445,4:18600,5:3789,6:114,7:11773,8:58,9:17935,10
-:23,11:526
- 47711 multiletter control sequences out of 65536+600000
- 109 fonts using 90012511 bytes
- 118i,15n,112p,1750b,1217s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><c:/texli
-ve/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/202
-3/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texm
-f-dist/fonts/opentype/public/lm/lmromanslant10-regular.otf><./font/JuliaMono-Reg
-ular.ttf><./font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/p
-ublic/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/pu
-blic/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/l
-m/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmro
-man10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-
-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.
-otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><
-c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regul
-ar.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGoth
-ic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bol
-d.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/
-texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/20
-23/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2023/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pf
-b><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:
-/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (49 pages, 727599 bytes).
+ 31295 strings out of 478263
+ 746634,1977958 words of node,token memory allocated
+ 1951 words of node memory still in use:
+   12 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 4 sub_mlist, 1 glyph, 559 attribut
+e, 63 glue_spec, 64 attribute_list, 3 write, 15 user_defined, 4 pdf_action nodes
 
-PDF statistics: 1244 PDF objects out of 1440 (max. 8388607)
- 1109 compressed objects within 12 object streams
- 764 named destinations out of 1000 (max. 131072)
- 216 words of extra memory for PDF output out of 10000 (max. 100000000)
+   avail lists: 1:43,2:135846,3:445,4:18600,5:3789,6:114,7:13807,8:77,9:17935,10
+:29,11:526
+ 47988 multiletter control sequences out of 65536+600000
+ 113 fonts using 97843327 bytes
+ 118i,15n,112p,1750b,1219s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><c:/texli
+ve/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/202
+3/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2023/texm
+f-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist
+/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/
+fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/
+opentype/public/lm/lmromanslant10-regular.otf><./font/JuliaMono-Bold.ttf><./font
+/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsa
+ns12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-r
+egular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regula
+r.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf>
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texl
+ive/2023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2
+023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/t
+exlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.ot
+f><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/te
+xlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmmib10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+<c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/
+2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf
+-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts
+/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2023/texmf-dist/fonts/type
+1/public/amsfonts/symbols/msbm10.pfb>
+Output written on main.pdf (63 pages, 1142500 bytes).
+
+PDF statistics: 1726 PDF objects out of 1728 (max. 8388607)
+ 1551 compressed objects within 16 object streams
+ 1124 named destinations out of 1200 (max. 131072)
+ 232 words of extra memory for PDF output out of 10000 (max. 100000000)
 
