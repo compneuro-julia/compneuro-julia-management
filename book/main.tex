@@ -20,6 +20,7 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+\usepackage{hyperref}
 
 \newcommand{\jl}{\lstinline[language=julia]}
 
@@ -85,9 +86,9 @@
 % \input{./text/solve-credit-assignment-problem/reservoir-computing.tex}
 
 \chapter{運動制御}
-% \input{./text/motor-learning/minimum-jerk.tex} % ok
-% \input{./text/motor-learning/minimum-variance.tex} % ok
-% \input{./text/motor-learning/optimal-feedback-control.tex} % ok
+\input{./text/motor-learning/minimum-jerk.tex} % ok
+\input{./text/motor-learning/minimum-variance.tex} % ok
+\input{./text/motor-learning/optimal-feedback-control.tex} % ok
 \input{./text/motor-learning/infinite-horizon-ofc.tex} % ok
 % \input{./text/motor-learning/biological-ofc.tex} % 全体修正する
 % \input{./text/motor-learning/rat-trajectory.tex} % ok
@@ -102,5 +103,11 @@
 % \input{./text/bayesian-brain/neural-sampling.tex} % ok2
 % \input{./text/bayesian-brain/probabilistic-population-coding.tex}
 % \input{./text/bayesian-brain/quantile-expectile-regression.tex}
+\clearpage
+\addcontentsline{toc}{chapter}{\bibname}
+\bibliography{参考文献} 
+
+\clearpage
+\addcontentsline{toc}{chapter}{\indexname}
 \printindex
 \end{document}

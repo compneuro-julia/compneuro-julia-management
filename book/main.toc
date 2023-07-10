@@ -6,12 +6,29 @@
 \contentsline {chapter}{\numberline {第6章}生成モデルとエネルギーベースモデル}{15}{chapter.6}%
 \contentsline {chapter}{\numberline {第7章}貢献度分配問題の解決策}{17}{chapter.7}%
 \contentsline {chapter}{\numberline {第8章}運動制御}{19}{chapter.8}%
-\contentsline {section}{\numberline {8.1}無限時間最適フィードバック制御モデル}{19}{section.8.1}%
-\contentsline {subsection}{\numberline {8.1.1}モデルの構造}{19}{subsection.8.1.1}%
-\contentsline {subsection}{\numberline {8.1.2}実装}{19}{subsection.8.1.2}%
-\contentsline {subsubsection}{K, L, S, Pの計算}{21}{section*.2}%
-\contentsline {subsubsection}{シミュレーション}{22}{section*.3}%
-\contentsline {subsubsection}{ノイズを含むシミュレーション}{23}{section*.4}%
-\contentsline {subsection}{\numberline {8.1.3}Target jump}{25}{subsection.8.1.3}%
-\contentsline {chapter}{\numberline {第9章}強化学習}{29}{chapter.9}%
-\contentsline {chapter}{\numberline {第10章}神経回路網によるベイズ推論}{31}{chapter.10}%
+\contentsline {section}{\numberline {8.1}躍度最小モデル}{19}{section.8.1}%
+\contentsline {subsection}{\numberline {8.1.1}等式制約下の二次計画法 (Equality Constrained Quadratic Programming)}{19}{subsection.8.1.1}%
+\contentsline {subsection}{\numberline {8.1.2}躍度最小モデルの実装}{20}{subsection.8.1.2}%
+\contentsline {subsection}{\numberline {8.1.3}経由点を通る場合}{22}{subsection.8.1.3}%
+\contentsline {section}{\numberline {8.2}終点誤差分散最小モデル}{23}{section.8.2}%
+\contentsline {subsection}{\numberline {8.2.1}終点誤差分散最小モデルの実装}{24}{subsection.8.2.1}%
+\contentsline {section}{\numberline {8.3}最適フィードバック制御モデル}{27}{section.8.3}%
+\contentsline {subsection}{\numberline {8.3.1}最適フィードバック制御モデルの構造}{27}{subsection.8.3.1}%
+\contentsline {subsubsection}{系の状態変化}{28}{section*.2}%
+\contentsline {subsubsection}{LQG}{28}{section*.3}%
+\contentsline {paragraph}{運動制御 (Linear-Quadratic Regulator)}{29}{section*.4}%
+\contentsline {paragraph}{状態推定 (Kalman Filter)}{29}{section*.5}%
+\contentsline {subsubsection}{一般化LQG}{29}{section*.6}%
+\contentsline {subsection}{\numberline {8.3.2}実装}{29}{subsection.8.3.2}%
+\contentsline {subsubsection}{シミュレーション}{31}{section*.7}%
+\contentsline {section}{\numberline {8.4}無限時間最適フィードバック制御モデル}{35}{section.8.4}%
+\contentsline {subsection}{\numberline {8.4.1}モデルの構造}{35}{subsection.8.4.1}%
+\contentsline {subsection}{\numberline {8.4.2}実装}{36}{subsection.8.4.2}%
+\contentsline {subsubsection}{K, L, S, Pの計算}{38}{section*.8}%
+\contentsline {subsubsection}{シミュレーション}{39}{section*.9}%
+\contentsline {subsubsection}{ノイズを含むシミュレーション}{40}{section*.10}%
+\contentsline {subsection}{\numberline {8.4.3}Target jump}{41}{subsection.8.4.3}%
+\contentsline {chapter}{\numberline {第9章}強化学習}{45}{chapter.9}%
+\contentsline {chapter}{\numberline {第10章}神経回路網によるベイズ推論}{47}{chapter.10}%
+\contentsline {chapter}{参考文献}{48}{chapter.10}%
+\contentsline {chapter}{索引}{48}{chapter.10}%

@@ -2,11 +2,25 @@
 
 \makeidxhead{I}
   \item infinite-horizon optimal feedback control model\idxdelim 
-		\hyperpage{19}
+		\hyperpage{35}
+
+
+\makeidxhead{K}
+  \item Kalman フィルタ\idxdelim \hyperpage{27}
+
+
+\makeidxhead{さ}
+  \item 最適フィードバック制御モデル (optimal feedback control; OFC)\idxdelim 
+		\hyperpage{27}
+  \item 終点誤差分散最小モデル\idxdelim \hyperpage{23}
+  \item 線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御\idxdelim 
+		\hyperpage{28}
+  \item 線形2次レギュレーター(LQR: linear-quadratic regurator)\idxdelim 
+		\hyperpage{27}
 
 
 \makeidxhead{ま}
   \item 無限時間最適フィードバック制御モデル\idxdelim 
-		\hyperpage{19}
+		\hyperpage{35}
 
 \end{theindex}
