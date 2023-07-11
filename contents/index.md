@@ -5,7 +5,7 @@
 （2021/04/03追記）本サイト『Juliaで学ぶ計算論的神経科学』の書籍化企画が**講談社サイエンティフィク**で承認されました．出版予定は**2025年春**です．若輩者ゆえ荷が重くはありますが，神経科学・Julia界隈の方々には何卒応援いただきたく存じます．
 
 ```{admonition} 記事で使用しているJuliaのバージョン
-Julia v1.9.0
+Julia v1.9.2
 ```
 
 ## 依存ライブラリ
@@ -45,9 +45,10 @@ Julia v1.9.0
 	1. [シナプス入力の重みづけ](https://compneuro-julia.github.io/synapse-model/synaptic-weighted.html)
 	1. [動的シナプス](https://compneuro-julia.github.io/synapse-model/dynamical-synapses.html)
 
-3. 神経回路網の構築
+3. [神経回路網の構築](https://compneuro-julia.github.io/network-building/intro.html)
     1. 神経細胞間の接続
-    1. ランダムネットワークの構築
+    1. ランダムネットワークの構築 (発火率， spiking)
+    1. ランダムネットワークの統計値 (甘利先生の本を参考に)
 
 4. [神経回路網の演算処理](https://compneuro-julia.github.io/neuronal-computation/intro.html)
 	1. [ゲイン調節と四則演算](https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html)
@@ -58,8 +59,9 @@ Julia v1.9.0
 1. [局所学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
     1. 学習と学習則
     2. [Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則](https://compneuro-julia.github.io/local-learning-rule/hebbian-learning.html)
-    3. STDP則
-    4. [自己組織化マップと視覚野の構造](https://compneuro-julia.github.io/local-learning-rule/self-organizing-map.html)
+    3. STDP則・BTDP則
+    4. [自己組織化マップ](https://compneuro-julia.github.io/local-learning-rule/self-organizing-map.html)
+    5. リザバーコンピューティング
 
 2. [エネルギーベースモデル](https://compneuro-julia.github.io/energy-based-model/intro.html)
 	1. [エネルギーベースモデル](https://compneuro-julia.github.io/energy-based-model/energy-based-model.html)
@@ -76,7 +78,7 @@ Julia v1.9.0
     1. RTRL
     1. 適格度トレースによるRTRLの近似
     1. 予測符号化による誤差逆伝播法の近似
-    1. SNNの訓練法
+4. SNNの訓練法
     
 ### 第4部：
 1. [運動制御](https://compneuro-julia.github.io/motor-learning/intro.html)
