@@ -59,25 +59,25 @@ Julia v1.9.2
 1. [局所学習則](https://compneuro-julia.github.io/learning-rule/intro.html)
     1. 学習と学習則
     2. [Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則](https://compneuro-julia.github.io/local-learning-rule/hebbian-learning.html)
-    3. STDP則・BTDP則
+    3. STDP則・BTDP則・BTSP (behavioral timescale synaptic plasticity)則
     4. [自己組織化マップ](https://compneuro-julia.github.io/local-learning-rule/self-organizing-map.html)
     5. リザバーコンピューティング
 
 2. [エネルギーベースモデル](https://compneuro-julia.github.io/energy-based-model/intro.html)
 	1. [エネルギーベースモデル](https://compneuro-julia.github.io/energy-based-model/energy-based-model.html)
-	1. [Hopfield モデル](https://compneuro-julia.github.io/energy-based-model/hopfield-model.html) 
-    1. [Boltzmann マシン](https://compneuro-julia.github.io/energy-based-model/boltzmann-machine.html) 
-    1. [スパース符号化](https://compneuro-julia.github.io/energy-based-model/sparse-coding.html)
-    1. [予測符号化](https://compneuro-julia.github.io/energy-based-model/predictive-coding.html)
+	2. [Hopfield モデル](https://compneuro-julia.github.io/energy-based-model/hopfield-model.html) 
+    3. [Boltzmann マシン](https://compneuro-julia.github.io/energy-based-model/boltzmann-machine.html) 
+    4. [スパース符号化](https://compneuro-julia.github.io/energy-based-model/sparse-coding.html)
+    5. [予測符号化](https://compneuro-julia.github.io/energy-based-model/predictive-coding.html)
    
 3. [貢献度分配問題の解決策](https://compneuro-julia.github.io/solve-credit-assignment-problem/intro.html)
     1. 貢献度分配問題
-	1. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/solve-credit-assignment-problem/backpropagation-zipser-andersen.html)
-    1. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/solve-credit-assignment-problem/linear-network-learning-dynamics.html)
-	1. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/solve-credit-assignment-problem/bptt.html)
-    1. RTRL
-    1. 適格度トレースによるRTRLの近似
-    1. 予測符号化による誤差逆伝播法の近似
+	2. [勾配法と誤差逆伝播法](https://compneuro-julia.github.io/solve-credit-assignment-problem/backpropagation-zipser-andersen.html)
+    3. [深層線形ニューラルネットの学習ダイナミクス](https://compneuro-julia.github.io/solve-credit-assignment-problem/linear-network-learning-dynamics.html)
+	4. [BPTT (backpropagation through time)](https://compneuro-julia.github.io/solve-credit-assignment-problem/bptt.html)
+    5. RTRL
+    6. 適格度トレースによるRTRLの近似
+    7. 予測符号化による誤差逆伝播法の近似
 4. SNNの訓練法
     
 ### 第4部：

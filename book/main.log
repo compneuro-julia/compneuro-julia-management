@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  17 JUL 2023 02:08
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  17 JUL 2023 03:29
  restricted system commands enabled.
 **main
 (./main.tex
@@ -1449,19 +1449,11 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 2.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 2.
-
-
-LaTeX Warning: Citation `Hodgkin1952-gy' on page 7 undefined on input line 3.
-
-
-LaTeX Warning: Citation `Schwiening2012-pi' on page 7 undefined on input line 3
-.
-
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 6.47299pt on input line 6.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 4.62357pt on input line 6.
-[7]
+ [7]
 Package hyperref Info: bookmark level for unknown lstlisting defaults to 0 on i
 nput line 53.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -1470,8 +1462,8 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 8.32242pt on input line 53.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/neuron-
-model/hodgkin-huxley/002.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/neuron-model/hodgkin-huxley/002.jl
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <9> not available
 (Font)              Font shape `JT3/gt/m/n' tried instead on input line 1.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
@@ -1513,13 +1505,13 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_
 lmromanslant10-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/sl' in size <10> not available
-(Font)              Font shape `JT3/mc/m/n' tried instead on input line 58.
+(Font)              Font shape `JT3/mc/m/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 58.
+(Font)              scaled to size 9.24713pt on input line 56.
 LaTeX Font Info:    Font shape `JY3/mc/m/sl' in size <10> not available
-(Font)              Font shape `JY3/mc/m/n' tried instead on input line 58.
+(Font)              Font shape `JY3/mc/m/n' tried instead on input line 56.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 58.
+(Font)              scaled to size 9.24713pt on input line 56.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1576,7 +1568,7 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 (./text/neuron-model/hodgkin-huxley/011.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 (./text/neuron-model/hodgkin-huxley/output_011.tex
-<./fig/neuron-model/hodgkin-huxley/cell011.png, id=199, 592.2125pt x 491.8375pt
+<./fig/neuron-model/hodgkin-huxley/cell011.png, id=213, 592.2125pt x 491.8375pt
 >
 File: ./fig/neuron-model/hodgkin-huxley/cell011.png Graphic file (type png)
 <use ./fig/neuron-model/hodgkin-huxley/cell011.png>
@@ -1601,19 +1593,10 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                \setlength{\footskip}{16.0pt}.
 
 [11<./fig/neuron-model/hodgkin-huxley/cell011.png>]
-
-LaTeX Warning: Citation `Connor1977-qo' on page 12 undefined on input line 76.
-
-
-LaTeX Warning: Citation `Connor1971-rs' on page 12 undefined on input line 76.
-
-
-LaTeX Warning: Citation `Dayan2005-ib' on page 12 undefined on input line 76.
-
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/neuron-
-model/hodgkin-huxley/016.jl
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(./text/neuron-model/hodgkin-huxley/016.jl
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
@@ -1643,7 +1626,7 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'. (./text/neuron-
 model/hodgkin-huxley/019.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 (./text/neuron-model/hodgkin-huxley/output_019.tex
-<./fig/neuron-model/hodgkin-huxley/cell019.png, id=324, 592.2125pt x 291.0875pt
+<./fig/neuron-model/hodgkin-huxley/cell019.png, id=345, 592.2125pt x 291.0875pt
 >
 File: ./fig/neuron-model/hodgkin-huxley/cell019.png Graphic file (type png)
 <use ./fig/neuron-model/hodgkin-huxley/cell019.png>
@@ -1679,7 +1662,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 [15])
 Removing  `ltj.listings_unicode' from `process_input_buffer'. (./text/neuron-mo
 del/hodgkin-huxley/output_024.tex
-<./fig/neuron-model/hodgkin-huxley/cell024.png, id=386, 490.83376pt x 240.9pt>
+<./fig/neuron-model/hodgkin-huxley/cell024.png, id=407, 490.83376pt x 240.9pt>
 File: ./fig/neuron-model/hodgkin-huxley/cell024.png Graphic file (type png)
 <use ./fig/neuron-model/hodgkin-huxley/cell024.png>
 Package luatex.def Info: ./fig/neuron-model/hodgkin-huxley/cell024.png  used on
@@ -1688,9 +1671,6 @@ Package luatex.def Info: ./fig/neuron-model/hodgkin-huxley/cell024.png  used on
 )
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 5.54828pt on input line 121.
-
-
-LaTeX Warning: Citation `Chik2004-ka' on page 16 undefined on input line 123.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1709,21 +1689,14 @@ Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 (./text/neuron-model/hodgkin-huxley/029.jl)
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 (./text/neuron-model/hodgkin-huxley/output_029.tex
-<./fig/neuron-model/hodgkin-huxley/cell029.png, id=400, 591.20876pt x 490.83376
+<./fig/neuron-model/hodgkin-huxley/cell029.png, id=422, 591.20876pt x 490.83376
 pt>
 File: ./fig/neuron-model/hodgkin-huxley/cell029.png Graphic file (type png)
 <use ./fig/neuron-model/hodgkin-huxley/cell029.png>
 Package luatex.def Info: ./fig/neuron-model/hodgkin-huxley/cell029.png  used on
  input line 3.
 (luatex.def)             Requested size: 472.96764pt x 392.66753pt.
-)
-
-LaTeX Warning: Citation `Dodla2006-fj' on page 17 undefined on input line 130.
-
-
-LaTeX Warning: Citation `Dodla2013-dp' on page 17 undefined on input line 130.
-
-)
+))
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 16.0pt, for example:
@@ -1767,65 +1740,66 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 ]
 第10章
-[33]
-No file main.bbl.
-(./main.ind [34
+[33] (./main.bbl [34
 
 
+](load cache: extra_lmroman10-italic.luc)
+LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 7.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 7.
+LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 7.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 7.
+) [35] (./main.ind [36
 
-](load cache: extra_lmsans10-bold.luc) [35]) (./main.aux)
 
-LaTeX Warning: There were undefined references.
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: DF1C4C28D1319DE11B840096CCB56A70;1816
-(rerunfilecheck)             After:  F7AA586C157EFC43E1A3A758C28EE517;1954.
+](load cache: extra_lmsans10-bold.luc) [37]) (./main.aux)
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: EA5B8155D3B9E0638F763B9F6EA90C36;1954.
 )
 
 Here is how much of LuaTeX's memory you used:
- 29070 strings out of 478263
- 597254,1977958 words of node,token memory allocated
+ 29099 strings out of 478263
+ 597284,1977958 words of node,token memory allocated
  2534 words of node memory still in use:
    12 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 2 sub_mlist, 1 glyph, 843 attribut
 e, 62 glue_spec, 89 attribute_list, 3 write, 15 user_defined nodes
-   avail lists: 1:50,2:129098,3:364,4:16195,5:2783,6:112,7:10141,8:63,9:15764,10
+   avail lists: 1:42,2:129098,3:364,4:16195,5:2784,6:112,7:10141,8:63,9:15764,10
 :42,11:364
- 47507 multiletter control sequences out of 65536+600000
- 96 fonts using 83146591 bytes
+ 47520 multiletter control sequences out of 65536+600000
+ 97 fonts using 83278599 bytes
  118i,12n,112p,1823b,1219s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-bold.otf><c:/texli
-ve/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/202
-3/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2023/texm
-f-dist/fonts/opentype/public/lm/lmroman9-regular.otf><./font/JuliaMono-Regular.t
-tf><./font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/
-lm/lmroman5-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmr
-omanslant10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmr
-oman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-
-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regula
-r.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf
-><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/t
-exlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2
-023/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/t
-exmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texliv
-e/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:
-/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive
-/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmr5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.p
-fb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/tex
-live/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/t
-exmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
-Output written on main.pdf (35 pages, 515053 bytes).
+ve/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><c:/texlive/202
+3/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texm
+f-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2023/texmf-dist
+/fonts/opentype/public/lm/lmroman9-regular.otf><./font/JuliaMono-Regular.ttf><./
+font/JuliaMono-Bold.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmr
+oman5-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromansl
+ant10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-
+regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regula
+r.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf>
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/t
+exlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive
+/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/te
+xmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2023/texmf-d
+ist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023
+/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texli
+ve/2023/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2023/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/a
+msfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/
+cmr5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:
+/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2
+023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-d
+ist/fonts/type1/public/amsfonts/symbols/msam10.pfb>
+Output written on main.pdf (37 pages, 524855 bytes).
 
-PDF statistics: 678 PDF objects out of 1000 (max. 8388607)
- 564 compressed objects within 6 object streams
- 295 named destinations out of 1000 (max. 131072)
- 136 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 722 PDF objects out of 1000 (max. 8388607)
+ 602 compressed objects within 7 object streams
+ 306 named destinations out of 1000 (max. 131072)
+ 152 words of extra memory for PDF output out of 10000 (max. 100000000)
 

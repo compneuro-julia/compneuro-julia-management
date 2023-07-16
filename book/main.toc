@@ -14,5 +14,5 @@
 \contentsline {chapter}{\numberline {第8章}運動制御}{29}{chapter.8}%
 \contentsline {chapter}{\numberline {第9章}強化学習}{31}{chapter.9}%
 \contentsline {chapter}{\numberline {第10章}神経回路網によるベイズ推論}{33}{chapter.10}%
-\contentsline {chapter}{参考文献}{34}{chapter.10}%
-\contentsline {chapter}{索引}{34}{chapter.10}%
+\contentsline {chapter}{参考文献}{35}{chapter*.3}%
+\contentsline {chapter}{索引}{36}{chapter*.3}%
