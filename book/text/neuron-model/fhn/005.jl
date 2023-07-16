@@ -1,9 +1,11 @@
-@kwdef struct FHNParameter{FT}
-    a::FT = 0.7; b::FT = 0.8; c::FT = 10.0
+function update!(neuron::FHN, x::Vector)
+    @unpack num_neurons, dt, v, u = neuron
+    @unpack a, b, c = neuron.param
+    @inbounds for i = 1:num_neurons
+        v[i] += dt * c * (-u[i] + v[i] - v[i]^3 / 3 + x[i])
+        u[i] += dt * (v[i] - b*u[i] + a)
+    end
+    return v
 end
 
-@kwdef mutable struct FHN{FT}
-    param::FHNParameter = FHNParameter{FT}()
-    N::UInt16
-    v::Vector{FT} = fill(-1.0, N); u::Vector{FT} = zeros(N)
-end
+(layer::Layer)(x) = update!(layer, x)

@@ -1,39 +1,48 @@
 \begin{theindex}
 
-\makeidxhead{E}
-  \item Elastic net\idxdelim \hyperpage{18}
+\makeidxhead{C}
+  \item Connor-Stevensモデル\idxdelim \hyperpage{12}
 
 
-\makeidxhead{I}
-  \item infinite-horizon optimal feedback control model\idxdelim 
-		\hyperpage{49}
+\makeidxhead{F}
+  \item frequency-current (F-I) 曲線\idxdelim \hyperpage{16}
 
 
-\makeidxhead{K}
-  \item Kalman フィルタ\idxdelim \hyperpage{41}
+\makeidxhead{H}
+  \item Hodgkin-Huxleyモデル\idxdelim \hyperpage{7}
+
+
+\makeidxhead{あ}
+  \item アノーダルブレイク\idxdelim \hyperpage{16}
+  \item イオンチャネル\idxdelim \hyperpage{7}
+
+
+\makeidxhead{か}
+  \item コンダクタンス\idxdelim \hyperpage{7}
 
 
 \makeidxhead{さ}
-  \item 最適フィードバック制御モデル (optimal feedback control; OFC)\idxdelim 
-		\hyperpage{41}
-  \item 自己組織化マップ (self-organizing map)\idxdelim 
-		\hyperpage{17}
-  \item 終点誤差分散最小モデル\idxdelim \hyperpage{37}
-  \item 勝者ユニット(best matching unit; BMU)\idxdelim 
-		\hyperpage{18}
-  \item 線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御\idxdelim 
-		\hyperpage{42}
-  \item 線形2次レギュレーター(LQR: linear-quadratic regurator)\idxdelim 
-		\hyperpage{41}
+  \item 自己再生的過程\idxdelim \hyperpage{17}
 
 
 \makeidxhead{た}
-  \item トポグラフィックマッピング (topographic mapping)\idxdelim 
-		\hyperpage{18}
+  \item 電位固定法\idxdelim \hyperpage{7}
+
+
+\makeidxhead{は}
+  \item 平衡電位\idxdelim \hyperpage{7}
 
 
 \makeidxhead{ま}
-  \item 無限時間最適フィードバック制御モデル\idxdelim 
-		\hyperpage{49}
+  \item 膜の並列等価回路モデル\idxdelim \hyperpage{7}
+  \item 全か無かの法則\idxdelim \hyperpage{16}
+
+
+\makeidxhead{や}
+  \item 抑制後リバウンド\idxdelim \hyperpage{16}
+
+
+\makeidxhead{ら}
+  \item リバウンド発火\idxdelim \hyperpage{16}
 
 \end{theindex}

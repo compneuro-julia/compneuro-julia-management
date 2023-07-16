@@ -1,19 +1,22 @@
 T = 50 # ms
 dt = 0.01f0 # ms
 nt = Int32(T/dt) # number of timesteps
-N = 1 # ニューロンの数
+num_neurons = 1 # ニューロンの数
 
 # 入力刺激
-t = Array{Float32}(1:nt)*dt
-I = repeat(5f0 * ((t .> 10) - (t .> 15)), 1, N)  # injection current
+time = Array{Float32}(1:nt)*dt
+Ie = repeat(5*((time .> 10) - (time .> 15)), 1, num_neurons)  # injection current
 
 # 記録用
-varr, rarr = zeros(Float32, nt, N), zeros(Float32, nt, N)
+varr, rarr = zeros(Float32, nt, num_neurons), zeros(Float32, nt, num_neurons)
+
 # modelの定義
-neurons = HH{Float32}(N=N)
+hh_neurons = HH{Float32}(num_neurons=num_neurons, dt=dt)
+hh_synapse = HHKineticSynapse{Float32}(num_neurons=num_neurons, dt=dt)
 
 # simulation
-@time for i = 1:nt
-    updateHH!(neurons, neurons.param, I[i, :], dt)
-    varr[i, :], rarr[i, :] = neurons.v, neurons.r
+@time for t = 1:nt
+    v = hh_neurons(Ie[t, :])
+    r = hh_synapse(v)
+    varr[t, :], rarr[t, :] = v, r
 end

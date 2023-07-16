@@ -1,11 +1,13 @@
-\indexentry{じこそしきかまっぷ (self-organizing map)@自己組織化マップ (self-organizing map)|hyperpage}{17}
-\indexentry{Elastic net|hyperpage}{18}
-\indexentry{とぽぐらふぃっくまっぴんぐ (topographic mapping)@トポグラフィックマッピング (topographic mapping)|hyperpage}{18}
-\indexentry{しょうしゃゆにっと(best matching unit; BMU)@勝者ユニット(best matching unit; BMU)|hyperpage}{18}
-\indexentry{しゅうてんごさぶんさんさいしょうもでる@終点誤差分散最小モデル|hyperpage}{37}
-\indexentry{さいてきふぃーどばっくせいぎょもでる (optimal feedback control; OFC)@最適フィードバック制御モデル (optimal feedback control; OFC)|hyperpage}{41}
-\indexentry{Kalman ふぃるた@Kalman フィルタ|hyperpage}{41}
-\indexentry{せんけい2つぎれぎゅれーたー(LQR: linear-quadratic regurator)@線形2次レギュレーター(LQR: linear-quadratic regurator)|hyperpage}{41}
-\indexentry{せんけい2つぎがうしあん(LQG: linear-quadratic-Gaussian)せいぎょ@線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御|hyperpage}{42}
-\indexentry{むげんじかんさいてきふぃーどばっくせいぎょもでる@無限時間最適フィードバック制御モデル|hyperpage}{49}
-\indexentry{infinite-horizon optimal feedback control model|hyperpage}{49}
+\indexentry{Hodgkin-Huxleyもでる@Hodgkin-Huxleyモデル|hyperpage}{7}
+\indexentry{でんいこていほう@電位固定法|hyperpage}{7}
+\indexentry{まくのへいれつとうかかいろもでる@膜の並列等価回路モデル|hyperpage}{7}
+\indexentry{いおんちゃねる@イオンチャネル|hyperpage}{7}
+\indexentry{こんだくたんす@コンダクタンス|hyperpage}{7}
+\indexentry{へいこうでんい@平衡電位|hyperpage}{7}
+\indexentry{Connor-Stevensもでる@Connor-Stevensモデル|hyperpage}{12}
+\indexentry{frequency-current (F-I) きょくせん@frequency-current (F-I) 曲線|hyperpage}{16}
+\indexentry{まったかなかのほうそく@全か無かの法則|hyperpage}{16}
+\indexentry{よくせいのちりばうんど@抑制後リバウンド|hyperpage}{16}
+\indexentry{りばうんどはっか@リバウンド発火|hyperpage}{16}
+\indexentry{あのーだるぶれいく@アノーダルブレイク|hyperpage}{16}
+\indexentry{じこさいせいてきかてい@自己再生的過程|hyperpage}{17}

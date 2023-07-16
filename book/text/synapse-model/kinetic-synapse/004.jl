@@ -1,39 +1,59 @@
-using Base: @kwdef
 using Parameters: @unpack # or using UnPack
 
+abstract type Layer end
+abstract type Neuron <: Layer end
+abstract type SpikeNeuron <: Neuron end
+
+abstract type Synapse <: Layer end
+
 @kwdef struct HHParameter{FT}
-    Cm::FT = 1.0 # 膜容量(uF/cm^2)
-    gNa::FT = 120.0 # Na+ の最大コンダクタンス(mS/cm^2)
-    gK::FT = 36.0 # K+ の最大コンダクタンス(mS/cm^2)
-    gL::FT = 0.3 # 漏れイオンの最大コンダクタンス(mS/cm^2)
-    ENa::FT = 50.0 # Na+ の平衡電位(mV)
-    EK::FT = -77.0 # K+ の平衡電位(mV)
-    EL::FT = -54.387 #漏れイオンの平衡電位(mV)
-    tr::FT = 0.5 # ms
-    td::FT = 8.0 # ms
-    invtr::FT = 1.0 / tr
-    invtd::FT = 1.0 / td
-    v0::FT = -20.0 # mV
+    Cm::FT = 1 # 膜容量(uF/cm^2)
+    gNa::FT = 120; gK::FT = 36; gL::FT = 0.3 # Na+, K+, leakの最大コンダクタンス(mS/cm^2)
+    ENa::FT = 50; EK::FT = -77; EL::FT = -54 # Na+, K+, leakの平衡電位(mV)
 end
 
-@kwdef mutable struct HH{FT}
+@kwdef mutable struct HH{FT} <: SpikeNeuron
+    num_neurons::UInt16
+    dt::FT = 1e-3
     param::HHParameter = HHParameter{FT}()
-    N::Int32
-    v::Vector{FT} = fill(-65.0, N)
-    m::Vector{FT} = fill(0.05, N)
-    h::Vector{FT} = fill(0.6, N)
-    n::Vector{FT} = fill(0.32, N)
-    r::Vector{FT} = zeros(N)
+    v::Vector{FT} = fill(-65, num_neurons)
+    m::Vector{FT} = fill(0.05, num_neurons) 
+    h::Vector{FT} = fill(0.6, num_neurons)
+    n::Vector{FT} = fill(0.32, num_neurons)
 end
 
-function updateHH!(variable::HH, param::HHParameter, I::Vector, dt)
-    @unpack N, v, m, h, n, r = variable
-    @unpack Cm, gNa, gK, gL, ENa, EK, EL, tr, td, invtr, invtd, v0= param
-    @inbounds for i = 1:N
-        m[i] += dt * ((0.1(v[i]+40.0)/(1.0 - exp(-0.1(v[i]+40.0))))*(1.0 - m[i]) - 4.0exp(-(v[i]+65.0) / 18.0)*m[i])
-        h[i] += dt * ((0.07exp(-0.05(v[i]+65.0)))*(1.0 - h[i]) - 1.0/(1.0 + exp(-0.1(v[i]+35.0)))*h[i])
-        n[i] += dt * ((0.01(v[i]+55.0)/(1.0 - exp(-0.1(v[i]+55.0))))*(1.0 - n[i]) - (0.125exp(-0.0125(v[i]+65)))*n[i])
-        v[i] += dt / Cm * (I[i] - gNa * m[i]^3 * h[i] * (v[i] - ENa) - gK * n[i]^4 * (v[i] - EK) - gL * (v[i] - EL))
-        r[i] += dt * ((invtr - invtd) * (1.0 - r[i])/(1.0 + exp(-v[i] + v0)) - r[i] * invtd)
-    end
+@kwdef struct HHKineticSynapseParameter{FT}
+    tr::FT = 0.5; td::FT = 8 # ms
+    tr⁻¹::FT = 1/tr; td⁻¹::FT = 1/td
+    v₀::FT = -20 # mV
 end
+
+@kwdef mutable struct HHKineticSynapse{FT} <: Synapse
+    num_neurons::UInt16
+    dt::FT = 1e-3
+    param::HHKineticSynapseParameter = HHKineticSynapseParameter{FT}()
+    r::Vector{FT} = zeros(num_neurons)
+end
+
+function update!(neuron::HH, x::Vector)
+    @unpack num_neurons, dt, v, m, h, n = neuron
+    @unpack Cm, gNa, gK, gL, ENa, EK, EL = neuron.param
+    @inbounds for i = 1:num_neurons
+        m[i] += dt * ((0.1(v[i]+40)/(1 - exp(-0.1(v[i]+40))))*(1 - m[i]) - 4exp(-(v[i]+65) / 18)*m[i])
+        h[i] += dt * ((0.07exp(-0.05(v[i]+65)))*(1 - h[i]) - 1/(1 + exp(-0.1(v[i]+35)))*h[i])
+        n[i] += dt * ((0.01(v[i]+55)/(1 - exp(-0.1(v[i]+55))))*(1 - n[i]) - (0.125exp(-0.0125(v[i]+65)))*n[i])
+        v[i] += dt / Cm * (x[i] - gNa * m[i]^3 * h[i] * (v[i] - ENa) - gK * n[i]^4 * (v[i] - EK) - gL * (v[i] - EL))
+    end
+    return v
+end
+
+function update!(synapse::HHKineticSynapse, v::Vector)
+    @unpack num_neurons, dt, r = synapse
+    @unpack tr⁻¹, td⁻¹, v₀ = synapse.param    
+    @inbounds for i = 1:num_neurons
+        r[i] += dt * ((tr⁻¹ - td⁻¹) * (1 - r[i])/(1 + exp(-v[i] + v₀)) - r[i] * td⁻¹)
+    end
+    return r
+end
+
+(layer::Layer)(x) = update!(layer, x)

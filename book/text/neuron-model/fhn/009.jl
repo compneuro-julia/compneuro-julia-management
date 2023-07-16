@@ -1,20 +1,5 @@
-T = 50 # ms
-dt = 0.01 # ms
-nt = UInt32(T/dt) # number of timesteps
-N = 1 # ニューロンの数
-
-# 入力刺激
-t = Array{Float32}(1:nt)*dt
-Ie = repeat(0.35f0*ones(nt), 1, N)  # injection current
-
-# 記録用
-varr, uarr = zeros(Float32, nt, N), zeros(Float32, nt, N)
-
-# modelの定義
-neurons = FHN{Float32}(N=N)
-
-# simulation
-@time for i = 1:nt
-    update!(neurons, neurons.param, Ie[i, :], dt)
-    varr[i, :], uarr[i, :] = neurons.v, neurons.u
-end
+figure(figsize=(5,4))
+subplot(3, 1, 1); plot(time, varr[:, 1], label=false, color="black"); ylabel("v")
+subplot(3, 1, 2); plot(time, uarr[:, 1], label=false); ylabel("u"); 
+subplot(3, 1, 3); plot(time, Ie, label=false); ylabel("Current"); xlabel("Times (ms)")
+tight_layout()
