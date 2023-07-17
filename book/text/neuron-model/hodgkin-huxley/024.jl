@@ -1,11 +1,10 @@
-figure(figsize=(5, 2.5))
-subplot(1,2,1)
-title("Type I (CS model)")
-text(threshold_cs+1, 0, L"$I_{\theta}$="*string(round(threshold_cs, digits=2)))
-plot(Iext_range_cs[:], rate_cs[1, :]); xlabel(L"Input current ($\mu$A/cm$^2$)"); ylabel("Firing rate (Hz)")
+fig, axes = subplots(1,2, figsize=(4, 2),constrained_layout=true) 
+axes[1].set_title("Type I (CS model)")
+axes[1].text(threshold_cs+1, 0, L"$I_{\theta}$="*string(round(threshold_cs, digits=2)))
+axes[1].plot(Iext_range_cs[:], rate_cs[1, :]); 
+axes[1].set_ylabel("Firing rate (Hz)")
 
-subplot(1,2,2)
-title("Type II (HH model)")
-text(threshold_hh+1, 0, L"$I_{\theta}$="*string(round(threshold_hh, digits=2)))
-plot(Iext_range_hh[:], rate_hh[1, :]); xlabel(L"Input current ($\mu$A/cm$^2$)"); 
-tight_layout()
+axes[2].set_title("Type II (HH model)")
+axes[2].text(threshold_hh+1, 0, L"$I_{\theta}$="*string(round(threshold_hh, digits=2)))
+axes[2].plot(Iext_range_hh[:], rate_hh[1, :]); 
+fig.supxlabel(L"Input current ($\mu$A/cm$^2$)", size=10)

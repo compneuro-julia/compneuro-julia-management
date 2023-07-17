@@ -1,4 +1,4 @@
-function fi_curve(NeuronType; num_neurons=300, T=1000, dt=0.025,
+function fi_curve(NeuronType; num_neurons=200, T=1000, dt=0.04,
                   current_range = [1, 30])
     nt = Int(T/dt) # number of timesteps
     Iext_range = Array{Float32}(range(current_range..., length=num_neurons)) # injection current

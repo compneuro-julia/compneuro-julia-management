@@ -43,11 +43,11 @@
       \list{publisher}{1}{%
         {American Physical Society}%
       }
-      \strng{namehash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{namehash}{c4454f0a3ced4935173237d218ee900c}
       \strng{fullhash}{67209c843aff0fe1d4dbe8e86223c1a5}
       \strng{bibnamehash}{67209c843aff0fe1d4dbe8e86223c1a5}
       \strng{authorbibnamehash}{67209c843aff0fe1d4dbe8e86223c1a5}
-      \strng{authornamehash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{authornamehash}{c4454f0a3ced4935173237d218ee900c}
       \strng{authorfullhash}{67209c843aff0fe1d4dbe8e86223c1a5}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
@@ -127,11 +127,11 @@
       \list{language}{1}{%
         {en}%
       }
-      \strng{namehash}{2fa41c23ac9f00249695401896908847}
+      \strng{namehash}{6b3e93240c0ee7b52d29b1dd8bc74f35}
       \strng{fullhash}{2fa41c23ac9f00249695401896908847}
       \strng{bibnamehash}{2fa41c23ac9f00249695401896908847}
       \strng{authorbibnamehash}{2fa41c23ac9f00249695401896908847}
-      \strng{authornamehash}{2fa41c23ac9f00249695401896908847}
+      \strng{authornamehash}{6b3e93240c0ee7b52d29b1dd8bc74f35}
       \strng{authorfullhash}{2fa41c23ac9f00249695401896908847}
       \field{sortinit}{C}
       \field{sortinithash}{4d103a86280481745c9c897c925753c0}
@@ -184,54 +184,6 @@
       \field{month}{8}
       \field{title}{Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems}
       \field{year}{2005}
-    \endentry
-    \entry{Dodla2013-dp}{incollection}{}
-      \name{author}{1}{}{%
-        {{un=0,uniquepart=base,hash=9a1295a8d398c8b29a5dd0d7d03f17fb}{%
-           family={Dodla},
-           familyi={D\bibinitperiod},
-           given={Ramana},
-           giveni={R\bibinitperiod},
-           givenun=0}}%
-      }
-      \name{editor}{2}{}{%
-        {{hash=9bfd0e10dfae546b8ac71d9e9a2e2256}{%
-           family={Jaeger},
-           familyi={J\bibinitperiod},
-           given={Dieter},
-           giveni={D\bibinitperiod}}}%
-        {{hash=666fcd081d5f59fa978beb977620fc36}{%
-           family={Jung},
-           familyi={J\bibinitperiod},
-           given={Ranu},
-           giveni={R\bibinitperiod}}}%
-      }
-      \list{location}{1}{%
-        {New York, NY}%
-      }
-      \list{publisher}{1}{%
-        {Springer New York}%
-      }
-      \strng{namehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
-      \strng{fullhash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
-      \strng{bibnamehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
-      \strng{authorbibnamehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
-      \strng{authornamehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
-      \strng{authorfullhash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
-      \strng{editorbibnamehash}{5cd137c7c3abbbda7dc077250b8f20b2}
-      \strng{editornamehash}{5cd137c7c3abbbda7dc077250b8f20b2}
-      \strng{editorfullhash}{5cd137c7c3abbbda7dc077250b8f20b2}
-      \field{sortinit}{D}
-      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
-      \field{extradatescope}{labelyear}
-      \field{labeldatesource}{}
-      \field{labelnamesource}{author}
-      \field{labeltitlesource}{title}
-      \field{booktitle}{Encyclopedia of Computational Neuroscience}
-      \field{title}{Postinhibitory Rebound and Facilitation}
-      \field{year}{2013}
-      \field{pages}{1\bibrangedash 3}
-      \range{pages}{3}
     \endentry
     \entry{Dodla2006-fj}{article}{}
       \name{author}{2}{}{%
@@ -346,6 +298,7 @@
       \range{pages}{5}
     \endentry
   \enddatalist
+  \missing{Hopper2022-xj}
 \endrefsection
 \endinput
 

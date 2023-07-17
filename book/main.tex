@@ -20,19 +20,40 @@
 
 \usepackage{fancyhdr}
 \pagestyle{fancy}
+\fancyfoot{}
+\fancyhead[RO, LE]{\thepage}
+\fancyhead[LO]{\nouppercase{\leftmark}}
+\fancyhead[RE]{\nouppercase{\rightmark}}
+
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{} }
+\renewcommand{\chaptermark}[1]{\markboth{第\ \thechapter\ 章. ~#1}{}}
+% \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{第\chaptername \thechapter 章.\ #1}}{}}
+% \renewcommand{\headrulewidth}{0pt}
+
 \usepackage{hyperref}
 
 % https://ja.overleaf.com/learn/latex/Bibliography_management_with_bibtex
 \usepackage[
     backend=biber,
     bibencoding=utf8,
-    style=authoryear, 
+    style=authoryear-comp, 
     url=false,
+    isbn=true,
+    doi=true,
     natbib=true, 
+    alldates=year,
+    maxcitenames=2,
+    uniquelist=false, 
     sorting=nty,
+    giveninits=true,
+    terseinits=false,
     refsegment=chapter
 ]{biblatex}
 \addbibresource{references.bib}
+
+\DeclareNameAlias{author}{last-first}
+\AtEveryBibitem{\clearlist{language}}
+\renewbibmacro{in:}{}
 
 % https://stackoverflow.com/questions/69682457/extended-links-in-citations
 \makeatletter
