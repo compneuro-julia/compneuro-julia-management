@@ -1,47 +1,19 @@
-This is upBibTeX, Version 0.99d-j0.36-u1.29 (utf8.uptex) (TeX Live 2023)
-Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
-The top-level auxiliary file: main.aux
-The style file: apalike.bst
-Database file #1: references.bib
-You've used 8 entries,
-            1935 wiz_defined-function locations,
-            537 strings with 5063 characters,
-and the built_in function-call counts, 3187 in all, are:
-= -- 315
-> -- 110
-< -- 7
-+ -- 38
-- -- 34
-* -- 274
-:= -- 550
-add.period$ -- 25
-call.type$ -- 8
-change.case$ -- 55
-chr.to.int$ -- 8
-cite$ -- 8
-duplicate$ -- 121
-empty$ -- 240
-format.name$ -- 50
-if$ -- 627
-int.to.chr$ -- 1
-int.to.str$ -- 0
-missing$ -- 9
-newline$ -- 43
-num.names$ -- 26
-pop$ -- 43
-preamble$ -- 1
-purify$ -- 56
-quote$ -- 0
-skip$ -- 92
-stack$ -- 0
-substring$ -- 249
-swap$ -- 13
-text.length$ -- 1
-text.prefix$ -- 0
-top$ -- 0
-type$ -- 46
-warning$ -- 0
-while$ -- 30
-width$ -- 0
-write$ -- 107
-is.kanji.str$ -- 0
+[0] Config.pm:307> INFO - This is Biber 2.19
+[0] Config.pm:310> INFO - Logfile is 'main.blg'
+[93] biber-MSWIN64:340> INFO - === 
+[120] Biber.pm:419> INFO - Reading 'main.bcf'
+[220] Biber.pm:979> INFO - Found 8 citekeys in bib section 0
+[233] Biber.pm:4419> INFO - Processing section 0
+[244] Biber.pm:4610> INFO - Looking for bibtex file 'references.bib' for section 0
+[281] bibtex.pm:1713> INFO - LaTeX decoding ...
+[364] bibtex.pm:1519> INFO - Found BibTeX data source 'references.bib'
+[444] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[445] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[449] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
+[450] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
+[457] bbl.pm:660> INFO - Writing 'main.bbl' with encoding 'UTF-8'
+[462] bbl.pm:763> INFO - Output to main.bbl
+[462] Biber.pm:131> WARN - Possible typo (case mismatch) between datasource keys: 'FitzHugh1961-fp' and 'Fitzhugh1961-fp' in file 'references.bib'
+[462] Biber.pm:131> WARN - Duplicate entry key: 'Nagumo1962-ob' in file 'references.bib', skipping ...
+[462] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\yamtak\AppData\Local\Temp\biber_tmp_G2aa\33e59b5ca9ec342068223d604c3f8d55_15064.utf8, line 5, warning: 6 characters of junk seen at toplevel
+[463] Biber.pm:133> INFO - WARNINGS: 3

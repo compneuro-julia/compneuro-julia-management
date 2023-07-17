@@ -1,14 +1,14 @@
 \section{自己組織化マップと視覚野の構造}
-視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生  (activity dependent development) により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，\textbf{自己組織化マップ (self-organizing map)}\index{じこそしきかまっぷ (self-organizing map)@自己組織化マップ (self-organizing map)} \cite{Kohonen1982-mn}, \cite{Kohonen2013-yt}を取り上げる．
+視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生  (activity dependent development) により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，\textbf{自己組織化マップ (self-organizing map)}\index{じこそしきかまっぷ (self-organizing map)@自己組織化マップ (self-organizing map)} \citep{Kohonen1982-mn}, \citep{Kohonen2013-yt}を取り上げる．
 
-自己組織化マップを視覚野の構造に適応したのは\cite{Obermayer1990-gq} \cite{N_V_Swindale1998-ri}などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している \textbf{Elastic net}\index{Elastic net}  \cite{Durbin1987-bp} \cite{Durbin1990-xx} \cite{Carreira-Perpinan2005-gy}　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した \cite{Tanaka2004-vz}， \cite{Ringach2007-oe}などのモデルがある．総説としては\cite{Das2005-mq}，\cite{Goodhill2007-va} ，数理モデル同士の関係については\cite{2002-nm}が詳しい．
+自己組織化マップを視覚野の構造に適応したのは\citep{Obermayer1990-gq} \citep{N_V_Swindale1998-ri}などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している \textbf{Elastic net}\index{Elastic net}  \citep{Durbin1987-bp} \citep{Durbin1990-xx} \citep{Carreira-Perpinan2005-gy}　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した \citep{Tanaka2004-vz}， \citep{Ringach2007-oe}などのモデルがある．総説としては\citep{Das2005-mq}，\citep{Goodhill2007-va} ，数理モデル同士の関係については\citep{2002-nm}が詳しい．
 
-自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる \cite{Carreira-Perpinan2005-gy}　 (Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
-\url{https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html}) ． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを\textbf{トポグラフィックマッピング (topographic mapping)}\index{とぽぐらふぃっくまっぴんぐ (topographic mapping)@トポグラフィックマッピング (topographic mapping)} と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては\cite{Von_der_Malsburg1973-bz} \cite{Willshaw1976-zo} \cite{Takeuchi1979-mi}などがある．
+自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる \citep{Carreira-Perpinan2005-gy}　 (Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
+\url{https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html}) ． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在する現象があり，これを\textbf{トポグラフィックマッピング (topographic mapping)}\index{とぽぐらふぃっくまっぴんぐ (topographic mapping)@トポグラフィックマッピング (topographic mapping)} と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては\citep{Von_der_Malsburg1973-bz} \citep{Willshaw1976-zo} \citep{Takeuchi1979-mi}などがある．
 
-発生の数理モデルに関する総説 \cite{Van_Ooyen2011-fz}, \cite{Goodhill2018-ho}
+発生の数理モデルに関する総説 \citep{Van_Ooyen2011-fz}, \citep{Goodhill2018-ho}
 \subsection{単純なデータセット}
-SOMにおける$n$番目の入力を $\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)$，$m$番目のニューロン$ (m=1, \ldots, M) $の重みベクトル (または活動ベクトル, 参照ベクトル) を$\mathbf{w}_m(t)\in \mathbb{R}^{D}$とする \cite{Kohonen2013-yt}．また，各ニューロンの物理的な位置を$\mathbf{x}_m$とする．このとき，$\mathbf{v}(t)$に対して$\mathbf{w}_m(t)$を次のように更新する．
+SOMにおける$n$番目の入力を $\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)$，$m$番目のニューロン$ (m=1, \ldots, M) $の重みベクトル (または活動ベクトル, 参照ベクトル) を$\mathbf{w}_m(t)\in \mathbb{R}^{D}$とする \citep{Kohonen2013-yt}．また，各ニューロンの物理的な位置を$\mathbf{x}_m$とする．このとき，$\mathbf{v}(t)$に対して$\mathbf{w}_m(t)$を次のように更新する．
 
 まず，$\mathbf{v}(t)$と$\mathbf{w}_m(t)$の間の距離が最も小さい (類似度が最も大きい) ニューロンを見つける．距離や類似度としてはユークリッド距離やコサイン類似度などが考えられる．
 
@@ -19,7 +19,7 @@ SOMにおける$n$番目の入力を $\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{
 \end{align}
 
 
-この，$c$番目のニューロンを\textbf{勝者ユニット(best matching unit; BMU)}\index{しょうしゃゆにっと(best matching unit; BMU)@勝者ユニット(best matching unit; BMU)} と呼ぶ．コサイン類似度において，$\mathbf{w}_m(t)^\top\mathbf{v}(t)$は線形ニューロンモデルの出力となる．このため，コサイン距離を採用する方が生理学的に妥当でありSOMの初期の研究ではコサイン類似度が用いられている \cite{Kohonen1982-mn}．しかし，コサイン類似度を用いる場合は$\mathbf{w}_m$および$\mathbf{v}$を正規化する必要がある．ユークリッド距離を用いると正規化なしでも学習できるため，SOMを応用する上ではユークリッド距離が採用される事が多い．ユークリッド距離を用いる場合，$\mathbf{w}_m$は重みベクトルではなくなるため，活動ベクトルや参照ベクトルと呼ばれる．ここでは結果の安定性を優先してユークリッド距離を用いることとする．
+この，$c$番目のニューロンを\textbf{勝者ユニット(best matching unit; BMU)}\index{しょうしゃゆにっと(best matching unit; BMU)@勝者ユニット(best matching unit; BMU)} と呼ぶ．コサイン類似度において，$\mathbf{w}_m(t)^\top\mathbf{v}(t)$は線形ニューロンモデルの出力となる．このため，コサイン距離を採用する方が生理学的に妥当でありSOMの初期の研究ではコサイン類似度が用いられている \citep{Kohonen1982-mn}．しかし，コサイン類似度を用いる場合は$\mathbf{w}_m$および$\mathbf{v}$を正規化する必要がある．ユークリッド距離を用いると正規化なしでも学習できるため，SOMを応用する上ではユークリッド距離が採用される事が多い．ユークリッド距離を用いる場合，$\mathbf{w}_m$は重みベクトルではなくなるため，活動ベクトルや参照ベクトルと呼ばれる．ここでは結果の安定性を優先してユークリッド距離を用いることとする．
 
 こうして得られた$c$を用いて$\mathbf{w}_m$を次のように更新する．
 
@@ -66,7 +66,7 @@ unified distance matrixを描画する．隣接する要素とは位置の差の
 \subsection{視覚野マップ}
 集合の直積を配列として返す関数 \jl{product}と極座標を直交座標に変換する関数 \jl{pol2cart}を用意する．
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/026.jl}
-刺激と初期の活動ベクトルは\cite{Carreira-Perpinan2005-gy}　を参考に作成．直積\jl{product}で全ての組の入力を作成する．
+刺激と初期の活動ベクトルは\citep{Carreira-Perpinan2005-gy}　を参考に作成．直積\jl{product}で全ての組の入力を作成する．
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/028.jl}
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/029.jl}
 \lstinputlisting[language=julia]{./text/local-learning-rule/self-organizing-map/030.jl}

@@ -22,11 +22,37 @@
 \pagestyle{fancy}
 \usepackage{hyperref}
 
+% https://ja.overleaf.com/learn/latex/Bibliography_management_with_bibtex
+\usepackage[
+    backend=biber,
+    bibencoding=utf8,
+    style=authoryear, 
+    url=false,
+    natbib=true, 
+    sorting=nty,
+    refsegment=chapter
+]{biblatex}
+\addbibresource{references.bib}
+
+% https://stackoverflow.com/questions/69682457/extended-links-in-citations
+\makeatletter
+\renewbibmacro*{cite}{%
+  \printtext[bibhyperref]{\iffieldundef{shorthand}
+    {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
+       {\usebibmacro{cite:label}%
+        \setunit{\printdelim{nonameyeardelim}}}
+       {\printnames{labelname}%
+        \setunit{\printdelim{nameyeardelim}}}%
+     \usebibmacro{cite:labeldate+extradate}}
+    {\usebibmacro{cite:shorthand}}}}
+\makeatother
+
 \newcommand{\jl}{\lstinline[language=julia]}
 
 \title{\Huge \textbf{Juliaで学ぶ計算論的神経科学}}
 \author{\huge 山本 拓都}
 \date{\huge \today} 
+
 \begin{document}
 \maketitle
 
@@ -51,6 +77,10 @@
 % \input{./text/neuron-model/izhikevich.tex} 
 % \input{./text/neuron-model/isi.tex} % ok
 % \input{./text/neuron-model/neurite-growth-model.tex} % ok
+
+\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+\addcontentsline{toc}{section}{参考文献}
+% \printbibliography
 
 \chapter{シナプス伝達のモデル}
 % \input{./text/synapse-model/synapse-physiol.tex} % ok
@@ -103,11 +133,9 @@
 % \input{./text/bayesian-brain/neural-sampling.tex} % ok2
 % \input{./text/bayesian-brain/probabilistic-population-coding.tex}
 % \input{./text/bayesian-brain/quantile-expectile-regression.tex}
-\clearpage
-\bibliographystyle{apalike} 
-\bibliography{references.bib}
 
-\clearpage
+% \clearpage
 \addcontentsline{toc}{chapter}{\indexname}
 \printindex
+
 \end{document}

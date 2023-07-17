@@ -1,6 +1,6 @@
 \section{Hodgkin-Huxleyモデル}
 \subsection{Hodgkin-Huxleyモデル}
-\textbf{Hodgkin-Huxleyモデル}\index{Hodgkin-Huxleyもでる@Hodgkin-Huxleyモデル} (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである \cite{Hodgkin1952-gy}．Hodgkinらはヤリイカの巨大神経軸索に対する\textbf{電位固定法}\index{でんいこていほう@電位固定法}(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した \cite{Schwiening2012-pi}．HHモデルには等価な電気回路モデルがあり, \textbf{膜の並列等価回路モデル}\index{まくのへいれつとうかかいろもでる@膜の並列等価回路モデル} (parallel conductance model)と呼ばれている．膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える．
+\textbf{Hodgkin-Huxleyモデル}\index{Hodgkin-Huxleyもでる@Hodgkin-Huxleyモデル} (HH モデル)は, A.L. HodgkinとA.F. Huxleyによって1952年に考案されたニューロンの膜興奮を表すモデルである \citep{Hodgkin1952-gy}．Hodgkinらはヤリイカの巨大神経軸索に対する\textbf{電位固定法}\index{でんいこていほう@電位固定法}(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した \citep{Schwiening2012-pi}．HHモデルには等価な電気回路モデルがあり, \textbf{膜の並列等価回路モデル}\index{まくのへいれつとうかかいろもでる@膜の並列等価回路モデル} (parallel conductance model)と呼ばれている．膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える．
 
 \textbf{イオンチャネル}\index{いおんちゃねる@イオンチャネル} (ion channel)は特定のイオン(例えばナトリウムイオンやカリウムイオンなど)を選択的に通す膜輸送体の一種である．それぞれのイオンの種類において, 異なるイオンチャネルがある (同じイオンでも複数の種類のイオンチャネルがある)．また, イオンチャネルにはイオンの種類に応じて異なる\textbf{コンダクタンス}\index{こんだくたんす@コンダクタンス}(抵抗の逆数で電流の「流れやすさ」を意味する)と\textbf{平衡電位}\index{へいこうでんい@平衡電位}(equilibrium potential)がある．HHモデルでは, ナトリウム(Na$^{+}$)チャネル, カリウム(K$^{+}$)チャネル, 漏れ電流(leak current)のイオンチャネルを仮定する．漏れ電流のイオンチャネルは当時特定できなかったチャネルで, 膜から電流が漏れ出すチャネルを意味する．なお, 現在では漏れ電流の多くはCl$^{-}$イオン(chloride ion)によることが分かっている．
 それでは, 等価回路モデルを用いて電位変化の式を立ててみよう．上図において, $C_m$は細胞膜のキャパシタンス(膜容量), $I_{m}(t)$は細胞膜を流れる電流(外部からの入力電流), $I_\text{Cap}(t)$は膜のコンデンサを流れる電流, $I_\text{Na}(t)$及び $I_K(t)$はそれぞれナトリウムチャネルとカリウムチャネルを通って膜から流出する電流, $I_\text{L}(t)$は漏れ電流である．このとき, 
@@ -73,7 +73,7 @@ E_{\text{Na}}&=50.0\ \textrm{mV}, E_{\text{K}}=-77\ \textrm{mV}, E_{\text{L}}=-5
 \lstinputlisting[language=julia]{./text/neuron-model/hodgkin-huxley/013.jl}
 50msから200msまでで11回, 250msから400msまでで16回発火しているので発火回数は計27回であり，この結果は正しい．
 \subsection{Connor-Stevensモデル}
-HHモデルはイカの巨大軸索の活動を再現したものであるが，脊椎動物のニューロンの神経活動を再現するためにHHモデルを修正したモデル (modified Hodgkin-Huxley model) が提案されてきた．その一種である，\textbf{Connor-Stevensモデル}\index{Connor-Stevensもでる@Connor-Stevensモデル} はHHモデルに2つ目のカリウム電流 (A型カリウム電流) を追加し，低い発火率でも活動を維持できる (振動を維持できる) ようにしたものである \cite{Connor1977-qo}, \cite{Connor1971-rs}．ここでパラメータは\cite{Dayan2005-ib}に記載のものを使用する．
+HHモデルはイカの巨大軸索の活動を再現したものであるが，脊椎動物のニューロンの神経活動を再現するためにHHモデルを修正したモデル (modified Hodgkin-Huxley model) が提案されてきた．その一種である，\textbf{Connor-Stevensモデル}\index{Connor-Stevensもでる@Connor-Stevensモデル} はHHモデルに2つ目のカリウム電流 (A型カリウム電流) を追加し，低い発火率でも活動を維持できる (振動を維持できる) ようにしたものである \citep{Connor1977-qo}, \citep{Connor1971-rs}．ここでパラメータは\citep{Dayan2005-ib}に記載のものを使用する．
 
 
 \begin{align}
@@ -120,11 +120,11 @@ HHモデルにおいて，入力電流に対する発火率がどのように変
 \input{./text/neuron-model/hodgkin-huxley/output_024.tex}
 このような曲線を\textbf{frequency-current (F-I) 曲線}\index{frequency-current (F-I) きょくせん@frequency-current (F-I) 曲線} (または neuronal input/output (I/O) 曲線)と呼ぶ．$I_\theta$は閾値電流を意味する (ここでは発火率が1Hz以上になる点を閾値と設定している) ．F-I曲線の種類に応じてType IおよびIIに分けられる\footnote{Type IIIニューロンも存在する}．
 \subsection{全か無かの法則の反例}
-ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると活動電位が発生する, というのはニューロンの活動電位発生についての典型的な説明である．膜電位が閾値を超えるか超えないかで活動電位の発生が決まるという法則を， \textbf{全か無かの法則}\index{まったかなかのほうそく@全か無かの法則} (all-or-none principle) と呼ぶ．後に説明するLIFモデルなどは，全か無かの法則に従って神経活動のモデル化を行っている．しかし，この全か無かの法則の法則は必ずしも成立するわけではない．反例として \textbf{抑制後リバウンド}\index{よくせいのちりばうんど@抑制後リバウンド} (Postinhibitory rebound; PIR)という現象がある．抑制後リバウンドは過分極性の電流の印加を止めた際に膜電位が静止膜電位に回復するのみならず, さらに脱分極をして発火をするという現象である．この時生じる発火を\textbf{リバウンド発火}\index{りばうんどはっか@リバウンド発火} (rebound spikes)と呼ぶ．この現象が生じる要因として\textbf{アノーダルブレイク}\index{あのーだるぶれいく@アノーダルブレイク} (anodal break, またはanode break excitation; ABE)や，遅いT型カルシウム電流 (slow T-type calcium current) が考えられている \cite{Chik2004-ka}．HH モデルはこのうちアノーダルブレイクを再現できるため, シミュレーションによりどのような現象か確認してみよう．これは入力電流を変更するだけで行える．
+ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると活動電位が発生する, というのはニューロンの活動電位発生についての典型的な説明である．膜電位が閾値を超えるか超えないかで活動電位の発生が決まるという法則を， \textbf{全か無かの法則}\index{まったかなかのほうそく@全か無かの法則} (all-or-none principle) と呼ぶ．後に説明するLIFモデルなどは，全か無かの法則に従って神経活動のモデル化を行っている．しかし，この全か無かの法則の法則は必ずしも成立するわけではない．反例として \textbf{抑制後リバウンド}\index{よくせいのちりばうんど@抑制後リバウンド} (Postinhibitory rebound; PIR)という現象がある．抑制後リバウンドは過分極性の電流の印加を止めた際に膜電位が静止膜電位に回復するのみならず, さらに脱分極をして発火をするという現象である．この時生じる発火を\textbf{リバウンド発火}\index{りばうんどはっか@リバウンド発火} (rebound spikes)と呼ぶ．この現象が生じる要因として\textbf{アノーダルブレイク}\index{あのーだるぶれいく@アノーダルブレイク} (anodal break, またはanode break excitation; ABE)や，遅いT型カルシウム電流 (slow T-type calcium current) が考えられている \citep{Chik2004-ka}．HH モデルはこのうちアノーダルブレイクを再現できるため, シミュレーションによりどのような現象か確認してみよう．これは入力電流を変更するだけで行える．
 \lstinputlisting[language=julia]{./text/neuron-model/hodgkin-huxley/027.jl}
 結果は次のようになる．
 \lstinputlisting[language=julia]{./text/neuron-model/hodgkin-huxley/029.jl}
 \input{./text/neuron-model/hodgkin-huxley/output_029.tex}
 なぜこのようなことが起こるか, というと過分極の状態から静止膜電位へと戻る際にNa$^+$チャネルが活性化 (Na$^+$チャネルの活性化パラメータ$m$が増加し, 不活性化パラメータ$h$が減少)し, 膜電位が脱分極することで再度Na$^+$チャネルが活性化する, というポジティブフィードバック過程(\textbf{自己再生的過程}\index{じこさいせいてきかてい@自己再生的過程})に突入するためである (もちろん, この過程は通常の活動電位発生のメカニズムである)． この際, 発火に必要な閾値が膜電位の低下に応じて下がった, ということもできる．
 
-なお，PIRに関連する現象として抑制後促通 (Postinhibitory facilitation; PIF)がある．これは抑制入力の後に興奮入力がある一定の時間内で入ると発火が起こるという現象である \cite{Dodla2006-fj} \cite{Dodla2013-dp}．
+なお，PIRに関連する現象として抑制後促通 (Postinhibitory facilitation; PIF)がある．これは抑制入力の後に興奮入力がある一定の時間内で入ると発火が起こるという現象である \citep{Dodla2006-fj} \citep{Dodla2013-dp}．

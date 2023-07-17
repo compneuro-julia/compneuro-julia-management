@@ -1,5 +1,5 @@
 \section{躍度最小モデル}
-躍度最小モデル (minimum-jerk model; \cite{Flash1985-vj})を実装する．解析的に求まるが以下では二次計画法を用いて数値的に求める．
+躍度最小モデル (minimum-jerk model; \citep{Flash1985-vj})を実装する．解析的に求まるが以下では二次計画法を用いて数値的に求める．
 
 \subsection{等式制約下の二次計画法 (Equality Constrained Quadratic Programming)}
 
@@ -27,7 +27,7 @@ Lagrangeの未定乗数法を用いると解は
 ちなみにjuliaでは $Ax=b$の解を出すとき，\jl{x=A^-1 * b}よりも\jl{x=A \ b}とした方がよい．
 \lstinputlisting[language=julia]{./text/motor-learning/minimum-jerk/004.jl}
 \subsection{躍度最小モデルの実装}
-1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では \cite{Yazdani2012-sx} での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．
+1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では \citep{Yazdani2012-sx} での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．
 
 問題設定は以下のようにする．
 

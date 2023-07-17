@@ -1,50 +1,351 @@
-\begin{thebibliography}{}
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.2 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
 
-\bibitem[Chik et~al., 2004]{Chik2004-ka}
-Chik, D. T.~W., Coombes, S., and Wang, Z.~D. (2004).
-\newblock Clustering through postinhibitory rebound in synaptically coupled
-  neurons.
-\newblock {\em Phys. Rev. E}, 70(1):011908.
 
-\bibitem[Connor and Stevens, 1971]{Connor1971-rs}
-Connor, J.~A. and Stevens, C.~F. (1971).
-\newblock Prediction of repetitive firing behaviour from voltage clamp data on
-  an isolated neurone soma.
-\newblock {\em J. Physiol.}, 213(1):31--53.
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{Chik2004-ka}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=8bb790a058340a50476d8e761688f639}{%
+           family={Chik},
+           familyi={C\bibinitperiod},
+           given={D\bibnamedelima T\bibnamedelima W},
+           giveni={D\bibinitperiod\bibinitdelim T\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5fdbafb86d8e1cbadba0fbf1dffc4943}{%
+           family={Coombes},
+           familyi={C\bibinitperiod},
+           given={S},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=121e3f90903affb798d64d428ec9f6f0}{%
+           family={Wang},
+           familyi={W\bibinitperiod},
+           given={Z\bibnamedelima D},
+           giveni={Z\bibinitperiod\bibinitdelim D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {American Physical Society}%
+      }
+      \strng{namehash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{fullhash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{bibnamehash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{authorbibnamehash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{authornamehash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \strng{authorfullhash}{67209c843aff0fe1d4dbe8e86223c1a5}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Phys. Rev. E}
+      \field{month}{7}
+      \field{number}{1}
+      \field{title}{Clustering through postinhibitory rebound in synaptically coupled neurons}
+      \field{volume}{70}
+      \field{year}{2004}
+      \field{pages}{011908}
+      \range{pages}{1}
+    \endentry
+    \entry{Connor1971-rs}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=d1bb6d91ebdfe349d4a29e625c478a2c}{%
+           family={Connor},
+           familyi={C\bibinitperiod},
+           given={J\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=5811ac86a02dbf9616689084972e728b}{%
+           family={Stevens},
+           familyi={S\bibinitperiod},
+           given={C\bibnamedelima F},
+           giveni={C\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{16e2d930cf041c4f980a146f3823cc09}
+      \strng{fullhash}{16e2d930cf041c4f980a146f3823cc09}
+      \strng{bibnamehash}{16e2d930cf041c4f980a146f3823cc09}
+      \strng{authorbibnamehash}{16e2d930cf041c4f980a146f3823cc09}
+      \strng{authornamehash}{16e2d930cf041c4f980a146f3823cc09}
+      \strng{authorfullhash}{16e2d930cf041c4f980a146f3823cc09}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{J. Physiol.}
+      \field{month}{2}
+      \field{number}{1}
+      \field{title}{Prediction of repetitive firing behaviour from voltage clamp data on an isolated neurone soma}
+      \field{volume}{213}
+      \field{year}{1971}
+      \field{pages}{31\bibrangedash 53}
+      \range{pages}{23}
+    \endentry
+    \entry{Connor1977-qo}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=d1bb6d91ebdfe349d4a29e625c478a2c}{%
+           family={Connor},
+           familyi={C\bibinitperiod},
+           given={J\bibnamedelima A},
+           giveni={J\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=737bbb8ae41a2c2dfe741b1dbf03e64d}{%
+           family={Walter},
+           familyi={W\bibinitperiod},
+           given={D},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=4b271614a1867ccfe54217990a7a9a16}{%
+           family={McKown},
+           familyi={M\bibinitperiod},
+           given={R},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{2fa41c23ac9f00249695401896908847}
+      \strng{fullhash}{2fa41c23ac9f00249695401896908847}
+      \strng{bibnamehash}{2fa41c23ac9f00249695401896908847}
+      \strng{authorbibnamehash}{2fa41c23ac9f00249695401896908847}
+      \strng{authornamehash}{2fa41c23ac9f00249695401896908847}
+      \strng{authorfullhash}{2fa41c23ac9f00249695401896908847}
+      \field{sortinit}{C}
+      \field{sortinithash}{4d103a86280481745c9c897c925753c0}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Biophys. J.}
+      \field{month}{4}
+      \field{number}{1}
+      \field{title}{Neural repetitive firing: modifications of the {Hodgkin-Huxley} axon suggested by experimental results from crustacean axons}
+      \field{volume}{18}
+      \field{year}{1977}
+      \field{pages}{81\bibrangedash 102}
+      \range{pages}{22}
+    \endentry
+    \entry{Dayan2005-ib}{book}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=ef0afbe0b4e15059c963e026fe213c34}{%
+           family={Dayan},
+           familyi={D\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9fa6a891808f87d1e39a0e383ad3502e}{%
+           family={Abbott},
+           familyi={A\bibinitperiod},
+           given={Laurence\bibnamedelima F},
+           giveni={L\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {MIT Press}%
+      }
+      \strng{namehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{fullhash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{bibnamehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authorbibnamehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authornamehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authorfullhash}{c764b4223feffe95f38b6a2cfc79262a}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{month}{8}
+      \field{title}{Theoretical Neuroscience: Computational and Mathematical Modeling of Neural Systems}
+      \field{year}{2005}
+    \endentry
+    \entry{Dodla2013-dp}{incollection}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=9a1295a8d398c8b29a5dd0d7d03f17fb}{%
+           family={Dodla},
+           familyi={D\bibinitperiod},
+           given={Ramana},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+      }
+      \name{editor}{2}{}{%
+        {{hash=9bfd0e10dfae546b8ac71d9e9a2e2256}{%
+           family={Jaeger},
+           familyi={J\bibinitperiod},
+           given={Dieter},
+           giveni={D\bibinitperiod}}}%
+        {{hash=666fcd081d5f59fa978beb977620fc36}{%
+           family={Jung},
+           familyi={J\bibinitperiod},
+           given={Ranu},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York, NY}%
+      }
+      \list{publisher}{1}{%
+        {Springer New York}%
+      }
+      \strng{namehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
+      \strng{fullhash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
+      \strng{bibnamehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
+      \strng{authorbibnamehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
+      \strng{authornamehash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
+      \strng{authorfullhash}{9a1295a8d398c8b29a5dd0d7d03f17fb}
+      \strng{editorbibnamehash}{5cd137c7c3abbbda7dc077250b8f20b2}
+      \strng{editornamehash}{5cd137c7c3abbbda7dc077250b8f20b2}
+      \strng{editorfullhash}{5cd137c7c3abbbda7dc077250b8f20b2}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Encyclopedia of Computational Neuroscience}
+      \field{title}{Postinhibitory Rebound and Facilitation}
+      \field{year}{2013}
+      \field{pages}{1\bibrangedash 3}
+      \range{pages}{3}
+    \endentry
+    \entry{Dodla2006-fj}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=9a1295a8d398c8b29a5dd0d7d03f17fb}{%
+           family={Dodla},
+           familyi={D\bibinitperiod},
+           given={Ramana},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=2e33d9b4e019e474e0f284b5744bf0f6}{%
+           family={Rinzel},
+           familyi={R\bibinitperiod},
+           given={John},
+           giveni={J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{f6c4d2d7b8292a90e6f5b04f521b8f67}
+      \strng{fullhash}{f6c4d2d7b8292a90e6f5b04f521b8f67}
+      \strng{bibnamehash}{f6c4d2d7b8292a90e6f5b04f521b8f67}
+      \strng{authorbibnamehash}{f6c4d2d7b8292a90e6f5b04f521b8f67}
+      \strng{authornamehash}{f6c4d2d7b8292a90e6f5b04f521b8f67}
+      \strng{authorfullhash}{f6c4d2d7b8292a90e6f5b04f521b8f67}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Phys. Rev. E Stat. Nonlin. Soft Matter Phys.}
+      \field{month}{1}
+      \field{number}{1 Pt 1}
+      \field{title}{Enhanced neuronal response induced by fast inhibition}
+      \field{volume}{73}
+      \field{year}{2006}
+      \field{pages}{010903}
+      \range{pages}{1}
+    \endentry
+    \entry{Hodgkin1952-gy}{article}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=f245ea6325fec5c9f96ceebb69626059}{%
+           family={Hodgkin},
+           familyi={H\bibinitperiod},
+           given={A\bibnamedelima L},
+           giveni={A\bibinitperiod\bibinitdelim L\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=7fdcc730bf64349a6b5d7abd25ae9402}{%
+           family={Huxley},
+           familyi={H\bibinitperiod},
+           given={A\bibnamedelima F},
+           giveni={A\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{7d285c84e0578b90c81d7194bbb4059c}
+      \strng{fullhash}{7d285c84e0578b90c81d7194bbb4059c}
+      \strng{bibnamehash}{7d285c84e0578b90c81d7194bbb4059c}
+      \strng{authorbibnamehash}{7d285c84e0578b90c81d7194bbb4059c}
+      \strng{authornamehash}{7d285c84e0578b90c81d7194bbb4059c}
+      \strng{authorfullhash}{7d285c84e0578b90c81d7194bbb4059c}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{J. Physiol.}
+      \field{month}{8}
+      \field{number}{4}
+      \field{title}{A quantitative description of membrane current and its application to conduction and excitation in nerve}
+      \field{volume}{117}
+      \field{year}{1952}
+      \field{pages}{500\bibrangedash 544}
+      \range{pages}{45}
+      \keyw{AXONS}
+    \endentry
+    \entry{Schwiening2012-pi}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=3489cc28bbd0e3cec0ceb2fa487b2f09}{%
+           family={Schwiening},
+           familyi={S\bibinitperiod},
+           given={Christof\bibnamedelima J},
+           giveni={C\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{3489cc28bbd0e3cec0ceb2fa487b2f09}
+      \strng{fullhash}{3489cc28bbd0e3cec0ceb2fa487b2f09}
+      \strng{bibnamehash}{3489cc28bbd0e3cec0ceb2fa487b2f09}
+      \strng{authorbibnamehash}{3489cc28bbd0e3cec0ceb2fa487b2f09}
+      \strng{authornamehash}{3489cc28bbd0e3cec0ceb2fa487b2f09}
+      \strng{authorfullhash}{3489cc28bbd0e3cec0ceb2fa487b2f09}
+      \field{sortinit}{S}
+      \field{sortinithash}{b164b07b29984b41daf1e85279fbc5ab}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{J. Physiol.}
+      \field{month}{6}
+      \field{number}{11}
+      \field{title}{A brief historical perspective: Hodgkin and Huxley}
+      \field{volume}{590}
+      \field{year}{2012}
+      \field{pages}{2571\bibrangedash 2575}
+      \range{pages}{5}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
 
-\bibitem[Connor et~al., 1977]{Connor1977-qo}
-Connor, J.~A., Walter, D., and McKown, R. (1977).
-\newblock Neural repetitive firing: modifications of the {Hodgkin-Huxley} axon
-  suggested by experimental results from crustacean axons.
-\newblock {\em Biophys. J.}, 18(1):81--102.
-
-\bibitem[Dayan and Abbott, 2005]{Dayan2005-ib}
-Dayan, P. and Abbott, L.~F. (2005).
-\newblock {\em Theoretical Neuroscience: Computational and Mathematical
-  Modeling of Neural Systems}.
-\newblock MIT Press.
-
-\bibitem[Dodla, 2013]{Dodla2013-dp}
-Dodla, R. (2013).
-\newblock Postinhibitory rebound and facilitation.
-\newblock In Jaeger, D. and Jung, R., editors, {\em Encyclopedia of
-  Computational Neuroscience}, pages 1--3. Springer New York, New York, NY.
-
-\bibitem[Dodla and Rinzel, 2006]{Dodla2006-fj}
-Dodla, R. and Rinzel, J. (2006).
-\newblock Enhanced neuronal response induced by fast inhibition.
-\newblock {\em Phys. Rev. E Stat. Nonlin. Soft Matter Phys.}, 73(1 Pt
-  1):010903.
-
-\bibitem[Hodgkin and Huxley, 1952]{Hodgkin1952-gy}
-Hodgkin, A.~L. and Huxley, A.~F. (1952).
-\newblock A quantitative description of membrane current and its application to
-  conduction and excitation in nerve.
-\newblock {\em J. Physiol.}, 117(4):500--544.
-
-\bibitem[Schwiening, 2012]{Schwiening2012-pi}
-Schwiening, C.~J. (2012).
-\newblock A brief historical perspective: Hodgkin and huxley.
-\newblock {\em J. Physiol.}, 590(11):2571--2575.
-
-\end{thebibliography}

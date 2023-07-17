@@ -45,7 +45,7 @@ def markdown2latex(s, auto_indexing=AutoIndexing()):
     s = s.replace(r"```", "}")
     s = re.sub(r'<(.+?)>', r'\\url{\1}', s) # url
 
-    s = re.sub(r'{cite:p}`(.+?)`', r'\\cite{\1}', s)     
+    s = re.sub(r'{cite:p}`(.+?)`', r'\\citep{\1}', s)     
     s = re.sub(r'`(.+?)`', r'\\jl{\1}', s) # inline code with \newcommand{\jl}{\lstinline[language=julia]}
 
     s = re.sub(r'<(.+?)>', r'\\url{\1}', s) # url

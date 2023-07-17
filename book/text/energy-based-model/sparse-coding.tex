@@ -1,6 +1,6 @@
 \section{スパース符号化}
 \subsection{Sparse codingと生成モデル}
-\textbf{Sparse codingモデル}\index{Sparse codingもでる@Sparse codingモデル} \cite{Olshausen1996-xe} \cite{Olshausen1997-qu}はV1のニューロンの応答特性を説明する\textbf{線形生成モデル}\index{せんけいせいせいもでる@線形生成モデル} (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
+\textbf{Sparse codingモデル}\index{Sparse codingもでる@Sparse codingモデル} \citep{Olshausen1996-xe} \citep{Olshausen1997-qu}はV1のニューロンの応答特性を説明する\textbf{線形生成モデル}\index{せんけいせいせいもでる@線形生成モデル} (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
 
 
 \begin{equation}
@@ -132,7 +132,7 @@ $\mathbf{r}$の勾配法による更新則は，$E$の微分により次のよ�
 \end{equation}
 
 
-ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\cite{Olshausen1996-xe}では\textbf{共役勾配法}\index{きょうやくこうばいほう@共役勾配法} (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，\textbf{LCA}\index{LCA}  (locally competitive algorithm)が提案されている \cite{Rozell2008-wp}．LCAは\textbf{側抑制}\index{そくよくせい@側抑制} (local competition, lateral inhibition)と\textbf{閾値関数}\index{いきちかんすう@閾値関数} (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは\textbf{Hopfield trick}\index{Hopfield trick}と呼んでいる．
+ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\citep{Olshausen1996-xe}では\textbf{共役勾配法}\index{きょうやくこうばいほう@共役勾配法} (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，\textbf{LCA}\index{LCA}  (locally competitive algorithm)が提案されている \citep{Rozell2008-wp}．LCAは\textbf{側抑制}\index{そくよくせい@側抑制} (local competition, lateral inhibition)と\textbf{閾値関数}\index{いきちかんすう@閾値関数} (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは\textbf{Hopfield trick}\index{Hopfield trick}と呼んでいる．
 \subsubsection{軟判定閾値関数を用いる場合 (ISTA)}
 $S(x)=|x|$とした場合の閾値関数を用いる手法として\textbf{ISTA}\index{ISTA}(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
 
@@ -166,7 +166,7 @@ y-\lambda & (y>\lambda)\\
 \end{equation}
 
 
-$\Theta_\lambda(\cdot)$を関数として定義すると次のようになる．また，ReLU (ランプ関数)は\jl{max(x, 0)}で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる \cite{Papyan2018-yr}．
+$\Theta_\lambda(\cdot)$を関数として定義すると次のようになる．また，ReLU (ランプ関数)は\jl{max(x, 0)}で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる \citep{Papyan2018-yr}．
 \lstinputlisting[language=julia]{./text/energy-based-model/sparse-coding/009.jl}
 次に$\Theta_\lambda(\cdot)$を描画すると次のようになる．
 \lstinputlisting[language=julia]{./text/energy-based-model/sparse-coding/011.jl}

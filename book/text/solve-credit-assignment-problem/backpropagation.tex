@@ -49,7 +49,7 @@ $f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以
 であることに注意．
 \subsection{MNIST}
 \subsection{Zipser-Andersenモデル}
-Zipser-Andersenモデル \cite{Zipser1988-nc} は頭頂葉の7a野のモデルであり，網膜座標系における物体の位置と眼球位置を入力として，頭部中心座標(head centered coordinate)に変換する．隠れ層はPPC(Posterior parietal cortex)の細胞のモデルになっている．
+Zipser-Andersenモデル \citep{Zipser1988-nc} は頭頂葉の7a野のモデルであり，網膜座標系における物体の位置と眼球位置を入力として，頭部中心座標(head centered coordinate)に変換する．隠れ層はPPC(Posterior parietal cortex)の細胞のモデルになっている．
 \subsubsection{データセットの生成}
 物体位置の表現にはGaussian形式とmonotonic形式があるが，簡単のために，Gaussian形式を用いる．なお，monotonic形式については末尾の補足を参照してほしい．
 \lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/backpropagation/017.jl}

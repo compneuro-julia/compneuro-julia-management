@@ -3,7 +3,7 @@
 サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)をガウス尺度混合モデルを例にとり実装する．
 
 \subsection{ガウス尺度混合モデル}
-\textbf{ガウス尺度混合 (Gaussian scale mixture; GSM) モデル}\index{がうすしゃくどこんごう (Gaussian scale mixture; GSM) もでる@ガウス尺度混合 (Gaussian scale mixture; GSM) モデル}は確率的生成モデルの一種である\cite{Wainwright1999-cl}\cite{Orban2016-tm}．GSMモデルでは入力を次式で予測する：
+\textbf{ガウス尺度混合 (Gaussian scale mixture; GSM) モデル}\index{がうすしゃくどこんごう (Gaussian scale mixture; GSM) もでる@ガウス尺度混合 (Gaussian scale mixture; GSM) モデル}は確率的生成モデルの一種である\citep{Wainwright1999-cl}\citep{Orban2016-tm}．GSMモデルでは入力を次式で予測する：
 
 
 \begin{equation}
@@ -11,7 +11,7 @@
 \end{equation}
 
 
-前節までのスパース符号化モデル等と同様に，入力が基底の線形和で表されるとしている．ただし，尺度(scale)パラメータ$z$が基底の線形和に乗じられている点が異なる．\footnote{コードは\cite{Orban2016-tm} \url{https://github.com/gergoorban/sampling_in_gsm}, および\cite{Echeveste2020-sh} \url{https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/}を参考に作成した．}
+前節までのスパース符号化モデル等と同様に，入力が基底の線形和で表されるとしている．ただし，尺度(scale)パラメータ$z$が基底の線形和に乗じられている点が異なる．\footnote{コードは\citep{Orban2016-tm} \url{https://github.com/gergoorban/sampling_in_gsm}, および\citep{Echeveste2020-sh} \url{https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/}を参考に作成した．}
 
 
 \subsubsection{事前分布}
@@ -42,7 +42,7 @@ p\left(z\right)&=\Gamma (k, \vartheta)
 \lstinputlisting[language=julia]{./text/bayesian-brain/neural-sampling/007.jl}
 \input{./text/bayesian-brain/neural-sampling/output_007.tex}
 \subsubsection{分散共分散行列$\mathbf{C}$の作成}
-$\mathbf{C}$は$y$の事前分布の分散共分散行列である．\cite{Orban2016-tm}では自然画像を用いて作成しているが，ここでは簡単のため$\mathbf{A}$と同様に\cite{Echeveste2020-sh}に従って作成する．前項で作成した通り，$\mathbf{A}$の各基底には周期性があるため，類似した基底を持つニューロン同士は類似した出力をすると考えられる．Echevesteらは$\theta\in[-\pi/2, \pi/2)$の範囲においてFourier基底を複数作成し，そのグラム行列(Gram matrix)を係数倍したものを$\mathbf{C}$と設定している．ここではガウス過程(Gaussian process)モデルとの類似性から，周期カーネル(periodic kernel) 
+$\mathbf{C}$は$y$の事前分布の分散共分散行列である．\citep{Orban2016-tm}では自然画像を用いて作成しているが，ここでは簡単のため$\mathbf{A}$と同様に\citep{Echeveste2020-sh}に従って作成する．前項で作成した通り，$\mathbf{A}$の各基底には周期性があるため，類似した基底を持つニューロン同士は類似した出力をすると考えられる．Echevesteらは$\theta\in[-\pi/2, \pi/2)$の範囲においてFourier基底を複数作成し，そのグラム行列(Gram matrix)を係数倍したものを$\mathbf{C}$と設定している．ここではガウス過程(Gaussian process)モデルとの類似性から，周期カーネル(periodic kernel) 
 
 
 \begin{equation}
@@ -93,7 +93,7 @@ z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
 \end{equation}
 
 
-次に$z_{\mathrm{MAP}}$の周辺で$p(z\mid \mathbf{x})$を積分し，積分値が一定の閾値を超える$z$の範囲を求め，この範囲で$z$を積分消去してやればよい．しかし，$z$は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が\cite{Echeveste2017-wu}において提案されている．Echevesteらは第一の近似として，$z$の分布を$z_{\mathrm{MAP}}$でのデルタ関数に置き換える，すなわち，$p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})$とすることを提案している．この場合，$z$は定数とみなせ，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})$となる．第二の近似として，$z_{\mathrm{MAP}}$を真のコントラスト$z^*$で置き換えることが提案されている．GSMへの入力$\mathbf{x}$は元の画像を$\mathbf{\tilde x}$とすると，$\mathbf{x}=z^* \mathbf{\tilde x}$としてスケーリングされる．この入力の前処理の際に用いる$z^*$を用いてしまおうということである．この場合，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)$となる．しかし，入力を任意の画像とする場合，$z^*$は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，$z=z_{\mathrm{MAP}}$とする手法を用いることにする．
+次に$z_{\mathrm{MAP}}$の周辺で$p(z\mid \mathbf{x})$を積分し，積分値が一定の閾値を超える$z$の範囲を求め，この範囲で$z$を積分消去してやればよい．しかし，$z$は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が\citep{Echeveste2017-wu}において提案されている．Echevesteらは第一の近似として，$z$の分布を$z_{\mathrm{MAP}}$でのデルタ関数に置き換える，すなわち，$p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})$とすることを提案している．この場合，$z$は定数とみなせ，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})$となる．第二の近似として，$z_{\mathrm{MAP}}$を真のコントラスト$z^*$で置き換えることが提案されている．GSMへの入力$\mathbf{x}$は元の画像を$\mathbf{\tilde x}$とすると，$\mathbf{x}=z^* \mathbf{\tilde x}$としてスケーリングされる．この入力の前処理の際に用いる$z^*$を用いてしまおうということである．この場合，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)$となる．しかし，入力を任意の画像とする場合，$z^*$は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，$z=z_{\mathrm{MAP}}$とする手法を用いることにする．
 \lstinputlisting[language=julia]{./text/bayesian-brain/neural-sampling/013.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/neural-sampling/014.jl}
 \subsubsection{シミュレーション}
@@ -140,8 +140,8 @@ Hamiltonianネットワークは自己相関を振動により低下させるこ
 \lstinputlisting[language=julia]{./text/bayesian-brain/neural-sampling/044.jl}
 \lstinputlisting[language=julia]{./text/bayesian-brain/neural-sampling/045.jl}
 \input{./text/bayesian-brain/neural-sampling/output_045.tex}
-Hamiltonianネットワークの方が安定して事後分布を推定することができている．ToDo: 以下の記述．ここでは重みを設定したが， \cite{Echeveste2020-sh}ではRNNにBPTTで重みを学習させている．動的な入力に対するサンプリング \cite{Berkes2011-xj}．burn-inがなくなり効率良くサンプリングできる．
+Hamiltonianネットワークの方が安定して事後分布を推定することができている．ToDo: 以下の記述．ここでは重みを設定したが， \citep{Echeveste2020-sh}ではRNNにBPTTで重みを学習させている．動的な入力に対するサンプリング \citep{Berkes2011-xj}．burn-inがなくなり効率良くサンプリングできる．
 \subsection{Spikingニューラルネットワークにおけるサンプリング}
-前項で挙げた例は発火率モデルであったが，SNNにおいてサンプリングを実行する機構自体は考案されている．ToDo: 以下の記述．\cite{Buesing2011-dm}\cite{Masset2022-wh}\cite{Zhang2022-bl}
+前項で挙げた例は発火率モデルであったが，SNNにおいてサンプリングを実行する機構自体は考案されている．ToDo: 以下の記述．\citep{Buesing2011-dm}\citep{Masset2022-wh}\citep{Zhang2022-bl}
 \subsection{シナプスサンプリング}
-ここまでシナプス結合強度は変化せず，神経活動の変動によりサンプリングを行うというモデルについて考えてきた．一方で，シナプス結合強度自体が短時間で変動することによりベイズ推論を実行するというモデルがあり，\textbf{シナプスサンプリング(synaptic sampling)}\index{しなぷすさんぷりんぐ(synaptic sampling)@シナプスサンプリング(synaptic sampling)} と呼ばれる．ToDo: 以下の記述．\cite{Kappel2015-kq}\cite{Aitchison2021-wo}
+ここまでシナプス結合強度は変化せず，神経活動の変動によりサンプリングを行うというモデルについて考えてきた．一方で，シナプス結合強度自体が短時間で変動することによりベイズ推論を実行するというモデルがあり，\textbf{シナプスサンプリング(synaptic sampling)}\index{しなぷすさんぷりんぐ(synaptic sampling)@シナプスサンプリング(synaptic sampling)} と呼ばれる．ToDo: 以下の記述．\citep{Kappel2015-kq}\citep{Aitchison2021-wo}
