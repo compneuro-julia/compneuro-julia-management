@@ -16,66 +16,66 @@ sections:
   sections:
   - file: neuron-model/neuron-physiol
   - file: neuron-model/hodgkin-huxley
-  - file: neuron-model/fhn
-  - file: neuron-model/lif
-  - file: neuron-model/izhikevich
-  - file: neuron-model/isi
-  - file: neuron-model/neurite-growth-model
-- file: synapse-model/intro
-  sections:
-  - file: synapse-model/synapse-physiol
-  - file: synapse-model/current-conductance-synapse
-  - file: synapse-model/expo-synapse
-  - file: synapse-model/kinetic-synapse
-  - file: synapse-model/synaptic-weighted
-  - file: synapse-model/dynamical-synapses
-- file: neuronal-computation/intro
-  sections:
-  - file: neuronal-computation/neuronal-arithmetic
-- file: local-learning-rule/intro
-  sections:
-  - file: local-learning-rule/pca-hebbian-learning
-  - file: local-learning-rule/mds-anti-hebbian-learning
-  - file: local-learning-rule/slow-feature-analysis
-  - file: local-learning-rule/stdp-learning
-  - file: local-learning-rule/logistic-regression-perceptron
-  - file: local-learning-rule/self-organizing-map
-- file: energy-based-model/intro
-  sections:
-  - file: energy-based-model/energy-based-model
-  - file: energy-based-model/hopfield-model
-  - file: energy-based-model/boltzmann-machine
-  - file: energy-based-model/sparse-coding
-  - file: energy-based-model/predictive-coding
-- file: solve-credit-assignment-problem/intro
-  sections:
-  - file: solve-credit-assignment-problem/backpropagation
-  - file: solve-credit-assignment-problem/linear-network-learning-dynamics
-  - file: solve-credit-assignment-problem/bptt
-  - file: solve-credit-assignment-problem/surrogate-gradient-snn
-  - file: solve-credit-assignment-problem/reservoir-computing
-- file: motor-learning/intro
-  sections:
-  - file: motor-learning/minimum-jerk
-  - file: motor-learning/minimum-variance
-  - file: motor-learning/optimal-feedback-control
-  - file: motor-learning/infinite-horizon-ofc
-  - file: motor-learning/local-learning-ofc
-  - file: motor-learning/rat-trajectory
-- file: reinforcement-learning/intro
-  sections:
-  - file: reinforcement-learning/td-learning
-- file: bayesian-brain/intro
-  sections:
-  - file: bayesian-brain/neural-uncertainty-representation
-  - file: bayesian-brain/bayesian-linear-regression
-  - file: bayesian-brain/mcmc
-  - file: bayesian-brain/neural-sampling
-  - file: bayesian-brain/probabilistic-population-coding
-  - file: bayesian-brain/quantile-expectile-regression
-- file: appendix/intro
-  sections:
-  - file: appendix/grid-cells-decoding
-  - file: appendix/graph-theory-network-model
-  - file: appendix/useful-links
-  - file: appendix/usage-jupyter-book
+#   - file: neuron-model/fhn
+#   - file: neuron-model/lif
+#   - file: neuron-model/izhikevich
+#   - file: neuron-model/isi
+#   - file: neuron-model/neurite-growth-model
+# - file: synapse-model/intro
+#   sections:
+#   - file: synapse-model/synapse-physiol
+#   - file: synapse-model/current-conductance-synapse
+#   - file: synapse-model/expo-synapse
+#   - file: synapse-model/kinetic-synapse
+#   - file: synapse-model/synaptic-weighted
+#   - file: synapse-model/dynamical-synapses
+# - file: neuronal-computation/intro
+#   sections:
+#   - file: neuronal-computation/neuronal-arithmetic
+# - file: local-learning-rule/intro
+#   sections:
+#   - file: local-learning-rule/pca-hebbian-learning
+#   - file: local-learning-rule/mds-anti-hebbian-learning
+#   - file: local-learning-rule/slow-feature-analysis
+#   - file: local-learning-rule/stdp-learning
+#   - file: local-learning-rule/logistic-regression-perceptron
+#   - file: local-learning-rule/self-organizing-map
+# - file: energy-based-model/intro
+#   sections:
+#   - file: energy-based-model/energy-based-model
+#   - file: energy-based-model/hopfield-model
+#   - file: energy-based-model/boltzmann-machine
+#   - file: energy-based-model/sparse-coding
+#   - file: energy-based-model/predictive-coding
+# - file: solve-credit-assignment-problem/intro
+#   sections:
+#   - file: solve-credit-assignment-problem/backpropagation
+#   - file: solve-credit-assignment-problem/linear-network-learning-dynamics
+#   - file: solve-credit-assignment-problem/bptt
+#   - file: solve-credit-assignment-problem/surrogate-gradient-snn
+#   - file: solve-credit-assignment-problem/reservoir-computing
+# - file: motor-learning/intro
+#   sections:
+#   - file: motor-learning/minimum-jerk
+#   - file: motor-learning/minimum-variance
+#   - file: motor-learning/optimal-feedback-control
+#   - file: motor-learning/infinite-horizon-ofc
+#   - file: motor-learning/local-learning-ofc
+#   - file: motor-learning/rat-trajectory
+# - file: reinforcement-learning/intro
+#   sections:
+#   - file: reinforcement-learning/td-learning
+# - file: bayesian-brain/intro
+#   sections:
+#   - file: bayesian-brain/neural-uncertainty-representation
+#   - file: bayesian-brain/bayesian-linear-regression
+#   - file: bayesian-brain/mcmc
+#   - file: bayesian-brain/neural-sampling
+#   - file: bayesian-brain/probabilistic-population-coding
+#   - file: bayesian-brain/quantile-expectile-regression
+# - file: appendix/intro
+#   sections:
+#   - file: appendix/grid-cells-decoding
+#   - file: appendix/graph-theory-network-model
+#   - file: appendix/useful-links
+#   - file: appendix/usage-jupyter-book

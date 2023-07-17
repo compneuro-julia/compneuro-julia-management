@@ -1,162 +1,122 @@
 
-
 <!DOCTYPE html>
 
-
-<html lang="en" >
-
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
     <title>Juliaで学ぶ計算論的神経科学 &#8212; Juliaで学ぶ計算論的神経科学</title>
-  
-  
-  
-  <script data-cfasync="false">
-    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
-  </script>
-  
+    
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
 
-  
-  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
     <link rel="stylesheet" type="text/css" href="_static/custom.css" />
-    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
-  
+    <link rel="stylesheet" type="text/css" href="_static/design-style.b7bb847fb20b106c3d81b95245e65545.min.css" />
+    
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
 
     <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
-    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="_static/togglebutton.js"></script>
     <script src="_static/custom.js"></script>
-    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
     <script src="_static/design-tabs.js"></script>
-    <script async="async" src="https://www.googletagmanager.com/gtag/js?id=UA-172979897-1"></script>
-    <script>
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){ dataLayer.push(arguments); }
-                gtag('js', new Date());
-                gtag('config', 'UA-172979897-1');
-            </script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
 const thebe_selector = ".thebe,.cell"
 const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'index';</script>
     <link rel="canonical" href="https://compneuro-julia.github.io/index.html" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="まえがき" href="preface.html" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <meta name="docsearch:language" content="en"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="None">
+    
+
+    <!-- Google Analytics -->
+    
+<script async="" src="https://www.google-analytics.com/analytics.js"></script>
+<script>
+                        window.ga = window.ga || function () {
+                            (ga.q = ga.q || []).push(arguments) };
+                        ga.l = +new Date;
+                        ga('create', 'UA-172979897-1', 'auto');
+                        ga('set', 'anonymizeIp', true);
+                        ga('send', 'pageview');
+                    </script>
+
   </head>
-  
-  
-  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
+<!-- Checkboxes to toggle the left sidebar -->
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
+<label class="overlay overlay-navbar" for="__navigation">
+    <div class="visually-hidden">Toggle navigation sidebar</div>
+</label>
+<!-- Checkboxes to toggle the in-page toc -->
+<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
+<label class="overlay overlay-pagetoc" for="__page-toc">
+    <div class="visually-hidden">Toggle in-page Table of Contents</div>
+</label>
+<!-- Headers at the top -->
+<div class="announcement header-item noprint"></div>
+<div class="header header-item noprint"></div>
 
-  
-  
-  <a class="skip-link" href="#main-content">Skip to main content</a>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
-<form class="bd-search d-flex align-items-center"
-      action="search.html"
-      method="get">
-  <i class="fa-solid fa-magnifying-glass"></i>
-  <input type="search"
-         class="form-control"
-         name="q"
-         id="search-input"
-         placeholder="Search this book..."
-         aria-label="Search this book..."
-         autocomplete="off"
-         autocorrect="off"
-         autocapitalize="off"
-         spellcheck="false"/>
-  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
-  
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
-    </nav>
-  
-  <div class="bd-container">
-    <div class="bd-container__inner bd-page-width">
+    
+    <div class="container-fluid" id="banner"></div>
+
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<!-- Sidebar -->
+<div class="bd-sidebar noprint" id="site-navigation">
+    <div class="bd-sidebar__content">
+        <div class="bd-sidebar__top"><div class="navbar-brand-box">
+    <a class="navbar-brand text-wrap" href="#">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
         
-
-  
-  <div class="sidebar-header-items sidebar-primary__section">
-    
-    
-    
-    
-  </div>
-  
-    <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item">
-  
-
-<a class="navbar-brand logo" href="#">
-  
-  
-  
-  
-    
-    
       
-    
-    
-    <img src="_static/logo.svg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="_static/logo.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
-  
-  
-</a></div>
-        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item navbar-nav active">
+      
+      <img src="_static/logo.svg" class="logo" alt="logo">
+      
+      
+      <h1 class="site-logo" id="site-title">Juliaで学ぶ計算論的神経科学</h1>
+      
+    </a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search this book..." aria-label="Search this book..." autocomplete="off" >
+</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1 current active">
@@ -166,226 +126,310 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <ul class="nav bd-sidenav">
-<li class="toctree-l1 has-children"><a class="reference internal" href="preface.html">まえがき</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="local-learning-rule/pca-hebbian-learning.html">Hebb則と教師なし学習</a></li>
-</ul>
-</li>
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="preface.html">
+   まえがき
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul class="simple">
+  </ul>
+ </li>
 </ul>
 
     </div>
 </nav></div>
+        <div class="bd-sidebar__bottom">
+             <!-- To handle the deprecated key -->
+            
+            <div class="navbar_extra_footer">
+            Powered by <a href="https://jupyterbook.org">Jupyter Book</a>
+            </div>
+            
+        </div>
     </div>
-  
-  
-  <div class="sidebar-primary-items__end sidebar-primary__section">
-  </div>
-  
-  <div id="rtd-footer-container"></div>
+    <div id="rtd-footer-container"></div>
+</div>
 
 
-      </div>
-      
-      <main id="main-content" class="bd-main">
-        
-        
+          
 
+
+          
+<!-- A tiny helper pixel to detect if we've scrolled -->
 <div class="sbt-scroll-pixel-helper"></div>
+<!-- Main content -->
+<div class="col py-0 content-container">
+    
+    <div class="header-article row sticky-top noprint">
+        
 
-          <div class="bd-content">
-            <div class="bd-article-container">
-              
-              <div class="bd-header-article">
-<div class="header-article-items header-article__inner">
+
+
+<div class="col py-1 d-flex header-article-main">
+    <div class="header-article__left">
+        
+        <label for="__navigation"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="right"
+title="Toggle navigation"
+>
   
-    <div class="header-article-items__start">
-      
-        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <span class="fa-solid fa-bars"></span>
-</label></div>
-      
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-bars"></i>
+  </span>
+
+</label>
+
+        
     </div>
-  
-  
-    <div class="header-article-items__end">
-      
-        <div class="header-article-item">
-
-<div class="article-header-buttons">
-
-
-
-
-
-<div class="dropdown dropdown-source-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
-    <i class="fab fa-github"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="https://github.com/compneuro-julia/compneuro-julia-management" target="_blank"
-   class="btn btn-sm btn-source-repository-button dropdown-item"
-   title="Source repository"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fab fa-github"></i>
-  </span>
-<span class="btn__text-container">Repository</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li><a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/index.md" target="_blank"
-   class="btn btn-sm btn-source-edit-button dropdown-item"
-   title="Suggest edit"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-pencil-alt"></i>
-  </span>
-<span class="btn__text-container">Suggest edit</span>
-</a>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
-
-
-<div class="dropdown dropdown-download-buttons">
-  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
-    <i class="fas fa-download"></i>
-  </button>
-  <ul class="dropdown-menu">
-      
-      
-      
-      <li><a href="_sources/index.md" target="_blank"
-   class="btn btn-sm btn-download-source-button dropdown-item"
-   title="Download source file"
-   data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="btn__text-container">.md</span>
-</a>
-</li>
-      
-      
-      
-      
-      <li>
-<button onclick="window.print()"
-  class="btn btn-sm btn-download-pdf-button dropdown-item"
-  title="Print to PDF"
-  data-bs-placement="left" data-bs-toggle="tooltip"
->
-  
-
-<span class="btn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="btn__text-container">.pdf</span>
-</button>
-</li>
-      
-  </ul>
-</div>
-
-
-
-
+    <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="btn btn-sm btn-fullscreen-button"
-  title="Fullscreen mode"
-  data-bs-placement="bottom" data-bs-toggle="tooltip"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="bottom"
+title="Fullscreen mode"
 >
   
 
-<span class="btn__icon-container">
+<span class="headerbtn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+<div class="menu-dropdown menu-dropdown-repository-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Source repositories">
+      <i class="fab fa-github"></i>
   </button>
-`);
-</script>
-
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
-</div></div>
-      
-    </div>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Source repository"
+>
   
-</div>
-</div>
-              
-              
 
-<div id="jb-print-docs-body" class="onlyprint">
-    <h1>Juliaで学ぶ計算論的神経科学</h1>
-    <!-- Table of contents -->
-    <div id="print-main-content">
-        <div id="jb-print-toc">
-            
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">依存ライブラリ</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">目次</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">第1部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">第2部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">第3部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">第4部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">第5部：</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spiking-neural-networks">『ゼロから作るSpiking Neural Networks』について</a></li>
-</ul>
-            </nav>
-        </div>
+<span class="headerbtn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="headerbtn__text-container">repository</span>
+</a>
+
+      </li>
+      
+      <li>
+        <a href="https://github.com/compneuro-julia/compneuro-julia-management/edit/master/contents/index.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Edit this page"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-pencil-alt"></i>
+  </span>
+<span class="headerbtn__text-container">suggest edit</span>
+</a>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/index.md"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.md</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
     </div>
 </div>
 
-              
+<!-- Table of contents -->
+<div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   依存ライブラリ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   目次
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     第1部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     第2部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     第3部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     第4部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     第5部：
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spiking-neural-networks">
+   『ゼロから作るSpiking Neural Networks』について
+  </a>
+ </li>
+</ul>
+
+    </nav>
+</div>
+    </div>
+    <div class="article row">
+        <div class="col pl-md-3 pl-lg-5 content-container">
+            <!-- Table of contents that is only displayed when printing the page -->
+            <div id="jb-print-docs-body" class="onlyprint">
+                <h1>Juliaで学ぶ計算論的神経科学</h1>
+                <!-- Table of contents -->
+                <div id="print-main-content">
+                    <div id="jb-print-toc">
+                        
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   依存ライブラリ
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id2">
+   目次
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id3">
+     第1部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id4">
+     第2部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id5">
+     第3部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id6">
+     第4部：
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#id7">
+     第5部：
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#spiking-neural-networks">
+   『ゼロから作るSpiking Neural Networks』について
+  </a>
+ </li>
+</ul>
+
+                        </nav>
+                    </div>
+                </div>
+            </div>
+            <main id="main-content" role="main">
                 
-<div id="searchbox"></div>
-                <article class="bd-article" role="main">
-                  
+              <div>
+                
   <section class="tex2jax_ignore mathjax_ignore" id="julia">
-<h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this heading">#</a></h1>
+<h1>Juliaで学ぶ計算論的神経科学<a class="headerlink" href="#julia" title="Permalink to this headline">#</a></h1>
 <p>このサイトは<strong>計算論的神経科学 (Computational Neuroscience)</strong> をプログラミング言語 <a class="reference external" href="https://julialang.org/"><strong>Julia</strong></a>を通して学習することを目標とします．内容に関する指摘やコメントは各ページ末尾のコメント欄からしていただければ幸いです (GitHubアカウントが必要です)．</p>
 <p>（2021/04/03追記）本サイト『Juliaで学ぶ計算論的神経科学』の書籍化企画が<strong>講談社サイエンティフィク</strong>で承認されました．出版予定は<strong>2025年春</strong>です．若輩者ゆえ荷が重くはありますが，神経科学・Julia界隈の方々には何卒応援いただきたく存じます．</p>
 <div class="admonition-julia admonition">
@@ -393,20 +437,20 @@ document.write(`
 <p>Julia v1.8.1</p>
 </div>
 <section id="id1">
-<h2>依存ライブラリ<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<h2>依存ライブラリ<a class="headerlink" href="#id1" title="Permalink to this headline">#</a></h2>
 <p><code class="docutils literal notranslate"><span class="pre">IJulia,</span> <span class="pre">LinearAlgebra,</span> <span class="pre">Random,</span> <span class="pre">Parameters,</span> <span class="pre">Distributions,</span> <span class="pre">Statistics,</span> <span class="pre">Plots,</span> <span class="pre">PyPlot,</span> <span class="pre">ProgressMeter,</span> <span class="pre">MAT,</span> <span class="pre">MLDatasets,</span> <span class="pre">PyCall,</span> <span class="pre">StatsBase,</span> <span class="pre">Kronecker,</span> <span class="pre">BlockDiagonals,</span> <span class="pre">ToeplitzMatrices,</span> <span class="pre">BenchmarkTools,</span> <span class="pre">ImageTransformations,</span> <span class="pre">TestImages,</span> <span class="pre">ImageIO,</span> <span class="pre">ImageMagick,</span> <span class="pre">ColorTypes,</span> <span class="pre">FFTW</span></code></p>
 <p>※ PyCallに関してはPythonライブラリ <code class="docutils literal notranslate"><span class="pre">networkx</span></code>を使用．</p>
 </section>
 <section id="id2">
-<h2>目次<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<h2>目次<a class="headerlink" href="#id2" title="Permalink to this headline">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/preface.html">まえがき</a></p></li>
 </ul>
 <section id="id3">
-<h3>第1部：<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
+<h3>第1部：<a class="headerlink" href="#id3" title="Permalink to this headline">#</a></h3>
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/intro.html">はじめに</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/computational-neuroscience.html">神経科学と数理モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/notation.html">記号の表記</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/introduction/usage-julia-lang.html">Julia言語の基本構文</a></p></li>
@@ -420,10 +464,10 @@ document.write(`
 </ol>
 </section>
 <section id="id4">
-<h3>第2部：<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
+<h3>第2部：<a class="headerlink" href="#id4" title="Permalink to this headline">#</a></h3>
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/intro.html">神経細胞のモデル</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/neuron-physiol.html">神経細胞の形態と生理</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/hodgkin-huxley.html">Hodgkin-Huxleyモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuron-model/fhn.html">FitzHugh–Nagumoモデル</a></p></li>
@@ -434,7 +478,7 @@ document.write(`
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/intro.html">シナプス伝達のモデル</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/synapse-physiol.html">シナプスの形態と生理</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/current-conductance-synapse.html">Current-based / Conductance-based シナプス</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/synapse-model/expo-synapse.html">指数関数型シナプスモデル</a></p></li>
@@ -444,13 +488,13 @@ document.write(`
 </ol>
 </li>
 <li><p>神経回路網の構築</p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p>神経細胞間の接続</p></li>
 <li><p>ランダムネットワークの構築</p></li>
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuronal-computation/intro.html">神経回路網の演算処理</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/neuronal-computation/neuronal-arithmetic.html">ゲイン調節と四則演算</a></p></li>
 <li><p>正規化</p></li>
 <li><p>樹状突起計算</p></li>
@@ -459,10 +503,10 @@ document.write(`
 </ol>
 </section>
 <section id="id5">
-<h3>第3部：<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
+<h3>第3部：<a class="headerlink" href="#id5" title="Permalink to this headline">#</a></h3>
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/learning-rule/intro.html">局所学習則</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p>学習と学習則</p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/local-learning-rule/hebbian-learning.html">Hebb則・BCM理論・Oja則・Sanger則・非線形Hebb則</a></p></li>
 <li><p>STDP則</p></li>
@@ -470,7 +514,7 @@ document.write(`
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/intro.html">エネルギーベースモデル</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/energy-based-model.html">エネルギーベースモデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/hopfield-model.html">Hopfield モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/energy-based-model/boltzmann-machine.html">Boltzmann マシン</a></p></li>
@@ -479,7 +523,7 @@ document.write(`
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/intro.html">貢献度分配問題の解決策</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p>貢献度分配問題</p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/backpropagation-zipser-andersen.html">勾配法と誤差逆伝播法</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/solve-credit-assignment-problem/linear-network-learning-dynamics.html">深層線形ニューラルネットの学習ダイナミクス</a></p></li>
@@ -493,10 +537,10 @@ document.write(`
 </ol>
 </section>
 <section id="id6">
-<h3>第4部：<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
+<h3>第4部：<a class="headerlink" href="#id6" title="Permalink to this headline">#</a></h3>
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/intro.html">運動制御</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/minimum-jerk.html">躍度最小モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/minimum-variance.html">終点誤差分散最小モデル</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/motor-learning/optimal-feedback-control.html">最適フィードバック制御モデル</a></p></li>
@@ -505,17 +549,17 @@ document.write(`
 </ol>
 </li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/reinforcement-learning/intro.html">強化学習</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/reinforcement-learning/td-learning.html">TD学習</a></p></li>
 </ol>
 </li>
 </ol>
 </section>
 <section id="id7">
-<h3>第5部：<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h3>
-<ol class="arabic simple">
+<h3>第5部：<a class="headerlink" href="#id7" title="Permalink to this headline">#</a></h3>
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/intro.html">神経回路網によるベイズ推論</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/neural-uncertainty-representation.html">ベイズ脳仮説と神経活動による不確実性の表現</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/bayesian-linear-regression.html">ベイズ線形回帰</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/bayesian-brain/mcmc.html">マルコフ連鎖モンテカルロ法</a></p></li>
@@ -528,7 +572,7 @@ document.write(`
 </ol>
 <ul class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/intro.html">付録</a></p>
-<ol class="arabic simple">
+<ol class="simple">
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/grid-cells-decoding.html">格子細胞のデコーディング</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/slow-feature-analysis.html">Slow Feature Analysis</a></p></li>
 <li><p><a class="reference external" href="https://compneuro-julia.github.io/appendix/graph-theory-network-model.html">グラフ理論とネットワークモデル</a></p></li>
@@ -540,7 +584,7 @@ document.write(`
 </section>
 </section>
 <section id="spiking-neural-networks">
-<h2>『ゼロから作るSpiking Neural Networks』について<a class="headerlink" href="#spiking-neural-networks" title="Permalink to this heading">#</a></h2>
+<h2>『ゼロから作るSpiking Neural Networks』について<a class="headerlink" href="#spiking-neural-networks" title="Permalink to this headline">#</a></h2>
 <p>『<strong>ゼロから作るSpiking Neural Networks</strong>』 (通称：SNN本) は<strong>Python</strong>でSpiking neural networksの構築と学習を実装することを目標とした技術同人誌です．本サイトはこの本をベースとして作成しています．技術書典7で頒布し，BOOTHで有料で販売してきましたが，無料で公開することとしました．それでも購入していただける方はBOOTHから購入いただければと思います．なお，物理本は完売し，再販の予定はありません．</p>
 <div class="admonition-spiking-neural-networkslinks admonition">
 <p class="admonition-title">『ゼロから作るSpiking Neural Networks』Links</p>
@@ -567,7 +611,7 @@ document.write(`
             mode: "python"
         },
         kernelOptions: {
-            name: "python3",
+            kernelName: "python3",
             path: "./."
         },
         predefinedOutput: true
@@ -575,92 +619,32 @@ document.write(`
     </script>
     <script>kernelName = 'python3'</script>
 
-                </article>
+              </div>
               
-
-              
-              
-                <footer class="bd-footer-article">
-                  
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
-<div class="prev-next-area">
-    <a class="right-next"
-       href="preface.html"
-       title="next page">
-      <div class="prev-next-info">
+            </main>
+            <footer class="footer-article noprint">
+                
+    <!-- Previous / next buttons -->
+<div class='prev-next-area'>
+    <a class='right-next' id="next-link" href="preface.html" title="next page">
+    <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">まえがき</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
+    </div>
+    <i class="fas fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
-                </footer>
-              
-            </div>
-            
-            
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">依存ライブラリ</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">目次</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">第1部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">第2部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">第3部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">第4部：</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">第5部：</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#spiking-neural-networks">『ゼロから作るSpiking Neural Networks』について</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
-              
-            
-          </div>
-          <footer class="bd-footer-content">
-            
-<div class="bd-footer-content__inner container">
+            </footer>
+        </div>
+    </div>
+    <div class="footer-content row">
+        <footer class="col footer"><p>
   
-  <div class="footer-item">
-    
-<p class="component-author">
-By Takuto Yamamoto
-</p>
-
-  </div>
+    By Takuto Yamamoto<br/>
   
-  <div class="footer-item">
-    
-  <p class="copyright">
-    
-      © Copyright 2020-2022.
-      <br/>
-    
-  </p>
-
-  </div>
-  
-  <div class="footer-item">
-    
-  </div>
-  
-  <div class="footer-item">
-    
-<div class="extra_footer">
-  <div>
+      &copy; Copyright 2020-2022.<br/>
+    <div class="extra_footer">
+      <div>
 <script src="https://utteranc.es/client.js"
 repo="compneuro-julia/compneuro-julia.github.io"
 issue-term="title"
@@ -671,22 +655,20 @@ async>
 </script>
 </div>
 
-</div>
-  </div>
-  
-</div>
-          </footer>
-        
-
-      </main>
     </div>
-  </div>
+</p>
+        </footer>
+    </div>
+    
+</div>
+
+
+      </div>
+    </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
 
-  <footer class="bd-footer">
-  </footer>
+
   </body>
 </html>
