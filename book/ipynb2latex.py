@@ -182,8 +182,18 @@ def md_ipynb2latex(dir_path, filename, auto_indexing=AutoIndexing()):
         f.writelines(master_list)
     return master_list
 
+def copy_bib(dir_path, savedir="./bibfiles/"):
+    bib_list = glob.glob(dir_path+'**/*.bib', recursive=True)
+    for filepath in bib_list:
+        basename = os.path.basename(filepath)
+        filepath_split = filepath.split("\\")
+        new_filename = "-".join(filepath_split[1:])
+        shutil.copyfile(filepath, savedir+new_filename)
+        #print(r"\addbibresource{"+savedir[2:]+new_filename+"}")
+
 if __name__ == "__main__": 
     dir_path = "../contents/"
+    copy_bib()
     with open(dir_path + "_toc.yml") as file:
         toc_yaml = yaml.safe_load(file)
     main_list = []
