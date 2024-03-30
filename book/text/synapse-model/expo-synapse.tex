@@ -1,7 +1,6 @@
 \section{指数関数型シナプスモデル}
 シナプスのモデルは複数あるが, 良く用いられるのが\textbf{指数関数型シナプスモデル}\index{しすうかんすうかたしなぷすもでる@指数関数型シナプスモデル}(exponential synapse model)である．このモデルは生理学的な過程を無視した現象論的モデルであることに注意しよう．指数関数型シナプスモデルには2つの種類, \textbf{単一指数関数型モデル}\index{たんいつしすうかんすうかたもでる@単一指数関数型モデル} (single exponential model)と\textbf{二重指数関数型モデル}\index{にじゅうしすうかんすうかたもでる@二重指数関数型モデル} (double exponential model)がある．
-数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて$t=0$でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに\textbf{シナプス強度}\index{しなぷすきょうど@シナプス強度} (Synaptic strength)[^synstr]を乗じて総和を取ったものとなる．
-[^synstr]: シナプス強度というのは便宜上の呼称で, 実際には神経伝達物質の種類や, その受容体の数など複数の要因によって決定されている. また, このシナプス強度はシナプス重みということもある．これはどちらかと言えば機械学習の表現に引っ張られたものである．このため, このサイトでは重みという語も使う．
+数式の説明の前にモデルの挙動を示す．次図は2種類のモデルにおいて$t=0$でスパイクが生じてからのシナプス後電流の変化を示している．ただし, 実際のシナプス後電流はこれに\textbf{シナプス強度}\index{しなぷすきょうど@シナプス強度} (Synaptic strength)\footnote{シナプス強度というのは便宜上の呼称で, 実際には神経伝達物質の種類や, その受容体の数など複数の要因によって決定されている. また, このシナプス強度はシナプス重みということもある．これはどちらかと言えば機械学習の表現に引っ張られたものである．このため, このサイトでは重みという語も使う．}を乗じて総和を取ったものとなる．
 \begin{lstlisting}[language=julia]
 using PyPlot
 rc("axes.spines", top=false, right=false)
@@ -45,8 +44,7 @@ legend(); tight_layout()
 \end{figure}
 2種類の指数関数型シナプスの動態．破線は単一指数関数型シナプスで, 実線は二重指数関数型シナプスである．
 \subsection{単一指数関数型モデル(Single exponential model)}
-シナプス前ニューロンにおいてスパイクが生じてからのシナプス後電流の変化はおおよそ指数関数的に減少する, というのが単一指数関数型モデルである 
-\footnote{薬学動態の静注1コンパートメントモデルと同じ式である．}. 式は次のようになる．
+シナプス前ニューロンにおいてスパイクが生じてからのシナプス後電流の変化はおおよそ指数関数的に減少する, というのが単一指数関数型モデルである\footnote{薬学動態の静注1コンパートメントモデルと同じ式である．}. 式は次のようになる．
 \begin{equation}
 f(t)=\frac{1}{\tau_{s}}\exp\left(-\frac{t}{\tau_s}\right)    
 \end{equation}
@@ -67,8 +65,7 @@ r(t+\Delta t)=\left(1-\frac{\Delta t}{\tau_{s}}\right)r(t)+\frac{1}{\tau_{s}}\de
 \end{equation}
 となる．ここで$\delta_{t,t_{k}}$はKroneckerのdelta関数で, $t=t_{k}$のときに1, それ以外は0となる．また減衰度として$\left(1-\Delta  t/\tau_{d}\right)$の代わりに$\exp\left(-\Delta t/\tau_{d}\right)$を用いる場合もある．
 \subsection{二重指数関数型モデル(Double exponential model)}
-2重の指数関数によりシナプス後電流の立ち上がりも考慮するのが, 二重指数関数型モデル(Double exponential model)である[^comp2]．$t=0$にシナプス前細胞が発火したときのシナプス後電流の時間変化の関数は次のようになる．
-[^comp2]: 薬学動態の内服1コンパートメントモデルと同じ式である．
+2重の指数関数によりシナプス後電流の立ち上がりも考慮するのが, 二重指数関数型モデル(Double exponential model)である\footnote{薬学動態の内服1コンパートメントモデルと同じ式である．}．$t=0$にシナプス前細胞が発火したときのシナプス後電流の時間変化の関数は次のようになる．
 \begin{equation}
 f(t)=A\left[\exp\left(-\frac{t}{\tau_d}\right)-\exp\left(-\frac{t}{\tau_r}\right)\right]    
 \end{equation}
@@ -78,7 +75,7 @@ A=\frac{\tau_d}{\tau_d-\tau_r}\cdot \left(\frac{\tau_r}{\tau_d}\right)^\frac{\ta
 \end{equation}
 規格化定数$A$を乗じることで最大値が1となる．ただし, シミュレーションをする上で実際に規格化をする場合は少ない．
 \subsubsection{$\alpha$関数}
-上記の式において, $\tau=\tau_{r}=\tau_{d}$の場合は $\boldsymbol{\alpha}$ \textbf{関数}\index{かんすう@関数} (alpha function, alpha synapse)と呼ぶ ([Rall, 1967](https://pubmed.ncbi.nlm.nih.gov/6055351/))．式としては次のようになる．
+上記の式において, $\tau=\tau_{r}=\tau_{d}$の場合は $\boldsymbol{\alpha}$ \textbf{関数}\index{かんすう@関数} (alpha function, alpha synapse)と呼ぶ \citep{Rall1967-gn}．式としては次のようになる．
 \begin{equation}
 \alpha(t)=\frac{t}{\tau}\exp\left(1-\frac{t}{\tau}\right)    
 \end{equation}
@@ -120,8 +117,7 @@ r(t)&=\mathcal{L}^{-1}(F(s))\\
 \begin{equation}
 t_{\max}=\dfrac{\ln(\tau_d/\tau_r)}{1/\tau_r-1/\tau_d},\ \ r_{\max}=\dfrac{1}{\tau_{d}}\cdot \left(\dfrac{\tau_{r}}{\tau_{d}}\right)^{\frac{\tau_{r}}{\tau_d-\tau_{r}}}    
 \end{equation}
-となる．
-なお, $\alpha$関数の導出は逆Laplace変換をする前に$\tau=\tau_d=\tau_r$とすればよく, 
+となる．なお, $\alpha$関数の導出は逆Laplace変換をする前に$\tau=\tau_d=\tau_r$とすればよく, 
 \begin{align}
 F_\alpha(s)&=\frac{h(0)}{(s+1/\tau)^2}\\
 \alpha(t)&=\frac{t}{\tau^2}\exp\left(-\frac{t}{\tau}\right)
