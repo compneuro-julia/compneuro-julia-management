@@ -1,1 +1,0 @@
-U = u_matrix2d(w_history[end]);

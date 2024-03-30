@@ -1,1 +1,0 @@
-mapped_vpos = find_bmu(v, w_history[end]);

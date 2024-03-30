@@ -1,1 +1,0 @@
-@time u_nlmc = neural_lmc(∇log_p, u_init, α_ext[1], ρ, dt, nt);

@@ -3,7 +3,6 @@
 \section{Reservoir Computing}
 \textbf{Reservoir Computing}\index{Reservoir Computing}は、RNN\footnote{ここでは発火率モデルについてのRNNについて述べています。}のモデルの一種です。一般のRNNが全ての結合重みを学習するのに対し、Reservoir ComputingではRNNのユニット間の結合重みはランダムに初期化して固定し、\textbf{出力の結合重みだけを学習}\index{しゅつりょくのけつごうおもみだけをがくしゅう@出力の結合重みだけを学習}します。そのため、Reservoir Computingは学習するパラメータが少なく、学習も高速に行えます(もちろん関数の表現力は一般のRNNの方が優れています)。\par
 Reservoirというのは溜め池(貯水池)を意味します。Reservoir Computingでは、まず入力信号をランダムな固定重みにより高次空間の信号に変換し、Reservoir RNN(信号の溜め池)に保持します。そして、Reservoir RNNのユニットの活動として保持された情報を学習可能な重みにより線形変換し、出力とします。このとき、ネットワークの出力が教師信号と一致するように出力重みを更新します。
-
 %\begin{comment}
 \begin{figure}[htbp]
     \centering
@@ -16,92 +15,183 @@ Reservoirというのは溜め池(貯水池)を意味します。Reservoir Compu
 Reservoir Computingにおける教師あり学習の手法の1つとして、\textbf{FORCE法}と呼ばれるものがあります。\textbf{FORCE} (First-Order Reduced and Controlled Error)法は(Sussillo \& Abbott, 2009)で提案された学習法で、元々は発火率ベースのRNNに対するオンラインの学習法です (具体的な方法については次節で解説します)。さらに(Nicola \& Clopath, 2017)はFORCE法がRecurrent SNNの学習に直接的に使用できる、ということを示しました。この章では(Nicola \& Clopath, 2017)の手法を用いてReservoir ComputingとしてのRecurrent SNNの教師あり学習を行います。
 \subsubsection{Recurrent SNNに正弦波を学習させる}
 今回はRecurrent SNNのニューロンの活動をデコードしたものが正弦波となるように(すなわち正弦波を教師信号として)訓練することを目標とします。先になりますが、結果は図のようになります。
-
 \subsubsection{ネットワークの構造と教師信号}
 ネットワークの構造は図のようになっています。ネットワークには特別な入力があるわけではなく、再帰的な入力によって活動が持続しています(膜電位の初期値をランダムにしているため開始時に発火するニューロン\footnote{ここでの「ニューロン」はこれ以後も含め、Reservoirのユニットを指します。}があり、またバイアス電流もあります)。\par
 まず、Reservoirニューロンの数を$N$とし、出力の数を$N_\text{out}$とします。$i$番目のニューロンの入力はバイアス電流を$I_{\text{Bias}}$として、
-
-
 \begin{equation}
 I_i=s_i+I_{\text{Bias}}    
 \end{equation}
-
-
 と表されます。ただし、$s_i$は 
-
-
 \begin{equation}
 s_{i}=\sum_{j=1}^{N} \omega_{i j} r_{j}    
 \end{equation}
-
-
 として計算されます。$r_j$が$j$番目のニューロンの出力(シナプスフィルターをかけられたスパイク列), $\omega_{i j}$は$j$番目のニューロンから$i$番目のニューロンへの結合重みを意味します。\par
 次にニューロンの活動$r_j$を重み$\phi\in \mathbb{R}^{N\times N_\text{out}}$で線形にデコードし、その出力$\hat{\boldsymbol{x}}(t)$を教師信号$\boldsymbol{x}(t)$に近づけます。すなわち、
-
-
 \begin{equation}
 \hat{\boldsymbol{x}}(t)=\sum_{j=1}^{N} \boldsymbol{\phi}_j r_{j}=\phi^\intercal\boldsymbol{r}
 \end{equation}
-
-
 とします。ただし、$^\intercal$を転置記号とし、$\boldsymbol{x}$を列ベクトル、$\boldsymbol{x}^\intercal$を行ベクトルとします。また、$\boldsymbol{\phi}_j\in \mathbb{R}^{N_\text{out}}$です。\par
 ここから少しややこしいのですが、ネットワークの重み$\Omega=[\omega_{ij}]\in \mathbb{R}^{N\times N}$は 
-
-
 \begin{equation}
 \omega_{i j}=G \omega_{i j}^{0}+Q \boldsymbol{\eta}_{i}^\intercal \boldsymbol{\phi}_j 
 \end{equation}
-
-
 となっています。$\omega_{i j}^{0}$は固定された再帰重みです。$G, Q$は定数で、$\eta=[\boldsymbol{\eta}_{i}^\intercal]\in \mathbb{R}^{N\times N_\text{out}}$は$-1$か1に等確率に決められた行列です。よって学習するパラメータは$\phi$のみです。よってバイアスを抜いた入力電流$s_{i}$は次のように分割できます。
-
-
 \begin{align}
 s_{i}&=\sum_{j=1}^{N} \omega_{i j} r_{j}\\
 &=\sum_{j=1}^{N} \left(G \omega_{i j}^{0}+Q \boldsymbol{\eta}_{i}^\intercal \boldsymbol{\phi}_j \right)r_{j}\\
 &=Q\boldsymbol{\eta}_{i}^\intercal \hat{\boldsymbol{x}}(t)+\sum_{j=1}^{N} G \omega_{i j}^{0}r_{j}
 \end{align}
-
-
 \subsubsection{固定重みの初期化}
 固定された結合重み$\omega_{i j}^{0}$は$\mathcal{N}(0, (Np)^{-1})$の正規分布からランダムサンプリングした値です($N$はニューロンの数、$p$は定数)。ただし、各ニューロンが投射される重みの平均が0になるようにスケーリングします。
 \subsection{RLS法による重みの更新}
 \footnote{ModelDBにおいて公開されているMATLABのコード(\url{https://senselab.med.yale.edu/ModelDB/ShowModel.cshtml?model=190565})を参考にしました。}
 FORCE法は\textbf{RLSフィルタ}(recursive least squares filter, 再帰的最小二乗法フィルタ)という\textbf{適応フィルタ}(adaptive filter)の一種を学習するアルゴリズムを、RNNの学習に適応したものです\footnote{なお、(Sussillo \& Abbott, 2009)ではDelta則を用いることで、RLS法を用いない重みの更新則も紹介されています。}。
 誤差を 
-
-
 \begin{equation}
 \boldsymbol{e}(t)=\hat{\boldsymbol{x}}(t)-\boldsymbol{x}(t)=\phi(t-\Delta t)^\intercal \boldsymbol{r}(t)-\boldsymbol{x}(t)    
 \end{equation}
-
-
 とした場合\footnote{実際にはこれは真の誤差ではなく、事前誤差(apriori error)と呼ばれるものです。真の誤差は$\phi(t)^\intercal \boldsymbol{r}(t)-\boldsymbol{x}(t)$と表されます。}、出力重み$\phi$を次の式で更新します。
-
-
 \begin{align}
 \phi(t)&=\phi(t-\Delta t)-P(t) \boldsymbol{r}(t)\boldsymbol{e}(t)^\intercal\\
 P(t)&=P(t-\Delta t)-\frac{P(t-\Delta t) \boldsymbol{r}(t) \boldsymbol{r}(t)^\intercal P(t-\Delta t)}{1+\boldsymbol{r}(t)^\intercal P(t-\Delta
 t) \boldsymbol{r}(t)} 
 \end{align}
-
-
 また、初期値は$\phi(0)=0,
 P(0)=I_{N}\lambda^{-1}$です。$I_{N}$は$N$次の単位行列を意味します。$\lambda$は正則化のための定数です。
-
 \subsubsection{FORCE法の実装}
 それではFORCE法の実装をしてみましょう\footnote{コードは\texttt{./TrainingSNN/LIF\_FORCE\_sinewave.py}です。}。Reservoirネットワークは2000個のLIFニューロンで構成されているとします。また出力ユニットの個数は1です。まず、各種定数と教師信号を定義します。
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/reservoir-computing/002.jl}
+\begin{lstlisting}[language=julia]
+N = 2000  # ニューロンの数
+dt = 5e-5 # タイムステップ(s)
+tref = 2e-3 # 不応期(s)
+tc_m = 1e-2 #　膜時定数(s)
+vreset = -65 # リセット電位(mV) 
+vrest = 0 # 静止膜電位(mV)
+vthr = -40 # 閾値電位(mV)
+vpeak = 30 # ピーク電位(mV)
+BIAS = -40 # 入力電流のバイアス(pA)
+td = 2e-2; tr = 2e-3 # シナプスの時定数(s)
+alpha = dt*0.1  
+P = np.eye(N)*alpha
+Q = 10; G = 0.04
+
+T = 15 # シミュレーション時間 (s)
+tmin = round(5/dt) # 重み更新の開始ステップ
+tcrit = round(10/dt) # 重み更新の終了ステップ
+step = 50 # 重み更新のステップ間隔
+nt = round(T/dt) # シミュレーションステップ数
+zx = np.sin(2*np.pi*np.arange(nt)*dt*5) # 教師信号
+\end{lstlisting}
 次にニューロンとシナプスを定義します。
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/reservoir-computing/004.jl}
+\begin{lstlisting}[language=julia]
+from Models.Neurons import CurrentBasedLIF
+from Models.Synapses import DoubleExponentialSynapse
+
+# ニューロンとシナプスの定義 
+neurons = CurrentBasedLIF(N=N, dt=dt, tref=tref, tc_m=tc_m,
+                          vrest=vrest, vreset=vreset, vthr=vthr, vpeak=vpeak)
+neurons.v = vreset + np.random.rand(N)*(vpeak-vreset) # 膜電位の初期化
+
+synapses_out = DoubleExponentialSynapse(N, dt=dt, td=td, tr=tr)
+synapses_rec = DoubleExponentialSynapse(N, dt=dt, td=td, tr=tr)
+
+# 再帰重みの初期値
+p = 0.1 # ネットワークのスパース性
+OMEGA = G*(np.random.randn(N,N))*(np.random.rand(N,N)<p)/(np.sqrt(N)*p)
+for i in range(N):
+    QS = np.where(np.abs(OMEGA[i,:])>0)[0]
+    OMEGA[i,QS] = OMEGA[i,QS] - np.sum(OMEGA[i,QS], axis=0)/len(QS)
+\end{lstlisting}
 シナプスのインスタンスとして\texttt{synapses\_out, synapses\_rec}があります。実は\texttt{synapses\_out}だけでも良いのですが、高速化のために2つ用意しています。また、\texttt{OMEGA}はランダムに生成した後にスケーリングをしています。次に各種変数の初期化と、記録用変数を定義します。
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/reservoir-computing/006.jl}
+\begin{lstlisting}[language=julia]
+# 変数の初期値
+k = 1 # 出力ニューロンの数
+E = (2*np.random.rand(N, k) - 1)*Q
+PSC = np.zeros(N).astype(np.float32) # シナプス後電流
+JD = np.zeros(N).astype(np.float32) # 再帰入力の重み和
+z = np.zeros(k).astype(np.float32) # 出力の初期化
+Phi = np.zeros(N).astype(np.float32) #　学習される重みの初期値
+
+# 記録用変数 
+REC_v = np.zeros((nt,10)).astype(np.float32) # 膜電位の記録変数
+current = np.zeros(nt).astype(np.float32) # 出力の電流の記録変数
+tspike = np.zeros((4*nt,2)).astype(np.float32) # スパイク時刻の記録変数
+ns = 0 # スパイク数の記録変数 
+\end{lstlisting}
 それではシミュレーションのメインの部分を書いていきましょう。
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/reservoir-computing/008.jl}
+\begin{lstlisting}[language=julia]
+for t in tqdm(range(nt)):
+    I = PSC + np.dot(E, z) + BIAS # シナプス電流 
+    s = neurons(I) # 中間ニューロンのスパイク
+    
+    index = np.where(s)[0] # 発火したニューロンのindex
+    len_idx = len(index) # 発火したニューロンの数
+    if len_idx > 0:
+        JD = np.sum(OMEGA[:, index], axis=1)  
+        tspike[ns:ns+len_idx,:] = np.vstack((index, 0*index+dt*t)).T
+        ns = ns + len_idx # スパイク数の記録
+
+    PSC = synapses_rec(JD*(len_idx>0)) # 再帰的入力電流
+    #PSC = np.dot(OMEGA, r) # 遅い
+    r = synapses_out(s) # 出力電流(神経伝達物質の放出量)  
+    r = np.expand_dims(r,1) # (N,) -> (N, 1)
+    z = np.dot(Phi.T, r) # デコードされた出力
+    err = z - zx[t] # 誤差
+
+    # FORCE法(RLS)による重み更新
+    if t % step == 1:
+        if t > tmin:
+            if t < tcrit:
+                cd = np.dot(P, r)
+                Phi = Phi - np.dot(cd, err.T)
+                P = P - np.dot(cd, cd.T) / (1.0 + np.dot(r.T, cd)
+    
+    current[t] = z # デコード結果の記録
+    REC_v[t] = neurons.v_[:10] # 膜電位の記録
+\end{lstlisting}
 途中で少し不思議に思われるようなことをしています。\\
 \colorbox{shadecolor}{\texttt{PSC = synapses\_rec(JD*(len\_idx>0))}}の部分(とその少し上)ですが、これはデコードに用いる\texttt{r}を行列変換するよりも発火した結合重みの和を取り、再帰入力のシナプス後細胞のモデルに入力した方が速いという理由によります。\texttt{t}が一定のステップの範囲にある場合はFORCE法により学習を実行します。最後に各種変数を記録しています。\par
 それでは学習後の結果を表示しましょう。初めに発火数と発火率を表示し、次に学習前と学習後の5つのニューロンの膜電位、最後に学習前/中間と学習後のデコード結果を描画します(なお、この本に記載はしていないですがコードには重みの固有値の描画も付けています)。
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/reservoir-computing/010.jl}
+\begin{lstlisting}[language=julia]
+TotNumSpikes = ns 
+M = tspike[tspike[:,1]>dt*tcrit,:]
+AverageRate = len(M)/(N*(T-dt*tcrit))
+print("\n")
+print("Total number of spikes : ", TotNumSpikes)
+print("Average firing rate(Hz): ", AverageRate)
+step_range = 20000
+plt.figure(figsize=(10, 5))
+plt.subplot(1,2,1)
+for j in range(5):
+    plt.plot(np.arange(step_range)*dt,
+             REC_v[:step_range, j]/(50-vreset)+j, color="k")
+plt.title('Pre-Learning')
+plt.xlabel('Time (s)'); plt.ylabel('Neuron Index') 
+plt.subplot(1,2,2)
+for j in range(5):
+    plt.plot(np.arange(nt-step_range, nt)*dt,
+             REC_v[nt-step_range:, j]/(50-vreset)+j,
+             color="k")
+plt.title('Post Learning'); plt.xlabel('Time (s)')
+plt.show()
+
+plt.figure(figsize=(10,5))
+plt.subplot(1,2,1)
+plt.plot(np.arange(nt)*dt, zx, label="Target", color="k")
+plt.plot(np.arange(nt)*dt, current, label="Decoded output",
+         linestyle="dashed", color="k")
+plt.xlim(4.5,5.5); plt.ylim(-1.1,1.4)
+plt.title('Pre/peri Learning')
+plt.xlabel('Time (s)'); plt.ylabel('current') 
+plt.subplot(1,2,2)
+plt.title('Post Learning')
+plt.plot(np.arange(nt)*dt, zx, label="Target", color="k")
+plt.plot(np.arange(nt)*dt, current, label="Decoded output",
+         linestyle="dashed", color="k")
+plt.xlim(14,15); plt.ylim(-1.1,1.4)
+plt.xlabel('Time (s)'); plt.legend(loc='upper right')
+plt.show()
+\end{lstlisting}
 結果は図\ref{fig:LIF_FORCE_1}, \ref{fig:LIF_FORCE_2}のようになります。また、同様のシミュレーションをIzhikevichニューロンで行った\footnote{コードは\texttt{./TrainingSNN/Izhikevich\_FORCE\_sinewave.py}です。}結果も示しています。
 \begin{figure}[htbp]
     \centering

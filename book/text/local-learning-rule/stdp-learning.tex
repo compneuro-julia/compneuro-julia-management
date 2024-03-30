@@ -2,55 +2,105 @@
 \subsection{STDP(spike-timing-dependent plasticity)則}
 \subsubsection{Pair-based STDP則}
 \textbf{Spike-timing-dependent plasticity}\index{Spike-timing-dependent plasticity} (STDP)はシナプス前細胞と後細胞の発火時刻の差によってシナプス強度が変化するという現象です(Markram et al. 1997; Bi and Poo 1998)．典型的なSTDP側は \textbf{Pair-based STDP則}\index{Pair-based STDPのり@Pair-based STDP則} と呼ばれ，シナプス前細胞と後細胞の2つのスパイクのペアの発火時刻によってLTPやLTDが起こります．この節ではこのPair-based STDP則について説明します．
-
 シナプス後細胞におけるスパイク(postsynaptic spike)の発生時刻$t_\text{post}$とシナプス前細胞におけるスパイク(presynaptic spike)の発生時刻$t_\text{pre}$の差を$\Delta t_{\text{spike}}=t_\text{post}-t_\text{pre}$とします\footnote{$\Delta t_{\text{spike}}$の定義は元々は逆になっており，(Song et al,, 2000)では$\Delta t_{\text{spike}}=t_\text{pre}-t_\text{post}$としています．また，添え字は離散時のタイムステップと混同しないために付けています．}．$\Delta t_{\text{spike}}$はシナプス前細胞，後細胞の順で発火すれば正，逆なら負となります．Pair-based STDP則では，シナプス前細胞から後細胞へのシナプス強度($w$)\footnote{シナプス強度$w$に添え字をつけていませんが，この場合はシナプス前細胞と後細胞の2つの細胞しかないと仮定して考えています．}の変化$\Delta w$は$\Delta t_{\text{spike}}$に依存的に以下の式に従って変化します(Song et al., 2000)．
-
-
 \begin{equation}
 \Delta w = \begin{cases}
 A_{+} \exp\left(-\dfrac{\Delta t_{\text{spike}}}{\tau_{+}}\right) &(\Delta t_{\text{spike}}> 0) \\
 -A_{-} \exp\left(-\dfrac{|\Delta t_{\text{spike}}|}{\tau_{-}}\right) &(\Delta t_{\text{spike}}< 0)
 \end{cases}
 \end{equation}
-
-
 $A_+, A_-$は正の定数，または重み依存的な関数 (後述) です．$\Delta t_{\text{spike}}>0$のときはLTPが起こり，$\Delta t_{\text{spike}}<0$のときはLTDが起こります．このタイプのSTDP則は\textbf{Hebbian STDP}\index{Hebbian STDP} と呼ばれ，Hebb則に従うシナプス強度の変化が起こります\footnote{Hebb則に従わないSTDPもあり，例えばLTPとLTDの挙動が逆のものを\textbf{Anti-Hebbian STDP}\index{Anti-Hebbian STDP}と呼びます(Bell et al., 1997など)．}．
 $A_+=0.01$, $A_-/A_+=1.05$, $\tau_{+}=\tau_{-}=20$ msとしたときの$\Delta t_{\text{spike}}$に対する$\Delta w$は図\ref{fig:stdp}のようになります．
-\lstinputlisting[language=julia]{./text/local-learning-rule/stdp-learning/002.jl}
+\begin{lstlisting}[language=julia]
+tau_p = tau_m = 20 #ms
+A_p = 0.01
+A_m = 1.05*A_p
+dt = np.arange(-50, 50, 1) #ms
+dw = A_p*np.exp(-dt/tau_p)*(dt>0) - A_m*np.exp(dt/tau_p)*(dt<0) 
+
+plt.figure(figsize=(5, 4))
+plt.plot(dt, dw)
+plt.hlines(0, -50, 50); plt.xlim(-50, 50)
+plt.xlabel("$\Delta t$ (ms)"); plt.ylabel("$\Delta w$")
+plt.show()
+\end{lstlisting}
 \subsection{オンライン STDP則}
 単に2つのニューロンを考えるなら上で紹介した式でも良いのですが，ネットワーク全体を考えると実装は複雑になり効率的ではありません。また，スパイク発生時刻を記憶しておくことは生物学的に妥当ではありません。そこで，スパイク活動のトレース(trace)というローカル変数を用いてSTDPを記述してみましょう。
-
-
 \begin{align}
 \frac{dx_\text{pre}}{dt}&=-\frac{x_\text{pre}}{\tau_+}+\sum_{t_{\text{pre}}^{(i)} <t} \delta \left(t-t_{\text{pre}}^{(i)}\right)\\
 \frac{dx_\text{post}}{dt}&=-\frac{x_\text{post}}{\tau_-}+\sum_{t_{\text{post}}^{(j)}<t} \delta \left(t-t_{\text{post}}^{(j)}\right)
 \end{align}
-
-
 とします。ただし，$t_{\text{pre}}^{(i)}$はシナプス前細胞の$i$番目のスパイク，$t_{\text{post}}^{(j)}$はシナプス後細胞の$i$番目のスパイクを意味します。また，$x_\text{pre}$, $x_\text{post}$はそれぞれシナプス前細胞，後細胞のスパイクのトレースです。トレースはそれぞれの細胞においてスパイクが発生したときに1増加し\footnote{トレースの値域を$0\leq x\leq1$に制限するため，スパイクが発生したとき1にリセットするという場合もあります(Morrison et al., 2008)。その場合はx(t+\Delta t)=\left(1-\frac{\Delta t}{\tau}\right)x(t)\cdot(1-\delta_{t,t'})+\delta_{t,t'}のようにします ($t'$はスパイクの発生時刻) 。}，それ以外では時定数$\tau_+, \tau_-$で指数関数的に減少します。これは既に1章で説明した単一指数関数型シナプスと同じです。生理学的解釈ですが，$x_\text{pre}$はNMDA受容体のイオンチャネルの開口割合，$x_\text{post}$は逆伝搬活動電位 (back-propagating action potential; bAP) \footnote{誤差逆伝搬法(Back-propagation)とは異なります。}やbAPによるカルシウムの流入と捉えることができます(cf. 『標準生理学』)。
 そして，$x_\text{pre}, x_\text{post}$を用いて重みの更新式は
-
-
 \begin{equation}
 \frac{dw}{dt}=A_+ x_\text{pre} \cdot \underbrace{\sum_{t_{\text{post}}^{(j)}<t} \delta \left(t-t_{\text{post}}^{(j)}\right)}_{\text{シナプス後細胞のスパイク}} - A_- x_{\text{post}} \cdot \underbrace{\sum_{t_{\text{pre}}^{(i)} <t} \delta \left(t-t_{\text{pre}}^{(i)}\right)}_{\text{シナプス前細胞のスパイク}}
 \end{equation}
-
-
 と表せます。
 これらの式をEuler法によりタイムステップ$\Delta t$で離散化すると，
-
-
 \begin{align}
 x_{\text{pre}}(t+\Delta t)&=\left(1-\frac{\Delta t}{\tau_{+}}\right)\cdot x_{\text{pre}}(t)+
 \delta_{t,t_{\text{pre}}^{(i)}}\\
 x_{\text{post}}(t+\Delta t)&=\left(1-\frac{\Delta t}{\tau_{-}}\right)\cdot x_{\text{post}}(t)+\delta_{t,t_{\text{post}}^{(j)}}\\
 w(t+\Delta t)&=w(t)+A_+ x_{\text{pre}}\cdot \delta_{t,t_{\text{post}}^{(j)}} - A_-x_{\text{post}}\cdot \delta_{t,t_{\text{pre}}^{(i)}}
 \end{align}
-
-
 となります。ただし，$\delta_{t,t'}$はKroneckerのdelta関数で，$t=t'$のときに1, それ以外は0となります。$\delta_{t,t'}$は実装時においてスパイクが起こったときに1, その他は0を取る変数を用いると良いでしょう。
 それでは，Online STDPを実装してみましょう\footnote{コードは\texttt{./SingleFileSimulations/STDP/stdp2.py}です。}。
-\lstinputlisting[language=julia]{./text/local-learning-rule/stdp-learning/004.jl}
+\begin{lstlisting}[language=julia]
+#定数
+dt = 1e-3 #sec
+T = 0.5 #sec
+nt = round(T/dt)
+tau_p = tau_m = 2e-2 #ms
+A_p = 0.01; A_m = 1.05*A_p
+
+#pre/postsynaptic spikes
+spike_pre = np.zeros(nt); spike_pre[[50, 200, 225, 300, 425]] = 1
+spike_post = np.zeros(nt); spike_post[[100, 150, 250, 350, 400]] = 1
+
+#記録用配列
+x_pre_arr = np.zeros(nt); x_post_arr = np.zeros(nt)
+w_arr = np.zeros(nt)
+
+#初期化
+x_pre = x_post = 0 # pre/post synaptic trace
+w = 0 # synaptic weight
+
+#Online STDP
+for t in range(nt):
+    x_pre = x_pre*(1-dt/tau_p) + spike_pre[t]
+    x_post = x_post*(1-dt/tau_m) + spike_post[t]
+    dw = A_p*x_pre*spike_post[t] - A_m*x_post*spike_pre[t]
+    w += dw #重みの更新
+    
+    x_pre_arr[t] = x_pre
+    x_post_arr[t] = x_post
+    w_arr[t] = w
+
+# 描画
+time = np.arange(nt)*dt*1e3
+def hide_ticks(): #上と右の軸を表示しないための関数
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().yaxis.set_ticks_position('left')
+    plt.gca().xaxis.set_ticks_position('bottom')
+plt.figure(figsize=(6, 6))
+plt.subplot(5,1,1)
+plt.plot(time, x_pre_arr, color="k")
+plt.ylabel("$x_{pre}$"); hide_ticks(); plt.xticks([])
+plt.subplot(5,1,2)
+plt.plot(time, spike_pre, color="k")
+plt.ylabel("pre- spikes"); hide_ticks(); plt.xticks([])
+plt.subplot(5,1,3)
+plt.plot(time, spike_post, color="k")
+plt.ylabel("post- spikes"); hide_ticks(); plt.xticks([])
+plt.subplot(5,1,4)
+plt.plot(time, x_post_arr, color="k")
+plt.ylabel("$x_{post}$"); hide_ticks(); plt.xticks([])
+plt.subplot(5,1,5)
+plt.plot(time, w_arr, color="k")
+plt.xlabel("$t$ (ms)"); plt.ylabel("$w$"); hide_ticks()
+plt.show()
+\end{lstlisting}
 結果は図\ref{fig:online_stdp}のようになります。
 \begin{figure}[htbp]
     \centering
@@ -61,19 +111,61 @@ w(t+\Delta t)&=w(t)+A_+ x_{\text{pre}}\cdot \delta_{t,t_{\text{post}}^{(j)}} - A
 \subsubsection{行列を用いたオンラインSTDP則の実装}
 この節ではシナプス前細胞と後細胞の数を一般化し，今まで2つのニューロン間で考えていたSTDP則を行列計算で実装する方法について説明します。
 まず，シナプス前細胞，後細胞がそれぞれ$N_\text{pre}$, $N_\text{post}$あるとします。また，Kroneckerのdelta関数の代わりに，スパイクが起こったときに1， その他は0の値を取る明示的な変数$\boldsymbol{s}(t)$を用いることにします。ここで，シナプス前細胞，後細胞についてスパイク変数は$\boldsymbol{s}_{\text{pre}} \in \mathbb{R}^{N_\text{pre}}, \boldsymbol{s}_{\text{post}} \in \mathbb{R}^{N_\text{post}}$であり，スパイクのトレースは$\boldsymbol{x}_{\text{pre}} \in \mathbb{R}^{N_\text{pre}}, \boldsymbol{x}_{\text{post}} \in \mathbb{R}^{N_\text{post}}$です。さらにシナプスから後細胞へのシナプス強度を$N_\text{post} \times N_\text{pre}$行列の$W$とします。このとき，Online STDP則は
-
-
 \begin{align}
 \boldsymbol{x}_{\text{pre}}(t+\Delta t)&=\left(1-\frac{\Delta t}{\tau_{+}}\right)\cdot \boldsymbol{x}_{\text{pre}}(t)+
 \boldsymbol{s}_{\text{pre}}(t)\\
 \boldsymbol{x}_{\text{post}}(t+\Delta t)&=\left(1-\frac{\Delta t}{\tau_{-}}\right)\cdot \boldsymbol{x}_{\text{post}}(t)+\boldsymbol{s}_{\text{post}}(t)\\
 W(t+\Delta t)&=W(t)+A_+ \boldsymbol{s}_{\text{post}}(t)(\boldsymbol{x}_{\text{pre}}(t))^\top - A_-\boldsymbol{x}_{\text{post}}(t)(\boldsymbol{s}_{\text{pre}}(t))^\top
 \end{align}
-
-
 と書けます。ただし，$^\top$を転置記号とし，$\boldsymbol{x}$を列ベクトル，$\boldsymbol{x}^\top$を行ベクトルとしています。
 これらを用いてOnline STDP則と元のSTDPの式が一致しているかの確認をしてみましょう。タイムステップ\jl{dt}を1ms, シミュレーション時間\texttt{T}は50msとし，シミュレーションのタイムステップ数\jl{nt}と同数のシナプス前細胞，2つのシナプス後細胞があるとします。それぞれのシナプス前細胞は\jl{dt}だけずれて発火し\footnote{この場合，シナプス前細胞のスパイクを表す \jl{spike_pre} 行列として \jl{nt} 次単位行列を与えればよいです。}(つまり発火時刻の範囲は$[0\text{ms}, 50\text{ms}]$)，2つの後細胞は$t=0, 50$msに発火します。こうすることで，発火の時間差として$[-50\text{ms}, 50\text{ms}]$が生まれます。
-\lstinputlisting[language=julia]{./text/local-learning-rule/stdp-learning/007.jl}
+\begin{lstlisting}[language=julia]
+dt = 1e-3; T = 5e-2 #sec
+nt = round(T/dt)
+N_pre = nt; N_post = 2
+tau_p = tau_m = 2e-2 #ms
+A_p = 0.01; A_m = 1.05*A_p
+
+# pre/postsynaptic spikes
+spike_pre = np.eye(N_pre) #単位行列でdtごとに発火するニューロンをN個作成
+spike_post = np.zeros((N_post, nt))
+spike_post[0, -1] = spike_post[1, 0] = 1
+
+# 初期化
+x_pre = np.zeros(N_pre)
+x_post = np.zeros(N_post)
+W = np.zeros((N_post, N_pre))
+
+for t in range(nt):
+    # 1次元配列 -> 縦ベクトル or 横ベクトル
+    spike_pre_ = np.expand_dims(spike_pre[:, t], 0) # (1, N)
+    spike_post_ = np.expand_dims(spike_post[:, t], 1) # (2, 1)
+    x_pre_ = np.expand_dims(x_pre, 0) # (1, N)
+    x_post_ = np.expand_dims(x_post, 1) # (2, 1)
+    
+    # Online STDP
+    dW = A_p*np.matmul(spike_post_, x_pre_)
+    dW -= A_m*np.matmul(x_post_, spike_pre_)
+    W += dW
+    
+    # Update
+    x_pre = x_pre*(1-dt/tau_p) + spike_pre[:, t]
+    x_post = x_post*(1-dt/tau_m) + spike_post[:, t]
+
+# 結果
+delta_w = np.zeros(nt*2-1) # スパイク時間差 = 0msが重複
+delta_w[:nt] = W[0, :]; delta_w[nt:] = W[1, 1:]
+
+# 描画
+time = np.arange(-T, T-dt, dt)*1e3
+plt.figure(figsize=(5, 4))
+plt.plot(time, delta_w[::-1])
+plt.hlines(0, -50, 50)
+plt.xlabel("$\Delta t$ (ms)")
+plt.ylabel("$\Delta w$")
+plt.xlim(-50, 50)
+plt.show()
+\end{lstlisting}
 このコードを実行すると図\ref{fig:online_stdp2}のようになります。
 \begin{figure}[htbp]
     \centering
@@ -81,7 +173,6 @@ W(t+\Delta t)&=W(t)+A_+ \boldsymbol{s}_{\text{post}}(t)(\boldsymbol{x}_{\text{pr
     \caption{Online STDP}
     \label{fig:online_stdp2}
 \end{figure}
-
 \subsection{重み依存的なSTDP}
 生理学的にはシナプス強度$w$には$w_{\min} < w < w_{\max}$というような制限(bound)が存在すると考えられます\footnote{受容体の数が際限なく増加したり減少したりすることはないと考えられるためです。もしLTPによりシナプス強度が限りなく増大した場合，シナプス後細胞の発火頻度が高くなり，実際には発火を誘発していないシナプス前細胞とのシナプス強度も大きくなってしまいます。LTPの暴走を防ぐための機構の1つとして\textbf{恒常性可塑性}(homeostatic scaling)または}\index{こうじょうせいかそせい}(homeostatic scaling)または@恒常性可塑性}(homeostatic scaling)または}シナプススケーリング}(synaptic scaling)と呼ばれる現象があります。}。多くの場合では$w_{\min}=0$となっているので，以下では$w\in [0, w_{\max}]$となる場合を考えます。また，前節までは正の定数としていた$A_+, A_-$を重み依存的な関数であるとします(つまり$A_\pm=A_\pm(w)$とします)。
 重みの制限には\textbf{ソフト制限(soft bound)}と}\index{そふとせいげん(soft bound)}と@ソフト制限(soft bound)}と}ハード制限(hard bound)}があります(Gerstner and Kistler, 2002, Chapter 11)。ソフト制限は，重みが上界 (または下界) に近づくにつれ重みの変化が小さくなるというものです。
@@ -105,7 +196,6 @@ WTA (Winner-take-all)というのはネットワーク内のニューロンが�
     \caption{(Diehl \& Cook, 2015)で提案されたネットワーク.  1層目が入力層，2層目が興奮性ニューロン層と抑制性ニューロン層から構成されます。興奮性ニューロンと抑制性ニューロンの間の結合重みは固定で，入力層から興奮性ニューロン層へ投射される結合重みをSTDP則で学習します。}
     \label{fig:diehl}
 \end{figure}
-
 \subsection{ニューロンとシナプスのモデル}
 ニューロンとシナプスのモデルとしてはConductance-basedモデルを用いています. 
 \subsubsection{ニューロンのモデル}
@@ -134,7 +224,6 @@ class DiehlAndCook2015LIF:
         self.theta_max = theta_max
         self.tc_theta = tc_theta
         self.vpeak = vpeak
-
         self.e_exc = e_exc \section{興奮性シナプスの平衡電位}
         self.e_inh = e_inh \section{抑制性シナプスの平衡電位}
         
@@ -177,14 +266,12 @@ class DiehlAndCook2015LIF:
         return s 
 \end{minted}
 追加した部分は閾値の更新のところです。最終的な閾値は\texttt{self.theta}と\texttt{self.init\_vthr}を加算した\texttt{self.vthr}を用います。変動するのは\texttt{self.theta}ですが，これはスパイクトレースと同様の実装をしています。ただし，閾値が上がりすぎることを防ぐため，上限を\texttt{self.theta\_max}として\texttt{np.clip()}により制限しています。
-
 \subsubsection{シナプスのモデル}
 シナプスにはConductance-basedの単一指数関数型シナプス(single exponential synapse)を用いています. スパイクが入るとコンダクタンス$g$は$w$だけあがり, その他では以下のように減衰します
 \begin{equation}
 \tau_{x} \frac{dg_x}{d t}=-g_x    
 \end{equation}
 ただし，$x=e, i$で，それぞれ興奮性，抑制性を意味する添え字です. なお，この実装自体は第2章で述べたものと変わりません. 
-
 \subsection{興奮性ニューロンのラベリング}
 このネットワークには出力層がなく, 通常とは異なる形式で画像を分類しています. まず, 訓練時において興奮性ニューロンの活動を全て記録します. 次に, 画像に元々されていたラベルを用いて, 興奮性の各ニューロンの各ラベルの画像への平均発火数を計算します. このとき, 各ニューロンにおいて最も発火数が多かったラベルを求め, そのラベルを各ニューロンに割り当てます. そして, 割り当てたラベルを用い, 入力画像に対する各ラベルに割り当てられたニューロンの平均発火数を求めます. このとき平均発火数が最も高いニューロン群のラベルが, 入力画像の予測ラベルとなります. また, 推論時には訓練時においてニューロンに割り当てたラベルを用います.
 それではニューロンへラベルを割り当てる関数(\texttt{assign\_labels})を実装してみましょう\footnote{以降のコードは特に明記が無い限り\texttt{./TrainingSNN/LIF\_WTA\_STDP\_MNIST.py}に含まれます。また一部，BindsNETの実装を参考にしています。}。\texttt{assign\_labels}は5つの変数を引数に取ります。\texttt{spikes}は, サイズが\texttt{(n\_samples, n\_neurons)}の2次元配列で，各サンプルにおいて各興奮性ニューロンが何回発火したかを記録したものです。 \texttt{labels}はサイズが\texttt{(n\_samples, )}の配列で，各サンプルの教師ラベルを表します。\texttt{n\_labels}はラベルの数です。今回はMNISTなので10個です。 \texttt{rates}はサイズが\texttt{(n\_samples, n\_neurons)}の配列で，各興奮性ニューロンの各ラベルに対する発火率を表します。\texttt{rates}は2度目の計算以降に引数として渡すと，過去の\texttt{rates}と\texttt{alpha}によって調整される割合で指数平均を取ります。
@@ -217,7 +304,6 @@ def assign_labels(spikes, labels, n_labels, rates=None, alpha=1.0):
     
     \section{最も発火率が高いラベルを各ニューロンに割り当てる (n_neurons,)}
     assignments = np.argmax(proportions, axis=1).astype(np.uint8) 
-
     return assignments, proportions, rates
 \end{minted}
 ここで\texttt{assignments}はサイズが\texttt{(n\_neurons,)}の配列で，各ニューロンに割り当てられたラベルを表します。これを用いて，各サンプルに対してラベルを予測する関数\texttt{prediction}を実装しましょう。
@@ -253,7 +339,6 @@ def online_load_and_encoding_dataset(dataset, i, dt, n_time, max_fr=32,
                                          axis=0), n_time, axis=0)
     input_spikes = np.where(np.random.rand(n_time, 784) < fr*dt, 1, 0)
     input_spikes = input_spikes.astype(np.uint8)
-
     return input_spikes
 \end{minted}
 この関数の使用例と, スパイク列への変換が正しく行われているかを確認するコードは次のようになります。
@@ -275,7 +360,6 @@ plt.show()
     \caption{スパイク列に変換したMNISTデータの例(5).}
     \label{fig:jitteredMNIST}
 \end{figure}
-
 \subsection{ネットワークの実装}
 それではネットワークを実装してみましょう。長いですが，それぞれの部分はこれまでの実装の組み合わせです。ただし，著者実装におけるハイパーパラメータでは正常に学習が進まなかったので，各ハイパーパラメータの値は変更しています\footnote{そもそも論文にハイパーパラメータが書いておらず，著者実装のコードを読むしかありません。}。
 \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
@@ -291,7 +375,6 @@ class DiehlAndCook2015Network:
         self.n_in = n_in
         self.norm = 0.1
         self.update_nt = update_nt
-
         \section{Neurons}
         self.exc_neurons = DiehlAndCook2015LIF(n_neurons, dt=dt, tref=5e-3,
                                                tc_m=1e-1,
@@ -301,7 +384,6 @@ class DiehlAndCook2015Network:
                                                theta_max=35,
                                                tc_theta=1e4,
                                                e_exc=0, e_inh=-100)
-
         self.inh_neurons = ConductanceBasedLIF(n_neurons, dt=dt, tref=2e-3,
                                                tc_m=1e-2,
                                                vrest=-60, vreset=-45,
@@ -327,11 +409,9 @@ class DiehlAndCook2015Network:
         
         self.delay_input = DelayConnection(N=n_neurons, delay=5e-3, dt=dt)
         self.delay_exc2inh = DelayConnection(N=n_neurons, delay=2e-3, dt=dt)
-
         self.g_inh = np.zeros(n_neurons)
         
         self.tcount = 0
-
         self.s_in_ = np.zeros((self.update_nt, n_in)) 
         self.s_exc_ = np.zeros((n_neurons, self.update_nt))
         self.x_in_ = np.zeros((self.update_nt, n_in)) 
@@ -360,18 +440,15 @@ class DiehlAndCook2015Network:
         c_in = self.input_synapse(s_in)
         x_in = self.input_synaptictrace(s_in)
         g_in = self.input_conn(c_in)
-
         \section{興奮性ニューロン層}
         s_exc = self.exc_neurons(self.delay_input(g_in), self.g_inh)
         c_exc = self.exc_synapse(s_exc)
         g_exc = np.dot(self.exc2inh_W, c_exc)
         x_exc = self.exc_synaptictrace(s_exc)
-
         \section{抑制性ニューロン層        }
         s_inh = self.inh_neurons(self.delay_exc2inh(g_exc), 0)
         c_inh = self.inh_synapse(s_inh)
         self.g_inh = np.dot(self.inh2exc_W, c_inh)
-
         if stdp:
             \section{スパイク列とスパイクトレースを記録}
             self.s_in_[self.tcount] = s_in
@@ -379,7 +456,6 @@ class DiehlAndCook2015Network:
             self.x_in_[self.tcount] = x_in 
             self.x_exc_[:, self.tcount] = x_exc
             self.tcount += 1
-
             \section{Online STDP}
             if self.tcount == self.update_nt:
                 W = np.copy(self.input_conn.W)
@@ -432,7 +508,6 @@ if __name__ == '__main__':
                                       update_nt=update_nt)
     
     network.initialize_states() \section{ネットワークの初期化}
-
     spikes = np.zeros((n_train, n_neurons)).astype(np.uint8) \section{スパイク記録変数}
     accuracy_all = np.zeros(n_epoch) \section{訓練精度を記録する変数}
     blank_input = np.zeros(784) \section{ブランク入力}
@@ -526,7 +601,6 @@ if __name__ == '__main__':
     \caption{訓練時の精度の変化. 最終的な訓練精度は69.9\%となりました。}
     \label{fig:MNISTaccuracy}
 \end{figure}
-
 \subsection{ネットワークの評価}
 学習後のネットワークを学習に用いなかったテストデータで評価してみましょう。
 \footnote{コードは\texttt{./TrainingSNN/LIF\_WTA\_STDP\_MNIST\_evaluation.py}です。}。ほぼネットワークの学習の際に記述したコードを流用するだけです。まず，学習後の重みを読み込んで，テストデータ(1000サンプル)を入力し，それに対するスパイクを記録します。次に訓練時に行った各ニューロンのラベルへの割り当てを用いて各サンプルのラベルを予測し，実際のラベルと比較し，推論精度を計算します。
@@ -534,45 +608,35 @@ if __name__ == '__main__':
 import chainer
 from LIF_WTA_STDP_MNIST import online_load_and_encoding_dataset, prediction
 from LIF_WTA_STDP_MNIST import DiehlAndCook2015Network
-
 \section{350ms画像入力，150ms入力なしでリセットさせる(膜電位の閾値以外)}
 dt = 1e-3 \section{タイムステップ(sec)}
 t_inj = 0.350 \section{刺激入力時間(sec)}
 t_blank = 0.150 \section{ブランク時間(sec)}
 nt_inj = round(t_inj/dt)
 nt_blank = round(t_blank/dt)
-
 n_neurons = 100 #興奮性/抑制性ニューロンの数
 n_labels = 10 #ラベル数
-
 n_train = 1000 \section{訓練データの数}
 update_nt = nt_inj \section{STDP則による重みの更新間隔}
-
 _, test = chainer.datasets.get_mnist() \section{ChainerによるMNISTデータの読み込み}
 labels = np.array([test[i][1] for i in range(n_train)]) \section{ラベルの配列}
-
 \section{結果が保存されているディレクトリ}
 results_save_dir = "./LIF_WTA_STDP_MNIST_results/"
-
 \section{ネットワークの定義}
 network = DiehlAndCook2015Network(n_in=784, n_neurons=n_neurons,
                                   wexc=2.25, winh=0.875,
                                   dt=dt, wmin=0.0, wmax=0.1,
                                   lr=(1e-2, 1e-4),
                                   update_nt=update_nt)
-
 network.initialize_states() \section{ネットワークの初期化}
-
 \section{重みと閾値のload}
 network.input_conn.W = np.load(results_save_dir+"weight.npy")
 network.exc_neurons.theta = np.load(results_save_dir+"exc_neurons_theta.npy")
 network.exc_neurons.theta_plus = 0 \section{閾値が上昇しないようにする}
-
 #スパイクを記録する変数
 spikes = np.zeros((n_train, n_neurons)).astype(np.uint8)
 blank_input = np.zeros(784) \section{ブランク入力}
 init_max_fr = 32 \section{初期のポアソンスパイクの最大発火率}
-
 for i in tqdm(range(n_train)):
     max_fr = init_max_fr
     while(True):
@@ -590,7 +654,6 @@ for i in tqdm(range(n_train)):
         \section{ブランク刺激の入力}
         for _ in range(nt_blank):
             _ = network(blank_input, stdp=False)
-
         num_spikes_exc = np.sum(np.array(spike_list)) \section{スパイク数を計算}
         if num_spikes_exc >= 5: \section{スパイク数が5より大きければ次のサンプルへ}
             break
@@ -600,25 +663,20 @@ for i in tqdm(range(n_train)):
 \section{入力サンプルのラベルを予測する}
 assignments = np.load(results_save_dir+"assignments.npy")
 predicted_labels = prediction(spikes, assignments, n_labels)
-
 \section{訓練精度を計算}
 accuracy = np.mean(np.where(labels==predicted_labels, 1, 0))
 print("Test accuracy :", accuracy)
 \end{minted}
 実行した結果，\colorbox{shadecolor}{\texttt{Test accuracy : 0.653}}となり，テストデータ(1000サンプル)での精度は65.3\%となりました。100個のニューロンを学習させた際の論文における精度が約85\%であるので，それに比べるとかなり低い値です。これには学習データを少なくしている，ハイパーパラメータを著者実装とは異なるものにしているということなどが原因であると考えられます。
-
 \subsection{興奮性ニューロンの受容野の描画}
 最後に，学習後の入力層から興奮性ニューロン層へのシナプス重みを描画してみましょう\footnote{コードは\texttt{./TrainingSNN/LIF\_WTA\_STDP\_MNIST\_visualize\_weights.py}です。}。各興奮性ニューロンへ投射する784個のシナプス重みを28$\times$28に\texttt{reshape}して描画するだけです。
 \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
 epoch = 19
 n_neurons = 100
-
 \section{結果が保存されているディレクトリ}
 results_save_dir = "./LIF_WTA_STDP_MNIST_results/"
-
 input_conn_W = np.load(results_save_dir+"weight_epoch"+str(epoch)+".npy")
 reshaped_W = np.reshape(input_conn_W, (n_neurons, 28, 28))
-
 \section{描画}
 fig = plt.figure(figsize=(6,6))
 fig.subplots_adjust(left=0, right=1, bottom=0, top=1,

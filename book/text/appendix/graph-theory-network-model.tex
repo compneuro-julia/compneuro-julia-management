@@ -1,11 +1,62 @@
 # グラフ理論とネットワークモデル
-\lstinputlisting[language=julia]{./text/appendix/graph-theory-network-model/001.jl}
+\begin{lstlisting}[language=julia]
+using PyCall, PyPlot, Random, ProgressMeter
+nx = pyimport("networkx")
+\end{lstlisting}
 ## Watts-Strogatz small-world graph
-\lstinputlisting[language=julia]{./text/appendix/graph-theory-network-model/003.jl}
-\input{./text/appendix/graph-theory-network-model/output_003.tex}
+\begin{lstlisting}[language=julia]
+figure(figsize=(12, 2))
+for i in 1:5
+    subplot(1,5,i)
+    G = nx.watts_strogatz_graph(n=50, k=5, p=0.25(i-1))
+    nx.draw_circular(G, node_size=10)
+    title(L"$p=$"*string(0.25(i-1)))
+end
+#tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/appendix/graph-theory-network-model/cell003.png}
+	\caption{cell003.png}
+	\label{cell003.png}
+\end{figure}
 ##  Erdős-Rényi graph
-\lstinputlisting[language=julia]{./text/appendix/graph-theory-network-model/005.jl}
-\input{./text/appendix/graph-theory-network-model/output_005.tex}
-\lstinputlisting[language=julia]{./text/appendix/graph-theory-network-model/006.jl}
-\lstinputlisting[language=julia]{./text/appendix/graph-theory-network-model/007.jl}
-\input{./text/appendix/graph-theory-network-model/output_007.tex}
+\begin{lstlisting}[language=julia]
+figure(figsize=(12, 2))
+for i in 1:5
+    subplot(1,5,i)
+    G = nx.erdos_renyi_graph(n=20, p=0.02(i-1))
+    pos = nx.spring_layout(G, k=0.4)
+    nx.draw(G, pos, node_size=10)
+    title(L"$p=$"*string(0.02(i-1)))
+end
+#tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/appendix/graph-theory-network-model/cell005.png}
+	\caption{cell005.png}
+	\label{cell005.png}
+\end{figure}
+\begin{lstlisting}[language=julia]
+N = 200
+num_node = 1000
+probs = 4*rand(N)/num_node
+max_components = zeros(N)
+@showprogress for i in 1:N
+    G = nx.erdos_renyi_graph(n=num_node, p=probs[i])
+    max_components[i] = maximum([length(component) for component in nx.connected_components(G)])
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+scatter(probs, max_components)
+xlabel("probability")
+ylabel("Maximum cluster size")
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/appendix/graph-theory-network-model/cell007.png}
+	\caption{cell007.png}
+	\label{cell007.png}
+\end{figure}

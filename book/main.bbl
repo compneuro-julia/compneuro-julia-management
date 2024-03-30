@@ -264,6 +264,52 @@
       \range{pages}{45}
       \keyw{AXONS}
     \endentry
+    \entry{Hopper2022-xj}{article}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=11a10ba3c6476c3a5ed3f1811879fe6a}{%
+           family={Hopper},
+           familyi={H\bibinitperiod},
+           given={Amy\bibnamedelima J},
+           giveni={A\bibinitperiod\bibinitdelim J\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6a19fe0e3e9536300dcc6ce7fb8c8ba2}{%
+           family={Beswick-Jones},
+           familyi={B\bibinithyphendelim J\bibinitperiod},
+           given={Hana},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=6aceacba607b030dccea4450dc6df9bf}{%
+           family={Brown},
+           familyi={B\bibinitperiod},
+           given={Angus\bibnamedelima M},
+           giveni={A\bibinitperiod\bibinitdelim M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{f1d8efc03eb6d0b2f801a735b1081d8f}
+      \strng{fullhash}{91eed142caf59a8ca0004f7d886e17a5}
+      \strng{bibnamehash}{91eed142caf59a8ca0004f7d886e17a5}
+      \strng{authorbibnamehash}{91eed142caf59a8ca0004f7d886e17a5}
+      \strng{authornamehash}{f1d8efc03eb6d0b2f801a735b1081d8f}
+      \strng{authorfullhash}{91eed142caf59a8ca0004f7d886e17a5}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Adv. Physiol. Educ.}
+      \field{month}{12}
+      \field{number}{4}
+      \field{title}{A color-coded graphical guide to the Hodgkin and Huxley papers}
+      \field{volume}{46}
+      \field{year}{2022}
+      \field{pages}{580\bibrangedash 592}
+      \range{pages}{13}
+      \keyw{action potential; model; squid axon; voltage clamp}
+    \endentry
     \entry{Schwiening2012-pi}{article}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=3489cc28bbd0e3cec0ceb2fa487b2f09}{%
@@ -298,7 +344,6 @@
       \range{pages}{5}
     \endentry
   \enddatalist
-  \missing{Hopper2022-xj}
 \endrefsection
 \endinput
 

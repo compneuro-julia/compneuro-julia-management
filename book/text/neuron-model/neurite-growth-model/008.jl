@@ -1,1 +1,0 @@
-rc("font", family="Meiryo") # 日本語用フォント

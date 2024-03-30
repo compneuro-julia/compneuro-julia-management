@@ -1,1 +1,0 @@
-ŷ = step.(W * X' .+ b)'; # prediction

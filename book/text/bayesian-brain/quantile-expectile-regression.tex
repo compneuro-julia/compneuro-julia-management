@@ -1,51 +1,122 @@
 \section{分位点・エクスペクタイル回帰による分布符号化}
 本章では分位点・エクスペクタイル回帰 (quantile/expectile regression) を用いて
-
 \begin{itemize}
 \item Quantileはノンパラ
 \item PPCやDPCはパラメトリック
 \end{itemize}
-
 Distributional Reinforcement Learning in the Brainに
 > Quantile-like codes are non-parametric codes, as they do not a priori assume a specific form of a probability distribution with associated parameters. Previous studies have proposed different population coding schemes. For example, probabilistic population codes (PPCs) [73,74] and distributed distributional codes (DDCs) [75,76] employ population coding schemes from which various statistical parameters of a distribution can be read out, making them parametric codes. As a simple example, a PPC might encode a Gaussian distribution, in which case the mean would be reflected in which specific neurons are most active, and the variance would be reflected in the inverse of the overall activity [73].
 \subsection{分位点・エクスペクタイル回帰}
 \subsubsection{分位点回帰 (Quantile Regression)}
 線形回帰(linear regression)は，誤差が正規分布と仮定したとき(必ずしも正規分布を仮定しなくてもよい)の$X$(説明変数)に対する$Y$(目的変数)の期待値$E[Y]$を求める，というものであった．\textbf{分位点回帰(quantile regression)}\index{ぶんいてんかいき(quantile regression)@分位点回帰(quantile regression)} では，Xに対するYの分布における分位点を通るような直線を引く．
-
 \textbf{分位点}\index{ぶんいてん@分位点}(または分位数)において，代表的なものが\textbf{四分位数}\index{よんぶんいすう@四分位数}である．四分位数は箱ひげ図などで用いるが，例えば第一四分位数は分布を25:75に分ける数，第二四分位数(中央値)は分布を50:50に分ける数である．同様に$q$分位数($q$-quantile)というと分布を$q:1-q$に分ける数となっている．分位点回帰の話に戻る．下図は$x\sim U(0, 5),\quad y=3x+x\cdot \xi,\quad \xi\sim N(0,1)$とした500個の点に対する分位点回帰である．赤い領域はX=1,2,3,4でのYの分布を示している．深緑，緑，黄色の直線はそれぞれ10, 50, 90%tile回帰の結果である．例えば50%tile回帰の結果は，Xが与えられたときのYの中央値(50%tile点)を通るような直線となっている．同様に90%tile回帰の結果は90%tile点を通るような直線となっている．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/002.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/003.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_003.tex}
+\begin{lstlisting}[language=julia]
+using PyPlot, LinearAlgebra, Random
+rc("axes.spines", top=false, right=false)
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+function QuantileGradientDescent(X, y, initθ, τ; lr=1e-4, num_iters=10000)
+    θ = initθ
+    for i in 1:num_iters
+        ŷ = X * θ # predictions
+        δ = y - ŷ  # error
+        grad = abs.(τ .- 1.0(δ .<= 0.)) .* sign.(δ) # gradient
+        θ += lr * X' * grad # Update
+    end
+    return θ
+end;
+
+function gaussian_func(x, μ, σ)
+    return 0.8/σ*exp(-(x -μ)^2/(2σ^2))
+end;
+
+# Generate Toy datas
+N = 500 # sample size
+x = sort(5.5rand(N))
+y = 3x + x .* randn(N);
+X = ones(N, 2) # design matrix
+X[:, 2] = x;
+τs = [0.1, 0.5, 0.9]
+m = length(τs) 
+Ŷ = zeros(m, N); # memory array
+for i in 1:m
+    initθ = zeros(2) # init variables
+    θ = QuantileGradientDescent(X, y, initθ, τs[i])
+    Ŷ[i, :] = X * θ
+end
+
+# Results plot
+figure(figsize=(5,4))
+title("Quantile Regression")
+for loc in 1:5
+    ξy = 0:1e-3:6loc
+    ξx = loc .+ gaussian_func.(ξy, 3loc, 1.2loc)
+    fill_between(ξx, -1, ξy, color="tab:red", linewidth=2, alpha=0.5)
+    plot(ξx, ξy, color="tab:red", linewidth=2)
+end
+cmvir = get_cmap(:viridis)
+for i in 1:m
+    plot(x, Ŷ[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cmvir(i/m)) # regression line
+end
+scatter(x, y, color="gray", s=5) # samples
+xlabel("x"); ylabel("y")
+xlim(0, 5.5); ylim(0, 25); legend()
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell003.png}
+	\caption{cell003.png}
+	\label{cell003.png}
+\end{figure}
 分位点回帰の利点としては，外れ値に対して堅牢(ロバスト)である，Yの分布が非対称である場合にも適応できる，などがある ([Das et al., *Nat Methods*. 2019](https://www.nature.com/articles/s41592-019-0406-y))．
 \subsubsection{エクスペクタイル回帰 (Expectile regression)}
 エクスペクタイル(expectile)は([Newey and Powell 1987](https://www.jstor.org/stable/1911031?seq=1)) によって導入された統計汎関数 (statistical functional; SF)の一種であり，期待値(expectation)と分位数(quantile)を合わせた概念である．簡単に言えば，中央値(median)の一般化が分位数(quantile)であるのと同様に，期待値(expectation)の一般化がエクスペクタイル(expectile)である．
 \subsubsection{勾配法を用いた分位点回帰・エクスペクタイル回帰}
 予測誤差$\delta$と$\tau$の関数を
-
-
 \begin{align}
 \text{分位点回帰：}&\quad
 \rho_q(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta \leq 0}\right)\cdot \delta\\
 \text{エクスペクタイル回帰：}&\quad
 \rho_e(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot \delta^2
 \end{align}
-
-
 と定義する．$\rho_q(\delta; \tau)$のみ，チェック関数 (check function)あるいは非対称絶対損失関数(asymmetric absolute loss function)と呼ぶ．ただし，$\tau$は分位点(quantile)，$\mathbb{I}$は指示関数(indicator function)である．この場合，$\mathbb{I}_{\delta \leq 0}$は$\delta \gt 0$なら0, $\delta \leq 0$なら1となる．このとき，目的関数は 
-
-
 L_{\tau}(\delta)
 =\sum_{i=1}^n \rho(\delta_i; \tau)
-
-
 である．$\rho(\delta; \tau)$を色々な $\tau$についてplotすると次図のようになる．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/007.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_007.tex}
+\begin{lstlisting}[language=julia]
+δ = -5:0.1:5
+τ= 0.1:0.2:0.9
+cmbrg = get_cmap(:brg) 
+figure(figsize=(8,3))
+subplot(1,2,1)
+title("Quantile")
+for i in 1:length(τ)
+    indic = 1.0(δ .<= 0)
+    z = (τ[i] .- indic) .* δ
+    plot(δ, z, color=cmbrg(0.5i/length(τ)), label=L"$\tau=$"*string(τ[i]))
+end
+xlabel("Error"); ylabel("Loss")
+legend(); tight_layout()
+
+subplot(1,2,2)
+title("Expectile")
+for i in 1:length(τ)
+    indic = 1.0(δ .<= 0)
+    z = abs.(τ[i] .- indic) .* δ.^2
+    plot(δ, z, color=cmbrg(0.5i/length(τ)), label=L"$\tau=$"*string(τ[i]))
+end
+xlabel("Error"); ylabel("Loss")
+legend(); tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell007.png}
+	\caption{cell007.png}
+	\label{cell007.png}
+\end{figure}
 分位点の場合，$\rho_q(\delta; \tau)$がチェックマーク✓に類似していることからこのような名前が付いている．
 $L_\tau$を最小化するような$\theta$の更新式について考える．まず，
-
-
-
 \begin{align}
 \text{分位点回帰：}&\quad
 \frac{\partial \rho_q(\delta; \tau)}{\partial \delta}= \rho_q^{\prime}(\delta; \tau)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
@@ -54,82 +125,388 @@ $L_\tau$を最小化するような$\theta$の更新式について考える．�
 \frac{\partial \rho_e(\delta; \tau)}{\partial \delta}= \rho_e^{\prime}(\delta; \tau)=2\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
 \delta
 \end{align}
-
-
 である (ただし$\text{sign}(\cdot)$は符号関数)．さらに
-
-
 \frac{\partial L_{\tau}}{\partial \theta}=\frac{\partial L_{\tau}}{\partial \delta}\frac{\partial \delta(\theta)}{\partial \theta}=-\frac{1}{n} \rho^{\prime}(\delta; \tau) X
  
-
 が成り立つので，$\theta$の更新式は$\theta \leftarrow \theta + \alpha\cdot \dfrac{1}{n} \rho^{\prime}(\delta; \tau) X$と書ける ($\alpha$は学習率である)．分位点回帰を単純な勾配法で求める場合，勾配が0となって解が求まらない可能性があるが，目的関数を滑らかにすることで回避できるという研究もある ([Zheng. *IJMLC*. 2011](https://link.springer.com/article/10.1007/s13042-011-0031-2))．この点，Expectileならこの問題を回避できる (?)．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/010.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/011.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/012.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/013.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/014.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/015.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_015.tex}
+\begin{lstlisting}[language=julia]
+function QuantileGradientDescent(X, y, initθ, τ; lr=0.1, num_iters=10000)
+    θ = initθ
+    for i in 1:num_iters
+        ŷ = X * θ # predictions
+        δ = y - ŷ  # error
+        grad = abs.(τ .- 1.0(δ .<= 0.)) .* sign.(δ) # gradient
+        θ += lr * X' * grad # Update
+    end
+    return θ
+end
+
+function ExpectileGradientDescent(X, y, initθ, τ; lr=0.1, num_iters=10000)
+    θ = initθ
+    for i in 1:num_iters
+        ŷ = X * θ # predictions
+        δ = y - ŷ  # error
+        grad = 2*abs.(τ .- 1.0(δ .<= 0.)) .* δ # gradient
+        θ += lr * X' * grad # Update
+    end
+    return θ
+end;
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# Generate Toy datas
+num_train, num_test = 100, 500 # sample size
+dims = 4 # dimensions
+Random.seed!(0);
+
+x = rand(num_train) #range(0.1, 0.9, length=num_train)
+y =  sin.(2π*x) + 0.3randn(num_train);
+X = hcat([x .^ p for p in 0:dims-1]...); # design matrix
+
+xtest = range(0, 1, length=num_test)
+Xtest =hcat([xtest .^ p for p in 0:dims-1]...);
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+τs = [0.01, 0.1, 0.5, 0.9, 0.99]
+m = length(τs) 
+
+# Quantile regression
+initθ = zeros(dims)
+Ŷq = zeros(m, num_test); # memory array
+for i in 1:m
+    θq = QuantileGradientDescent(X, y, initθ, τs[i], lr=1e-2, num_iters=1e5)
+    Ŷq[i, :] = Xtest * θq
+end
+
+
+# Expectile regression
+initθ = zeros(dims)
+Ŷe = zeros(m, num_test); # memory array
+for i in 1:m
+    θe = ExpectileGradientDescent(X, y, initθ, τs[i], lr=1e-2, num_iters=1e5)
+    Ŷe[i, :] = Xtest * θe
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+normal_equation(Xtest, X, y) = Xtest * ((X' * X) \ X' * y)
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+ŷ = normal_equation(Xtest, X, y); # predictions
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# Results plot
+figure(figsize=(15,5), dpi=100)
+subplot(1,3,1)
+title("Quantile Regression")
+cm = get_cmap(:viridis)
+for i in 1:m
+    plot(xtest, Ŷq[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cm(i/m)) # regression line
+end
+plot(xtest, ŷ, color="tab:red",  "--", label="Ordinary reg.")  # regression line
+scatter(x, y, color="gray", s=10) # samples
+xlabel("x"); ylabel("y"); legend(ncol=2)
+
+# Results plot
+subplot(1,3,2)
+title("Expectile Regression")
+cm = get_cmap(:viridis)
+for i in 1:m
+    plot(xtest, Ŷe[i, :], linewidth=2, label=string(Int(τs[i]*100))*"%tile", color=cm(i/m)) # regression line
+end
+plot(xtest, ŷ, color="tab:red", "--", label="Ordinary reg.")  # regression line
+scatter(x, y, color="gray", s=10) # samples
+xlabel("x"); legend(ncol=2)
+
+subplot(1,3,3)
+title("Quantile & Expectile Regression")
+fill_between(xtest, Ŷq[1, :], Ŷq[end, :], alpha=0.5, label="Quantile reg.")
+fill_between(xtest, Ŷe[1, :], Ŷe[end, :], alpha=0.5, label="Expectile reg.")
+scatter(x, y, color="gray", s=10) # samples
+xlabel("x"); legend()
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell015.png}
+	\caption{cell015.png}
+	\label{cell015.png}
+\end{figure}
 \subsection{分布型TD学習}
 分布型TD学習 (Distributional TD learning) は
-
 Distributional TD learningではRPEの正負に応じて，予測報酬の更新を異なる学習率($\alpha_{i}^{+}, \alpha_{i}^{-}$)を用いて行う． 
-
  
 \begin{cases} V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{+} f\left(\delta_{i}\right) &\text{for }
 \delta_{i} \gt 0\\ V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{-} f\left(\delta_{i}\right) &\text{for } \delta_{i} \leq 0 \end{cases} 
  
-
 ここで，シミュレーションにおいては$\alpha_{i}^{+}, \alpha_{i}^{-}\sim U(0,
 1)$とする($U$は一様分布)．さらにasymmetric scaling factor $\tau_i$を次式により定義する． 
-
  
 \tau_i=\frac{\alpha_{i}^{+}}{\alpha_{i}^{+}+ \alpha_{i}^{-}} 
  
-
 なお，$\alpha_{i}^{+}, \alpha_{i}^{-}\in [0, 1]$より$\tau_i \in
 [0,1]$である． 
-
 Classical TD learningとDistributional TD learningにおける各ニューロンのRPEに対する発火率を表現したのが次図となる．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/017.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/018.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_018.tex}
+\begin{lstlisting}[language=julia]
+using PyPlot, StatsBase
+rc("axes.spines", top=false, right=false)
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# Classical TD learning
+N = 20
+c = get_cmap("brg") 
+cmap = c(range(0, 0.5, length=N))
+x = range(-1, 1, step=1e-2)
+θ = range(π/6, π/3, length=N)
+α = tan.(θ)
+y = α * x'
+
+# Plot
+figure(figsize=(5.5, 3))
+subplot(1,2,1)
+axvline(x=0, color="gray", linestyle="dashed", linewidth=2)
+axhline(y=0, color="gray", linestyle="dashed", linewidth=2)
+for i in 1:N
+    if i == Int(N/2)       
+        plot(x, y[i, :], color=cmap[Int(N/2), :], alpha=1, linewidth=3, label="Neutral")
+    else
+        plot(x, y[i, :], color=cmap[Int(N/2), :], alpha=0.2)
+    end
+end
+
+ylim(-1,1); xlim(-1,1)
+xticks([]); yticks([])
+legend(loc="upper left")
+title("Classical TD learning")
+xlabel("RPE")
+ylabel("Firing")
+
+# Distributional TD learning
+α_pos = tan.(θ)
+α_neg = reverse!(tan.(θ))
+ 
+yd = (α_pos * ((x .> 0) .* x)' + (α_neg) * ((x .≤ 0) .* x)') 
+
+# Plot
+ax = subplot(1,2,2)
+axvline(x=0, color="gray", linestyle="dashed", linewidth=2)
+axhline(y=0, color="gray", linestyle="dashed", linewidth=2)
+for i in 1:N
+    if i == 1        
+        plot(x, yd[i, :], color=cmap[i, :], alpha=1, linewidth=3,
+                 label="Pessimistic")
+    elseif i == Int(N/2)       
+        plot(x, yd[i, :], color=cmap[i, :], alpha=1, linewidth=3,
+                 label="Neutral")
+    elseif i == N
+        plot(x, yd[i, :], color=cmap[i, :], alpha=1, linewidth=3,
+                 label="Optimistic")
+    else
+        plot(x, yd[i, :], color=cmap[i, :], alpha=0.2)
+    end
+end
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(reverse!(handles), reverse!(labels), loc="upper left")
+ylim(-1,1); xlim(-1,1); xticks([]); yticks([])
+title("Distributional TD learning"); xlabel("RPE"); ylabel("Firing")
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell018.png}
+	\caption{cell018.png}
+	\label{cell018.png}
+\end{figure}
 Classical TD learningではRPEに比例して発火する細胞しかないが，Distributional TD learningではRPEの正負に応じて発火率応答が変化していることがわかる． 特に$\alpha_{i}^{+} \gt \alpha_{i}^{-}$の細胞を\textbf{楽観的細胞 (optimistic cells)}\index{らくかんてきさいぼう (optimistic cells)@楽観的細胞 (optimistic cells)}，$\alpha_{i}^{+}\lt
 \alpha_{i}^{-}$の細胞を**悲観的細胞 (pessimistic
 cells)** と著者らは呼んでいる．実際には2群に分かれているわけではなく，gradientに遷移している．収束する予測価値が細胞ごとに異なることで，$V$には報酬の期待値ではなく複雑な形状の報酬分布が符号化される．その仕組みについて，次項から見ていこう．
 \subsubsection{分位数(Quantile)モデルと報酬分布の符号化}
-
 \paragraph{RPEに対する応答がsign関数のモデルと報酬分布の分位点への予測価値の収束}
 さて，Distributional RLモデルでどのようにして報酬分布が学習されるかについてみていこう．この項ではRPEに対する応答関数$f(\cdot)$が符合関数(sign function)の場合を考える．結論から言うと，この場合はasymmetric scaling factor $\tau_i$は分位数(quantile)となり，**予測価値
 $V_i$は報酬分布の$\tau_i$分位数に収束する**．
     
 どういうことかを簡単なシミュレーションで見てみよう．今，報酬分布を平均2, 標準偏差5の正規分布とする (すなわち$r \sim N(2, 5^2)$となります)．また，$\tau_i = 0.25, 0.5, 0.75 (i=1,2,3)$とする．このとき，3つの予測価値 $V_i \ (i=1,2,3)$はそれぞれ$N(2, 5^2)$の0.25, 0.5,
 0.75分位数に収束する．下図はシミュレーションの結果である．左が$V_i$の変化で，右が報酬分布と0.25, 0.5, 0.75分位数の位置 (黒短線)となっています．対応する分位数に見事に収束していることが分かる．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/021.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/022.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/023.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_023.tex}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/024.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/025.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/026.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_026.tex}
-ここでoptimisticな細胞($\tau=0.75$)は中央値よりも高い予測価値，pessimisticな細胞($\tau=0.25$)は中央値よりも低い予測価値に収束しています． つまり細胞の楽観度というものは，細胞が期待する報酬が大きいほど上がります．
+\begin{lstlisting}[language=julia]
+# init 
+response_func(r) = sign(r) # RPEの応答関数
+ 
+num_cells = 3 # ニューロン(ユニット)の数
+num_steps = 5000 # 訓練回数
+base_lr = 0.02 # ベースラインの学習率(learning rate)
+ 
+μreward = 5 # 報酬の平均(正規分布)
+σreward = 2 # 報酬の標準偏差(正規分布)
+ 
+distribution = zeros(num_cells) # 価値分布を記録する配列
+dist_trans = zeros(num_steps, num_cells) # 価値分布を記録する配列
+ 
+α₊, α₋ = [0.1, 0.2, 0.3], [0.3, 0.2, 0.1] # RPEが正, 負のときの学習率
+τ = α₊ ./ (α₊ + α₋); # Asymmetric scaling factor
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# simulation
+for step in 1:num_steps # 25000 steps
+    # 報酬がrandomに選ばれる
+    reward = μreward + randn()*σreward
+     
+    # 報酬誤差(step毎に更新) reward応答をlinearとする
+    δ = reward .- distribution # (3, )
+ 
+    # δが負なら1, 正なら0
+    valence = δ .≤ 0 # (3, )
+ 
+    # 予測価値分布の更新
+    α = valence .* α₋ + (1. .- valence) .* α₊
+    distribution += α .* response_func.(δ) .* base_lr
+    dist_trans[step, :] = distribution # 予測価値分布変化の記録
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# Results plot
+steps = 1:num_steps
+figure(figsize=(6,4))
+subplot(1,2,1) # 予測価値の変化
 
+for i in 1:num_cells   
+    plot(steps, dist_trans[:, i], label=(string((i+1)*25)*"%tile ("*L"$\tau=$"*string((i+1)*0.25)*")"))
+end
+
+title("Convergence of value prediction to \n percentile of reward distribution")
+xlim(0, num_steps)
+ylim(0, 10)
+xlabel("Learning steps")
+ylabel("Learned Value")
+legend()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell023.png}
+	\caption{cell023.png}
+	\label{cell023.png}
+\end{figure}
+\begin{lstlisting}[language=julia]
+# Gaussian kernel density estimation
+function kde(data, dx=0.1, band_width=1)
+    x = minimum(data):dx:maximum(data)
+    y = zero(x)
+    n = size(data)[1]
+    for i in 1:n
+        y += exp.(-(((x .- data[i])/band_width).^2)/2)
+    end
+    y /= (n*band_width*sqrt(2π))
+    return x, y
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# 報酬のサンプリング
+rewards = μreward .+ randn(2000) * σreward
+qtile = nquantile(rewards, 3); # 報酬の四分位数を取得
+x, y = kde(rewards);
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+plot(x, y)
+hist(rewards, density=true, bins=50, orientation="vertical")
+title("Reward\n distribution")
+xlabel("Density")
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell026.png}
+	\caption{cell026.png}
+	\label{cell026.png}
+\end{figure}
+ここでoptimisticな細胞($\tau=0.75$)は中央値よりも高い予測価値，pessimisticな細胞($\tau=0.25$)は中央値よりも低い予測価値に収束しています． つまり細胞の楽観度というものは，細胞が期待する報酬が大きいほど上がります．
 同様のシミュレーションを今度は200個の細胞 (ユニット)で行います．報酬は0.1, 1, 2 μLのジュースがそれぞれ確率0.3, 0.6, 0.1で出るとします (Extended Data Fig.1と同じような分布にしています)．なお，著者らはシミュレーションとマウスに対して\textbf{Variable-magnitude task}\index{Variable-magnitude task}
 (異なる量の報酬(ジュース)が異なる確率で出る)と\textbf{Variable-probability task}\index{Variable-probability task} (一定量の報酬がある確率で出る)を行っています．以下はVariable-magnitude taskを行う，ということです．学習結果は次図のようになります．左はGround Truthの報酬分布で，右は$V_i$に対してカーネル密度推定
 (KDE)することによって得た予測価値分布です．2つの分布はほぼ一致していることが分かります．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/028.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/029.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/030.jl}
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/031.jl}
-\input{./text/bayesian-brain/quantile-expectile-regression/output_031.tex}
+\begin{lstlisting}[language=julia]
+response_func(r) = sign.(r) # RPEの応答関数
+ 
+juice_amounts = [0.1, 1, 2] # reward(ジュース)の量(uL)
+juice_probs = [0.3, 0.6, 0.1] # 各ジュースが出る確率
+
+num_cells = 200 # ニューロン(ユニット)の数
+num_steps = 25000 # 訓練回数
+base_lrate = 0.02 # ベースラインの学習率
+   
+distribution = zeros(num_cells) # 価値分布を記録する配列
+
+α₊, α₋ = rand(num_cells), rand(num_cells) # RPEが正, 負のときの学習率
+τ = α₊ ./ (α₊ + α₋); # Asymmetric scaling factor
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+for step in 1:num_steps # 25000 steps
+    # 報酬がrandomに選ばれる
+    reward = sample(juice_amounts, pweights(juice_probs), 1) #(1, ) StatsBase.jl参照
+     
+    # 報酬誤差(step毎に更新) reward応答をlinearとする
+    δ = reward .- distribution # (200, )
+ 
+    # deltaが負なら1, 正なら0
+    valence = δ .≤ 0 # (200, )
+ 
+    # 予測価値分布の更新
+    α = valence .* α₋ + (1. .- valence) .* α₊
+    distribution += α .* response_func.(δ) * base_lrate
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# τの大きさでソートする
+idx = sortperm(τ)
+τ = τ[idx]
+α₊ = α₊[idx]
+α₋ = α₋[idx]
+distribution = distribution[idx];
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+# 報酬をサンプリング
+rewards = sample(juice_amounts, pweights(juice_probs), 1000)
+ 
+# 結果の描画(価値・報酬分布)
+figure(figsize=(8,4))
+subplot(1,2,1) # Ground Truth (Reward分布)
+title("Reward distribution")
+x, y = kde(rewards, 0.01, 0.1);
+plot(x,y); fill_between(x, y, zero(x), alpha=0.1)
+scatter(rewards, zero(rewards), s=50, marker="|", color="k", alpha=0.5)
+xlabel("Reward")
+ylabel("Density")
+ 
+subplot(1,2,2) # 学習後のValue(Reward)の分布
+title("Learned Value distribution")
+x, y = kde(distribution, 0.01, 0.1);
+plot(x,y); fill_between(x, y, zero(x), alpha=0.1)
+scatter(distribution, zero(distribution), s=50, marker="|", color="k", alpha=0.5) # rugplot
+xlabel("Value")
+ylabel("Density")
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/quantile-expectile-regression/cell031.png}
+	\caption{cell031.png}
+	\label{cell031.png}
+\end{figure}
 そして$V_i$の経験累積分布関数(CDF)は$r$のサンプリングしたCDFとほぼ同一となっています (下図左)．また，$\tau_i$の関数である$V_i$は\textbf{分位点関数 (quantile function)}\index{ぶんいてんかんすう (quantile function)@分位点関数 (quantile function)} または累積分布関数の逆関数 (inverse cumulative distribution function)となっています
 (下図右)．右の図を転置すると左の青い曲線とだいたい一致しそうなことが分かります．
-\lstinputlisting[language=julia]{./text/bayesian-brain/quantile-expectile-regression/033.jl}
+\begin{lstlisting}[language=julia]
+# 結果の描画(累積分布)
+figure(figsize=(8,4))
+subplot(1,2,1) # 累積分布
+sns.kdeplot(distribution, cumulative=True,bw=.05, label="Learned Value")
+sns.kdeplot(rewards, cumulative=True, bw=.05, label="Reward (GT)")
+xlabel("Reward (Learned Value)")
+ylabel("Cumulative probability")
+ 
+subplot(1,2,2) # 累積分布
+plot(tau, distribution)
+xlabel("Asymmetric scaling factors ("+ r"$\tau$)")
+ylabel("Learned Value")
+tight_layout()
+show()
+\end{lstlisting}
 \subsubsection{sign関数を用いたDistributional RLと分位点回帰}
-
 それでは，なぜ予測価値 $V_i$は$\tau_i$ 分位点に収束するのでしょうか．Extended Data Fig.1のように平衡点で考えてもよいのですが，後のために分位点回帰との関連について説明します．
-
 実はDistributional RL (かつ，RPEの応答関数にsign関数を用いた場合)における予測報酬 $V_i$の更新式は，分位点回帰(Quantile
 regression)を勾配法で行うときの更新式とほとんど同じです．分位点回帰では$\delta$の関数$\rho_{\tau}(\delta)$を次のように定義します．  \rho_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta
 \leq 0}\right)\cdot \delta  そして，この関数を最小化することで回帰を行います．ここで$\tau$は分位点です．また$\delta=r-V$としておきます．今回，どんな行動をしても未来の報酬に影響はないので$\gamma=0$としています．\url{br/}
@@ -144,46 +521,27 @@ regression)を勾配法で行うときの更新式とほとんど同じです．
 \frac{\alpha_{i}^{+}}{\alpha_{i}^{+}+\alpha_{i}^{-}}\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i}>0\\ V_{i} \leftarrow V_{i}+\beta\cdot
 \frac{\alpha_{i}^{-}}{\alpha_{i}^{+}+\alpha_{i}^{-}}\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i} \leq 0 \end{cases}  これは前節で述べたDistributional
 RLの更新式とほぼ同じです．いくつか違う点もありますが，RPEが正の場合と負の場合に更新される値の比は同じとなっています．
-
 このようにRPEの応答関数にsign関数を用いた場合，報酬分布を上手く符号化することができます．しかし実際のドパミンニューロンはsign関数のような生理的に妥当でない応答はせず，RPEの大きさに応じた活動をします．そこで次節ではRPEの応答関数を線形にしたときの話をします．
 \subsubsection{Expectile モデルとドパミンニューロンからの報酬分布のDecoding}
-
 \subsubsection{RPEに対する応答が線形なモデルとExpectile回帰}
 節の最後で述べたようにドパミンニューロンの活動はsign関数ではなく線形な応答をする，とした方が生理学的に妥当である (発火率を表現するならば$f(\delta)=c+\delta\quad(c > 0)$とした方が良いだろうが)．それでは予測価値の更新式を 
-
  
 \begin{cases} V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{+}
 \delta_{i} &\text{for } \delta_{i} \gt 0\\ V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i}^{-} \delta_{i} &\text{for } \delta_{i} \leq 0 \end{cases} 
-
-
 とした場合は，分位点回帰ではなく何に対応するのだろうか．結論から言えば，この場合は **エクスペクタイル回帰(Expectile
 regression)\textbf{ と同じになる．expectileという用語自体はexpectationとquantileを合わせたような概念，というところから来ている．}\index{ とおなじになる．expectileというようごじたいはexpectationとquantileをあわせたようながいねん，というところからきている．@ と同じになる．expectileという用語自体はexpectationとquantileを合わせたような概念，というところから来ている．}中央値(median)に対する分位数(quantile)が，平均(mean)あるいは期待値(expectation)に対するexpectileの関係と同じ** であると捉えると良いです．
 もう少し言えば，前者は誤差のL1ノルム, 後者はL2ノルムの損失関数を最小化することにより得られる．
-
 分位点回帰で用いた損失関数は
-
-
 \rho_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|
-
-
 だったが，最後の$|\delta|$を$\delta^2$として， 
-
-
 \rho^E_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq
 0}\right|\cdot \delta^2
-
-
 とする．これを微分すれば 
-
  
 \frac{\partial \rho^E_{\tau}(\delta)}{\partial \delta}=\rho_{\tau}^{E\prime}(\delta)=2 \cdot \left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot \delta 
-
-
 となり，上記の予測価値の更新式がExpectile回帰の損失関数から導けることが分かる．
-
 \paragraph{報酬分布のデコーディング (decoding)}
 それで，RPEの応答を線形とした場合は報酬分布を上手く学習できるのかという話ですが，実はRPEの応答をsign関数とした場合と同じように学習後の予測価値の分布を求めても報酬分布は復元されません (簡単な修正で確認できます)．そこで報酬分布をデコーディングする方法を考えます．
-
 デコーデイングには各細胞が学習した予測価値(またはreversal points) $V_i$, asymmetries $\tau_i$, および報酬分布(ただし報酬の下限と上限からの一様分布)からのサンプル $z_m (m=1,2,\cdots,
 M)$を用います．$N$を推定する$V_i$の数，$M=100$を1つの報酬サンプル集合$\{z_m\}$内の要素数としたとき，次の損失関数を最小にする集合$\{z_m\}$を求めます．  \mathcal{L}(z, V, \tau)=\frac{1}{M} \sum_{m-1}^{M} \sum_{n=1}^{N}\left|\tau_{n}-\mathbb{I}_{z_{m} \leq
 V_{n}}\right|\left(z_{m}-V_{n}\right)^{2}  ここで，集合$\{z_m\}$は20000回サンプリングするとします．損失関数$\mathcal{L}$を最小化する集合の分布が推定された報酬分布となっているので，それをplotします．以下はその結果とコードです

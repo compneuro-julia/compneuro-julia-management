@@ -2372,14 +2372,6 @@
     <bcf:datasource type="file" datatype="bibtex" glob="false">bibfiles/synapse-model-references.bib</bcf:datasource>
   </bcf:bibdata>
   <bcf:section number="0">
-    <bcf:citekey order="1" intorder="1">Hodgkin1952-gy</bcf:citekey>
-    <bcf:citekey order="2" intorder="1">Hopper2022-xj</bcf:citekey>
-    <bcf:citekey order="3" intorder="1">Schwiening2012-pi</bcf:citekey>
-    <bcf:citekey order="4" intorder="1">Connor1971-rs</bcf:citekey>
-    <bcf:citekey order="4" intorder="2">Connor1977-qo</bcf:citekey>
-    <bcf:citekey order="5" intorder="1">Dayan2005-ib</bcf:citekey>
-    <bcf:citekey order="6" intorder="1">Chik2004-ka</bcf:citekey>
-    <bcf:citekey order="7" intorder="1">Dodla2006-fj</bcf:citekey>
   </bcf:section>
   <!-- SORTING TEMPLATES -->
   <bcf:sortingtemplate name="nty">

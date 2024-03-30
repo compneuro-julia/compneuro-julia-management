@@ -1,7 +1,10 @@
 \section{Julia言語の基本構文}
 \subsection{変数}
 aaa
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/001.jl}
+\begin{lstlisting}[language=julia]
+x = 1
+α = 2 # \alpha + TAB key
+\end{lstlisting}
 |演算子|説明|使用例|結果|
 |:-|:-|:-|:-|
 |\jl{+}|和|aaa|aaa|
@@ -11,20 +14,53 @@ aaa
 |\jl{/}|除算，右から逆行列をかける|aaa|aaa|
 |\jl{\}|左から逆行列をかける|aaa|aaa|
 \jl{var}を用いることで，任意の文字列を変数にすることができる．
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/004.jl}
+\begin{lstlisting}[language=julia]
+var"log(1+θ)" = 10
+\end{lstlisting}
 Juliaの余りの関数は \jl{rem(x, y)} と \jl{mod(x, y)}がある．Juliaの\jl{x % y}は\jl{rem}と同じだが，Pythonの場合は\jl{mod}と同じなので注意．
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/006.jl}
+\begin{lstlisting}[language=julia]
+println("% : ", -1 % 2, ", rem : ", rem(-1, 2), ", mod : ", mod(-1, 2))
+\end{lstlisting}
 \subsection{for loop}
 aaa
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/008.jl}
+\begin{lstlisting}[language=julia]
+x = 1
+for i in 1:10
+    x += 1
+end
+println(x)
+\end{lstlisting}
 \subsection{関数名の!記号}
 単なる\textbf{慣習}\index{かんしゅう@慣習}として関数への入力を変更する場合に!を付ける．
-
 関数内で配列を変更する場合には注意が必要である．以下に入力された配列を同じサイズの要素1の配列で置き換える，ということを目的として書かれた2つの関数がある．違いは\jl{v}の後に\jl{[:]}としているかどうかである．
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/010.jl}
+\begin{lstlisting}[language=julia]
+function wrong!(a::Array)
+    a = ones(size(a))
+end
+
+function right!(a::Array)
+    a[:] = ones(size(a))
+end
+\end{lstlisting}
 実行すると\jl{wrong!}の場合には入力された配列が変更されていないことがわかる．
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/012.jl}
+\begin{lstlisting}[language=julia]
+using Random
+v = rand(2, 2)
+println("v : ", v)
+
+wrong!(v)
+println("wrong : ", v)
+
+right!(v)
+println("right : ", v)
+\end{lstlisting}
 \subsection{broadcastingの回避}
 aaa
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/014.jl}
-\lstinputlisting[language=julia]{./text/introduction/usage-julia-lang/015.jl}
+\begin{lstlisting}[language=julia]
+foo(a,b) = sum(a) + b
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+println(foo.(Ref([1,2]),[3,4,5]))
+println(foo.(([1,2],), [3,4,5]))
+println(foo.([[1,2]], [3,4,5]))
+\end{lstlisting}

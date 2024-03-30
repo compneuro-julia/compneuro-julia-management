@@ -1,1 +1,0 @@
-normal_equation(Xtest, X, y) = Xtest * ((X' * X) \ X' * y)

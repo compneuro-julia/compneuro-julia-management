@@ -1,6 +1,0 @@
-figure(figsize=(5, 4))
-subplot(2,1,1); plot(x[1, :]); ylabel("x")
-subplot(2,1,2); plot(tsteps, y[1, :, 1], label="Target1"); plot(tsteps, y[1, :, 2], label="Target2")
-xlabel("Time steps"); ylabel("y"); xlim(0, tsteps[end])
-legend(loc="upper right", fontsize=8)
-tight_layout()

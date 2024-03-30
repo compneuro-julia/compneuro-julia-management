@@ -1,1 +1,0 @@
-time_frames(X, d) = hcat([X[i:end-d+i] for i in 1:d]...)

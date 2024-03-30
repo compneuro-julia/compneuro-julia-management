@@ -1,217 +1,382 @@
 \section{Hebb則と教師なし学習}
 \subsection{Hebb則}
 神経回路はどのようにして自己組織化するのだろうか．1940年代にカナダの心理学者Donald O. Hebbにより著書"The Organization of Behavior"\citep{Hebb1949-iv} で提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを\textbf{Hebbの学習則 (Hebbian learning rule)}\index{Hebbのがくしゅうそく (Hebbian learning rule)@Hebbの学習則 (Hebbian learning rule)} あるいは\textbf{Hebb則(Hebb's rule)}\index{Hebbのり(Hebb's rule)@Hebb則(Hebb's rule)} という．Hebb則は (Hebb自身ではなく) Shatzにより"cells that fire together wire together" (共に活動する細胞は共に結合する)と韻を踏みながら短く言い換えられている \citep{Shatz1992-he}．
-
 \subsubsection{Hebb則の導出}
 数式でHebb則を表してみよう．$n$個のシナプス前細胞と$m$個の後細胞の発火率をそれぞれ$\mathbf{x}\in \mathbb{R}^n, \mathbf{y}\in \mathbb{R}^m$ とする．前細胞と後細胞間のシナプス結合強度を表す行列を$\mathbf{W}\in \mathbb{R}^{m\times n}$とし，$\mathbf{y}=\mathbf{W}\mathbf{x}$が成り立つとする．このようなモデルを線形ニューロンモデル (Linear neuron model) という．このとき，Hebb則は
-
-
 \begin{equation}
 \tau\frac{d\mathbf{W}}{dt}=\phi(\mathbf{y})\varphi(\mathbf{x})^\top
 \end{equation}
-
-
 として表される．ただし，$\tau$は時定数であり，$\eta\triangleq1/\tau$ は\textbf{学習率 (learning rate)}\index{がくしゅうりつ (learning rate)@学習率 (learning rate)} と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．ただし，$\varphi(\cdot), \phi(\cdot)$は基本的に恒等関数に設定される場合が多い．この場合，Hebb則は$
 \tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top
 $と簡潔に表現される．
-
 このHebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを\textbf{エネルギーベースモデル (energy-based models)}\index{えねるぎーべーすもでる (energy-based models)@エネルギーベースモデル (energy-based models)} といい，次章で扱う．エネルギーベースモデルでは，先にエネルギー関数 (あるいはコスト関数) $\mathcal{E}$ を定義し，その目的関数を最小化するような神経活動 $\mathbf{z}$ および重み行列 $\mathbf{W}$ のダイナミクスをそれぞれ,
-
-
 \begin{equation}
 \frac{d \mathbf{z}}{dt}\propto-\frac{\partial \mathcal{E}}{\partial \mathbf{z}},\ \frac{d \mathbf{W}}{dt}\propto-\frac{\partial \mathcal{E}}{\partial \mathbf{W}}
 \end{equation}
-
-
 として導出する．この手順の逆を行う，すなわち先に神経細胞の活動ダイナミクスを定義し，神経活動で積分することで神経回路のエネルギー関数$\mathcal{E}$を導出し，さらに $\mathcal{E}$ を重み行列で微分することでHebb則が導出できる \citep{Isomura2020-sn}．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}$ を例にして考えよう．ここで$\dfrac{\partial\mathcal{E}}{\partial\mathbf{y}}\triangleq-\dfrac{d\mathbf{y}}{dt}$となるようなエネルギー関数 $\mathcal{E}(\mathbf{x}, \mathbf{y}, \mathbf{W})$を仮定すると，
-
-
 \begin{equation}
 \mathcal{E}(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\int \mathbf{W}\mathbf{x}\ d\mathbf{y}=-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
 \end{equation}
-
-
 となる．これをさらに$\mathbf{W}$で微分すると，
-
-
 \begin{equation}
 \dfrac{\partial\mathcal{E}}{\partial\mathbf{W}}=-\mathbf{y}\mathbf{x}^\top\Rightarrow
 \frac{d\mathbf{W}}{dt}=-\dfrac{\partial\mathcal{E}}{\partial\mathbf{W}}=\mathbf{y}\mathbf{x}^\top
 \end{equation}
-
-
 となり，Hebb則が導出できる (簡単のため時定数は1とした)．
 \subsection{Hebb則の安定化とLTP/LTD}
 \subsubsection{BCM則}
 Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，0に近づくこととなってしまう．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を$w\ (>0)$ とし，$y=wx$が成り立つとすると，Hebb則は$\dfrac{dw}{dt}=\eta yx=\eta x^2w$となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
-
 Cooper, Liberman, Ojaらにより頭文字をとって\textbf{CLO則}\index{CLOのり@CLO則} (CLO rule) が提案された \citep{Cooper1979-wz}．その後，Bienenstock, Cooper, Munroらにより提案された学習則は同様に頭文字をとって\textbf{BCM則}\index{BCMのり@BCM則} (BCM rule) と呼ばれている\citep{Bienenstock1982-km} \citep{Cooper2012-ec}．
-
 $\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}$とし，単一の出力$y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}$を持つ線形ニューロンを仮定する．重みの更新則は次のようにする．
-
-
 \begin{equation}
 \frac{d\mathbf{w}}{dt} = \eta_w \mathbf{x} \phi(y, \theta_m)
 \end{equation}
-
-
 ここで関数$\phi$は$\phi(y, \theta_m)=y(y-\theta_m)$などとする．また$\theta_m\triangleq\mathbb{E}[y^2]$は閾値を決定するパラメータ，\textbf{修正閾値(modification threshold)}\index{しゅうせいいきち(modification threshold)@修正閾値(modification threshold)} であり，
-
-
 \begin{equation}
 \frac{d\theta_m}{dt} = \eta_{\theta} \left(y^2-\theta_m\right)
 \end{equation}
-
-
 として更新される．
-
 ToDo: 詳細
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/002.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/003.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/004.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_004.tex}
+\begin{lstlisting}[language=julia]
+using PyPlot, Random, Distributions, LinearAlgebra, FFTW
+rc("axes.spines", top=false, right=false)
+rc("font", family="Meiryo")
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+ϕ(y, θₘ) = y * (y - θₘ);
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+y = 0:0.1:2;
+θₘ = 1.0
+props = Dict("boxstyle" => "round", "facecolor" => "wheat", "alpha" => 0.5)
+figure(figsize=(3, 2))
+plot(y, 1.5*y, label="Hebb則")
+plot(y, ϕ.(y, θₘ), label="BCM則")
+xlim(0,);
+annotate(text="", xy=(0.8,0), xytext=(1.2,0), arrowprops=Dict("arrowstyle" => "<->", "color" => "tab:purple"))
+axvline(θₘ, linestyle="dashed", color="tab:purple")
+axhline(0, linestyle="dashed", color="tab:gray")
+xticks([]); yticks([]); xlabel(L"$y$ "*"(シナプス後細胞の活動)")
+text(0, 3.5, L"$\phi(y, \theta_m)$",ha="center",va="center")
+text(2.2, 3, "Hebb則", color="tab:blue",fontsize=10)
+text(2.2, 2, "BCM則", color="tab:orange",fontsize=10)
+text(0.5, 0.2, L"\theta_m", color="tab:purple",fontsize=11)
+text(-0.4, -0.3, "LTD",fontsize=11, color="tab:blue",ha="center",va="center", bbox=props);
+text(-0.4, 1.8, "LTP",fontsize=11, color="tab:red",ha="center",va="center", bbox=props);
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell004.png}
+	\caption{cell004.png}
+	\label{cell004.png}
+\end{figure}
 \subsubsection{Hebb則の生理的機序}
 ここでHebb則およびBCM則の生理的基盤について触れておこう．
 LTPの実験的発見 \citep{Bliss1973-vj} \citep{Dudek1992-nz}
-
 ToDo:実験的発見のsurvey
 \subsubsection{Oja則}
 Hebb則を安定化させる別のアプローチとして，結合強度を正規化するという手法が考えられる．BCM則と同様に$\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}$とし，単一の出力$y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}$を持つ線形ニューロンを仮定する．$\eta$を学習率とすると，$\mathbf{w}\leftarrow\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とすれば正規化できる．ここで，$f(\eta)\triangleq\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とし，$\eta=0$においてTaylor展開を行うと，
-
-
 \begin{align}
 f(\eta)&\approx f(0) + \eta \left.\frac{df(\eta^*)}{d\eta^*}\right|_{\eta^*=0} + \mathcal{O}(\eta^2)\\
 &=\frac{\mathbf{w}}{\|\mathbf{w}\|} + \eta \left(\frac{\mathbf{x}y}{\|\mathbf{w}\|}-\frac{y^2\mathbf{w}}{\|\mathbf{w}\|^3}\right)+ \mathcal{O}(\eta^2)
 \end{align}
-
-
 ここで$\|\mathbf{w}\|=1$として，1次近似すれば$f(\eta)\approx \mathbf{w} + \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)$となる．重みの変化が連続的であるとすると，
-
-
 \begin{equation}
 \frac{d\mathbf{w}}{dt} = \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)
 \end{equation}
-
-
 として重みの更新則が得られる．これを\textbf{Oja則 (Oja's rule)}\index{Ojaのり (Oja's rule)@Oja則 (Oja's rule)} と呼ぶ \citep{Oja1982-yd}．こうして得られた学習則において$\|\mathbf{w}\|\to 1$となることを確認しよう．
-
-
 \begin{equation}
 \frac{d\|\mathbf{w}\|^2}{dt}=2\mathbf{w}^\top\frac{d\mathbf{w}}{dt}= 2\eta y^2\left(1-\|\mathbf{w}\|^2\right)
 \end{equation}
-
-
 より，$\dfrac{d\|\mathbf{w}\|^2}{dt}=0$のとき，$\|\mathbf{w}\|= 1$となる．
 \subsubsection{恒常的可塑性}
 Oja則は更新時の即時的な正規化から導出されたものであるが，恒常的可塑性 (synaptic scaling)により安定化しているという説がある\citep{Turrigiano2008-lm}\citep{Yee2017-fb}．しかし，この過程は遅すぎるため，Hebb則の不安定化を安定化するに至らない\citep{Zenke2017-el}
-
 ToDo:恒常的可塑性の詳細
-
 Johansen, Joshua P., Lorenzo Diaz-Mataix, Hiroki Hamanaka, Takaaki Ozawa, Edgar Ycu, Jenny Koivumaa, Ashwani Kumar, et al. 2014. “Hebbian and Neuromodulatory Mechanisms Interact to Trigger Associative Memory Formation.” Proceedings of the National Academy of Sciences 111 (51): E5584–92.
 \subsection{Hebb則と主成分分析}
 Oja則を用いることで\textbf{主成分分析(Principal component analysis; PCA)}\index{しゅせいぶんぶんせき(Principal component analysis; PCA)@主成分分析(Principal component analysis; PCA)} という処理をニューラルネットワークにおいて実現できる．主成分分析とは-
-
 ToDo:主成分分析の説明
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/009.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/010.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/011.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_011.tex}
+\begin{lstlisting}[language=julia]
+d = MvNormal([0,0], [1.0 0.5; 0.5 1.0]) # multivariate normal distribution
+N = 300 # sample size
+Random.seed!(0) # set seed
+X = rand(d, N);  # generate toy data
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+U, S, V = svd(X*X')
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3))
+scatter(X[1,:], X[2,:], alpha=0.5)
+arrow(0, 0, V[1,1], V[2,1], head_width=0.2, color="tab:red", length_includes_head=true, label="PC1")
+arrow(0, 0, V[1,2], V[2,2], head_width=0.2, color="tab:orange", length_includes_head=true, label="PC2")
+θc = 0:1e-2:2pi
+plot(cos.(θc), sin.(θc), "k--", alpha=0.8)
+xlabel(L"$X_1$"); ylabel(L"$X_2$")
+legend(); tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell011.png}
+	\caption{cell011.png}
+	\label{cell011.png}
+\end{figure}
 \subsubsection{Oja則によるPCAの実行}
 ここでOja則が主成分分析を実行できることを示す．重みの変化量の期待値を取る．
-
-
 \begin{align}
 \frac{d\mathbf{w}}{dt} &= \eta \left(\mathbf{x}y - y^2 \mathbf{w}\right)=\eta \left(\mathbf{x}\mathbf{x}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{x}\mathbf{x}^\top \mathbf{w}\right] \mathbf{w}\right)\\
 \mathbb{E}\left[\frac{d\mathbf{w}}{dt}\right] &= \eta \left(\mathbf{C} \mathbf{w} - \left[\mathbf{w}^\top \mathbf{C} \mathbf{w}\right] \mathbf{w}\right)
 \end{align}
-
-
 $\mathbf{C}\triangleq\mathbb{E}[\mathbf{x}\mathbf{x}^\top]\in \mathbb{R}^{d\times d}$とする．$\mathbf{x}$の平均が0の場合，$\mathbf{C}$は分散共分散行列である．$\mathbb{E}\left[\dfrac{d\mathbf{w}}{dt}\right]=0$となる$\mathbf{w}$が収束する固定点(fixed point)では次の式が成り立つ．
-
-
 \begin{equation}
 \mathbf{C}\mathbf{w} = \lambda \mathbf{w}
 \end{equation}
-
-
 これは固有値問題であり，$\lambda\triangleq\mathbf{w}^\top \mathbf{C} \mathbf{w}$は固有値，$\mathbf{w}$は固有ベクトル(eigen vector)になる．
-
 ここでサンプルサイズを$n$とし，$\mathbf{X} \in \mathbb{R}^{d\times n}, \mathbf{y}=\mathbf{X}^\top\mathbf{w} \in \mathbb{R}^n$とする．標本平均で近似して$\mathbf{C}\simeq \mathbf{X}\mathbf{X}^\top$とする．この場合，
-
-
 \begin{align}
 \mathbb{E}\left[\frac{d\mathbf{w}}{dt}\right] &\simeq \eta \left(\mathbf{X}\mathbf{X}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{X}\mathbf{X}^\top \mathbf{w}\right] \mathbf{w}\right)\\
 &=\eta \left(\mathbf{X}\mathbf{y} - \left[\mathbf{y}^\top\mathbf{y}\right] \mathbf{w}\right)
 \end{align}
-
-
 となる．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/013.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/014.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_014.tex}
+\begin{lstlisting}[language=julia]
+w = randn(2) # initialize weight
+w ./= sqrt.(sum(w.^2)) # L2 normalize
+initw = copy(w) # save initial weight
+η = 1e-3 # learning rate
+for _ in 1:200
+    y = X' * w  
+    w += η * (X * y - y' * y * w) # Oja's rule
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3))
+scatter(X[1,:], X[2,:], alpha=0.5)
+arrow(0,0,initw[1],initw[2], head_width=0.2, color="k", length_includes_head=true, label=L"Init. $w$")
+arrow(0,0,w[1],w[2], head_width=0.2, color="tab:red", length_includes_head=true, label=L"Opt. $w$")
+plot(cos.(θc), sin.(θc), "k--", alpha=0.8)
+xlabel(L"$X_1$"); ylabel(L"$X_2$")
+tight_layout()
+legend(); tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell014.png}
+	\caption{cell014.png}
+	\label{cell014.png}
+\end{figure}
 後のためにOja則においてネットワークが$q$個の複数出力を持つ場合を考えよう．重み行列を$\mathbf{W} \in \mathbb{R}^{q\times d}$, 出力を$\mathbf{y}=\mathbf{W}\mathbf{x} \in \mathbb{R}^{q}, \mathbf{Y}=\mathbf{W}\mathbf{X} \in \mathbb{R}^{q\times n}$とする．この場合の更新則は
-
-
 \begin{equation}
 \frac{d\mathbf{W}}{dt} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{Diag}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
 \end{equation}
-
-
 となる．ただし，$\mathrm{Diag}(\cdot)$は行列の対角成分からなる対角行列を生み出す作用素である．
 \subsubsection{Sanger則}
 Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．\textbf{Sanger則 (Sanger's rule)}\index{Sangerのり (Sanger's rule)@Sanger則 (Sanger's rule)}，あるいは\textbf{一般化Hebb則 (generalized Hebbian algorithm; GHA)}\index{いっぱんかHebbのり (generalized Hebbian algorithm; GHA)@一般化Hebb則 (generalized Hebbian algorithm; GHA)} は，Oja則に\textbf{Gram–Schmidtの正規直交化法(Gram–Schmidt orthonormalization)}\index{Gram–Schmidtのせいきちょっこうかほう(Gram–Schmidt orthonormalization)@Gram–Schmidtの正規直交化法(Gram–Schmidt orthonormalization)} を組み合わせた学習則であり，次式で表される．
-
-
 \begin{equation}
 \frac{d\mathbf{W}}{dt} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{LT}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
 \end{equation}
-
-
 $\mathrm{LT}(\cdot)$は行列の対角成分より上側の要素を0にした下三角行列(lower triangular matrix)を作り出す作用素である．Sanger則を用いればPCAの第2主成分以降も求めることができる．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/017.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/018.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_018.tex}
+\begin{lstlisting}[language=julia]
+W = randn(2, 2) # initialize weight
+W ./= sqrt.(sum(W.^2, dims=2)) # normalize
+initW = copy(W) # save initial weight
+for _ in 1:200
+    Y = W * X
+    W += η * (Y * X' - LowerTriangular(Y * Y') * W) # Sanger's rule
+end
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3))
+scatter(X[1,:], X[2,:], alpha=0.5)
+arrow(0, 0, W[1,1], W[1,2], head_width=0.2, color="tab:red", length_includes_head=true, label=L"$w_1$")
+arrow(0, 0, W[2,1], W[2,2], head_width=0.2, color="tab:orange", length_includes_head=true, label=L"$w_2$")
+plot(cos.(θc), sin.(θc), "k--", alpha=0.8)
+xlabel(L"$X_1$"); ylabel(L"$X_2$")
+legend(); tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell018.png}
+	\caption{cell018.png}
+	\label{cell018.png}
+\end{figure}
 Oja則，Sanger則をまとめて一つの関数にしておこう．\jl{identity()}は恒等関数である．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/020.jl}
+\begin{lstlisting}[language=julia]
+function HebbianPCA(X; n_components=10, η=1e-6, maxiter=200, func=identity, orthogonal=true)
+    # X : n x m -> Y : n_components x m
+    n = size(X)[1]
+    η /= n
+    X = (X .- mean(X, dims=2)) ./ std(X, dims=2) # normalization
+    Y = nothing
+    W = randn(n_components, n) # initialize weight
+    W ./= sqrt.(sum(W.^2, dims=2)) # normalization
+    for _ in 1:maxiter
+        Y = func.(W * X)
+        if orthogonal
+            W .+= η * (Y * X' - LowerTriangular(Y * Y') * W) # Sanger's rule
+        else
+            W .+= η * (Y * X' - Diagonal(Y * Y') * W) # Oja's rule
+        end
+    end
+    return Y, W
+end;
+\end{lstlisting}
 \subsection{非線形Hebb学習}
 出力$\mathbf{y}$に非線形関数$g(\cdot)$を適用し，$\mathbf{y}\to g(\mathbf{y})$として置き換えることで非線形Hebb学習となる\citep{Oja1997-hr}\citep{Brito2016-mx}. 関数\jl{HebbianPCA}の\jl{func}引数に非線形関数を渡すことで実現できる．
-
 ToDo: 詳細
 \subsubsection{非負主成分分析によるグリッドパターンの創発}
 内側嗅内皮質(MEC)にある\textbf{グリッド細胞 (grid cells)}\index{ぐりっどさいぼう (grid cells)@グリッド細胞 (grid cells)} は六角形格子状の発火パターンにより自己位置等を符号化するのに貢献している．この発火パターンを生み出すモデルは多数あるが，\textbf{場所細胞(place cells)}\index{ばしょさいぼう(place cells)@場所細胞(place cells)} の発火パターンを\textbf{非負主成分分析(nonnegative principal component analysis)}\index{ひふしゅせいぶんぶんせき(nonnegative principal component analysis)@非負主成分分析(nonnegative principal component analysis)} で次元削減するとグリッド細胞のパターンが生まれるというモデルがある \citep{Dordek2016-ff}．非線形Hebb学習を用いてこのモデルを実装しよう．なお，同様のことは\textbf{非負値行列因子分解 (NMF: nonnegative matrix factorization)}\index{ひふあたいぎょうれついんしぶんかい (NMF: nonnegative matrix factorization)@非負値行列因子分解 (NMF: nonnegative matrix factorization)} でも可能である．
 \paragraph{場所細胞の発火パターン}
 まず，訓練データとなる場所細胞の発火パターンを人工的に作成する．場所細胞の発火パターンは\textbf{Difference of Gaussians (DoG)}\index{Difference of Gaussians (DoG)} で近似する．DoGは大きさの異なる2つのガウス関数の差分を取った関数であり，画像に適応すればband-passフィルタとして機能する．また，DoGは網膜神経節細胞等の受容野のON中心OFF周辺型受容野のモデルとしても用いられる．受容野中央では活動が大きく，その周辺では活動が抑制される，という特性を持つ．2次元のガウス関数とDoG関数を実装する．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/024.jl}
+\begin{lstlisting}[language=julia]
+function gaussian2d(center, width, height, step, sigma, scale=1)
+    x, y = range(-width/2, width/2, length=step), range(-height/2, height/2, length=step)
+    f(x,y) = exp(-((x-center[1])^2 + (y-center[2])^2) / (2.0*scale*(sigma^2)))
+    gau = f.(x', y)
+    return gau ./ sum(gau)
+end
+
+function DoG(center, width=2.2, height=2.2, step=55, sigma=0.12, surround_scale=2)
+    g1 = gaussian2d(center, width, height, step, sigma)
+    g2 = gaussian2d(center, width, height, step, sigma, surround_scale)
+    return g1 - g2
+end
+\end{lstlisting}
 モデルのパラメータを設定する．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/026.jl}
+\begin{lstlisting}[language=julia]
+sqNp = 32          # 場所細胞の数の平方根: Np=sqNp^2
+Ng = 9             # 格子細胞の数
+sigma = 0.12       # 場所細胞のtuning curveの幅 [m]
+surround_scale = 2 # DoGのσ²の比率
+box_width = 2.2    # 箱の横幅 [m]
+box_height = 2.2   # 箱の縦幅 [m]
+step = 45;         # 空間位置の離散化数
+\end{lstlisting}
 先にガウス関数とDoG関数がどのような見た目になるか確認しよう．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/028.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/029.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_029.tex}
+\begin{lstlisting}[language=julia]
+c_eg = zeros(2)
+gau_eg = gaussian2d(c_eg, box_width, box_height, step, sigma)
+dog_eg = DoG(c_eg, box_width, box_height, step, sigma, surround_scale);
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+fig, ax = subplots(2,2,figsize=(4,4),sharex="all", sharey="row")
+ax[1,1].set_title("Gaussian")
+ax[1,1].imshow(gau_eg, cmap="turbo", extent=(-box_width/2, box_width/2, -box_height/2, box_height/2))
+ax[1,1].set_ylabel("y [m]")
+ax[1,2].set_title("Difference of\n Gaussians (DoG)")
+ax[1,2].imshow(dog_eg, cmap="turbo", extent=(-box_width/2, box_width/2, -box_height/2, box_height/2))
+x_pos = range(-box_width/2, box_width/2, length=step)
+ax[2,1].plot(x_pos, gau_eg[div(step, 2), :]/maximum(gau_eg))
+ax[2,1].set_xlabel("x [m]"); ax[2,1].set_ylabel(L"$y=0$"*"の形状 (正規化)")
+ax[2,2].plot(x_pos, dog_eg[div(step, 2), :]/maximum(dog_eg))
+ax[2,2].set_xlabel("x [m]")
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell029.png}
+	\caption{cell029.png}
+	\label{cell029.png}
+\end{figure}
 場所細胞の活動パターンを生み出す．それぞれの場所受容野の中心は空間を均等に覆うように作成する (一様分布で生み出してもよい)．
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/031.jl}
+\begin{lstlisting}[language=julia]
+x_pos = range(-box_width/2, box_width/2, length=sqNp)
+y_pos = range(-box_height/2, box_height/2, length=sqNp)
+centers = [[i, j] for i in x_pos for j in y_pos]
+X_place = hcat([DoG(c, box_width, box_height, step, sigma, surround_scale)[:] for c in centers]...)';
+\end{lstlisting}
 線形PCAの場合
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/033.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/034.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_034.tex}
+\begin{lstlisting}[language=julia]
+@time Y_pca, W_pca = HebbianPCA(X_place, n_components=Ng, η=1e-2, maxiter=5000, orthogonal=true)
+Y_pca = reshape(Y_pca, (Ng, step, step));
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3.5))
+suptitle("次元削減された活動 (PCA)")
+for i in 1:Ng
+    subplot(3,3,i)
+    imshow(Y_pca[i, :, :], cmap="turbo")
+    axis("off")
+end
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell034.png}
+	\caption{cell034.png}
+	\label{cell034.png}
+\end{figure}
 自己相関マップ(autocorrelation map)を確認する．
-
 ToDo: 相関の計算の説明
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/036.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/037.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/038.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_038.tex}
+\begin{lstlisting}[language=julia]
+function correlate_fft(x, y)
+    corr = fftshift(real(ifft(fft(x) .* conj(fft(y)))))
+    return corr / maximum(corr)
+end;
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+corr_pca = [correlate_fft(Y_pca[i, :, :], Y_pca[i, :, :]) for i in 1:Ng];
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3.5))
+suptitle("自己相関マップ (PCA)")
+for i in 1:Ng
+    subplot(3,3,i)
+    imshow(corr_pca[i], cmap="turbo")
+    axis("off")
+end
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell038.png}
+	\caption{cell038.png}
+	\label{cell038.png}
+\end{figure}
 非負PCAの場合
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/040.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/041.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/042.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_042.tex}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/043.jl}
-\lstinputlisting[language=julia]{./text/local-learning-rule/pca-hebbian-learning/044.jl}
-\input{./text/local-learning-rule/pca-hebbian-learning/output_044.tex}
+\begin{lstlisting}[language=julia]
+relu(x) = max(x, 0)
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+@time Y_npca, W_npca = HebbianPCA(X_place; n_components=Ng, η=1e-2, maxiter=5000, func=relu, orthogonal=true);
+Y_npca = reshape(Y_npca, (Ng, step, step));
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3.5))
+suptitle("次元削減された活動 (非負PCA)")
+for i in 1:Ng
+    subplot(3,3,i)
+    imshow(Y_npca[i, :, :], cmap="turbo")
+    axis("off")
+end
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell042.png}
+	\caption{cell042.png}
+	\label{cell042.png}
+\end{figure}
+\begin{lstlisting}[language=julia]
+corr_npca = [correlate_fft(Y_npca[i, :, :], Y_npca[i, :, :]) for i in 1:Ng];
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3,3.5))
+suptitle("自己相関マップ (非負PCA)")
+for i in 1:Ng
+    subplot(3,3,i)
+    imshow(corr_npca[i], cmap="turbo")
+    axis("off")
+end
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/local-learning-rule/pca-hebbian-learning/cell044.png}
+	\caption{cell044.png}
+	\label{cell044.png}
+\end{figure}
 Place cellの受容野をDoGに設定したが，これが無いと格子状の受容野は出現しない．path integrationをRNNで実行する場合も同様．一方で，DoGは場所細胞の受容野としては不適切である．
-
 No Free Lunch from Deep Learning in Neuroscience: A Case Study through Models of the Entorhinal-Hippocampal Circuit 
 \url{https://openreview.net/forum?id=mxi1xKzNFrb}
-
 ToDo: 他のgrid cellsのモデルについて

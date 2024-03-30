@@ -1,5 +1,0 @@
-figure(figsize=(5,5))
-subplot(3,1,1); plot(time, varr[:, 1]); ylabel("Membrane\n potential (mV)")
-subplot(3,1,2); plot(time, rarr[:, 1]); ylabel("Pre-synaptic\n dynamics")
-subplot(3,1,3); plot(time, I[:, 1]); xlabel("Times (ms)"); ylabel("Injection\n current (nA)")
-tight_layout()

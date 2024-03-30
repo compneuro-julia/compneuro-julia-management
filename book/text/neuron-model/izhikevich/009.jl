@@ -1,6 +1,0 @@
-figure(figsize=(4, 4))
-suptitle("Regular Spiking (RS) Neurons")
-subplot(3,1,1); plot(t, varr[:, 1]); ylabel("Membrane\n potential (mV)")
-subplot(3,1,2); plot(t, uarr[:, 1]); ylabel("Recovery\n current (pA)")
-subplot(3,1,3); plot(t, Ie[:, 1]); ylabel("Injection\n current (pA)"); xlabel("Times (ms)")
-tight_layout(rect=[0,0,1,0.96])

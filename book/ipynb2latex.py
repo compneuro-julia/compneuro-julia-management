@@ -9,6 +9,8 @@ from base64 import b64decode
 from io import BytesIO
 import numpy as np
 import pykakasi
+import glob
+import shutil
 
 class AutoIndexing():
     def __init__(self,):
@@ -70,14 +72,14 @@ def latex_itemized(text):
         # replace - to \item
         for i in range(len(splited_text)):
             if item_idx[i]:
-                splited_text[i] = splited_text[i].replace('- ', '\item ', 1) 
+                splited_text[i] = splited_text[i].replace('- ', r'\item ', 1) 
 
         # add begin and end
         for j in range(len(item_startend)):
             if j % 2 == 0:
-                splited_text.insert(item_startend[j], "\\begin{itemize}")
+                splited_text.insert(item_startend[j], r"\begin{itemize}")
             else:
-                splited_text.insert(item_startend[j], "\\end{itemize}")
+                splited_text.insert(item_startend[j], r"\end{itemize}")
     
     # enumerate
     enum_idx = [line[:3] == "1. " for line in splited_text]
@@ -89,14 +91,14 @@ def latex_itemized(text):
         # replace 1. to \item
         for i in range(len(splited_text)):
             if enum_idx[i]:
-                splited_text[i] = splited_text[i].replace('1. ', '\item ', 1) 
+                splited_text[i] = splited_text[i].replace('1. ', r'\item ', 1) 
 
         # add begin and end
         for j in range(len(enum_startend)):
             if j % 2 == 0:
-                splited_text.insert(enum_startend[j], "\\begin{enumerate}")
+                splited_text.insert(enum_startend[j], r"\begin{enumerate}")
             else:
-                splited_text.insert(enum_startend[j], "\\end{enumerate}")
+                splited_text.insert(enum_startend[j], r"\end{enumerate}")
 
     for i in range(len(splited_text)):
         if splited_text[i][-1:] != "\n":
@@ -106,20 +108,23 @@ def latex_itemized(text):
 def all_remove(xlist, remove):
     return [value for value in xlist if value != remove]
 
-def md_ipynb2latex(dir_path, filename, auto_indexing=AutoIndexing()):
-    save_dir = "./text/" + filename
-    os.makedirs(save_dir, exist_ok=True)
+def md_ipynb2latex(dir_path, filename, save_dir="./text/", code_include=True):
+    if code_include:
+        os.makedirs(f"{save_dir}{filename.split("/")[0]}", exist_ok=True)
+    else:
+        os.makedirs(f"{save_dir}{filename}", exist_ok=True)
     file_path = dir_path + filename
     master_list = []
     if os.path.isfile(file_path + ".md"):
         f = codecs.open(file_path + ".md", 'r', encoding="utf8")
         md = f.read()
         # convert
-        text = markdown2latex(md, auto_indexing)
+        text = markdown2latex(md)
         text = text.split('\n')
-        text = latex_itemized(text) #all_remove(text, "\n")
+        text = latex_itemized(text) #
         if not ":filter: docname in docnames" in "".join(text):
             # save
+            text = all_remove(text, "\n")
             master_list += text
     elif os.path.isfile(file_path + ".ipynb"):
         f = codecs.open(file_path + ".ipynb", 'r', encoding="utf8")
@@ -130,10 +135,11 @@ def md_ipynb2latex(dir_path, filename, auto_indexing=AutoIndexing()):
             cell = y['cells'][cell_idx]
             if cell['cell_type'] == 'markdown':
                 # convert
-                text = [markdown2latex(s, auto_indexing) for s in cell['source']]
+                text = [markdown2latex(s) for s in cell['source']]
                 text = latex_itemized(text)
                 if not ":filter: docname in docnames" in "".join(text):
                     # save
+                    text = all_remove(text, "\n")
                     master_list += text
                     #parted_file_path = save_dir + "/{:03d}.tex".format(cell_idx)
                     #with open(parted_file_path, 'w', encoding='UTF-8') as f:
@@ -142,10 +148,15 @@ def md_ipynb2latex(dir_path, filename, auto_indexing=AutoIndexing()):
             elif cell['cell_type'] == 'code':
                 # ToDo:'outputs'
                 code = cell['source']
-                parted_file_path = save_dir + "/{:03d}.jl".format(cell_idx)
-                with open(parted_file_path, 'w', encoding='UTF-8') as f:
-                    f.writelines(code)
-                master_list.append(r"\lstinputlisting[language=julia]{"+parted_file_path+"}\n")
+                if code_include:
+                    master_list.append(r"\begin{lstlisting}[language=julia]"+"\n")
+                    master_list += code
+                    master_list.append("\n" + r"\end{lstlisting}"+"\n")
+                else:
+                    parted_file_path = f"{save_dir}{filename}/{cell_idx:03d}.jl"
+                    with open(parted_file_path, 'w', encoding='UTF-8') as f:
+                        f.writelines(code)
+                    master_list.append(r"\lstinputlisting[language=julia]{"+parted_file_path+"}\n")
 
                 if cell['outputs']:
                     if 'data' in cell['outputs'][0]:
@@ -163,25 +174,26 @@ def md_ipynb2latex(dir_path, filename, auto_indexing=AutoIndexing()):
 
                             caption = figname
                             figlabel = figname #"ccc"
-                            figcode = "\\begin{figure}[ht]\n\t\centering\n"
-                            figcode += "\t\includegraphics[scale=0.8, max width=\linewidth]{"+figsavepath+"}\n"
-                            figcode += "\t\caption{" + caption + "}\n"
-                            figcode += "\t\label{"+figlabel+"}\n"
-                            figcode += "\end{figure}"
-
-                            parted_output_path = save_dir + "/output_{:03d}.tex".format(cell_idx)
-                            with open(parted_output_path, 'w', encoding='UTF-8') as f:
-                                f.writelines(figcode)
-                            master_list.append(r"\input{"+parted_output_path+"}\n")
-                        """
+                            figcode = r"\begin{figure}[ht]"+"\n\t"+r"\centering"+"\n"
+                            figcode += "\t" + r"\includegraphics[scale=0.8, max width=\linewidth]{"+figsavepath+"}\n"
+                            figcode += "\t" + r"\caption{" + caption + "}\n"
+                            figcode += "\t" + r"\label{"+figlabel+"}\n"
+                            figcode += r"\end{figure}" + "\n"
+                            if code_include:
+                                master_list.append(figcode)
+                            else:
+                                parted_output_path = f"{save_dir}{filename}/output_{cell_idx:03d}.tex"
+                                with open(parted_output_path, 'w', encoding='UTF-8') as f:
+                                    f.writelines(figcode)
+                                master_list.append(r"\input{"+parted_output_path+"}\n")
+                        
                         elif "text/plain" in output.keys():
                             print(output["text/plain"])
-                        """
 
-    with open(save_dir + '.tex', 'w', encoding='UTF-8') as f:
+    with open(f"{save_dir}{filename}.tex", 'w', encoding='UTF-8') as f:
         f.writelines(master_list)
     return master_list
-
+    
 def copy_bib(dir_path, savedir="./bibfiles/"):
     bib_list = glob.glob(dir_path+'**/*.bib', recursive=True)
     for filepath in bib_list:
@@ -191,19 +203,19 @@ def copy_bib(dir_path, savedir="./bibfiles/"):
         shutil.copyfile(filepath, savedir+new_filename)
         #print(r"\addbibresource{"+savedir[2:]+new_filename+"}")
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     dir_path = "../contents/"
-    copy_bib()
+    copy_bib(dir_path)
     with open(dir_path + "_toc.yml") as file:
         toc_yaml = yaml.safe_load(file)
     main_list = []
-    auto_indexing = AutoIndexing()
     for i, section in tqdm(enumerate(toc_yaml['sections'])):
         print(section['file']) # intro
         if i > 0:
             for subsection in section['sections']:
                 filename = subsection['file']
                 print(filename)
-                md_ipynb2latex(dir_path, filename, auto_indexing)
+                md_ipynb2latex(dir_path, filename)
                 main_list.append(r"\input{./text/"+filename+".tex}\n")
-    
+    with open("contents_list.tex", 'w', encoding='UTF-8') as f:
+        f.writelines(main_list)

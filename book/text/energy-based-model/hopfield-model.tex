@@ -1,87 +1,149 @@
 \section{Hopfield モデル}
-
-
 \citep{Hopfield1982-vu}で提案．始めは1と0の状態を取った．
-
 Hopfieldモデルと呼ばれることが多いが，Amariの先駆的研究\citep{Amari1972-fq}を踏まえAmari-Hopfieldモデルと呼ばれることもある．
-
 次のような連続時間線形モデルを考える．シナプス前活動を$\mathbf{x}\in \mathbb{R}^n$, 後活動を$\mathbf{y}\in \mathbb{R}^m$, 重み行列を$\mathbf{W}\in \mathbb{R}^{m\times n}$とする．
-
-
 \begin{equation}
 \frac{d\mathbf{y}}{dt}=-\mathbf{y}+\mathbf{W}\mathbf{x}+\mathbf{b}
 \end{equation}
-
-
 ここで$\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}\triangleq-\dfrac{d\mathbf{y}}{dt}$となるような$\mathcal{L}\in \mathbb{R}$を仮定すると，
-
-
 \begin{equation}
 \mathcal{L}=\int \left(\mathbf{y}-\mathbf{W}\mathbf{x}-\mathbf{b}\right)\ d\mathbf{y}=\frac{1}{2}\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x}-\mathbf{y}^\top \mathbf{b}
 \end{equation}
-
-
 となる． これをさらに$\mathbf{W}$で微分すると，
-
-
 \begin{equation}
 \dfrac{\partial\mathcal{L}}{\partial\mathbf{W}}=-\mathbf{y}\mathbf{x}^\top\Rightarrow
 \frac{d\mathbf{W}}{dt}=-\dfrac{\partial\mathcal{L}}{\partial\mathbf{W}}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top
 \end{equation}
-
-
 となり，Hebb則が導出できる．
 \subsection{モデルの定義}
 モデルを定義する．
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/002.jl}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/003.jl}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/004.jl}
+\begin{lstlisting}[language=julia]
+using Parameters: @unpack
+using LinearAlgebra, PyPlot, Random, Distributions, Statistics, ImageTransformations, TestImages, ColorTypes
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+@kwdef mutable struct AmariHopfieldModel
+    W::Array  # weights
+    θ::Vector # thresholds
+end
+
+# Training weights & definition of model
+function AmariHopfieldModel(inputs; σθ=1e-2)
+    num_data, num_units = size(inputs) # inputs : num_data x num_unit
+    inputs = mapslices(x -> x .- mean(x), inputs, dims=2)  
+    W = (inputs' * inputs) / num_data # hebbian rule
+    W -= diagm(diag(W))               # Set the diagonal of weights to zero
+    return AmariHopfieldModel(W=W, θ=σθ*randn(num_units))
+end;
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+binarize(img) = 2.0((img .- mean(img)) .> 0) .- 1; # img to {-1, 1}
+
+function corrupted(img, p=0.3)
+    mask = rand(Binomial(1, p), size(img));
+    return img .* (1 .- mask) - img .* mask; 
+end
+\end{lstlisting}
 データセットの作成
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/006.jl}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/007.jl}
-\input{./text/energy-based-model/hopfield-model/output_007.tex}
+\begin{lstlisting}[language=julia]
+testimagelist = ["cameraman", "jetplane", "house", "mandril_gray", "lake_gray"]; # gray & size(512 x 512)
+num_data = length(testimagelist)
+
+imgs = [convert(Array{Float64}, imresize(Gray.(testimage(imagename)), ratio=1/8)) for imagename in testimagelist];
+imgs_binarized = map(binarize, imgs);
+imgs_corrupted = map(corrupted, imgs_binarized);
+
+input_train = reshape(stack(imgs_binarized), (:, num_data))';
+input_test = reshape(stack(imgs_corrupted), (:, num_data))';
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(8, 3))
+for i in 1:num_data
+    subplot(2, num_data, i); imshow(imgs[i], cmap="gray"); 
+    xticks([]); yticks([]); if i==1 ylabel("Original", fontsize=14) end;
+    subplot(2, num_data, i+num_data); imshow(imgs_binarized[i], cmap="gray"); 
+    xticks([]); yticks([]); if i==1 ylabel("Binarized", fontsize=14) end;
+end
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/energy-based-model/hopfield-model/cell007.png}
+	\caption{cell007.png}
+	\label{cell007.png}
+\end{figure}
 モデルの定義と訓練
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/009.jl}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/010.jl}
-\input{./text/energy-based-model/hopfield-model/output_010.tex}
+\begin{lstlisting}[language=julia]
+model = AmariHopfieldModel(input_train);
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(3, 3))
+title("Weight matrix"); imshow(model.W); 
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/energy-based-model/hopfield-model/cell010.png}
+	\caption{cell010.png}
+	\label{cell010.png}
+\end{figure}
 画像の復元を行う．
 エネルギー関数
-
-
 \begin{equation}
 E=-{\frac 12}\sum _{{i,j}}{w_{{ij}}{s_{i}}{s_{j}}}+\sum _{i}{\theta _{i}}{s_{i}}=-{\frac 12}\mathbf{s}^\top\mathbf{W}\mathbf{s}+\mathbf{\theta}^\top\mathbf{s}
 \end{equation}
-
-
 を最小化するように内部状態 $\mathbf{s}$ を更新．
-
-
 \begin{equation}
 \mathbf{s}\leftarrow \text{sign}\left(\mathbf{W}\mathbf{s}-\mathbf{\theta}\right)
 \end{equation}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/012.jl}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/013.jl}
-\lstinputlisting[language=julia]{./text/energy-based-model/hopfield-model/014.jl}
-\input{./text/energy-based-model/hopfield-model/output_014.tex}
+\begin{lstlisting}[language=julia]
+energy(W, s, θ) = -0.5s' * W * s + θ' * s
+
+# Synchronous update
+function prediction(model::AmariHopfieldModel, init_s, max_iter=100)
+    @unpack W, θ = model
+    s, e = init_s, energy(W, init_s, θ)
+    for t in 1:max_iter
+        s = sign.(W * s - θ)    # update s
+        e_tp1 = energy(W, s, θ) # compute state (t+1) energy
+        if abs(e_tp1-e) < 1e-3   # convergence
+            return s
+        end
+    end
+    return s
+end;
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+imgs_predicted = [reshape(prediction(model, input_test[i, :]), (64, 64)) for i in 1:num_data];
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+figure(figsize=(8, 3))
+for i in 1:num_data
+    subplot(2, num_data, i); imshow(imgs_corrupted[i], cmap="gray");  
+    xticks([]); yticks([]); if i==1 ylabel("Inputs", fontsize=14) end;
+    subplot(2, num_data, i+num_data); imshow(imgs_predicted[i], cmap="gray");  
+    xticks([]); yticks([]); if i==1 ylabel("Outputs", fontsize=14) end;
+end
+tight_layout()
+\end{lstlisting}
+\begin{figure}[ht]
+	\centering
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/energy-based-model/hopfield-model/cell014.png}
+	\caption{cell014.png}
+	\label{cell014.png}
+\end{figure}
 \subsection{稠密連想記憶 (dense associative memory) モデル}
 \textbf{Dense Associative Memory (DAM)}\index{Dense Associative Memory (DAM)} モデル (Modern Hopfield networksとも呼ばれる) ．
-
 \begin{itemize}
 \item Krotov, Dmitry, and John J. Hopfield. 2016. “Dense Associative Memory for Pattern Recognition.” arXiv. arXiv. \url{http://arxiv.org/abs/1606.01164}.
 \item Krotov, Dmitry, and John Hopfield. 2018. “Dense Associative Memory Is Robust to Adversarial Inputs.” Neural Computation 30 (12): 3151–67.
 \item Krotov, Dmitry, and John J. Hopfield. 2019. “Unsupervised Learning by Competing Hidden Units.” Proceedings of the National Academy of Sciences of the United States of America 116 (16): 7723–31.
 \end{itemize}
-
-
 \begin{itemize}
 \item Ramsauer, Hubert, Bernhard Schäfl, Johannes Lehner, Philipp Seidl, Michael Widrich, Thomas Adler, Lukas Gruber, et al. 2020. “Hopfield Networks Is All You Need.” arXiv. arXiv. \url{http://arxiv.org/abs/2008.02217}.
 \end{itemize}
-
 深層ニューラルネットワークへの応用．
-
-
 \begin{itemize}
 \item Krotov, Dmitry, and John J. Hopfield. 2020. “Large Associative Memory Problem in Neurobiology and Machine Learning.” \url{https://openreview.net/pdf?id=X4y_10OX-hX}
 \end{itemize}
-
 “Hopfield Networks Is All You Need.”の論文における非生理学的3ニューロン相互作用の緩和．

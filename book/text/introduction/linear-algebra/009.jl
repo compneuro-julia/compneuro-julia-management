@@ -1,1 +1,0 @@
-println(sum(Wnormed, dims=1))

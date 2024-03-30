@@ -45,10 +45,12 @@
     maxcitenames=2,
     uniquelist=false, 
     sorting=nty,
+    sortcites=true,
     giveninits=true,
     terseinits=false,
     refsegment=chapter
 ]{biblatex}
+
 \addbibresource{bibfiles/appendix-references.bib}
 \addbibresource{bibfiles/bayesian-brain-references.bib}
 \addbibresource{bibfiles/energy-based-model-references.bib}
@@ -66,17 +68,17 @@
 \renewbibmacro{in:}{}
 
 % https://stackoverflow.com/questions/69682457/extended-links-in-citations
-\makeatletter
-\renewbibmacro*{cite}{%
-  \printtext[bibhyperref]{\iffieldundef{shorthand}
-    {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
-       {\usebibmacro{cite:label}%
-        \setunit{\printdelim{nonameyeardelim}}}
-       {\printnames{labelname}%
-        \setunit{\printdelim{nameyeardelim}}}%
-     \usebibmacro{cite:labeldate+extradate}}
-    {\usebibmacro{cite:shorthand}}}}
-\makeatother
+% \makeatletter
+% \renewbibmacro*{cite}{%
+%   \printtext[bibhyperref]{\iffieldundef{shorthand}
+%     {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
+%        {\usebibmacro{cite:label}%
+%         \setunit{\printdelim{nonameyeardelim}}}
+%        {\printnames{labelname}%
+%         \setunit{\printdelim{nameyeardelim}}}%
+%      \usebibmacro{cite:labeldate+extradate}}
+%     {\usebibmacro{cite:shorthand}}}}
+% \makeatother
 
 \newcommand{\jl}{\lstinline[language=julia]}
 
@@ -91,30 +93,31 @@
 \tableofcontents
 \clearpage
 \chapter{はじめに}
-% \input{./text/introduction/computational-neuroscience.tex} % ok
+% \input{./text/introduction/computational-neuroscience.tex} % 文献整理する
 % \input{./text/introduction/notation.tex} % ok
-% \input{./text/introduction/usage-julia-lang.tex} % ok
-% \input{./text/introduction/linear-algebra.tex} % ok
+% \input{./text/introduction/usage-julia-lang.tex} % 表を作り直す．これはtexで書いた方がよいか
+% \input{./text/introduction/linear-algebra.tex} % outputがtextの場合どうするか確認
 % \input{./text/introduction/differential-equation.tex} % ok
 % \input{./text/introduction/linear-regression.tex} % ok
 % \input{./text/introduction/probability-information-theory.tex} % ok
 % \input{./text/introduction/stochastic-process-differential-equation.tex} % ok
 
 \chapter{神経細胞のモデル}
-% \input{./text/neuron-model/neuron-physiol.tex} % ok
-\input{./text/neuron-model/hodgkin-huxley.tex}
+% コンパイルはok
+% \input{./text/neuron-model/neuron-physiol.tex} % 内容なし
+% \input{./text/neuron-model/hodgkin-huxley.tex} % ok
 % \input{./text/neuron-model/fhn.tex}
 % \input{./text/neuron-model/lif.tex} % ok
 % \input{./text/neuron-model/izhikevich.tex} 
 % \input{./text/neuron-model/isi.tex} % ok
 % \input{./text/neuron-model/neurite-growth-model.tex} % ok
-
+\typeout{}
 \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
 \addcontentsline{toc}{section}{参考文献}
 % \printbibliography
 
 \chapter{シナプス伝達のモデル}
-% \input{./text/synapse-model/synapse-physiol.tex} % ok
+\input{./text/synapse-model/synapse-physiol.tex} % ok
 % \input{./text/synapse-model/current-conductance-synapse.tex}
 % \input{./text/synapse-model/expo-synapse.tex}
 % \input{./text/synapse-model/kinetic-synapse.tex}

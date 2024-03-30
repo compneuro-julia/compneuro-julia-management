@@ -1,8 +1,0 @@
-figure(figsize=(3,3))
-scatter(X[1,:], X[2,:], alpha=0.5)
-arrow(0,0,initw[1],initw[2], head_width=0.2, color="k", length_includes_head=true, label=L"Init. $w$")
-arrow(0,0,w[1],w[2], head_width=0.2, color="tab:red", length_includes_head=true, label=L"Opt. $w$")
-plot(cos.(θc), sin.(θc), "k--", alpha=0.8)
-xlabel(L"$X_1$"); ylabel(L"$X_2$")
-tight_layout()
-legend(); tight_layout()

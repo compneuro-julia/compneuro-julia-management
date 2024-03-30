@@ -1,5 +1,0 @@
-figure(figsize=(3, 2))
-title("Autocorrelation map")
-imshow(corr_map, origin="lower", cmap="turbo", interpolation="gaussian", extent=[-50, 50, -50, 50])
-colorbar(label="Autocorr.")
-tight_layout()

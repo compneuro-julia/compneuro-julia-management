@@ -1,16 +1,12 @@
 \section{代理勾配法によるSNNの訓練}
-
 前節では再帰的発火率モデルをBPTTによって学習する方法を考えた．この節ではspiking neural network (SNN)をBPTTにより学習させる方法について紹介する．BPTTが生理的でないことは一度棚上げし，工学的な問題としてSNNを訓練する方法について考えるということである．
-
 spiking neural networks (SNNs), binary neural networks (BNNs)
 Perceptron (McCulloch-Pitts neuron)の学習法もいれる？
 パーセプトロンもstep関数を用いていた．
 straight through estimator (STE)
 UNDERSTANDING STRAIGHT-THROUGH ESTIMATOR IN TRAINING ACTIVATION QUANTIZED NEURAL NETS
-
 Yoshua Bengio, Nicholas L´eonard, and Aaron Courville. Estimating or propagating gradients through stochastic neurons for conditional computation. arXiv preprint arXiv:1308.3432, 2013.
 Hinton (2012) in his lecture 15b
-
 G. Hinton. Neural networks for machine learning, 2012.
 https://www.cs.toronto.edu/~hinton/coursera_lectures.html
 \section{RNNとしてのSNNのBPTTを用いた教師あり学習}
@@ -67,10 +63,13 @@ C_{\text{met}}=\frac{10^{-2}}{N_t \cdot N_{\text{out}}}\sum_{t=1}^{N_t}\sum_{i=1
     \caption{(左)入力のポアソンスパイクの時間軸における和。(右)出力ユニットの活動。7番のニューロンがよく活動していることが分かります。}
     \label{fig:snu_2}
 \end{figure}
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/surrogate-gradient-snn/006.jl}
-\lstinputlisting[language=julia]{./text/solve-credit-assignment-problem/surrogate-gradient-snn/007.jl}
-\subsubsection{誤差逆伝搬法の近似による教師あり学習}
+\begin{lstlisting}[language=julia]
 
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+
+\end{lstlisting}
+\subsubsection{誤差逆伝搬法の近似による教師あり学習}
 ANNは誤差逆伝搬法(Back-propagation)を用いてパラメータを学習することができますが、SNNは誤差逆伝搬法を直接使用することはできません。しかし、誤差逆伝搬法の近似をすることでSNNを訓練することができるようになります。SNNを誤差逆伝搬法で訓練することは\textbf{SpikeProp法}(Bohte et al., 2000)や\textbf{ReSuMe}(Ponulak, Kasiński, 2010)など多数の手法が考案されてきました(他の方針としては Lee et al. 2016\footnote{この論文のポイントは実数値の膜電位で確率的勾配降下を実行することです。}; Huh \& Sejnowski, 2018; Wu et al., 2018; Shrestha \& Orchard, 2018; Tavanaei \& Maida, 2019; Thiele et al., 2019; Comsa et al., 2019など多数)。この章の初めでは、代表してSpikeProp法の改善手法であ\textbf{るSuperSpike法}(Zenke and Ganguli, 2018)の実装をしてみます。
 \section{SuperSpike法}
 \textbf{SuperSpike法} (supervised learning rule for spiking neurons)(Zenke and Ganguli, 2018)はオンラインの教師あり学習でSpikeProp法と同様にスパイク列を教師信号とし、そのスパイク列を出力するようにネットワークを最適化します。SpikeProp法と異なるのはスパイクの微分ではなく、膜電位についての関数の微分を用いていることです。このため、発火が生じなくても学習が進行します。
@@ -136,7 +135,6 @@ e_i=\sum_k b_{ki} e_k
 e_i=\sum_k e_k
 \end{equation}
 となります。後の実装ではFeedback alignmentによる学習も行います。
-
 \subsection{SuperSpike法の実装}
 それではSuperSpike法を実装していきましょう。今回は3層のネットワーク(ユニット数は順に50, 4, 1)の出力ユニットが100 msごとに発火するように訓練します。 訓練後の結果と全体のアルゴリズムは図\ref{fig:super_spike}にまとめていますので、適宜参照すると良いでしょう。。\par
 まず、\texttt{Models}ディレクトリの親ディレクトリに実行するファイルを作成します。次に今回使うモデルをimportしておきます。
@@ -161,7 +159,6 @@ class ErrorSignal:
     def initialize_states(self):
         self.r = np.zeros(self.N)
         self.hr = np.zeros(self.N)    
-
     def __call__(self, output_spike, target_spike):
         r = self.r*(1-self.dt/self.tr) + self.hr/self.td*self.dt 
         hr = self.hr*(1-self.dt/self.td)+(target_spike-output_spike)/self.b
@@ -187,7 +184,6 @@ lass EligibilityTrace:
     
     def surrogate_derivative_fastsigmoid(self, u, beta=1, vthr=-50):
         return 1 / (1 + np.abs(beta*(u-vthr)))**2
-
     def __call__(self, pre_current, post_voltage):
         \section{(N_out, 1) x (1, N_in) -> (N_out, N_in) }
         pre_ = np.expand_dims(pre_current, axis=0)
@@ -204,22 +200,17 @@ lass EligibilityTrace:
 それでは準備が終わったので、定数とモデルのインスタンスを定義しましょう。
 \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
 dt = 1e-4; T = 0.5; nt = round(T/dt)
-
 t_weight_update = 0.5 #重みの更新時間
 nt_b = round(t_weight_update/dt) #重みの更新ステップ
-
 num_iter = 200 \section{学習のイテレーション数}
-
 N_in = 50 \section{入力ユニット数}
 N_mid = 4 \section{中間ユニット数}
 N_out = 1 \section{出力ユニット数}
-
 \section{入力(x)と教師信号(y)の定義}
 fr_in = 10 \section{入力のPoisson発火率 (Hz)}
 x = np.where(np.random.rand(nt, N_in) < fr_in * dt, 1, 0)
 y = np.zeros((nt, N_out)) 
 y[int(nt/10)::int(nt/5), :] = 1 \section{T/5に1回発火}
-
 \section{モデルの定義}
 neurons_1 = CurrentBasedLIF(N_mid, dt=dt)
 neurons_2 = CurrentBasedLIF(N_out, dt=dt)
@@ -230,16 +221,13 @@ synapses_2 = DoubleExponentialSynapse(N_mid, dt=dt, td=1e-2, tr=5e-3)
 es = ErrorSignal(N_out)
 et1 = EligibilityTrace(N_in, N_mid)
 et2 = EligibilityTrace(N_mid, N_out)
-
 connect_1 = FullConnection(N_in, N_mid, 
                            initW=0.1*np.random.rand(N_mid, N_in))
 connect_2 = FullConnection(N_mid, N_out, 
                            initW=0.1*np.random.rand(N_out, N_mid))
 #B = np.random.rand(N_mid, N_out) \section{Feedback alignment}
-
 r0 = 1e-3
 gamma = 0.7
-
 \section{記録用配列}
 current_arr = np.zeros((N_mid, nt))
 voltage_arr = np.zeros((N_out, nt))
@@ -289,7 +277,6 @@ for i in tqdm(range(num_iter)):
         e2 = np.expand_dims(es(s2, y[t]), axis=1) / N_out
         e1 = connect_2.backward(e2) / N_mid
         \section{e1 = np.dot(B, e2) / N_mid}
-
         \section{コストの計算}
         cost += np.sum(e2**2)
         
@@ -337,7 +324,6 @@ for i in tqdm(range(num_iter)):
 最後に結果を描画します。描画するのは出力層の膜電位$U_i$, 高速シグモイドによる膜電位の微分の近似$\sigma^\prime (U_i)$, 出力層における誤差信号$e_i$, 適格度トレース$\lambda_{ij}$, 2層目の$j=0$番目のシナプス後電流$\epsilon * S_j$, 入力のポアソンスパイク、誤差関数の推移です。
 \begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
 t = np.arange(nt)*dt*1e3
-
 plt.figure(figsize=(8, 10))
 plt.subplot(6,1,1)
 plt.plot(t, voltage_arr[0])
@@ -360,13 +346,11 @@ for i in range(N_in):
 plt.xlabel('Time (ms)'); plt.ylabel('Neuron index') 
 plt.xlim(0, t.max()); plt.ylim(0.5, N_in+0.5)
 plt.show()
-
 plt.figure(figsize=(4, 3))
 plt.plot(cost_arr, color="k")
 plt.xlabel('Iter'); plt.ylabel('Cost') 
 plt.show()
 \end{minted}
-
 結果は図\ref{fig:super_spike}のようになります。また、Feedback alignmentの場合と比較した誤差関数の推移は図のようになります。
 \begin{figure}[htbp]
     \centering

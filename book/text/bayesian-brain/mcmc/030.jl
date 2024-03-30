@@ -1,1 +1,0 @@
-plot(samples[1, :])
