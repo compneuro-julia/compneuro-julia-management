@@ -1,24 +1,24 @@
 \section{確率論}
 \subsection{期待値 (Expectation)}
 \begin{equation}
-\mathbb{E}_{x\sim p(x)}\left[f(x)\right]\triangleq\int f(x)p(x)dx
+\mathbb{E}_{x\sim p(x)}\left[f(x)\right]\coloneqq\int f(x)p(x)dx
 \end{equation}
 $x\sim p(x)$ が明示的な場合は $\mathbb{E}_{p(x)}\left[f(x)\right]$ や $\mathbb{E}\left[f(x)\right]$ と表す．
 \subsection{情報量 (Information)}
 出現頻度が低い事象は多くの情報量を持つ (Shannon, 1948)．
 \begin{equation}
-\mathbb{I}(x)\triangleq\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
+\mathbb{I}(x)\coloneqq\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
 \end{equation}
 $\mathbf{I}$は単位行列なので注意．
 \subsection{平均情報量 (エントロピー, entropy)}
 \begin{align}
-\mathbb{H}(x)&\triangleq\mathbb{E}[-\ln p(x)]\\
-\mathbb{H}(x\vert y)&\triangleq\mathbb{E}[-\ln p(x\vert y)]
+\mathbb{H}(x)&\coloneqq\mathbb{E}[-\ln p(x)]\\
+\mathbb{H}(x\vert y)&\coloneqq\mathbb{E}[-\ln p(x\vert y)]
 \end{align}
 \subsection{Kullback-Leibler 情報量}
 Kullback-Leibler (KL) divergence (Kullback and Leibler, 1951)
 \begin{align}
-D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&\triangleq\int p(x) \ln \frac{p(x)}{q(x)} dx\\
+D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&\coloneqq\int p(x) \ln \frac{p(x)}{q(x)} dx\\
 &=\int p(x) \ln p(x) dx-\int p(x) \ln q(x) dx\\
 &=\mathbb{E}_{x\sim p(x)}[\ln p(x)]-\mathbb{E}_{x\sim p(x)}[\ln q(x)]\\
 &=-\mathbb{H}(x)-\mathbb{E}_{x\sim p(x)}[\ln q(x)]

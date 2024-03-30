@@ -47,31 +47,31 @@ rc("font", family="Arial")
 end
 \end{lstlisting}
 \begin{align}
-\mathbf{X}\triangleq\begin{bmatrix}
+\mathbf{X}\coloneqq\begin{bmatrix}
 x \\
 \tilde{x}
-\end{bmatrix}, d \bar{\omega} \triangleq\begin{bmatrix}
+\end{bmatrix}, d \bar{\omega} \coloneqq\begin{bmatrix}
 d \omega \\
 d \xi
-\end{bmatrix}, \bar{\mathbf{A}} \triangleq\begin{bmatrix}
+\end{bmatrix}, \bar{\mathbf{A}} \coloneqq\begin{bmatrix}
 \mathbf{A}-\mathbf{B} \mathbf{L} & \mathbf{B} \mathbf{L} \\
 \mathbf{0} & \mathbf{A}-\mathbf{K} \mathbf{C}
 \end{bmatrix}\\
-\bar{\mathbf{Y}} \triangleq\begin{bmatrix}
+\bar{\mathbf{Y}} \coloneqq\begin{bmatrix}
 -\mathbf{Y} \mathbf{L} & \mathbf{Y} \mathbf{L} \\
 -\mathbf{Y} \mathbf{L} & \mathbf{Y} \mathbf{L}
-\end{bmatrix}, \bar{G} \triangleq\begin{bmatrix}
+\end{bmatrix}, \bar{G} \coloneqq\begin{bmatrix}
 \mathbf{G} & \mathbf{0} \\
 \mathbf{G} & -\mathbf{K} \mathbf{D}
 \end{bmatrix}
 \end{align}
 とする．元論文では$F, \bar{F}$が定義されていたが，$F=0$とするため，以後の式から削除した．
 \begin{align}
-\mathbf{P} &\triangleq\begin{bmatrix}
+\mathbf{P} &\coloneqq\begin{bmatrix}
 \mathbf{P}_{11} & \mathbf{P}_{12} \\
 \mathbf{P}_{12} & \mathbf{P}_{22}
 \end{bmatrix} = \mathbb{E}\left[\mathbf{X} \mathbf{X}^\top\right] \\
-\mathbf{V} &\triangleq\begin{bmatrix}
+\mathbf{V} &\coloneqq\begin{bmatrix}
 \mathbf{Q}+\mathbf{L}^\top R \mathbf{L} & -\mathbf{L}^\top R \mathbf{L} \\
 -\mathbf{L}^\top R \mathbf{L} & \mathbf{L}^\top R \mathbf{L}+\mathbf{U}
 \end{bmatrix}

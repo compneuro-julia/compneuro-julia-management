@@ -5,7 +5,7 @@ Hopfieldモデルと呼ばれることが多いが，Amariの先駆的研究\cit
 \begin{equation}
 \frac{d\mathbf{y}}{dt}=-\mathbf{y}+\mathbf{W}\mathbf{x}+\mathbf{b}
 \end{equation}
-ここで$\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}\triangleq-\dfrac{d\mathbf{y}}{dt}$となるような$\mathcal{L}\in \mathbb{R}$を仮定すると，
+ここで$\dfrac{\partial\mathcal{L}}{\partial\mathbf{y}}\coloneqq-\dfrac{d\mathbf{y}}{dt}$となるような$\mathcal{L}\in \mathbb{R}$を仮定すると，
 \begin{equation}
 \mathcal{L}=\int \left(\mathbf{y}-\mathbf{W}\mathbf{x}-\mathbf{b}\right)\ d\mathbf{y}=\frac{1}{2}\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x}-\mathbf{y}^\top \mathbf{b}
 \end{equation}
