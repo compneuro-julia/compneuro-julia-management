@@ -42,7 +42,7 @@ function MLP(num_units; activation="sigmoid")#, bias=true)
     return MLP(L=L, f=f, ∇f=∇f, params=params, grads=grads, states=states)
 end;
 \end{lstlisting}
-mutable struct \jl{MLP}を用意し，\textbf{重みの初期化(weight initialization)}\index{おもみのしょきか(weight initialization)@重みの初期化(weight initialization)} を行う同名の関数\jl{MLP}を用意する．重みの初期化の手法は複数ある(Glorot & Bengio, 2010)が，ここでは重みを$W$として，$w \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)$とする．ただし，$n$は入力ユニット数である．
+mutable struct \jl{MLP}を用意し，\textbf{重みの初期化(weight initialization)}\index{おもみのしょきか(weight initialization)@重みの初期化(weight initialization)} を行う同名の関数\jl{MLP}を用意する．重みの初期化の手法は複数あるが，ここでは重みを$W$として，$W_{ij} \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)$とする (Xavier initialization) \citep{Glorot2010-iu}．ただし，$n$は入力ユニット数である．
 \subsubsection{順伝播 (forward propagation)}
 $f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以下のようになる．
 \begin{align}
@@ -94,9 +94,10 @@ end
 &\frac{\partial \mathcal{L}}{\partial W^{(\ell)}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}} \frac{\partial \mathbf{a}^{(\ell)}}{\partial W^{(\ell)}}=\delta^{(\ell)}\left(\mathbf{z}^{(\ell-1)}\right)^\top\\
 &\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(\ell)}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}} \frac{\partial \mathbf{a}^{(\ell)}}{\partial \mathbf{b}^{(\ell)}}=\delta^{(\ell)}
 \end{align}
-バッチ処理を考慮すると，行列を乗ずる順番が変わる．
-以下では$z=f(a), g(z)=f'(a)$として膜電位を使わず，発火率情報のみを使うようにしている．このようにできない関数もあるが，今回はこのように書き下せる活性化関数のみを扱う．
+バッチ処理を考慮すると，行列を乗ずる順番が変わる．以下では$z=f(a), g(z)=f'(a)$として膜電位を使わず，発火率情報のみを使うようにしている．このようにできない関数もあるが，今回はこのように書き下せる活性化関数のみを扱う．
+\begin{equation}
 \frac{d}{dx} \text{Sigmoid}(x) = \text{Sigmoid}(x) \cdot \left(1 - \text{Sigmoid}(x)\right)
+\end{equation}
 であることに注意．
 \begin{lstlisting}[language=julia]
 function backward!(mlp::MLP; losstype::String="binary_crossentropy")
@@ -154,7 +155,7 @@ function optimizer_update!(param, grad, optimizer::SGD)
     param[:, :] -= η * grad
 end
 \end{lstlisting}
-次に\textbf{Adam}\index{Adam} ([Kingma & Ba, 2014](https://arxiv.org/abs/1412.6980)) を実装する．
+次に\textbf{Adam}\index{Adam} \citep{Kingma2014-fm} を実装する．
 \begin{lstlisting}[language=julia]
 # Adam optimizer
 @kwdef mutable struct Adam{FT} <: Optimizer
@@ -194,7 +195,6 @@ function train_step!(nn::NeuralNet, x::Array, y::Array, loss_fun::Function, opti
     return loss
 end
 \end{lstlisting}
-## MNIST
 \subsection{Zipser-Andersenモデル}
 Zipser-Andersenモデル \citep{Zipser1988-nc} は頭頂葉の7a野のモデルであり，網膜座標系における物体の位置と眼球位置を入力として，頭部中心座標(head centered coordinate)に変換する．隠れ層はPPC(Posterior parietal cortex)の細胞のモデルになっている．
 \subsubsection{データセットの生成}
@@ -256,7 +256,7 @@ n_in = stimuli_size^2 + 2 # number of inputs
 n_hid = 16   # number of hidden units
 n_out = stimuli_size^2   # number of outputs
 η = 1e-2  # learning rate
-#losstype = "binary_crossentropy" # "squared_error"
+losstype = "binary_crossentropy" # "squared_error"
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
 nn = MLP([n_in, n_hid, n_out])#, bias=false)
@@ -291,9 +291,9 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell039.png}
-	\caption{cell039.png}
-	\label{cell039.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell036.png}
+	\caption{cell036.png}
+	\label{cell036.png}
 \end{figure}
 テストデータを用いて，出力を確認する．
 \begin{lstlisting}[language=julia]
@@ -321,9 +321,9 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell041.png}
-	\caption{cell041.png}
-	\label{cell041.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell038.png}
+	\caption{cell038.png}
+	\label{cell038.png}
 \end{figure}
 重み\jl{W1}におけるゲインフィールドの描画を行う．
 \begin{lstlisting}[language=julia]
@@ -340,12 +340,11 @@ end
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell043.png}
-	\caption{cell043.png}
-	\label{cell043.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell040.png}
+	\caption{cell040.png}
+	\label{cell040.png}
 \end{figure}
-\subsection{補足：Monotonic formatによる位置のエンコーディング}
-monotonic形式を入力の眼球位置と出力の頭部中心座標で用いるという仮定には，視覚刺激を中心窩で捉えた際，得られる眼球位置信号を頭部中心座標での位置の教師信号として使用できるという利点がある．([Andersen & Mountcastle, J. Neurosci. 1983](https://pubmed.ncbi.nlm.nih.gov/6827308/))では Parietal visual neurons (PVNs)の活動を調べ，傾き正あるいは負．0度をピークとして減少あるいは上昇の4種類あることを示した．前者は一次関数 (とReLU関数) で記述可能である．
+補足としてMonotonic formatによる位置のエンコーディングに触れる．monotonic形式を入力の眼球位置と出力の頭部中心座標で用いるという仮定には，視覚刺激を中心窩で捉えた際，得られる眼球位置信号を頭部中心座標での位置の教師信号として使用できるという利点がある．\citep{Andersen1983-zp} では Parietal visual neurons (PVNs)の活動を調べ，傾き正あるいは負．0度をピークとして減少あるいは上昇の4種類あることを示した．前者は一次関数 (とReLU関数) で記述可能である．
 \begin{lstlisting}[language=julia]
 get_line(p1, p2) = [(p2[2]-p1[2])/(p2[1]-p1[1]), (p2[1]*p1[2] - p1[1]*p2[2])/(p2[1]-p1[1])] # [slope, intercept]
 eye_pos_coding(x; linear_θ) = relu.(linear_θ[1, :] * x .+ linear_θ[2, :])
@@ -353,7 +352,7 @@ eye_pos_coding(x; linear_θ) = relu.(linear_θ[1, :] * x .+ linear_θ[2, :])
 x = -2θmax:1:2θmax
 slope_θ = hcat([get_line([80, 1], [-80, -2(i-1)/stimuli_size]) for i in 1:stimuli_size]...)
 y = hcat(eye_pos_coding.(x; linear_θ=slope_θ)...)
-eye_pos_encoded = eye_pos_coding(-10; linear_θ=slope_θ)
+eye_pos_encoded = eye_pos_coding(-10; linear_θ=slope_θ);
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
 figure(figsize=(5,3))
@@ -363,7 +362,7 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell046.png}
-	\caption{cell046.png}
-	\label{cell046.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell043.png}
+	\caption{cell043.png}
+	\label{cell043.png}
 \end{figure}

@@ -1,27 +1,27 @@
 \section{ベイズ線形回帰 (Bayesian linear regression)}
-conjugate prior
+共役事前分布 (conjugate prior) を
 \begin{equation}
-p(\mathbf{w})=\mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_0, \mathbf{\Sigma}_0)
+p(\mathbf{w})=\mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)
 \end{equation}
-posterior
+と定義し，事後分布 (posterior) を
 \begin{equation}
-p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\mathbf{\Sigma}})
+p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
 \end{equation}
-ただし，
+とする．ただし，
 \begin{align}
-\hat{\mathbf{\Sigma}}^{-1}&= \mathbf{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
-\hat{\boldsymbol{\mu}}&=\Sigma_N (\mathbf{\Sigma}_0^{-1}\boldsymbol{\mu}_0+\beta \Phi^\top \mathbf{y})
+\hat{\boldsymbol{\Sigma}}^{-1}&= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
+\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}} (\beta \Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0)
 \end{align}
-である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \mathbf{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．
-テストデータを$\mathbf{x}^*$とした際，予測分布は
+である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
 \begin{equation}
-p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \mathbf{\Sigma}^*)
+p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \boldsymbol{\Sigma}^*)
 \end{equation}
 となる．ただし，
 \begin{align}
 \boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
-\mathbf{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\mathbf{\Sigma}}\phi(\mathbf{x}^*)\\
+\boldsymbol{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\\
 \end{align}
+である．
 \begin{lstlisting}[language=julia]
 using Base: @kwdef
 using Parameters: @unpack
@@ -47,27 +47,27 @@ ytest = sin.(2π*xtest)
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
 @kwdef mutable struct BayesianLinearReg
-    μ̂::Array
-    Σ̂::Array
+    μ_hat::Array
+    Σ_hat::Array
 end
 
 # Training params & definition of model
 function BayesianLinearReg(ϕ, y, α, β)
-    Σ̂ = inv(α * I + β * ϕ' * ϕ)
-    μ̂ = β * Σ̂  * ϕ' * y;
-    return BayesianLinearReg(μ̂=μ̂, Σ̂=Σ̂)
+    Σ_hat = inv(α * I + β * ϕ' * ϕ)
+    μ_hat = β * Σ_hat  * ϕ' * y;
+    return BayesianLinearReg(μ_hat=μ_hat, Σ_hat=Σ_hat)
 end;
 
 function predict(ϕ, blr::BayesianLinearReg, β)
-    @unpack μ̂, Σ̂ = blr
-    μp = ϕ * μ̂
-    σp = sqrt.(1/β .+ diag(ϕ * Σ̂ * ϕ'));
+    @unpack μ_hat, Σ_hat = blr
+    μp = ϕ * μ_hat
+    σp = sqrt.(1/β .+ diag(ϕ * Σ_hat * ϕ'));
     return μp, σp
 end;
 
 function sampling_func(ϕ, blr::BayesianLinearReg, num_sampling::Int)
-    @unpack μ̂, Σ̂ = blr
-    dist = MvNormal(μ̂, Matrix(Hermitian(Σ̂)))
+    @unpack μ_hat, Σ_hat = blr
+    dist = MvNormal(μ_hat, Matrix(Hermitian(Σ_hat)))
     sampled_params = rand(dist, num_sampling);
     return ϕ * sampled_params 
 end;

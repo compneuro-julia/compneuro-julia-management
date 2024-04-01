@@ -1,28 +1,48 @@
 \section{Julia言語の基本構文}
 \subsection{変数}
-aaa
+変数への代入は\jl{=}で行う．変数はUnicodeも使用可能であり，LaTeXコマンドとTABキーで入力することが可能である．
 \begin{lstlisting}[language=julia]
 x = 1
 α = 2 # \alpha + TAB key
 \end{lstlisting}
-|演算子|説明|使用例|結果|
-|:-|:-|:-|:-|
-|\jl{+}|和|aaa|aaa|
-|\jl{-}|差|aaa|aaa|
-|\jl{*}|積|aaa|aaa|
-|\jl{.*}|配列の要素積|aaa|aaa|
-|\jl{/}|除算，右から逆行列をかける|aaa|aaa|
-|\jl{\}|左から逆行列をかける|aaa|aaa|
+\begin{table}[h]
+\centering
+\begin{tabular}{|c|l|l|l|}
+\hline
+演算子 & 説明 & 使用例 & 結果 \\
+\hline
+\jl{+} & 和 & aaa & aaa \\
+\hline
+\jl{-} & 差 & aaa & aaa \\
+\hline
+\jl{*} & 積 & aaa & aaa \\
+\hline
+\jl{.*} & 配列の要素積 & aaa & aaa \\
+\hline
+\jl{/} & 除算，右から逆行列をかける & aaa & aaa \\
+\hline
+\jl{\} & 左から逆行列をかける & aaa & aaa \\
+\hline
+\end{tabular}
+\end{table}
 \jl{var}を用いることで，任意の文字列を変数にすることができる．
 \begin{lstlisting}[language=julia]
-var"log(1+θ)" = 10
+var"log(1+θ)" = 3
 \end{lstlisting}
-Juliaの余りの関数は \jl{rem(x, y)} と \jl{mod(x, y)}がある．Juliaの\jl{x % y}は\jl{rem}と同じだが，Pythonの場合は\jl{mod}と同じなので注意．
+\subsection{条件分岐}
+\jl{if}構文を用いることで条件分岐が可能である．
 \begin{lstlisting}[language=julia]
-println("% : ", -1 % 2, ", rem : ", rem(-1, 2), ", mod : ", mod(-1, 2))
+a = 2
+if a > 0
+    print("positive")
+elseif a == 0
+    print("zero")
+else
+    print("negative")
+end
 \end{lstlisting}
-\subsection{for loop}
-aaa
+\subsection{再帰的処理}
+再帰的な処理を行う場合には主に\jl{for}loop 構文を用いる．
 \begin{lstlisting}[language=julia]
 x = 1
 for i in 1:10
@@ -30,9 +50,9 @@ for i in 1:10
 end
 println(x)
 \end{lstlisting}
-\subsection{関数名の!記号}
-単なる\textbf{慣習}\index{かんしゅう@慣習}として関数への入力を変更する場合に!を付ける．
-関数内で配列を変更する場合には注意が必要である．以下に入力された配列を同じサイズの要素1の配列で置き換える，ということを目的として書かれた2つの関数がある．違いは\jl{v}の後に\jl{[:]}としているかどうかである．
+\subsection{関数}
+\jl{function}により関数を定義する．
+なお，慣習として関数への入力を変更する場合に!を付けることがある．関数内で配列を変更する場合には注意が必要である．以下に入力された配列を同じサイズの要素1の配列で置き換える，ということを目的として書かれた2つの関数がある．違いは\jl{v}の後に\jl{[:]}としているかどうかである．
 \begin{lstlisting}[language=julia]
 function wrong!(a::Array)
     a = ones(size(a))
@@ -54,8 +74,8 @@ println("wrong : ", v)
 right!(v)
 println("right : ", v)
 \end{lstlisting}
-\subsection{broadcastingの回避}
-aaa
+\subsection{数値計算}
+broadcastingの回避を行うには以下のような方法がある．
 \begin{lstlisting}[language=julia]
 foo(a,b) = sum(a) + b
 \end{lstlisting}
@@ -63,4 +83,9 @@ foo(a,b) = sum(a) + b
 println(foo.(Ref([1,2]),[3,4,5]))
 println(foo.(([1,2],), [3,4,5]))
 println(foo.([[1,2]], [3,4,5]))
+\end{lstlisting}
+\subsection{その他の関数について}
+Juliaの余りの関数は \jl{rem(x, y)} と \jl{mod(x, y)}がある．Juliaの\jl{x % y}は\jl{rem}と同じだが，Pythonの場合は\jl{mod}と同じなので注意．
+\begin{lstlisting}[language=julia]
+println("% : ", -1 % 2, ", rem : ", rem(-1, 2), ", mod : ", mod(-1, 2))
 \end{lstlisting}

@@ -11,6 +11,7 @@ A_{+} \exp\left(-\dfrac{\Delta t_{\text{spike}}}{\tau_{+}}\right) &(\Delta t_{\t
 \end{equation}
 $A_+, A_-$は正の定数，または重み依存的な関数 (後述) です．$\Delta t_{\text{spike}}>0$のときはLTPが起こり，$\Delta t_{\text{spike}}<0$のときはLTDが起こります．このタイプのSTDP則は\textbf{Hebbian STDP}\index{Hebbian STDP} と呼ばれ，Hebb則に従うシナプス強度の変化が起こります\footnote{Hebb則に従わないSTDPもあり，例えばLTPとLTDの挙動が逆のものを\textbf{Anti-Hebbian STDP}\index{Anti-Hebbian STDP}と呼びます(Bell et al., 1997など)．}．
 $A_+=0.01$, $A_-/A_+=1.05$, $\tau_{+}=\tau_{-}=20$ msとしたときの$\Delta t_{\text{spike}}$に対する$\Delta w$は図\ref{fig:stdp}のようになります．
+ただし，in vivoにおけるSTDPの存在については近年疑問視されている．これまでのin vitroでの実験は細胞外Ca濃度が高かったために、pre/postのスパイクの時間差でLTD/LTPが生じるという「古典的STDP則」が生じていた可能性があり，細胞外Ca濃度をin vivoの水準まで下げると古典的STDP則は起こらないという報告がある (Inglebert, Aljadeff, Brunel, & Debanne, 2020)．
 \begin{lstlisting}[language=julia]
 tau_p = tau_m = 20 #ms
 A_p = 0.01

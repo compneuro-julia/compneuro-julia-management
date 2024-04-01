@@ -25,23 +25,26 @@ for t in 1:nt-1
     spike = ifelse(t == 1, 1, 0)
     r[t+1] = r[t] + dt * (α*spike*(1-r[t]) - β*r[t])
 end
-
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
 time = (1:nt)*dt
-figure(figsize=(4, 3))
-plot(time, r)
-xlabel("Time (s)"); ylabel("Post-synaptic current (pA)")
-tight_layout()
+fig, ax = subplots(figsize=(3, 2))
+ax.plot(time, r)
+ax.set_xlabel("Time (s)"); ax.set_ylabel("Post-synaptic\ncurrent (pA)")
+fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/synapse-model/kinetic-synapse/cell002.png}
-	\caption{cell002.png}
-	\label{cell002.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/synapse-model/kinetic-synapse/cell003.png}
+	\caption{cell003.png}
+	\label{cell003.png}
 \end{figure}
 \subsection{Hodgkin-Huxleyモデルにおけるシナプスモデル}
-これまで明示的にスパイクの発生が表現されたモデルを用いてきたが，HHモデルでは単なる膜電位の変数があるのみである．ここでは前述した動力学的モデルを用いてHHモデルにおけるシナプス動態の記述を行う ([Destexhe et al., 1994](https://www.mitpressjournals.org/doi/10.1162/neco.1994.6.1.14); [Batista et al., 2014](https://www.sciencedirect.com/science/article/pii/S0378437114004592))．
+これまで明示的にスパイクの発生が表現されたモデルを用いてきたが，HHモデルでは単なる膜電位の変数があるのみである．ここでは前述した動力学的モデルを用いてHHモデルにおけるシナプス動態の記述を行う \citep{Destexhe1994-ro,Batista2014-ax}．
 $r_{j}$を$j$番目のニューロンのpre-synaptic dynamicsとすると，$r_{j}$は次式に従う．
+\begin{equation}
 \frac{\mathrm{d} r_{j}}{\mathrm{d} t}=\left(\frac{1}{\tau_{r}}-\frac{1}{\tau_{d}}\right) \frac{1-r_{j}}{1+\exp \left(-V_{j}+V_{0}\right)}-\frac{r_{j}}{\tau_{d}}
+\end{equation}
 ただし，時定数 $\tau_r=0.5, \tau_d = 8$ (ms), 反転電位 $V_0 = -20$ (mV)とする．前節で既に$r$の描画は行ったが，パルス波を印加した場合の挙動を確認する．
 \begin{lstlisting}[language=julia]
 using Parameters: @unpack # or using UnPack
@@ -129,17 +132,18 @@ hh_synapse = HHKineticSynapse{Float32}(num_neurons=num_neurons, dt=dt)
     varr[t, :], rarr[t, :] = v, r
 end
 \end{lstlisting}
-描画してみる．
+結果を描画する．
 \begin{lstlisting}[language=julia]
-figure(figsize=(5,5))
-subplot(3,1,1); plot(time, varr[:, 1]); ylabel("Membrane\n potential (mV)")
-subplot(3,1,2); plot(time, rarr[:, 1]); ylabel("Pre-synaptic\n dynamics")
-subplot(3,1,3); plot(time, I[:, 1]); xlabel("Times (ms)"); ylabel("Injection\n current (nA)")
-tight_layout()
+fig, axes = subplots(3, 1, figsize=(5,3.5), sharex="all", height_ratios=[2, 2, 1])
+axes[1].plot(time, varr[:, 1]); axes[1].set_ylabel("Membrane\n potential (mV)"); axes[1].set_xlim(0, 50)
+axes[2].plot(time, rarr[:, 1]); axes[2].set_ylabel("Pre-synaptic\n dynamics")
+axes[3].plot(time, Ie[:, 1]); axes[3].set_xlabel("Times (ms)"); axes[3].set_ylabel("Injection\n current (nA)")
+fig.align_labels()
+fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/synapse-model/kinetic-synapse/cell008.png}
-	\caption{cell008.png}
-	\label{cell008.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/synapse-model/kinetic-synapse/cell009.png}
+	\caption{cell009.png}
+	\label{cell009.png}
 \end{figure}

@@ -1,8 +1,5 @@
 \section{マルコフ連鎖モンテカルロ法 (MCMC)}
 前節では解析的に事後分布の計算をした．事後分布を近似的に推論する方法の1つに\textbf{マルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC)}\index{まるこふれんさもんてかるろほう (Markov chain Monte Carlo methods; MCMC)@マルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC)} がある．他の近似推論の手法としてはLaplace近似や変分推論 (variational inference) などがある．MCMCは他の手法に比して，事後分布の推論だけでなく，確率分布を神経活動で表現する方法を提供するという利点がある．
-\footnote{
-変分推論は入れた方がいいと思うが，紙幅の都合上いれられるか微妙である．
-}
 データを$X$とし，パラメータを$\theta$とする．
 \begin{equation}
 p(\theta\mid X)=\frac{p(X\mid \theta)p(\theta)}{\int p(X\mid \theta)p(\theta)d\theta}
@@ -41,6 +38,7 @@ tight_layout()
 	\caption{cell004.png}
 	\label{cell004.png}
 \end{figure}
+Metropolis-Hastings法における採用・不採用アルゴリズム．
 \begin{lstlisting}[language=julia]
 # Metropolis-Hastings method; log_p: unnormalized log-posterior
 function gaussian_mh(log_p::Function, θ_init::Vector{Float64}, σ::Float64, num_iter::Int)
@@ -87,9 +85,9 @@ fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell009.png}
-	\caption{cell009.png}
-	\label{cell009.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell010.png}
+	\caption{cell010.png}
+	\label{cell010.png}
 \end{figure}
 \subsection{ランジュバン・モンテカルロ法 (LMC)}
 拡散過程
@@ -128,22 +126,21 @@ fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell014.png}
-	\caption{cell014.png}
-	\label{cell014.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell015.png}
+	\caption{cell015.png}
+	\label{cell015.png}
 \end{figure}
 \subsection{ハミルトニアン・モンテカルロ法 (HMC法)}
-ハミルトニアン・モンテカルロ法(Hamiltonian Monte Calro)あるいはハイブリッド・モンテカルロ法(Hybrid Monte Calro)という
+LMCよりも一般的なMCMCの手法としてHamiltonianモンテカルロ法(Hamiltonian Monte Calro; HMC)あるいはハイブリッド・モンテカルロ法(Hybrid Monte Calro)がある．エネルギーポテンシャルの局面上をHamilton力学に従ってパラメータを運動させることにより高速にサンプリングする手法である．
 一般化座標を$\mathbf{q}$, 一般化運動量を$\mathbf{p}$とする．ポテンシャルエネルギーを$U(\mathbf{q})$としたとき，古典力学 (解析力学) において保存力のみが作用する場合の\textbf{ハミルトニアン (Hamiltonian)}\index{はみるとにあん (Hamiltonian)@ハミルトニアン (Hamiltonian)} $\mathcal{H}(\mathbf{q}, \mathbf{p})$は
 \begin{equation}
-\mathcal{H}(\mathbf{q}, \mathbf{p})\coloneqqU(\mathbf{q})+\frac{1}{2}\|\mathbf{p}\|^2
+\mathcal{H}(\mathbf{q}, \mathbf{p})\coloneqq U(\mathbf{q})+\frac{1}{2}\|\mathbf{p}\|^2
 \end{equation}
 となる．このとき，次の2つの方程式が成り立つ．
 \begin{equation}
 \frac{d\mathbf{q}}{dt}=\frac{\partial \mathcal{H}}{\partial \mathbf{p}}=\mathbf{p},\quad\frac{d\mathbf{p}}{dt}=-\frac{\partial \mathcal{H}}{\partial \mathbf{q}}=-\frac{\partial U}{\partial \mathbf{q}}
 \end{equation}
 これを\textbf{ハミルトンの運動方程式(hamilton's equations of motion)}\index{はみるとんのうんどうほうていしき(hamilton's equations of motion)@ハミルトンの運動方程式(hamilton's equations of motion)} あるいは\textbf{正準方程式 (canonical equations)}\index{せいじゅんほうていしき (canonical equations)@正準方程式 (canonical equations)} という．
-この処理をMetropolis-Hastings法における採用・不採用アルゴリズムという．
 リープフロッグ(leap frog)法により離散化する．
 \begin{lstlisting}[language=julia]
 function leapfrog(grad::Function, θ::Vector{Float64}, p::Vector{Float64}, ϵ::Float64, L::Int)
@@ -210,9 +207,9 @@ fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell020.png}
-	\caption{cell020.png}
-	\label{cell020.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell021.png}
+	\caption{cell021.png}
+	\label{cell021.png}
 \end{figure}
 *ToDo: 自己相関確認する*
 \subsection{線形回帰への適応}
@@ -258,9 +255,9 @@ plot(samples[1, :])
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell030.png}
-	\caption{cell030.png}
-	\label{cell030.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell031.png}
+	\caption{cell031.png}
+	\label{cell031.png}
 \end{figure}
 \begin{lstlisting}[language=julia]
 yhmc = ϕtest * samples[:, 300:end];
@@ -282,7 +279,7 @@ xlim(-0.1, 1.1); tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell032.png}
-	\caption{cell032.png}
-	\label{cell032.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/bayesian-brain/mcmc/cell033.png}
+	\caption{cell033.png}
+	\label{cell033.png}
 \end{figure}

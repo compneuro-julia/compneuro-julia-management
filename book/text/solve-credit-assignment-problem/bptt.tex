@@ -1,7 +1,5 @@
 \section{BPTT (backpropagation through time)}
-通時的誤差逆伝播法
-## モデルの定義
-ライブラリの読み込み．
+通時的誤差逆伝播法 (backpropagation through time; BPTT)．モデルの定義を行う．
 \begin{lstlisting}[language=julia]
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
@@ -44,7 +42,7 @@ end
     dbias::Array{FT} = zero(bias)
 end
 \end{lstlisting}
-## 7.9.2 更新関数の定義
+更新関数を定義する
 \begin{lstlisting}[language=julia]
 function update!(variable::RNN, param::RNNParameter, x::Array, y::Array, training::Bool)
     @unpack n_batch, n_in, n_rec, n_out, h0, w_in, w_rec, w_out, bias, dw_in, dw_rec, dw_out, dbias = variable 
@@ -99,7 +97,6 @@ function update!(variable::RNN, param::RNNParameter, x::Array, y::Array, trainin
     return error, ŷ, h
 end
 \end{lstlisting}
-\subsection{正弦波の学習}
 例として正弦波を出力するRNNを考える．入力1,中間64, 出力2のRNNである．
 \begin{lstlisting}[language=julia]
 nt = 100  # number of timesteps in one period
@@ -133,9 +130,9 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/bptt/cell013.png}
-	\caption{cell013.png}
-	\label{cell013.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/bptt/cell011.png}
+	\caption{cell011.png}
+	\label{cell011.png}
 \end{figure}
 モデルの定義をする．
 \begin{lstlisting}[language=julia]
@@ -156,11 +153,11 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/bptt/cell019.png}
-	\caption{cell019.png}
-	\label{cell019.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/bptt/cell017.png}
+	\caption{cell017.png}
+	\label{cell017.png}
 \end{figure}
-## 学習後の出力の確認
+学習後の出力の確認を行う．
 \begin{lstlisting}[language=julia]
 error, ŷ, h = update!(rnn, rnn.param, x, y, false)
 println("Error : ", sum(error.^2))
@@ -189,7 +186,7 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/bptt/cell025.png}
-	\caption{cell025.png}
-	\label{cell025.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/bptt/cell023.png}
+	\caption{cell023.png}
+	\label{cell023.png}
 \end{figure}

@@ -175,8 +175,8 @@ vcolors = cm.(v_labels / num_blobs);
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
 indices = [1, 50, 100]
-fig, axes = subplots(2, length(idx), figsize=(6, 4), sharey="row", subplot_kw=Dict("box_aspect"=>1))
-for (i, idx) = enumerate(indices)
+fig, axes = subplots(2, length(indices), figsize=(6, 4), sharey="row", subplot_kw=Dict("box_aspect"=>1))
+for (i, idx) in enumerate(indices)
     wh = w_history[idx]
     axes[1, i].set_title("Epoch : "*string(idx))
     axes[1, i].spines["right"].set_visible(false)
@@ -195,7 +195,9 @@ tight_layout()
 	\label{cell018.png}
 \end{figure}
 次に$U$-matrix (unified distance matrix) という隣接ユニットの重み間の距離を定義する．$U$-matrixの$i$番目の要素 $U_i\ (i=1, \ldots, M)$ は次式で定義される：
+\begin{equation}
 U_{i}\coloneqq \sqrt{\frac{1}{|\mathcal{A}_i|} \sum_{j \in \mathcal{A}_i} \left\|\mathbf{w}_{i} - \mathbf{w}_{j}\right\|^2}
+\end{equation}
 ここで $\mathcal{A}_i=\left\{m \in \{1, \ldots, M\} \mid d(\textbf{x}_i, \textbf{x}_m) = 1\right\}$ であり， $d(\mathbf{x}, \mathbf{y})=\|\mathbf{x} - \mathbf{y}\|_2$ とする．隣接する要素とは位置の差の絶対値が1であることを利用する．$U$-matrixを計算することでクラスター境界を可視化できる．
 \begin{lstlisting}[language=julia]
 function u_matrix2d(w)
@@ -252,19 +254,17 @@ tight_layout()
 product(sets...) = hcat([collect(x) for x in Iterators.product(sets...)]...)' # Array of Cartesian product of sets 
 pol2cart(θ, r) = r*[cos(θ), sin(θ)];
 \end{lstlisting}
-刺激と初期の活動ベクトルは\citep{Carreira-Perpinan2005-gy}　を参考に作成．
-SOMの学習に用いる刺激は画像ではなく，刺激間の距離が保たれるようなパラメータのみを使用する．刺激空間は5つの次元を持つ．
-視野における受容野の中心座標 ($x, y \in [0, 1]$), 眼優位性 (ocular dominance; OD) $\in [-\ell_\textrm{OD}, \ell_\textrm{OD}]$, 方位 (orientation preference)から成る． 方位選択性における方位$\theta$は$[-\pi/2, \pi/2]$の範囲の値を取る．ここで，$f(-\pi/2)=f(\pi/2)$かつ，$\Delta f(\theta) = f(\theta+\Delta \theta)-f(\theta)$が任意の$\theta$で等しくなるという2条件を満たすには，$f(\theta; r)=[r\cos(2\theta), r\sin(2\theta)]\ (r>0)$とすればよい．実質的に単位円上から均等に点をサンプリングすることとなる．これらの刺激から直積\jl{product}で全ての組の入力を作成する．
+刺激と初期の活動ベクトルは\citep{Carreira-Perpinan2005-gy}　を参考に作成．SOMの学習に用いる刺激は画像ではなく，刺激間の距離が保たれるようなパラメータのみを使用する．刺激空間は5つの次元を持つ．視野における受容野の中心座標 ($x, y \in [0, 1]$), 眼優位性 (ocular dominance; OD) $\in [-\ell_\textrm{OD}, \ell_\textrm{OD}]$, 方位 (orientation preference)から成る． 方位選択性における方位$\theta$は$[-\pi/2, \pi/2]$の範囲の値を取る．ここで，$f(-\pi/2)=f(\pi/2)$かつ，$\Delta f(\theta) = f(\theta+\Delta \theta)-f(\theta)$が任意の$\theta$で等しくなるという2条件を満たすには，$f(\theta; r)=[r\cos(2\theta), r\sin(2\theta)]\ (r>0)$とすればよい．実質的に単位円上から均等に点をサンプリングすることとなる．これらの刺激から直積\jl{product}で全ての組の入力を作成する．
 \begin{lstlisting}[language=julia]
 # generate stimulus
 Random.seed!(1234);
 Nx, Ny, NOD, NOR = 10, 10, 2, 12
 dims = 5  # dims of inputs 
-l, r = 0.14, 0.2
+l, r = 0.14, 0.17
 
 rx, ry = range(0, 1, length=Nx), range(0, 1, length=Ny)
 rOD = range(-l, l, length=NOD)
-rORθ = range(-π/2, π/2, length=NOR+1)[1:end-1]
+rORθ = range(-π/2, π/2, length=NOR)
 
 # stimuli
 rORxy = hcat(pol2cart.(2rORθ, r)...)
@@ -276,7 +276,7 @@ num_w_sqrt = 64
 num_w = num_w_sqrt^2
 init_w = product(range(0, 1, length=num_w_sqrt), range(0, 1, length=num_w_sqrt))
 init_w += (rand(size(init_w)...) .- 1) * 0.05;
-init_w = [init_w l*(2bitrand(num_w).- 1) hcat(pol2cart.(2π*(rand(num_w) .- 0.5), r)...)'];
+init_w = [init_w l*(2bitrand(num_w).- 1) hcat(pol2cart.(2π*rand(num_w), r)...)'];
 \end{lstlisting}
  \jl{w_history}を用いてアニメーションを作成すると発達の過程が可視化される．
 \begin{lstlisting}[language=julia]
@@ -328,9 +328,7 @@ tight_layout()
 	\caption{cell033.png}
 	\label{cell033.png}
 \end{figure}
-\begin{lstlisting}[language=julia]
 方位選択性マップにはピンホイール (pinwheel) という特異点 (singular point) が存在する．
-\end{lstlisting}
 \begin{lstlisting}[language=julia]
 px = range(-1,1,length=50)
 pX = ones(length(px)) * px';
@@ -350,11 +348,3 @@ fig.tight_layout()
 	\caption{cell035.png}
 	\label{cell035.png}
 \end{figure}
-correlation to the azimuthでdetectをする
-Ohki先生の論文を引用する
-https://pubmed.ncbi.nlm.nih.gov/16906137/
-https://www.nature.com/articles/25736
-の密度を計算する．(Kaschube et al. 2010).
-\begin{lstlisting}[language=julia]
-
-\end{lstlisting}
