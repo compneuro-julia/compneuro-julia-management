@@ -30,11 +30,11 @@ end
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
 time = (1:nt)*dt
-figure(figsize=(4, 3))
-plot(time, r_single, linestyle="dashed", label="single exponential")
-plot(time, r_double, label="double exponential")
-xlabel("Time (s)"); ylabel("Post-synaptic current (pA)")
-legend(); tight_layout()
+fig, ax = subplots(figsize=(3, 2))
+ax.plot(time, r_single, linestyle="dashed", label="single exp.")
+ax.plot(time, r_double, label="double exp.")
+ax.set_xlabel("Time (s)"); ax.set_ylabel("Post-synaptic\ncurrent (pA)")
+ax.legend(); fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering

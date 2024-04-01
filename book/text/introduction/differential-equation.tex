@@ -27,7 +27,7 @@ $n$個の微分方程式
 Laplace変換はFourier変換に似た手法であり，微分方程式を解く上で便利である．
 ToDo: Laplace変換の詳細
 \begin{equation}
-F(s)\coloneqq\int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
+F(s)\coloneqq \int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
 \end{equation}
 $e^{-st}$を引っ付けて積分することで，被積分関数が$t\to \infty$で収束し，積分可能となっている．
 実用上は次の対応表を用いて計算すればよい．
@@ -37,7 +37,7 @@ ToDo: Laplace変換の対応表
 \begin{equation}
 \frac{d\mathbf{x}(t)}{dt} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
 \end{equation}
-この線形行列微分方程式をLaplace変換 $\mathcal{L}$を用いて解こう．$\boldsymbol{X}(s) \coloneqq \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) \coloneqq \mathcal{L}(\mathbf{u}(t))$とすると，
+この線形行列微分方程式をLaplace変換 $\mathcal{L}$を用いて解こう．$\boldsymbol{X}(s) \coloneqq  \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) \coloneqq  \mathcal{L}(\mathbf{u}(t))$とすると，
 \begin{align}
 s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\boldsymbol{U}(s)\\
 (s\mathbf{I} - \mathbf{A}) \boldsymbol{X}(s) &= \mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s)\\
@@ -45,7 +45,7 @@ s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\bo
 \end{align}
 行列指数関数 (matrix exponential)は
 \begin{equation}
-e^\mathbf{A} = \exp(\mathbf{A}) \coloneqq \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
+e^\mathbf{A} = \exp(\mathbf{A}) \coloneqq  \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
 \end{equation}
 として定義される．
 天下り的だが，
@@ -63,7 +63,7 @@ e^\mathbf{A} = \exp(\mathbf{A}) \coloneqq \sum_{k=0}^\infty \frac{1}{k!}\mathbf{
 \begin{align}
 \mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
 &=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
-&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{\eqqcolon \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{\eqqcolon \mathbf{B}_d}\mathbf{u}(t)\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{\eqqcolon  \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{\eqqcolon  \mathbf{B}_d}\mathbf{u}(t)\\
 &=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
 \end{align}
 となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}_c$が正則行列の場合，
@@ -77,7 +77,7 @@ e^\mathbf{A} = \exp(\mathbf{A}) \coloneqq \sum_{k=0}^\infty \frac{1}{k!}\mathbf{
 \paragraph{1次元の場合}
 区間$[t, t+\Delta t]$において入力$u(t)$が一定であると仮定すると，
 \begin{align}
-x(t+\Delta t)&= \underbrace{e^{a_c \Delta t}}_{\eqqcolon a_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau\right] b_c}_{\eqqcolon b_d}u(t)\\
+x(t+\Delta t)&= \underbrace{e^{a_c \Delta t}}_{\eqqcolon  a_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{a_c(t+\Delta t-\tau)} d\tau\right] b_c}_{\eqqcolon  b_d}u(t)\\
 &=a_d x(t)+b_d u(t)\\
 \end{align}
 \paragraph{n次元の場合}
@@ -85,7 +85,7 @@ x(t+\Delta t)&= \underbrace{e^{a_c \Delta t}}_{\eqqcolon a_d}\mathbf{x}(t)+\unde
 \begin{align}
 \mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}_c}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
 &=e^{\Delta t\mathbf{A}_c}e^{t\mathbf{A}_c}\mathbf{x}(0)+e^{\Delta t\mathbf{A}_c}\int_0^{t} e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau\\
-&\approx \underbrace{e^{\Delta t\mathbf{A}_c}}_{\eqqcolon \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c} d\tau\right] \mathbf{B}_c}_{\eqqcolon \mathbf{B}_d}\mathbf{u}(t)\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}_c}}_{\eqqcolon  \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}_c} d\tau\right] \mathbf{B}_c}_{\eqqcolon  \mathbf{B}_d}\mathbf{u}(t)\\
 &=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
 \end{align}
 離散化した場合は

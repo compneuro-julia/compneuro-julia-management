@@ -47,7 +47,7 @@ Langevinモンテカルロ法 (LMC)はLangevin動力学を用いてMCMCを行う
 \end{equation}
 となり，この入力のない (自発発火を行う) 線形RNNの活動$\mathbf{x}$は$\mathcal{N}(\mathbf{\mu},\ \mathbf{\Sigma})$ からのサンプリングとなる．重要なのは，分散はシナプス結合重み$\mathbf{W}$，平均はシナプス結合重み$\mathbf{W}$とバイアス(閾値)$\mathbf{b}$に影響されるという点である．非線形RNNの場合は，平均と分散の時間発展は導出できても正規分布には当然ならない (Hennequin & Lengyel, 2016)．
 \subsection{Hamiltonianモンテカルロ法と神経回路}
-　LMCよりも一般的なMCMCの手法としてHamiltonianモンテカルロ法 (HMC)がある．エネルギーポテンシャルの局面上をHamilton力学に従ってパラメータを運動させることにより高速にサンプリングする手法である．位置ベクトル$\mathbf{u}$の他に運動量ベクトル$\mathbf{v}$を用意し，$\mathbf{u}\mathbf{,\ }\mathbf{v}$をそれぞれ興奮性細胞，抑制性細胞の活動と対応付ける (文字の対称性のため$\mathbf{x}\to \mathbf{u}$とした)．$\mathbf{u,\ v}$は同じ次元のベクトルとする．$\mathbf{u}, \mathbf{v}$の時間発展はハミルトニアン$H$を導入して
+位置ベクトル$\mathbf{u}$の他に運動量ベクトル$\mathbf{v}$を用意し，$\mathbf{u}\mathbf{,\ }\mathbf{v}$をそれぞれ興奮性細胞，抑制性細胞の活動と対応付ける (文字の対称性のため$\mathbf{x}\to \mathbf{u}$とした)．$\mathbf{u,\ v}$は同じ次元のベクトルとする．$\mathbf{u}, \mathbf{v}$の時間発展はハミルトニアン$H$を導入して
 \begin{equation}
 \tau\frac{d\mathbf{u}}{dt} = \frac{\partial H}{\partial\mathbf{v}},\quad\tau\frac{d\mathbf{v}}{dt} = - \frac{\partial H}{\partial\mathbf{u}}
 \end{equation}

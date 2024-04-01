@@ -1,21 +1,10 @@
 \section{動的シナプス}
-シナプス前活動に応じて\textbf{シナプス伝達効率}\index{しなぷすでんたつこうりつ@シナプス伝達効率} (synaptic efficacy)が動的に変化する性質を\textbf{短期的シナプス可塑性}\index{たんきてきしなぷすかそせい@短期的シナプス可塑性} (Short-term synaptic plasticity)といい，このような性質を持つシナプスを\textbf{動的シナプス}\index{どうてきしなぷす@動的シナプス} (dynamical synapses)と呼ぶ．シナプス伝達効率が減衰する現象を短期抑圧 (short-term depression; STD)，増強する現象を短期促通(short-term facilitation; STF)という．さらにそれぞれに対応するシナプスを減衰シナプス，増強シナプスという．
-ここでは\citep{Mongillo2008-kk}および\citep{Orhan2019-rq}で用いられている定式化を使用する．
-\begin{gathered}
+シナプス前活動に応じて\textbf{シナプス伝達効率}\index{しなぷすでんたつこうりつ@シナプス伝達効率} (synaptic efficacy)が動的に変化する性質を\textbf{短期的シナプス可塑性}\index{たんきてきしなぷすかそせい@短期的シナプス可塑性} (Short-term synaptic plasticity; STSP)といい，このような性質を持つシナプスを\textbf{動的シナプス}\index{どうてきしなぷす@動的シナプス} (dynamical synapses)と呼ぶ．シナプス伝達効率が減衰する現象を短期抑圧 (short-term depression; STD)，増強する現象を短期促通(short-term facilitation; STF)という．さらにそれぞれに対応するシナプスを減衰シナプス，増強シナプスという．ここでは\citep{Mongillo2008-kk}および\citep{Orhan2019-rq}で用いられている定式化を使用する．
+\begin{align}
 \frac{\mathrm{d} x(t)}{\mathrm{d} t}=\frac{1-x(t)}{\tau_{x}}-u(t) x(t) r(t) \Delta t \\
 \frac{\mathrm{d} u(t)}{\mathrm{d} t}=\frac{U-u(t)}{\tau_{u}}+U(1-u(t)) r(t) \Delta t
-\end{gathered}
-ただし，定数は以下のようにする．
-\begin{itemize}
-\item STSP neurotransmitter time constant: $\tau_x$ 200 ms/1,500 ms (facilitating/depressing)
-\item STSP neurotransmitter utilization: $\tau_u$ 1,500 ms/200 ms (facilitating/depressing)
-\item STSP neurotransmitter increment: $U$ 0.15/0.45 (facilitating/depressing)
-\item Time step (training and testing): $\Delta t$ 10ms
-\end{itemize}
-\begin{itemize}
-\item $x$: the fraction of available neurotransmitter
-\item $u$: the neurotransmitter utilization
-\end{itemize}
+\end{align}
+ただし，$x$を利用可能な神経伝達物質の量, $u$を利用されている神経伝達物質の量(the neurotransmitter utilization), $\tau_x$は神経伝達物質の時定数 , $\tau_u$はutilization, $U$はincrement , $\Delta t$を時間幅とする．ここでは$\tau_x=$(200 ms/1,500 ms; facilitating/depressing),  $\tau_u=$(1,500 ms/200 ms; facilitating/depressing), $U=$(0.15/0.45; facilitating/depressing), $\Delta t=$10msとする．
 \begin{lstlisting}[language=julia]
 using PyPlot
 rc("axes.spines", top=false, right=false)
@@ -60,16 +49,22 @@ xuf = uf .* xf / Uf
 xud = ud .* xd / Ud; 
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
-figure(figsize=(8, 5))
-subplot2grid((6, 2), (0, 0)); title("Facilitating synapse"); plot(tarray, s, "k"); ylabel("Presynaptic\n spike");
-subplot2grid((6, 2), (0, 1)); title("Depressing synapse"); plot(tarray, s, "k");
-subplot2grid((6, 2), (1, 0), rowspan=2); plot(tarray, uf); plot(tarray, xf, "tab:red"); ylabel("Synaptic variables"); ylim(0, 1.1); 
-subplot2grid((6, 2), (1, 1), rowspan=2); plot(tarray, ud, label=L"$u$"); plot(tarray, xd, "tab:red", label=L"$x$"); ylim(0, 1.1); legend()
-subplot2grid((6, 2), (3, 0)); plot(tarray, xuf, "k"); ylabel("Synaptic\n efficacy")
-subplot2grid((6, 2), (3, 1)); plot(tarray, xud, "k"); 
-subplot2grid((6, 2), (4, 0), rowspan=2); plot(tarray, rf, "k"); xlabel("Time (ms)"); ylabel("Postsynaptic current")
-subplot2grid((6, 2), (4, 1), rowspan=2); plot(tarray, rd, "k"); xlabel("Time (ms)")
-tight_layout()
+fig, axes = subplots(4, 2, figsize=(6, 5), sharex="col", height_ratios=[1, 2, 2, 2])
+for i in 1:2
+    axes[1,i].plot(tarray, s, "k");
+    axes[2,i].set_ylim(0, 1.1); 
+end
+axes[1,1].set_title("Facilitating synapse"); axes[1,1].set_ylabel("Presynaptic\n spike");
+axes[1,2].set_title("Depressing synapse"); 
+axes[2,1].plot(tarray, uf); axes[2,1].plot(tarray, xf, "tab:red"); 
+axes[2,1].set_ylabel("Synaptic variables"); 
+axes[2,2].plot(tarray, ud, label=L"$u$"); axes[2,2].plot(tarray, xd, "tab:red", label=L"$x$"); axes[2,2].legend(ncol=2)
+axes[3,1].plot(tarray, xuf, "k"); axes[3,1].set_ylabel("Synaptic\n efficacy")
+axes[3,2].plot(tarray, xud, "k"); 
+axes[4,1].plot(tarray, rf, "k"); axes[4,1].set_xlabel("Time (ms)"); axes[4,1].set_ylabel("Postsynaptic current")
+axes[4,2].plot(tarray, rd, "k"); axes[4,2].set_xlabel("Time (ms)")
+fig.align_labels()
+fig.tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
