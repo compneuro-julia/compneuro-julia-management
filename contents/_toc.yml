@@ -40,6 +40,7 @@ sections:
   - file: local-learning-rule/stdp-learning
   - file: local-learning-rule/logistic-regression-perceptron
   - file: local-learning-rule/self-organizing-map
+  - file: local-learning-rule/heavy-tail
 - file: energy-based-model/intro
   sections:
   - file: energy-based-model/energy-based-model

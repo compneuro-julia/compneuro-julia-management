@@ -92,100 +92,101 @@
 \setcounter{tocdepth}{2}
 \tableofcontents
 \clearpage
-\chapter{はじめに}
-\input{./text/introduction/computational-neuroscience.tex} % 文献整理する
-\input{./text/introduction/notation.tex} % ok
-\input{./text/introduction/usage-julia-lang.tex} % 表を作り直す．これはtexで書いた方がよいか
-\input{./text/introduction/linear-algebra.tex} % outputがtextの場合どうするか確認
-\input{./text/introduction/differential-equation.tex} % ok
-\input{./text/introduction/linear-regression.tex} % ok
-\input{./text/introduction/probability-information-theory.tex} % ok
-\input{./text/introduction/stochastic-process-differential-equation.tex} % ok
+% \chapter{はじめに}
+% \input{./text/introduction/computational-neuroscience.tex} % 文献整理する
+% \input{./text/introduction/notation.tex} % ok
+% \input{./text/introduction/usage-julia-lang.tex} % 表を作り直す．これはtexで書いた方がよいか
+% \input{./text/introduction/linear-algebra.tex} % outputがtextの場合どうするか確認
+% \input{./text/introduction/differential-equation.tex} % ok
+% \input{./text/introduction/linear-regression.tex} % ok
+% \input{./text/introduction/probability-information-theory.tex} % ok
+% \input{./text/introduction/stochastic-process-differential-equation.tex} % ok
 
-\chapter{神経細胞のモデル}
-\input{./text/neuron-model/neuron-physiol.tex} % 内容なし
-\input{./text/neuron-model/hodgkin-huxley.tex} % ok
-\input{./text/neuron-model/fhn.tex}
-\input{./text/neuron-model/lif.tex} % ok
-\input{./text/neuron-model/izhikevich.tex}
-\input{./text/neuron-model/isi.tex} % ok
-\input{./text/neuron-model/neurite-growth-model.tex} % ok
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-% \printbibliography
+% \chapter{神経細胞のモデル}
+% \input{./text/neuron-model/neuron-physiol.tex} % 内容なし
+% \input{./text/neuron-model/hodgkin-huxley.tex} % ok
+% \input{./text/neuron-model/fhn.tex}
+% \input{./text/neuron-model/lif.tex} % ok
+% \input{./text/neuron-model/izhikevich.tex}
+% \input{./text/neuron-model/isi.tex} % ok
+% \input{./text/neuron-model/neurite-growth-model.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+% % \printbibliography
 
-\chapter{シナプス伝達のモデル}
-\input{./text/synapse-model/synapse-physiol.tex} % ok
-\input{./text/synapse-model/current-conductance-synapse.tex} %ok
-\input{./text/synapse-model/expo-synapse.tex} % ok
-\input{./text/synapse-model/kinetic-synapse.tex}% ok
-\input{./text/synapse-model/synaptic-weighted.tex} % ok
-\input{./text/synapse-model/dynamical-synapses.tex}% ok
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-
-\chapter{神経回路網の演算処理}
-\input{./text/neuronal-computation/neuronal-arithmetic.tex} % ok
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-
-\chapter{局所学習則}
-% \input{./text/local-learning-rule/logistic-regression-perceptron.tex} % okだが修正必要．
-\input{./text/local-learning-rule/pca-hebbian-learning.tex} % ok
-% \input{./text/local-learning-rule/mds-anti-hebbian-learning.tex} % 大幅修正必要
-\input{./text/local-learning-rule/slow-feature-analysis.tex} % ok
-% \input{./text/local-learning-rule/stdp-learning.tex} % 大幅修正必要
-\input{./text/local-learning-rule/self-organizing-map.tex} % ok2
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-
-\chapter{生成モデルとエネルギーベースモデル}
-\input{./text/energy-based-model/energy-based-model.tex} % ok
-\input{./text/energy-based-model/hopfield-model.tex} % ok
-\input{./text/energy-based-model/boltzmann-machine.tex} % ok
-\input{./text/energy-based-model/sparse-coding.tex} % ok
-\input{./text/energy-based-model/predictive-coding.tex} % ok
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-
-\chapter{貢献度分配問題の解決策}
-\input{./text/solve-credit-assignment-problem/backpropagation.tex} %ok
-% \input{./text/solve-credit-assignment-problem/linear-network-learning-dynamics.tex} % 修正必要
-\input{./text/solve-credit-assignment-problem/bptt.tex} % ok?
-% \input{./text/solve-credit-assignment-problem/surrogate-gradient-snn.tex} % 未完成
-% \input{./text/solve-credit-assignment-problem/reservoir-computing.tex} % 未完成
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-
-\chapter{運動制御}
-\input{./text/motor-learning/minimum-jerk.tex} % ok
-\input{./text/motor-learning/minimum-variance.tex} % ok
-\input{./text/motor-learning/optimal-feedback-control.tex} % ok
-\input{./text/motor-learning/infinite-horizon-ofc.tex} % ok
-% \input{./text/motor-learning/biological-ofc.tex} % 全体修正する
-\input{./text/motor-learning/rat-trajectory.tex} % ok
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
-
-% \chapter{強化学習}
-% % \input{./text/reinforcement-learning/td-learning.tex} % ref修正する
+% \chapter{シナプス伝達のモデル}
+% \input{./text/synapse-model/synapse-physiol.tex} % ok
+% \input{./text/synapse-model/current-conductance-synapse.tex} %ok
+% \input{./text/synapse-model/expo-synapse.tex} % ok
+% \input{./text/synapse-model/kinetic-synapse.tex}% ok
+% \input{./text/synapse-model/synaptic-weighted.tex} % ok
+% \input{./text/synapse-model/dynamical-synapses.tex}% ok
 % \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
 % \addcontentsline{toc}{section}{参考文献}
 
-\chapter{神経回路網によるベイズ推論}
-% \input{./text/bayesian-brain/neural-uncertainty-representation.tex} % 修正必要
-\input{./text/bayesian-brain/bayesian-linear-regression.tex} % ok
-\input{./text/bayesian-brain/mcmc.tex} % ok
-\input{./text/bayesian-brain/neural-sampling.tex} % ok2
-\input{./text/bayesian-brain/probabilistic-population-coding.tex} % ok
-% \input{./text/bayesian-brain/quantile-expectile-regression.tex} 
-\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
-\addcontentsline{toc}{section}{参考文献}
+% \chapter{神経回路網の演算処理}
+% \input{./text/neuronal-computation/neuronal-arithmetic.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{局所学習則}
+% % \input{./text/local-learning-rule/logistic-regression-perceptron.tex} % okだが修正必要．
+% \input{./text/local-learning-rule/pca-hebbian-learning.tex} % ok
+% % \input{./text/local-learning-rule/mds-anti-hebbian-learning.tex} % 大幅修正必要
+% \input{./text/local-learning-rule/slow-feature-analysis.tex} % ok
+% % \input{./text/local-learning-rule/stdp-learning.tex} % 大幅修正必要
+% \input{./text/local-learning-rule/self-organizing-map.tex} % ok2
+\input{./text/local-learning-rule/heavy-tail.tex}
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{生成モデルとエネルギーベースモデル}
+% \input{./text/energy-based-model/energy-based-model.tex} % ok
+% \input{./text/energy-based-model/hopfield-model.tex} % ok
+% \input{./text/energy-based-model/boltzmann-machine.tex} % ok
+% \input{./text/energy-based-model/sparse-coding.tex} % ok
+% \input{./text/energy-based-model/predictive-coding.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{貢献度分配問題の解決策}
+% \input{./text/solve-credit-assignment-problem/backpropagation.tex} %ok
+% % \input{./text/solve-credit-assignment-problem/linear-network-learning-dynamics.tex} % 修正必要
+% \input{./text/solve-credit-assignment-problem/bptt.tex} % ok?
+% % \input{./text/solve-credit-assignment-problem/surrogate-gradient-snn.tex} % 未完成
+% % \input{./text/solve-credit-assignment-problem/reservoir-computing.tex} % 未完成
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{運動制御}
+% \input{./text/motor-learning/minimum-jerk.tex} % ok
+% \input{./text/motor-learning/minimum-variance.tex} % ok
+% \input{./text/motor-learning/optimal-feedback-control.tex} % ok
+% \input{./text/motor-learning/infinite-horizon-ofc.tex} % ok
+% % \input{./text/motor-learning/biological-ofc.tex} % 全体修正する
+% \input{./text/motor-learning/rat-trajectory.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% % \chapter{強化学習}
+% % % \input{./text/reinforcement-learning/td-learning.tex} % ref修正する
+% % \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% % \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{神経回路網によるベイズ推論}
+% % \input{./text/bayesian-brain/neural-uncertainty-representation.tex} % 修正必要
+% \input{./text/bayesian-brain/bayesian-linear-regression.tex} % ok
+% \input{./text/bayesian-brain/mcmc.tex} % ok
+% \input{./text/bayesian-brain/neural-sampling.tex} % ok2
+% \input{./text/bayesian-brain/probabilistic-population-coding.tex} % ok
+% % \input{./text/bayesian-brain/quantile-expectile-regression.tex} 
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
 
 %ここまで確認
 
-\clearpage
-\addcontentsline{toc}{chapter}{\indexname}
-\printindex
+% \clearpage
+% \addcontentsline{toc}{chapter}{\indexname}
+% \printindex
 
 \end{document}

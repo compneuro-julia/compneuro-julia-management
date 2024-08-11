@@ -1,7 +1,5 @@
 \section{勾配法と誤差逆伝播法}
-\textbf{誤差逆伝播法(back-propagation)}\index{ごさぎゃくでんぱほう(back-propagation)@誤差逆伝播法(back-propagation)}
-\subsection{ニューラルネットワークモデル}
-この節では入力層，隠れ層，出力層からなる3層ニューラルネットワークを実装する．
+ニューラルネットワークにおいて，効率よく各重みの勾配を推定することで貢献度割り当て問題を解決する方法が\textbf{誤差逆伝播法}\index{ごさぎゃくでんぱほう@誤差逆伝播法} (backpropagation) である．本節では入力層，隠れ層，出力層からなる多層ニューラルネットワークを実装し，誤差逆伝播法による勾配推定を用いて学習を行う．
 \begin{lstlisting}[language=julia]
 using Base: @kwdef
 using Parameters: @unpack # or using UnPack
@@ -12,45 +10,12 @@ abstract type NeuralNet end
 
 @kwdef struct MLP <: NeuralNet
     L::Int # num. of layers
-    f::Vector{Function}; ∇f::Vector{Function};
-    params::Dict{String, Dict} # weights and bias
-    grads::Dict{String, Dict} # gradient of params
-    states::Dict{String, Dict} # state of forward/backward activity
+    W::Vector{Array}; b::Vector{Array};     # weights and bias
+    ∇W::Vector{Array}; ∇b::Vector{Array}; # gradient of params
+    z::Vector{Vector}; δ::Vector{Vector};   # state of forward/backward activity
+    f::Function; ∇f::Function; # activation functions of hidden layers
 end;
 \end{lstlisting}
-\begin{lstlisting}[language=julia]
-function MLP(num_units; activation="sigmoid")#, bias=true)
-    L = length(num_units) - 1 # num of layers
-    # initialization of parameters
-    params, grads = Dict(), Dict()
-    params["W"] = Dict{Int, Array}(l => 2 * (rand(num_units[l], num_units[l+1]) .- 0.5) / sqrt(num_units[l]) for l in 1:L)
-    params["b"] = Dict{Int, Array}(l => zeros(1, num_units[l+1]) for l in 1:L)
-    for key in keys(params)
-        grads["∇$key"] = Dict{Int, Array}(l => zero(params[key][l]) for l in 1:L)
-    end
-    states = Dict(key => Dict{Int, Array}() for key in ["a", "z", "δ"])
-
-    # set activation functions
-    if activation isa Vector{String}
-        @assert length(activation) == L "length of activation muskey = t be equal to L=$L, or use string"
-        f = [eval(Symbol(activation[l])) for l in 1:L]
-        ∇f = [eval(Symbol("∇$(activation[l])")) for l in 1:L]
-    elseif activation isa String
-        f = [eval(Symbol(activation)) for l in 1:L]
-        ∇f = [eval(Symbol("∇$(activation)")) for l in 1:L]
-    end
-    return MLP(L=L, f=f, ∇f=∇f, params=params, grads=grads, states=states)
-end;
-\end{lstlisting}
-mutable struct \jl{MLP}を用意し，\textbf{重みの初期化(weight initialization)}\index{おもみのしょきか(weight initialization)@重みの初期化(weight initialization)} を行う同名の関数\jl{MLP}を用意する．重みの初期化の手法は複数あるが，ここでは重みを$W$として，$W_{ij} \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)$とする (Xavier initialization) \citep{Glorot2010-iu}．ただし，$n$は入力ユニット数である．
-\subsubsection{順伝播 (forward propagation)}
-$f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以下のようになる．
-\begin{align}
-\text{入力層 : }&\mathbf{z}^{(0)}=\mathbf{x}\\
-\text{隠れ層 : }&\mathbf{z}^{(\ell)}=f\left(\mathbf{a}^{(\ell)}\right)\\
-&\mathbf{a}^{(\ell+1)}=W^{(\ell+1)}\mathbf{z}^{(\ell)}+\mathbf{b}^{(\ell+1)}\\
-\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}^{(L)}
-\end{align}
 \begin{lstlisting}[language=julia]
 sigmoid(x) = 1 ./ (1 .+ exp.(-x));
 relu(x) = max.(x, 0);
@@ -60,6 +25,33 @@ relu(x) = max.(x, 0);
 ∇tanh(z) = 1 .- z.^2
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
+function MLP(num_units::Vector{Int}; hidden_act="sigmoid", out_act="sigmoid")
+    L = length(num_units) - 1 # num of layers
+    # initialization of parameters
+    W = [2 * (rand(num_units[l], num_units[l+1]) .- 0.5) / sqrt(num_units[l]) for l in 1:L]
+    b = [zeros(1, num_units[l+1]) for l in 1:L]
+    
+    # initialization of gradients
+    ∇W, ∇b = [[zero(param[l]) for l in 1:L] for param in [W, b]]
+    
+    # initialization of forward / backward states
+    z, δ = Vector{Array}(undef, L), Vector{Array}(undef, L)
+    
+    # set activation functions
+    f, ∇f = eval(Symbol(activation)), eval(Symbol("∇$(activation)"))
+    return MLP(L, W, b, ∇W, ∇b, z, δ, f, ∇f)
+end;
+\end{lstlisting}
+mutable struct \jl{MLP}を用意し，\textbf{重みの初期化(weight initialization)}\index{おもみのしょきか(weight initialization)@重みの初期化(weight initialization)} を行う同名の関数\jl{MLP}を用意する．重みの初期化の手法は複数あるが，ここでは重みを$W$として，$W_{ij} \sim U\left(-1/\sqrt{n}, 1/\sqrt{n}\right)$とする (Xavier initialization) \citep{Glorot2010-iu}．ただし，$n$は入力ユニット数である．
+\subsubsection{順伝播 (forward propagation)}
+$f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以下のようになる．$(\ell=1,\ldots,L)$
+\begin{align}
+\text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
+\text{隠れ層 : }&\mathbf{a}_\ell=W_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
+&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
+\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
+\end{align}
+\begin{lstlisting}[language=julia]
 function softmax(x; dims=1)
     expx = exp.(x .- maximum(x))
     return expx ./ sum(expx, dims=dims)
@@ -68,51 +60,47 @@ end
 \begin{lstlisting}[language=julia]
 #∇softmax
 \end{lstlisting}
-最後に活性化関数を付けたくない場合は恒等関数 \jl{identity} を用いる．
 \begin{lstlisting}[language=julia]
 function forward!(mlp::MLP, x::Array)
-    @unpack L, params, states, f = mlp
-    @unpack W, b = params # parameters
-    @unpack a, z = states # state of forward/backward activity
-
-    z[0] = x
+    (;L, f, W, b, z) = mlp
+    z[1] = x # input
+    # hidden layers
     for l in 1:L
-        a[l] = z[l-1] * W[l] .+ b[l]
-        z[l] = f[l](a[l])
+        z[l+1] = f[l](z[l] * W[l] .+ b[l])
     end
-    return z[L]
+    return z[L+1] # output
 end
 \end{lstlisting}
 \subsubsection{逆伝播 (backward propagation)}
+$i$ 番目のサンプルに対する目的関数 (objective function) あるいは損失関数 (loss function)を $\mathcal{L}^{(i)}$とする．例えば2乗誤差の場合は
+\mathcal{L}^{(i)}=\frac{1}{2}\left\|\hat{\mathbf{y}}^{(i)}-\mathbf{y}^{(i)}\right\|^{2}\\
+となる．
+ニューラルネットワークの学習とは，目的関数 (objective function) あるいは損失関数 (loss function) と呼ばれる評価指標を可能な限り小さく (場合によっては大きく) するようなパラメータ集合 $\Theta = \{W_\ell, b_\ell\}_{\ell=1}^{L}$ を求める過程のことである．学習に用いられる，パラメータを探索する最適化アルゴリズムを \textbf{optimizer}\index{optimizer} という．最も単純なoptimizerである \textbf{勾配降下法}\index{こうばいこうかほう@勾配降下法} (gradient descent; GD) では全データを用いてパラメータ $\theta \in \Theta$ の更新量 $\Delta \theta$ を 
+\Delta \theta = -\eta \frac{\partial \mathcal{L}_{\textrm{GD}}}{\partial \theta} = -\eta \sum_{i=1}^N \frac{\partial \mathcal{L}^{(i)}}{\partial \theta}
+として計算する．ただし，$\mathcal{L}_{\textrm{GD}}=\sum_{i=1}^N \mathcal{L}^{(i)}$ であり，$N$は全データのサンプル数を意味する．なお，パラメータは$\theta\leftarrow \theta + \Delta \theta$により更新される．勾配降下法は$N$が大きい場合，あるいは1つのサンプルのデータサイズが大きい場合は非効率であるので，ニューラルネットワークの学習においては，データの部分集合であるミニバッチ (mini-bacth) を用いた \textbf{確率的勾配降下法}\index{かくりつてきこうばいこうかほう@確率的勾配降下法} (stochastic gradient descent; SGD) が用いられる．Optimizerは複数種類があるが，一般的には $\dfrac{\partial \mathcal{L}}{\partial \theta}$ の計算を必要とする．この計算を効率よく行う手法が\textbf{誤差逆伝播法}\index{ごさぎゃくでんぱほう@誤差逆伝播法} (backpropagation) である．誤差逆伝播法は連鎖律 (chain rule; 合成関数の微分に関わる関係式) を用いて導くことができる．
 \begin{align}
-\text{目的関数 : }&\mathcal{L}=\frac{1}{2}\left\|\hat{\mathbf{y}}-\mathbf{y}\right\|^{2}\\
-\text{最急降下法 : }&\Delta W^{(\ell)}=-\eta \frac{\partial \mathcal{L}}{\partial W^{(\ell)}}\\
-&\Delta \mathbf{b}^{(\ell)}=-\eta \frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(\ell)}}\\
-\text{誤差逆伝播法 : }&\frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(L)}}=\hat{\mathbf{y}}-\mathbf{y}\\
-&\delta^{(L)}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(L)}} \frac{\partial \mathbf{z}^{(L)}}{\partial \mathbf{a}^{(L)}}=\left(\hat{\mathbf{y}}-\mathbf{y}\right) \odot f^{\prime}\left(\mathbf{a}^{(L)}\right)\\
-&\mathbf{\delta}^{(\ell)}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}}=\left(W^{(\ell+1)}\right)^\top \delta^{(\ell+1)} \odot f^{\prime}\left(\mathbf{a}^{(\ell)}\right)\\
-&\frac{\partial \mathcal{L}}{\partial W^{(\ell)}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}} \frac{\partial \mathbf{a}^{(\ell)}}{\partial W^{(\ell)}}=\delta^{(\ell)}\left(\mathbf{z}^{(\ell-1)}\right)^\top\\
-&\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(\ell)}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(\ell)}} \frac{\partial \mathbf{z}^{(\ell)}}{\partial \mathbf{a}^{(\ell)}} \frac{\partial \mathbf{a}^{(\ell)}}{\partial \mathbf{b}^{(\ell)}}=\delta^{(\ell)}
+\frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}=\hat{\mathbf{y}}-\mathbf{y}\\
+\delta_L&\triangleq\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}=\left(\hat{\mathbf{y}}-\mathbf{y}\right) \odot f_L^{\prime}\left(\mathbf{a}_L\right)\\
+\mathbf{\delta}_\ell&\triangleq\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
+&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell+1}}\frac{\partial \mathbf{a}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_{\ell}}\\
+&={W_{\ell+1}}^\top \delta_{\ell+1} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)\\
+\frac{\partial \mathcal{L}}{\partial W_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial W_\ell}=\delta_\ell \mathbf{z}_\ell^\top\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\delta_\ell
 \end{align}
 バッチ処理を考慮すると，行列を乗ずる順番が変わる．以下では$z=f(a), g(z)=f'(a)$として膜電位を使わず，発火率情報のみを使うようにしている．このようにできない関数もあるが，今回はこのように書き下せる活性化関数のみを扱う．
 \begin{equation}
 \frac{d}{dx} \text{Sigmoid}(x) = \text{Sigmoid}(x) \cdot \left(1 - \text{Sigmoid}(x)\right)
 \end{equation}
 であることに注意．
+h\left(\mathbf{z}_{\ell+1}\right)=f^{\prime}\left(\mathbf{a}_{\ell}\right)
 \begin{lstlisting}[language=julia]
 function backward!(mlp::MLP; losstype::String="binary_crossentropy")
-    @unpack L, params, states, grads, ∇f = mlp
-    @unpack W, b = params    # parameters
-    @unpack ∇W, ∇b = grads # gradient of params
-    @unpack a, z, δ = states # state of forward/backward activity
-
+    (;L, W, b, ∇W, ∇b, z) = mlp
     n_batch = size(z[0])[1]
     # backprop
-    for l in L:-1:1
-        if l > 1
-            δ[l-1] = δ[l] * W[l]' .* ∇f[l].(z[l-1])
-        end
-        ∇W[l] = z[l-1]' * δ[l] / n_batch
+    for l in L-1:-1:1
+        δ[l] = δ[l+1] * W[l+1]' .* ∇f.(z[l+1])
+        ∇W[l] = z[l]' * δ[l] / n_batch
         ∇b[l] = sum(δ[l], dims=1) / n_batch
     end
 end
@@ -121,8 +109,7 @@ end
 clog(x) = max(log(x), -1e2) # clamped log
 
 function binary_crossentropy!(nn::NeuralNet, ŷ::Array, y::Array)
-    @unpack L, states = nn
-    @unpack δ = states
+    (; L, states, δ) = nn
     error = ŷ - y
     loss = sum(-y .* clog.(ŷ) + (1 .- y) .* clog.(1 .- ŷ))
     δ[L] = error
@@ -130,11 +117,10 @@ function binary_crossentropy!(nn::NeuralNet, ŷ::Array, y::Array)
 end
 
 function squared_error!(nn::NeuralNet, ŷ::Array, y::Array)
-    @unpack L, states, ∇f = mlp
-    @unpack δ = states
+    (;L, states, ∇f, δ) = mlp
     error = ŷ - y
     loss = sum(error .^ 2)
-    δ[L] = error .* ∇f[L].(ŷ)
+    δ[L] = error .* ∇f.(ŷ)
     return loss
 end
 \end{lstlisting}
@@ -178,10 +164,12 @@ end
 \end{lstlisting}
 \begin{lstlisting}[language=julia]
 function optim_step!(nn::NeuralNet, optimizer::Optimizer)
-    @unpack L, params, grads = nn
-    for key in keys(params)
+    @unpack L, W, b, ∇W, ∇b = nn
+    params = [W, b]
+    grads = [∇W, ∇b]
+    for (param, grad) in zip(params, grads)
         for l in 1:L
-            optimizer_update!(params[key][l], grads["∇$key"][l], optimizer)
+            optimizer_update!(param[l], grad[l], optimizer)
         end
     end
 end
@@ -267,6 +255,24 @@ loss_fun = binary_crossentropy!
 \begin{lstlisting}[language=julia]
 n_in, n_hid, n_out
 \end{lstlisting}
+\begin{lstlisting}[language=julia]
+e = 1
+iter = 1
+idx = (iter-1)*n_batch+1:iter*n_batch
+x, y = x_traindata[idx, :], y_traindata[idx, :]
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+size(x)
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+out = forward!(nn, x);
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+loss = train_step!(nn, x, y, loss_fun, optimizer)
+\end{lstlisting}
+\begin{lstlisting}[language=julia]
+error_arr[e] += loss
+\end{lstlisting}
 学習を行う．
 \begin{lstlisting}[language=julia]
 error_arr = zeros(n_epoch); # memory array of each epoch error
@@ -291,9 +297,9 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell036.png}
-	\caption{cell036.png}
-	\label{cell036.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell043.png}
+	\caption{cell043.png}
+	\label{cell043.png}
 \end{figure}
 テストデータを用いて，出力を確認する．
 \begin{lstlisting}[language=julia]
@@ -319,12 +325,6 @@ xlabel("x");
 
 tight_layout()
 \end{lstlisting}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell038.png}
-	\caption{cell038.png}
-	\label{cell038.png}
-\end{figure}
 重み\jl{W1}におけるゲインフィールドの描画を行う．
 \begin{lstlisting}[language=julia]
 # Plot Gain fields
@@ -338,12 +338,6 @@ for i in 1:n_hid
     axis("off")
 end
 \end{lstlisting}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell040.png}
-	\caption{cell040.png}
-	\label{cell040.png}
-\end{figure}
 補足としてMonotonic formatによる位置のエンコーディングに触れる．monotonic形式を入力の眼球位置と出力の頭部中心座標で用いるという仮定には，視覚刺激を中心窩で捉えた際，得られる眼球位置信号を頭部中心座標での位置の教師信号として使用できるという利点がある．\citep{Andersen1983-zp} では Parietal visual neurons (PVNs)の活動を調べ，傾き正あるいは負．0度をピークとして減少あるいは上昇の4種類あることを示した．前者は一次関数 (とReLU関数) で記述可能である．
 \begin{lstlisting}[language=julia]
 get_line(p1, p2) = [(p2[2]-p1[2])/(p2[1]-p1[1]), (p2[1]*p1[2] - p1[1]*p2[2])/(p2[1]-p1[1])] # [slope, intercept]
@@ -362,7 +356,7 @@ tight_layout()
 \end{lstlisting}
 \begin{figure}[ht]
 	\centering
-	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell043.png}
-	\caption{cell043.png}
-	\label{cell043.png}
+	\includegraphics[scale=0.8, max width=\linewidth]{./fig/solve-credit-assignment-problem/backpropagation/cell050.png}
+	\caption{cell050.png}
+	\label{cell050.png}
 \end{figure}
