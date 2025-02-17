@@ -76,6 +76,7 @@ struct MLP <: NeuralNet
 
     function MLP(n_units::Vector{Int}, f::Vector{ActivationFunction}; init_type="Xavier")
         L = length(n_units) - 1
+        @assert length(f) == L
         # initialization of parameters
         if init_type == "He"
             W = [Param(2 * (rand(n_units[l], n_units[l+1]) .- 0.5) * sqrt(6/n_units[l])) for l in 1:L] # He
