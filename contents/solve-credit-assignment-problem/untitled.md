@@ -1,3 +1,24 @@
+STDPはlocal learning ruleに
+local learning ruleと分類するのはどうなのか？
+
+BP (spiral, zipser & anderson, MNIST classify, autoencoder)
+FA・DFA・KP (Fashion MNIST classification)
+Predictive coding
+Perturbation learning (https://oumpy.github.io/blog/2022/02/directional_gradient_optimization.html)
+
+BPTT
+RTRL
+Random Feedback (Murray, J. M. Local online learning in recurrent networks with random feedback. eLife 8, pii: e43299 (2019).)
+
+SpikeProp
+Surrogate Gradient
+#BurstProp
+e-prop (A solution to the learning dilemma for recurrent networks of spiking neurons)
+
+Reservior computing (rate, spike)
+
+---
+
 確かに、活性化関数とその微分を個別に管理すると冗長に感じることがあります。これを改善するには、活性化関数とその微分を1つの構造体または関数として定義し、微分を内部で処理する仕組みに変更することで、コードを簡潔にできます。
 
 以下に、その改善方法を示します。
