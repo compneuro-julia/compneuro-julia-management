@@ -16,144 +16,146 @@ Surrogate Gradient
 e-prop (A solution to the learning dilemma for recurrent networks of spiking neurons)
 
 Reservior computing (rate, spike)
+---
+### **Node Perturbation（ノード摂動）の勾配の期待値**（行列形式）
+
+#### **1. 記号の定義**
+- 入力ベクトル: $\mathbf{x} \in \mathbb{R}^{d_{\text{in}}}$
+- 重み行列: $\mathbf{W} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$
+- 出力ベクトル（ノイズなし）:  
+  $$
+  \mathbf{y} = \mathbf{W} \mathbf{x} \in \mathbb{R}^{d_{\text{out}}}
+  $$
+- 損失関数: $ \mathcal{L}(\mathbf{y}) $
+- ノイズベクトル: $\boldsymbol{\xi} \in \mathbb{R}^{d_{\text{out}}}$ （各要素がゼロ平均、分散 $\sigma^2$ の摂動）
+
+#### **2. 損失関数の変化量**
+ノード摂動法では、出力にノイズを加えたものを用いて損失を計算する:
+
+$$
+\mathbf{y'} = \mathbf{y} + \boldsymbol{\xi} = \mathbf{W} \mathbf{x} + \boldsymbol{\xi}
+$$
+
+摂動後の損失は:
+
+$$
+\mathcal{L}' = \mathcal{L}(\mathbf{y}')
+$$
+
+損失の変化量は
+
+$$
+\Delta \mathcal{L} = \mathcal{L}' - \mathcal{L} = \mathcal{L}(\mathbf{y} + \boldsymbol{\xi}) - \mathcal{L}(\mathbf{y})
+$$
+
+損失関数を $\mathbf{y}$ に対して1次のテイラー展開すると、
+
+$$
+\mathcal{L}(\mathbf{y} + \boldsymbol{\xi}) \approx \mathcal{L}(\mathbf{y}) + \boldsymbol{\xi}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi} + O(\|\boldsymbol{\xi}\|^3)
+$$
+
+ここで、$H_\mathcal{L} = \frac{\partial^2 \mathcal{L}}{\partial \mathbf{y} \partial \mathbf{y}^T}$ はヘッセ行列。
+
+したがって、
+$$
+\Delta \mathcal{L} \approx \boldsymbol{\xi}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}
+$$
+
+#### **3. 重みの更新則**
+ノード摂動法では、重み更新は
+$$
+\Delta \mathbf{W} \propto - \boldsymbol{\xi} \Delta \mathcal{L} \mathbf{x}^T
+$$
+
+したがって、
+$$
+\Delta \mathbf{W} \propto - \boldsymbol{\xi} (\boldsymbol{\xi}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}) \mathbf{x}^T
+$$
+
+#### **4. 期待値を取る**
+摂動ベクトル $\boldsymbol{\xi}$ はゼロ平均、共分散行列 $\sigma^2 I$ なので、
+$$
+\mathbb{E}[\boldsymbol{\xi}] = \mathbf{0}, \quad \mathbb{E}[\boldsymbol{\xi} \boldsymbol{\xi}^T] = \sigma^2 I
+$$
+
+よって、更新則の期待値を取ると、
+$$
+\mathbb{E}[\Delta \mathbf{W}] \propto -\mathbb{E} [\boldsymbol{\xi} \boldsymbol{\xi}^T] \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T - \frac{1}{2} \mathbb{E}[\boldsymbol{\xi} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}] \mathbf{x}^T
+$$
+
+ここで、$ \mathbb{E}[\boldsymbol{\xi} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}] $ の期待値は高次の影響を含み、摂動が小さい場合には無視できるため、主に第1項が残る。
+
+$$
+\mathbb{E}[\Delta \mathbf{W}] \propto -\sigma^2 \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T
+$$
+
+つまり、ノード摂動法の重み更新の期待値は、損失関数の勾配に比例する。
 
 ---
 
-確かに、活性化関数とその微分を個別に管理すると冗長に感じることがあります。これを改善するには、活性化関数とその微分を1つの構造体または関数として定義し、微分を内部で処理する仕組みに変更することで、コードを簡潔にできます。
+### **Weight Perturbation（重み摂動）の勾配の期待値**（行列形式）
 
-以下に、その改善方法を示します。
+#### **1. 記号の定義**
+- 重み行列: $\mathbf{W} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$
+- 摂動行列: $\boldsymbol{\epsilon} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$ （各要素がゼロ平均、分散 $\sigma^2$）
+- 出力ベクトル（摂動なし）: $\mathbf{y} = \mathbf{W} \mathbf{x}$
+- 損失関数: $ \mathcal{L}(\mathbf{y}) $
+- 摂動後の重み: $\mathbf{W'} = \mathbf{W} + \boldsymbol{\epsilon}$
 
----
+#### **2. 損失関数の変化量**
+$$
+\mathbf{y'} = \mathbf{W'} \mathbf{x} = (\mathbf{W} + \boldsymbol{\epsilon}) \mathbf{x} = \mathbf{y} + \boldsymbol{\epsilon} \mathbf{x}
+$$
 
-### 活性化関数を構造体として管理する例
+摂動後の損失は
+$$
+\mathcal{L}' = \mathcal{L}(\mathbf{y}')
+$$
 
-Juliaでは、関数オーバーロードや構造体を活用してコードをより洗練できます。
+損失の変化量は
+$$
+\Delta \mathcal{L} = \mathcal{L}' - \mathcal{L} = \mathcal{L}(\mathbf{y} + \boldsymbol{\epsilon} \mathbf{x}) - \mathcal{L}(\mathbf{y})
+$$
 
-```julia
-using Random
+$\mathbf{y}$ に関するテイラー展開を行うと、
+$$
+\mathcal{L}(\mathbf{y} + \boldsymbol{\epsilon} \mathbf{x}) \approx \mathcal{L}(\mathbf{y}) + (\boldsymbol{\epsilon} \mathbf{x})^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} (\boldsymbol{\epsilon} \mathbf{x})^T H_\mathcal{L} (\boldsymbol{\epsilon} \mathbf{x})
+$$
 
-# 活性化関数構造体
-struct ActivationFunction
-    forward::Function  # 順伝播時の関数
-    backward::Function  # 逆伝播時の関数
-end
+したがって、
+$$
+\Delta \mathcal{L} \approx (\boldsymbol{\epsilon} \mathbf{x})^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} (\boldsymbol{\epsilon} \mathbf{x})^T H_\mathcal{L} (\boldsymbol{\epsilon} \mathbf{x})
+$$
 
-# 定義済みの活性化関数
-sigmoid = ActivationFunction(
-    x -> 1.0 ./ (1.0 .+ exp.(-x)),
-    y -> y .* (1 .- y)  # y はシグモイド適用後の出力
-)
+#### **3. 重みの更新則**
+重み摂動法では、
+$$
+\Delta \mathbf{W} \propto -\boldsymbol{\epsilon} \Delta \mathcal{L}
+$$
 
-tanh_act = ActivationFunction(
-    x -> tanh.(x),
-    y -> 1 .- y .^ 2  # y はtanh適用後の出力
-)
+したがって、
+$$
+\Delta \mathbf{W} \propto -\boldsymbol{\epsilon} ((\boldsymbol{\epsilon} \mathbf{x})^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} (\boldsymbol{\epsilon} \mathbf{x})^T H_\mathcal{L} (\boldsymbol{\epsilon} \mathbf{x}))
+$$
 
-relu = ActivationFunction(
-    x -> max.(0, x),
-    y -> y .> 0  # y は活性化関数適用後の出力（原則的にはxだが計算簡略化のため）
-)
+#### **4. 期待値を取る**
+$\boldsymbol{\epsilon}$ はゼロ平均、共分散 $\mathbb{E}[\boldsymbol{\epsilon} \boldsymbol{\epsilon}^T] = \sigma^2 I$ より、
+$$
+\mathbb{E}[\boldsymbol{\epsilon} (\boldsymbol{\epsilon} \mathbf{x})^T] = \sigma^2 \mathbf{x}^T
+$$
 
-# フォワードパス
-function forward_pass(X, weights, biases, activations)
-    layer_outputs = [X]
-    for i in 1:length(weights)
-        z = layer_outputs[end] * weights[i] .+ biases[i]
-        a = activations[i].forward(z)
-        push!(layer_outputs, a)
-    end
-    return layer_outputs
-end
+よって、
+$$
+\mathbb{E}[\Delta \mathbf{W}] \propto -\sigma^2 \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T
+$$
 
-# バックプロパゲーション
-function backpropagation(X, y, weights, biases, activations, learning_rate)
-    layer_outputs = forward_pass(X, weights, biases, activations)
-    errors = [layer_outputs[end] .- y]  # 出力層の誤差
-
-    for i in length(weights):-1:2
-        delta = (errors[1] * weights[i]') .* activations[i].backward(layer_outputs[i])
-        unshift!(errors, delta)
-    end
-
-    for i in 1:length(weights)
-        weights[i] .-= learning_rate * (layer_outputs[i]' * errors[i])
-        biases[i] .-= learning_rate * sum(errors[i], dims=1)
-    end
-
-    return sum(abs.(errors[end]))
-end
-
-# ネットワークの初期化
-function initialize_network(layer_sizes)
-    weights = [rand(layer_sizes[i], layer_sizes[i+1]) .- 0.5 for i in 1:length(layer_sizes)-1]
-    biases = [rand(1, layer_sizes[i+1]) .- 0.5 for i in 1:length(layer_sizes)-1]
-    return weights, biases
-end
-
-# メイン関数
-function train_neural_network(X, y, layer_sizes, activations, epochs, learning_rate)
-    weights, biases = initialize_network(layer_sizes)
-
-    for epoch in 1:epochs
-        error = backpropagation(X, y, weights, biases, activations, learning_rate)
-        if epoch % 100 == 0
-            println("Epoch $epoch, Error: $error")
-        end
-    end
-
-    return weights, biases
-end
-
-# サンプルデータ (XOR問題)
-X = [0 0; 0 1; 1 0; 1 1]
-y = [0; 1; 1; 0]
-y = reshape(y, :, 1)
-
-# パラメータ
-layer_sizes = [2, 4, 3, 1]
-activations = [relu, tanh_act, sigmoid]  # 各層ごとの活性化関数
-epochs = 5000
-learning_rate = 0.1
-
-# 学習
-println("Training Neural Network...")
-trained_weights, trained_biases = train_neural_network(X, y, layer_sizes, activations, epochs, learning_rate)
-
-# テスト
-layer_outputs = forward_pass(X, trained_weights, trained_biases, activations)
-predictions = layer_outputs[end]
-println("Predictions:")
-println(predictions)
-```
+つまり、重み摂動法の重み更新の期待値は、損失関数の勾配に比例する。
 
 ---
 
-### 改善点と利点
+### **結論**
+$$
+\mathbb{E}[\Delta \mathbf{W}] \propto -\sigma^2 \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T
+$$
 
-1. **簡潔さ**:
-   - 活性化関数とその微分を1つの構造体`ActivationFunction`にまとめたため、リストの管理が簡単。
-
-2. **再利用性**:
-   - 活性化関数を簡単に追加可能（新しい`ActivationFunction`を定義するだけ）。
-
-3. **柔軟性**:
-   - フォワードパスとバックプロパゲーションで一貫して同じインターフェースを使用。
-
-4. **読みやすさ**:
-   - 活性化関数の処理がコード内で分散せず、明確。
-
----
-
-### 使用例
-
-- **すべての層でReLUを使用**:
-  ```julia
-  activations = [relu for _ in 1:(length(layer_sizes)-1)]
-  ```
-
-- **出力層にのみシグモイドを使用**:
-  ```julia
-  activations = [relu, relu, sigmoid]
-  ```
-
-この改良により、活性化関数を扱うコードが洗練され、簡潔かつ柔軟になりました！
+したがって、**Node Perturbation と Weight Perturbation の両方で、重みの期待値の更新が勾配に比例することが示された。**
