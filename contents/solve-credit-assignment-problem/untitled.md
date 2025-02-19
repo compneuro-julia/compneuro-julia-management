@@ -16,146 +16,128 @@ Surrogate Gradient
 e-prop (A solution to the learning dilemma for recurrent networks of spiking neurons)
 
 Reservior computing (rate, spike)
----
-### **Node Perturbation（ノード摂動）の勾配の期待値**（行列形式）
-
-#### **1. 記号の定義**
-- 入力ベクトル: $\mathbf{x} \in \mathbb{R}^{d_{\text{in}}}$
-- 重み行列: $\mathbf{W} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$
-- 出力ベクトル（ノイズなし）:  
-  $$
-  \mathbf{y} = \mathbf{W} \mathbf{x} \in \mathbb{R}^{d_{\text{out}}}
-  $$
-- 損失関数: $ \mathcal{L}(\mathbf{y}) $
-- ノイズベクトル: $\boldsymbol{\xi} \in \mathbb{R}^{d_{\text{out}}}$ （各要素がゼロ平均、分散 $\sigma^2$ の摂動）
-
-#### **2. 損失関数の変化量**
-ノード摂動法では、出力にノイズを加えたものを用いて損失を計算する:
-
-$$
-\mathbf{y'} = \mathbf{y} + \boldsymbol{\xi} = \mathbf{W} \mathbf{x} + \boldsymbol{\xi}
-$$
-
-摂動後の損失は:
-
-$$
-\mathcal{L}' = \mathcal{L}(\mathbf{y}')
-$$
-
-損失の変化量は
-
-$$
-\Delta \mathcal{L} = \mathcal{L}' - \mathcal{L} = \mathcal{L}(\mathbf{y} + \boldsymbol{\xi}) - \mathcal{L}(\mathbf{y})
-$$
-
-損失関数を $\mathbf{y}$ に対して1次のテイラー展開すると、
-
-$$
-\mathcal{L}(\mathbf{y} + \boldsymbol{\xi}) \approx \mathcal{L}(\mathbf{y}) + \boldsymbol{\xi}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi} + O(\|\boldsymbol{\xi}\|^3)
-$$
-
-ここで、$H_\mathcal{L} = \frac{\partial^2 \mathcal{L}}{\partial \mathbf{y} \partial \mathbf{y}^T}$ はヘッセ行列。
-
-したがって、
-$$
-\Delta \mathcal{L} \approx \boldsymbol{\xi}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}
-$$
-
-#### **3. 重みの更新則**
-ノード摂動法では、重み更新は
-$$
-\Delta \mathbf{W} \propto - \boldsymbol{\xi} \Delta \mathcal{L} \mathbf{x}^T
-$$
-
-したがって、
-$$
-\Delta \mathbf{W} \propto - \boldsymbol{\xi} (\boldsymbol{\xi}^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}) \mathbf{x}^T
-$$
-
-#### **4. 期待値を取る**
-摂動ベクトル $\boldsymbol{\xi}$ はゼロ平均、共分散行列 $\sigma^2 I$ なので、
-$$
-\mathbb{E}[\boldsymbol{\xi}] = \mathbf{0}, \quad \mathbb{E}[\boldsymbol{\xi} \boldsymbol{\xi}^T] = \sigma^2 I
-$$
-
-よって、更新則の期待値を取ると、
-$$
-\mathbb{E}[\Delta \mathbf{W}] \propto -\mathbb{E} [\boldsymbol{\xi} \boldsymbol{\xi}^T] \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T - \frac{1}{2} \mathbb{E}[\boldsymbol{\xi} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}] \mathbf{x}^T
-$$
-
-ここで、$ \mathbb{E}[\boldsymbol{\xi} \boldsymbol{\xi}^T H_\mathcal{L} \boldsymbol{\xi}] $ の期待値は高次の影響を含み、摂動が小さい場合には無視できるため、主に第1項が残る。
-
-$$
-\mathbb{E}[\Delta \mathbf{W}] \propto -\sigma^2 \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T
-$$
-
-つまり、ノード摂動法の重み更新の期待値は、損失関数の勾配に比例する。
 
 ---
+本節では摂動法 (permutation) による勾配推定について説明する．摂動法に含まれる手法は複数あるが，総じて次のような手法を指す．まず，あるモデル（ネットワーク）を用意し，その目的関数を $\mathcal{L}$ とする．次にモデルのパラメータや活動にランダムな微小変化（摂動）$\mathbf{v}$ を加え，摂動を受ける前後の目的関数の変化量 $\delta \mathcal{L}$ を取得する．この $\delta \mathcal{L}$ や $\mathbf{v}$ およびモデルの活動等を用いてパラメータを更新するのが摂動法である．
 
-### **Weight Perturbation（重み摂動）の勾配の期待値**（行列形式）
+ニューラルネットワークの摂動法としては**ノード摂動法** (Node perturbation; NP) と**重み摂動法** (weight perturbation; WP) の2種類がある．ノード摂動法は各ノード（ニューロン）の活動に摂動を加える手法であり，重み摂動法は各パラメータ（シナプス結合等）に摂動を加える手法である．
 
-#### **1. 記号の定義**
-- 重み行列: $\mathbf{W} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$
-- 摂動行列: $\boldsymbol{\epsilon} \in \mathbb{R}^{d_{\text{out}} \times d_{\text{in}}}$ （各要素がゼロ平均、分散 $\sigma^2$）
-- 出力ベクトル（摂動なし）: $\mathbf{y} = \mathbf{W} \mathbf{x}$
-- 損失関数: $ \mathcal{L}(\mathbf{y}) $
-- 摂動後の重み: $\mathbf{W'} = \mathbf{W} + \boldsymbol{\epsilon}$
+まず，以下のように順伝播を行うネットワークを設定する $(\ell=1,\ldots,L)$
 
-#### **2. 損失関数の変化量**
 $$
-\mathbf{y'} = \mathbf{W'} \mathbf{x} = (\mathbf{W} + \boldsymbol{\epsilon}) \mathbf{x} = \mathbf{y} + \boldsymbol{\epsilon} \mathbf{x}
-$$
-
-摂動後の損失は
-$$
-\mathcal{L}' = \mathcal{L}(\mathbf{y}')
+\begin{align}
+\text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
+\text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
+&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
+\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
+\end{align}
 $$
 
-損失の変化量は
+損失は $\mathcal{L}(\mathbf{z}_{L+1}; \mathbf{x})$ とする．それぞれの手法において，以下のようにネットワークを摂動する．
+
 $$
-\Delta \mathcal{L} = \mathcal{L}' - \mathcal{L} = \mathcal{L}(\mathbf{y} + \boldsymbol{\epsilon} \mathbf{x}) - \mathcal{L}(\mathbf{y})
+\begin{align}
+\text{重み摂動法:}\quad &\tilde{\mathbf{z}}_{\ell+1}=f_\ell\left((\mathbf{W}_\ell+\mathbf{V}_\ell) \tilde{\mathbf{z}}_\ell +\mathbf{b}_\ell +\mathbf{v}_\ell\right)\\
+\text{ノード摂動法:}\quad &\tilde{\mathbf{z}}_{\ell+1}=f_\ell\left(\mathbf{W}_\ell \tilde{\mathbf{z}}_\ell +\mathbf{b}_\ell+\mathbf{v}_\ell \right)
+\end{align}
 $$
 
-$\mathbf{y}$ に関するテイラー展開を行うと、
+目的関数の変化量を
+
 $$
-\mathcal{L}(\mathbf{y} + \boldsymbol{\epsilon} \mathbf{x}) \approx \mathcal{L}(\mathbf{y}) + (\boldsymbol{\epsilon} \mathbf{x})^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} (\boldsymbol{\epsilon} \mathbf{x})^T H_\mathcal{L} (\boldsymbol{\epsilon} \mathbf{x})
+\begin{equation}
+\delta \mathcal{L}=\mathcal{L}(\tilde{\mathbf{z}}_{L+1}; \mathbf{x})-\mathcal{L}(\mathbf{z}_{L+1}; \mathbf{x})
+\end{equation}
 $$
 
-したがって、
+とする．SGDでパラメータを行う場合，
+
 $$
-\Delta \mathcal{L} \approx (\boldsymbol{\epsilon} \mathbf{x})^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} (\boldsymbol{\epsilon} \mathbf{x})^T H_\mathcal{L} (\boldsymbol{\epsilon} \mathbf{x})
+\begin{align}
+\text{重み摂動法:}\quad &\Delta \mathbf{W}_\ell^{\mathrm{WP}}=-\eta \frac{\delta \mathcal{L}}{\sigma}\mathbf{V}_\ell, &\Delta \mathbf{b}_\ell^{\mathrm{WP}}=-\eta \frac{\delta \mathcal{L}}{\sigma}\mathbf{v}_\ell\\
+\text{ノード摂動法:}\quad &\Delta \mathbf{W}_\ell^{\mathrm{NP}}=- \eta  \frac{\delta \mathcal{L}}{\sigma} \mathbf{v}_\ell \mathbf{z}_{\ell}^\top, &\Delta \mathbf{b}_\ell^{\mathrm{NP}} =- \eta  \frac{\delta \mathcal{L}}{\sigma} \mathbf{v}_\ell
+\end{align}
 $$
 
-#### **3. 重みの更新則**
-重み摂動法では、
+でパラメータを更新する．
+
+### 不偏推定量であることの証明
+各手法の更新則が勾配の不偏推定量 (unbiased estimator) であることを示す．まず方向微分 (Directional derivative) を導入する．関数 $f$ について点 $\mathbf{u}$ における方向 $\mathbf{v}$ の方向微分は
+
 $$
-\Delta \mathbf{W} \propto -\boldsymbol{\epsilon} \Delta \mathcal{L}
+\begin{equation}
+\nabla_\mathbf{v}f(\mathbf{u}):= \lim_{h\to 0} \frac{f(\mathbf{u}+h\mathbf{v}) - f(\mathbf{u})}{h}
+\end{equation}
 $$
 
-したがって、
+として定義される．また $f$ が点 $\mathbf{u}$ において微分可能なら
+
 $$
-\Delta \mathbf{W} \propto -\boldsymbol{\epsilon} ((\boldsymbol{\epsilon} \mathbf{x})^T \frac{\partial \mathcal{L}}{\partial \mathbf{y}} + \frac{1}{2} (\boldsymbol{\epsilon} \mathbf{x})^T H_\mathcal{L} (\boldsymbol{\epsilon} \mathbf{x}))
+\begin{equation}
+\nabla_\mathbf{v}f(\mathbf{u})=\nabla f(\mathbf{u})\cdot \mathbf{v}\left(=\frac{\partial f(\mathbf{u})}{\partial \mathbf{u}}\cdot \mathbf{v}\right)
+\end{equation}
 $$
 
-#### **4. 期待値を取る**
-$\boldsymbol{\epsilon}$ はゼロ平均、共分散 $\mathbb{E}[\boldsymbol{\epsilon} \boldsymbol{\epsilon}^T] = \sigma^2 I$ より、
+が成り立つ．ここで，$\nabla f(\mathbf{u})\cdot \mathbf{v}$ を Jacobian-vector product (JVP) と呼び，$f(\mathbf{u})\in \mathbb{R}$ の場合，$\nabla f(\mathbf{u})\cdot \mathbf{v}\in \mathbb{R}$ となる．このJVPを有限差分 (finite difference) を用いて近似計算すると\footnote{JVPは順方向自動微分 (Forward-mode Automatic Differentiation; Forward AD) により計算でき，有限差分法よりも数値的に安定する (順方向自動微分はPythonライブラリのJAX等に実装されている)．Forward Gradientは順方向自動微分を採用して重み摂動法をより安定させる手法である．}，
+
 $$
-\mathbb{E}[\boldsymbol{\epsilon} (\boldsymbol{\epsilon} \mathbf{x})^T] = \sigma^2 \mathbf{x}^T
+\begin{equation}
+\nabla f(\mathbf{u})\cdot \mathbf{v} \approx \frac{f(\mathbf{u}+\epsilon \mathbf{v}) - f(\mathbf{u})}{\epsilon}
+\end{equation}
 $$
 
-よって、
-$$
-\mathbb{E}[\Delta \mathbf{W}] \propto -\sigma^2 \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T
-$$
+となる ($0 < \epsilon \ll 1$)．
 
-つまり、重み摂動法の重み更新の期待値は、損失関数の勾配に比例する。
+まず，重み摂動法について考える．モデルのパラメータを $\boldsymbol{\theta} \in \mathbb{R}^P$ とする．これは $\mathbf{W}_\ell$ および $\mathbf{b}_\ell$ をまとめたベクトルであり，$P$ はパラメータ空間の次元である．$\mathbf{v} \sim \mathcal{N}(\mathbf{0}, \mathbf{I}_P)\ (\in \mathbb{R}^P)$ とすると，$\sigma\to 0$ の場合，
 
----
-
-### **結論**
 $$
-\mathbb{E}[\Delta \mathbf{W}] \propto -\sigma^2 \frac{\partial \mathcal{L}}{\partial \mathbf{y}} \mathbf{x}^T
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial \boldsymbol{\theta}}\cdot \mathbf{v} = \frac{\mathcal{L}(\boldsymbol{\theta}+\sigma \mathbf{v}) - \mathcal{L}(\boldsymbol{\theta})}{\sigma}=\frac{\delta \mathcal{L}}{\sigma}
+\end{equation}
 $$
 
-したがって、**Node Perturbation と Weight Perturbation の両方で、重みの期待値の更新が勾配に比例することが示された。**
+となるので，
+
+$$
+\begin{align}
+\mathbb{E}\left[\frac{\delta \mathcal{L}}{\sigma}\mathbf{v}\right] &=
+\cdot \mathbb{E}\left[\left(\frac{\partial \mathcal{L}}{\partial \boldsymbol{\theta}}\cdot \mathbf{v}\right)\mathbf{v}\right]\\
+&=\frac{\partial \mathcal{L}}{\partial \boldsymbol{\theta}} \mathbb{E}[\mathbf{v} \mathbf{v}^\top]=\frac{\partial \mathcal{L}}{\partial \boldsymbol{\theta}}
+\end{align}
+$$
+
+が成立する．SGDでパラメータ更新する場合は
+
+$$
+\begin{equation}
+\mathbb{E}[\Delta \mathbf{W}_\ell]=-\eta \dfrac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell},\quad \mathbb{E}[\Delta \mathbf{b}_\ell]=-\eta \dfrac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}
+\end{equation}
+$$
+
+であればいいので，$(\boldsymbol{\theta}, \mathbf{v}) \to (\mathbf{W}_\ell, \mathbf{V}_\ell), (\mathbf{b}_\ell, \mathbf{v}_\ell)$ と置き換えて
+
+$$
+\begin{equation}
+\Delta \mathbf{W}_\ell^{\mathrm{WP}}:=-\eta \frac{\delta \mathcal{L}}{\sigma}\mathbf{V}_\ell,\quad \Delta \mathbf{b}_\ell^{\mathrm{WP}}:=-\eta \frac{\delta \mathcal{L}}{\sigma}\mathbf{v}_\ell
+\end{equation}
+$$
+
+となる．ノード摂動法は重み摂動法におけるバイアス項のみを摂動すると解釈できるため，$\Delta \mathbf{b}_\ell^{\mathrm{NP}}:=\Delta \mathbf{b}_\ell^{\mathrm{WP}}$ である．ここで
+
+$$
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}\\
+&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell}\frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}\right) \mathbf{z}_\ell^\top\quad \left(\because \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\mathbf{1}\right)\\
+&=\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}\mathbf{z}_\ell^\top
+\end{align}
+$$
+
+が成り立つので，ノード摂動法の更新則は
+
+$$
+\begin{equation}
+\Delta \mathbf{W}_\ell^{\mathrm{NP}}:=\Delta \mathbf{b}_\ell^{\mathrm{NP}}\mathbf{z}_\ell^\top=-\eta \frac{\delta \mathcal{L}}{\sigma}\mathbf{v}_\ell\mathbf{z}_\ell^\top,\quad \Delta \mathbf{b}_\ell^{\mathrm{NP}}:=-\eta \frac{\delta \mathcal{L}}{\sigma}\mathbf{v}_\ell
+\end{equation}
+$$
+
+と設定できる．
