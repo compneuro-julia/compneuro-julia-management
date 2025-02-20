@@ -1,23 +1,3 @@
-STDPはlocal learning ruleに
-local learning ruleと分類するのはどうなのか？
-
-BP (spiral, zipser & anderson, MNIST classify, autoencoder)
-FA・DFA・KP (Fashion MNIST classification)
-Predictive coding
-Perturbation learning (https://oumpy.github.io/blog/2022/02/directional_gradient_optimization.html)
-
-BPTT
-RTRL
-Random Feedback (Murray, J. M. Local online learning in recurrent networks with random feedback. eLife 8, pii: e43299 (2019).)
-
-SpikeProp
-Surrogate Gradient
-#BurstProp
-e-prop (A solution to the learning dilemma for recurrent networks of spiking neurons)
-
-Reservior computing (rate, spike)
-
----
 # 摂動法
 本節では摂動法 (permutation) による勾配推定について説明する．摂動法に含まれる手法は複数あるが，総じて次のような手法を指す．まず，あるモデル（ネットワーク）を用意し，その目的関数を $\mathcal{L}$ とする．次にモデルのパラメータや活動にランダムな微小変化（摂動）$\mathbf{v}$ を加え，摂動を受ける前後の目的関数の変化量 $\delta \mathcal{L}$ を取得する．この $\delta \mathcal{L}$ や $\mathbf{v}$ およびモデルの活動等を用いてパラメータを更新するのが摂動法である．
 
