@@ -1,9 +1,15 @@
+BPTTの駄目な点
+- 順・逆伝播の重みの対称性 (weight transport problem)
+- 推論と訓練の2 phase存在すること．
+
+
 STDPはlocal learning ruleに
 local learning ruleと分類するのはどうなのか？
 
 BP (spiral, zipser & anderson, MNIST classify, autoencoder)
-FA・DFA・KP (Fashion MNIST classification)
-Predictive coding
+FA・DFA・KP (Fashion MNIST classification; https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2021.629892/full)
+Target propagation, Predictive coding (https://www.nature.com/articles/s41593-023-01514-1#MOESM1; supplement; A THEORETICAL FRAMEWORK FOR INFERENCE AND
+LEARNING IN PREDICTIVE CODING NETWORKS)
 Perturbation learning (https://oumpy.github.io/blog/2022/02/directional_gradient_optimization.html)
 
 BPTT
@@ -29,5 +35,15 @@ Lyapunov指数
 - https://www.nature.com/articles/s41598-019-50158-4
 - https://www.sciencedirect.com/science/article/pii/S0893608024010086
 カオスの縁
+
+
+--
+
+Rescorla–Wagner model
+
+競合学習はそれだけで書ける．
+
+Softhebb
+https://www.pnas.org/doi/full/10.1073/pnas.1820458116
 
 ---

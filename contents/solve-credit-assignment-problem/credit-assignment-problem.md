@@ -19,4 +19,23 @@
 
 
 時系列問題に対しては経時的貢献度分配問題 (temporal credit assignment problem)という．
+
+
+
+credit assignment problem 
+
+The study of plasticity has always been about gradients
+
+脳は学習を行う．学習を行った結果，ネットワークはよりよい状態となる．ネットワークのよさを表現するのが目的関数である．
+機械学習では主に目的関数が明示的 (explicit) に与えられ，明示的に目的関数の値が改善されるように勾配降下法などでパラメータが更新される．
+それでは脳には目的関数があり，その勾配を計算しているのだろうか．
+これに対して否定的であったとしても，ネットワークがよい状態になるということは，勾配に部分的に従ってパラメータ更新がなされていることとなる．
+つまり，脳は陰的 (implicit) に勾配降下を行っていると言える．
+
+
+https://www.pnas.org/doi/10.1073/pnas.2111821118
+
+local lossの発想
+
+
 <!-- #endregion -->
