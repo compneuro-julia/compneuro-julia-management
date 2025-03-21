@@ -1,5 +1,9 @@
 
-状態 (state) を $s\in \mathcal{S}$, 行動 (action) を $a \in \mathcal{A}$ とする．
+## 問題設定
+環境 (world) の中で行動するエージェント (agent) があるとする．このエージェントは生物やロボットの一個体を意味する．環境およびエージェントの状態 (state) を $s\in \mathcal{S}$とし，エージェントの行動 (action) を $a \in \mathcal{A}$ とする．ここで，$\mathcal{S}, \mathcal{A}$ はそれぞれ状態と行動の集合である．
+
+時刻$t$における報酬を $r_t$ とする．$\tau = (s_0, a_0, s_1, a_1, \dots)$ はエージェントの軌跡 (trajectory)．ここでの$\tau$は時定数や時刻を意味しないことに注意．
+
 
 ## 時間差分学習
 時間差分学習 (Temporal difference (TD) learning) 
@@ -18,7 +22,7 @@ $$
 J(\theta) = \mathbb{E}_{\tau \sim \pi_{\theta}} \left[ R(\tau) \right]
 $$
 
-ここで，$\tau = (s_0, a_0, s_1, a_1, \dots)$ はエージェントの軌跡 (trajectory)\footnote{ここでの$\tau$は時定数や時刻を意味しないことに注意．}，$R(\tau)$ は累積報酬を表す．勾配上昇法 (gradient ascent) により，
+ここで，$R(\tau)$ は累積報酬を表す．勾配上昇法 (gradient ascent) により，
 
 $$
 \delta \theta = \eta \nabla_\theta J(\theta)
@@ -154,4 +158,6 @@ Z_t&=Z_{t-1}+\frac{1}{\sigma^2}\boldsymbol{\xi}_t \mathbf{x}_t^\top\left(=\frac{
 \end{align}
 $$
 
-とできる．
+とできる．この，ノイズベクトル $(\boldsymbol{\xi}_t)$ と活動ベクトル ($\mathbf{x}_t$) の外積を取って重みを更新する方法はノード摂動法と同様である．
+
+## 内発的動機付け
