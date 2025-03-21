@@ -1,4 +1,11 @@
 
+状態 (state) を $s\in \mathcal{S}$, 行動 (action) を $a \in \mathcal{A}$ とする．
+
+## 時間差分学習
+時間差分学習 (Temporal difference (TD) learning) 
+
+
+
 ## Q-learning
 行動価値関数 $Q(s, a)$ を
 
@@ -51,7 +58,7 @@ $$
 Actor-Critic法では
 
 ---
-### 運動学習の例
+### 方策勾配法による運動学習の例
 方策勾配法 (REINFORCE法) により運動学習を行うことを考えよう．
 
 in Friedrich
