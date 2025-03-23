@@ -2,8 +2,17 @@
 # 強化学習
 強化学習 (reinforcement learning)
 
+> People and animals learn by interacting with our environment
+> This differs from certain other types of learning
+> It is active rather than passive
+> Interactions are often sequential — future interactions can depend on earlier ones
+> We are goal-directed
+> We can learn without examples of optimal behaviour
+> Instead, we optimise some reward signal
+> Goal: optimise sum of rewards, through repeated interaction
+
 ## 環境とエージェント
-環境 (environment) の中で行動するエージェント (agent) があるとする．このエージェントは生物やロボットの一個体を意味する．環境およびエージェントの状態 (state) を $s\in \mathcal{S}$とし，エージェントの行動 (action) を $a \in \mathcal{A}$ とする．ここで，$\mathcal{S}, \mathcal{A}$ はそれぞれ状態集合と行動集合であり，双方に離散あるいは連続の場合がある．例えばグリッド状の迷路を探索する場合，環境は迷路であり，状態集合はエージェントの迷路内での位置からなる集合，行動集合は上下左右の4つの動きからなる集合などとなる．
+環境 (environment) の中で行動するエージェント (agent) があるとする．このエージェントは生物やロボット等の行動を行う主体を意味する．環境およびエージェントの状態 (state) を $s\in \mathcal{S}$とし，エージェントの行動 (action) を $a \in \mathcal{A}$ とする．ここで，$\mathcal{S}, \mathcal{A}$ はそれぞれ状態集合と行動集合であり，双方に離散あるいは連続の場合がある．例えばグリッド状の迷路を探索する場合，環境は迷路であり，状態集合はエージェントの迷路内での位置からなる集合，行動集合は上下左右の4つの動きからなる集合などとなる．
 
 エージェントは環境内で行動し，状態と行動に応じて**報酬** (reward) を得る．エージェントが望ましい行動をした場合は正の報酬が得られ，望ましくない行動をした場合には負の報酬，すなわち罰 (punishment) が与えられることとなる．強化学習の主な目的は，エージェントが得た報酬に基づいて行動の調整を行うことである．
 
@@ -33,9 +42,10 @@ $$
 G_t = r_{t}+\gamma r_{t+1}+\gamma^2 r_{t+2}+\cdots+\gamma^{T-t}r_T = \sum_{k=t}^{T}\gamma^{k-t} r_{k}
 $$
 
-これを**割引報酬和** (discounted total reward) と呼ぶ．$T\to \infty$ の場合は $\gamma^{T-t}r_T \to 0$ となるため $G_t$ が発散することは防がれる．$\gamma$ が0に近い場合は即時に得られる報酬を重視し，1に近い場合は累積報酬のように将来の報酬も重視して行動選択を行うこととなる．以降では，$T\to \infty$とした $G_t:=\sum_{k=t}^{\infty}\gamma^{k-t} r_{k}$ を収益として考えることとする．また，割引報酬和では $G_t = r_t + \gamma G_{t+1}$ が成立する．
+これを**割引報酬和** (discounted total reward) と呼ぶ．$T\to \infty$ の場合は $\gamma^{T-t}r_T \to 0$ となるため $G_t$ が発散することは防がれる．$\gamma$ が0に近い場合は即時に得られる報酬を重視し，1に近い場合は累積報酬のように将来の報酬も重視して行動選択を行うこととなる．以降では，$T\to \infty$とし，無限の未来の報酬までを考慮した $G_t:=\sum_{k=t}^{\infty}\gamma^{k-t} r_{k}$ を収益として考えることとする．また，割引報酬和では $G_t = r_t + \gamma G_{t+1}$ が成立する．
 
 ### 価値
+同じ方策 $\pi$ であっても収益 $G_t$ は状態によって変化する
 
 状態 $s$ の価値 (value) を $V(s)$ で表し，状態価値関数 (state value function) と呼ぶ．ここでの「価値」は状態 $s$ にある際に期待される将来の累積報酬の大きさを表す．
 
