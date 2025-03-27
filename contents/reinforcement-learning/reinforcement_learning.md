@@ -252,6 +252,7 @@ $$
 $$
 \nabla_\theta J(\theta)=\frac{\partial J(\theta)}{\partial \theta}
 $$
+
 方策勾配定理 (policy gradient theorem) は
 
 $$
@@ -262,6 +263,47 @@ $$
 $$
 
 と表される．
+
+https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html
+
+
+方策が無い場合は
+
+$$
+p(\tau) = p(s_0) \prod_{t=0}^T p(s_{t+1}\mid s_t, a_t) p(a_t \mid s_t)
+$$
+
+だが，方策を考えると
+
+$$
+p(\tau \mid \theta) = p(s_0) \prod_{t=0}^T p(s_{t+1}\mid s_t, a_t) \pi_\theta (a_t \mid s_t)
+$$
+
+となる．$\log$ を取ると，
+
+$$
+\log p(\tau \mid \theta) = \log p(s_0) + \sum_{t=0}^T \left(\log p(s_{t+1}\mid s_t, a_t) + \log \pi_\theta (a_t \mid s_t)\right)
+$$
+
+となる．勾配を計算すると，
+
+$$
+\nabla_\theta \log p(\tau \mid \theta) = \sum_{t=0}^T \nabla_\theta \log \pi_\theta (a_t \mid s_t)
+$$
+
+となる．$\frac{d}{dx} \log(f(x))=\frac{f'(x)}{f(x)}$ より，$f'(x)=f(x)\frac{d}{dx} \log(f(x))$ である．これをLog-Derivative Trickと呼ぶ．
+
+$$
+\begin{align}
+\nabla_\theta J(\theta) &= \nabla_\theta\mathbb{E}_{\tau \sim \pi_{\theta}} \left[ R(\tau) \right]\\
+&=\nabla_\theta\int_\tau p(\tau \mid \theta) R(\tau) d\tau\\
+&=\int_\tau \nabla_\theta p(\tau \mid \theta) R(\tau) d\tau (\because \textrm{微分と積分の順序交換})\\
+&=\mathbb{E}_{\pi_\theta}\left[\frac{\partial \pi_\theta (a|s)}{\partial \theta}\frac{1}{\pi_\theta (a|s)}Q^\pi (s|a)\right]\\
+&=\mathbb{E}_{\pi_\theta}\left[\nabla_\theta \log \pi_\theta (a|s)Q^\pi (s|a)\right]
+\end{align}
+$$
+
+
 
 モンテカルロ近似により，$M$ をエピソード数，$T$ を時間ステップ数とすると，
 
