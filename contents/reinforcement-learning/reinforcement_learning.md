@@ -235,15 +235,26 @@ $$
 ## 勾配方策法
 
 Q学習やSARSA等は価値ベース法
+
 方策
 
 最適化する目的関数（方策の評価指標）はエピソード全体の期待報酬として次のように定義される
 
 $$
-J(\theta) = \mathbb{E}_{\tau \sim \pi_{\theta}} \left[ R(\tau) \right]
+\begin{align}
+J(\theta) &= \mathbb{E}_{\tau \sim \pi_{\theta}} \left[ R(\tau) \right]\\
+&=\mathbb{E}\left[\sum_{t=1}^\infty \gamma^{t-1}r_t\ \middle|\ s=s_0\right]
+\end{align}
 $$
 
-ここで，$R(\tau)$ は累積報酬を表す．勾配上昇法 (gradient ascent) により，
+ここで，$R(\tau)$ は累積報酬を表す．
+
+$$
+R(\tau)=\left[\right]
+$$
+
+
+勾配上昇法 (gradient ascent) により，
 
 $$
 \delta \theta = \eta \nabla_\theta J(\theta)
