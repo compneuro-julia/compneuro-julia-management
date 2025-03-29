@@ -297,7 +297,13 @@ $$
 \begin{align}
 \nabla_\theta J(\theta) &= \nabla_\theta\mathbb{E}_{\tau \sim \pi_{\theta}} \left[ R(\tau) \right]\\
 &=\nabla_\theta\int_\tau p(\tau \mid \theta) R(\tau) d\tau\\
-&=\int_\tau \nabla_\theta p(\tau \mid \theta) R(\tau) d\tau (\because \textrm{微分と積分の順序交換})\\
+&=\int_\tau \nabla_\theta p(\tau \mid \theta) R(\tau) d\tau\quad (\because \textrm{微分と積分の順序交換})\\
+\end{align}
+$$
+
+
+$$
+\begin{align}
 &=\mathbb{E}_{\pi_\theta}\left[\frac{\partial \pi_\theta (a|s)}{\partial \theta}\frac{1}{\pi_\theta (a|s)}Q^\pi (s|a)\right]\\
 &=\mathbb{E}_{\pi_\theta}\left[\nabla_\theta \log \pi_\theta (a|s)Q^\pi (s|a)\right]
 \end{align}
