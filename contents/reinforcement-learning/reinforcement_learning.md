@@ -122,13 +122,24 @@ $$
 $$
 
 ### 時間差分学習
+
 p.105
 
-時間差分学習 (Temporal difference (TD) learning) は価値推定の基本的な手法である．状態 $s$ の価値 (value) を $V(s)$ で表し，状態価値関数 (state value function) と呼ぶ．
+時間差分学習 (Temporal difference (TD) learning; 以後，TD学習と表記する) は価値推定の基本的な手法である．状態 $s$ の価値 (value) を $V(s)$ で表し，状態価値関数 (state value function) と呼ぶ．
 
 SARSA, Q学習では状態 $s$ で行動 $a$ を取るときの価値を $Q(s, a)$ とし，行動価値関数 (action value function)
 
 Future rewardは
+
+
+TD学習は古典的条件付け (Classical conditioning) のモデルである，Rescorla-Wagner (RW) モデル {cite:p}`rescorla1972theory` と予測誤差に基づいて学習を進めるという点で関連がある．RWモデルは条件刺激 (conditioned stimulus, CS) と無条件刺激 (unconditioned stimulus, US) の間
+
+$$
+\Delta V_i = \eta \left(\lambda - \sum_j V_j\right)
+$$
+
+https://www.jstage.jst.go.jp/article/janip/66/2/66_66.2.4/_pdf
+
 
 Q学習とSARSAはTD学習を元にしている．
 
@@ -144,7 +155,7 @@ Q(s_t, a_t)\leftarrow Q(s_t, a_t)+\alpha[r_{t+1}+\gamma Q(s_{t+1}, a_{t+1})-Q(s_
 $$
 
 ---
-TD (Temporal difference) learningにおいて，**報酬予測誤差**(reward prediction error, **RPE**) $\delta_{i}$は次のように計算される． 
+TD (Temporal difference) learningにおいて，**報酬予測誤差**(reward prediction error, RPE) $\delta_{i}$は次のように計算される． 
 
 $$ 
 \begin{equation}
@@ -190,6 +201,11 @@ $$
 
 
 ## Q-learning & SARSA
+
+Q-learning ()
+
+SARSA ()
+
 行動価値関数 $Q(s, a)$ を
 
 累積報酬を
@@ -446,6 +462,27 @@ $$
 
 とできる．この，ノイズベクトル $(\boldsymbol{\xi}_t)$ と活動ベクトル ($\mathbf{x}_t$) の外積を取って重みを更新する方法はノード摂動法と同様である．
 
+## 分布型強化学習
+分布型強化学習 (Distributional reinforcement learning)
+
+Dabneyら
+
+$$
+Z^\pi (s, a) = 
+$$
+
+分布型Bellmann方程式 (distributional Bellman equation) 
+
+$$
+Z(s_t) = R(s_t) + \gamma Z(s_{t+1})
+$$
+
+期待値をとると，$V(s_t)=\mathbb{E}[Z(s_t)]$ となる．
+
+
+
+https://arxiv.org/abs/1710.10044
+
 ## 内発的動機付け
 
 maximum entropy (MaxEnt) RL
@@ -467,3 +504,5 @@ Soft Actor-Critic
 ## POMDP
 信念 (belief) を用いる．
 belief MDP
+
+https://blog.dileeplearning.com/p/a-critique-of-successor-representations
