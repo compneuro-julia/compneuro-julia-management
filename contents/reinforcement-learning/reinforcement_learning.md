@@ -312,30 +312,24 @@ $$
 \log p(\tau \mid \theta) = \log p(s_0) + \sum_{t=0}^T \left(\log p(s_{t+1}\mid s_t, a_t) + \log \pi_\theta (a_t \mid s_t)\right)
 $$
 
-となる．勾配を計算すると，
+となる．勾配を計算すると，$\theta$ を含まない項は消え，
 
 $$
 \nabla_\theta \log p(\tau \mid \theta) = \sum_{t=0}^T \nabla_\theta \log \pi_\theta (a_t \mid s_t)
 $$
 
-となる．$\frac{d}{dx} \log(f(x))=\frac{f'(x)}{f(x)}$ より，$f'(x)=f(x)\frac{d}{dx} \log(f(x))$ である．これをLog-Derivative Trickと呼ぶ．
+となる．$\nabla_x \log f(x)=\dfrac{\nabla_x f(x)}{f(x)}$ より，$\nabla_x f(x)=f(x)\nabla_x \log f(x)$ である．これは対数微分によるトリック (log-derivative trick) と呼ばれる．これを用いると，$f(x)$ を微分演算の外に取り出すことができる．
 
 $$
 \begin{align}
 \nabla_\theta J(\theta) &= \nabla_\theta\mathbb{E}_{\tau \sim \pi_{\theta}} \left[ R(\tau) \right]\\
-&=\nabla_\theta\int_\tau p(\tau \mid \theta) R(\tau) d\tau\\
-&=\int_\tau \nabla_\theta p(\tau \mid \theta) R(\tau) d\tau\quad (\because \textrm{微分と積分の順序交換})\\
+&=\nabla_\theta \sum_\tau p(\tau \mid \theta) R(\tau)\\
+&=\sum_\tau \nabla_\theta\ p(\tau \mid \theta) R(\tau)\quad (\because \textrm{微分と総和の順序交換})\\
+&=\sum_\tau p(\tau \mid \theta) \nabla_\theta\log p(\tau \mid \theta) R(\tau)\quad (\because \textrm{対数微分によるトリック})\\
+&=\mathbb{E}_{\tau \sim \pi_{\theta}}\left[\nabla_\theta \log p(\tau \mid \theta) R(\tau)\right]\quad (\because \textrm{期待値での表現に変換})\\
+&=\mathbb{E}_{\tau \sim \pi_{\theta}}\left[\sum_{t=0}^T \nabla_\theta \log \pi_\theta (a_t \mid s_t) R(\tau)\right]
 \end{align}
 $$
-
-
-$$
-\begin{align}
-&=\mathbb{E}_{\pi_\theta}\left[\frac{\partial \pi_\theta (a|s)}{\partial \theta}\frac{1}{\pi_\theta (a|s)}Q^\pi (s|a)\right]\\
-&=\mathbb{E}_{\pi_\theta}\left[\nabla_\theta \log \pi_\theta (a|s)Q^\pi (s|a)\right]
-\end{align}
-$$
-
 
 
 モンテカルロ近似により，$M$ をエピソード数，$T$ を時間ステップ数とすると，
