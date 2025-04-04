@@ -49,7 +49,7 @@ $$
 を満たし，位置の分散
 
 $$
-\mathcal{F}=\sum_{i\in \mathrm{Pos.}}\left[\sum_{t=T_m}^{T} \operatorname{Cov}\left[\mathbf{x}_{t}\right]\right]_{i, i}
+\mathcal{V}=\sum_{i\in \mathrm{Pos.}}\left[\sum_{t=T_m}^{T} \operatorname{Cov}\left[\mathbf{x}_{t}\right]\right]_{i, i}
 $$
 
 を最小にするような制御信号 $\mathbf{u}_t$ を求める．ただし，$\mathrm{Pos.}$ は状態 $\mathbf{x}_t$ の中で位置を表す次元の番号 (インデックス) の集合を意味し，$[\cdot]_{i,i}$は行列の$(i,i)$成分を取り出す操作を意味する．この最適化問題を（躍度最小モデルの際にも用いた）等式制約下の二次計画問題で解くことを考える．二次計画問題で解くには，最小化する目的関数と等式制約をそれぞれ
@@ -71,9 +71,9 @@ $$
 \end{align}
 $$
 
-と書ける．
+と書ける．最後の式変形は $u_{t'}^2$ を二重総和の外に出すために行った．この操作は次の図における横方向と縦方向の和の順番を交換することに該当する．
 
-$V_{t'}:=\sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}$ とすると，$\mathbf{P}=\mathrm{diag}(V_0, \ldots, V_{T-1})\in \mathbf{R}^{T\times T}$ および $\mathbf{q}=\mathbf{0} \in \mathbf{R}^{T}$ となり，$\mathcal{F}=\mathbf{u}^\top \mathbf{P}\mathbf{u}+\mathbf{q} ^{\top}\mathbf{u}$ と書ける．この場合，第2項は0であるので，第1項の係数は結果に影響しない．
+ここで $V_{t'}:=\sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}$ とすると，$\mathbf{P}=\mathrm{diag}(V_0, \ldots, V_{T-1})\in \mathbf{R}^{T\times T}$ および $\mathbf{q}=\mathbf{0} \in \mathbf{R}^{T}$ と置くことで，$\mathcal{F}=\mathbf{u}^\top \mathbf{P}\mathbf{u}+\mathbf{q} ^{\top}\mathbf{u}$ と書ける．この場合，第2項は0であるので，第1項の係数は結果に影響しない．
 
 次に等式制約を求める．$\mathbb{E}\left[\mathbf{x}_{t}\right] = \mathbf{x}_f\quad (T_m\leq t \leq T)$ を変形すると，
 
@@ -103,4 +103,4 @@ $$
 \end{equation}
 $$
 
-とすることで，等式制約が書き下せる．ただし，$[\cdot]_{i:j}$ はベクトルあるいは行列の $i$ 番目から $j$ 番目までを取り出す操作を意味する．こうして，$\mathbf{P}, \mathbf{q}, \mathbf{C}, \mathbf{d}$ が求まったので，等式制約下の二次計画問題を用いて $\mathbf{u}$ を求める．
+とすることで，等式制約が書き下せる．ただし，$[\cdot]_{i:j}$ はベクトルあるいは行列の $i$ 番目から $j$ 番目までを取り出す操作を意味する．このように，$\mathbf{P}, \mathbf{q}, \mathbf{C}, \mathbf{d}$ を設定すると，等式制約下の二次計画問題を用いて $\mathbf{u}$ を求めることができる．
