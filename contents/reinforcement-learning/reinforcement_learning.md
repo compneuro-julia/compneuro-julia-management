@@ -173,22 +173,62 @@ $$
 で表す．報酬予測誤差 $\delta_t$ を用いると，TD学習の更新則は $V(s_t)\leftarrow V(s_t)+\alpha \delta_t$ と表記できる．
 
 ### 報酬予測誤差とドーパミン作動性ニューロン
-ここでTD学習と神経科学の対応について紹介する．TD学習における報酬予測誤差がドーパミン作動性ニューロン (dopaminergic neurons; DA) により符号化されていることがSchultzらにより報告されている {cite:p}`Schultz1997-ih`. ドーパミン作動性ニューロン (dopaminergic neurons; DA) は神経伝達物質の一種であるドーパミン (dopamine) を分泌する神経細胞であり，主に中脳の腹側被蓋野 (Ventral tegmental area, VTA) や黒質緻密部 (substantia nigra pars compacta, SNc) に分布している．
+ここでTD学習と神経科学の対応について紹介する．
 
+大脳基底核
+
+報酬に応答するニューロンがあるとは知られていた．
+
+理論的枠組みは
+https://www.jneurosci.org/content/16/5/1936/tab-article-info
+
+ドーパミン作動性ニューロン (dopaminergic neurons) あるいは ドーパミンニューロン (dopamine neurons) は神経伝達物質の一種であるドーパミン (dopamine) を分泌する神経細胞であり，主に中脳の腹側被蓋野 (Ventral tegmental area, VTA) や黒質緻密部 (substantia nigra pars compacta, SNc) に分布している．
+
+TD学習における報酬予測誤差がドーパミン作動性ニューロン (dopaminergic neurons; DA) により符号化されていることがSchultzらにより報告されている {cite:p}`Schultz1997-ih`. 
+
+サルのVTA
+
+
+ドーパミンニューロンであるとどう同定したか？
+
+https://www.nature.com/articles/nature03015
 
 条件刺激 (conditioned stimulus, CS) と無条件刺激 (unconditioned stimulus, US)
+
+
+シミュレーションをここに入れる．Schlutz, 
+北澤の再現．
+
+
+A Unified Framework for Dopamine Signals across Timescales
+
+
+https://www.nature.com/articles/s41593-023-01566-3
 
 ただし，VTAとSNcのドーパミンニューロンの役割は同一ではない．ドーパミンニューロンへの入力が異なっています [(Watabe-Uchida et al., _Neuron._ 2012)](https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4)． また，細かいですがドーパミンニューロンの発火は報酬量に対して線形ではなく，やや飽和する非線形な応答関数 (Hill functionで近似可能)を持ちます([Eshel et al., _Nat. Neurosci._ 2016](https://www.nature.com/articles/nn.4239))．このため著者実装では報酬 $r$に非線形関数がかかっているものもあります．
 
 先ほどRPEはドーパミンニューロンの発火率で表現されている，といいました．RPEが正の場合はドーパミンニューロンの発火で表現できますが，単純に考えると負の発火率というものはないため，負のRPEは表現できないように思います．ではどうしているかというと，RPEが0（予想通りの報酬が得られた場合）でもドーパミンニューロンは発火しており，RPEが正の場合にはベースラインよりも発火率が上がるようになっています．逆にRPEが負の場合にはベースラインよりも発火率が減少する(抑制される)ようになっています
 
-([Schultz et al., <span style="font-style: italic;">Science.</span> 1997](https://science.sciencemag.org/content/275/5306/1593.long "https://science.sciencemag.org/content/275/5306/1593.long"); [Chang et al., <span style="font-style: italic;">Nat Neurosci</span>. 2016](https://www.nature.com/articles/nn.4191 "https://www.nature.com/articles/nn.4191"))．発火率というのを言い換えればISI (inter-spike interval, 発火間隔)の長さによってPREが符号化されている(ISIが短いと正のRPE, ISIが長いと負のRPEを表現)ともいえます ([Bayer et al., <span style="font-style: italic;">J.
+https://www.nature.com/articles/nature12475
+
+
+
+ドーパミンニューロンの短時間の光遺伝学的抑制は内因性の負の報酬予測誤差を模倣する
+https://www.nature.com/articles/nn.4191 "https://www.nature.com/articles/nn.4191
+
+発火率というのを言い換えればISI (inter-spike interval, 発火間隔)の長さによってPREが符号化されている(ISIが短いと正のRPE, ISIが長いと負のRPEを表現)ともいえます ([Bayer et al., <span style="font-style: italic;">J.
 Neurophysiol</span>. 2007](https://www.physiology.org/doi/full/10.1152/jn.01140.2006 "https://www.physiology.org/doi/full/10.1152/jn.01140.2006"))．
+
+ドーパミンニューロンの活動は報酬予測誤差のみを符号化しているわけではなく，運動 (movement), Salience, Threat等の他の要素に関しても予測誤差を計算していると報告されています．
+これを一般化予測誤差という
+
+https://www.nature.com/articles/s41593-024-01705-4
+
 
 予測価値(分布) $V(x)$ですが，これは線条体(striatum)のパッチ (SNcに抑制性の投射をする)やVTAのGABAニューロン (VTAのドーパミンニューロンに投射して減算抑制をする, ([Eshel, et al., _Nature_. 2015](https://www.nature.com/articles/nature14855 "https://www.nature.com/articles/nature14855")))などにおいて表現されている．
 
 ### Rescorla-Wagnerモデル
-TD学習は古典的条件付け (Classical conditioning) のモデルである，Rescorla-Wagner (RW) モデル {cite:p}`rescorla1972theory` と予測誤差に基づいて学習を進めるという点で関連がある．RWモデルは条件刺激 (conditioned stimulus, CS) と無条件刺激 (unconditioned stimulus, US) の間
+TD学習は古典的条件付け (Classical conditioning) のモデルである，Rescorla-Wagner (RW) モデル {cite:p}`rescorla1972theory` と予測誤差に基づいて学習を進めるという点で関連がある．RWモデルは条件刺激 (CS) と無条件刺激 (US) の間
 
 $$
 \Delta V_i = \eta \left(\lambda - \sum_j V_j\right)
@@ -196,8 +236,22 @@ $$
 
 https://www.jstage.jst.go.jp/article/janip/66/2/66_66.2.4/_pdf
 
+### eligibility traceの利用とTD($\lambda$) 則
+eligibility trace
 
-## SARSA・Q学習
+---
+
+## 価値ベース法
+
+
+Q-learning & SARSA
+
+Q-learning ()
+
+SARSA ()
+
+state-action-reward-state-action
+
 SARSA, Q学習では状態 $s$ で行動 $a$ を取るときの価値を $Q(s, a)$ とし，行動価値関数 (action value function)
 
 Future rewardは
@@ -216,11 +270,15 @@ $$
 Q(s_t, a_t)\leftarrow Q(s_t, a_t)+\alpha[r_{t+1}+\gamma Q(s_{t+1}, a_{t+1})-Q(s_t, a_t)]
 $$
 
-## Q-learning & SARSA
 
-Q-learning ()
+### SARSA
 
-SARSA ()
+### Q学習
+
+行動選択
+
+価値ベース法
+
 
 行動価値関数 $Q(s, a)$ を
 
@@ -263,8 +321,10 @@ $$
 単に全ての状態を入力とするのは都合が悪いので，
 位置を行動に変換する．
 
+---
 
-## 勾配方策法
+## 方策ベース法
+### 勾配方策法
 
 Q学習やSARSA等は価値ベース法
 
@@ -465,9 +525,15 @@ $$
 
 とできる．この，ノイズベクトル $(\boldsymbol{\xi}_t)$ と活動ベクトル ($\mathbf{x}_t$) の外積を取って重みを更新する方法はノード摂動法と同様である．
 
+### Actor-Critic法
+
+
+
 ---
 ## 分布型強化学習
 分布型強化学習 (Distributional reinforcement learning)
+
+TD学習の拡張である．
 
 Dabneyら
 
