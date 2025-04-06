@@ -1,5 +1,6 @@
 
 # 強化学習
+## 強化学習とマルコフ決定過程
 ### 強化学習の目的
 本章で扱う**強化学習** (reinforcement learning, RL) では環境 (environment) と，その中で行動するエージェント (agent) という概念が導入される．環境とは，エージェントが相互作用する対象であり，エージェントの行動によってその状態が変化するものである．一方，エージェントは環境内で行動を選択し，学習を行う主体（例えば生物やロボットなど）を意味する．エージェントは環境内で行動し，状態と行動に応じて**報酬** (reward) を得る．強化学習ではエージェントには望ましい行動が教師信号として与えられない代わりに，この報酬が与えられる．強化学習の目的は，エージェントが環境との相互作用を行い，結果として得られる報酬をより多く獲得する（目標を達成する）ために行動の選択を調整することである．
 
@@ -11,7 +12,7 @@
 状態と行動が連続的である例としては，動物の歩行が挙げられる．この場合，環境は動物を取り巻くすべての要素を指し，エージェントは動物（厳密にはその神経系）に相当する．状態集合 $\mathcal{S}$ は環境の状態（地面や大気の状態など）に加え，動物自身の状態（環境内での位置や体の各部位の配置など）が含まれる．一方，行動集合 $\mathcal{A}$ は特定の筋肉の筋緊張の強弱などで表される．
 
 ### 報酬
-エージェントは行動の結果として，状態に応じた報酬を得る．この報酬は正にも負にもなり得る．望ましい行動をとった場合には正の報酬が得られ，望ましくない行動をとった場合には負の報酬，すなわち罰 (punishment) が与えられる．報酬は即時に得られることもあれば，長期的な成果としてもたらされることもある．
+エージェントは行動の結果として，状態に応じた報酬 $r \in \mathbb{R}$ を得る．この報酬は正にも負にもなり得る．望ましい行動をとった場合には正の報酬が得られ，望ましくない行動をとった場合には負の報酬，すなわち罰 (punishment) が与えられる．報酬は即時に得られることもあれば，長期的な成果としてもたらされることもある．
 
 具体例として，動物の歩行を考えてみよう．正の報酬としては，移動先で得られる水や餌（食料）などがある．一方，負の報酬には，歩行による疲労（エネルギー消費）や痛み（筋肉痛，障害物との接触，外敵の攻撃など）が含まれる．
 
@@ -33,8 +34,26 @@ $$
 
 しかし，現実の多くの問題では，エージェントは $s_t$ の一部しか観測できない場合や，観測に不確実性 (uncertainty) を含む場合がある．この場合，環境は**部分観測マルコフ決定過程** (partially observable Markov decision process, POMDP) で記述される．例えば，動物が視覚経路から外部の環境を観測する場合，瞬時的には視野の範囲しか外界を観測できず，また視野の範囲の物体であっても二次元の網膜像からは物体の三次元的形状を正確に得ることはできない（形状は推論する必要があり，その過程には不確実性が含まれる）．このような状況では，エージェントは観測の不確実性を考慮し，状態に対する信念 (beliefs) を持って意思決定を行う必要がある．
 
-### 方策
+### 方策と軌道
 与えられた状態 $s$ に対してエージェントの行動 $a$ を決定する関数を**方策** (policy) と呼び，$\pi$ で表される．ある状態 $s$ に対して常に同じ行動 $a$ を決定する方策を決定論的方策と呼び， $a=\pi(s)$ で表される．一方で行動を確率的に決定する方策を，確率的方策と呼び，$\pi(a \mid s) = p(a \mid s)$ で表される．ここで $\pi$ のみを使用する場合は方策それ自体を意味し，$\pi(a \mid s)$ は状態 $s$ が与えられた時に $a$ を選択する確率を意味する．
+
+次に **軌道** (trajectory) を定義する．軌道とは，あるエージェントが環境と相互作用する中で得られる状態，行動，報酬の系列全体をまとめたものであり，
+
+$$
+\begin{equation}
+\tau := \{s_0, a_0, r_1, s_1, a_1, r_2, \ldots, s_T, a_T, r_{T+1}, s_{T+1}\}
+\end{equation}
+$$  
+
+のように表される．ここで $T$ は任意の終端時刻を表し，$s_{T+1}$ は終端状態 (terminal state) と呼ばれる．終端時刻 $T$ が有限であり，目標の達成や失敗などの条件で明確に終了する（終端状態がある）軌道は，特に **エピソード** (episode) あるいは**試行** (trial) と呼ばれる．すなわち，エピソードは終端条件を満たして終了する軌道であり，無限に続く可能性のある軌道（例えば定常方策による継続的な制御）と区別されうる．$T$ が有限の場合，方策 $\pi$ の下で，軌道（エピソード） $\tau$ を取る確率は，マルコフ性より，
+
+$$
+\begin{equation}
+p(\tau) := p(s_0) \prod_{t=0}^T p(s_{t+1}, r_{t+1}\mid s_t, a_t) \pi(a_t \mid s_t)
+\end{equation}
+$$
+
+と表される．ただし，$p(s_0)$ は初期状態 $s_0$ を取る確率である．
 
 ### 収益
 強化学習は望ましい方策を得ることが目的であるが，そのためには方策の「良さ」を評価する必要がある．単純に瞬時的な報酬 $r_t$ で方策を評価した場合，即時的には報酬が少ないが後に大きな報酬が貰えるような方策を取らなくなってしまうため，これは望ましくない．こうした，行動に対する報酬が即時に得られず，後に得られるような場合の報酬を**遅延報酬** (delayed reward) と呼ぶ．方策の評価のためには遅延報酬も含めた報酬を将来全体において累積的に評価することが必要であり，評価した値を**収益** (return) と呼ぶ．最も単純な収益 $G_t$ としては，時刻 $t+1$ 以降の報酬を加算した**累積報酬** (cumulative reward) があり，時刻 $T$ に得られる報酬までを考慮する場合は次式で表される．
@@ -66,72 +85,109 @@ $$
 が成立する．
 
 ### 価値
-方策は状態に応じて変化するため，方策 $\pi$ の収益は状態ごとに評価する必要がある．状態 $s$ から，方策 $\pi$ に従って行動を選択した場合の収益の期待値を，状態 $s$ の**価値** (value) あるいは**状態価値** (state value) と呼び，$V^\pi(s)$ で表す．MDPの場合，$V^\pi(s)$ は以下で定義される．
+方策は状態に応じて変化するため，方策 $\pi$ の収益は状態ごとに評価する必要がある．状態 $s$ から，方策 $\pi$ に従って行動を選択した場合の収益の期待値を，状態 $s$ の**価値** (value) あるいは**状態価値** (state value) と呼び，$v_\pi(s)$ で表す．MDPの場合，$v_\pi(s)$ は以下で定義される．
 
 $$
 \begin{equation}
-V^\pi(s) := \mathbb{E}_\pi \left[G_t \mid s_t = s \right]=\mathbb{E}_\pi \left[\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}\ \middle|\ s_t = s \right]
+v_\pi(s) := \mathbb{E}_\pi \left[G_t \mid s_t = s \right]=\mathbb{E}_\pi \left[\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}\ \middle|\ s_t = s \right]
 \end{equation}
 $$
 
-ここで，$\mathbb{E}_\pi \left[\cdot \right]$ は方策 $\pi$ に従う場合の $[\cdot]$ 内の確率変数の期待値を取ることを意味する．また，$V^\pi(\cdot)$ を**状態価値関数** (state value function) と呼ぶ．
+ここで，$\mathbb{E}_\pi \left[\cdot \right]$ は方策 $\pi$ に従う場合の $[\cdot]$ 内の確率変数の期待値を取ることを意味する．また，$v_\pi(\cdot)$ を**状態価値関数** (state value function) と呼ぶ．
 
-状態価値と同様の発想で，状態 $s$ において行動 $a$ を選択した場合の価値を**行動価値** (action value)と呼ぶ．行動価値は，方策 $\pi$ に従う条件下で，状態 $s$ において行動 $a$ を選択した場合の収益の期待値として計算され，$Q^\pi (s, a)$ で表される．
+状態価値と同様の発想で，状態 $s$ において行動 $a$ を選択した場合の価値を**行動価値** (action value)と呼ぶ．行動価値は，方策 $\pi$ に従う条件下で，状態 $s$ において行動 $a$ を選択した場合の収益の期待値として計算され，$q_\pi (s, a)$ で表される．
 
 $$
 \begin{equation}
-Q^\pi(s, a) := \mathbb{E}_\pi \left[G_t \mid s_t = s, a_t=a \right]= \mathbb{E}_\pi \left[\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}\ \middle|\ s_t = s, a_t=a \right]
+q_\pi(s, a) := \mathbb{E}_\pi \left[G_t \mid s_t = s, a_t=a \right]= \mathbb{E}_\pi \left[\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}\ \middle|\ s_t = s, a_t=a \right]
 \end{equation}
 $$
 
-この $Q^\pi (\cdot)$ を行動価値関数 (action value function) と呼ぶ．状態 $s$における価値 $V^\pi(s)$は，状態 $s$において取る可能性のあるすべての行動 $a$ の価値 $Q^\pi(s, a)$ の期待値として次式のように表すことができる．
+この $q_\pi (\cdot)$ を行動価値関数 (action value function) と呼ぶ．状態 $s$ における価値 $v_\pi(s)$は，状態 $s$ において取る可能性のあるすべての行動 $a$ の価値 $q_\pi(s, a)$ の期待値として次式のように表すことができる．
 
 $$
 \begin{equation}
-V^\pi(s) = \sum_{a} \pi(a \mid s) Q^\pi(s, a)
+v_\pi(s) = \sum_{a} \pi(a \mid s) q_\pi(s, a)
 \end{equation}
 $$
 
-すなわち，状態 $s$ の価値 $V^\pi(s)$ は，その状態 $s$ での各行動 $a$ の価値 $Q^\pi(s, a)$ に方策，つまり行動$a$が取られる確率 $\pi(a \mid s)$ の重みをつけた加重平均として計算できる．
-
-### Bellman方程式
-
-$$
-\begin{align}
-V^\pi(s) &= \mathbb{E}_\pi \left[G_t \mid s_t = s \right]\\
-&= \mathbb{E}_\pi \left[r_{t+1} + \gamma G_{t+1} \mid s_t = s \right]\\
-\end{align}
-$$
+すなわち，状態 $s$ の価値 $v_\pi(s)$ は，その状態 $s$ での各行動 $a$ の価値 $q_\pi(s, a)$ に方策，つまり行動 $a$ が取られる確率 $\pi(a \mid s)$ の重みをつけた加重平均として計算できる．
 
 ## 状態価値の推定
+状態価値 $v_\pi(s)$ や行動価値 $q_\pi(s, a)$ は，環境との相互作用を通して推定を行う必要がある．まずは状態価値の推定について考えよう．以下では（方策 $\pi$ に従った際の）状態 $s$ の価値の推定値を $V(s)$ とする．また，終端時刻 $T$ が有限である場合のみを考える．
 
-状態 $s$ の価値の推定値を $V(s)$ とする．
-モンテカルロ法とTD法の2種類がある．
+### モンテカルロ法
+期待値を近似的に推定する手法として**モンテカルロ法** (Monte-Carlo method) がある．モンテカルロ法を用いると，一般に確率変数 $X$ および関数 $f$ がある場合，$\mathbf{E}[f(X)]$ の推定値 $\mu$ は，サンプル平均 $\mu=\frac{1}{N}\sum_{n=1}^N f(x_n)$ として与えられる．ただし，$x_n$ は$X$ の実現値（観測値）である．$x_n$ を全て保持せず，逐次的に（オンラインで）モンテカルロ推定を行う場合，
+
+$$
+\begin{equation}
+\mu_{n}= \mu_{n-1}+\frac{1}{n} \left[f(x_n)-\mu_{n-1}\right]
+\end{equation}
+$$
+
+と表される（$\mu_n$ は $n$ 回目の更新時の推定値である）．サンプル平均を取る手法は $X$ の分布 $p(X)$ が定常 (stationary) である場合はよいが，非定常 (non-stationary) である場合，すなわち $X$ の分布が時刻 $n$ に伴って変化する場合，過去と現在のサンプルに同様の重みを与えることは推定が悪くなる要因となりうる．このような非定常環境では$1/n$ の代わりに固定の学習率 $\alpha\ (0\leq \alpha \leq 1)$ を用い，現在のサンプルに大きな重みを与える，すなわち指数移動平均 (exponential moving average; EMA) を取る手法がより適している．
+
+$$
+\begin{equation}
+\mu_{n}= \mu_{n-1}+\alpha \left[f(x_n)-\mu_{n-1}\right]
+\end{equation}
+$$
+
+強化学習では，時間あるいは方策の変化に伴って状態価値や行動価値が変化する非定常環境を仮定することが多く，基本的には指数移動平均による推定を使用する．この手法を用いて状態価値 $v_\pi(s)$ を推定することを考えよう．$v_\pi(s)$ は状態 $s$ における 収益 $G_t$ の期待値であるため，1試行ごとに終端時刻まで軌道（エピソード）を記録し，各状態における $G_t$ を計算して，それにより推定値を次のように更新する方法が考えられる．
+
+$$
+\begin{equation}
+V(s_t)\leftarrow V(s_t)+\alpha \left[G_t - V(s_t)\right]
+\end{equation}
+$$
+
+強化学習の文脈では，この価値推定手法を指して（狭義の）モンテカルロ法と呼ぶ．モンテカルロ法には，$G_t$ が試行が終了するまで得られないという問題点がある．
+
+### Bellman方程式とTD学習
+モンテカルロ法を改善し，効率よく価値推定を行うために**Bellman方程式** (Bellman equation) を導入する．Bellman方程式は現在の価値と1ステップ将来の価値の関係を表す方程式であり，状態価値 $v_\pi(s)$ については以下が成立する．
 
 $$
 \begin{align}
-\textrm{モンテカルロ法: } V(s_t)&\leftarrow V(s_t)+\alpha \left[G_t - V(s_t)\right]\\
-\textrm{TD法: } V(s_t)&\leftarrow V(s_t)+\alpha \left[r_{t+1} + \gamma V(s_{t+1}) - V(s_t)\right]
+v_\pi(s) &:= \mathbb{E}_\pi \left[G_t \mid s_t = s \right]\\
+&= \mathbb{E}_\pi \left[r_{t+1} + \gamma G_{t+1} \mid s_t = s \right]\\
+&= \mathbb{E}_\pi \left[r_{t+1} + \gamma v_\pi(s_{t+1}) \mid s_t = s \right]\\
 \end{align}
 $$
 
-### モンテカルロ法
+モンテカルロ法で使用した収益 $G_t$ の代わりに $r_{t+1} + \gamma v_\pi(s_{t+1})$ の推定値 $r_{t+1} + \gamma V(s_{t+1})$ を使用すると，$V(s)$ を推定する更新則は 
 
 $$
-
+\begin{equation}
+V(s_t)\leftarrow V(s_t)+\alpha \left[r_{t+1} + \gamma V(s_{t+1}) - V(s_t)\right]
+\end{equation}
 $$
 
-### 時間差分学習
+となる．これを**時間差分学習** (temporal difference learning) と呼び，今後はTD学習と表記する．この $r_{t+1} + \gamma V(s_{t+1})$ と $V(s_t)$ の誤差を**報酬予測誤差** (reward prediction error, RPE) あるいは**TD誤差** (TD error) と呼び，
 
-p.105
+$$
+\begin{equation}
+\delta_t := r_{t+1} + \gamma V(s_{t+1}) - V(s_t)
+\end{equation}
+$$
 
-時間差分学習 (Temporal difference (TD) learning; 以後，TD学習と表記する) は価値推定の基本的な手法である．状態 $s$ の価値 (value) を $V(s)$ で表し，状態価値関数 (state value function) と呼ぶ．
+で表す．報酬予測誤差 $\delta_t$ を用いると，TD学習の更新則は $V(s_t)\leftarrow V(s_t)+\alpha \delta_t$ と表記できる．
 
-SARSA, Q学習では状態 $s$ で行動 $a$ を取るときの価値を $Q(s, a)$ とし，行動価値関数 (action value function)
+### 報酬予測誤差とドーパミン作動性ニューロン
+ここでTD学習と神経科学の対応について紹介する．TD学習における報酬予測誤差がドーパミン作動性ニューロン (dopaminergic neurons; DA) により符号化されていることがSchultzらにより報告されている {cite:p}`Schultz1997-ih`. ドーパミン作動性ニューロン (dopaminergic neurons; DA) は神経伝達物質の一種であるドーパミン (dopamine) を分泌する神経細胞であり，主に中脳の腹側被蓋野 (Ventral tegmental area, VTA) や黒質緻密部 (substantia nigra pars compacta, SNc) に分布している．
 
-Future rewardは
 
+条件刺激 (conditioned stimulus, CS) と無条件刺激 (unconditioned stimulus, US)
 
+ただし，VTAとSNcのドーパミンニューロンの役割は同一ではない．ドーパミンニューロンへの入力が異なっています [(Watabe-Uchida et al., _Neuron._ 2012)](https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4)． また，細かいですがドーパミンニューロンの発火は報酬量に対して線形ではなく，やや飽和する非線形な応答関数 (Hill functionで近似可能)を持ちます([Eshel et al., _Nat. Neurosci._ 2016](https://www.nature.com/articles/nn.4239))．このため著者実装では報酬 $r$に非線形関数がかかっているものもあります．
+
+先ほどRPEはドーパミンニューロンの発火率で表現されている，といいました．RPEが正の場合はドーパミンニューロンの発火で表現できますが，単純に考えると負の発火率というものはないため，負のRPEは表現できないように思います．ではどうしているかというと，RPEが0（予想通りの報酬が得られた場合）でもドーパミンニューロンは発火しており，RPEが正の場合にはベースラインよりも発火率が上がるようになっています．逆にRPEが負の場合にはベースラインよりも発火率が減少する(抑制される)ようになっています
+
+([Schultz et al., <span style="font-style: italic;">Science.</span> 1997](https://science.sciencemag.org/content/275/5306/1593.long "https://science.sciencemag.org/content/275/5306/1593.long"); [Chang et al., <span style="font-style: italic;">Nat Neurosci</span>. 2016](https://www.nature.com/articles/nn.4191 "https://www.nature.com/articles/nn.4191"))．発火率というのを言い換えればISI (inter-spike interval, 発火間隔)の長さによってPREが符号化されている(ISIが短いと正のRPE, ISIが長いと負のRPEを表現)ともいえます ([Bayer et al., <span style="font-style: italic;">J.
+Neurophysiol</span>. 2007](https://www.physiology.org/doi/full/10.1152/jn.01140.2006 "https://www.physiology.org/doi/full/10.1152/jn.01140.2006"))．
+
+予測価値(分布) $V(x)$ですが，これは線条体(striatum)のパッチ (SNcに抑制性の投射をする)やVTAのGABAニューロン (VTAのドーパミンニューロンに投射して減算抑制をする, ([Eshel, et al., _Nature_. 2015](https://www.nature.com/articles/nature14855 "https://www.nature.com/articles/nature14855")))などにおいて表現されている．
+
+### Rescorla-Wagnerモデル
 TD学習は古典的条件付け (Classical conditioning) のモデルである，Rescorla-Wagner (RW) モデル {cite:p}`rescorla1972theory` と予測誤差に基づいて学習を進めるという点で関連がある．RWモデルは条件刺激 (conditioned stimulus, CS) と無条件刺激 (unconditioned stimulus, US) の間
 
 $$
@@ -139,6 +195,12 @@ $$
 $$
 
 https://www.jstage.jst.go.jp/article/janip/66/2/66_66.2.4/_pdf
+
+
+## SARSA・Q学習
+SARSA, Q学習では状態 $s$ で行動 $a$ を取るときの価値を $Q(s, a)$ とし，行動価値関数 (action value function)
+
+Future rewardは
 
 
 Q学習とSARSAはTD学習を元にしている．
@@ -153,52 +215,6 @@ SARSAでは
 $$
 Q(s_t, a_t)\leftarrow Q(s_t, a_t)+\alpha[r_{t+1}+\gamma Q(s_{t+1}, a_{t+1})-Q(s_t, a_t)]
 $$
-
----
-TD (Temporal difference) learningにおいて，**報酬予測誤差**(reward prediction error, RPE) $\delta_{i}$は次のように計算される． 
-
-$$ 
-\begin{equation}
-\delta_{i}=r+\gamma V_{j}\left(x^{\prime}\right)-V_{i}(x) 
-\end{equation}
-$$ 
-
-ただし，現在の状態を$x$, 次の状態を$x'$, 予測価値分布を$V(x)$, 報酬信号を$r$, 時間割引率(time discount)を$\gamma$としました．
-また，$V_{j}\left(x^{\prime}\right)$は予測価値分布$V\left(x^{\prime}\right)$からのサンプルです． このRPEは脳内において主に中脳の**VTA**(腹側被蓋野)や**SNc**(黒質緻密部)における**ドパミン(dopamine)ニューロン**の発火率として表現されています．
-
-ただし，VTAとSNcのドパミンニューロンの役割は同一ではありません．ドパミンニューロンへの入力が異なっています [(Watabe-Uchida et al., _Neuron._ 2012)](https://www.cell.com/neuron/fulltext/S0896-6273(12)00281-4)． また，細かいですがドパミンニューロンの発火は報酬量に対して線形ではなく，やや飽和する非線形な応答関数 (Hill functionで近似可能)を持ちます([Eshel et al., _Nat. Neurosci._ 2016](https://www.nature.com/articles/nn.4239))．このため著者実装では報酬 $r$に非線形関数がかかっているものもあります．
-
-先ほどRPEはドパミンニューロンの発火率で表現されている，といいました．RPEが正の場合はドパミンニューロンの発火で表現できますが，単純に考えると負の発火率というものはないため，負のRPEは表現できないように思います．ではどうしているかというと，RPEが0（予想通りの報酬が得られた場合）でもドパミンニューロンは発火しており，RPEが正の場合にはベースラインよりも発火率が上がるようになっています．逆にRPEが負の場合にはベースラインよりも発火率が減少する(抑制される)ようになっています
-    ([Schultz et al., <span style="font-style: italic;">Science.</span> 1997](https://science.sciencemag.org/content/275/5306/1593.long "https://science.sciencemag.org/content/275/5306/1593.long"); [Chang et al., <span style="font-style: italic;">Nat Neurosci</span>. 2016](https://www.nature.com/articles/nn.4191 "https://www.nature.com/articles/nn.4191"))．発火率というのを言い換えればISI (inter-spike interval, 発火間隔)の長さによってPREが符号化されている(ISIが短いと正のRPE, ISIが長いと負のRPEを表現)ともいえます ([Bayer et al., <span style="font-style: italic;">J.
-    Neurophysiol</span>. 2007](https://www.physiology.org/doi/full/10.1152/jn.01140.2006 "https://www.physiology.org/doi/full/10.1152/jn.01140.2006"))．
-
-予測価値(分布) $V(x)$ですが，これは線条体(striatum)のパッチ (SNcに抑制性の投射をする)やVTAのGABAニューロン (VTAのドパミンニューロンに投射して減算抑制をする, ([Eshel, et al., _Nature_. 2015](https://www.nature.com/articles/nature14855 "https://www.nature.com/articles/nature14855")))などにおいて表現されている． この予測価値は通常のTD learningでは次式により更新されます． 
-
-$$ 
-\begin{equation}
-V_{i}(x) \leftarrow V_{i}(x)+\alpha_{i} f\left(\delta_{i}\right) 
-\end{equation}
-$$ 
-
-ただし，$\alpha_{i}$は学習率(learning rate), $f(\cdot)$はRPEに対する応答関数である．生理学的には$f(\delta)=\delta$を使うのが妥当である．
-
-TD誤差
-
-$$
-\begin{equation}
-\delta_{t} = r_{t+1} + \gamma V(s_{t+1}) - V(s_{t})
-\end{equation}
-$$
-
-価値の更新
-
-$$
-\begin{equation}
-V(s_{t}) \leftarrow V(s_{t}) + \alpha \delta_{t}
-\end{equation}
-$$
----
-
 
 ## Q-learning & SARSA
 
@@ -231,7 +247,7 @@ $$
 Bellmann方程式
 
 $$
-Q^\pi(s, a)=r+\gamma Q^\pi(s', \pi(s'))
+q_\pi(s, a)=r+\gamma q_\pi(s', \pi(s'))
 $$
 
 TD誤差は
@@ -284,8 +300,8 @@ $$
 
 $$
 \begin{align}
-\nabla_\theta J(\theta) &= \mathbb{E}_{\pi_\theta}\left[\frac{\partial \pi_\theta (a|s)}{\partial \theta}\frac{1}{\pi_\theta (a|s)}Q^\pi (s|a)\right]\\
-&=\mathbb{E}_{\pi_\theta}\left[\nabla_\theta \log \pi_\theta (a|s)Q^\pi (s|a)\right]
+\nabla_\theta J(\theta) &= \mathbb{E}_{\pi_\theta}\left[\frac{\partial \pi_\theta (a|s)}{\partial \theta}\frac{1}{\pi_\theta (a|s)}q_\pi (s|a)\right]\\
+&=\mathbb{E}_{\pi_\theta}\left[\nabla_\theta \log \pi_\theta (a|s)q_\pi (s|a)\right]
 \end{align}
 $$
 
@@ -293,14 +309,7 @@ $$
 
 https://spinningup.openai.com/en/latest/spinningup/rl_intro3.html
 
-
-方策が無い場合は
-
-$$
-p(\tau) = p(s_0) \prod_{t=0}^T p(s_{t+1}\mid s_t, a_t) p(a_t \mid s_t)
-$$
-
-だが，方策を考えると
+方策を考えると
 
 $$
 p(\tau \mid \theta) = p(s_0) \prod_{t=0}^T p(s_{t+1}\mid s_t, a_t) \pi_\theta (a_t \mid s_t)
@@ -335,7 +344,7 @@ $$
 モンテカルロ近似により，$M$ をエピソード数，$T$ を時間ステップ数とすると，
 
 $$
-\nabla_\theta J(\theta) \approx \frac{1}{M} \sum_{m=1}^M \frac{1}{T} \sum_{t=1}^T \nabla_\theta \log \pi_\theta (a_t^m|s_t^m)Q^\pi (s_t^m, a_t^m)
+\nabla_\theta J(\theta) \approx \frac{1}{M} \sum_{m=1}^M \frac{1}{T} \sum_{t=1}^T \nabla_\theta \log \pi_\theta (a_t^m|s_t^m)q_\pi (s_t^m, a_t^m)
 $$
 
 となる．
@@ -344,7 +353,7 @@ $$
 REINFORCE法では即時報酬を用いて
 
 $$
-Q^\pi (s_t^m, a_t^m) \approx R_t^m
+q_\pi (s_t^m, a_t^m) \approx R_t^m
 $$
 
 と近似する．
@@ -360,10 +369,10 @@ p.286
 方策勾配法 (REINFORCE法) により運動学習を行うことを考えよう．
 
 in Friedrich
-$\tau = (s_0, a_0, s_1, a_1, \dots)$ はエージェントの軌跡 (trajectory)．ここでの$\tau$は時定数や時刻を意味しないことに注意．
+$\tau = (s_0, a_0, s_1, a_1, \dots)$ はエージェントの軌道 (trajectory)．ここでの$\tau$は時定数や時刻を意味しないことに注意．
 
 
-制御重みを$K$として，制御器を$\pi_K(u|x)$とする．軌跡$\tau$に対するコストを$c(\tau)$とする．
+制御重みを$K$として，制御器を$\pi_K(u|x)$とする．軌道$\tau$に対するコストを$c(\tau)$とする．
 
 $$
 J=\mathbb{E}_{\pi_K}[c(\tau)]=\mathbb{E}_{\pi_K}\left[\sum_{t=0}^T c_t\right]
@@ -456,6 +465,7 @@ $$
 
 とできる．この，ノイズベクトル $(\boldsymbol{\xi}_t)$ と活動ベクトル ($\mathbf{x}_t$) の外積を取って重みを更新する方法はノード摂動法と同様である．
 
+---
 ## 分布型強化学習
 分布型強化学習 (Distributional reinforcement learning)
 
@@ -473,9 +483,66 @@ $$
 
 期待値をとると，$V(s_t)=\mathbb{E}[Z(s_t)]$ となる．
 
+Quantileはノンパラ
+PPCやDPCはパラメトリック
 
 
 https://arxiv.org/abs/1710.10044
+
+### sign関数を用いたDistributional RLと分位点回帰
+
+それでは，なぜ予測価値 $V_i$は$\tau_i$ 分位点に収束するのでしょうか．Extended Data Fig.1のように平衡点で考えてもよいのですが，後のために分位点回帰との関連について説明します．分位点回帰については記事を書いたので先にそちらを読んでもらうと分かりやすいと思います
+
+実はDistributional RL (かつ，RPEの応答関数にsign関数を用いた場合)における予測報酬 $V_i$の更新式は，分位点回帰(Quantile
+regression)を勾配法で行うときの更新式とほとんど同じです．分位点回帰では$\delta$の関数$\rho_{\tau}(\delta)$を次のように定義します． 
+
+$$ \rho_{\tau}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right|\cdot |\delta|=\left(\tau-\mathbb{I}_{\delta
+\leq 0}\right)\cdot \delta 
+$$ 
+
+そして，この関数を最小化することで回帰を行います．ここで$\tau$は分位点です．また$\delta=r-V$としておきます．今回，どんな行動をしても未来の報酬に影響はないので$\gamma=0$としています．
+
+ここで， 
+
+$$ 
+\frac{\partial \rho_{\tau}(\delta)}{\partial \delta}=\rho_{\tau}^{\prime}(\delta)=\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot \operatorname{sign}(\delta) 
+$$ 
+
+なので，$r$を観測値とすると， 
+
+$$
+\frac{\partial \rho_{\tau}(\delta)}{\partial V}=\frac{\partial \rho_{\tau}(\delta)}{\partial \delta}\frac{\partial \delta(V)}{\partial V}=-\left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\operatorname{sign}(\delta) 
+$$ 
+
+となります．ゆえに$V$の更新式は 
+
+$$ 
+V \leftarrow V - \beta\cdot\frac{\partial \rho_{\tau}(\delta)}{\partial V}=V+\beta \left|\tau-\mathbb{I}_{\delta \leq 0}\right| \cdot
+\operatorname{sign}(\delta) 
+$$ 
+
+です．ただし，$\beta$はベースラインの学習率です．個々の$V_i$について考え，符号で場合分けをすると
+
+
+$$ 
+\begin{cases} V_{i} \leftarrow V_{i}+\beta\cdot |\tau_i|\cdot\operatorname{sign}\left(\delta_{i}\right)
+&\text { for } \delta_{i}>0\\ V_{i} \leftarrow V_{i}+\beta\cdot |\tau_i-1|\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i} \leq 0 \end{cases} 
+$$ 
+
+となります．$0 \leq
+\tau_i \leq 1$であり，$\tau_i=\alpha_{i}^{+} / \left(\alpha_{i}^{+} + \alpha_{i}^{-}\right)$であることに注意すると上式は次のように書けます． 
+
+$$ 
+\begin{cases} V_{i} \leftarrow V_{i}+\beta\cdot
+\frac{\alpha_{i}^{+}}{\alpha_{i}^{+}+\alpha_{i}^{-}}\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i}>0\\ V_{i} \leftarrow V_{i}+\beta\cdot
+\frac{\alpha_{i}^{-}}{\alpha_{i}^{+}+\alpha_{i}^{-}}\cdot\operatorname{sign}\left(\delta_{i}\right) &\text { for } \delta_{i} \leq 0 \end{cases} 
+$$ 
+
+これは前節で述べたDistributional
+RLの更新式とほぼ同じです．いくつか違う点もありますが，RPEが正の場合と負の場合に更新される値の比は同じとなっています．
+
+このようにRPEの応答関数にsign関数を用いた場合，報酬分布を上手く符号化することができます．しかし実際のドーパミンニューロンはsign関数のような生理的に妥当でない応答はせず，RPEの大きさに応じた活動をします．そこで次節ではRPEの応答関数を線形にしたときの話をします．
 
 ## 内発的動機付け
 
