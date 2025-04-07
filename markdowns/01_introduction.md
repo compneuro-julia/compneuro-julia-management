@@ -38,8 +38,36 @@ https://www.sciencedirect.com/science/article/pii/S0364021387800253
 
 ## Julia言語の使用法
 ### Julia言語の特徴
+Julia言語は
+
+本書を執筆するにあたり，なぜJulia言語を選択したかというのにはいくつか理由がある．
+
+JuliaはJIT（Just-In-Time）コンパイルを用いており
+
+JITコンパイラ
+
+実行速度が高速であること．
+ライセンスフリーであり，無料で使用できること．
+線型代数演算が簡便に書けること．
+Unicodeを使用できるため，疑似コードに近いコードを書けること．
+
+他の言語の候補として，MATLAB, Pythonが挙げられた．MATLABは神経科学分野で根強く使用される言語であり，線型代数計算の記述が簡便である．なお，線型代数演算の記法に関してはJuliaはMATLABを参考に構築されたため，ほぼ同様に記述することができる．また，MATLABを使用するには有償ライセンスが必要である．ただし，互換性を持ったフリーソフトウェアであるOctaveが存在することは明記しておく．
+
+Pythonは機械学習等の豊富なライブラリと書きやすさから広く利用されている言語である．ただし，numpyを用いないと高速な処理を書けない場合が多く，ナイーブな実装では実行速度が低下してしまう問題がある．線型代数計算も簡便に書くことができず，数式をコードに変換する際の手間が増えるという問題がある．
+
+多重ディスパッチ（multiple dispatch）があることはJulia言語の大きな特徴である．
+
 ### Julia言語のインストール方法
+
+Julia (\url{https://julialang.org/}) に
+
+juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理
+
+Google ColabにおいてPythonやRに並んでJuliaを選択して使用することが可能となっている．
+
 ### Julia言語の基本構文
+
+https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
 ## 基礎的数学とJuliaでの記法
 数式の表記法も兼ねて，本書で使用する数学的内容を整理する．
@@ -237,15 +265,16 @@ $$
 #### 相互情報量 (Mutual information)
 
 ## 学習に関する基礎的概念
+本書のテーマの1つとして「学習」が挙げられる．
+神経科学における「学習」と機械学習における「学習」はやや異なるが，ここで両者における学習を定義しておく．
+神経科学のモデルに機械学習
+
 ### モデルと学習・予測
 **機械学習** (machine learning) における**モデル** (model) とは，2つの集合 $\mathcal{X}, \mathcal{Y}$ を仮定した際に，入力 $x\in \mathcal{X}$ を出力 $y\in \mathcal{Y}$ に変換する関数 (写像) $f: x \to y$ あるいは条件付き確率分布 $p(y|x)$ を意味する．モデルは内部に媒介変数あるいはパラメータ (parameter) $\theta$ を持ち，$\mathcal{Y}$ を設定した後に $y=f(x; \theta)$ あるいは $p(y|x; \theta)$ を満たすように $\theta$ を更新する．この過程を**学習** (learning) あるいは**訓練** (training) と呼ぶ．学習後のパラメータ $\theta^*$を用い，$x$が与えられた際の$y$ の推定値$\hat{y}$を $\hat{y}=f(x; \theta^*)$ あるいは $p(y|x; \theta^*)$ から取得する\footnote{取得の方法としてはサンプリング $\hat{y}\sim p(y|x; \theta^*)$ や $\hat{y}=\textrm{argmax}\ p(y|x; \theta^{*})$などが考えられる．}ことを**予測** (prediction) と呼ぶ．学習の際に用いられるデータを訓練データ (training data) と呼び，学習後のモデルの予測精度の評価に用いるデータを評価データ (test data) と呼ぶ．
 
 ここ修正すべき
 
-$y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$ と $y$ の対応関係を学習する過程を教師あり学習 (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を
-教師なし学習 (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する半教師あり学習 (semi-supervised learning), 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する自己教師あり学習 (self-supervised learning) などが存在する．
-
-強化学習 (reinforcement learning) は
+$y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$ と $y$ の対応関係を学習する過程を教師あり学習 (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を教師なし学習 (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する半教師あり学習 (semi-supervised learning), 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する自己教師あり学習 (self-supervised learning) などが存在する．強化学習 (reinforcement learning) は環境の中で行動するエージェントを仮定し，多くの報酬を得るための行動を学習する．
 
 ### 回帰と分類
 
