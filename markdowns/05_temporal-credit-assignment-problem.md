@@ -1,21 +1,3 @@
-- [第5章：再帰型ニューラルネットワークと経時的貢献度分配問題](#第5章再帰型ニューラルネットワークと経時的貢献度分配問題)
-  - [経時的誤差逆伝播法 (BPTT)](#経時的誤差逆伝播法-bptt)
-  - [**BPTT（Backpropagation Through Time）とRTRL（Real-Time Recurrent Learning）の数式表現**](#bpttbackpropagation-through-timeとrtrlreal-time-recurrent-learningの数式表現)
-    - [**1. BPTT（Backpropagation Through Time）**](#1-bpttbackpropagation-through-time)
-      - [**(1) 順伝播**](#1-順伝播)
-      - [**(2) 損失関数**](#2-損失関数)
-      - [**(3) 誤差逆伝播**](#3-誤差逆伝播)
-        - [**出力層の勾配**](#出力層の勾配)
-        - [**隠れ層の勾配**](#隠れ層の勾配)
-    - [**2. RTRL（Real-Time Recurrent Learning）**](#2-rtrlreal-time-recurrent-learning)
-      - [**(1) 隠れ状態の再掲**](#1-隠れ状態の再掲)
-      - [**(2) 隠れ状態の勾配伝播**](#2-隠れ状態の勾配伝播)
-    - [**BPTTとRTRLの比較**](#bpttとrtrlの比較)
-  - [](#)
-  - [実時間リカレント学習 (RTRL)](#実時間リカレント学習-rtrl)
-  - [適格度トレースによるRTRLの近似※](#適格度トレースによるrtrlの近似)
-
----
 # 第5章：再帰型ニューラルネットワークと経時的貢献度分配問題
 ## 経時的誤差逆伝播法 (BPTT)
 
