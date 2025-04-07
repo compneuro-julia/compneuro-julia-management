@@ -1,4 +1,35 @@
 # Writing ToDo list
+
+基本的な話は発火率モデルですべてすむので，
+発火率モデル→spikingモデルとしたほうが全体の流れとしてはよいか？
+introも省略していいと思う．時間がない．
+
+neuronの形態の話は別で節を作ろう．
+
+ニューロンとシナプスの生理
+発火率モデル
+local-learning-rule
+energy based
+solve-credit-assignment-problem
+
+やはりこれを前提としたモデルの構築が必要なので，発火率ですむ部分は前に持っていく．
+
+第n章 Spiking neural network
+ぐらいにしておいてもいいかも．
+第1節. ニューロンのモデル
+モデルを列挙…
+
+neuron-model
+synapse-model
+neuronal-computation
+
+リザバーコンピューティング (発火率・spiking)
+ベイズ推論
+運動学習
+強化学習
+ネットワーク・形態学
+
+
 ## Introduction
 ### intro
 ### computational-neuroscience
