@@ -31,7 +31,7 @@ https://www.sciencedirect.com/science/article/pii/S0364021387800253
 まえがき
 
 第1章：はじめに
-- 本書の構成と目的
+- 本書の目的と構成
 - Julia言語の使用法
 - 基礎的数学
 
