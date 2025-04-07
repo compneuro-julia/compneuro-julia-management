@@ -1,0 +1,2479 @@
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  7 APR 2025 13:42
+ restricted system commands enabled.
+ file:line:error style messages enabled.
+**d:/Github/compneuro-julia-management/book/main
+(d:/Github/compneuro-julia-management/book/main.tex
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+Lua module: luaotfload 2024-12-03 v3.29 Lua based OpenType font support
+Lua module: lualibs 2023-07-13 v2.76 ConTeXt Lua standard libraries.
+Lua module: lualibs-extended 2023-07-13 v2.76 ConTeXt Lua libraries -- extended collection.
+luaotfload | conf : Root cache directory is "C:/texlive/2025/texmf-var/luatex-cache/generic/names".
+luaotfload | init : Loading fontloader "fontloader-2023-12-28.lua" from kpse-resolved path "c:/texlive/2025/texmf-dist/tex/luatex/luaotfload/fontloader-2023-12-28.lua".
+Lua-only attribute luaotfload@noligature = 1
+luaotfload | init : Context OpenType loader version 3.134
+Inserting `luaotfload.node_processor' in `pre_linebreak_filter'.
+Inserting `luaotfload.node_processor' in `hpack_filter'.
+Inserting `luaotfload.glyph_stream' in `glyph_stream_provider'.
+Inserting `luaotfload.define_font' in `define_font'.
+Lua-only attribute luaotfload_color_attribute = 2
+luaotfload | conf : Root cache directory is "C:/texlive/2025/texmf-var/luatex-cache/generic/names".
+Inserting `luaotfload.harf.strip_prefix' in `find_opentype_file'.
+Inserting `luaotfload.harf.strip_prefix' in `find_truetype_file'.
+Removing  `luaotfload.glyph_stream' from `glyph_stream_provider'.
+Inserting `luaotfload.harf.glyphstream' in `glyph_stream_provider'.
+Inserting `luaotfload.harf.finalize_vlist' in `post_linebreak_filter'.
+Inserting `luaotfload.harf.finalize_hlist' in `hpack_filter'.
+Inserting `luaotfload.cleanup_files' in `wrapup_run'.
+Inserting `luaotfload.harf.finalize_unicode' in `finish_pdffile'.
+Inserting `luaotfload.glyphinfo' in `glyph_info'.
+Lua-only attribute luaotfload.letterspace_done = 3
+Inserting `luaotfload.aux.set_sscale_dimens' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_font_index' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.fixup_fontdata' in `luaotfload.patch_font_unsafe'.
+Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'.
+Inserting `tracingstacklevels' in `input_level_string'. (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltjsbook.cls
+Document Class: ltjsbook 2023/07/26 ltjsclasses 
+(c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja.sty
+Package: luatexja 2025-02-08 Japanese Typesetting with Lua(La)TeX
+ (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
+Package: luatexja-core 2023-10-07 Core of LuaTeX-ja
+ (c:/texlive/2025/texmf-dist/tex/generic/infwarerr/infwarerr.sty
+Package: infwarerr 2019/12/03 v1.5 Providing info/warning/error messages (HO)
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
+Package: luatexbase 2015/10/04 v1.3 luatexbase interface to LuaTeX 
+ (c:/texlive/2025/texmf-dist/tex/luatex/ctablestack/ctablestack.sty
+Package: ctablestack 2015/10/01 v1.0 Catcode table stable support
+\@catcodetablestackcnt=\count194
+)
+\CatcodeTableOther=\catcodetable14
+\CatcodeTableExpl=\catcodetable15
+) (c:/texlive/2025/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty
+Package: ltxcmds 2023-12-04 v1.26 LaTeX kernel commands for general use (HO)
+) (c:/texlive/2025/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+Package: pdftexcmds 2020-06-27 v0.33 Utility functions of pdfTeX for LuaTeX (HO)
+ (c:/texlive/2025/texmf-dist/tex/generic/iftex/iftex.sty
+Package: iftex 2024/12/12 v1.0g TeX engine tests
+)
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+\pdftexcmds@toks=\toks17
+) (c:/texlive/2025/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2022/06/16 v2.9 package option processing (HA)
+ (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkeyval.tex (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks18
+\XKV@tempa@toks=\toks19
+ (c:/texlive/2025/texmf-dist/tex/generic/xkeyval/keyval.tex))
+\XKV@depth=\count195
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+)) (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count196
+) (c:/texlive/2025/texmf-dist/tex/latex/everyhook/everyhook.sty (c:/texlive/2025/texmf-dist/tex/latex/svn-prov/svn-prov.sty
+Package: svn-prov 2010/04/24 v3.1862 Package Date/Version from SVN Keywords
+)
+Package: everyhook 2014/11/26 v1.2 (SVN Rev: 12)\ Hooks for low level TeX everyX primitives.
+\everypar=\toks20
+\frozen@everymath=\toks21
+\frozen@everydisplay=\toks22
+\everyhbox=\toks23
+\everyvbox=\toks24
+\everycr=\toks25
+)
+\ltjlineendcomment=\count197
+\ltj@dimen@zw=\dimen140
+\ltj@dimen@zh=\dimen141
+\ltj@dimen@jQ=\dimen142
+\ltj@icflag=\attribute4
+\ltj@curjfnt=\attribute5
+\ltj@curtfnt=\attribute6
+\ltj@charclass=\attribute7
+\ltj@charcode=\attribute8
+\ltj@autospc=\attribute9
+\ltj@autoxspc=\attribute10
+\ltj@yablshift=\attribute11
+\ltj@ykblshift=\attribute12
+\ltj@tablshift=\attribute13
+\ltj@tkblshift=\attribute14
+\jfam=\attribute15
+\ltj@vert@ori=\attribute16
+\ltj@dir=\attribute17
+\ltj@@japanese=\language2
+\ltj@tempcnta=\count198
+\ltj@tempdima=\dimen143
+\ltj@@stack=\count199
+\ltj@@group@level=\count266
+\ltj@kcat0=\attribute18
+\ltj@kcat1=\attribute19
+\ltj@kcat2=\attribute20
+\ltj@kcat3=\attribute21
+\ltj@kcat4=\attribute22
+\ltj@kcat5=\attribute23
+\ltj@kcat6=\attribute24
+Custom whatsit inhibitglue = 1
+Custom whatsit stack_marker = 2
+Custom whatsit begin_par = 3
+Custom whatsit direction = 4
+Custom whatsit box_boundary = 5
+Custom whatsit ja_al_boundary = 6(load cache: ltj-cid-auto-adobe-japan1.luc)
+Lua module: luatexja.charrange 2022-08-19 Handling the range of Japanese characters
+Lua module: luatexja.stack 2022-08-20 LuaTeX-ja stack system
+Inserting `ltj.create_dir_whatsit' in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' in `post_linebreak_filter'.
+Inserting `ltj.direction' in `vpack_filter'.
+Inserting `ltj.direction' in `pre_output_filter'.
+Inserting `ltj.lineskip' in `post_linebreak_filter'.
+Inserting `ltj.lineskip' in `append_to_vlist_filter'.
+Lua module: luatexja.jfont 2024-07-25 Loader for Japanese fonts
+Removing  `luaotfload.define_font' from `define_font'.
+Inserting `luatexja.font_callback' in `define_font'.
+Removing  `luaotfload.aux.set_sscale_dimens' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_font_index' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.patch_cambria_domh' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_capheight' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_xheight' from `luaotfload.patch_font'.
+Removing  `luaotfload.rewrite_fontname' from `luaotfload.patch_font'.
+Inserting `ltj.prepare_extra_data' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_sscale_dimens' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_font_index' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'.
+Inserting `ltj.prepare_extra_data' in `luatexja.define_font'.
+Inserting `ltj.get_vert_form' in `luatexja.define_jfont'.
+Removing  `ltj.prepare_extra_data' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_sscale_dimens' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_font_index' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.patch_cambria_domh' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_capheight' from `luaotfload.patch_font'.
+Removing  `luaotfload.aux.set_xheight' from `luaotfload.patch_font'.
+Removing  `luaotfload.rewrite_fontname' from `luaotfload.patch_font'.
+Inserting `ltj.supply_tounicode' in `luaotfload.patch_font'.
+Inserting `ltj.prepare_extra_data' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_sscale_dimens' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_font_index' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Inserting `ltj.hyphenate' in `hyphenate'.
+Removing  `luaotfload.node_processor' from `hpack_filter'.
+Removing  `luaotfload.harf.finalize_hlist' from `hpack_filter'.
+Removing  `ltj.create_dir_whatsit' from `hpack_filter'.
+Inserting `ltj.set_stack_level' in `hpack_filter'.
+Inserting `luaotfload.node_processor' in `hpack_filter'.
+Inserting `luaotfload.harf.finalize_hlist' in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' in `hpack_filter'.
+Removing  `luaotfload.node_processor' from `pre_linebreak_filter'.
+Inserting `ltj.set_stack_level' in `pre_linebreak_filter'.
+Inserting `luaotfload.node_processor' in `pre_linebreak_filter'.
+Lua module: luatexja.jfmglue 2024-10-12 Insertion process of JFM glues, [x]kanjiskip and others
+Inserting `luatexja.beginpar.np_info' in `luatexja.jfmglue.whatsit_getinfo'.
+Inserting `luatexja.beginpar.np_info_after' in `luatexja.jfmglue.whatsit_after'.
+Inserting `ltj.mlist_to_hlist_pre' in `pre_mlist_to_hlist_filter'.
+Inserting `ltj.main' in `pre_linebreak_filter'.
+Removing  `luaotfload.harf.finalize_hlist' from `hpack_filter'.
+Removing  `ltj.create_dir_whatsit' from `hpack_filter'.
+Inserting `ltj.main' in `hpack_filter'.
+Inserting `luaotfload.harf.finalize_hlist' in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' in `hpack_filter'.
+Removing  `ltj.set_stack_level' from `pre_linebreak_filter'.
+Removing  `luaotfload.node_processor' from `pre_linebreak_filter'.
+Removing  `ltj.main' from `pre_linebreak_filter'.
+Inserting `ltj.adjust_icflag' in `pre_linebreak_filter'.
+Inserting `ltj.set_stack_level' in `pre_linebreak_filter'.
+Inserting `luaotfload.node_processor' in `pre_linebreak_filter'.
+Inserting `ltj.main' in `pre_linebreak_filter'.
+Removing  `ltj.set_stack_level' from `hpack_filter'.
+Removing  `luaotfload.node_processor' from `hpack_filter'.
+Removing  `ltj.main' from `hpack_filter'.
+Removing  `luaotfload.harf.finalize_hlist' from `hpack_filter'.
+Removing  `ltj.create_dir_whatsit' from `hpack_filter'.
+Inserting `ltj.adjust_icflag' in `hpack_filter'.
+Inserting `ltj.set_stack_level' in `hpack_filter'.
+Inserting `luaotfload.node_processor' in `hpack_filter'.
+Inserting `ltj.main' in `hpack_filter'.
+Inserting `luaotfload.harf.finalize_hlist' in `hpack_filter'.
+Inserting `ltj.create_dir_whatsit' in `hpack_filter'. (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-base.sty
+Package: ltj-base 2021-03-16
+\ltj@tempcntb=\count267
+\ltj@tempcntc=\count268
+\ltj@afbox=\box52
+)
+\ltj@@italic@inner=\luafunction29
+\ltj@@start@time@measure@inner=\luafunction30
+\ltj@@stop@time@measure@inner=\luafunction31
+\ltj@@jfont@inner=\luafunction32
+\ltj@zw@inner=\luafunction33
+\ltj@zh@inner=\luafunction34
+\ltj@reset@globaldefs@inner=\luafunction35
+\ltj@restore@globaldefs@inner=\luafunction36
+\ltj@@disihb@inner=\luafunction37
+\ltj@@ihb@inner=\luafunction38
+\ltj@@fakeparbegin@inner=\luafunction39
+\ltj@@fakeboxbdd@inner=\luafunction40
+\ltj@@ins@xk@inner=\luafunction41
+\ltj@@ins@k@inner=\luafunction42
+\ltjsetkanjiskip@inner=\luafunction43
+\ltjsetxkanjiskip@inner=\luafunction44
+\ltj@@getparam@one@inner=\luafunction45
+\ltj@alljachar@inner=\luafunction46
+\ltj@@lua@populate@insertwhatsit@inner=\luafunction47
+\ltj@@vadjust@begin@inner=\luafunction48
+\ltj@@vadjust@dirhook@inner=\luafunction49
+\ltj@@vadjust@check@dir@inner=\luafunction50
+\ltj@@box@dirhook@inner=\luafunction51
+\ltj@@reset@badness@inner=\luafunction52
+\ltj@@lua@raisebox@inner=\luafunction53
+\ltj@@vsplit@inner=\luafunction54
+\ltj@@lua@unboxcheckdir@inner=\luafunction55
+\ltj@@lua@uncopycheckdir@inner=\luafunction56
+\ltj@@lua@uncopy@restore@whatsit@inner=\luafunction57
+(load cache: ltj-kinsoku_default.luc) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
+Package: ltj-latex 2024-05-16 LaTeX support of LuaTeX-ja
+Inserting `ltj.direction' in `pre_shipout_filter'. (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
+Package: lltjfont 2023-05-16 Patch to NFSS2 for LuaTeX-ja
+\ltj@@latex@plv=\count269
+ (c:/texlive/2025/texmf-dist/tex/latex/base/tuenc.def
+File: tuenc.def 2021/04/29 v2.0v Standard LaTeX file
+\@remove@tlig@@@=\luafunction58
+LaTeX Font Info:    Redeclaring font encoding TU on input line 105.
+)
+\Cht=\dimen144
+\cht=\dimen145
+\Cdp=\dimen146
+\cdp=\dimen147
+\Cwd=\dimen148
+\cwd=\dimen149
+\Cvs=\dimen150
+\cvs=\dimen151
+\Chs=\dimen152
+\chs=\dimen153
+\cHT=\dimen154
+\dstrutbox=\box53
+\tstrutbox=\box54
+\zstrutbox=\box55
+LaTeX Info: Redefining \strut on input line 70.
+\ltj@@add@fenc@@inner=\luafunction59
+\ltj@@add@kyenc@@inner=\luafunction60
+\ltj@@add@ktenc@@inner=\luafunction61
+\ltj@@is@kyenc@@inner=\luafunction62
+\ltj@@is@ktenc@@inner=\luafunction63
+\ltj@@is@kenc@@inner=\luafunction64
+\ltj@@is@ffam@@inner=\luafunction65
+\ltj@@add@ffam@@inner=\luafunction66
+\ltj@@add@kfam@@inner=\luafunction67
+\ltj@@adjust@baseline@inner=\luafunction68
+LaTeX Info: Redefining \fontencoding on input line 572.
+LaTeX Info: Redefining \fontfamily on input line 615.
+LaTeX Info: Redefining \fontseries on input line 769.
+LaTeX Info: Redefining \fontseriesforce on input line 770.
+LaTeX Info: Redefining \fontshape on input line 778.
+LaTeX Info: Redefining \fontshapeforce on input line 789.
+\ltj@@jfont@@jfmonly@@inner=\luafunction69
+\ltj@@does@alt@set@@inner=\luafunction70
+\ltj@@cipath@clear@inner=\luafunction71
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
+Package: lltjdefs 2024-05-16 Default font settings of LuaTeX-ja
+luaotfload | db : Font names database loaded from C:/texlive/2025/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz(load cache: extra_lmroman10-regular.luc)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 69.
+
+(c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujisv.lua)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 69.
+(load cache: extra_haranoajimincho-regular.luc)
+(c:/texlive/2025/texmf-dist/tex/luatex/luatexja/jfm-ujis.lua)
+\symmincho=\mathgroup4
+LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
+(Font)                  JY3/mc/m/n --> JY3/gt/m/n on input line 78.
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
+Package: lltjcore 2025-01-12 Patch to LaTeX2e Kernel for LuaTeX-ja
+ (c:/texlive/2025/texmf-dist/tex/latex/l3kernel/expl3.sty
+Package: expl3 2025-01-18 L3 programming layer (loader) 
+ (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
+File: l3backend-luatex.def 2024-05-08 L3 backend support: PDF output (LuaTeX)
+\l__color_backend_stack_int=\count270
+Inserting `l3color' in `luaotfload.parse_color'.
+\l__pdf_internal_box=\box56
+))
+\@tombowwidth=\dimen155
+\@TL=\box57
+\@Tl=\box58
+\@TC=\box59
+\@TR=\box60
+\@Tr=\box61
+\@BL=\box62
+\@Bl=\box63
+\@BC=\box64
+\@BR=\box65
+\@Br=\box66
+\@CL=\box67
+\@CR=\box68
+(load cache: extra_lmmono9-regular.luc)
+\@bannertoken=\toks26
+\@@paperheight=\dimen156
+\@@paperwidth=\dimen157
+\@@topmargin=\dimen158
+LaTeX Info: Redefining \underline on input line 284.
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-atbegshi.sty
+Package: lltjp-atbegshi 2024-05-14 Patching \shipout hooks for LuaTeX-ja
+\l__platex_shipout_dummy_box=\box69
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-geometry.sty
+Package: lltjp-geometry 2024-05-16 Patch to geometry for LuaTeX-ja with vertical writing mode
+ (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifluatex.sty
+Package: ifluatex 2019/10/25 v1.5 ifluatex legacy package. Use iftex instead.
+)))
+\ltj@temp@cctb=\catcodetable16
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/luatexja-compat.sty
+Package: luatexja-compat 2020-08-08 Compatibility with pTeX
+(load cache: ltj-jisx0208.luc)
+\hour=\count271
+\minute=\count272
+))
+\jsc@mpt=\dimen159
+\jsc@mmm=\dimen160
+\jsc@smallskipamount=\skip49
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 424.
+\fullwidth=\dimen161
+(load cache: extra_lmroman8-regular.luc)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 573.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 573.
+\c@part=\count273
+\c@chapter=\count274
+\c@section=\count275
+\c@subsection=\count276
+\c@subsubsection=\count277
+\c@paragraph=\count278
+\c@subparagraph=\count279
+\c@figure=\count280
+\c@table=\count281
+\abovecaptionskip=\skip50
+\belowcaptionskip=\skip51
+LaTeX Info: Redefining \mc on input line 1282.
+LaTeX Info: Redefining \gt on input line 1283.
+\jsc@tocl@width=\dimen162
+\@lnumwidth=\dimen163
+\bibindent=\dimen164
+ (c:/texlive/2025/texmf-dist/tex/platex/jsclasses/jslogo.sty
+Package: jslogo 2019/07/25 okumura, texjporg
+LaTeX Info: Redefining \TeX on input line 82.
+LaTeX Info: Redefining \LaTeX on input line 135.
+LaTeX Info: Redefining \LaTeXe on input line 188.
+)
+\heisei=\count282
+ (c:/texlive/2025/texmf-dist/tex/latex/sttools/stfloats.sty
+Package: stfloats 2017/03/27 v3.3 Improve float mechanism and baselineskip settings
+\@dblbotnum=\count283
+\c@dblbotnumber=\count284
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-stfloats.sty)) (c:/texlive/2025/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2020/01/02 v5.9 Page Geometry
+ (c:/texlive/2025/texmf-dist/tex/generic/iftex/ifvtex.sty
+Package: ifvtex 2019/10/25 v1.7 ifvtex legacy package. Use iftex instead.
+)
+\Gm@cnth=\count285
+\Gm@cntv=\count286
+\c@Gm@tempcnt=\count287
+\Gm@bindingoffset=\dimen165
+\Gm@wd@mp=\dimen166
+\Gm@odd@mp=\dimen167
+\Gm@even@mp=\dimen168
+\Gm@layoutwidth=\dimen169
+\Gm@layoutheight=\dimen170
+\Gm@layouthoffset=\dimen171
+\Gm@layoutvoffset=\dimen172
+\Gm@dimlist=\toks27
+) (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2024/11/05 v2.17t AMS math features
+\@mathmargin=\skip52
+
+For additional information on amsmath, use the `?' option.
+(c:/texlive/2025/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+ (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks28
+\ex@=\dimen173
+)) (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen174
+) (c:/texlive/2025/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count288
+LaTeX Info: Redefining \frac on input line 235.
+\uproot@=\count289
+\leftroot@=\count290
+LaTeX Info: Redefining \overline on input line 398.
+LaTeX Info: Redefining \colon on input line 409.
+\classnum@=\count291
+\DOTSCASE@=\count292
+LaTeX Info: Redefining \ldots on input line 495.
+LaTeX Info: Redefining \dots on input line 498.
+LaTeX Info: Redefining \cdots on input line 619.
+\Mathstrutbox@=\box70
+\strutbox@=\box71
+LaTeX Info: Redefining \big on input line 721.
+LaTeX Info: Redefining \Big on input line 722.
+LaTeX Info: Redefining \bigg on input line 723.
+LaTeX Info: Redefining \Bigg on input line 724.
+\big@size=\dimen175
+LaTeX Font Info:    Redeclaring font encoding OML on input line 742.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 743.
+\macc@depth=\count293
+LaTeX Info: Redefining \bmod on input line 904.
+LaTeX Info: Redefining \pmod on input line 909.
+LaTeX Info: Redefining \smash on input line 939.
+LaTeX Info: Redefining \relbar on input line 969.
+LaTeX Info: Redefining \Relbar on input line 970.
+\c@MaxMatrixCols=\count294
+\dotsspace@=\muskip17
+\c@parentequation=\count295
+\dspbrk@lvl=\count296
+\tag@help=\toks29
+\row@=\count297
+\column@=\count298
+\maxfields@=\count299
+\andhelp@=\toks30
+\eqnshift@=\dimen176
+\alignsep@=\dimen177
+\tagshift@=\dimen178
+\tagwidth@=\dimen179
+\totwidth@=\dimen180
+\lineht@=\dimen181
+\@envbody=\toks31
+\multlinegap=\skip53
+\multlinetaggap=\skip54
+\mathdisplay@stack=\toks32
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+) (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup5
+\symAMSb=\mathgroup6
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+) (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+) (c:/texlive/2025/texmf-dist/tex/latex/mathtools/mathtools.sty
+Package: mathtools 2024/10/04 v1.31 mathematical typesetting tools
+ (c:/texlive/2025/texmf-dist/tex/latex/tools/calc.sty
+Package: calc 2023/07/08 v4.3 Infix arithmetic (KKT,FJ)
+\calc@Acount=\count300
+\calc@Bcount=\count301
+\calc@Adimen=\dimen182
+\calc@Bdimen=\dimen183
+\calc@Askip=\skip55
+\calc@Bskip=\skip56
+LaTeX Info: Redefining \setlength on input line 80.
+LaTeX Info: Redefining \addtolength on input line 81.
+\calc@Ccount=\count302
+\calc@Cskip=\skip57
+) (c:/texlive/2025/texmf-dist/tex/latex/mathtools/mhsetup.sty
+Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
+)
+\g_MT_multlinerow_int=\count303
+\l_MT_multwidth_dim=\dimen184
+\origjot=\skip58
+\l_MT_shortvdotswithinadjustabove_dim=\dimen185
+\l_MT_shortvdotswithinadjustbelow_dim=\dimen186
+\l_MT_above_intertext_sep=\dimen187
+\l_MT_below_intertext_sep=\dimen188
+\l_MT_above_shortintertext_sep=\dimen189
+\l_MT_below_shortintertext_sep=\dimen190
+\xmathstrut@box=\box72
+\xmathstrut@dim=\dimen191
+) (c:/texlive/2025/texmf-dist/tex/latex/textgreek/textgreek.sty
+Package: textgreek 2011/10/09 v0.7 Greek symbols in text
+Package textgreek Info: Loading the definitions for the Greek fontencoding. on input line 39.
+ (c:/texlive/2025/texmf-dist/tex/latex/greek-fontenc/lgrenc.def
+File: lgrenc.def 2023-09-12 2.5 LGR Greek font encoding definitions
+ (c:/texlive/2025/texmf-dist/tex/latex/greek-fontenc/greek-fontenc.def
+File: greek-fontenc.def 2023-09-12 2.5 Common Greek font encoding definitions
+))
+Package textgreek Info: Loaded fontmap: {eur/*/*}{U/eur/*/*} {phv/*/*}{U/psy/*/*}. on input line 69.
+) (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2024/08/06 v1.4g Standard LaTeX Graphics (DPC,SPQR)
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2023/12/02 v1.11 sin cos tan (DPC)
+) (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: luatex.def on input line 106.
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/luatex.def
+File: luatex.def 2024/04/13 v1.2e Graphics/color driver for luatex
+))
+\Gin@req@height=\dimen192
+\Gin@req@width=\dimen193
+) (c:/texlive/2025/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2024/09/29 v3.02 LaTeX color extensions (UK)
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: luatex.def on input line 274.
+ (c:/texlive/2025/texmf-dist/tex/latex/graphics/mathcolor.ltx)
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1349.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1353.
+Package xcolor Info: Model `RGB' extended on input line 1365.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1367.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1370.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1371.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1372.
+) (c:/texlive/2025/texmf-dist/tex/latex/xcolor/svgnam.def
+File: svgnam.def 2024/09/29 v3.02 Predefined colors according to SVG 1.1 (UK)
+) (./sty/julia-syntax-highlighting.sty (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2024-11-05 v7.01l Hypertext links for LaTeX
+ (c:/texlive/2025/texmf-dist/tex/latex/kvsetkeys/kvsetkeys.sty
+Package: kvsetkeys 2022-10-05 v1.19 Key value parser (HO)
+) (c:/texlive/2025/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty
+Package: kvdefinekeys 2019-12-19 v1.6 Define keys (HO)
+) (c:/texlive/2025/texmf-dist/tex/generic/pdfescape/pdfescape.sty
+Package: pdfescape 2019/12/09 v1.15 Implements pdfTeX's escape features (HO)
+) (c:/texlive/2025/texmf-dist/tex/latex/hycolor/hycolor.sty
+Package: hycolor 2020-01-27 v1.10 Color options for hyperref/bookmark (HO)
+) (c:/texlive/2025/texmf-dist/tex/latex/hyperref/nameref.sty
+Package: nameref 2023-11-26 v2.56 Cross-referencing by name of section
+ (c:/texlive/2025/texmf-dist/tex/latex/refcount/refcount.sty
+Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
+) (c:/texlive/2025/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
+Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
+ (c:/texlive/2025/texmf-dist/tex/latex/kvoptions/kvoptions.sty
+Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
+))
+\c@section@level=\count304
+) (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty
+Package: stringenc 2019/11/29 v1.12 Convert strings between diff. encodings (HO)
+)
+\@linkdim=\dimen194
+\Hy@linkcounter=\count305
+\Hy@pagecounter=\count306
+ (c:/texlive/2025/texmf-dist/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2024-11-05 v7.01l Hyperref: PDFDocEncoding definition (HO)
+) (c:/texlive/2025/texmf-dist/tex/generic/intcalc/intcalc.sty
+Package: intcalc 2019/12/15 v1.3 Expandable calculations with integers (HO)
+)
+\Hy@SavedSpaceFactor=\count307
+ (c:/texlive/2025/texmf-dist/tex/latex/hyperref/puenc.def
+File: puenc.def 2024-11-05 v7.01l Hyperref: PDF Unicode definition (HO)
+ (c:/texlive/2025/texmf-dist/tex/latex/greek-fontenc/puenc-greek.def
+File: puenc-greek.def 2023-09-12 2.5 Greek LICRs for PDF strings
+ (c:/texlive/2025/texmf-dist/tex/latex/greek-fontenc/greek-fontenc.def
+File: greek-fontenc.def 2023-09-12 2.5 Common Greek font encoding definitions
+)))
+Package hyperref Info: Option `colorlinks' set `true' on input line 4040.
+Package hyperref Info: Hyper figures OFF on input line 4157.
+Package hyperref Info: Link nesting OFF on input line 4162.
+Package hyperref Info: Hyper index ON on input line 4165.
+Package hyperref Info: Plain pages OFF on input line 4172.
+Package hyperref Info: Backreferencing OFF on input line 4177.
+Package hyperref Info: Implicit mode ON; LaTeX internals redefined.
+Package hyperref Info: Bookmarks ON on input line 4424.
+\c@Hy@tempcnt=\count308
+ (c:/texlive/2025/texmf-dist/tex/latex/url/url.sty
+\Urlmuskip=\muskip18
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+LaTeX Info: Redefining \url on input line 4763.
+\XeTeXLinkMargin=\dimen195
+ (c:/texlive/2025/texmf-dist/tex/generic/bitset/bitset.sty
+Package: bitset 2019/12/09 v1.3 Handle bit-vector datatype (HO)
+ (c:/texlive/2025/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty
+Package: bigintcalc 2019/12/15 v1.5 Expandable calculations on big integers (HO)
+))
+\Fld@menulength=\count309
+\Field@Width=\dimen196
+\Fld@charsize=\dimen197
+Package hyperref Info: Hyper figures OFF on input line 6042.
+Package hyperref Info: Link nesting OFF on input line 6047.
+Package hyperref Info: Hyper index ON on input line 6050.
+Package hyperref Info: backreferencing OFF on input line 6057.
+Package hyperref Info: Link coloring ON on input line 6060.
+Package hyperref Info: Link coloring with OCG OFF on input line 6067.
+Package hyperref Info: PDF/A mode OFF on input line 6072.
+ (c:/texlive/2025/texmf-dist/tex/latex/base/atbegshi-ltx.sty
+Package: atbegshi-ltx 2021/01/10 v1.0c Emulation of the original atbegshi
+package with kernel methods
+)
+\Hy@abspage=\count310
+\c@Item=\count311
+\c@Hfootnote=\count312
+)
+Package hyperref Info: Driver (autodetected): hluatex.
+ (c:/texlive/2025/texmf-dist/tex/latex/hyperref/hluatex.def
+File: hluatex.def 2024-11-05 v7.01l Hyperref driver for luaTeX
+ (c:/texlive/2025/texmf-dist/tex/latex/base/atveryend-ltx.sty
+Package: atveryend-ltx 2020/08/19 v1.0a Emulation of the original atveryend package
+with kernel methods
+)
+\Fld@listcount=\count313
+\c@bookmark@seq@number=\count314
+ (c:/texlive/2025/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+Package: rerunfilecheck 2022-07-10 v1.10 Rerun checks for auxiliary files (HO)
+ (c:/texlive/2025/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty
+Package: uniquecounter 2019/12/15 v1.4 Provide unlimited unique counter (HO)
+)
+Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 285.
+)
+\Hy@SectionHShift=\skip59
+) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec.sty
+Package: luatexja-fontspec 2024-05-14 fontspec support of LuaTeX-ja
+ (c:/texlive/2025/texmf-dist/tex/latex/l3packages/l3keys2e/l3keys2e.sty
+Package: l3keys2e 2024-08-16 LaTeX2e option processing using LaTeX3 keys
+) (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.sty (c:/texlive/2025/texmf-dist/tex/latex/l3packages/xparse/xparse.sty
+Package: xparse 2024-08-16 L3 Experimental document command parser
+)
+Package: fontspec 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
+Lua module: fontspec 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec-luatex.sty
+Package: fontspec-luatex 2024/05/11 v2.9e Font selection for XeLaTeX and LuaLaTeX
+\l__fontspec_script_int=\count315
+\l__fontspec_language_int=\count316
+\l__fontspec_strnum_int=\count317
+\l__fontspec_tmp_int=\count318
+\l__fontspec_tmpa_int=\count319
+\l__fontspec_tmpb_int=\count320
+\l__fontspec_tmpc_int=\count321
+\l__fontspec_em_int=\count322
+\l__fontspec_emdef_int=\count323
+\l__fontspec_strong_int=\count324
+\l__fontspec_strongdef_int=\count325
+\l__fontspec_tmpa_dim=\dimen198
+\l__fontspec_tmpb_dim=\dimen199
+\l__fontspec_tmpc_dim=\dimen256
+ (c:/texlive/2025/texmf-dist/tex/latex/base/fontenc.sty
+Package: fontenc 2021/04/29 v2.0v Standard LaTeX package
+) (c:/texlive/2025/texmf-dist/tex/latex/fontspec/fontspec.cfg)(load cache: extra_lmroman10-bold.luc)
+LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <10> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 3978.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 3978.
+LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <10> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 3978.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 3978.
+(load cache: extra_haranoajigothic-medium.luc))) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-fontspec.sty) (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/addons/luatexja-fontspec-29e.sty
+Package: luatexja-fontspec-29e 2024-05-27 fontspec support of LuaTeX-ja
+\g__ltj_fontspec_altnumber_int=\count326
+))(load cache: extra_juliamono-regular.luc)(load cache: extra_juliamono-bold.luc)
+
+Package fontspec Info: 
+(fontspec)             Font family 'JuliaMono(0)' created for font 'JuliaMono'
+(fontspec)             with options
+(fontspec)             [WordSpace={1,0,0},HyphenChar=None,PunctuationSpace=WordSpace,Path
+(fontspec)             = ./font/,Extension = .ttf,UprightFont =
+(fontspec)             *-Regular,BoldFont = *-Bold].
+(fontspec)              
+(fontspec)              This font family consists of the following NFSS
+(fontspec)             series/shapes:
+(fontspec)              
+(fontspec)             - 'normal' (m/n) with NFSS spec.:
+(fontspec)             <->"[./font/JuliaMono-Regular.ttf]:mode=node;script=latn;language=dflt;"
+(fontspec)             - 'small caps'  (m/sc) with NFSS spec.:
+(fontspec)             <->"[./font/JuliaMono-Regular.ttf]:mode=node;script=latn;language=dflt;+smcp;"
+(fontspec)             and font adjustment code:
+(fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
+(fontspec)             =0\fontdimen 3\font \fontdimen 4\font =0\fontdimen
+(fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
+(fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
+(fontspec)             - 'bold' (b/n) with NFSS spec.:
+(fontspec)             <->"[./font/JuliaMono-Bold.ttf]:mode=node;script=latn;language=dflt;"
+(fontspec)             - 'bold small caps'  (b/sc) with NFSS spec.:
+(fontspec)             <->"[./font/JuliaMono-Bold.ttf]:mode=node;script=latn;language=dflt;+smcp;"
+(fontspec)             and font adjustment code:
+(fontspec)             \fontdimen 2\font =1\fontdimen 2\font \fontdimen 3\font
+(fontspec)             =0\fontdimen 3\font \fontdimen 4\font =0\fontdimen
+(fontspec)             4\font \fontdimen 7\font =0\fontdimen 2\font
+(fontspec)             \tex_hyphenchar:D \font =-1\scan_stop: 
+
+ (c:/texlive/2025/texmf-dist/tex/latex/listings/listings.sty
+\lst@mode=\count327
+\lst@gtempboxa=\box73
+\lst@token=\toks33
+\lst@length=\count328
+\lst@currlwidth=\dimen257
+\lst@column=\count329
+\lst@pos=\count330
+\lst@lostspace=\dimen258
+\lst@width=\dimen259
+\lst@newlines=\count331
+\lst@lineno=\count332
+\lst@maxwidth=\dimen260
+ (c:/texlive/2025/texmf-dist/tex/latex/listings/lstpatch.sty
+File: lstpatch.sty 2024/09/23 1.10c (Carsten Heinz)
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\c@lstnumber=\count333
+\lst@skipnumbers=\count334
+\lst@framebox=\box74
+) (c:/texlive/2025/texmf-dist/tex/latex/listings/listings.cfg
+File: listings.cfg 2024/09/23 1.10c listings configuration
+))
+Package: listings 2024/09/23 1.10c (Carsten Heinz)
+ (c:/texlive/2025/texmf-dist/tex/luatex/luatexja/patches/lltjp-listings.sty (c:/texlive/2025/texmf-dist/tex/luatex/luatexbase/luatexbase-cctb.sty
+Package: luatexbase-cctb 2015/10/04 v1.3 luatexbase interface to LuaTeX (legacy subpackage) 
+)
+\ltj@lst@japanese@min=\count335
+\CatcodeTableLTJlistings=\catcodetable17
+\ltj@lst@frame@lslimit=\dimen261
+ (c:/texlive/2025/texmf-dist/tex/latex/listings/lstmisc.sty
+File: lstmisc.sty 2024/09/23 1.10c (Carsten Heinz)
+\lst@WFtoken=\toks34
+\lst@WF=\write3
+))) (./sty/indexing.sty (c:/texlive/2025/texmf-dist/tex/latex/needspace/needspace.sty
+Package: needspace 2025/03/13 v1.3e reserve vertical space
+) (c:/texlive/2025/texmf-dist/tex/latex/base/makeidx.sty
+Package: makeidx 2021/10/04 v1.0m Standard LaTeX package
+)
+\@indexfile=\write4
+
+\openout4 = main.idx
+
+Writing index file main.idx
+(c:/texlive/2025/texmf-dist/tex/latex/tools/multicol.sty
+Package: multicol 2024/09/14 v1.9i multicolumn formatting (FMi)
+\c@tracingmulticols=\count336
+\mult@box=\box75
+\multicol@leftmargin=\dimen262
+\c@unbalance=\count337
+\c@collectmore=\count338
+\doublecol@number=\count339
+\multicoltolerance=\count340
+\multicolpretolerance=\count341
+\full@width=\dimen263
+\page@free=\dimen264
+\premulticols=\dimen265
+\postmulticols=\dimen266
+\multicolsep=\skip60
+\multicolbaselineskip=\skip61
+\partial@page=\box76
+\last@line=\box77
+\mc@boxedresult=\box78
+\maxbalancingoverflow=\dimen267
+\mult@rightbox=\box79
+\mult@grightbox=\box80
+\mult@firstbox=\box81
+\mult@gfirstbox=\box82
+\@tempa=\box83
+\@tempa=\box84
+\@tempa=\box85
+\@tempa=\box86
+\@tempa=\box87
+\@tempa=\box88
+\@tempa=\box89
+\@tempa=\box90
+\@tempa=\box91
+\@tempa=\box92
+\@tempa=\box93
+\@tempa=\box94
+\@tempa=\box95
+\@tempa=\box96
+\@tempa=\box97
+\@tempa=\box98
+\@tempa=\box99
+\@tempa=\box100
+\@tempa=\box101
+\@tempa=\box102
+\@tempa=\box103
+\@tempa=\box104
+\@tempa=\box105
+\@tempa=\box106
+\@tempa=\box107
+\@tempa=\box108
+\@tempa=\box109
+\@tempa=\box110
+\@tempa=\box111
+\@tempa=\box112
+\@tempa=\box113
+\@tempa=\box114
+\@tempa=\box115
+\@tempa=\box116
+\@tempa=\box117
+\@tempa=\box118
+\c@minrows=\count342
+\c@columnbadness=\count343
+\c@finalcolumnbadness=\count344
+\last@try=\dimen268
+\multicolovershoot=\dimen269
+\multicolundershoot=\dimen270
+\mult@nat@firstbox=\box119
+\colbreak@box=\box120
+\mc@col@check@num=\count345
+)) (./sty/adjustbox.sty
+
+LaTeX Warning: You have requested package `sty/adjustbox',
+               but the package provides `adjustbox'.
+
+Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
+(c:/texlive/2025/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
+) (c:/texlive/2025/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2025/02/21 v1.2a Trim and clip general TeX material
+ (c:/texlive/2025/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
+\collectedbox=\box121
+)
+\tc@llx=\dimen271
+\tc@lly=\dimen272
+\tc@urx=\dimen273
+\tc@ury=\dimen274
+Package trimclip Info: Using driver 'tc-luatex.def'.
+ (c:/texlive/2025/texmf-dist/tex/latex/adjustbox/tc-luatex.def
+File: tc-luatex.def 2025/02/26 v1.1 Clipping driver for luatex
+ (c:/texlive/2025/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2025/02/26 v2.3 Clipping driver for pdftex
+)))
+\adjbox@Width=\dimen275
+\adjbox@Height=\dimen276
+\adjbox@Depth=\dimen277
+\adjbox@Totalheight=\dimen278
+\adjbox@pwidth=\dimen279
+\adjbox@pheight=\dimen280
+\adjbox@pdepth=\dimen281
+\adjbox@ptotalheight=\dimen282
+ (c:/texlive/2025/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2022/10/18 v1.2 Conditionals for odd/even page detection
+\c@checkoddpage=\count346
+) (c:/texlive/2025/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box122
+\sift@deathcycles=\count347
+\@vwid@loff=\dimen283
+\@vwid@roff=\dimen284
+)) (c:/texlive/2025/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+Package: fancyhdr 2025/02/07 v5.2 Extensive control of page headers and footers
+\f@nch@headwidth=\skip62
+\f@nch@offset@elh=\skip63
+\f@nch@offset@erh=\skip64
+\f@nch@offset@olh=\skip65
+\f@nch@offset@orh=\skip66
+\f@nch@offset@elf=\skip67
+\f@nch@offset@erf=\skip68
+\f@nch@offset@olf=\skip69
+\f@nch@offset@orf=\skip70
+\f@nch@height=\skip71
+\f@nch@footalignment=\skip72
+\f@nch@widthL=\skip73
+\f@nch@widthC=\skip74
+\f@nch@widthR=\skip75
+\@temptokenb=\toks35
+) (c:/texlive/2025/texmf-dist/tex/latex/biblatex/biblatex.sty
+Package: biblatex 2024/03/21 v3.20 programmable bibliographies (PK/MW)
+ (c:/texlive/2025/texmf-dist/tex/latex/logreq/logreq.sty
+Package: logreq 2010/08/04 v1.0 xml request logger
+\lrq@indent=\count348
+ (c:/texlive/2025/texmf-dist/tex/latex/logreq/logreq.def
+File: logreq.def 2010/08/04 v1.0 logreq spec v1.0
+)) (c:/texlive/2025/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2024/03/16 v1.1e Standard LaTeX ifthen package (DPC)
+)
+\c@tabx@nest=\count349
+\c@listtotal=\count350
+\c@listcount=\count351
+\c@liststart=\count352
+\c@liststop=\count353
+\c@citecount=\count354
+\c@citetotal=\count355
+\c@multicitecount=\count356
+\c@multicitetotal=\count357
+\c@instcount=\count358
+\c@maxnames=\count359
+\c@minnames=\count360
+\c@maxitems=\count361
+\c@minitems=\count362
+\c@citecounter=\count363
+\c@maxcitecounter=\count364
+\c@savedcitecounter=\count365
+\c@uniquelist=\count366
+\c@uniquename=\count367
+\c@refsection=\count368
+\c@refsegment=\count369
+\c@maxextratitle=\count370
+\c@maxextratitleyear=\count371
+\c@maxextraname=\count372
+\c@maxextradate=\count373
+\c@maxextraalpha=\count374
+\c@abbrvpenalty=\count375
+\c@highnamepenalty=\count376
+\c@lownamepenalty=\count377
+\c@maxparens=\count378
+\c@parenlevel=\count379
+\blx@tempcnta=\count380
+\blx@tempcntb=\count381
+\blx@tempcntc=\count382
+\c@blx@maxsection=\count383
+\blx@maxsegment@0=\count384
+\blx@notetype=\count385
+\blx@parenlevel@text=\count386
+\blx@parenlevel@foot=\count387
+\blx@sectionciteorder@0=\count388
+\blx@sectionciteorderinternal@0=\count389
+\blx@entrysetcounter=\count390
+\blx@biblioinstance=\count391
+\labelnumberwidth=\skip76
+\labelalphawidth=\skip77
+\biblabelsep=\skip78
+\bibitemsep=\skip79
+\bibnamesep=\skip80
+\bibinitsep=\skip81
+\bibparsep=\skip82
+\bibhang=\skip83
+\blx@bcfin=\read2
+\blx@bcfout=\write5
+\blx@langwohyphens=\language3
+\c@mincomprange=\count392
+\c@maxcomprange=\count393
+\c@mincompwidth=\count394
+Package biblatex Info: Trying to load biblatex default data model...
+Package biblatex Info: ... file 'blx-dm.def' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/blx-dm.def
+File: blx-dm.def 2024/03/21 v3.20 biblatex datamodel (PK/MW)
+)
+Package biblatex Info: Trying to load biblatex style data model...
+Package biblatex Info: ... file 'authoryear-comp.dbx' not found.
+Package biblatex Info: Trying to load biblatex custom data model...
+Package biblatex Info: ... file 'biblatex-dm.cfg' not found.
+\c@afterword=\count395
+\c@savedafterword=\count396
+\c@annotator=\count397
+\c@savedannotator=\count398
+\c@author=\count399
+\c@savedauthor=\count400
+\c@bookauthor=\count401
+\c@savedbookauthor=\count402
+\c@commentator=\count403
+\c@savedcommentator=\count404
+\c@editor=\count405
+\c@savededitor=\count406
+\c@editora=\count407
+\c@savededitora=\count408
+\c@editorb=\count409
+\c@savededitorb=\count410
+\c@editorc=\count411
+\c@savededitorc=\count412
+\c@foreword=\count413
+\c@savedforeword=\count414
+\c@holder=\count415
+\c@savedholder=\count416
+\c@introduction=\count417
+\c@savedintroduction=\count418
+\c@namea=\count419
+\c@savednamea=\count420
+\c@nameb=\count421
+\c@savednameb=\count422
+\c@namec=\count423
+\c@savednamec=\count424
+\c@translator=\count425
+\c@savedtranslator=\count426
+\c@shortauthor=\count427
+\c@savedshortauthor=\count428
+\c@shorteditor=\count429
+\c@savedshorteditor=\count430
+\c@labelname=\count431
+\c@savedlabelname=\count432
+\c@institution=\count433
+\c@savedinstitution=\count434
+\c@lista=\count435
+\c@savedlista=\count436
+\c@listb=\count437
+\c@savedlistb=\count438
+\c@listc=\count439
+\c@savedlistc=\count440
+\c@listd=\count441
+\c@savedlistd=\count442
+\c@liste=\count443
+\c@savedliste=\count444
+\c@listf=\count445
+\c@savedlistf=\count446
+\c@location=\count447
+\c@savedlocation=\count448
+\c@organization=\count449
+\c@savedorganization=\count450
+\c@origlocation=\count451
+\c@savedoriglocation=\count452
+\c@origpublisher=\count453
+\c@savedorigpublisher=\count454
+\c@publisher=\count455
+\c@savedpublisher=\count456
+\c@language=\count457
+\c@savedlanguage=\count458
+\c@origlanguage=\count459
+\c@savedoriglanguage=\count460
+\c@pageref=\count461
+\c@savedpageref=\count462
+\shorthandwidth=\skip84
+\shortjournalwidth=\skip85
+\shortserieswidth=\skip86
+\shorttitlewidth=\skip87
+\shortauthorwidth=\skip88
+\shorteditorwidth=\skip89
+\locallabelnumberwidth=\skip90
+\locallabelalphawidth=\skip91
+\localshorthandwidth=\skip92
+\localshortjournalwidth=\skip93
+\localshortserieswidth=\skip94
+\localshorttitlewidth=\skip95
+\localshortauthorwidth=\skip96
+\localshorteditorwidth=\skip97
+Package biblatex Info: Trying to load enhanced support for Unicode engines...
+Package biblatex Info: ... file 'blx-unicode.def' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/blx-unicode.def)
+Package biblatex Info: Trying to load compatibility code...
+Package biblatex Info: ... file 'blx-compat.def' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/blx-compat.def
+File: blx-compat.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
+)
+Package biblatex Info: Trying to load generic definitions...
+Package biblatex Info: ... file 'biblatex.def' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/biblatex.def
+File: biblatex.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
+\c@textcitecount=\count463
+\c@textcitetotal=\count464
+\c@textcitemaxnames=\count465
+\c@biburlbigbreakpenalty=\count466
+\c@biburlbreakpenalty=\count467
+\c@biburlnumpenalty=\count468
+\c@biburlucpenalty=\count469
+\c@biburllcpenalty=\count470
+\biburlbigskip=\muskip19
+\biburlnumskip=\muskip20
+\biburlucskip=\muskip21
+\biburllcskip=\muskip22
+\c@smartand=\count471
+)
+Package biblatex Info: Trying to load natbib compatibility...
+Package biblatex Info: ... file 'blx-natbib.def' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/blx-natbib.def
+File: blx-natbib.def 2024/03/21 v3.20 biblatex compatibility (PK/MW)
+Package biblatex Info: Delimiter 'nameyeardelim' in context '' already defined, overwriting.
+)
+Package biblatex Info: Trying to load bibliography style 'authoryear-comp'...
+Package biblatex Info: ... file 'authoryear-comp.bbx' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/bbx/authoryear-comp.bbx
+File: authoryear-comp.bbx 2024/03/21 v3.20 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'authoryear'...
+Package biblatex Info: ... file 'authoryear.bbx' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/bbx/authoryear.bbx
+File: authoryear.bbx 2024/03/21 v3.20 biblatex bibliography style (PK/MW)
+Package biblatex Info: Trying to load bibliography style 'standard'...
+Package biblatex Info: ... file 'standard.bbx' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/bbx/standard.bbx
+File: standard.bbx 2024/03/21 v3.20 biblatex bibliography style (PK/MW)
+\c@bbx:relatedcount=\count472
+\c@bbx:relatedtotal=\count473
+)))
+Package biblatex Info: Trying to load citation style 'authoryear-comp'...
+Package biblatex Info: ... file 'authoryear-comp.cbx' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/cbx/authoryear-comp.cbx
+File: authoryear-comp.cbx 2024/03/21 v3.20 biblatex citation style (PK/MW)
+Package biblatex Info: Redefining '\cite'.
+Package biblatex Info: Redefining '\parencite'.
+Package biblatex Info: Redefining '\footcite'.
+Package biblatex Info: Redefining '\footcitetext'.
+Package biblatex Info: Redefining '\smartcite'.
+Package biblatex Info: Redefining '\textcite'.
+Package biblatex Info: Redefining '\textcites'.
+Package biblatex Info: Redefining '\cites'.
+Package biblatex Info: Redefining '\parencites'.
+Package biblatex Info: Redefining '\footcites'.
+Package biblatex Info: Redefining '\footcitetexts'.
+Package biblatex Info: Redefining '\smartcites'.
+)
+Package biblatex Info: Trying to load configuration file...
+Package biblatex Info: ... file 'biblatex.cfg' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/biblatex.cfg
+File: biblatex.cfg 
+)
+Package biblatex Info: LuaTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Document encoding is UTF8 ....
+Package biblatex Info: ... and expl3
+(biblatex)             2025-01-18 L3 programming layer (loader) 
+(biblatex)             is new enough (at least 2020/04/06),
+(biblatex)             setting 'casechanger=expl3'.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
+Package: blx-case-expl3 2024/03/21 v3.20 expl3 case changing code for biblatex
+))
+\@quotelevel=\count474
+\@quotereset=\count475
+
+
+Package biblatex Warning: Conflicting options.
+(biblatex)                '<namepart>inits' conflicts with 'uniquename=full'.
+(biblatex)                Setting 'uniquename=init' on input line 89.
+
+(./output/main.aux)
+\openout1 = main.aux
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for JY3/mc/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for JT3/mc/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for LGR/cmr/m/n on input line 89.
+LaTeX Font Info:    Trying loading font information for LGR+cmr on input line 89.
+ (c:/texlive/2025/texmf-dist/tex/latex/cbfonts-fd/lgrcmr.fd
+File: lgrcmr.fd 2017/07/29 v1.2 Greek European Computer Regular
+)
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 89.
+LaTeX Font Info:    ... okay on input line 89.
+
+*geometry* driver: auto-detecting
+*geometry* detected driver: luatex
+*geometry* verbose mode - [ preamble ] result:
+* driver: luatex
+* paper: custom
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: twoside 
+* h-part:(L,W,R)=(42.67912pt, 432.4819pt, 42.67912pt)
+* v-part:(T,H,B)=(56.9055pt, 560.5193pt, 42.67912pt)
+* \paperwidth=517.84015pt
+* \paperheight=660.10393pt
+* \textwidth=432.4819pt
+* \textheight=560.5193pt
+* \oddsidemargin=-29.59087pt
+* \evensidemargin=-29.59087pt
+* \topmargin=-49.67497pt
+* \headheight=20.0pt
+* \headsep=14.31049pt
+* \topskip=12.76108pt
+* \footskip=0.0pt
+* \marginparwidth=120.2127pt
+* \marginparsep=18.49426pt
+* \columnsep=18.49426pt
+* \skip\footins=16.0pt plus 5.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidetrue
+* \@mparswitchtrue
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+(c:/texlive/2025/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count476
+\scratchdimen=\dimen285
+\scratchbox=\box123
+\nofMPsegments=\count477
+\nofMParguments=\count478
+\everyMPshowfont=\toks36
+\MPscratchCnt=\count479
+\MPscratchDim=\dimen286
+\MPnumerator=\count480
+\makeMPintoPDFobject=\count481
+\everyMPtoPDFconversion=\toks37
+) (c:/texlive/2025/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package hyperref Info: Link coloring ON on input line 89.
+ (./output/main.out) (./output/main.out)
+\@outlinefile=\write6
+
+\openout6 = main.out
+
+Package fontspec Info: 
+(fontspec)             Adjusting the maths setup (use [no-math] to avoid
+(fontspec)             this).
+
+\symlegacymaths=\mathgroup7
+LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 89.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 89.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 89.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 89.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 89.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 89.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 89.
+LaTeX Font Info:    Redeclaring math accent \check on input line 89.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 89.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 89.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 89.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 89.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 89.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `normal' on input line 89.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 89.
+LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
+(Font)              `operators' in the math version `bold' on input line 89.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 89.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
+(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
+(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
+(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
+(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/m/n on input line 89.
+LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
+(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
+(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 89.
+LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
+(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/b/n on input line 89.
+\c@lstlisting=\count482
+Package biblatex Info: Trying to load language 'english'...
+Package biblatex Info: ... file 'english.lbx' found.
+ (c:/texlive/2025/texmf-dist/tex/latex/biblatex/lbx/english.lbx
+File: english.lbx 2024/03/21 v3.20 biblatex localization (PK/MW)
+)
+Package biblatex Info: LuaTeX detected.
+(biblatex)             Assuming input encoding 'utf8'.
+Package biblatex Info: Data encoding 'utf8' specified.
+(biblatex)             No need to reencode data.
+
+\openout5 = main.bcf
+Package biblatex Info: Trying to load bibliographic data...
+
+
+Package biblatex Warning: File 'main.bbl' is wrong format version - expected 3.3.
+
+Package biblatex Info: ... file 'main.bbl' found.
+(./main.bbl
+
+Package biblatex Warning: The following entry could not be found
+(biblatex)                in the database:
+(biblatex)                Berkes2005-i
+(biblatex)                Please verify the spelling and rerun
+(biblatex)                LaTeX afterwards.
+
+)
+Package biblatex Info: Reference section=0 on input line 89.
+Package biblatex Info: Reference segment=0 on input line 89.
+
+Overfull \hbox (80.65405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 i-lyi=A., given=Lau-rence, giveni=L., give-nun=0un=0,uniquepart=base,hash=a561257682f27ac01b933e0829dc3f49fam-
+ []
+
+
+Overfull \hbox (63.72404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=A., given=Lau-rence, giveni=L., give-nun=0un=0,uniquepart=base,hash=dcc2f0b795dad2e1fa3e59d3682741db-
+ []
+
+
+Overfull \hbox (167.31604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-ily=Jeg-mi-nat, fam-i-lyi=J., given=Jannes, giveni=J., give-nun=0un=0,uniquepart=base,hash=76bbe67f6c7d0c8a0335ab5721e760d7fam-
+ []
+
+
+Overfull \hbox (195.64827pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Menen-dez, fam-i-lyi=M., given=Jorge Au-re-lio, giveni=J. A., give-nun=0un=0,uniquepart=base,hash=89fbea4510c0418e9171f184c777dd97fam-
+ []
+
+
+Overfull \hbox (176.01604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Pfis-ter, fam-i-lyi=P., given=Jean-Pascal, giveni=J.[]P., give-nun=0un=0,uniquepart=base,hash=330aaa9645b14ab62852c0a3bb1c7a9afam-
+ []
+
+
+Overfull \hbox (159.82602pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Pouget, fam-i-lyi=P., given=Alexan-dre, giveni=A., give-nun=0un=0,uniquepart=base,hash=5d03d7d07ef2c4d938fad107d5b2919bfam-
+ []
+
+
+Overfull \hbox (107.68007pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=S-I, giveni=S.[]I., give-nun=1                      au-thor2un=0,uniquepart=base,hash=fe4f349b8031006e05f4bcb85a65d330fam-
+ []
+
+
+Overfull \hbox (154.06517pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=An-der-sen, fam-i-lyi=A., given=R A, giveni=R. A., give-nun=0un=0,uniquepart=base,hash=3b23e62bcd86a586b5f64002f21c2332fam-
+ []
+
+
+Overfull \hbox (70.69318pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=V., given=R L, giveni=R. L., give-nun=0un=0,uniquepart=base,hash=e32b9bd87639e50405444cb06fd8d469fam-
+ []
+
+
+Overfull \hbox (131.82516pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Lopes, fam-i-lyi=L., given=S R, giveni=S. R., give-nun=0un=0,uniquepart=base,hash=235df9f1052c7596b679eb912d3f8096fam-
+ []
+
+
+Overfull \hbox (63.03404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=B., given=Pietro, giveni=P., give-nun=0un=0,uniquepart=base,hash=cc62f095df458fd7811830a7ceadd6a6fam-
+ []
+
+
+Overfull \hbox (146.79604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Turner, fam-i-lyi=T., given=Richard, giveni=R., give-nun=0un=0,uniquepart=base,hash=503921f59e2589dd13724b12e84ae8f3fam-
+ []
+
+
+Overfull \hbox (204.87607pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Fiser, fam-i-lyi=F., given=Jozsef, giveni=J., give-nun=0                     au-thor3un=0,uniquepart=base,hash=9bade1613f0ea57fe43870735e78f400fam-
+ []
+
+
+Overfull \hbox (162.37517pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Bi-enen-stock, fam-i-lyi=B., given=E L, giveni=E. L., give-nun=0un=0,uniquepart=base,hash=818261d37b65922f250ddf289897eb6cfam-
+ []
+
+
+Overfull \hbox (143.44518pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Cooper, fam-i-lyi=C., given=L N, giveni=L. N., give-nun=0un=0,uniquepart=base,hash=5e75a8192cb17303a3214c1f0dad7a28fam-
+ []
+
+
+Overfull \hbox (35.45119pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=T V, giveni=T. V., give-nun=0un=0,uniquepart=base,hash=05e8d9ad7ef06dcc9278704079adb9f5fam-
+ []
+
+
+Overfull \hbox (195.34407pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Lomo, fam-i-lyi=L., given=T, giveni=T., give-nun=0                      au-thor3un=0,uniquepart=base,hash=b7b612da52c3e4fdce5eca6fd0ca43d2fam-
+ []
+
+
+Overfull \hbox (145.75606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Blohm, fam-i-lyi=B., given=Gun-nar, giveni=G., give-nun=0un=0,uniquepart=base,hash=bc19386e95fe00742c37788c7d0eab45fam-
+ []
+
+
+Overfull \hbox (168.52625pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ko-rd-ing, fam-i-lyi=K., given=Kon-rad P, giveni=K. P., give-nun=0un=0,uniquepart=base,hash=c3839311c6a90067e111fbf8bf7b6235fam-
+ []
+
+
+Overfull \hbox (76.9534pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Car-los S N, giveni=C. S. N., give-nun=0un=0,uniquepart=base,hash=6b2c6d8dbc66b301f2a7077d805f0ba7fam-
+ []
+
+
+Overfull \hbox (61.96405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=B., given=Lars, giveni=L., give-nun=0un=0,uniquepart=base,hash=852500bedd14271687798be54db1677ffam-
+ []
+
+
+Overfull \hbox (133.98604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Bill, fam-i-lyi=B., given=Jo-hannes, giveni=J., give-nun=0un=0,uniquepart=base,hash=46903af2a234346e2857b1bfc2f54949fam-
+ []
+
+
+Overfull \hbox (154.92606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Nessler, fam-i-lyi=N., given=Bern-hard, giveni=B., give-nun=0un=0,uniquepart=base,hash=1b7071d23a59fcc869863e969ca2e992fam-
+ []
+
+
+Overfull \hbox (0.82803pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 thor3un=0,uniquepart=base,hash=5bad658a1393eb641ed95bd9bf9a80b0fam-ily=Carreira-Perpiñán,
+ []
+
+
+Overfull \hbox (125.55428pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-i-lyi=C.[]P., given=Miguel A, giveni=M. A., give-nun=0un=0,uniquepart=base,hash=e524c8fded6bec50dd7e58c5750eedd5fam-
+ []
+
+
+Overfull \hbox (163.53627pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Lis-ter, fam-i-lyi=L., given=Richard J, giveni=R. J., give-nun=0un=0,uniquepart=base,hash=ca92b00cb695312b6d6247c06818d514fam-
+ []
+
+
+Overfull \hbox (72.30405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=C., given=Ste-fano, giveni=S., give-nun=0un=0,uniquepart=base,hash=ee00f1b90e13007c277094549628bb3bfam-
+ []
+
+
+Overfull \hbox (125.91603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Panz-eri, fam-i-lyi=P., given=Ste-fano, giveni=S., give-nun=0un=0,uniquepart=base,hash=59aedd2a09f61140df4278e92d0e0cfe-
+ []
+
+
+Overfull \hbox (58.2623pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=D T W, giveni=D. T. W., give-nun=0un=0,uniquepart=base,hash=5fd-bafb86d8e1cbadba0fbf1dffc4943fam-
+ []
+
+
+Overfull \hbox (119.86404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Coombes, fam-i-lyi=C., given=S, giveni=S., give-nun=0un=0,uniquepart=base,hash=121e3f90903affb798d64d428ec9f6f0fam-
+ []
+
+
+Overfull \hbox (67.07318pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=C., given=J A, giveni=J. A., give-nun=0un=0,uniquepart=base,hash=5811ac86a02dbf9616689084972e728bfam-
+ []
+
+
+Overfull \hbox (66.81317pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=C., given=J A, giveni=J. A., give-nun=0un=0,uniquepart=base,hash=737bbb8ae41a2c2dfe741b1dbf03e64dfam-
+ []
+
+
+Overfull \hbox (123.72404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Wal-ter, fam-i-lyi=W., given=D, giveni=D., give-nun=0un=0,uniquepart=base,hash=4b271614a1867ccfe54217990a7a9a16fam-
+ []
+
+
+Overfull \hbox (46.01228pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Leon N, giveni=L. N., give-nun=0un=0,uniquepart=base,hash=35509afc68cfdc5711f0cc71d6db333dfam-
+ []
+
+
+Overfull \hbox (35.44229pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Leon N, giveni=L. N., give-nun=0un=0,uniquepart=base,hash=de5a9ba79d54c96e0c0a319b6aeb02cb-
+ []
+
+
+Overfull \hbox (160.36606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-ily=Liber-man, fam-i-lyi=L., given=Fishel, giveni=F., give-nun=0un=0,uniquepart=base,hash=d2ed0997ec1c0ceecf1f302a65c3e0c9fam-
+ []
+
+
+Overfull \hbox (205.35605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Oja, fam-i-lyi=O., given=Erkki, giveni=E., give-nun=0                     au-thor4un=0,uniquepart=base,hash=0f022e4008878be84e194b011a585b94fam-
+ []
+
+
+Overfull \hbox (152.26605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Cuntz, fam-i-lyi=C., given=Her-mann, giveni=H., give-nun=0un=0,uniquepart=base,hash=4b81ed62ac4ac859661c32aaa260c04bfam-
+ []
+
+
+Overfull \hbox (156.33603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Forstner, fam-i-lyi=F., given=Friedrich, giveni=F., give-nun=0un=0,uniquepart=base,hash=bae6200a7c7df7e5acb349481f31b067fam-
+ []
+
+
+Overfull \hbox (152.91605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Borst, fam-i-lyi=B., given=Alexan-der, giveni=A., give-nun=0un=0,uniquepart=base,hash=0eafa374d00d9ec8b881979c6b6c7d17fam-
+ []
+
+
+Overfull \hbox (133.48207pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Anirud-dha, giveni=A., give-nun=0                       au-thor2un=0,uniquepart=base,hash=ef0afbe0b4e15059c963e026fe213c34fam-
+ []
+
+
+Overfull \hbox (132.28604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Dayan, fam-i-lyi=D., given=Pe-ter, giveni=P., give-nun=0un=0,uniquepart=base,hash=9fa6a891808f87d1e39a0e383ad3502efam-
+ []
+
+
+Overfull \hbox (37.92206pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Moritz, giveni=M., give-nun=0un=0,uniquepart=base,hash=eb14f1985bed361a0e0522291cb6ce38fam-
+ []
+
+
+Overfull \hbox (141.79604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=He-lias, fam-i-lyi=H., given=Moritz, giveni=M., give-nun=0un=0,uniquepart=base,hash=9664842afb007172315bcefb49b80803fam-
+ []
+
+
+Overfull \hbox (152.89606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Bouc-sein, fam-i-lyi=B., given=Clemens, giveni=C., give-nun=0un=0,uniquepart=base,hash=b2f53c7f6e46d970e3f44a698a690fc6fam-
+ []
+
+
+Overfull \hbox (43.05205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=D., given=A, giveni=A., give-nun=0un=0,uniquepart=base,hash=338c9d8a9fcfe5c74f6f8ed47ba1517bfam-
+ []
+
+
+Overfull \hbox (142.04517pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Mainen, fam-i-lyi=M., given=Z F, giveni=Z. F., give-nun=0un=0,uniquepart=base,hash=84f9dc1728c921fbaa04069a73ed0721fam-
+ []
+
+
+Overfull \hbox (40.12206pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Ra-mana, giveni=R., give-nun=0un=0,uniquepart=base,hash=2e33d9b4e019e474e0f284b5744bf0f6fam-
+ []
+
+
+Overfull \hbox (41.23206pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Yedidyah, giveni=Y., give-nun=0un=0,uniquepart=base,hash=07b30cf03223931cc6e46fff4b5b42e4fam-
+ []
+
+
+Overfull \hbox (141.47603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Soudry, fam-i-lyi=S., given=Daniel, giveni=D., give-nun=0un=0,uniquepart=base,hash=a9cf89650dd0e17967a8e7b442155259fam-
+ []
+
+
+Overfull \hbox (127.02603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Meir, fam-i-lyi=M., given=Ron, giveni=R., give-nun=0un=0,uniquepart=base,hash=034dd18bf3c7815bb71d85de5e400554fam-
+ []
+
+
+Overfull \hbox (73.05318pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=D., given=S M, giveni=S. M., give-nun=0un=0,uniquepart=base,hash=89194e81c97d742b41876333e2b182a0fam-
+ []
+
+
+Overfull \hbox (53.55205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=D., given=R, giveni=R., give-nun=0un=1,uniquepart=given,hash=f6ed2c92da3c0449b770255d07807565fam-
+ []
+
+
+Overfull \hbox (75.23405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=D., given=Richard, giveni=R., give-nun=0un=0,uniquepart=base,hash=68624c959c638f6b14013aa431a3438efam-
+ []
+
+
+Overfull \hbox (26.93205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=E., given=R, giveni=R., give-nun=0un=0,uniquepart=base,hash=4ef386b10e14d7a7cc1c20a1f756a0fb-
+ []
+
+
+Overfull \hbox (155.53404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-ily=Hen-nequin, fam-i-lyi=H., given=G, giveni=G., give-nun=0un=0,uniquepart=base,hash=e63a4a2bd274f9bbf681e35cadeda871fam-
+ []
+
+
+Overfull \hbox (199.25406pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Lengyel, fam-i-lyi=L., given=M, giveni=M., give-nun=0                  au-thor4un=0,uniquepart=base,hash=e49143c8eb104cd214a8fbf0017c7b03fam-
+ []
+
+
+Overfull \hbox (160.10605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Echeveste, fam-i-lyi=E., given=Ro-drigo, giveni=R., give-nun=0un=0,uniquepart=base,hash=b9a95b2bf7ae9a32128a7ce471a4b27ffam-
+ []
+
+
+Overfull \hbox (161.75606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Aitchi-son, fam-i-lyi=A., given=Lau-rence, giveni=L., give-nun=0un=0,uniquepart=base,hash=e4267c6957f02a4496c8e93a3cb35e44fam-
+ []
+
+
+Overfull \hbox (174.63605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Hen-nequin, fam-i-lyi=H., given=Guil-laume, giveni=G., give-nun=0un=0,uniquepart=base,hash=a561257682f27ac01b933e0829dc3f49fam-
+ []
+
+
+Overfull \hbox (128.85208pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=F., given=R, giveni=R., give-nun=0                      au-thor1un=0,uniquepart=base,hash=d5f139228c01bc378e792449647ee62cfam-
+ []
+
+
+Overfull \hbox (1.02005pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=T, giveni=T., give-nun=0un=0,uniquepart=base,hash=cc932b13dba8154f485e5b0db13bbacd-
+ []
+
+
+Overfull \hbox (71.11404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=F., given=Math-ias, giveni=M., give-nun=0un=0,uniquepart=base,hash=ce2435f6d35f9dc4e40f0b2cfdd30ccafam-
+ []
+
+
+Overfull \hbox (157.34602pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Sprekeler, fam-i-lyi=S., given=Hen-ning, giveni=H., give-nun=0un=0,uniquepart=base,hash=1a32a99893f7cb5a5f0da14f6d31a3b9fam-
+ []
+
+
+Overfull \hbox (86.02429pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=G., given=Tom M, giveni=T. M., give-nun=0un=0,uniquepart=base,hash=9e9c2c20bb7473502e25f1c5b26ad38cfam-
+ []
+
+
+Overfull \hbox (136.76604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ras-togi, fam-i-lyi=R., given=Mehul, giveni=M., give-nun=0un=0,uniquepart=base,hash=18efdf0c93709fbaf292c09ff8da9030fam-
+ []
+
+
+Overfull \hbox (68.38406pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=C., given=Clau-dia, giveni=C., give-nun=0un=0,uniquepart=base,hash=2270062cd55c887966fece35c0101afffam-
+ []
+
+
+Overfull \hbox (170.09602pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Stachen-feld, fam-i-lyi=S., given=Kim-berly, giveni=K., give-nun=0un=0,uniquepart=base,hash=a617add32fdf0ce053fd0b414545ec78fam-
+ []
+
+
+Overfull \hbox (68.50406pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=G., given=Xavier, giveni=X., give-nun=0un=0,uniquepart=base,hash=40a8e4774982146adc2688546f54efb2fam-
+ []
+
+
+Overfull \hbox (89.44427pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=G., given=Joshua H, giveni=J. H., give-nun=0un=0,uniquepart=base,hash=1132bfd1b07fa62d9c15f32bcae40807fam-
+ []
+
+
+Overfull \hbox (153.45627pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Slabe, fam-i-lyi=S., given=Bradley R, giveni=B. R., give-nun=0un=0,uniquepart=base,hash=fff8808c2719d1196af7c91e0b3f4a95fam-
+ []
+
+
+Overfull \hbox (166.89629pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Travers, fam-i-lyi=T., given=Joseph B, giveni=J. B., give-nun=0un=0,uniquepart=base,hash=2bba44c6524768498b0a8a63c202c06cfam-
+ []
+
+
+Overfull \hbox (184.80432pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=G., given=Ge-of-frey J, giveni=G. J., give-nun=0                       au-thor1un=0,uniquepart=base,hash=ca92b00cb695312b6d6247c06818d514fam-
+ []
+
+
+Overfull \hbox (74.01318pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=H., given=C M, giveni=C. M., give-nun=0un=0,uniquepart=base,hash=29d1c6b6fe66810be6c3b2ce9c329addfam-
+ []
+
+
+Overfull \hbox (68.16406pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=H., given=Demis, giveni=D., give-nun=0un=0,uniquepart=base,hash=a425c81c03d315597e3f92690763e24dfam-
+ []
+
+
+Overfull \hbox (161.80605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ku-maran, fam-i-lyi=K., given=Dhar-shan, giveni=D., give-nun=0un=0,uniquepart=base,hash=0e19fe61e6ad22ca347bffe3e453c372fam-
+ []
+
+
+Overfull \hbox (187.41603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Sum-mer-field, fam-i-lyi=S., given=Christo-pher, giveni=C., give-nun=0un=0,uniquepart=base,hash=9ac5fb35edeb23736953b00e66bef926fam-
+ []
+
+
+Overfull \hbox (146.80429pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Don-ald Old-ing, giveni=D. O., give-nun=0                au-thor2un=0,uniquepart=base,hash=f245ea6325fec5c9f96ceebb69626059fam-
+ []
+
+
+Overfull \hbox (149.00516pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Hodgkin, fam-i-lyi=H., given=A L, giveni=A. L., give-nun=0un=0,uniquepart=base,hash=7fdcc730bf64349a6b5d7abd25ae9402fam-
+ []
+
+
+Overfull \hbox (141.7832pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=H., given=J J, giveni=J. J., give-nun=0                      au-thor3un=0,uniquepart=base,hash=11a10ba3c6476c3a5ed3f1811879fe6afam-
+ []
+
+
+Overfull \hbox (150.65628pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Hop-per, fam-i-lyi=H., given=Amy J, giveni=A. J., give-nun=0un=0,uniquepart=base,hash=6a19fe0e3e9536300dcc6ce7fb8c8ba2fam-
+ []
+
+
+Overfull \hbox (91.21606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Beswick-Jones, fam-i-lyi=B.[]J., given=Hana, giveni=H., give-nun=0un=0,uniquepart=base,hash=6aceacba607b030dc-
+ []
+
+
+Overfull \hbox (8.82632pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 cea4450dc6df9bf-fam-ily=Brown, fam-i-lyi=B., given=An-gus M, giveni=A. M., give-nun=0                       au-
+ []
+
+
+Overfull \hbox (38.74205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Takuya, giveni=T., give-nun=0un=0,uniquepart=base,hash=9f452a84796a900973333b32a5f8bc61fam-
+ []
+
+
+Overfull \hbox (163.49428pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=I., given=Eu-gene M, giveni=E. M., give-nun=0                 au-thor1un=0,uniquepart=base,hash=42f7fae3ea7fdb2a650d709ac8db0842fam-
+ []
+
+
+Overfull \hbox (68.69405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=K., given=David, giveni=D., give-nun=0un=0,uniquepart=base,hash=88cb28903cf2425bac37bec6405bb894fam-
+ []
+
+
+Overfull \hbox (167.69604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Haben-schuss, fam-i-lyi=H., given=Ste-fan, giveni=S., give-nun=0un=0,uniquepart=base,hash=b10a7d017c66a7852a2ced8998379999fam-
+ []
+
+
+Overfull \hbox (158.70605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Leg-en-stein, fam-i-lyi=L., given=Robert, giveni=R., give-nun=0un=0,uniquepart=base,hash=1b7071d23a59fcc869863e969ca2e992fam-
+ []
+
+
+Overfull \hbox (67.91318pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=K., given=D P, giveni=D. P., give-nun=0un=0,uniquepart=base,hash=269e85c86b7191d8814ace202944f295fam-
+ []
+
+
+Overfull \hbox (168.12407pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ba, fam-i-lyi=B., given=J, giveni=J., give-nun=0                 au-thor8un=0,uniquepart=base,hash=2bb0289bfb97842c3c4eeeb8e871581ffam-
+ []
+
+
+Overfull \hbox (159.00626pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Koene, fam-i-lyi=K., given=Ran-dal A, giveni=R. A., give-nun=0un=0,uniquepart=base,hash=4aa5a3f369b80d79f0de42f063f39f53fam-
+ []
+
+
+Overfull \hbox (129.50606pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ti-jms, fam-i-lyi=T., given=Betty, giveni=B., give-nun=0un=0,uniquepart=base,hash=9ea2a84e86a60f418e3f4a4408470626fam-
+ []
+
+
+Overfull \hbox (68.06403pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=P., given=Frank, giveni=F., give-nun=0un=0,uniquepart=base,hash=1c886add18cdd030790d8afbc52cbbb4fam-
+ []
+
+
+Overfull \hbox (97.93542pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=R., given=Ger J A, giveni=G. J. A., give-nun=0un=0,uniquepart=base,hash=5d0de37688657473f0cec9da0730dcb1fam-
+ []
+
+
+Overfull \hbox (255.88199pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Pelt, fam-i-lyi=P., given=Jaap, giveni=J., give-nun=0, pre-fix=van, pre-fixi=v., pre-fixun=0un=0,uniquepart=base,hash=be11bd5bdbfb41f6fbace3da1d6eafce-
+ []
+
+
+Overfull \hbox (150.05408pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=K., given=Teuvo, giveni=T., give-nun=0                      au-thor5un=0,uniquepart=base,hash=9ae8dc3a930d73e11e1b22a9ef065055fam-
+ []
+
+
+Overfull \hbox (245.96404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fcf75e0932c31b19f424238fe-fam-ily=Chopra, fam-i-lyi=C., given=S, giveni=S., give-nun=0un=0,uniquepart=base,hash=ae95119be0d9d86ffdec9f3142af353efam-
+ []
+
+
+Overfull \hbox (122.64404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Had-sell, fam-i-lyi=H., given=R, giveni=R., give-nun=0un=0,uniquepart=base,hash=6cb5af0e649387de5bbfdb150cc7a786fam-
+ []
+
+
+Overfull \hbox (130.07405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ran-zato, fam-i-lyi=R., given=M, giveni=M., give-nun=0un=0,uniquepart=base,hash=ef77e7504555b19034ce0cdc3d562665fam-
+ []
+
+
+Overfull \hbox (187.31406pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Huang, fam-i-lyi=H., given=F, giveni=F., give-nun=0                 au-thor4un=0,uniquepart=base,hash=e24bcca01cf5890a6b9ac6ccb5b492f8fam-
+ []
+
+
+Overfull \hbox (106.12605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Li, fam-i-lyi=L., given=Zhe, giveni=Z., give-nun=0un=0,uniquepart=base,hash=e8202fa00d92abc9d04e9caee77e5ad4fam-
+ []
+
+
+Overfull \hbox (147.30603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Maz-zoni, fam-i-lyi=M., given=Pietro, giveni=P., give-nun=0un=0,uniquepart=base,hash=bce91e02748d1f5b15b09953b32f57c5fam-
+ []
+
+
+Overfull \hbox (115.04604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Song, fam-i-lyi=S., given=Sen, giveni=S., give-nun=0un=0,uniquepart=base,hash=ea12a5aa5be72e296f6e28e632bf5b66fam-
+ []
+
+
+Overfull \hbox (62.44405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=L., given=David, giveni=D., give-nun=0un=0,uniquepart=base,hash=1f744353eb893a3dce8e4cfaf50b6b87fam-
+ []
+
+
+Overfull \hbox (151.47603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Win-dolf, fam-i-lyi=W., given=Char-lie, giveni=C., give-nun=0un=0,uniquepart=base,hash=07b8e2a5bc11b0f24daf308b9a956e2ffam-
+ []
+
+
+Overfull \hbox (144.16605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Golkar, fam-i-lyi=G., given=Siavash, giveni=S., give-nun=0un=0,uniquepart=base,hash=28f17a58976c5fd3b8b48856483b35eefam-
+ []
+
+
+Overfull \hbox (212.95404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Chklovskii, fam-i-lyi=C., given=D, giveni=D., give-nun=0                  au-thor2un=0,uniquepart=base,hash=b2c282fbb12070fb05bc82b937c86b2bfam-
+ []
+
+
+Overfull \hbox (142.40605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Mai-mon, fam-i-lyi=M., given=Gaby, giveni=G., give-nun=0un=0,uniquepart=base,hash=259736acfe198812ae9d4d396f97c837fam-
+ []
+
+
+Overfull \hbox (100.68207pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=David, giveni=D., give-nun=0                 au-thor5un=0,uniquepart=base,hash=b96424fe6e635f3c66d83bf6e9c65007fam-
+ []
+
+
+Overfull \hbox (137.08604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Mas-set, fam-i-lyi=M., given=Paul, giveni=P., give-nun=0un=0,uniquepart=base,hash=1e15cbd5c175505a2520348ed05c681dfam-
+ []
+
+
+Overfull \hbox (200.08627pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Zavatone-Veth, fam-i-lyi=Z.[]V., given=Ja-cob A, giveni=J. A., give-nun=0un=0,uniquepart=base,hash=86be9401cb034037ff8ba8422f0829f0fam-
+ []
+
+
+Overfull \hbox (163.76627pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Patrick Con-nor, fam-i-lyi=P. C., given=J, giveni=J., give-nun=0un=0,uniquepart=base,hash=3d81568244348237ea62976a99f6e890fam-
+ []
+
+
+Overfull \hbox (180.74626pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Murthy, fam-i-lyi=M., given=Venkatesh N, giveni=V. N., give-nun=0un=0,uniquepart=base,hash=f8d7471842890c47437cf5f9e1196a59fam-
+ []
+
+
+Overfull \hbox (86.90405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=M., given=Gi-an-luigi, giveni=G., give-nun=0un=0,uniquepart=base,hash=e68ad86bc86b67a9cd511a4a75e9160dfam-
+ []
+
+
+Overfull \hbox (130.65604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Barak, fam-i-lyi=B., given=Omri, giveni=O., give-nun=0un=0,uniquepart=base,hash=f34a78a1cfd971d87a08ef507b5537a3fam-
+ []
+
+
+Overfull \hbox (40.69205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=N., given=J, giveni=J., give-nun=0un=0,uniquepart=base,hash=909fe1582c93bf0a03b3d25c83321f77fam-
+ []
+
+
+Overfull \hbox (125.96404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ari-moto, fam-i-lyi=A., given=S, giveni=S., give-nun=0un=0,uniquepart=base,hash=8cb9bbb974e11e7c13350348134fdba8fam-
+ []
+
+
+Overfull \hbox (45.13205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=O., given=K, giveni=K., give-nun=0un=0,uniquepart=base,hash=2cf7d4ab324e08ec60edf083cf696d14fam-
+ []
+
+
+Overfull \hbox (118.44405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Rit-ter, fam-i-lyi=R., given=H, giveni=H., give-nun=0un=0,uniquepart=base,hash=a649352ae0f9a737e2d23bb2ac31eb00fam-
+ []
+
+
+Overfull \hbox (89.5801pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=E, giveni=E., give-nun=0                      au-thor1un=0,uniquepart=base,hash=d2ed0997ec1c0ceecf1f302a65c3e0c9fam-
+ []
+
+
+Overfull \hbox (65.95319pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=O., given=B A, giveni=B. A., give-nun=0un=0,uniquepart=base,hash=96fb35e5ec6261ac0ed319fdfd433c50fam-
+ []
+
+
+Overfull \hbox (65.95319pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=O., given=B A, giveni=B. A., give-nun=0un=0,uniquepart=base,hash=96fb35e5ec6261ac0ed319fdfd433c50fam-
+ []
+
+
+Overfull \hbox (182.07802pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Ar-jen, giveni=A., give-nun=0, pre-fix=van, pre-fixi=v., pre-fixun=0un=0,uniquepart=base,hash=ea32f658c488a030b4f62afb4617f9a9fam-
+ []
+
+
+Overfull \hbox (151.20604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Car-nell, fam-i-lyi=C., given=An-drew, giveni=A., give-nun=0un=0,uniquepart=base,hash=11b07aaaf663ed3929a73ee54486dd58fam-
+ []
+
+
+Overfull \hbox (91.23404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=T., given=Bernadetta, giveni=B., give-nun=0un=0,uniquepart=base,hash=8ed4661af24db422a4e24dba558fbd04fam-
+ []
+
+
+Overfull \hbox (192.71626pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Mansvelder, fam-i-lyi=M., given=Huib-ert D, giveni=H. D., give-nun=0un=0,uniquepart=base,hash=46c03b1d40024a49c79f7ac0444b8804fam-
+ []
+
+
+Overfull \hbox (134.25604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Bi-jma, fam-i-lyi=B., given=Fet-sje, giveni=F., give-nun=0un=0,uniquepart=base,hash=5e2197f4844681fb421ddb1e4cbc53a3fam-
+ []
+
+
+Overfull \hbox (68.85406pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=O., given=Gergő, giveni=G., give-nun=0un=0,uniquepart=base,hash=dc12bb6ec9059f9728ad6185de93996cfam-
+ []
+
+
+Overfull \hbox (136.24605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Berkes, fam-i-lyi=B., given=Pietro, giveni=P., give-nun=0un=0,uniquepart=base,hash=3ecca6a4a90f8e2d6dfa37006956b225fam-
+ []
+
+
+Overfull \hbox (126.82605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Fiser, fam-i-lyi=F., given=József, giveni=J., give-nun=0un=0,uniquepart=base,hash=a561257682f27ac01b933e0829dc3f49fam-
+ []
+
+
+Overfull \hbox (49.58318pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=A Emin, giveni=A. E., give-nun=0un=0,uniquepart=base,hash=fd75c282ef5c8d05357464d48f7d4988fam-
+ []
+
+
+Overfull \hbox (49.73204pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=P., given=M, giveni=M., give-nun=0un=0,uniquepart=base,hash=89db8e7f8416f16ca3dae1b654473718fam-
+ []
+
+
+Overfull \hbox (133.43518pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Brody, fam-i-lyi=B., given=C D, giveni=C. D., give-nun=0un=0,uniquepart=base,hash=4f8e399f7c87988a000c022976f7c8e8fam-
+ []
+
+
+Overfull \hbox (120.61603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Jun, fam-i-lyi=J., given=Pdjk, giveni=P., give-nun=0un=0,uniquepart=base,hash=c53d258c3b419a097004933d3123ad6cfam-
+ []
+
+
+Overfull \hbox (210.15518pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Holmes, fam-i-lyi=H., given=P J, giveni=P. J., give-nun=0                au-thor4un=0,uniquepart=base,hash=648a0e94e43af48638374d2dd5531d58fam-
+ []
+
+
+Overfull \hbox (141.46603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Pa-pyan, fam-i-lyi=P., given=Var-dan, giveni=V., give-nun=0un=0,uniquepart=base,hash=b2349f448cc200f2492f372e9eda8c1efam-
+ []
+
+
+Overfull \hbox (144.48604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ro-mano, fam-i-lyi=R., given=Yaniv, giveni=Y., give-nun=0un=0,uniquepart=base,hash=ea67c94d5fa35f0cd8107e0b0ad73007fam-
+ []
+
+
+Overfull \hbox (145.96603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Su-lam, fam-i-lyi=S., given=Jeremias, giveni=J., give-nun=0un=0,uniquepart=base,hash=20b8206f111f40a7edb0499bc22b9375fam-
+ []
+
+
+Overfull \hbox (177.87802pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Jaap, giveni=J., give-nun=0, pre-fix=van, pre-fixi=v., pre-fixun=0un=0,uniquepart=base,hash=cf2d892c2c9ec174f44b22d7b5520f8bfam-
+ []
+
+
+Overfull \hbox (25.97205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Ning, giveni=N., give-nun=0un=0,uniquepart=base,hash=c000f2d686c6fa4b94d8431f81320b45fam-
+ []
+
+
+Overfull \hbox (113.34605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Jiang, fam-i-lyi=J., given=Yu, giveni=Y., give-nun=0un=0,uniquepart=base,hash=4ec50e9ce0bff0ee6497932148c1ba2dfam-
+ []
+
+
+Overfull \hbox (166.15604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Jiang, fam-i-lyi=J., given=Zhong-Ping, giveni=Z.[]P., give-nun=0un=0,uniquepart=base,hash=e8202fa00d92abc9d04e9caee77e5ad4fam-
+ []
+
+
+Overfull \hbox (75.6901pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=W, giveni=W., give-nun=0                      au-thor2un=0,uniquepart=base,hash=ee86ca8934b8f50cf0ec87ecf49e0cef-
+ []
+
+
+Overfull \hbox (138.99516pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-ily=Rao, fam-i-lyi=R., given=R P, giveni=R. P., give-nun=0un=0,uniquepart=base,hash=7d104323f0f43271ac2832f123832f76fam-
+ []
+
+
+Overfull \hbox (72.73405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=R., given=Flo-rian, giveni=F., give-nun=0un=0,uniquepart=base,hash=7c84b4caeb0a2ee7da2e81c4d9825118fam-
+ []
+
+
+Overfull \hbox (173.36429pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=R., given=Dario L, giveni=D. L., give-nun=0                      au-thor4un=0,uniquepart=base,hash=9e3b7bd468deedacd74c412b940dbbc9fam-
+ []
+
+
+Overfull \hbox (176.85628pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Rozell, fam-i-lyi=R., given=Christo-pher J, giveni=C. J., give-nun=0un=0,uniquepart=base,hash=debfe579910b4c774211fba1e3c8c4c8fam-
+ []
+
+
+Overfull \hbox (150.70627pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=John-son, fam-i-lyi=J., given=Don H, giveni=D. H., give-nun=0un=0,uniquepart=base,hash=f1f805a4cc52031d03fa9ec073fc738afam-
+ []
+
+
+Overfull \hbox (175.56628pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Bara-niuk, fam-i-lyi=B., given=Richard G, giveni=R. G., give-nun=0un=0,uniquepart=base,hash=278e76f0404aafaa82214e26727fc6eafam-
+ []
+
+
+Overfull \hbox (157.44429pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=S., given=Christof J, giveni=C. J., give-nun=0                      au-thor1un=0,uniquepart=base,hash=80a1a88f0bb929e0221f121d0b7510ec-
+ []
+
+
+Overfull \hbox (134.26405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=S., given=Hideaki, giveni=H., give-nun=0             au-thor3un=0,uniquepart=base,hash=8b714c4ce1bb426dc1c923bf10f91440fam-
+ []
+
+
+Overfull \hbox (154.79604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Shi-nomoto, fam-i-lyi=S., given=Shigeru, giveni=S., give-nun=0un=0,uniquepart=base,hash=59750e925ef914e6ff90a9780a368a89fam-
+ []
+
+
+Overfull \hbox (147.66603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Shima, fam-i-lyi=S., given=Keisetsu, giveni=K., give-nun=0un=0,uniquepart=base,hash=d460c09692788c7508bf08bfab79d30bfam-
+ []
+
+
+Overfull \hbox (197.26605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Tanji, fam-i-lyi=T., given=Jun, giveni=J., give-nun=0                      au-thor3un=0,uniquepart=base,hash=ce2435f6d35f9dc4e40f0b2cfdd30ccafam-
+ []
+
+
+Overfull \hbox (152.60603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Sprekeler, fam-i-lyi=S., given=Hen-ning, giveni=H., give-nun=0un=0,uniquepart=base,hash=c25af27140e3b2eb0f52868591fcf605fam-
+ []
+
+
+Overfull \hbox (165.47603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Michaelis, fam-i-lyi=M., given=Chris-tian, giveni=C., give-nun=0un=0,uniquepart=base,hash=1a32a99893f7cb5a5f0da14f6d31a3b9fam-
+ []
+
+
+Overfull \hbox (52.01205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=T., given=A, giveni=A., give-nun=0un=1,uniquepart=given,hash=38a01cc459979a21bdbfea2e3460c5a6fam-
+ []
+
+
+Overfull \hbox (194.82407pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Amari, fam-i-lyi=A., given=S, giveni=S., give-nun=1                     au-thor3un=0,uniquepart=base,hash=7a578c2afb4627ac2b66e4c13c60cb44fam-
+ []
+
+
+Overfull \hbox (81.18604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Tanaka, fam-i-lyi=T., given=Shigeru, giveni=S., give-nun=0un=0,uniquepart=base,hash=9bc9ef5823cc7e595af7baf-
+ []
+
+
+Overfull \hbox (235.45602pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 eff9d4d8dfam-ily=Miyashita, fam-i-lyi=M., given=Masanobu, giveni=M., give-nun=0un=0,uniquepart=base,hash=8bbce313552b9f6e35266d23ca38a40dfam-
+ []
+
+
+Overfull \hbox (150.97432pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=T., given=Gina G, giveni=G. G., give-nun=0                      au-thor2un=0,uniquepart=base,hash=7eb03239453694f59946ad6008e9f0ab-
+ []
+
+
+Overfull \hbox (201.30624pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-ily=Wain-wright, fam-i-lyi=W., given=Mar-tin J, giveni=M. J., give-nun=0un=0,uniquepart=base,hash=c612751faf324b3d812b233478fc67b3fam-
+ []
+
+
+Overfull \hbox (200.85605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Si-mon-celli, fam-i-lyi=S., given=Eero, giveni=E., give-nun=0                 au-thor3un=1,uniquepart=given,hash=b4a2e32d4c009cf3843f4c4c19fee7bd-
+ []
+
+
+Overfull \hbox (168.47517pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 fam-ily=Will-shaw, fam-i-lyi=W., given=D J, giveni=D. J., give-nun=1un=0,uniquepart=base,hash=003c4e5a9683f78d2ae18874c05bc34bfam-
+ []
+
+
+Overfull \hbox (198.2585pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Von Der Mals-burg, fam-i-lyi=V. D. M., given=C, giveni=C., give-nun=0un=0,uniquepart=base,hash=080bce19cb3436317b977c1ed1e33de8fam-
+ []
+
+
+Overfull \hbox (72.05405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=W., given=Lau-renz, giveni=L., give-nun=0un=0,uniquepart=base,hash=2df660039cf6a702dffb22b64106829ffam-
+ []
+
+
+Overfull \hbox (78.71405pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=W., given=Lau-renz, giveni=L., give-nun=0un=0,uniquepart=base,hash=dc12bb6ec9059f9728ad6185de93996cfam-
+ []
+
+
+Overfull \hbox (141.24605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Berkes, fam-i-lyi=B., given=Pietro, giveni=P., give-nun=0un=0,uniquepart=base,hash=89eb03d502044800717976c087d50541fam-
+ []
+
+
+Overfull \hbox (151.02603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Franz-ius, fam-i-lyi=F., given=Math-ias, giveni=M., give-nun=0un=0,uniquepart=base,hash=ce2435f6d35f9dc4e40f0b2cfdd30ccafam-
+ []
+
+
+Overfull \hbox (139.25604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Sprekeler, fam-i-lyi=S., given=Hen-ning, giveni=H., give-nun=0un=0,uniquepart=base,hash=43ab6c13f11e9778353ecc24be7b87fe-
+ []
+
+
+Overfull \hbox (80.39404pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 lyi=Y., given=Mehrdad, giveni=M., give-nun=0un=0,uniquepart=base,hash=5295cb38bf7579a8c6e20fb43eda77c7fam-
+ []
+
+
+Overfull \hbox (151.15608pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Gam-ble, fam-i-lyi=G., given=Ge-of-frey, giveni=G., give-nun=0un=0,uniquepart=base,hash=ae643ec94fe36332fc41404718db028cfam-
+ []
+
+
+Overfull \hbox (154.99605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Hen-der-son, fam-i-lyi=H., given=Gavin, giveni=G., give-nun=0un=0,uniquepart=base,hash=894084aa14ddf5b55630fa8b876ea83ffam-
+ []
+
+
+Overfull \hbox (49.35228pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Ada X, giveni=A. X., give-nun=0un=0,uniquepart=base,hash=4c4b01bb3c9b31def75612090d3de958fam-
+ []
+
+
+Overfull \hbox (150.35605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Hsu, fam-i-lyi=H., given=Yu-Tien, giveni=Y.[]T., give-nun=0un=0,uniquepart=base,hash=54a3c319195500d522f4318c883d3e82fam-
+ []
+
+
+Overfull \hbox (197.79607pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Chen, fam-i-lyi=C., given=Lu, giveni=L., give-nun=0                     au-thor3un=0,uniquepart=base,hash=66d087faecbe3130433c5e4462dde623fam-
+ []
+
+
+Overfull \hbox (160.64603pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Zenke, fam-i-lyi=Z., given=Friede-mann, giveni=F., give-nun=0un=0,uniquepart=base,hash=6b2c6d8dbc66b301f2a7077d805f0ba7fam-
+ []
+
+
+Overfull \hbox (161.71605pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Ger-st-ner, fam-i-lyi=G., given=Wul-fram, giveni=W., give-nun=0un=0,uniquepart=base,hash=05b3e391388084df874ede60f2210c12fam-
+ []
+
+
+Overfull \hbox (64.58205pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=Wen-Hao, giveni=W.[]H., give-nun=0un=0,uniquepart=base,hash=56442cb9b37ab2b9aa2e150abdfc2f12fam-
+ []
+
+
+Overfull \hbox (105.59604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Wu, fam-i-lyi=W., given=Si, giveni=S., give-nun=0un=0,uniquepart=base,hash=52918cf06cafc58c28d91a10d6e1d4c7fam-
+ []
+
+
+Overfull \hbox (141.59604pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 ily=Josić, fam-i-lyi=J., given=Krešimir, giveni=K., give-nun=0un=0,uniquepart=base,hash=61af3dbe8ef7419781de71b15b36254afam-
+ []
+
+
+Overfull \hbox (12.41005pt too wide) in paragraph at lines 23--91
+\TU/lmr/m/n/10 given=D, giveni=D., give-nun=0un=0,uniquepart=base,hash=fe4f349b8031006e05f4bcb85a65d330fam-
+ []
+
+
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[1{c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[2]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[3]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[4]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[5]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[6]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[7]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[8]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[9]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[10](load cache: extra_lmroman17-regular.luc)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 15.97903pt on input line 91.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 15.97903pt on input line 91.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 23.00687pt on input line 91.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 23.00687pt on input line 91.
+(load cache: extra_lmroman12-bold.luc)
+LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <24.88> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 91.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 23.00687pt on input line 91.
+LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <24.88> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 91.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 23.00687pt on input line 91.
+(load cache: extra_lmroman12-regular.luc)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 11.09656pt on input line 91.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 11.09656pt on input line 91.
+(load cache: extra_lmroman6-regular.luc)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 5.54828pt on input line 91.
+LaTeX Font Info:    Trying loading font information for U+msa on input line 91.
+ (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying loading font information for U+msb on input line 91.
+ (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 19.17854pt on input line 91.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 19.17854pt on input line 91.
+
+
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.1'
+[1
+
+]
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 93.
+(load cache: extra_lmsans10-regular.luc)
+
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.2'
+[2
+
+]
+Package biblatex Info: Reference segment=1 on input line 93.
+Package biblatex Info: Setting label 'refsegment:01' on input line 93.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 23.00687pt on input line 93.
+(load cache: extra_lmsans17-regular.luc) (./output/main.toc(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 1.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 1.
+)
+\tf@toc=\write7
+
+\openout7 = main.toc
+
+
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.3'
+[3] (./text/local-learning-rule/heavy-tail.tex
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 13.31586pt on input line 1.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 13.31586pt on input line 1.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 13.31586pt on input line 1.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 13.31586pt on input line 1.
+(load cache: extra_lmsans12-regular.luc)
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 6.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 6.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <8> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 7.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 7.
+LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <8> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 7.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 7.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.4'
+[4
+
+]
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+<./fig/local-learning-rule/heavy-tail/cell006.png, id=109, 122.4575pt x 120.95187pt>
+File: ./fig/local-learning-rule/heavy-tail/cell006.png Graphic file (type png)
+<use ./fig/local-learning-rule/heavy-tail/cell006.png>
+Package luatex.def Info: ./fig/local-learning-rule/heavy-tail/cell006.png  used on input line 66.
+(luatex.def)             Requested size: 97.96611pt x 96.76161pt.
+(load cache: extra_lmroman9-regular.luc)
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 8.32242pt on input line 67.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 8.32242pt on input line 67.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.5'
+[5<./fig/local-learning-rule/heavy-tail/cell006.png>]
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+<./fig/local-learning-rule/heavy-tail/cell011.png, id=142, 291.0875pt x 291.0875pt>
+File: ./fig/local-learning-rule/heavy-tail/cell011.png Graphic file (type png)
+<use ./fig/local-learning-rule/heavy-tail/cell011.png>
+Package luatex.def Info: ./fig/local-learning-rule/heavy-tail/cell011.png  used on input line 98.
+(luatex.def)             Requested size: 232.8703pt x 232.8703pt.
+)
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+
+warning  (pdf backend): ignoring duplicate destination with the name 'page.6'
+[6<./fig/local-learning-rule/heavy-tail/cell011.png>] (./output/main.aux)
+ ***********
+LaTeX2e <2024-11-01> patch level 2
+L3 programming layer <2025-01-18>
+ ***********
+
+
+LaTeX Warning: There were undefined references.
+
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: A265761B4A33CF367218767FC9D7B908;149.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
+Package logreq Info: Writing requests to 'main.run.xml'.
+
+\openout1 = main.run.xml
+)
+
+Here is how much of LuaTeX's memory you used:
+ 28279 strings out of 475506
+ 1458274,1648299 words of node,token memory allocated
+ 1279 words of node memory still in use:
+   10 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 267 attribute, 72 glue_spec, 35 attribute_list, 1 write, 13 user_defined nodes
+   avail lists: 1:27,2:448042,3:654,4:9262,5:1743,6:104,7:44871,8:55,9:9228,10:24,11:1731,12:3
+ 50605 multiletter control sequences out of 65536+600000
+ 89 fonts using 73398471 bytes
+ 125i,12n,128p,1898b,1160s stack positions out of 10000i,1000n,20000p,200000b,200000s
+<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on main.pdf (16 pages, 251196 bytes).
+
+PDF statistics: 240 PDF objects out of 1000 (max. 8388607)
+ 183 compressed objects within 2 object streams
+ 84 named destinations out of 1000 (max. 131072)
+ 9 words of extra memory for PDF output out of 10000 (max. 100000000)
+
