@@ -5,7 +5,10 @@
 
 このように，一般的なRNNがネットワーク内のすべての結合重みを学習するのに対し，リザバーコンピューティングではRNN部分の結合重みはランダムに初期化されて以降は固定され，学習は読み出し器の出力重みに限定される．一般のRNNと比較すると，リザバーコンピューティングの表現力には制約があるものの，学習対象となるパラメータ数が少ないため，学習の計算コストを大幅に削減できるという利点がある．
 
-## エコーステートネットワーク
+## エコーステートネットワークとリキッドステートマシン
+
+https://reservoirpy.readthedocs.io/en/latest/user_guide/quickstart.html
+
 (書き直す)
 エコーステートネットワーク (Echo state network; ESN) は
 
@@ -23,7 +26,9 @@ ESNの安定動作には、「エコーステート性（echo state property）�
 
 ## FORCE法
 
-ESNと違ってRLSを用いる．オンライン学習則
+RLSを用いる．オンライン学習則
+
+自己回帰的なシステムの近似に強い．
 
 Reservoir Computingにおける教師あり学習の手法の1つとして，**FORCE法** と呼ばれるものがあります．**FORCE** (First-Order Reduced and Controlled Error) 法は(Sussillo \& Abbott, 2009)で提案された学習法で，元々は発火率ベースのRNNに対するオンラインの学習法です (具体的な方法については次節で解説します)．さらに(Nicola \& Clopath, 2017)はFORCE法がRecurrent SNNの学習に直接的に使用できる，ということを示しました．この章では(Nicola \& Clopath, 2017)の手法を用いてReservoir ComputingとしてのRecurrent SNNの教師あり学習を行います．
 
@@ -50,7 +55,67 @@ $$
 
 また，初期値は $\phi(0)=0, P(0)=I_{N}\lambda^{-1}$ である．$I_{N}$ は $N$ 次の単位行列を意味する．$\lambda$は正則化のための定数である．
 
-#### RLS法の導出
+
+
+### 発火率モデルにおけるFORCE法
+
+### スパイキングモデルにおけるFORCE法
+#### Recurrent SNNに正弦波を学習させる
+今回はRecurrent SNNのニューロンの活動をデコードしたものが正弦波となるように(すなわち正弦波を教師信号として)訓練することを目標とします．先になりますが，結果は図のようになります．
+
+#### ネットワークの構造と教師信号
+ネットワークの構造は図のようになっています．ネットワークには特別な入力があるわけではなく，再帰的な入力によって活動が持続しています(膜電位の初期値をランダムにしているため開始時に発火するニューロン\footnote{ここでの「ニューロン」はこれ以後も含め，Reservoirのユニットを指します．}があり，またバイアス電流もあります)．
+まず，Reservoirニューロンの数を$N$とし，出力の数を$N_\text{out}$とします．$i$番目のニューロンの入力はバイアス電流を$I_{\text{Bias}}$として，
+
+$$
+\begin{equation}
+I_i=s_i+I_{\text{Bias}}    
+\end{equation}
+$$
+
+と表されます．ただし，$s_i$は 
+
+$$
+\begin{equation}
+s_{i}=\sum_{j=1}^{N} \omega_{i j} r_{j}    
+\end{equation}
+$$
+
+として計算されます．$r_j$が$j$番目のニューロンの出力(シナプスフィルターをかけられたスパイク列), $\omega_{i j}$は$j$番目のニューロンから$i$番目のニューロンへの結合重みを意味します．
+次にニューロンの活動$r_j$を重み$\phi\in \mathbb{R}^{N\times N_\text{out}}$で線形にデコードし，その出力$\hat{\boldsymbol{x}}(t)$を教師信号$\boldsymbol{x}(t)$に近づけます．すなわち，
+
+$$
+\begin{equation}
+\hat{\boldsymbol{x}}(t)=\sum_{j=1}^{N} \boldsymbol{\phi}_j r_{j}=\phi^\top\boldsymbol{r}
+\end{equation}
+$$
+
+とします．ただし，$^\top$を転置記号とし，$\boldsymbol{x}$を列ベクトル，$\boldsymbol{x}^\top$を行ベクトルとします．また，$\boldsymbol{\phi}_j\in \mathbb{R}^{N_\text{out}}$です．
+ここから少しややこしいのですが，ネットワークの重み$\Omega=[\omega_{ij}]\in \mathbb{R}^{N\times N}$は 
+
+$$
+\begin{equation}
+\omega_{i j}=G \omega_{i j}^{0}+Q \boldsymbol{\eta}_{i}^\top \boldsymbol{\phi}_j 
+\end{equation}
+$$
+
+となっています．$\omega_{i j}^{0}$は固定された再帰重みです．$G, Q$ は定数で，$\eta=[\boldsymbol{\eta}_{i}^\top]\in \mathbb{R}^{N\times N_\text{out}}$ は$-1$か1に等確率に決められた行列です．よって学習するパラメータは$\phi$のみです．よってバイアスを抜いた入力電流$s_{i}$は次のように分割できます．
+
+$$
+\begin{align}
+s_{i}&=\sum_{j=1}^{N} \omega_{i j} r_{j}\\
+&=\sum_{j=1}^{N} \left(G \omega_{i j}^{0}+Q \boldsymbol{\eta}_{i}^\top \boldsymbol{\phi}_j \right)r_{j}\\
+&=Q\boldsymbol{\eta}_{i}^\top \hat{\boldsymbol{x}}(t)+\sum_{j=1}^{N} G \omega_{i j}^{0}r_{j}
+\end{align}
+$$
+
+### 固定重みの初期化
+固定された結合重み $\omega_{i j}^{0}$ は $\mathcal{N}(0, (Np)^{-1})$ の正規分布からランダムサンプリングした値である ($N$はニューロンの数，$p$は定数)．ただし，各ニューロンが投射される重みの平均が0になるようにスケーリングする．
+
+### FORCE法の実装
+
+
+### 補遺：RLS法の導出
 ここからはRLS法の導出を行う (cf. Haykin, 2002)．
 本項はシミュレーションする上ではスキップしても問題ない．
 
@@ -157,64 +222,6 @@ $$
 $$
 
 となります．式(6.22)と式(6.27)を連続時間での表記法にすると，式(6. 9,10)の更新式となります．
-
-### 発火率モデルにおけるFORCE法
-
-### スパイキングモデルにおけるFORCE法
-#### Recurrent SNNに正弦波を学習させる
-今回はRecurrent SNNのニューロンの活動をデコードしたものが正弦波となるように(すなわち正弦波を教師信号として)訓練することを目標とします．先になりますが，結果は図のようになります．
-
-#### ネットワークの構造と教師信号
-ネットワークの構造は図のようになっています．ネットワークには特別な入力があるわけではなく，再帰的な入力によって活動が持続しています(膜電位の初期値をランダムにしているため開始時に発火するニューロン\footnote{ここでの「ニューロン」はこれ以後も含め，Reservoirのユニットを指します．}があり，またバイアス電流もあります)．
-まず，Reservoirニューロンの数を$N$とし，出力の数を$N_\text{out}$とします．$i$番目のニューロンの入力はバイアス電流を$I_{\text{Bias}}$として，
-
-$$
-\begin{equation}
-I_i=s_i+I_{\text{Bias}}    
-\end{equation}
-$$
-
-と表されます．ただし，$s_i$は 
-
-$$
-\begin{equation}
-s_{i}=\sum_{j=1}^{N} \omega_{i j} r_{j}    
-\end{equation}
-$$
-
-として計算されます．$r_j$が$j$番目のニューロンの出力(シナプスフィルターをかけられたスパイク列), $\omega_{i j}$は$j$番目のニューロンから$i$番目のニューロンへの結合重みを意味します．
-次にニューロンの活動$r_j$を重み$\phi\in \mathbb{R}^{N\times N_\text{out}}$で線形にデコードし，その出力$\hat{\boldsymbol{x}}(t)$を教師信号$\boldsymbol{x}(t)$に近づけます．すなわち，
-
-$$
-\begin{equation}
-\hat{\boldsymbol{x}}(t)=\sum_{j=1}^{N} \boldsymbol{\phi}_j r_{j}=\phi^\top\boldsymbol{r}
-\end{equation}
-$$
-
-とします．ただし，$^\top$を転置記号とし，$\boldsymbol{x}$を列ベクトル，$\boldsymbol{x}^\top$を行ベクトルとします．また，$\boldsymbol{\phi}_j\in \mathbb{R}^{N_\text{out}}$です．
-ここから少しややこしいのですが，ネットワークの重み$\Omega=[\omega_{ij}]\in \mathbb{R}^{N\times N}$は 
-
-$$
-\begin{equation}
-\omega_{i j}=G \omega_{i j}^{0}+Q \boldsymbol{\eta}_{i}^\top \boldsymbol{\phi}_j 
-\end{equation}
-$$
-
-となっています．$\omega_{i j}^{0}$は固定された再帰重みです．$G, Q$ は定数で，$\eta=[\boldsymbol{\eta}_{i}^\top]\in \mathbb{R}^{N\times N_\text{out}}$ は$-1$か1に等確率に決められた行列です．よって学習するパラメータは$\phi$のみです．よってバイアスを抜いた入力電流$s_{i}$は次のように分割できます．
-
-$$
-\begin{align}
-s_{i}&=\sum_{j=1}^{N} \omega_{i j} r_{j}\\
-&=\sum_{j=1}^{N} \left(G \omega_{i j}^{0}+Q \boldsymbol{\eta}_{i}^\top \boldsymbol{\phi}_j \right)r_{j}\\
-&=Q\boldsymbol{\eta}_{i}^\top \hat{\boldsymbol{x}}(t)+\sum_{j=1}^{N} G \omega_{i j}^{0}r_{j}
-\end{align}
-$$
-
-### 固定重みの初期化
-固定された結合重み $\omega_{i j}^{0}$ は $\mathcal{N}(0, (Np)^{-1})$ の正規分布からランダムサンプリングした値である ($N$はニューロンの数，$p$は定数)．ただし，各ニューロンが投射される重みの平均が0になるようにスケーリングする．
-
-### FORCE法の実装
-
 
 ### 小鳥の運動前野との関係 (削除方針)
 (Nicola \& Clopath, 2017)では教師信号として正弦波以外にもVan der Pol方程式やLorenz方程式の軌道を用いて実験しています．さらに教師信号としてベートーヴェンの歓喜の歌(Ode to joy)や鳥の鳴き声を用いても学習可能であったようです．
