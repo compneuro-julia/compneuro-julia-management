@@ -1,10 +1,149 @@
 # 第10章：運動学習と最適制御
-最適制御とは
+## 運動制御と最適制御
+ここまでは神経系のみで閉じていたが，本章と次章「強化学習」では，神経とその他外界との相互作用について説明を行う．
+
+身体の運動には、四肢運動，頭部運動，眼球運動（サッケード）など多様な形式が存在する。これらの運動は、大脳皮質、大脳基底核、小脳、脊髄路、末梢運動神経など、複数の神経系の協調的な活動によって制御されている。運動が制御されているとは，実質的には複数の筋肉の収縮を制御するということを意味する．
+
+そのため，筋疾患や整形外科的疾患による運動障害を除外した場合，運動にかかわる神経の障害は運動の障害として外界に表出される．脳の画像検査や侵襲的検査なしで神経の様子を大まかに推し量れるため，運動は神経の「窓」であるともいえる．
+（もちろん，診断のためには上記の検査も必要不可欠である）
+
+このような視点は、臨床医学においても重要である。すなわち、運動機能の障害の様子を丁寧に観察することで、どの神経系に異常が生じているのかを推定する手がかりとなる。また、一般論として、他者の精神状態や意図は行動に表れることが知られており、運動もその例外ではない。したがって、運動は神経学的にも心理学的にも、内部状態を外部に表現する媒体であると捉えることができる。
+
+では、病的な運動と正常な運動は何が異なるのだろうか。病的な運動には、しばしば「粗大である」「時間がかかる」「非効率である」といった特徴が見られる。具体的には、目的に対して必要以上の動作が含まれる、あるいは目的達成までに過剰なエネルギーや時間を要する、といった観察がなされる。一方、正常な運動は滑らかで効率的であり、目的に沿った最小限のエネルギーで遂行される傾向がある。「正常」と「病的」の比較以外にも，例えば日常生活で行わない動作，武道や器械体操，バスケットボールをゴールに投げ入れるなどであれば，初心者と熟練者で運動の効率性は異なる．
+
+この運動における「効率性」や「非効率性」を定量的に評価するための理論枠組みとして、最適制御理論がある。最適制御においては、所定の目的関数を最小化するような運動を求めることが基本的な問題設定となる。したがって、実際の動物やヒトの運動がどのような目的関数の下で最適化されているかを明らかにすることは、運動の本質的理解に寄与すると考えられる。
+
+ただし、ここで重要なのは、脳内に目的関数が明示的にコードされており、それを数学的な最適化手法によって最小化している、という機構的仮説を主張するものではないという点である。本章では、あくまでも運動の特徴を理解するための理論的手段として最適制御の枠組みを用いることに留意されたい。
+
+## 状態空間モデル
+最適制御のモデルは状態空間モデル (state-space model) により記述される．
+(修正する)
+
+状態空間モデルとは、時間発展する力学系の状態の変化と出力を、ベクトルと行列を用いて表現する数学的枠組みである。一般に、あるシステムが時刻$t$において内部状態$\mathbf{x}(t) \in \mathbb{R}^n$、外部からの入力$\mathbf{u}(t) \in \mathbb{R}^m$、および観測可能な出力$\mathbf{y}(t) \in \mathbb{R}^p$をもつとき、その振る舞いは以下のような**一階の微分方程式**と**代数方程式**によって記述される：
+
+$$
+\begin{aligned}
+\dot{\mathbf{x}}(t) &= \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t), \\
+\mathbf{y}(t) &= \mathbf{C}\mathbf{x}(t) + \mathbf{D}\mathbf{u}(t).
+\end{aligned}
+$$
+
+ここで、行列$\mathbf{A} \in \mathbb{R}^{n \times n}$は状態遷移行列と呼ばれ、状態がどのように時間発展するかを決定する。行列$\mathbf{B} \in \mathbb{R}^{n \times m}$は入力が状態に与える影響を、$\mathbf{C} \in \mathbb{R}^{p \times n}$は状態が出力に与える影響を、$\mathbf{D} \in \mathbb{R}^{p \times m}$は入力が直接出力に与える影響を表す。これは連続時間系における線形状態空間モデルであり、離散時間系の場合には微分方程式を差分方程式に置き換えることで表現される：
+
+$$
+\begin{aligned}
+\mathbf{x}_{k+1} &= \mathbf{A}\mathbf{x}_k + \mathbf{B}\mathbf{u}_k, \\
+\mathbf{y}_k &= \mathbf{C}\mathbf{x}_k + \mathbf{D}\mathbf{u}_k,
+\end{aligned}
+$$
+
+ここで$k$は離散時刻を表す。
+
+このようなモデルは、制御理論や信号処理、ロボティクス、経済学、生体計測などさまざまな分野で応用されており、特に複雑な高次元システムをコンパクトに扱うことができる点が大きな利点である。また、モデルを非線形系に拡張することで、一般の非線形動的システムも同様の枠組みで扱うことができる。非線形状態空間モデルでは、状態と出力の式は次のように一般化される：
+
+$$
+\begin{aligned}
+\dot{\mathbf{x}}(t) &= f(\mathbf{x}(t), \mathbf{u}(t)), \\
+\mathbf{y}(t) &= g(\mathbf{x}(t), \mathbf{u}(t)),
+\end{aligned}
+$$
+
+ここで$f$および$g$は非線形関数である。さらに、観測ノイズやシステムノイズを導入することで確率的な状態空間モデルを定式化でき、これに基づく代表的な手法としてカルマンフィルタや拡張カルマンフィルタ、粒子フィルタなどが存在する。
+
+このように、状態空間モデルは、システムの内部状態と出力の関係を時間的に記述するための統一的かつ強力な理論的枠組みである。
 
 ## 躍度最小モデル
 躍度最小モデル (minimum-jerk model; {cite:p}`Flash1985-vj`)を実装する．解析的に求まるが以下では二次計画法を用いて数値的に求める．
 
-### 等式制約下の二次計画法 (Equality Constrained Quadratic Programming)
+### 変分法による解法
+位置のベクトルを$\mathbf{x}(t) \in \mathbb{R}^n$とする．位置を1, 2, 3回微分したものをそれぞれ，速度，加速度，躍度と呼ぶ．躍度最小モデルでは，運動過程における躍度のノルムの二乗の総和を最小化することを目的とする．目的関数 $J$は
+
+$$
+J[\mathbf{x}(t)] := \int_0^T \left\| \frac{d^3 \mathbf{x}(t)}{dt^3} \right\|^2 dt = \int_0^T \sum_{i=1}^n \left( {\dddot{x}}_i(t) \right)^2 dt = \sum_{i=1}^n  \int_0^T \left( {\dddot{x}}_i(t) \right)^2 dt
+$$
+
+ここで，$J$は $L=\left\| \dfrac{d^3 \mathbf{x}(t)}{dt^3} \right\|^2$の汎関数であり，$L$はLagrangianである．
+
+各成分は独立なので，各成分ごとに最小化問題を解けば良いことがわかる．$x_i$を $x$と単純に表記する．関数 $x(t)$に微小な摂動 $\epsilon \eta (t)$を加え，
+
+$$
+x(t) \to x(t) + \epsilon \eta (t)
+$$
+
+とする．この場合，汎関数は
+
+$$
+\begin{align}
+J[x + \epsilon \eta] &= \int_0^T \left( \dddot{x}(t) + \epsilon \dddot{\eta}(t) \right)^2 dt
+\end{align}
+$$
+
+となるので，汎関数微分をすると，
+
+$$
+\begin{align}
+\delta J = \left. \frac{d}{d\epsilon} J[x + \epsilon \eta] \right|_{\epsilon = 0}&=\lim_{\epsilon \to 0} \int_0^T \frac{(\dddot{x}(t))^2 + 2 \epsilon \dddot{\eta}(t) + (\epsilon \dddot{\eta}(t) )^2}{\epsilon}\\
+&= \int_0^T 2 \dddot{x}(t) \dddot{\eta}(t) dt
+\end{align}
+$$
+
+ここで，$\delta J=\int f(t)\eta(t) dt$の形を目指す．こうすると任意の $\eta$に対する極値条件を書くことができる．
+部分積分を3回繰り返すことにより，
+
+$$
+\begin{align}
+\int_0^T \dddot{x} \dddot{\eta} dt &= \left[\dddot{x}\ddot{\eta}\right]_{0}^T-\int_0^T x^{(4)} \ddot{\eta} dt\\
+&=\left[\dddot{x}\ddot{\eta}\right]_{0}^T - \left[x^{(4)} \dot{\eta}\right]_{0}^T + \int_0^T x^{(5)} \dot{\eta} dt\\
+&=\left[\dddot{x}\ddot{\eta}\right]_{0}^T - \left[x^{(4)} \dot{\eta}\right]_{0}^T + \left[x^{(5)} \eta\right]_{0}^T - \int_0^T x^{(6)} \eta dt\\
+\end{align}
+$$
+
+境界条件 $\eta^{(i)}(t')=0\ (i=0, 1, 2;\ t'=0, T)$とすることで，
+
+$$
+\delta J=- 2\int_0^T x^{(6)} \eta dt
+$$
+
+となる．任意の$\eta$に対して，$\delta J=0$である場合，$x^{(6)}=0$となる必要があるので，$x$は高々5次の多項式で表せる．
+
+$$
+x(t)=\sum_{i=0}^5 a_i t^i=a_0+a_1 t+a_2 t^2+a_3 t^3+a_4 t^4+a_5 t^5
+$$
+
+微分すると 
+
+$$
+\begin{align}
+\dot{x}(t)&=a_1 + 2a_2 t+3a_3 t^2+4a_4 t^3+5a_5 t^4\\
+\ddot{x}(t)&=2a_2+6a_3 t+12a_4 t^2+20a_5 t^3\\
+\end{align}
+$$
+
+となるので，境界条件より，$\dot{x}(0)=\dot{x}(T)=0$および $\ddot{x}(0)=\ddot{x}(T)=0$とすると，$a_0=x_0, a_1=a_2=0$であり，$T>0$より，
+
+$$
+\begin{align}
+\begin{cases}
+a_3+T a_4 +T^2 a_5 &=\dfrac{x_T-x_0}{T^3}\\
+3a_3 +4T a_4 +5T^2 a_5 &=0\\
+6a_3+12T a_4 +20T^2 a_5 &=0\\
+\end{cases}
+\end{align}
+$$
+
+これを解くと，$a_3=\dfrac{10(x_T-x_0)}{T^3}, a_4=-\dfrac{15(x_T-x_0)}{T^4}, a_5=\dfrac{6(x_T-x_0)}{T^5}$
+となるので，
+
+$$
+x(t)=x_0+(x_T-x_0) \left[10 \left(\frac{t}{T}\right)^3-15 \left(\frac{t}{T}\right)^4-6 \left(\frac{t}{T}\right)^5\right]
+$$
+
+と求まる．
+
+
+### 二次計画法による解法
+
+#### 等式制約下の二次計画法 (Equality Constrained Quadratic Programming)
 
 $n$個の変数があり，$m$個の制約条件がある等式制約下の二次計画問題を考える．$\mathbf {x}\in \mathbb{R}^n$, 対称行列$\mathbf{P}\in \mathbb{R}^{n\times n}$,  $\mathbf {q}\in \mathbb{R}^{n}$, $\mathbf{A}\in \mathbb{R}^{m\times n}$, $\mathbf {b}\in \mathbb{R}^m$．このとき，問題は次のようになる．
 
@@ -24,9 +163,9 @@ $$
 \end{equation}
 $$
 
-の解として与えられる．ここで $\lambda \in \mathbb{R}^{m}$  はLagrange乗数のベクトルである．
+の解として与えられる．ここで $\lambda \in \mathbb{R}^{m}$ はLagrange乗数のベクトルである．
 
-### 躍度最小モデルの実装
+#### 躍度最小モデルの実装
 1次元における運動を考えよう．この仮定ではサッカードするときの眼球運動などが当てはまる．以下では {cite:p}`Yazdani2012-sx` での問題設定を用いる．Toeplitz行列を用いた実装はYazdaniらのPythonでcvxoptを用いた実装を参考にして作成した．
 
 問題設定は以下のようにする．
@@ -38,7 +177,14 @@ $$
 \end{align}
 $$
 
-ただし，$\|\cdot\|_{2}$ は $L_{2}$ ノルムを意味し，$A=\left[\begin{array}{lll}0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0\end{array}\right], B=\left[\begin{array}{l}0 \\ 0 \\ 1\end{array}\right], \mathbf{x}(t)=\left[\begin{array}{l}x(t) \\ \dot{x}(t) \\ \ddot{x}(t)\end{array}\right], u(t)=\dddot x(t)$とする．すなわち，制御信号 $u(t)$ は躍度 $\dddot x(t)$ と等しいとする．
+ただし，$\|\cdot\|_{2}$は $L_{2}$ノルムを意味し，$A=\left[\begin{array}{lll}0 & 1 & 0 \\ 0 & 0 & 1 \\ 0 & 0 & 0\end{array}\right], B=\left[\begin{array}{l}0 \\ 0 \\ 1\end{array}\right], \mathbf{x}(t)=\left[\begin{array}{l}x(t) \\ \dot{x}(t) \\ \ddot{x}(t)\end{array}\right], u(t)=\dddot x(t)$とする．すなわち，制御信号 $u(t)$は躍度 $\dddot x(t)$と等しいとする．
+
+### 中継点問題
+
+## トルク変化最小モデル
+ダイナミクスのみキネティクス
+
+腕のモデルを考えていない場合，
 
 ## 終点誤差分散最小モデル
 HarrisおよびWolpertは制御信号の大きさに従い，ノイズが生じるモデルを提案した．さらにこのモデルにおいて，状態の分散が可能な限り小さくなるような制御信号を求めた．これを**終点誤差分散最小モデル** (minimum-variance model; {cite:p}`Harris1998-gj`)と呼ぶ．
@@ -51,7 +197,7 @@ $$
 \end{equation}
 $$
 
-と表せる．ただし，$\boldsymbol{\xi}_t \sim \mathcal{N}(0, k\mathbf{I})\ (k>0)$ である．このため，$\mathbf{u}_t (1+\xi_t)$ の平均は $\mathbf{u}_t$, 分散共分散行列は $k\mathbf{u}_t \mathbf{u}_t^\top$ となる．$\mathbf{x}_t$ を過去の状態 $\mathbf{x}_{t'}\ (t'=0, \ldots, t-1)$ で表すと，
+と表せる．ただし，$\boldsymbol{\xi}_t \sim \mathcal{N}(0, k\mathbf{I})\ (k>0)$である．このため，$\mathbf{u}_t (1+\xi_t)$の平均は $\mathbf{u}_t$, 分散共分散行列は $k\mathbf{u}_t \mathbf{u}_t^\top$となる．$\mathbf{x}_t$を過去の状態 $\mathbf{x}_{t'}\ (t'=0, \ldots, t-1)$で表すと，
 
 $$
 \begin{align}
@@ -62,7 +208,7 @@ $$
 \end{align}
 $$
 
-となるので，$\mathbf{x}_t$ の平均と分散共分散行列はそれぞれ，
+となるので，$\mathbf{x}_t$の平均と分散共分散行列はそれぞれ，
 
 $$
 \begin{align}
@@ -71,7 +217,7 @@ $$
 \end{align}
 $$
 
-となる．制御信号の時系列 $\{\mathbf{u}_t\}$ が与えられている場合，状態 $\mathbf{x}_t$ の平均と分散共分散行列は，$\mathbb{E}\left[\mathbf{x}_{0}\right]=\mathbf{x}_0, \operatorname{Cov}\left[\mathbf{x}_{0}\right]=\mathbf{0}\in\mathbb{R}^{n\times n}$ として，
+となる．制御信号の時系列 $\{\mathbf{u}_t\}$が与えられている場合，状態 $\mathbf{x}_t$の平均と分散共分散行列は，$\mathbb{E}\left[\mathbf{x}_{0}\right]=\mathbf{x}_0, \operatorname{Cov}\left[\mathbf{x}_{0}\right]=\mathbf{0}\in\mathbb{R}^{n\times n}$として，
 
 $$
 \begin{align}
@@ -82,7 +228,7 @@ $$
 
 と逐次的に計算が可能である．
 
-このようなモデルにおいて，次の条件を満たす制御信号を求めることを考える．まず，初期状態を$\mathbf{x}_0$, 目標状態を $\mathbf{x}_f$ とする．また，運動時間を $T_m$, 運動後時間 (post-movement time) を $T_p$ とする．よって1試行にかかる時間は$T:=T_m + T_p$となる．以下では時間は離散化されており，$T_m, T_p, T$ は自然数を取るとする．運動後の停留期間である時刻 $T_m\leq t \leq T$ において，状態の平均が目標状態と一致する，すなわち
+このようなモデルにおいて，次の条件を満たす制御信号を求めることを考える．まず，初期状態を$\mathbf{x}_0$, 目標状態を $\mathbf{x}_f$とする．また，運動時間を $T_m$, 運動後時間 (post-movement time) を $T_p$とする．よって1試行にかかる時間は$T:=T_m + T_p$となる．以下では時間は離散化されており，$T_m, T_p, T$は自然数を取るとする．運動後の停留期間である時刻 $T_m\leq t \leq T$において，状態の平均が目標状態と一致する，すなわち
 
 $$
 \mathbb{E}\left[\mathbf{x}_{t}\right] = \mathbf{x}_f\quad (T_m\leq t \leq T)
@@ -94,7 +240,7 @@ $$
 \mathcal{F}=\sum_{i\in \mathrm{Pos.}}\left[\sum_{t=T_m}^{T} \operatorname{Cov}\left[\mathbf{x}_{t}\right]\right]_{i, i}
 $$
 
-を最小にするような制御信号 $\mathbf{u}_t$ を求める．ただし，$\mathrm{Pos.}$ は状態 $\mathbf{x}_t$ の中で位置を表す次元の番号 (インデックス) の集合を意味し，$[\cdot]_{i,i}$は行列の$(i,i)$成分を取り出す操作を意味する．この最適化問題を（躍度最小モデルの際にも用いた）等式制約下の二次計画問題で解くことを考える．二次計画問題で解くには，最小化する目的関数と等式制約をそれぞれ
+を最小にするような制御信号 $\mathbf{u}_t$を求める．ただし，$\mathrm{Pos.}$は状態 $\mathbf{x}_t$の中で位置を表す次元の番号 (インデックス) の集合を意味し，$[\cdot]_{i,i}$は行列の$(i,i)$成分を取り出す操作を意味する．この最適化問題を（躍度最小モデルの際にも用いた）等式制約下の二次計画問題で解くことを考える．二次計画問題で解くには，最小化する目的関数と等式制約をそれぞれ
 
 $$
 \begin{align}
@@ -103,7 +249,7 @@ $$
 \end{align}
 $$
 
-の形にする必要がある．ただし，$\mathbf{P}, \mathbf{C}$は行列，$\mathbf{q}, \mathbf{d}$ はベクトルである．簡単のため，$p=1$ の場合を考慮すると，$\mathbf{u}_t \to u_{t} \in \mathbb{R}$ となる．状態信号の時系列をベクトル化し，$\mathbf{u}=[u_t]_{t=0, \ldots, T-1} \in \mathbf{R}^{T}$ とする．また，後の結果に影響しないため，$k=1$ とする．さらに位置のインデックスを$\mathrm{Pos.}=\{1\}$のみとする．この条件の下，式変形を行うと，目的関数 $\mathcal{F}$ は
+の形にする必要がある．ただし，$\mathbf{P}, \mathbf{C}$は行列，$\mathbf{q}, \mathbf{d}$はベクトルである．簡単のため，$p=1$の場合を考慮すると，$\mathbf{u}_t \to u_{t} \in \mathbb{R}$となる．状態信号の時系列をベクトル化し，$\mathbf{u}=[u_t]_{t=0, \ldots, T-1} \in \mathbf{R}^{T}$とする．また，後の結果に影響しないため，$k=1$とする．さらに位置のインデックスを$\mathrm{Pos.}=\{1\}$のみとする．この条件の下，式変形を行うと，目的関数 $\mathcal{F}$は
 
 $$
 \begin{align}
@@ -113,11 +259,11 @@ $$
 \end{align}
 $$
 
-と書ける．最後の式変形は $u_{t'}^2$ を二重総和の外に出すために行った．この操作は次の図における横方向と縦方向の和の順番を交換することに該当する．
+と書ける．最後の式変形は $u_{t'}^2$を二重総和の外に出すために行った．この操作は次の図における横方向と縦方向の和の順番を交換することに該当する．
 
-ここで $V_{t'}:=\sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}$ とすると，$\mathbf{P}=\mathrm{diag}(V_0, \ldots, V_{T-1})\in \mathbf{R}^{T\times T}$ および $\mathbf{q}=\mathbf{0} \in \mathbf{R}^{T}$ と置くことで，$\mathcal{F}=\mathbf{u}^\top \mathbf{P}\mathbf{u}+\mathbf{q} ^{\top}\mathbf{u}$ と書ける．この場合，第2項は0であるので，第1項の係数は結果に影響しない．
+ここで $V_{t'}:=\sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}$とすると，$\mathbf{P}=\mathrm{diag}(V_0, \ldots, V_{T-1})\in \mathbf{R}^{T\times T}$および $\mathbf{q}=\mathbf{0} \in \mathbf{R}^{T}$と置くことで，$\mathcal{F}=\mathbf{u}^\top \mathbf{P}\mathbf{u}+\mathbf{q} ^{\top}\mathbf{u}$と書ける．この場合，第2項は0であるので，第1項の係数は結果に影響しない．
 
-次に等式制約を求める．$\mathbb{E}\left[\mathbf{x}_{t}\right] = \mathbf{x}_f\quad (T_m\leq t \leq T)$ を変形すると，
+次に等式制約を求める．$\mathbb{E}\left[\mathbf{x}_{t}\right] = \mathbf{x}_f\quad (T_m\leq t \leq T)$を変形すると，
 
 $$
 \begin{equation}
@@ -145,13 +291,13 @@ $$
 \end{equation}
 $$
 
-とすることで，等式制約が書き下せる．ただし，$[\cdot]_{i:j}$ はベクトルあるいは行列の $i$ 番目から $j$ 番目までを取り出す操作を意味する．このように，$\mathbf{P}, \mathbf{q}, \mathbf{C}, \mathbf{d}$ を設定すると，等式制約下の二次計画問題を用いて $\mathbf{u}$ を求めることができる．の二次計画問題を用いて $\mathbf{u}$ を求める．
+とすることで，等式制約が書き下せる．ただし，$[\cdot]_{i:j}$はベクトルあるいは行列の $i$番目から $j$番目までを取り出す操作を意味する．このように，$\mathbf{P}, \mathbf{q}, \mathbf{C}, \mathbf{d}$を設定すると，等式制約下の二次計画問題を用いて $\mathbf{u}$を求めることができる．の二次計画問題を用いて $\mathbf{u}$を求める．
 
 ## 最適フィードバック制御モデル
 ToDo: infiniteOFCと数式の統一を行う．
 
 ### 最適フィードバック制御モデルの構造
-**最適フィードバック制御モデル (optimal feedback control; OFC)** の特徴として目標軌道を必要としないことが挙げられる．**Kalman フィルタ**による状態推定と**線形2次レギュレーター(LQR: linear-quadratic regurator)** により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．
+**最適フィードバック制御モデル** (optimal feedback control; OFC) の特徴として目標軌道を必要としないことが挙げられる．**Kalman フィルタ**による状態推定と**線形2次レギュレーター** (linear-quadratic regurator; LQR) により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．
 
 ### 系の状態変化
 
@@ -164,7 +310,7 @@ $$
 $$
 
 ### LQG
-加法ノイズしかない場合($C=D=0$)，制御問題は**線形2次ガウシアン(LQG: linear-quadratic-Gaussian)制御**と呼ばれる．
+加法ノイズしかない場合($C=D=0$)，制御問題は**線形2次ガウシアン** (linear-quadratic-Gaussian; LQG)制御と呼ばれる．
 
 
 #### 運動制御 (Linear-Quadratic Regulator)
@@ -217,9 +363,12 @@ K_{t} &=A \Sigma_{t}^{\mathrm{e}} H^\top\left(H \Sigma_{t}^{\mathrm{e}} H^\top+\
 \end{align}
 $$
 
+### costの計算と誤差の脳内表現
+cost per stepは脳内で計算できるのか？
+
 ## 無限時間最適フィードバック制御モデル
 ### モデルの構造
-**無限時間最適フィードバック制御モデル** (**infinite-horizon optimal feedback control model**) {cite:p}`Qian2013-zy`
+**無限時間最適フィードバック制御モデル** (infinite-horizon optimal feedback control model) {cite:p}`Qian2013-zy`
 
 $$
 \begin{align}
@@ -277,7 +426,7 @@ $$
 $$
 
 
-$\mathbf{A} = (a_{ij})$ を $m \times n$ 行列，$\mathbf{B} = (b_{kl})$ を $p \times q$ 行列とすると、それらのクロネッカー積 $\mathbf{A} \otimes \mathbf{B}$ は
+$\mathbf{A} = (a_{ij})$を $m \times n$行列，$\mathbf{B} = (b_{kl})$を $p \times q$行列とすると、それらのクロネッカー積 $\mathbf{A} \otimes \mathbf{B}$は
 
 $$
 \begin{equation}
@@ -285,7 +434,7 @@ $$
 \end{equation}
 $$
 
-で与えられる $mp \times nq$ 区分行列である．
+で与えられる $mp \times nq$区分行列である．
 
 Roth's column lemma (vec-trick) 
 
