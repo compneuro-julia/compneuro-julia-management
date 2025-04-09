@@ -1,57 +1,99 @@
 # 第2章：発火率モデルと局所学習則
 ## 神経細胞の生理
-## 発火率モデルとパーセプトロン
-### 発火率モデル
 
-### 線形回帰※
-線形回帰モデル (linear regression) では説明変数 (explanatory variable) $\mathbf{x}$ を線形変換し，目的変数 (objective variable) $y$を予測することを目的とする．説明変数$p$個の線形モデル 
+
+こうしたイオンチャネルの働き等を考慮した神経細胞の生物物理モデルに関しては，後の第6章で説明を行う．本章から第5章までは単純化した発火率モデルを使用する．
+
+発火率モデル → 線形回帰 → リッジ回帰 → パーセプトロン → ロジスティック回帰 → Hebb則
+
+## ニューロンの発火率モデルとパーセプトロン
+
+
+生物学的な神経回路に着想を得た計算モデルのひとつに、**ニューロンの発火率モデル**がある。このモデルでは、個々のニューロンが入力刺激に対してどの程度活性化されるか（＝発火するか）を連続値で表現し、情報の処理や伝達を数理的に記述する。
+
+### ニューロンの発火率モデル
+
+生物学的ニューロンは、樹状突起を通じて他のニューロンから電気的信号（シナプス電位）を受け取り、その総和が一定の閾値を超えた場合に軸索を通じてスパイク（活動電位）を発生させる。このスパイクの頻度（単位時間あたりの発火回数）は、入力の強度に依存して変化することが知られており、この関係を**発火率モデル** (*firing rate model*) と呼ぶ。
+
+数学的には、入力信号の線形結合を $z = \sum_{j=1}^p w_j x_j + w_0$ とし、発火率（ニューロンの出力）を何らかの**活性化関数** $f(z)$ を通じて表現する：
+
+\[
+y = f(z) = f\left(\sum_{j=1}^p w_j x_j + w_0\right)
+\]
+
+このように、ニューロンは入力ベクトル $\mathbf{x} \in \mathbb{R}^p$ に対して加重和を計算し、それに非線形な関数を適用することで、出力 $y$ を生成する。代表的な活性化関数としては、**シグモイド関数**や**ReLU（Rectified Linear Unit）関数**がある。特にシグモイド関数は、出力が $[0,1]$ の範囲に収まるため、発火率（スパイク頻度）の確率的な解釈と親和性が高い。
+
+この発火率モデルは、後述するロジスティック回帰やニューラルネットワークの基本構成要素として広く用いられている。
+
+### パーセプトロン
+
+このようなニューロンの抽象化を、分類問題に適用するために提案されたのが**パーセプトロン** (*perceptron*) である。パーセプトロンは、入力と重みの線形結合に対して符号関数（ステップ関数）を適用することにより、2クラス分類を実現する最も基本的な形式の**人工ニューロンモデル**である。
+
+#### モデルの構造
+
+入力ベクトル $\mathbf{x} \in \mathbb{R}^p$ に対して、重みベクトル $\mathbf{w} \in \mathbb{R}^{p+1}$（バイアス項 $w_0$ を含む）を用いて線形結合 $z = \mathbf{w}^\top \mathbf{x}'$ を計算する。ただし、$\mathbf{x}' := [1, x_1, x_2, \dots, x_p]^\top$ としてバイアス項を組み込んだ拡張ベクトルを用いる。
+
+次に、活性化関数として**符号関数**を適用する：
+
+\[
+\hat{y} = \text{sign}(z) = \begin{cases}
++1 & (z \geq 0) \\
+-1 & (z < 0)
+\end{cases}
+\]
+
+これにより、出力 $\hat{y} \in \{-1, +1\}$ が得られ、2クラス分類を実現する。
+
+#### 学習アルゴリズム：パーセプトロン則
+
+パーセプトロンは**教師あり学習**に基づいて重み $\mathbf{w}$ を更新する。各ステップにおいて、予測と正解が一致していれば何も行わず、誤分類されたときにのみ以下のように重みを更新する：
+
+\[
+\mathbf{w} \leftarrow \mathbf{w} + \eta \cdot y^{(i)} \mathbf{x}^{(i)}
+\]
+
+ここで、$\eta > 0$ は学習率、$y^{(i)}$ は正解ラベルである。この更新則により、パーセプトロンは誤分類を修正する方向に重みを調整する。
+
+もし訓練データが**線形分離可能**であるならば、このアルゴリズムは有限回の更新で必ず収束する（**パーセプトロン収束定理**）。ただし、データが線形分離不可能な場合は、収束せずに振動を続けることがある。
+
+### ニューロンモデルとの関係
+
+パーセプトロンは、ニューロンの発火率モデルを単純化した形式として位置づけられる。ニューロンの出力が連続値であるのに対し、パーセプトロンでは出力が離散値（2値）である点が主な違いである。また、ニューロンモデルではなめらかな活性化関数が使われるのに対し、パーセプトロンでは不連続な符号関数が用いられる。
+
+このように、**パーセプトロンはニューロンの発火を単純な2値信号として抽象化した分類器**であり、人工知能の初期における重要なモデルのひとつである。さらに、現代の多層ニューラルネットワーク（ディープラーニング）においても、ニューロンの発火率モデルの構造は基本単位として継承されている。
+
+### 1層パーセプトロン
+
+**パーセプトロン**は、1958年に Rosenblatt によって提案された、最も基本的な形式の線形分類器である。ロジスティック回帰と同様に線形結合を用いるが、確率ではなく**符号関数によって離散的な出力**を行う点が異なる。
+
+#### モデルの定義
+
+入力 $\mathbf{x} \in \mathbb{R}^p$ に対し、次のように線形結合を計算する：
 
 $$
-\begin{equation}
-y=w_0+w_1x_1+\cdots+w_px_p+\varepsilon=w_0+\sum_{j=1}^p w_jx_j+\varepsilon
-\end{equation}
+z = \mathbf{w}^\top \mathbf{x}'
 $$
 
-で説明することを考える．説明変数が単一 $(p=1)$ の場合を単回帰，複数 $(p>1)$ の場合を重回帰と呼ぶことがある．
-
-次に，データセット $\mathcal{D}=\left\{\mathbf{x}^{(i)}, y^{(i)}\right\}_{i=1}^n$ を考える．ただし，$\mathbf{x}^{(i)}=\left[x_1^{(i)}, x_2^{(i)}, \ldots, x_p^{(i)}\right]^\top\in \mathbb{R}^p,\ y^{(i)}\in \mathbb{R}$とする．ここで添え字 $(i)$ が付いている場合は観測値を，無い場合はモデル内変数を表すことに注意しよう．
-ここで，
-$$
-\mathbf{y}= \left[ \begin{array}{c} y^{(1)}\\ y^{(2)}\\ \vdots \\ y^{(n)} \end{array} \right] \in \mathbb{R}^n,\quad 
-\mathbf{X}=\left[ \begin{array}{ccccc} 1 & x_{1}^{(1)}& x_{2}^{(1)} &\cdots & x_{p}^{(1)} \\ 1& x_{1}^{(2)}& x_{2}^{(2)}&\cdots & x_{p}^{(2)}\\ \vdots & \vdots& \vdots& \ddots & \vdots \\1 &x_{1}^{(n)} & x_{2}^{(n)} &\cdots & x_{p}^{(n)} \end{array} \right] \in \mathbb{R}^{n\times (p+1)}, \quad \mathbf{w}= \left[ \begin{array}{c} w_0\\ w_1\\ \vdots \\ w_p \end{array} \right] \in \mathbb{R}^{p+1}
-$$
-
-この場合，回帰モデルは $\mathbf{y}=\mathbf{X}\mathbf{w}+\mathbf{\varepsilon}$と書ける．ただし，$\mathbf{X}$は計画行列 (design matrix)，$\boldsymbol{\varepsilon}$は誤差項である．特に，$\mathbf{\varepsilon}$が平均0, 分散$\sigma^2$の独立な正規分布に従う場合，$\mathbf{y}\sim \mathcal{N}(\mathbf{X}\mathbf{w}, \sigma^2\mathbf{I})$と表せる．
-
-#### 最小二乗法によるパラメータの推定
-最小二乗法 (ordinary least squares)により線形回帰のパラメータを推定する．$y$の予測値は$\mathbf{X} \mathbf{w}$なので，誤差 $\mathbf{\delta} \in \mathbb{R}^n$は
-$\mathbf{\delta} = \mathbf{y}-\mathbf{X} \mathbf{w}$と表せる．ゆえに目的関数$L(\mathbf{w})$は 
+そして、活性化関数として符号関数 $\text{sign}(z)$ を適用することで、2クラス分類を行う：
 
 $$
-\begin{equation}
-L(w)=\sum_{i=1}^n \delta_i^2 = \|\mathbf{\delta}\|^2=\mathbf{\delta}^\top \mathbf{\delta}
-\end{equation}
+\hat{y} = \begin{cases}
++1 & \text{if } z \geq 0 \\
+-1 & \text{otherwise}
+\end{cases}
 $$
 
-となり， $L(\mathbf{w})$を最小化する$\mathbf{w}$, つまり $\hat {\mathbf {w }}={\underset {\mathbf {w}}{\operatorname {arg min} }}\,L({\mathbf{w}})$
-を求める．
+このように、パーセプトロンは出力を $\{-1, +1\}$ のいずれかに決定的に分類する。
 
-##### 正規方程式を用いた推定
-条件に基づいて目的関数$L(\mathbf{w})$を微分すると次のような方程式が得られる．
+#### パーセプトロン学習則
+
+パーセプトロンは教師あり学習アルゴリズムに基づいて重みを更新する。予測が正しい場合は更新を行わず、予測が誤っていた場合にのみ次のようにパラメータを更新する：
 
 $$
-\begin{equation}
-\mathbf{X}^\top\mathbf{X}\mathbf{\hat w}=\mathbf{X}^\top\mathbf{y}
-\end{equation}
+\mathbf{w} \leftarrow \mathbf{w} + \eta \cdot y^{(i)} \mathbf{x}^{(i)}
 $$
 
-これを**正規方程式** (normal equation)と呼ぶ．この正規方程式より、係数の推定値は$\mathbf{\hat w}={(\mathbf{X}^\top\mathbf{X})}^{-1}X^\top\mathbf{y}$という式で得られる．なお，正規方程式自体は$\mathbf{y}=\mathbf{X}\mathbf{w}$の左から$\mathbf{X}^\top$をかける，と覚えると良い．
-
-##### 勾配法を用いた推定
-最小二乗法による回帰直線を勾配法で求めてみよう．$w$の更新式は$w \leftarrow w + \alpha\cdot \dfrac{1}{n} \delta \mathbf{X}$と書ける．ただし，$\alpha$は学習率である．
-
-### ロジスティック回帰とパーセプトロン※
-本節では非線形回帰の一種であるロジスティック回帰 (logistic regression) および 1層パーセプトロン (perceptron) を取り扱う．
+ここで $\eta > 0$ は学習率である。更新は誤分類されたデータ点に対してのみ行われ、分類境界が調整される。データが線形分離可能であれば、パーセプトロン学習則は有限回の更新で収束することが知られている（**パーセプトロン収束定理**）。
 
 分類問題
 , perceptron
@@ -103,9 +145,8 @@ $$
 
 ## Hebb則と主成分分析
 ### Hebb則
-神経回路はどのようにして自己組織化するのだろうか．1940年代にカナダの心理学者Donald O. Hebbにより著書"The Organization of Behavior"{cite:p}`Hebb1949-iv` で提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを**Hebbの学習則 (Hebbian learning rule)** あるいは**Hebb則(Hebb's rule)** という．Hebb則は (Hebb自身ではなく) Shatzにより"cells that fire together wire together" (共に活動する細胞は共に結合する)と韻を踏みながら短く言い換えられている {cite:p}`Shatz1992-he`．
+神経回路はどのようにして自己組織化するのだろうか．1940年代にカナダの心理学者Donald O. Hebbにより著書"The Organization of Behavior"{cite:p}`Hebb1949-iv` で提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを**Hebbの学習則** (Hebbian learning rule) あるいは**Hebb則** (Hebb's rule) という．Hebb則は（Hebb自身ではなく）Shatzにより"cells that fire together wire together"（共に活動する細胞は共に結合する）と韻を踏みながら短く言い換えられている {cite:p}`Shatz1992-he`．
 
-#### Hebb則の導出
 数式でHebb則を表してみよう．$n$個のシナプス前細胞と$m$個の後細胞の発火率をそれぞれ$\mathbf{x}\in \mathbb{R}^n, \mathbf{y}\in \mathbb{R}^m$ とする．前細胞と後細胞間のシナプス結合強度を表す行列を$\mathbf{W}\in \mathbb{R}^{m\times n}$とし，$\mathbf{y}=\mathbf{W}\mathbf{x}$が成り立つとする．このようなモデルを線形ニューロンモデル (Linear neuron model) という．このとき，Hebb則は
 
 $$
@@ -114,11 +155,11 @@ $$
 \end{equation}
 $$
 
-として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率 (learning rate)** と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．ただし，$\varphi(\cdot), \phi(\cdot)$は基本的に恒等関数に設定される場合が多い．この場合，Hebb則は$
+として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率** (learning rate) と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．ただし，$\varphi(\cdot), \phi(\cdot)$は基本的に恒等関数に設定される場合が多い．この場合，Hebb則は$
 \tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top
 $と簡潔に表現される．
 
-このHebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを**エネルギーベースモデル (energy-based models)** といい，次章で扱う．エネルギーベースモデルでは，先にエネルギー関数 (あるいはコスト関数) $\mathcal{E}$ を定義し，その目的関数を最小化するような神経活動 $\mathbf{z}$ および重み行列 $\mathbf{W}$ のダイナミクスをそれぞれ,
+このHebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを**エネルギーベースモデル** (energy-based models) といい，次章で扱う．エネルギーベースモデルでは，先にエネルギー関数 (あるいはコスト関数) $\mathcal{E}$ を定義し，その目的関数を最小化するような神経活動 $\mathbf{z}$ および重み行列 $\mathbf{W}$ のダイナミクスをそれぞれ,
 
 $$
 \begin{equation}
@@ -126,7 +167,7 @@ $$
 \end{equation}
 $$
 
-として導出する．この手順の逆を行う，すなわち先に神経細胞の活動ダイナミクスを定義し，神経活動で積分することで神経回路のエネルギー関数$\mathcal{E}$を導出し，さらに $\mathcal{E}$ を重み行列で微分することでHebb則が導出できる {cite:p}`Isomura2020-sn`．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}$ を例にして考えよう．ここで$\dfrac{\partial\mathcal{E}}{\partial\mathbf{y}}:=-\dfrac{d\mathbf{y}}{dt}$となるようなエネルギー関数 $\mathcal{E}(\mathbf{x}, \mathbf{y}, \mathbf{W})$を仮定すると，
+として導出する．この手順の逆を行う，すなわち先に神経細胞の活動ダイナミクスを定義し，神経活動で積分することで神経回路のエネルギー関数$\mathcal{E}$を導出し，さらに $\mathcal{E}$ を重み行列で微分することでHebb則が導出できる {cite:p}`Isomura2020-sn`．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで$\dfrac{\partial\mathcal{E}}{\partial\mathbf{y}}:=-\dfrac{d\mathbf{y}}{dt}$となるようなエネルギー関数 $\mathcal{E}(\mathbf{x}, \mathbf{y}, \mathbf{W})$を仮定すると，
 
 $$
 \begin{equation}
@@ -143,7 +184,7 @@ $$
 \end{equation}
 $$
 
-となり，Hebb則が導出できる (簡単のため時定数は1とした)．
+となり，Hebb則が導出できる．
 
 ### Hebb則の安定化とLTP/LTD
 #### BCM則
@@ -283,116 +324,43 @@ No Free Lunch from Deep Learning in Neuroscience: A Case Study through Models of
 ToDo: 他のgrid cellsのモデルについて
 
 ## 独立成分分析
+独立成分分析（Independent Component Analysis; ICA）は，観測された多次元信号が，統計的に独立な複数の潜在変数（独立成分）の線形混合であると仮定し，元の独立成分を復元することを目的とする手法である．ICAは特に，脳波や自然画像などに見られる信号分離問題に有効である．Blind source separation.
 
-The **learning rule** for the **InfoMax ICA** algorithm is derived by maximizing the **mutual information** (or equivalently, maximizing the entropy of the output). Below is a step-by-step derivation.
-
----
-
-## **Step 1: Define the ICA Model**
-We assume a **linear mixing model** where the observed signals \(X\) are mixtures of independent sources \( S \):
+ICAでは，観測ベクトル $\mathbf{x} \in \mathbb{R}^n$ が独立な潜在変数ベクトル $\mathbf{s} \in \mathbb{R}^n$ の線形混合であると仮定する．すなわち，
 
 \[
-X = A S
+\mathbf{x} = \mathbf{A} \mathbf{s}
 \]
 
-where:
-- \( S \) is an unknown vector of independent sources.
-- \( A \) is the unknown **mixing matrix**.
-- Our goal is to **recover \( S \) from \( X \)** by finding a **demixing matrix** \( W \):
+と表される．ここで，$\mathbf{A}$ は未知の正則行列であり，これを分離行列 $\mathbf{W}$ によって推定することを目指す．独立成分 $\mathbf{s}$ の推定は，
 
 \[
-S' = W X
+\mathbf{y} = \mathbf{W} \mathbf{x}
 \]
 
-where \( S' \) is an estimate of the true sources \( S \).
+と表されるように行い，得られた $\mathbf{y}$ の各成分が統計的に独立となるように $\mathbf{W}$ を求める．
 
----
+ICAを実現するための代表的な原理の一つに，InfoMax（情報最大化）原理がある．これは，出力変数の情報量（エントロピー）を最大化するように変換を学習する枠組みである．InfoMaxにおいては，神経回路の情報伝達能力を最大化するという考えに基づき，非線形関数を通じた変換の出力エントロピーを最大化する．
 
-## **Step 2: InfoMax Principle**
-The **InfoMax principle** suggests that maximizing the entropy of a **nonlinear** function of the sources leads to independent components.
-
-Define a **nonlinear activation function** (sigmoid function):
+具体的には，非線形活性化関数 $g(\cdot)$ を用いた出力
 
 \[
-y_i = g(s_i') = g(w_i^T x)
+\mathbf{y} = g(\mathbf{W} \mathbf{x})
 \]
 
-where \( g \) is the **sigmoid (logistic) function**:
+に対し，出力のエントロピー $H(\mathbf{y})$ を最大化するように $\mathbf{W}$ を調整する．ただし，$g(\cdot)$ は例えばシグモイド関数のような非線形性を持つ関数とする．
+
+InfoMax原理に基づくICAの学習則は，出力の対数尤度を最大化する勾配上昇法として導出される．例えば，出力の対数尤度を $L(\mathbf{W})$ としたとき，
 
 \[
-g(u) = \frac{1}{1 + e^{-u}}
+\nabla_{\mathbf{W}} L(\mathbf{W}) \propto \left( \mathbf{I} + (\mathbf{1} - 2\mathbf{y}) \mathbf{x}^\top \right) \mathbf{W}^{-\top}
 \]
 
-Since we want to maximize **mutual information**, this is equivalent to **maximizing the likelihood** of the sources.
+といった形の学習則が得られる（ここで，$\mathbf{1}$ は全ての成分が1のベクトル）．このようにして，$\mathbf{y}$ の統計的独立性が最大化されるような $\mathbf{W}$ を求めることが可能となる．
 
----
+InfoMax ICAは，確率密度関数の仮定を明示せずに信号の非ガウス性を利用する点で有効であり，実際の信号分離問題において高い性能を示すことが多い．また，非ガウス性の測度としてはクルトーシスやネガエントロピーなども用いられ，これによりFastICAなどの手法も導出されている．
 
-## **Step 3: Log-likelihood Function**
-The likelihood of the data given \( W \) is:
-
-\[
-p(X | W) = p(S') \left| \det W \right|
-\]
-
-Taking the log:
-
-\[
-\log p(X | W) = \sum_i \log p(y_i) + \log |\det W|
-\]
-
-For **super-Gaussian sources**, we assume \( p(y) \) follows a **sigmoid-like function**, so we approximate:
-
-\[
-p(y_i) \propto e^{-H(y_i)}
-\]
-
-where \( H(y_i) \) is the entropy of \( y_i \).
-
-Thus, the **log-likelihood function** becomes:
-
-\[
-L(W) = \sum_i \sum_n \log g(w_i^T x_n) + \log |\det W|
-\]
-
-where the first term comes from maximizing entropy and the second term ensures invertibility.
-
----
-
-## **Step 4: Gradient Ascent on Log-Likelihood**
-To maximize \( L(W) \), we take its derivative with respect to \( W \):
-
-\[
-\frac{\partial L}{\partial W} = \sum_n \left[ (1 - 2 Y) X^T \right] + W^{-T}
-\]
-
-where:
-- \( Y = g(WX) \) is the output after the nonlinearity.
-- The term \( (1 - 2 Y) \) comes from the derivative of the sigmoid.
-
----
-
-## **Step 5: Learning Rule**
-Applying a **stochastic gradient ascent update**, we get the **InfoMax learning rule**:
-
-\[
-\Delta W \propto (\text{I} + (1 - 2 Y) X^T) W
-\]
-
-where \( I \) is the identity matrix.
-
----
-
-## **Intuition Behind the Learning Rule**
-1. **The term \( (1 - 2Y)X^T \) forces the network to decorrelate the sources** by reducing statistical dependencies.
-2. **The term \( W \) ensures proper scaling and invertibility.**
-3. **Gradient ascent ensures the network adapts \( W \) to maximize the entropy of the output.**
-
----
-
-### **Final Thoughts**
-This derivation follows from **maximum likelihood estimation (MLE)** under **non-Gaussian assumptions**. It is used in EEG, fMRI, and audio signal processing for **blind source separation (BSS)**.
-
-Would you like to see an implementation of this in **Julia**? 🚀
+以上より，独立成分分析は，観測データを生成する潜在変数の独立性という前提に基づき，情報理論的な原理に従ってその分離を行う手法であり，InfoMaxはその実現方法の一つとして広く用いられている．
 
 ## 低速特徴分析
 **Slow Feature Analysis (SFA)** とは, 複数の時系列データの中から低速に変化する成分 (slow feature) を抽出する教師なし学習のアルゴリズムである \citep{Wiskott2002-vb,Wiskott2011-uz}．潜在変数 $y$ の時間変化の2乗である $\left(\frac{dy}{dt}\right)^2$を最小にするように教師なし学習を行う．初期視覚野の受容野 \citep{Berkes2005-i} や格子細胞・場所細胞などのモデルに応用がされている \citep{Franzius2007-sf}．

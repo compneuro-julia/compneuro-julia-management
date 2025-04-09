@@ -3,64 +3,241 @@
 ## STDP則と競合学習
 ## 代理勾配法
 
-\section{RNNとしてのSNNのBPTTを用いた教師あり学習}
-この節では発火率ベースのRecurrent neural networks (RNN) の一種のアーキテクチャとしてSpiking neural networksを構成し、\textbf{Backpropagation Through Time (BPTT)法}を用いて教師あり学習をする方法について説明します。これにより、TensorflowやPytorch, Chainerなどの通常のANNのフレームワークでSNNを学習させることができます。この節では、\textbf{Spiking Neural Unit }(SNU) と呼ばれる、LSTMやGRUのような状態(state)を持つRNNのユニットを紹介します(Woźniak et al., 2018)。他の類似の研究としては(Wu et al., 2018; Neftci et al., 2019)などを参照してください\footnote{特に(Neftci et al., 2019)にはJupyter Notebookも用意されています(\url{https://github.com/fzenke/spytorch})。サーベイも詳しく参考になります。}。\par
-Spiking Neural Unit (SNU)は次式で表される、Current-based LIFニューロンが元となっています。
-\begin{equation}
-\tau \frac{dV_{m}(t)}{dt}=-V_{m}(t)+R I(t)    
-\end{equation}
-ただし、$\tau=RC$です。ここでは静止膜電位を0としています\footnote{静止膜電位を考慮する場合は、定数項$V_{\text{rest}}$を加えるとよいです。}。これをEuler近似で時間幅$\Delta t$で離散化し、
-\begin{equation}
-V_{m, t}=\frac{\Delta t}{C} I_{t}+\left(1-\frac{\Delta t}{\tau}\right)V_{m, t-1}
-\end{equation}
-となります。$V_m$が一定の閾値$V_{\text{th}}$を超えるとニューロンは発火し、膜電位はリセットされて静止膜電位に戻ります。閾値を超えると発火、ということを表すために次式で表される変数$y_t$を導入し、ステップ関数により発火した際に$y_t=1$となるようにします。
-\begin{equation}
-y_{t}=f\left(V_{m, t}-V_{\text{th}}\right) 
-\end{equation}
-ただし、$f(\cdot)$はステップ関数で、
-\begin{equation}
+### RNNとしてのSNNのBPTTを用いた教師あり学習
+この節では、発火率ベースのリカレントニューラルネットワーク（RNN）の一種として、Spiking Neural Networks（SNN）のアーキテクチャを紹介し、**Backpropagation Through Time（BPTT）法**を用いた教師あり学習の方法を解説する。これにより、TensorFlowやPyTorch、Chainerなど、通常の人工ニューラルネットワーク（ANN）のフレームワーク上でSNNを学習させることが可能となる。
+
+ここでは、LSTMやGRUのように状態（state）を持つRNNのユニットとして設計された **Spiking Neural Unit（SNU）** を紹介する（Woźniak et al., 2018）。関連する研究としては、Wu et al. (2018) や Neftci et al. (2019) などがある。特にNeftciらの研究にはJupyter Notebookも用意されており（[GitHub リンク](https://github.com/fzenke/spytorch)）、詳しいサーベイも参考になる。
+
+### Spiking Neural Unit（SNU）の構造
+
+SNUは、電流ベースのLIFニューロン（Current-based Leaky Integrate-and-Fire neuron）に基づいており、その動作は以下の微分方程式で表される：
+
+$$
+\tau \frac{dV_m(t)}{dt} = -V_m(t) + R I(t)
+$$
+
+ここで、$\tau = RC$ であり、静止膜電位は 0 と仮定する（静止膜電位を考慮する場合は、定数項 $V_{\text{rest}}$ を加える）。
+
+この方程式を時間幅 $\Delta t$ でEuler近似により離散化すると、次のようになる：
+
+$$
+V_{m,t} = \frac{\Delta t}{C} I_t + \left(1 - \frac{\Delta t}{\tau}\right) V_{m,t-1}
+$$
+
+膜電位 $V_m$ が閾値 $V_{\text{th}}$ を超えるとニューロンが発火し、膜電位はリセットされて静止膜電位に戻る。これを数式で表すため、ステップ関数 $f(\cdot)$ に基づいて出力変数 $y_t$ を次のように定義する：
+
+$$
+y_t = f(V_{m,t} - V_{\text{th}})
+$$
+
+ステップ関数 $f(x)$ は以下のように定義される：
+
+$$
 f(x) = \begin{cases}
-    1 & (x>0) \\
-    0 & (x\leq0)
-  \end{cases}    
-\end{equation}
-と表されます。さらに$y_{t-1}=1$なら膜電位がリセットされるように$\left(1-y_{t-1}\right)$を膜電位$V_{m, t-1}$に乗じて膜電位を更新します。
-\begin{equation}
-V_{m, t}=\frac{\Delta t}{C} I_{t}+\left(1-\frac{\Delta t}{\tau}\right)V_{m, t-1}\cdot \left(1-y_{t-1}\right)
-\end{equation}
-ここで、膜電位を$V_{m, t} \to s_t$とし、入力電流を$I_{t} \to Wx_t$とします(ただし、$x_t$は入力、$W$は結合重みの行列)。さらに以前の膜電位を保持する割合を表す変数として$l(\tau)=(1-\frac{\Delta t}{\tau})$を定義します。このとき、SNUの状態を計算する式は
-\begin{align} 
-s_t&=g\left(Wx_t+l(\tau)\odot s_{t-1}\odot (1-y_{t-1})\right)\\
-y_t&=h(s_t +b) 
-\end{align}
-となります。ただし、$g(\cdot)$はReLU関数、$h(\cdot)$はステップ関数です\footnote{なお、$h(\cdot)$をシグモイド関数とするsoft-SNUも提案されています。この場合、特に新しく関数を定義する必要はありません。}。このようにLSTMのような状態$y_t$を上手く設定することで、RNNのユニットとしてモデル化できています。\par
-しかし、このモデルはステップ関数を含むため、このままでは学習できません。というのも、ステップ関数は微分するとDiracのデルタ関数となり、誤差逆伝搬できないためです。そこで(Woźniak et al., 2018)ではステップ関数の\textbf{疑似勾配}(pseudo-derivative)としてtanhの微分を用いています。なお疑似勾配と同じ概念が、(Neftci et al., 2019)では\textbf{代理勾配}(Surrogate Gradient)と呼ばれています。\par
-実装方法としてはステップ関数を新しく定義し、逆伝搬時の勾配にtanhの微分などの関数を用いるようにします。コードは示しませんが\footnote{\url{https://github.com/takyamamoto/SNU_Chainer}を参考にしてください。}、Chainerで実装した結果を示します。この実装では2値化したMNISTデータセットをポアソン過程モデルでエンコードし(これをJittered MNISTと呼びます)、1つの画像につき10 ms(10タイムステップ)の間、ネットワークにエンコードしたポアソンスパイクを入力します。ネットワークは4層(ユニット数は順に784-256-256-10)から構成され、最後の層で最も発火率の高いユニットに対応するラベルを、刺激画像の予測ラベルとします。注意点として、このネットワークではシナプス入力を考えておらず(シナプスフィルターがなく)、重みづけされたスパイク列が直接次の層のユニットに伝わります。\par
-その他、論文の実装と変えたこととしては4点あります。1点目に、ReLUだとdying ReLUが起こっているようで学習がうまく進まなかったので、活性化関数としてExponential Linear Unit (ELU)を代わりに用いました\footnote{この変更は発火特性に影響を与えません。}。2点目に、ステップ関数の疑似勾配を、tanhの微分では学習が進まなかったので、hard sigmoidのような関数の微分
-\begin{equation}
-f'(x) = \begin{cases} 1 & (-0.5<x<0.5) \\ 0 & (\text{otherwise}) \end{cases}
-\end{equation}
-を用いました。3点目に、損失関数を変更しました。平均二乗誤差 (Mean Squared Error)だと学習が進まなかったので、出力ユニットの全スパイク数の和を取り、Softmaxをかけて、正解ラベルとの交差エントロピー(cross entropy)を取りました。また出力ユニットの発火数を抑えるため、代謝コスト(metabolic cost)を損失に加えました。これには正則化の効果もあります。出力層の $i$ 番目のユニットの出力を $y_t^{(i)}$とすると、代謝コスト $C_{\text{met}}$は $$
-C_{\text{met}}=\frac{10^{-2}}{N_t \cdot N_{\text{out}}}\sum_{t=1}^{N_t}\sum_{i=1}^{N_{\text{out}}} \left(y_t^{(i)}\right)^2 $$
-となります。ただし、$N_t$はシミュレーションの総タイムステップ数、$N_{\text{out}}$は出力ユニットの数（今回だと10個）です。あまり大きくすると、分類誤差よりも代謝コストの方が大きくなってしまうので低めに設定しました。4点目に、optimizerをAdamに変更しました。\par
-この実装により100 epoch学習を行った結果を示します。図は誤差と正解率の学習時における変化です。\par
-この手法の欠点としてはナイーブにBPTTを実行するのであまりシミュレーションの時間ステップを長くできないということが挙げられます。ただし、通常のANNのフレームワークを用いることができるというのは大きな利点であると思います。
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.4]{figs/loss_acc.png}
-    \caption{(左)誤差の変化、(右)正解率の変化。100 epoch目におけるvalidationの正解率は83\%程度となりました。}
-    \label{fig:snu_1}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.7]{figs/results.pdf}
-    \caption{(左)入力のポアソンスパイクの時間軸における和。(右)出力ユニットの活動。7番のニューロンがよく活動していることが分かります。}
-    \label{fig:snu_2}
-\end{figure}
+1 & (x > 0) \\
+0 & (x \leq 0)
+\end{cases}
+$$
+
+また、直前の時刻で発火していた場合に膜電位がリセットされるよう、以下の式で膜電位を更新する：
+
+$$
+V_{m,t} = \frac{\Delta t}{C} I_t + \left(1 - \frac{\Delta t}{\tau} \right) V_{m,t-1} \cdot (1 - y_{t-1})
+$$
+
+ここで、$V_{m,t} \to s_t$、$I_t \to Wx_t$（$x_t$は入力、$W$は重み行列）と置き換える。また、以前の膜電位を保持する係数として $l(\tau) = 1 - \frac{\Delta t}{\tau}$ を定義すると、SNUの状態更新式は以下のようになる：
+
+$$
+s_t = g\left(Wx_t + l(\tau) \odot s_{t-1} \odot (1 - y_{t-1})\right)
+$$
+
+$$
+y_t = h(s_t + b)
+$$
+
+ここで、$g(\cdot)$ は ReLU 関数、$h(\cdot)$ はステップ関数である（なお、$h(\cdot)$をシグモイド関数とする soft-SNU も提案されている）。
+
+このように、$y_t$ という状態変数を導入することで、LSTMのように状態を持つRNNユニットとしてSNUをモデル化できる。
+
+### 疑似勾配による学習
+
+このモデルにはステップ関数が含まれているため、そのままでは誤差逆伝播による学習ができない。これはステップ関数の微分がDiracのデルタ関数となり、勾配が得られないためである。
+
+そこで Woźniak らの研究では、ステップ関数の **疑似勾配（pseudo-derivative）** として $\tanh$ 関数の微分を用いる。一方、Neftci らの研究では同様の手法を **代理勾配（Surrogate Gradient）** と呼んでいる。
+
+実装においては、ステップ関数を新たに定義し、その逆伝播時の勾配として $\tanh$ の微分などを用いる。Chainerでの実装例は以下のリポジトリが参考になる：[https://github.com/takyamamoto/SNU_Chainer](https://github.com/takyamamoto/SNU_Chainer)
+
+この実装では、2値化したMNISTデータセットをポアソン過程モデルでスパイク列に変換（Jittered MNIST）し、1画像あたり10ms（10タイムステップ）の間、SNNに入力する。ネットワークは4層（ユニット数は順に784-256-256-10）から成り、最終層のうち最も発火率の高いユニットのラベルを予測ラベルとする。なお、このモデルではシナプス入力（シナプスフィルター）を考慮しておらず、重み付きのスパイク列が直接次の層に入力される。
+
+### 実装上の工夫点
+
+実装において、以下の4点を論文から変更している。
+
+1. **活性化関数の変更**：ReLUではdying ReLU問題により学習が進まなかったため、代わりにExponential Linear Unit（ELU）を使用した（発火特性には影響しない）。
+2. **疑似勾配の変更**：$\tanh$の微分では学習が進まなかったため、hard sigmoidに似た関数の微分を採用した：
+
+   $$
+   f'(x) = \begin{cases}
+   1 & (-0.5 < x < 0.5) \\
+   0 & \text{その他}
+   \end{cases}
+   $$
+
+3. **損失関数の変更**：Mean Squared Error（平均二乗誤差）では学習が困難だったため、出力ユニットの発火数の和に Softmax をかけた後、正解ラベルとの交差エントロピー（Cross Entropy）を計算した。また、出力ユニットの発火数を抑えるため、**代謝コスト（metabolic cost）** を損失に加えた：
+
+   $$
+   C_{\text{met}} = \frac{10^{-2}}{N_t \cdot N_{\text{out}}} \sum_{t=1}^{N_t} \sum_{i=1}^{N_{\text{out}}} \left(y_t^{(i)}\right)^2
+   $$
+
+   ここで、$N_t$ はシミュレーションのタイムステップ数、$N_{\text{out}}$ は出力ユニットの数（今回は10）である。代謝コストが分類誤差を上回らないよう、小さな係数に設定している。
+
+4. **最適化手法の変更**：OptimizerとしてAdamを使用した。
+
+### 学習結果と考察
+
+上記の構成で100エポックの学習を行った結果、学習中の誤差と正解率の変化を図に示した。
+
+この手法の欠点として、ナイーブにBPTTを実行しているため、シミュレーションの時間ステップを長く取れない点が挙げられる。しかし、一般的なANNフレームワークをそのまま用いることができるという点は大きな利点である。
+
 
 ### 誤差逆伝搬法の近似による教師あり学習
+以下に、常体・教科書調で書き直した内容をMarkdown形式で示す。
 
-ANNは誤差逆伝搬法(Back-propagation)を用いてパラメータを学習することができますが、SNNは誤差逆伝搬法を直接使用することはできません。しかし、誤差逆伝搬法の近似をすることでSNNを訓練することができるようになります。SNNを誤差逆伝搬法で訓練することは\textbf{SpikeProp法}(Bohte et al., 2000)や\textbf{ReSuMe}(Ponulak, Kasiński, 2010)など多数の手法が考案されてきました(他の方針としては Lee et al. 2016\footnote{この論文のポイントは実数値の膜電位で確率的勾配降下を実行することです。}; Huh \& Sejnowski, 2018; Wu et al., 2018; Shrestha \& Orchard, 2018; Tavanaei \& Maida, 2019; Thiele et al., 2019; Comsa et al., 2019など多数)。この章の初めでは、代表してSpikeProp法の改善手法であ\textbf{るSuperSpike法}(Zenke and Ganguli, 2018)の実装をしてみます。
+---
+
+## 誤差逆伝播に基づくSNNの学習
+
+通常の人工ニューラルネットワーク（ANN）は、誤差逆伝播法（Backpropagation）を用いてパラメータを学習できるが、スパイキングニューラルネットワーク（SNN）では誤差逆伝播法をそのまま適用することができない。しかし、誤差逆伝播を近似することで、SNNの訓練が可能となる。
+
+これまでに、SNNを誤差逆伝播で学習させるための手法として、**SpikeProp法**（Bohte et al., 2000）や **ReSuMe**（Ponulak & Kasiński, 2010）などが提案されてきた。その他にも、Lee et al. (2016)、Huh & Sejnowski (2018)、Wu et al. (2018)、Shrestha & Orchard (2018)、Tavanaei & Maida (2019)、Thiele et al. (2019)、Comsa et al. (2019)など、多数の研究が存在する。これらの中でも、本章では **SuperSpike法**（Zenke & Ganguli, 2018）を代表的な手法として紹介し、その実装を行う。
+
+## SuperSpike法
+
+**SuperSpike法**は、スパイキングニューロンに対する教師あり学習則であり、SpikeProp法と同様にスパイク列を教師信号として使用し、ネットワークがそのスパイク列を再現するように最適化する。SpikeProp法との大きな違いは、スパイクそのものの微分ではなく、膜電位に対する関数の微分を用いる点である。これにより、発火が起こらない場合でも学習を進めることができる。
+
+### 損失関数の導関数の近似
+
+まず、最小化すべき損失関数 $L$ を定義する。ここでは、$i$番目のニューロンにおける教師スパイク列 $\hat{S}_i$ と出力スパイク列 $S_i$ の誤差を考える。スパイク列は $S_i(t) = \sum_{t_k < t} \delta(t - t_i^k)$ と表される。
+
+SuperSpike法では、これらのスパイク列を二重指数関数フィルター $\alpha$ で畳み込んだ後に二乗誤差を取る。損失関数は次のように表される：
+
+$$
+L(t) = \frac{1}{2} \int_{-\infty}^{t} ds \left[ \left( \alpha * \hat{S}_i - \alpha * S_i \right)(s) \right]^2
+$$
+
+ここで $*$ は畳み込み演算子であり、この損失は **van Rossum距離**（van Rossum, 2001）として知られる。SpikeProp法とは異なり、完全にスパイクが一致しなくても誤差信号が残る。
+
+この損失関数をシナプス強度 $w_{ij}$ に関して微分すると、
+
+$$
+\frac{\partial L}{\partial w_{ij}} = - \int_{-\infty}^{t} ds \left[ \left( \alpha * \hat{S}_i - \alpha * S_i \right)(s) \right] \left( \alpha * \frac{\partial S_i}{\partial w_{ij}} \right)(s)
+$$
+
+と表される。確率的勾配降下法（SGD）により $w_{ij} \leftarrow w_{ij} - r \dfrac{\partial L}{\partial w_{ij}}$ と更新することが目標である。
+
+ここで問題となるのは $\frac{\partial S_i}{\partial w_{ij}}$ の項である。$S_i$ はデルタ関数を含むため、微分すると発火時は無限大、非発火時はゼロとなり、学習が困難となる。
+
+そこで、$S_i(t)$ を LIFニューロンの膜電位 $U_i(t)$ の非線形関数 $\sigma(U_i(t))$ で近似する。非線形関数には **高速シグモイド関数** $\sigma(x) = \dfrac{x}{1 + |x|}$ を用いる。このとき、
+
+$$
+\frac{\partial S_i}{\partial w_{ij}} \approx \frac{\partial \sigma(U_i)}{\partial w_{ij}} = \sigma'(U_i) \cdot \frac{\partial U_i}{\partial w_{ij}}
+$$
+
+ただし、$\sigma'(U_i) = (1 + |\beta(U_i - \vartheta)|)^{-2}$ である。ここで $\vartheta$ は発火閾値（-50 mV）、$\beta$ は係数（1 mV$^{-1}$）である。
+
+次に、$\dfrac{\partial U_i}{\partial w_{ij}}$ を近似する。これはシナプス強度の変化によって、$j$番目のシナプス前細胞のスパイク $S_j(t)$ が $i$番目の膜電位に与える影響を表し、
+
+$$
+\frac{\partial U_i}{\partial w_{ij}} \approx \epsilon * S_j(t)
+$$
+
+と近似する。ここで $\epsilon$ も二重指数関数フィルターであり、神経伝達物質の濃度として解釈できる。
+
+以上の近似を用いると、時刻 $t$ におけるシナプス強度の変化率は次のように表される：
+
+$$
+\frac{\partial w_{ij}}{\partial t} \approx r \int_{-\infty}^{t} ds\ \underbrace{e_i(s)}_{\text{誤差信号}}\cdot\underbrace{\lambda_{ij}(s)}_{\text{シナプス適格度トレース}}
+$$
+
+ここで、
+
+- $e_i(t) = \alpha * (\hat{S}_i - S_i)$：誤差信号
+- $\lambda_{ij}(t) = \alpha * [\sigma'(U_i) (\epsilon * S_j)]$：シナプス適格度トレース
+
+となる。
+
+## 離散化された重み更新とRMaxProp
+
+上記の連続的な更新式を、時刻区間 $[t_k, t_{k+1}]$ での積分によって離散化し、重みを更新する：
+
+$$
+\Delta w_{ij}^k = r_{ij} \int_{t_k}^{t_{k+1}} e_i(s) \lambda_{ij}(s) ds
+$$
+
+実装ではこの区間を $t_b := t_{k+1} - t_k = 0.5$ s と設定し、重みの更新には以下の手順を用いる：
+
+$$
+m_{ij} \leftarrow m_{ij} + g_{ij} \quad \text{（ただし } g_{ij} = e_i(t) \lambda_{ij}(t)\text{）}
+$$
+
+一定時間 $t_b$ 経過後に重みを更新し、$m_{ij}$ をリセットする：
+
+$$
+w_{ij} \leftarrow w_{ij} + r_{ij} m_{ij} \cdot \Delta t
+$$
+
+重みには $-1 < w_{ij} < 1$ の制約を設ける。
+
+### RMaxPropによる学習率調整
+
+安定な学習のため、重みごとに学習率 $r_{ij}$ を調整する。まず、配列 $v_{ij}$ を以下のように更新する：
+
+$$
+v_{ij} \leftarrow \max(\gamma v_{ij}, g_{ij}^2)
+$$
+
+ここで $\gamma$ はハイパーパラメータで、0.8程度が適切とされる。次に、以下のように学習率を定義する：
+
+$$
+r_{ij} = \frac{r_0}{\sqrt{v_{ij}} + \varepsilon}
+$$
+
+ここで、$r_0$ は学習係数、$\varepsilon$ はゼロ除算回避用の小定数（通常 $10^{-8}$）である。
+
+この更新則は **RMaxProp** と呼ばれる。一方、RMSpropでは以下のように $v_{ij}$ を更新する：
+
+$$
+v_{ij} \leftarrow \gamma v_{ij} + (1 - \gamma) g_{ij}^2
+$$
+
+## 誤差信号の逆伝播
+
+出力層で計算された誤差信号 $e_i(t) = \alpha * (\hat{S}_i - S_i)$ を、下位層に逆伝播させる場合、例えば層 $l$ のニューロン $k$ から、層 $l-1$ のニューロン $i$ への伝播は次のように行う：
+
+$$
+e_i = \sum_k w_{ki} e_k
+$$
+
+ここでは、活性化関数の勾配を掛けない点がANNと異なる。
+
+このような対称フィードバックは生物学的には不自然であるため、**Feedback Alignment**（Lillicrap et al., 2016）が提案されている。この手法では逆伝播に用いる重みをランダムに固定する。
+
+ランダム固定重みを $B = [b_{ki}]$ とすると、誤差信号は次のように計算される：
+
+$$
+e_i = \sum_k b_{ki} e_k
+$$
+
+また、重みを均一とする **Uniform Feedback** による方法もあり、その場合は
+
+$$
+e_i = \sum_k e_k
+$$
+
+と表される。以降の実装では、Feedback Alignment による学習も行う。
+
+###
+ANNは誤差逆伝搬法(Back-propagation)を用いてパラメータを学習することができますが、SNNは誤差逆伝搬法を直接使用することはできません。しかし、誤差逆伝搬法の近似をすることでSNNを訓練することができるようになります。SNNを誤差逆伝搬法で訓練することは\textbf{SpikeProp法}(Bohte et al., 2000)や\textbf{ReSuMe}(Ponulak, Kasiński, 2010)など多数の手法が考案されてきました(他の方針としては Lee et al. 2016\footnote{この論文のポイントは実数値の膜電位で確率的勾配降下を実行することです。}; Huh \& Sejnowski, 2018; Wu et al., 2018; Shrestha \& Orchard, 2018; Tavanaei \& Maida, 2019; Thiele et al., 2019; Comsa et al., 2019など多数)。この章の初めでは、代表してSpikeProp法の改善手法である \textbf{SuperSpike法}(Zenke and Ganguli, 2018)の実装をしてみます。
 \section{SuperSpike法}
 \textbf{SuperSpike法} (supervised learning rule for spiking neurons)(Zenke and Ganguli, 2018)はオンラインの教師あり学習でSpikeProp法と同様にスパイク列を教師信号とし、そのスパイク列を出力するようにネットワークを最適化します。SpikeProp法と異なるのはスパイクの微分ではなく、膜電位についての関数の微分を用いていることです。このため、発火が生じなくても学習が進行します。
 \subsection{損失関数の導関数の近似}
@@ -125,249 +302,5 @@ e_i=\sum_k b_{ki} e_k
 e_i=\sum_k e_k
 \end{equation}
 となります。後の実装ではFeedback alignmentによる学習も行います。
-
-\subsection{SuperSpike法の実装}
-それではSuperSpike法を実装していきましょう。今回は3層のネットワーク(ユニット数は順に50, 4, 1)の出力ユニットが100 msごとに発火するように訓練します。 訓練後の結果と全体のアルゴリズムは図\ref{fig:super_spike}にまとめていますので、適宜参照すると良いでしょう。。\par
-まず、\texttt{Models}ディレクトリの親ディレクトリに実行するファイルを作成します。次に今回使うモデルをimportしておきます。
-\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
-from Models.Neurons import CurrentBasedLIF
-from Models.Synapses import DoubleExponentialSynapse
-from Models.Connections import FullConnection, DelayConnection
-\end{minted}
-\subsubsection{誤差信号と適格度トレースの実装}
-まず、誤差信号と適格度トレースの計算を行うclassを実装します。とはいえ、二重指数関数型シナプスのコードに少し変更を加えるだけでよいです。異なる点として、誤差信号では出力層のスパイク列(\texttt{output\_spike})と教師信号のスパイク列(\texttt{target\_spike})を引数とし、それらの差分を取ります。さらにこの時、出力が$[-1, 1]$となるように規格化を行います。
-\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
-class ErrorSignal:
-    def __init__(self, N, dt=1e-4, td=1e-2, tr=5e-3):
-        self.dt = dt
-        self.td = td
-        self.tr = tr
-        self.N = N
-        self.r = np.zeros(N)
-        self.hr = np.zeros(N)
-        self.b = (td/tr)**(td/(tr-td)) # 規格化定数
-    
-    def initialize_states(self):
-        self.r = np.zeros(self.N)
-        self.hr = np.zeros(self.N)    
-
-    def __call__(self, output_spike, target_spike):
-        r = self.r*(1-self.dt/self.tr) + self.hr/self.td*self.dt 
-        hr = self.hr*(1-self.dt/self.td)+(target_spike-output_spike)/self.b
-        self.r = r
-        self.hr = hr
-        return r
-\end{minted}
-次に、適格度トレースはシナプス前細胞のシナプスフィルターをかけられたスパイク列と、シナプス後細胞の膜電位を引数とします。シナプス後細胞の膜電位は高速シグモイド関数の微分した式に代入され、Online STDP\footnote{5章参照}の計算のように列ベクトル(postの活動)と行ベクトル(preの活動)の積を取ります。
-\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
-lass EligibilityTrace:
-    def __init__(self, N_in, N_out, dt=1e-4, td=1e-2, tr=5e-3):
-        self.dt = dt
-        self.td = td
-        self.tr = tr
-        self.N_in = N_in
-        self.N_out = N_out
-        self.r = np.zeros((N_out, N_in))
-        self.hr = np.zeros((N_out, N_in))
-    
-    def initialize_states(self):
-        self.r = np.zeros((self.N_out, self.N_in))
-        self.hr = np.zeros((self.N_out, self.N_in))
-    
-    def surrogate_derivative_fastsigmoid(self, u, beta=1, vthr=-50):
-        return 1 / (1 + np.abs(beta*(u-vthr)))**2
-
-    def __call__(self, pre_current, post_voltage):
-        # (N_out, 1) x (1, N_in) -> (N_out, N_in) 
-        pre_ = np.expand_dims(pre_current, axis=0)
-        post_ = np.expand_dims(
-                self.surrogate_derivative_fastsigmoid(post_voltage), 
-                axis=1)
-        r = self.r*(1-self.dt/self.tr) + self.hr*self.dt 
-        hr = self.hr*(1-self.dt/self.td) + (post_ @ pre_)/(self.tr*self.td)
-        self.r = r
-        self.hr = hr
-        return r
-\end{minted}
-\subsubsection{定数とモデルの定義}
-それでは準備が終わったので、定数とモデルのインスタンスを定義しましょう。
-\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
-dt = 1e-4; T = 0.5; nt = round(T/dt)
-
-t_weight_update = 0.5 #重みの更新時間
-nt_b = round(t_weight_update/dt) #重みの更新ステップ
-
-num_iter = 200 # 学習のイテレーション数
-
-N_in = 50 # 入力ユニット数
-N_mid = 4 # 中間ユニット数
-N_out = 1 # 出力ユニット数
-
-# 入力(x)と教師信号(y)の定義
-fr_in = 10 # 入力のPoisson発火率 (Hz)
-x = np.where(np.random.rand(nt, N_in) < fr_in * dt, 1, 0)
-y = np.zeros((nt, N_out)) 
-y[int(nt/10)::int(nt/5), :] = 1 # T/5に1回発火
-
-# モデルの定義
-neurons_1 = CurrentBasedLIF(N_mid, dt=dt)
-neurons_2 = CurrentBasedLIF(N_out, dt=dt)
-delay_conn1 = DelayConnection(N_in, delay=8e-4)
-delay_conn2 = DelayConnection(N_mid, delay=8e-4)
-synapses_1 = DoubleExponentialSynapse(N_in, dt=dt, td=1e-2, tr=5e-3)
-synapses_2 = DoubleExponentialSynapse(N_mid, dt=dt, td=1e-2, tr=5e-3)
-es = ErrorSignal(N_out)
-et1 = EligibilityTrace(N_in, N_mid)
-et2 = EligibilityTrace(N_mid, N_out)
-
-connect_1 = FullConnection(N_in, N_mid, 
-                           initW=0.1*np.random.rand(N_mid, N_in))
-connect_2 = FullConnection(N_mid, N_out, 
-                           initW=0.1*np.random.rand(N_out, N_mid))
-#B = np.random.rand(N_mid, N_out) # Feedback alignment
-
-r0 = 1e-3
-gamma = 0.7
-
-# 記録用配列
-current_arr = np.zeros((N_mid, nt))
-voltage_arr = np.zeros((N_out, nt))
-error_arr = np.zeros((N_out, nt))
-lambda_arr = np.zeros((N_out, N_mid, nt))
-dw_arr = np.zeros((N_out, N_mid, nt))
-cost_arr = np.zeros(num_iter)
-\end{minted}
-ここで配列\texttt{B}はFeedback alignmentの際に用います。
-\subsubsection{シミュレーションの実装}
-\texttt{for}ループ内でモデルを構築し、\texttt{nt\_b}ステップごとに重みの更新を行います。また、最後の訓練イテレーション時に、出力層の膜電位の時間変化などを記録しておきます。
-\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
-for i in tqdm(range(num_iter)):
-    if i%15 == 0:
-        r0 /= 2 # 重み減衰
-    
-    # 状態の初期化
-    neurons_1.initialize_states()
-    neurons_2.initialize_states()
-    synapses_1.initialize_states()
-    synapses_2.initialize_states()
-    delay_conn1.initialize_states()
-    delay_conn2.initialize_states()
-    es.initialize_states()
-    et1.initialize_states()
-    et2.initialize_states()
-    
-    m1 = np.zeros((N_mid, N_in))
-    m2 = np.zeros((N_out, N_mid))
-    v1 = np.zeros((N_mid, N_in))
-    v2 = np.zeros((N_out, N_mid))
-    cost = 0
-    count = 0
-    
-    # one iter.
-    for t in range(nt):
-        # Feed-forward
-        c1 = synapses_1(delay_conn1(x[t])) # input current
-        h1 = connect_1(c1)
-        s1 = neurons_1(h1) # spike of mid neurons
-        
-        c2 = synapses_2(delay_conn2(s1))
-        h2 = connect_2(c2)
-        s2 = neurons_2(h2)
-        
-        # Backward(誤差の伝搬)
-        e2 = np.expand_dims(es(s2, y[t]), axis=1) / N_out
-        e1 = connect_2.backward(e2) / N_mid
-        # e1 = np.dot(B, e2) / N_mid
-
-        # コストの計算
-        cost += np.sum(e2**2)
-        
-        lambda2 = et2(c2, neurons_2.v_)
-        lambda1 = et1(c1, neurons_1.v_)
-        
-        g2 = e2 * lambda2
-        g1 = e1 * lambda1
-        
-        v1 = np.maximum(gamma*v1, g1**2)
-        v2 = np.maximum(gamma*v2, g2**2)
-        
-        m1 += g1
-        m2 += g2
-    
-        count += 1
-        if count == nt_b:
-            # 重みの更新
-            lr1 = r0/np.sqrt(v1+1e-8)
-            lr2 = r0/np.sqrt(v2+1e-8)
-            dW1 = np.clip(lr1*m1*dt, -1e-3, 1e-3)
-            dW2 = np.clip(lr2*m2*dt, -1e-3, 1e-3)
-            connect_1.W = np.clip(connect_1.W+dW1, -0.1, 0.1)
-            connect_2.W = np.clip(connect_2.W+dW2, -0.1, 0.1)
-            
-            # リセット
-            m1 = np.zeros((N_mid, N_in))
-            m2 = np.zeros((N_out, N_mid))
-            v1 = np.zeros((N_mid, N_in))
-            v2 = np.zeros((N_out, N_mid))
-            count = 0
-            
-        # 保存
-        if i == num_iter-1:
-            current_arr[:, t] = c2
-            voltage_arr[:, t] = neurons_2.v_
-            error_arr[:, t] = e2
-            lambda_arr[:, :, t] = lambda2
-    
-    cost_arr[i] = cost
-    print("\n　cost:", cost)
-\end{minted}
-なお、\texttt{r}は重みの係数ですが、これを減衰させる(つまりweight decay)するとパフォーマンスが上がったので、今回冒頭に入れています。また、\texttt{lr}は更新時の値を用いていますが、これはANNにおいて入力ごとの勾配を加算し、重みの更新はミニバッチ内の全ての要素に対して同じ学習率で行うということに対応します。また、Feedback alignmentの場合は誤差逆伝搬に\colorbox{shadecolor}{\texttt{e1 = np.dot(B, e2) / N\_mid}}を用います。
-\subsubsection{結果の描画}
-最後に結果を描画します。描画するのは出力層の膜電位$U_i$, 高速シグモイドによる膜電位の微分の近似$\sigma^\prime (U_i)$, 出力層における誤差信号$e_i$, 適格度トレース$\lambda_{ij}$, 2層目の$j=0$番目のシナプス後電流$\epsilon * S_j$, 入力のポアソンスパイク、誤差関数の推移です。
-\begin{minted}[frame=lines, framesep=2mm, baselinestretch=1.2, bgcolor=shadecolor,fontsize=\small]{python}
-t = np.arange(nt)*dt*1e3
-
-plt.figure(figsize=(8, 10))
-plt.subplot(6,1,1)
-plt.plot(t, voltage_arr[0])
-plt.ylabel('Membrane\n potential (mV)')
-plt.subplot(6,1,2)
-plt.plot(t, et1.surrogate_derivative_fastsigmoid(u=voltage_arr[0]))
-plt.ylabel('Surrogate derivative')
-plt.subplot(6,1,3)
-plt.plot(t, error_arr[0])
-plt.ylabel('Error')
-plt.subplot(6,1,4)
-plt.plot(t, lambda_arr[0, 0], color="k")
-plt.ylabel('$\lambda$')
-plt.subplot(6,1,5)
-plt.plot(t, current_arr[0], color="k")
-plt.ylabel('Input current (pA)')
-plt.subplot(6,1,6)
-for i in range(N_in):    
-    plt.plot(t, x[:, i]*(i+1), 'ko', markersize=2)
-plt.xlabel('Time (ms)'); plt.ylabel('Neuron index') 
-plt.xlim(0, t.max()); plt.ylim(0.5, N_in+0.5)
-plt.show()
-
-plt.figure(figsize=(4, 3))
-plt.plot(cost_arr, color="k")
-plt.xlabel('Iter'); plt.ylabel('Cost') 
-plt.show()
-\end{minted}
-
-結果は図\ref{fig:super_spike}のようになります。また、Feedback alignmentの場合と比較した誤差関数の推移は図のようになります。
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.45]{figs/super_spike_2.pdf}
-    \caption{SuperSpike法の結果とアルゴリズム。上から出力層の膜電位$U_i$, 高速シグモイドによる膜電位の微分の近似$\sigma^\prime (U_i)$, 出力層における誤差信号$e_i$, 適格度トレース$\lambda_{ij}$, 2層目の$j=0$番目のシナプス後電流$\epsilon * S_j$, 入力のポアソンスパイクを表します。}
-    \label{fig:super_spike}
-\end{figure}
-\begin{figure}[htbp]
-    \centering
-    \includegraphics[scale=0.45]{figs/super_spike_cost.pdf}
-    \caption{誤差関数の推移。(左)対称フィードバックの場合。(右)Feedback alignmentの場合}
-    \label{fig:super_spike_2}
-\end{figure}
 
 ## 適格性伝播法※

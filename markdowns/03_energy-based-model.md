@@ -1,16 +1,33 @@
 # 第3章：エネルギーベースモデル
-本章では**エネルギーベースモデル (energy-based models; EBMs)** という枠組みに含まれるモデルを紹介する．エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義し，推論時と学習時の双方においてエネルギーを最小化するようにネットワークの状態を更新する．{cite:p}`LeCun2006-dt`
+本章では、**エネルギーベースモデル**（energy-based models; EBMs）と呼ばれる確率モデルの枠組みを取り上げる。EBMsは、入力データに対して**スカラー値のエネルギー（あるいはコスト）を割り当てる関数**を定義し、そのエネルギーを最小化するようにシステムの状態を決定・学習するという特徴を持つ。これは、ニューラルネットワークなどの高次元な状態空間における確率的な推論や学習に広く応用されている枠組みである{cite:p}`LeCun2006-dt`。
 
-入力 $\mathbf{x}\in \mathbb{R}^d$, エネルギー関数 $E_\theta: \mathbb{R}^d\to \mathbb{R}$を考える．
+エネルギーベースモデルでは、入力ベクトル $\mathbf{x} \in \mathbb{R}^d$ に対して、パラメータ $\theta$ に依存する**エネルギー関数** (energy function) $E_\theta : \mathbb{R}^d \to \mathbb{R}$ を定義する。このエネルギー関数は、ある状態 $\mathbf{x}$ の「好ましさ」や「自然さ」を定量的に評価するものであり、エネルギーが小さいほどその状態がより実現しやすいと解釈される。
+
+このようなエネルギー関数を用いて、状態 $\mathbf{x}$ の**確率密度関数** $p_\theta(\mathbf{x})$ を以下のように定義する：
 
 $$
-\begin{align}
-p_\theta(\mathbf{x})&=\frac{\exp(-E_\theta(\mathbf{x}))}{Z_\theta}\\
-Z_\theta &= \int \exp(-E_\theta(\mathbf{x})) d\mathbf{x}
-\end{align}
+p_\theta(\mathbf{x}) = \frac{\exp(-E_\theta(\mathbf{x}))}{Z_\theta}
 $$
 
-$Z_\theta$は分配関数．
+ここで $Z_\theta$ は**分配関数**（partition function）と呼ばれ、確率分布が正規化されるようにするための定数である。すなわち、
+
+$$
+Z_\theta = \int \exp(-E_\theta(\mathbf{x})) \, d\mathbf{x}
+$$
+
+と定義される。$Z_\theta$ は状態空間全体にわたる積分であり、一般には計算が困難である点がEBMの学習と推論を難しくする主な要因の一つである。
+
+このように、エネルギーベースモデルは、確率分布を明示的にパラメトライズする代わりに、各状態に対するスカラーのスコア（＝エネルギー）を割り当て、そのスコアを通じて確率的な解釈を与えるという柔軟な表現力を持つ。そのため、EBMsは画像生成、異常検知、表現学習など、多様な応用分野で注目されている。
+
+また、エネルギー関数 $E_\theta(\mathbf{x})$ の定義により、EBMs は生成モデルとして扱うこともできるが、識別的モデルとして利用することも可能である。たとえば、識別タスクにおいては、入力 $\mathbf{x}$ とラベル $y$ のペア $(\mathbf{x}, y)$ に対して $E_\theta(\mathbf{x}, y)$ を定義し、正しいラベルに対するエネルギーを最小にするようなパラメータ $\theta$ を学習することができる。このように、EBM は生成と識別の両方の枠組みにまたがる柔軟なモデルである。
+
+推論時と学習時の双方においてエネルギーを最小化するようにネットワークの状態を更新する
+
+エネルギーベースモデルは、
+神経系の状態遷移と安定性を記述する枠組みとして自然であり、
+記憶や知覚といった脳の高次機能の数理的モデル化を可能にし、
+確率的処理や最適化の観点からも神経活動の特徴をうまく表現できるため、
+計算論的神経科学における理論的支柱の1つとして重要な役割を果たしています。
 
 ## Hopfield モデル
 
@@ -62,7 +79,100 @@ $$
 \end{equation}
 $$
 
-### 稠密連想記憶 (dense associative memory) モデル
+## Hopfieldモデル2
+**Hopfieldモデル**は、記憶やパターン補完といった機能を持つ単純なリカレント型のニューラルネットワークであり、エネルギーベースモデル（EBM）の古典的な例でもある。1982年にJohn Hopfield によって提案されたこのモデルは、**連想記憶**（associative memory）の理論的な基盤として広く知られている。
+
+Hopfieldモデルは、$n$ 個のノード（ニューロン）から構成され、それぞれのノードは2値の状態 $x_i \in \{-1, +1\}$ をとる。各ノードは他のすべてのノードと対称な重みで接続されており、自己結合（$w_{ii}$）は存在しないと仮定される。すなわち、接続重み行列 $\mathbf{W} = [w_{ij}]$ は対称であり、$w_{ij} = w_{ji}$、かつ $w_{ii} = 0$ が成り立つ。
+
+このネットワークの**状態ベクトル**を $\mathbf{x} = (x_1, x_2, \ldots, x_n)^\top$ とすると、Hopfieldモデルにおける**エネルギー関数**は以下のように定義される：
+
+\[
+E(\mathbf{x}) = -\frac{1}{2} \sum_{i=1}^n \sum_{j=1}^n w_{ij} x_i x_j + \sum_{i=1}^n \theta_i x_i
+\]
+
+ここで $\theta_i$ は各ニューロンのバイアス項に相当する。エネルギー関数はネットワークの状態 $\mathbf{x}$ に対する「好ましさ」を表しており、エネルギーが低い状態ほど、安定で記憶として定着しやすい状態と解釈される。
+
+### 状態の更新則
+
+Hopfieldモデルにおける状態の更新は、次のような**非同期更新**で行われることが多い。任意のニューロン $i$ に対して、他のノードの状態に基づいて次のように状態を更新する：
+
+\[
+x_i \leftarrow \mathrm{sgn}\left(\sum_{j=1}^n w_{ij} x_j - \theta_i\right)
+\]
+
+ここで $\mathrm{sgn}(\cdot)$ は符号関数であり、引数が正なら $+1$、負なら $-1$ を返す（0の場合の処理は文脈に応じて定義される）。この更新を繰り返すことで、ネットワークはエネルギーを徐々に減少させながら、局所的な極小点へと収束していく。
+
+特筆すべき性質として、更新によってエネルギー関数 $E(\mathbf{x})$ は単調に減少するため、エネルギー関数をポテンシャルとしてもつ力学系としての解析が可能である。すなわち、HopfieldモデルはLyapunov関数としてのエネルギーを持ち、定常点（安定な記憶状態）に向かって収束する。
+
+### 記憶の埋め込み
+
+Hopfieldネットワークは、あらかじめいくつかのパターン $\{\boldsymbol{\xi}^\mu\}_{\mu=1}^P$ を「記憶」として埋め込むことができる。その際、Hebbの学習則に基づいて重み $w_{ij}$ は以下のように設定される：
+
+\[
+w_{ij} = \frac{1}{n} \sum_{\mu=1}^P \xi_i^\mu \xi_j^\mu \quad (i \ne j)
+\]
+
+ここで $\xi_i^\mu \in \{-1, +1\}$ は、記憶パターン $\mu$ におけるニューロン $i$ の状態である。こうして構築されたネットワークは、記憶パターンの近傍からの入力に対しても正しい記憶を再生する「パターン補完」能力を持つ。
+
+このように、Hopfieldモデルはエネルギーベースの観点から明確に定式化されており、記憶・補完・安定性といった知能の基本機能をシンプルに実現する数理的枠組みである。後のBoltzmannマシンやディープラーニングに至る発展的研究においても、その構造的・理論的基盤として重要な役割を果たしている。
+
+## Hopfieldネットワークの記憶容量
+
+Hopfieldネットワークは、$n$ 個の2値ニューロン（$x_i \in \{-1, +1\}$）を持ち、重み行列 $\mathbf{W} = [w_{ij}]$ により完全連結された再帰的ネットワークである。このモデルは、与えられたパターン $\boldsymbol{\xi}^\mu = (\xi_1^\mu, \ldots, \xi_n^\mu)^\top \in \{-1, +1\}^n$ をエネルギー極小点として埋め込む、いわゆる**連想記憶**の機構として機能する。
+
+### 記憶の埋め込み：Hebb則
+
+$P$ 個のパターン $\{ \boldsymbol{\xi}^1, \dots, \boldsymbol{\xi}^P \}$ をネットワークに記憶させるとき、典型的にはHebb則に基づいて重みは次のように設定される：
+
+\[
+w_{ij} = \frac{1}{n} \sum_{\mu=1}^P \xi_i^\mu \xi_j^\mu \quad (\text{ただし } w_{ii} = 0)
+\]
+
+この重み行列により、各パターンはネットワークの**安定点**（エネルギー極小点）となるように構成される。
+
+### 記憶容量の理論限界
+
+Hopfieldモデルの記憶容量とは、**パターンを誤りなく安定に記憶できる最大のパターン数 $P_{\max}$**を指す。著名な統計力学的解析（Amit, Gutfreund & Sompolinsky, 1985）によれば、ランダムに独立なパターンを格納する場合、次のような容量限界が存在する：
+
+\[
+P_{\max} \approx 0.138 \, n
+\]
+
+すなわち、ニューロン数 $n$ に比例して最大約13.8%の個数の独立パターンが格納可能である。
+
+より正確には、記憶されたパターンが**安定な固定点（誤り訂正可能なアトラクタ）**である確率が十分高いような $P$ を求めると、次の臨界値 $\alpha_c$ が得られる：
+
+\[
+\alpha = \frac{P}{n} < \alpha_c \approx 0.138
+\]
+
+この $\alpha$ は「負荷率（loading rate）」と呼ばれ、$\alpha > \alpha_c$ となると、記憶パターンが互いに干渉し、誤認識やスピンガラス的状態が生じやすくなる。
+
+### 誤り訂正能力とパターンの性質
+
+Hopfieldネットワークは、記憶されたパターンの**近傍**からでも正しく復元する能力（誤り訂正能力）を持つ。ただしこれは格納パターン同士が**十分に直交的（相互に非相関）**であることが前提であり、類似したパターンを多数記憶させた場合には干渉が大きくなり、容量が実質的に低下する。
+
+### Dense Associative Memory との比較
+
+上述のように、古典的Hopfieldモデルでは $P_{\max} = O(n)$ にとどまるが、**Dense Associative Memory**（DAM）や**Modern Hopfield Networks**では、エネルギー関数の非線形化やベクトル表現の導入により、**記憶容量が $O(e^n)$ に拡張可能**であることが示されている。これは、記憶を単純な線形超平面ではなく、複雑な非線形エネルギー地形として表現することにより、多数のパターンを安定に埋め込めるようになるためである。
+
+Hopfieldネットワークの記憶容量は理論的に最大でも $0.138n$ に制限される。この限界は、モデルのシンプルさに起因するが、非線形拡張や高次表現を導入することで指数的な容量向上が可能となる。記憶容量の議論は、連想記憶モデルの性能と限界を理解するうえで極めて重要な理論的指標である。
+
+
+### コラム：稠密連想記憶モデルと現代的Hopfieldモデル
+古典的Hopfieldネットワークは、安定な状態（固定点）としてパターンを記憶する連想記憶モデルであるが、記憶容量がニューロン数 $n$ に比例するという制約があった。これを克服するために、エネルギー関数に高次非線形性を導入した**稠密連想記憶** (Dense Associative Memor; DAM）が提案され、指数的に多くの記憶を格納できるようになった。
+
+さらにこの発想を発展させたのが、**現代的Hopfieldモデル** (Modern Hopfield Network; MHNs）である。MHNsは連続ベクトルを扱い、入力（クエリ）ベクトルに対して**ソフトマックス付き内積**に基づく重み付き平均により、最も類似した記憶を再生する。この動作はTransformerにおける**注意機構（attention）**と数学的に等価であり、attentionの背後にはHopfield型のエネルギー最小化原理が潜んでいるとも解釈できる。
+
+この構造はまた、ニューラルネットワークにおける**Key-Value Memory**の設計とも一致する。すなわち、記憶ベクトル（value）に対応するキーを入力と比較し、類似度に応じて情報を再構成する仕組みである．
+
+は、Modern Hopfield Networksの動作と本質的に同一である。MHNsはこのような**連想によるメモリ検索**の理論的基盤として、記憶・注意・検索の統合的理解を可能にする。
+
+このように、DAMやMHNsは、古典的連想記憶を超えて、現代の深層学習における注意・記憶メカニズムとの橋渡しをする重要な枠組みとなっている。
+
+https://www.cell.com/neuron/fulltext/S0896-6273(25)00172-2
+https://ieeexplore.ieee.org/document/5008975
+
 **Dense Associative Memory (DAM)** モデル（Modern Hopfield networksとも呼ばれる）．
 
 - Krotov, Dmitry, and John J. Hopfield. 2016. “Dense Associative Memory for Pattern Recognition.” arXiv. arXiv. <http://arxiv.org/abs/1606.01164>.
@@ -82,6 +192,84 @@ $$
 ## Boltzmann マシン
 (Boltzmann machine)
 
+Boltzmannマシンは、確率的生成モデルの一例として、その状態の確率分布をエネルギー関数に基づいて定義するモデルである。ここで、システムの状態は \( \mathbf{s} = (s_1, s_2, \ldots, s_N) \) という2値のユニットの組で表され、各 \( s_i \) は0または1の値を取る。Boltzmannマシンでは、各状態のエネルギーは以下の式によって与えられる：
+
+\[
+E(\mathbf{s}) = -\sum_{i} b_i s_i - \sum_{i < j} W_{ij} s_i s_j
+\]
+
+ここで、\( b_i \) は各ユニットに対応するバイアス項、\( W_{ij} \) はユニット \( i \) と \( j \) の間の対称的な結合重みを表す。状態 \(\mathbf{s}\) が出現する確率は、エネルギー関数に基づいてボルツマン分布として定義され、以下のように記述される：
+
+\[
+P(\mathbf{s}) = \frac{1}{Z} \exp\left(-E(\mathbf{s})\right)
+\]
+
+ここで、正規化定数 \( Z \)（分配関数）は全状態にわたる和で定義される：
+
+\[
+Z = \sum_{\mathbf{s}} \exp\left(-E(\mathbf{s})\right)
+\]
+
+このモデルは、全ユニット間に結合が存在するため、内部の依存関係が複雑になり、特に学習の際にパラメータ更新のための勾配計算が指数的な計算量を要するという難点がある。
+
+Boltzmannマシンにおける学習および推論の主要な困難さは、その計算に内在する分配関数 \( Z \) の評価に起因する。Boltzmannマシンでは、エネルギー関数
+
+\[
+E(\mathbf{s}) = -\sum_{i} b_i s_i - \sum_{i<j} W_{ij} s_i s_j
+\]
+
+に従い、状態 \(\mathbf{s}\) の確率分布は
+
+\[
+P(\mathbf{s}) = \frac{1}{Z} \exp\left(-E(\mathbf{s})\right)
+\]
+
+と定義されるが、ここで正規化定数 \( Z \) は
+
+\[
+Z = \sum_{\mathbf{s}} \exp\left(-E(\mathbf{s})\right)
+\]
+
+と全可能状態 \(\mathbf{s}\) にわたる和として計算されなければならない。各ユニットが2値の確率変数である場合、全状態数は \(2^N\) となるため、ネットワークの規模が大きくなるとこの和は指数関数的に増大し、厳密な計算が事実上不可能となる。
+
+さらに、学習に必要なパラメータ更新のための勾配計算でも、この正規化定数 \( Z \) に依存する項が現れる。具体的には、尤度関数の勾配として、例えば重み \( W_{ij} \) に関しては
+
+\[
+\frac{\partial \log P(\mathbf{s})}{\partial W_{ij}} = \langle s_i s_j \rangle_{\text{data}} - \langle s_i s_j \rangle_{\text{model}}
+\]
+
+と表されるが、ここで \(\langle s_i s_j \rangle_{\text{model}}\) はモデル分布における期待値であり、これは
+
+\[
+\langle s_i s_j \rangle_{\text{model}} = \sum_{\mathbf{s}} s_i s_j \, P(\mathbf{s})
+\]
+
+として計算される必要がある。しかし、前述のように \( P(\mathbf{s}) \) の計算には \( Z \) の求積が不可欠であり、これもまた指数的な計算量を要するため、直接計算することは困難である。
+
+このような計算の困難性は、統計物理における分配関数の計算問題と同様に、組み合わせ爆発（combinatorial explosion）の問題として知られ、計算複雑性理論では #P困難（#P-complete）であると指摘される。これに対処するため、実際の学習ではサンプルに基づく近似手法（モンテカルロ法、ギブスサンプリングなど）や、特定の近似アルゴリズム（コントラスト・ダイバージェンスなど）が利用される。しかしこれら近似手法にも収束の問題や精度の限界が存在するため、一般的なBoltzmannマシンは大規模な問題に対して直接適用するのが難しく、その計算効率の改善は依然として重要な研究課題である。
+
+この問題点を解消するために考案されたのが、制限Boltzmannマシン（Restricted Boltzmann Machine: RBM）である。RBMでは、ネットワークを二層構造に限定し、可視層 \( \mathbf{v} \) と隠れ層 \( \mathbf{h} \) のみを用いる。ここで、可視ユニット \( v_i \) は入力データを表し、隠れユニット \( h_j \) はデータの特徴（潜在変数）を表す。RBMのエネルギー関数は次の形で定義される：
+
+\[
+E(\mathbf{v}, \mathbf{h}) = -\sum_{i} a_i v_i - \sum_{j} b_j h_j - \sum_{i, j} v_i W_{ij} h_j
+\]
+
+このとき、\( a_i \) は可視ユニットのバイアス、\( b_j \) は隠れユニットのバイアス、そして \( W_{ij} \) は可視ユニットと隠れユニット間の結合重みである。RBMでは、同一層内のユニット間の結合（例えば、可視層同士、隠れ層同士）は存在しないため、モデル内の条件付き独立性が成立する。具体的には、隠れ層の各ユニットは可視層が与えられた条件下で独立に分布し、その条件付き確率は次の式で表される：
+
+\[
+P(h_j = 1 \mid \mathbf{v}) = \sigma\left(b_j + \sum_{i} v_i W_{ij}\right)
+\]
+
+また、可視層の各ユニットに関しても同様に、
+
+\[
+P(v_i = 1 \mid \mathbf{h}) = \sigma\left(a_i + \sum_{j} h_j W_{ij}\right)
+\]
+
+と記述される。ここで、\(\sigma(x) = \frac{1}{1+\exp(-x)}\) はシグモイド関数である。これらの性質により、RBMは効率的なギブスサンプリングが可能となり、コントラスト・ダイバージェンス（Contrastive Divergence, CD）と呼ばれる近似的な学習アルゴリズムが用いられて実用的な学習が可能となる。
+
+このようにして、Boltzmannマシンは複雑な結合を持つモデルとして理論的な基盤を提供する一方、RBMはその結合を制限することにより計算の効率化を実現している。これらのモデルは、特にディープラーニングにおける事前学習や特徴抽出の文脈で重要な役割を果たし、画像認識や信号処理など幅広い応用がなされている。
+
 ### 制限 Boltzmann マシン
 (Restricted Boltzmann machine) 
 (cf.) <http://deeplearning.net/tutorial/rbm.html>
@@ -92,7 +280,7 @@ $$
 
 $$
 \begin{equation}
-E_\theta(\mathbf{v}, \mathbf{h})=-\mathbf{b}^T \mathbf{v} - \mathbf{c}^T \mathbf{h} + \mathbf{v}^T \mathbf{W} \mathbf{h}
+E_\theta(\mathbf{v}, \mathbf{h})=-\mathbf{b}^\top \mathbf{v} - \mathbf{c}^\top \mathbf{h} + \mathbf{v}^\top \mathbf{W} \mathbf{h}
 \end{equation}
 $$
 
@@ -112,13 +300,13 @@ $$
 $$
 \begin{align}
 p_\theta(\mathbf{h}|\mathbf{v})&=\prod_i p_\theta(h_i=1|\mathbf{v})=\prod_i \sigma(c_i + W_i \mathbf{v})\\
-p_\theta(\mathbf{v}|\mathbf{h})&=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j \sigma(b_j + W_j^T \mathbf{h})
+p_\theta(\mathbf{v}|\mathbf{h})&=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j \sigma(b_j + W_j^\top \mathbf{h})
 \end{align}
 $$
 
 ## スパース符号化モデル
-### Sparse codingと生成モデル
-**Sparse codingモデル** {cite:p}`Olshausen1996-xe` {cite:p}`Olshausen1997-qu`はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
+### スパース符号化と生成モデル
+**スパース符号化モデル** (Sparse coding model) {cite:p}`Olshausen1996-xe` {cite:p}`Olshausen1997-qu`はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
 
 $$
 \begin{equation}
@@ -150,7 +338,7 @@ $$
 と表せる．ただし，$Z_{\sigma}$は規格化定数である．
 
 ### 事前分布の設定
-事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは **super-Gaussian distribution** (Laplace 分布やCauchy分布などGaussian分布よりもkurtoticな分布)を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して式(4), (5)のように表記する．
+事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは **super-Gaussian distribution** (Laplace分布やCauchy分布などGaussian分布よりもkurtoticな分布) を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して次のように表記する．
 
 $$
 \begin{align}
@@ -159,21 +347,18 @@ p(r_j)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right]
 \end{align}
 $$
 
-ただし，$\beta$は逆温度(inverse temperature), $Z_{\beta}$は規格化定数 (分配関数) である．これらの用語は統計力学における正準分布 (Boltzmann分布)から来ている．$S(x)$と分布の関係をまとめた表が以下となる．
+ただし，$\beta$は逆温度(inverse temperature), $Z_{\beta}$は規格化定数（分配関数）である．これらの用語は統計力学における正準分布 (Boltzmann分布)から来ている．$S(x)$と分布の関係をまとめた表が以下となる．
 
 $$
-\begin{table}[h]
-\centering
-\begin{tabular}{ccccc}
+\begin{array}{c|c|c|c|c}
 \hline
-$S(r)$ & $\dfrac{dS(r)}{dr}$ & $p(r)$ & 分布名 & 尖度(kurtosis) \\
+S(r) & \dfrac{dS(r)}{dr} & p(r) & \text{分布名} & \text{尖度} \\
 \hline
-$r^2$ & $2r$ & $\dfrac{1}{\alpha \sqrt{2\pi}}\exp\left(-\dfrac{r^2}{2\alpha^2}\right)$ & Gaussian 分布 & 0 \\
-$\vert r\vert$ & $\text{sign}(r)$ & $\dfrac{1}{2\alpha}\exp\left(-\dfrac{\vert r\vert}{\alpha}\right)$ & Laplace 分布 & 3.0 \\
-$\ln (\alpha^2+r^2)$ & $\dfrac{2r}{\alpha^2+r^2}$ & $\dfrac{\alpha}{\pi}\dfrac{1}{\alpha^2+r^2}=\dfrac{\alpha}{\pi}\exp[-\ln (\alpha^2+r^2)]$ & Cauchy 分布 & - \\
+r^2 & 2r & \dfrac{1}{\alpha \sqrt{2\pi}}\exp\left(-\dfrac{r^2}{2\alpha^2}\right) & \text{Gaussian 分布} & 0 \\
+\vert r\vert & \text{sign}(r) & \dfrac{1}{2\alpha}\exp\left(-\dfrac{\vert r\vert}{\alpha}\right) & \text{Laplace 分布} & 3.0 \\
+\ln (\alpha^2+r^2) & \dfrac{2r}{\alpha^2+r^2} & \dfrac{\alpha}{\pi}\dfrac{1}{\alpha^2+r^2}=\dfrac{\alpha}{\pi}\exp[-\ln (\alpha^2+r^2)] & \text{Cauchy 分布} & - \\
 \hline
-\end{tabular}
-\end{table}
+\end{array}
 $$
 
 分布$p(r)$や$S(r)$を描画すると次のようになる．
@@ -327,7 +512,7 @@ $$
 \end{equation}
 $$
 
-### Sparse coding networkの実装
+### スパース符号化モデルの実装
 ネットワークは入力層を含め2層の単純な構造である．今回は，入力はランダムに切り出した16×16 (＝256)の画像パッチとし，これを入力層の256個のニューロンが受け取るとする．入力層のニューロンは次層の100個のニューロンに投射するとする．100個のニューロンが入力をSparseに符号化するようにその活動および重み行列を最適化する．
 
 ## 予測符号化モデル

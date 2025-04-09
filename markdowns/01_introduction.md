@@ -270,11 +270,11 @@ $$
 神経科学のモデルに機械学習
 
 ### モデルと学習・予測
-**機械学習** (machine learning) における**モデル** (model) とは，2つの集合 $\mathcal{X}, \mathcal{Y}$ を仮定した際に，入力 $x\in \mathcal{X}$ を出力 $y\in \mathcal{Y}$ に変換する関数 (写像) $f: x \to y$ あるいは条件付き確率分布 $p(y|x)$ を意味する．モデルは内部に媒介変数あるいはパラメータ (parameter) $\theta$ を持ち，$\mathcal{Y}$ を設定した後に $y=f(x; \theta)$ あるいは $p(y|x; \theta)$ を満たすように $\theta$ を更新する．この過程を**学習** (learning) あるいは**訓練** (training) と呼ぶ．学習後のパラメータ $\theta^*$を用い，$x$が与えられた際の$y$ の推定値$\hat{y}$を $\hat{y}=f(x; \theta^*)$ あるいは $p(y|x; \theta^*)$ から取得する\footnote{取得の方法としてはサンプリング $\hat{y}\sim p(y|x; \theta^*)$ や $\hat{y}=\textrm{argmax}\ p(y|x; \theta^{*})$などが考えられる．}ことを**予測** (prediction) と呼ぶ．学習の際に用いられるデータを訓練データ (training data) と呼び，学習後のモデルの予測精度の評価に用いるデータを評価データ (test data) と呼ぶ．
-
-ここ修正すべき
+**機械学習** (machine learning) における**モデル** (model) とは，2つの集合 $\mathcal{X}, \mathcal{Y}$ を仮定した際に，入力 $x\in \mathcal{X}$ を出力 $y\in \mathcal{Y}$ に変換する関数 (写像) $f: x \to y$ あるいは条件付き確率分布 $p(y|x)$ を意味する．モデルは内部に媒介変数あるいはパラメータ (parameter) $\theta$ を持ち，$\mathcal{Y}$ を設定した後に $y=f(x; \theta)$ あるいは $p(y|x; \theta)$ を満たすように $\theta$ を更新する．この過程を**学習** (learning) あるいは**訓練** (training) と呼ぶ．学習後のパラメータ $\theta^*$を用い，$x$が与えられた際の$y$ の推定値$\hat{y}$を $\hat{y}=f(x; \theta^*)$ あるいは $p(y|x; \theta^*)$ から取得することを**予測** (prediction) と呼ぶ．学習の際に用いられるデータを訓練データ (training data) と呼び，学習後のモデルの予測精度の評価に用いるデータを評価データ (test data) と呼ぶ．
 
 $y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$ と $y$ の対応関係を学習する過程を教師あり学習 (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を教師なし学習 (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する半教師あり学習 (semi-supervised learning), 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する自己教師あり学習 (self-supervised learning) などが存在する．強化学習 (reinforcement learning) は環境の中で行動するエージェントを仮定し，多くの報酬を得るための行動を学習する．
+
+\footnote{取得の方法としてはサンプリング $\hat{y}\sim p(y|x; \theta^*)$ や $\hat{y}=\textrm{argmax}\ p(y|x; \theta^{*})$などが考えられる．}
 
 ### 回帰と分類
 
@@ -283,3 +283,196 @@ $y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベル�
 ### 識別モデル・生成モデル
 
 オンライン・オフライン学習
+
+### 線形回帰
+**線形回帰モデル**（linear regression）は、与えられた説明変数（explanatory variable）$\mathbf{x}$ に基づいて、目的変数（objective variable）$y$ を線形に予測することを目的とする。
+
+説明変数の次元が $p$ であるとき、線形回帰モデルは次のように表される：
+
+$$
+\begin{equation}
+y = w_0 + w_1x_1 + \cdots + w_px_p + \varepsilon = w_0 + \sum_{j=1}^p w_j x_j + \varepsilon
+\end{equation}
+$$
+
+ここで $w_0$ は切片（バイアス項）、$w_1, \dots, w_p$ は各説明変数に対する重み、$\varepsilon$ は誤差項を表す。$p = 1$ の場合を**単回帰**（*simple regression*）、$p > 1$ の場合を**重回帰**（*multiple regression*）と呼ぶ。
+
+#### 回帰モデルの行列表現
+
+$ n $ 個の観測データからなるデータセット $\mathcal{D} = \{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^n$ を考える。ここで $\mathbf{x}^{(i)} = [x_1^{(i)}, x_2^{(i)}, \dots, x_p^{(i)}]^\top \in \mathbb{R}^p$ は $i$ 番目の説明変数ベクトル、$y^{(i)} \in \mathbb{R}$ は対応する目的変数の値である。なお、添字 $(i)$ は観測値を表し、添字のない $x_j, w_j$ などはモデル内の変数を指すことに注意する。
+
+このとき、モデル全体を行列の形で次のように記述できる：
+
+$$
+\begin{equation}
+\mathbf{y} = \begin{bmatrix} y^{(1)} \\ y^{(2)} \\ \vdots \\ y^{(n)} \end{bmatrix} \in \mathbb{R}^n,\quad
+\mathbf{X} = \begin{bmatrix} 1 & x_1^{(1)} & x_2^{(1)} & \cdots & x_p^{(1)} \\
+1 & x_1^{(2)} & x_2^{(2)} & \cdots & x_p^{(2)} \\
+\vdots & \vdots & \vdots & \ddots & \vdots \\
+1 & x_1^{(n)} & x_2^{(n)} & \cdots & x_p^{(n)} \end{bmatrix} \in \mathbb{R}^{n \times (p+1)},\quad
+\mathbf{w} = \begin{bmatrix} w_0 \\ w_1 \\ \vdots \\ w_p \end{bmatrix} \in \mathbb{R}^{p+1}
+\end{equation}
+$$
+
+これにより、回帰モデルは次のように簡潔に表される：
+
+$$
+\begin{equation}
+\mathbf{y} = \mathbf{X} \mathbf{w} + \boldsymbol{\varepsilon}
+\end{equation}
+$$
+
+ここで $\mathbf{X}$ は**計画行列**（design matrix）、$\boldsymbol{\varepsilon}$ は誤差ベクトルである。特に、$\boldsymbol{\varepsilon} \sim \mathcal{N}(0, \sigma^2 \mathbf{I})$、すなわち各誤差成分が独立な平均0・分散 $\sigma^2$ の正規分布に従うと仮定すれば、$\mathbf{y} \sim \mathcal{N}(\mathbf{X} \mathbf{w}, \sigma^2 \mathbf{I})$ という確率モデルが得られる。
+
+#### 最小二乗法
+**最小二乗法**（ordinary least squares, OLS）では、観測値 $\mathbf{y}$ と予測値 $\mathbf{Xw}$ との差（残差）を最小にするようにパラメータ $\mathbf{w}$ を推定する。残差ベクトル $\boldsymbol{\delta} = \mathbf{y} - \mathbf{Xw}$ に対し、目的関数 $\mathcal{L}(\mathbf{w})$ は次のように定義される：
+
+$$
+\begin{equation}
+\mathcal{L}(\mathbf{w}) := \|\boldsymbol{\delta}\|^2 = \boldsymbol{\delta}^\top \boldsymbol{\delta}
+\end{equation}
+$$
+
+この $\mathcal{L}(\mathbf{w})$ を最小化する $\mathbf{w}$ を求めることで、最適な重み $\hat{\mathbf{w}}$ を得る。最適解の推定は主に**正規方程式**（normal equation）あるいは**勾配法**（gradient descent）によって行うことができる．いずれの手法でも，目的関数 $\mathcal{L}(\mathbf{w})$ の $\mathbf{w}$ について微分、すなわち勾配 (gradient) $\nabla \mathcal{L}(\mathbf{w})$ が必要となる．$\nabla \mathcal{L}(\mathbf{w})$ は以下のように計算できる：
+
+$$
+\begin{align}
+\nabla \mathcal{L}(\mathbf{w})
+&= \frac{\partial}{\partial \mathbf{w}}\left[(\mathbf{y} - \mathbf{Xw})^\top (\mathbf{y} - \mathbf{Xw}) \right] \\
+&= \frac{\partial}{\partial \mathbf{w}} \left( \mathbf{y}^\top \mathbf{y} - 2 \mathbf{y}^\top \mathbf{Xw} + \mathbf{w}^\top \mathbf{X}^\top \mathbf{Xw} \right) \\
+&= -2 \mathbf{X}^\top \mathbf{y} + 2 \mathbf{X}^\top \mathbf{Xw}\\
+&= -2\mathbf{X}^\top (\mathbf{y} - \mathbf{Xw})
+\end{align}
+$$
+
+##### 正規方程式による解析解
+目的関数の勾配について $\nabla \mathcal{L}(\mathbf{w})=0$ となる解を $\hat{\mathbf{w}}$ とすると，次の**正規方程式**（normal equation）が得られる：
+
+$$
+\begin{equation}
+\mathbf{X}^\top \mathbf{X} \hat{\mathbf{w}} = \mathbf{X}^\top \mathbf{y}
+\end{equation}
+$$
+
+この方程式を解くことで、パラメータの推定値 $\hat{\mathbf{w}}$ は次のように求まる：
+
+$$
+\begin{equation}
+\hat{\mathbf{w}} = (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top \mathbf{y}
+\end{equation}
+$$
+
+なお、$A^+ := (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top$ は $\mathbf{X}$ の**Moore–Penrose 擬似逆行列**（pseudoinverse）と呼ばれ、この表現を用いると $\hat{\mathbf{w}} = A^+ \mathbf{y}$ と簡潔に記述できる。
+
+##### 勾配法による数値的推定
+最小二乗法に基づくパラメータ推定は、数値的には**勾配法**（gradient descent）によっても実現できる。 目的関数の勾配 $\nabla \mathcal{L}(\mathbf{w})$ を用いると、更新式は次のように与えられる：
+
+$$
+\begin{align}
+\Delta \mathbf{w} \propto - \nabla \mathcal{L}(\mathbf{w})= 2\mathbf{X}^\top (\mathbf{y} - \mathbf{Xw})\\
+\mathbf{w} \leftarrow \mathbf{w} + \alpha \cdot \frac{1}{n} \mathbf{X}^\top (\mathbf{y} - \mathbf{Xw})
+\end{align}
+$$
+
+ここで $\alpha$ は**学習率**（learning rate）と呼ばれるハイパーパラメータである。
+
+### リッジ回帰
+線形回帰においては、説明変数が高次元である場合や、多重共線性（説明変数間の相関）が存在する場合などに、最小二乗法による推定が不安定になることがある。これに対処する手法として、**L2 正則化**を加えた**リッジ回帰**（ridge regression）が用いられる。
+
+リッジ回帰では、目的関数にパラメータの二乗ノルムを加えた正則化項を導入することにより、モデルの複雑さを抑制し、過学習の防止や推定の安定化を図る。具体的には、次のような正則化付き目的関数 $\mathcal{L}_\lambda(\mathbf{w})$ を最小化する：
+
+$$
+\begin{equation}
+\mathcal{L}_\lambda(\mathbf{w}) = \|\mathbf{y} - \mathbf{Xw}\|^2 + \lambda \|\mathbf{w}\|^2 = (\mathbf{y} - \mathbf{Xw})^\top (\mathbf{y} - \mathbf{Xw}) + \lambda \mathbf{w}^\top \mathbf{w},
+\end{equation}
+$$
+
+ここで $\lambda \geq 0$ は**正則化係数**（regularization parameter）であり、モデルのあてはまりと複雑さのトレードオフを制御する。
+
+> **注記：** 通常、$w_0$（切片）には正則化を加えないことが多いため、必要に応じて $\mathbf{w}$ の対象を $[w_1, \dots, w_p]^\top$ に限定する処理を行う。
+
+##### 正規方程式による解
+L2 正則化付きの目的関数を $\mathbf{w}$ で微分して0に等しいとおくと、次のような修正された正規方程式が得られる：
+
+$$
+\begin{equation}
+(\mathbf{X}^\top \mathbf{X} + \lambda \mathbf{I}) \hat{\mathbf{w}} = \mathbf{X}^\top \mathbf{y},
+\end{equation}
+$$
+
+ここで $\mathbf{I} \in \mathbb{R}^{(p+1)\times(p+1)}$ は単位行列である．ただし、$w_0$ を正則化対象から除く場合、$\lambda \mathbf{I}$ の最初の対角成分をゼロにすることで対処する。この式を解くと、リッジ回帰におけるパラメータの推定値は次のように求まる：
+
+$$
+\begin{equation}
+\hat{\mathbf{w}} = (\mathbf{X}^\top \mathbf{X} + \lambda \mathbf{I})^{-1} \mathbf{X}^\top \mathbf{y}.
+\end{equation}
+$$
+
+この推定式は、$\mathbf{X}^\top \mathbf{X}$ が特異（非正則）である場合でも、$\lambda > 0$ により逆行列の存在が保証される点で、最小二乗法に比べて数値的に安定であるという利点がある。
+
+##### 勾配法による推定
+
+リッジ回帰に対しても勾配法を適用できる。目的関数 $\mathcal{L}_\lambda(\mathbf{w})$ の勾配は次のように求まる：
+
+$$
+\begin{equation}
+\nabla \mathcal{L}_\lambda(\mathbf{w}) = -2\mathbf{X}^\top(\mathbf{y} - \mathbf{Xw}) + 2\lambda \mathbf{w},
+\end{equation}
+$$
+
+これに基づいて、更新式は以下のように与えられる：
+
+$$
+\begin{equation}
+\mathbf{w} \leftarrow \mathbf{w} + \alpha \cdot \left( \frac{1}{n} \mathbf{X}^\top (\mathbf{y} - \mathbf{Xw}) - \lambda \mathbf{w} \right),
+\end{equation}
+$$
+
+または $\alpha$ を調整することで、$\lambda$ を勾配更新の一部として組み込む方法もある。いずれにしても、正則化項によって重みの更新が抑制されることで、過学習を防ぐ効果が得られる。
+
+### ロジスティック回帰
+本節では、非線形回帰の一種である**ロジスティック回帰** (logistic regression) について取り扱う。
+
+### ロジスティック回帰
+
+ロジスティック回帰は、入力 $\mathbf{x} \in \mathbb{R}^p$ に対して出力 $y \in \{0, 1\}$ を予測する**確率的な分類モデル**である。出力は事後確率 $\Pr(y=1 \mid \mathbf{x})$ を表し、その予測にはシグモイド関数（ロジスティック関数）を用いる。
+
+#### モデルの定義
+
+ロジスティック回帰では、まず説明変数の線形結合を求める：
+
+$$
+z = w_0 + \sum_{j=1}^p w_j x_j = \mathbf{w}^\top \mathbf{x}'
+$$
+
+ここで $\mathbf{x}' := [1, x_1, x_2, \dots, x_p]^\top \in \mathbb{R}^{p+1}$ はバイアス項を含んだ拡張入力ベクトル、$\mathbf{w} \in \mathbb{R}^{p+1}$ はパラメータベクトルである。
+
+この線形出力 $z$ に対して、シグモイド関数 $\sigma(z)$ を適用することで、出力の確率的解釈が得られる：
+
+$$
+\Pr(y = 1 \mid \mathbf{x}) = \sigma(z) = \frac{1}{1 + \exp(-z)}
+$$
+
+したがって、クラスラベル $y \in \{0, 1\}$ の**確率モデル**は次のように表される：
+
+$$
+p(y \mid \mathbf{x}; \mathbf{w}) = \sigma(z)^y (1 - \sigma(z))^{1 - y}
+$$
+
+#### パラメータの推定：最尤推定
+
+ロジスティック回帰のパラメータは**最尤推定**により求める。データ集合 $\mathcal{D} = \{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^n$ に対して、対数尤度関数は以下のように定義される：
+
+$$
+\ell(\mathbf{w}) = \sum_{i=1}^n \left[ y^{(i)} \log \sigma(z^{(i)}) + (1 - y^{(i)}) \log (1 - \sigma(z^{(i)})) \right]
+$$
+
+ここで $z^{(i)} = \mathbf{w}^\top \mathbf{x}^{(i)}$ である。
+
+この尤度を最大化することで $\mathbf{w}$ を学習する。一般には閉形式解を持たないため、**勾配降下法**などの最適化手法を用いて数値的に解く。
+
+勾配は以下のように計算される：
+
+$$
+\nabla \ell(\mathbf{w}) = \sum_{i=1}^n (y^{(i)} - \sigma(z^{(i)})) \mathbf{x}^{(i)}
+$$
