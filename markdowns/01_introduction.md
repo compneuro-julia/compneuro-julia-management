@@ -88,6 +88,57 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
 ### 線形代数
 
+**線形代数 (Linear Algebra)** は、ベクトルや行列といった線形構造を持つ対象の性質を解析する数学の分野であり、現代のあらゆる数学・工学・情報科学の基礎をなしている。線形代数の中心的な対象は、**ベクトル空間**、**線形写像**、およびそれらの表現である**行列**である。
+
+まず、**ベクトル空間 (vector space)** とは、スカラー体（通常は実数 $\mathbb{R}$ または複素数 $\mathbb{C}$）に対して定義された加法とスカラー倍という2つの演算に関して閉じている集合である。たとえば $\mathbb{R}^n$ は、$n$ 個の実数からなるベクトル全体の集合であり、典型的なベクトル空間の例である。任意のベクトル $\mathbf{v}, \mathbf{w} \in \mathbb{R}^n$ とスカラー $\alpha \in \mathbb{R}$ に対して、
+
+\[
+\alpha\mathbf{v} + \mathbf{w} \in \mathbb{R}^n
+\]
+
+が成り立つ。
+
+**線形写像 (linear transformation)** とは、ベクトル空間からベクトル空間への写像 $T: V \to W$ であり、加法とスカラー倍に対して線形性を持つもの、すなわち
+
+\[
+T(\alpha \mathbf{v} + \beta \mathbf{w}) = \alpha T(\mathbf{v}) + \beta T(\mathbf{w})
+\]
+
+が任意の $\mathbf{v}, \mathbf{w} \in V$ とスカラー $\alpha, \beta$ に対して成り立つ写像である。
+
+このような線形写像は、基底を定めることで**行列 (matrix)** によって表現できる。たとえば、$n$ 次元から $m$ 次元への線形写像は、$m \times n$ の行列 $A$ を用いて
+
+\[
+\mathbf{y} = A\mathbf{x}
+\]
+
+という形で記述される。ここで $\mathbf{x} \in \mathbb{R}^n$, $\mathbf{y} \in \mathbb{R}^m$ はそれぞれ入力および出力ベクトルである。
+
+行列の基本演算には以下が含まれる：
+
+- **行列の積**：$A \in \mathbb{R}^{m \times n}, B \in \mathbb{R}^{n \times p}$ に対し、$AB \in \mathbb{R}^{m \times p}$ を定義。
+- **転置**：$A^\top$ は行列 $A$ の行と列を交換したもの。
+- **逆行列**：$A \in \mathbb{R}^{n \times n}$ が正則（可逆）であれば、$A^{-1}$ が存在し $AA^{-1} = A^{-1}A = I$ を満たす。
+- **行列式**（determinant）：$\det A$ は正方行列 $A$ に対するスカラー量で、行列の体積のスケーリング率や可逆性の指標となる。
+
+特に、線形代数の重要な応用の一つは**線形方程式系**の解法である。$A\mathbf{x} = \mathbf{b}$ の形をした方程式において、$A$ の逆行列が存在するならば、その解は
+
+\[
+\mathbf{x} = A^{-1}\mathbf{b}
+\]
+
+と求められる。
+
+また、行列の固有値問題も重要である。ある正方行列 $A$ に対し、スカラー $\lambda$ およびベクトル $\mathbf{v} \ne \mathbf{0}$ が
+
+\[
+A\mathbf{v} = \lambda \mathbf{v}
+\]
+
+を満たすとき、$\lambda$ は $A$ の**固有値 (eigenvalue)**、$\mathbf{v}$ は**固有ベクトル (eigenvector)** と呼ばれる。固有値分解や対角化は、線形変換の構造解析や行列の関数（例：指数関数）を考える際に中心的な役割を果たす。
+
+matrix cookbookに詳しいが，
+
 ### 微分方程式
 微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
 
@@ -133,21 +184,38 @@ $$
 \end{equation}
 $$
 
-#### ラプラス変換
+#### Laplace変換
+**Laplace変換**は、与えられた時間領域の関数 $f(t)$ を複素数変数 $s$ の関数 $F(s)$ に写像する積分変換である。特に、線形微分方程式の解析や制御工学において非常に有効な手法であり、Fourier変換と密接な関係をもつ。
 
-Laplace変換はFourier変換に似た手法であり，微分方程式を解く上で便利である．
-ToDo: Laplace変換の詳細
+Laplace変換は、実時間領域 $t \ge 0$ 上で定義された関数 $f(t)$ に対して、以下のように定義される：
 
-$$
-\begin{equation}
-F(s):=\int_0^{\infty} f(t) e^{-st} dt=\mathcal{L}(f(t))
-\end{equation}
-$$
+\[
+F(s) := \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} dt
+\]
 
-$e^{-st}$を引っ付けて積分することで，被積分関数が$t\to \infty$で収束し，積分可能となっている．
+ここで $s \in \mathbb{C}$ は複素数変数であり、通常は $s = \sigma + i\omega$ の形をとる。変換核 $e^{-st}$ を掛けて積分することにより、関数 $f(t)$ の無限大での振る舞いを抑制し、積分を収束させる効果を持つ。特に、$f(t)$ が指数関数的増加を含む場合でも、$e^{-st}$ による減衰によってその成分を抑えることが可能となる。
 
-実用上は次の対応表を用いて計算すればよい．
-ToDo: Laplace変換の対応表
+Laplace変換の大きな利点の一つは、**微分演算を代数演算に変換できる**という性質にある。すなわち、$f(t)$ の微分 $\frac{d}{dt}f(t)$ に対するLaplace変換は、次のように与えられる：
+
+\[
+\mathscr{L}\left(\frac{df}{dt}\right) = sF(s) - f(0)
+\]
+
+この性質により、常微分方程式はLaplace変換の下で代数方程式に変換され、解の導出が容易となる。初期値を含んだ微分方程式を直接的に解くことができるため、初期値問題への応用にも適している。
+
+さらに、Laplace変換には線形性：
+
+\[
+\mathscr{L}(af(t) + bg(t)) = a\mathscr{L}(f(t)) + b\mathscr{L}(g(t))
+\]
+
+および畳み込みに関する定理：
+
+\[
+\mathscr{L}(f * g)(t) = F(s)G(s)
+\]
+
+など、多くの有用な性質がある。これにより、時間領域での複雑な演算が周波数領域で簡単な演算として扱えるようになる．
 
 #### 1階線形行列微分方程式の解
 時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
@@ -220,61 +288,136 @@ $$
 が成り立つ．
 
 ### 確率論
-#### 期待値 (Expectation)
+確率論の基本的な対象は**確率分布 (probability distribution)** である。確率分布は、ある確率変数がどのような値をどの程度の確率でとるかを定量的に記述するものである。確率変数 $x$ は、離散的あるいは連続的な値をとる場合があり、それぞれに応じて確率分布の定義も異なる。
 
-$$
-\begin{equation}
-\mathbb{E}_{x\sim p(x)}\left[f(x)\right]:=\int f(x)p(x)dx
-\end{equation}
-$$
+離散的な場合、確率分布は**確率質量関数** (probability mass function; PMF) により定義され、任意の値 $x$ に対して $p(x)$ はその値が観測される確率を与える。このとき、全ての確率の総和は 1 に等しくなければならない：
 
-$x\sim p(x)$ が明示的な場合は $\mathbb{E}_{p(x)}\left[f(x)\right]$ や $\mathbb{E}\left[f(x)\right]$ と表す．
+\[
+\sum_x p(x) = 1
+\]
 
-#### 情報量 (Information)
-出現頻度が低い事象は多くの情報量を持つ (Shannon, 1948)．
+この代表例として**ポアソン分布 (Poisson distribution)** がある。ポアソン分布は、ある固定時間・空間内における稀な離散事象の発生回数をモデル化するものであり、以下のように定義される：
 
-$$
-\begin{equation}
-\mathbb{I}(x):=\ln\left(\frac{1}{p(x)}\right)=-\ln p(x)
-\end{equation}
-$$
+\[
+p(x) = \frac{\lambda^x e^{-\lambda}}{x!}, \quad x = 0,1,2,\dots
+\]
 
-$\mathbf{I}$は単位行列なので注意．
+ここで $\lambda > 0$ は単位時間（または空間）あたりの平均発生回数を表す。この分布は事象が独立かつ一定の発生率で起きると仮定する場面で用いられる。
 
-#### 平均情報量 (エントロピー, entropy)
+一方、連続的な場合には**確率密度関数** (probability density function; PDF) を用いて定義される。確率密度関数 $p(x)$ は特定の値における確率そのものではなく、ある範囲に入る確率を積分によって与える関数である。たとえば、区間 $[a,b]$ における確率は次のように表される：
 
-$$
-\begin{align}
-\mathbb{H}(x)&:=\mathbb{E}[-\ln p(x)]\\
-\mathbb{H}(x\vert y)&:=\mathbb{E}[-\ln p(x\vert y)]
-\end{align}
-$$
+\[
+\mathbb{P}(a \leq x \leq b) = \int_a^b p(x)\,dx
+\]
 
-#### Kullback-Leibler 情報量
-Kullback-Leibler (KL) divergence (Kullback and Leibler, 1951)
+確率密度関数もまた、定義域全体にわたる積分が 1 でなければならない：
 
-$$
-\begin{align}
-D_{\text{KL}}\left(p(x) \Vert\ q(x)\right)&:=\int p(x) \ln \frac{p(x)}{q(x)} dx\\
-&=\int p(x) \ln p(x) dx-\int p(x) \ln q(x) dx\\
-&=\mathbb{E}_{x\sim p(x)}[\ln p(x)]-\mathbb{E}_{x\sim p(x)}[\ln q(x)]\\
-&=-\mathbb{H}(x)-\mathbb{E}_{x\sim p(x)}[\ln q(x)]
-\end{align}
-$$
+\[
+\int p(x)\,dx = 1
+\]
 
-#### 相互情報量 (Mutual information)
+この典型例として**正規分布 (normal distribution)** が挙げられる。正規分布は、多くの自然現象や測定誤差の分布を記述するのに適しており、平均 $\mu$、分散 $\sigma^2$ をパラメータとして次のように定義される：
+
+\[
+p(x) = \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x - \mu)^2}{2\sigma^2} \right)
+\]
+
+この分布は平均値 $\mu$ を中心に左右対称であり、確率変数の分布が「中央に集まり、端にいくほど稀になる」という性質を持つ。特に $\mu = 0$, $\sigma^2 = 1$ の場合は標準正規分布と呼ばれる．また，正規分布の概念は一変数の場合に限らず、多次元の確率変数にも拡張される。これが**多変量正規分布 (multivariate normal distribution)** であり、ベクトル値の確率変数がとる値の分布を記述する。
+
+$d$ 次元の確率変数 $\mathbf{x} \in \mathbb{R}^d$ が平均ベクトル $\boldsymbol{\mu} \in \mathbb{R}^d$、共分散行列 $\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$ をもつ多変量正規分布に従うとき、その確率密度関数は以下のように定義される：
+
+\[
+p(\mathbf{x}) = \frac{1}{(2\pi)^{d/2} \det(\boldsymbol{\Sigma})^{1/2}} \exp\left( -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right)
+\]
+
+ここで、$\mathbf{x}$ は $d$ 次元の確率変数ベクトル、$\boldsymbol{\mu}$ は平均ベクトルであり、各成分が $\mathbf{x}$ の平均値，$\boldsymbol{\Sigma}$ は対象対称かつ正定値な共分散行列であり、成分 $\Sigma_{ij}$ は $\mathrm{Cov}(x_i, x_j)$ を表す．
+
+この分布は、各変数が正規分布に従い、かつそれらの間の線形な関係（共分散）もモデル化できる点で、非常に広範に用いられる。特に共分散行列が対角行列のとき、すなわち変数間が独立な場合には、各変数は独立な一変量正規分布に従う。
+
+
+確率論においては、不確実性を定量的に扱うための基本的な概念がいくつか存在する。以下では、期待値、情報量、エントロピー、Kullback-Leibler情報量、そして相互情報量について簡単に説明を行う。
+
+まず、**期待値 (Expectation)** は、確率変数 $x$ に関する関数 $f(x)$ の平均値を、$x$ の確率分布 $p(x)$ に基づいて計算する操作である。連続値の場合、期待値は次のように定義される。
+
+\[
+\mathbb{E}_{x\sim p(x)}\left[f(x)\right] := \int f(x)p(x)\,dx
+\]
+
+ここで $x \sim p(x)$ は、$x$ が分布 $p(x)$ に従うことを表す。文脈が明確な場合には、簡略に $\mathbb{E}_{p(x)}[f(x)]$ や $\mathbb{E}[f(x)]$ と表記する。
+
+次に、**情報量 (Information)** は、ある特定の事象 $x$ の出現がどれほどの「驚き」や「情報」をもたらすかを定量化するものである。情報理論の創始者であるShannon (1948) によって導入された。出現確率が低い事象ほど、多くの情報を含むと考えられる。情報量は次のように定義される。
+
+\[
+\mathbb{I}(x) := \ln\left(\frac{1}{p(x)}\right) = -\ln p(x)
+\]
+
+**エントロピー (Entropy)** は、確率変数の持つ平均的な不確実性、すなわち平均情報量を表す。離散的な場合には和を、連続的な場合には積分を用いて定義されるが、ここでは連続的な場合を考える。エントロピーは以下のように定義される。
+
+\[
+\mathbb{H}(x) := \mathbb{E}[-\ln p(x)] = -\int p(x) \ln p(x)\,dx
+\]
+
+また、条件付きエントロピー $\mathbb{H}(x|y)$ は、$y$ が与えられたときの $x$ の不確実性を測る指標であり、次のように定義される。
+
+\[
+\mathbb{H}(x \vert y) := \mathbb{E}_{x,y}[-\ln p(x \vert y)]
+\]
+
+この期待値は、$p(x,y)$ に基づいて計算される。
+
+次に、**Kullback-Leibler情報量 (KL divergence)** は、ある確率分布 $p(x)$ と別の分布 $q(x)$ の間の「距離」あるいは「ずれ」を測る尺度である。対称性は持たないため、厳密には距離ではないが、情報理論や機械学習において極めて重要な概念である。KLダイバージェンスは以下のように定義される。
+
+\[
+\begin{aligned}
+D_{\text{KL}}(p(x)\Vert q(x)) &:= \int p(x) \ln \frac{p(x)}{q(x)} dx \\
+&= \int p(x) \ln p(x)\,dx - \int p(x) \ln q(x)\,dx \\
+&= \mathbb{E}_{x\sim p(x)}[\ln p(x)] - \mathbb{E}_{x\sim p(x)}[\ln q(x)] \\
+&= -\mathbb{H}(x) - \mathbb{E}_{x\sim p(x)}[\ln q(x)]
+\end{aligned}
+\]
+
+最後に、**相互情報量 (Mutual Information)** は、二つの確率変数 $x$ と $y$ の間にどれほどの情報的関連性があるか、すなわち $y$ を知ることによって $x$ の不確実性がどれほど減少するかを定量化する。相互情報量は、エントロピーの差として次のように定義される。
+
+\[
+\mathbb{I}(x;y) := \mathbb{H}(x) - \mathbb{H}(x\vert y)
+\]
+
+これはまた、対称的な形でも書ける。
+
+\[
+\mathbb{I}(x;y) = \mathbb{H}(x) + \mathbb{H}(y) - \mathbb{H}(x,y)
+\]
+
+あるいは、確率分布の比を使って次のようにも表現される。
+
+\[
+\mathbb{I}(x;y) = \int p(x,y) \ln \frac{p(x,y)}{p(x)p(y)} dxdy
+\]
+
+この表現は、相互情報量が、$p(x,y)$ と $p(x)p(y)$ のKLダイバージェンスであることを示しており、すなわち独立であれば情報共有はゼロであることを意味する。
 
 ## 学習に関する基礎的概念
 本書のテーマの1つとして「学習」が挙げられる．
 神経科学における「学習」と機械学習における「学習」はやや異なるが，ここで両者における学習を定義しておく．
+
+神経科学の学習は
+
+共通する点として，過去の経験に基づいて，将来の行動や出力を改善するためにシステムを変化させる，という点で共通している．システムの
+
+システムのパラメータが変化する
+
+神経科学：シナプス強度（重み）が変化する。
+
+機械学習：ネットワークの重みやバイアスなどのパラメータが更新される。
+
+異なる点として，
+
 神経科学のモデルに機械学習
 
 ### モデルと学習・予測
-**機械学習** (machine learning) における**モデル** (model) とは，2つの集合 $\mathcal{X}, \mathcal{Y}$ を仮定した際に，入力 $x\in \mathcal{X}$ を出力 $y\in \mathcal{Y}$ に変換する関数 (写像) $f: x \to y$ あるいは条件付き確率分布 $p(y|x)$ を意味する．モデルは内部に媒介変数あるいはパラメータ (parameter) $\theta$ を持ち，$\mathcal{Y}$ を設定した後に $y=f(x; \theta)$ あるいは $p(y|x; \theta)$ を満たすように $\theta$ を更新する．この過程を**学習** (learning) あるいは**訓練** (training) と呼ぶ．学習後のパラメータ $\theta^*$を用い，$x$が与えられた際の$y$ の推定値$\hat{y}$を $\hat{y}=f(x; \theta^*)$ あるいは $p(y|x; \theta^*)$ から取得することを**予測** (prediction) と呼ぶ．学習の際に用いられるデータを訓練データ (training data) と呼び，学習後のモデルの予測精度の評価に用いるデータを評価データ (test data) と呼ぶ．
+**機械学習** (machine learning) における**モデル** (model) とは，2つの集合 $\mathcal{X}, \mathcal{Y}$ を仮定した際に，入力 $x\in \mathcal{X}$ を出力 $y\in \mathcal{Y}$ に変換する関数 (写像) $f: x \to y$ あるいは条件付き確率分布 $p(y|x)$ を意味する．モデルは内部に媒介変数あるいはパラメータ (parameter) $\theta$ を持ち，$\mathcal{Y}$ を設定した後に $y=f(x; \theta)$ あるいは $p(y|x; \theta)$ を満たすように $\theta$ を更新する．この過程を**学習** (learning) あるいは**訓練** (training) と呼ぶ．学習後のパラメータ $\theta^*$を用い，$x$が与えられた際の $y$ の推定値 $\hat{y}$ を $\hat{y}=f(x; \theta^*)$ あるいは $p(y|x; \theta^*)$ から取得することを**予測** (prediction) と呼ぶ．推定値の取得の方法としてはサンプリング $\hat{y}\sim p(y|x; \theta^*)$ や $\hat{y}=\textrm{argmax}\ p(y|x; \theta^{*})$などが考えられる．学習の際に用いられるデータを訓練データ (training data) と呼び，学習後のモデルの予測精度の評価に用いるデータを評価データ (test data) と呼ぶ．
 
-$y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$ と $y$ の対応関係を学習する過程を教師あり学習 (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を教師なし学習 (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する半教師あり学習 (semi-supervised learning), 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する自己教師あり学習 (self-supervised learning) などが存在する．強化学習 (reinforcement learning) は環境の中で行動するエージェントを仮定し，多くの報酬を得るための行動を学習する．
-
-\footnote{取得の方法としてはサンプリング $\hat{y}\sim p(y|x; \theta^*)$ や $\hat{y}=\textrm{argmax}\ p(y|x; \theta^{*})$などが考えられる．}
+$y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$ と $y$ の対応関係を学習する過程を教師あり学習 (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を教師なし学習 (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する半教師あり学習 (semi-supervised learning), 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する自己教師あり学習 (self-supervised learning) などが存在する．この他の学習手法として強化学習 (reinforcement learning) があり，第11章で詳しく説明を行う．強化学習では環境の中で行動するエージェントを仮定し，状態に応じて多くの報酬を得るための行動を学習することが目的である．
 
 ### 回帰と分類
 
