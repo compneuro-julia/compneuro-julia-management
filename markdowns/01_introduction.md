@@ -86,7 +86,7 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 - 定義を$\coloneqq$を用いて行う．例えば，$f(x)\coloneqq2x$は$f(x)$という関数を$2x$として定義するという意味である．定義する対象が右側である場合は，$\eqqcolon$を用いる．
 - 平均 $\mu$, 標準偏差 $\sigma$ の正規分布を $\mathcal{N}(\mu, \sigma^2)$ と表記する．
 
-### 線形代数
+### 線形代数と微分
 
 **線形代数 (Linear Algebra)** は、ベクトルや行列といった線形構造を持つ対象の性質を解析する数学の分野であり、現代のあらゆる数学・工学・情報科学の基礎をなしている。線形代数の中心的な対象は、**ベクトル空間**、**線形写像**、およびそれらの表現である**行列**である。
 
@@ -139,153 +139,7 @@ A\mathbf{v} = \lambda \mathbf{v}
 
 matrix cookbookに詳しいが，
 
-### 微分方程式
-微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
 
-$$
-\begin{equation}
-\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
-\end{equation}
-$$
-
-状態変数 $x(t)$は，時間$t$に対する関数である．
-
-添え字の$c$は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては$b_c=0$の場合を**同次方程式**, $b_c\neq 0$の場合を**非同次方程式**という．
-
-#### 微分方程式の解
-微分方程式を解くとは$x(t)$のような関数の具体的な式を求めることである．上式の解は
-
-$$
-\begin{equation}
-x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
-\end{equation}
-$$
-
-として与えられる．微分方程式を解く手法は様々で，それぞれの方程式について適切な手法を選択する．本書ではLaplace変換を多用するが，細かい説明は付録にて行う．
-
-#### 連立線形微分方程式
-$n$個の微分方程式
-
-連立線形微分方程式という．これをベクトル，行列を用いて
-
-時不変 (time-invariant) の定数行列を$\mathbf{A}_c \in \mathbb{R}^{n\times n}, \mathbf{B}_c \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
-
-$$
-\begin{equation}
-\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
-\end{equation}
-$$
-
-解は
-
-$$
-\begin{equation}
-\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau
-\end{equation}
-$$
-
-#### Laplace変換
-**Laplace変換**は、与えられた時間領域の関数 $f(t)$ を複素数変数 $s$ の関数 $F(s)$ に写像する積分変換である。特に、線形微分方程式の解析や制御工学において非常に有効な手法であり、Fourier変換と密接な関係をもつ。
-
-Laplace変換は、実時間領域 $t \ge 0$ 上で定義された関数 $f(t)$ に対して、以下のように定義される：
-
-\[
-F(s) := \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} dt
-\]
-
-ここで $s \in \mathbb{C}$ は複素数変数であり、通常は $s = \sigma + i\omega$ の形をとる。変換核 $e^{-st}$ を掛けて積分することにより、関数 $f(t)$ の無限大での振る舞いを抑制し、積分を収束させる効果を持つ。特に、$f(t)$ が指数関数的増加を含む場合でも、$e^{-st}$ による減衰によってその成分を抑えることが可能となる。
-
-Laplace変換の大きな利点の一つは、**微分演算を代数演算に変換できる**という性質にある。すなわち、$f(t)$ の微分 $\frac{d}{dt}f(t)$ に対するLaplace変換は、次のように与えられる：
-
-\[
-\mathscr{L}\left(\frac{df}{dt}\right) = sF(s) - f(0)
-\]
-
-この性質により、常微分方程式はLaplace変換の下で代数方程式に変換され、解の導出が容易となる。初期値を含んだ微分方程式を直接的に解くことができるため、初期値問題への応用にも適している。
-
-さらに、Laplace変換には線形性：
-
-\[
-\mathscr{L}(af(t) + bg(t)) = a\mathscr{L}(f(t)) + b\mathscr{L}(g(t))
-\]
-
-および畳み込みに関する定理：
-
-\[
-\mathscr{L}(f * g)(t) = F(s)G(s)
-\]
-
-など、多くの有用な性質がある。これにより、時間領域での複雑な演算が周波数領域で簡単な演算として扱えるようになる．
-
-#### 1階線形行列微分方程式の解
-時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
-
-$$
-\begin{equation}
-\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
-\end{equation}
-$$
-
-この線形行列微分方程式をLaplace変換 $\mathcal{L}$を用いて解こう．$\boldsymbol{X}(s) := \mathcal{L}(\mathbf{x}(t)), \boldsymbol{U}(s) := \mathcal{L}(\mathbf{u}(t))$とすると，
-
-$$
-\begin{align}
-s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\boldsymbol{U}(s)\\
-(s\mathbf{I} - \mathbf{A}) \boldsymbol{X}(s) &= \mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s)\\
-\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
-\end{align}
-$$
-
-行列指数関数 (matrix exponential)は
-
-$$
-\begin{equation}
-e^\mathbf{A} = \exp(\mathbf{A}) := \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
-\end{equation}
-$$
-
-として定義される．
-
-天下り的だが，
-
-$$
-\begin{align}
-\mathcal{L}(e^{at})&=\frac{1}{s-a}\\
-\mathcal{L}(e^{t\mathbf{A}})&=(s\mathbf{I} - \mathbf{A})^{-1}\\
-\end{align}
-$$
-
-となる．よって
-
-$$
-\begin{align}
-\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
-&= (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{x}(0) + (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{B}\boldsymbol{U}(s)\\
-\mathbf{x}(t)&=e^{t\mathbf{A}}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau
-\end{align}
-$$
-
-となる．最後の式は両辺を逆Laplace変換した．ここで，$\mathcal{L}^{-1}(F(s)G(s))=\int_0^tf(\tau)g(t-\tau)d\tau$であることを用いた．区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
-
-$$
-\begin{align}
-\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
-&=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
-&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
-&=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
-\end{align}
-$$
-
-となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}_c$が正則行列の場合，
-
-$$
-\begin{align}
-\mathbf{B}_d &= \left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}\\
-&=\mathbf{A}^{-1}\left[e^{\Delta t \mathbf{A}}-\mathbf{I}\right]\mathbf{B}
-\end{align}
-$$
-
-が成り立つ．
 
 ### 確率論
 確率論の基本的な対象は**確率分布 (probability distribution)** である。確率分布は、ある確率変数がどのような値をどの程度の確率でとるかを定量的に記述するものである。確率変数 $x$ は、離散的あるいは連続的な値をとる場合があり、それぞれに応じて確率分布の定義も異なる。
@@ -395,6 +249,232 @@ D_{\text{KL}}(p(x)\Vert q(x)) &:= \int p(x) \ln \frac{p(x)}{q(x)} dx \\
 \]
 
 この表現は、相互情報量が、$p(x,y)$ と $p(x)p(y)$ のKLダイバージェンスであることを示しており、すなわち独立であれば情報共有はゼロであることを意味する。
+
+### 微分方程式
+微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
+
+$$
+\begin{equation}
+\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
+\end{equation}
+$$
+
+状態変数 $x(t)$は，時間$t$に対する関数である．
+
+添え字の$c$は連続 (continuous) を意味するが，これは後で離散化する際に区別するためである．この方程式においては$b_c=0$の場合を**同次方程式**, $b_c\neq 0$の場合を**非同次方程式**という．
+
+#### 微分方程式の解
+微分方程式を解くとは$x(t)$のような関数の具体的な式を求めることである．上式の解は
+
+$$
+\begin{equation}
+x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
+\end{equation}
+$$
+
+として与えられる．微分方程式を解く手法は様々で，それぞれの方程式について適切な手法を選択する．本書ではLaplace変換を多用するが，細かい説明は付録にて行う．
+
+#### 連立線形微分方程式
+$n$個の微分方程式
+
+連立線形微分方程式という．これをベクトル，行列を用いて
+
+時不変 (time-invariant) の定数行列を$\mathbf{A}_c \in \mathbb{R}^{n\times n}, \mathbf{B}_c \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
+
+$$
+\begin{equation}
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
+\end{equation}
+$$
+
+解は
+
+$$
+\begin{equation}
+\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau
+\end{equation}
+$$
+
+#### Laplace変換
+**Laplace変換**は、与えられた時間領域の関数 $f(t)$ を複素数変数 $s$ の関数 $F(s)$ に写像する積分変換である。特に、線形微分方程式の解析や制御工学において非常に有効な手法であり、Fourier変換と密接な関係をもつ。
+
+Laplace変換は、実時間領域 $t \ge 0$ 上で定義された関数 $f(t)$ に対して、以下のように定義される：
+
+\[
+F(s) := \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} dt
+\]
+
+ここで $s \in \mathbb{C}$ は複素数変数であり、通常は $s = \sigma + i\omega$ の形をとる。変換核 $e^{-st}$ を掛けて積分することにより、関数 $f(t)$ の無限大での振る舞いを抑制し、積分を収束させる効果を持つ。特に、$f(t)$ が指数関数的増加を含む場合でも、$e^{-st}$ による減衰によってその成分を抑えることが可能となる。
+
+Laplace変換の大きな利点の一つは、**微分演算を代数演算に変換できる**という性質にある。すなわち、$f(t)$ の微分 $\frac{d}{dt}f(t)$ に対するLaplace変換は、次のように与えられる：
+
+\[
+\mathscr{L}\left(\frac{df}{dt}\right) = sF(s) - f(0)
+\]
+
+この性質により、常微分方程式はLaplace変換の下で代数方程式に変換され、解の導出が容易となる。初期値を含んだ微分方程式を直接的に解くことができるため、初期値問題への応用にも適している。
+
+さらに、Laplace変換には線形性：
+
+\[
+\mathscr{L}(af(t) + bg(t)) = a\mathscr{L}(f(t)) + b\mathscr{L}(g(t))
+\]
+
+および畳み込みに関する定理：
+
+\[
+\mathscr{L}(f * g)(t) = F(s)G(s)
+\]
+
+など、多くの有用な性質がある。これにより、時間領域での複雑な演算が周波数領域で簡単な演算として扱えるようになる．
+
+#### 1階線形行列微分方程式の解
+時不変 (time-invariant) の定数行列を$\mathbf{A} \in \mathbb{R}^{n\times n}, \mathbf{B} \in \mathbb{R}^{n\times m}$, 状態ベクトルを$\mathbf{x}(t)\in\mathbb{R}^n$, 入力ベクトルを$\mathbf{u}(t)\in\mathbb{R}^m$とする．
+
+$$
+\begin{equation}
+\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
+\end{equation}
+$$
+
+この線形行列微分方程式をLaplace変換 $\mathscr{L}$を用いて解こう．$\boldsymbol{X}(s) := \mathscr{L}(\mathbf{x}(t)), \boldsymbol{U}(s) := \mathscr{L}(\mathbf{u}(t))$とすると，
+
+$$
+\begin{align}
+s\boldsymbol{X}(s) - \mathbf{x}(0) &= \mathbf{A}\boldsymbol{X}(s)+ \mathbf{B}\boldsymbol{U}(s)\\
+(s\mathbf{I} - \mathbf{A}) \boldsymbol{X}(s) &= \mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s)\\
+\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
+\end{align}
+$$
+
+行列指数関数 (matrix exponential)は
+
+$$
+\begin{equation}
+e^\mathbf{A} = \exp(\mathbf{A}) := \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
+\end{equation}
+$$
+
+として定義される．
+
+天下り的だが，
+
+$$
+\begin{align}
+\mathscr{L}(e^{at})&=\frac{1}{s-a}\\
+\mathscr{L}(e^{t\mathbf{A}})&=(s\mathbf{I} - \mathbf{A})^{-1}\\
+\end{align}
+$$
+
+となる．よって
+
+$$
+\begin{align}
+\boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
+&= (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{x}(0) + (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{B}\boldsymbol{U}(s)\\
+\mathbf{x}(t)&=e^{t\mathbf{A}}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau
+\end{align}
+$$
+
+となる．最後の式は両辺を逆Laplace変換した．ここで，$\mathscr{L}^{-1}(F(s)G(s))=\int_0^tf(\tau)g(t-\tau)d\tau$であることを用いた．区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
+
+$$
+\begin{align}
+\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
+&=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+&=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
+\end{align}
+$$
+
+となる．添え字の$d$は離散化(discretization)を意味する．$\mathbf{A}_c$が正則行列の場合，
+
+$$
+\begin{align}
+\mathbf{B}_d &= \left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}\\
+&=\mathbf{A}^{-1}\left[e^{\Delta t \mathbf{A}}-\mathbf{I}\right]\mathbf{B}
+\end{align}
+$$
+
+が成り立つ．
+
+### 確率微分方程式
+神経活動を含む生体活動には様々なゆらぎ（ノイズ）が常に存在しており、神経モデルにおいてもこれを考慮する必要がある。神経活動のダイナミクスを連続時間で記述する際には，決定論的な時間変化に加えて確率的なゆらぎ（ノイズ）を含む微分方程式，すなわち確率微分方程式（Stochastic Differential Equation; SDE）を用いることがある。SDEの一般的な形は以下のように与えられる：
+
+$$
+dX(t) = f(X(t), t)\,dt + g(X(t), t)\,dW(t)
+$$
+
+ここで、$f(X(t), t)$はドリフト項と呼ばれる決定論的な変化、$g(X(t), t)$は拡散項と呼ばれるノイズの強度を表す関数、$W(t)$は標準ブラウン運動（ウィーナー過程）である。$W(t)$は連続時間の確率過程であり、その増分$W(t + \Delta t) - W(t)$は平均0、分散$\Delta t$の正規分布$\mathcal{N}(0, \Delta t)$に従う。
+
+
+- 離散モデルでのノイズ\(\mathbf{w}_t\), \(\mathbf{v}_t\)は各離散時刻ごとにガウス分布から独立にサンプルされるもので、各離散時点に明示的に加えられる雑音です。
+
+- 一方、連続モデルのノイズ\(d\mathbf{w}(t), d\mathbf{v}(t)\)はブラウン運動の微小増分を表しており、連続時間での微小な変動をモデル化しています。
+
+- このように連続時間モデルと離散時間モデルは形式上対応しています。離散化する際には通常、
+\[
+\mathbf{w}_{t} \approx \int_{t}^{t+\Delta t} d\mathbf{w}(s),\quad
+\mathbf{v}_{t} \approx \int_{t}^{t+\Delta t} d\mathbf{v}(s)
+\]
+という対応を用いて導出します。
+
+神経活動には**ノイズ**（neuronal noise）が常に存在しており、神経モデルにおいてもこれを考慮する必要がある。そのため、シナプス入力にノイズを加えることがある。たとえば、Leaky Integrate-and-Fire（LIF）モデルにおける膜電位の力学にノイズを加える場合を考える。ノイズ$\xi(t)$を平均$\tilde{\mu}$、分散$\tilde{\sigma}^2$の正規分布$\mathcal{N}(\tilde{\mu}, \tilde{\sigma}^2)$に従うガウシアンノイズとすると、膜電位$V_m(t)$の時間発展は次式で記述される：
+
+$$
+\tau_m \frac{dV_m(t)}{dt} = -(V_m(t) - V_\text{rest}) + R_m I(t) + \xi(t)
+$$
+
+このように、線形のドリフト項$-(V_m(t) - V_\text{rest})$とガウシアンノイズ項$\xi(t)$を含む確率微分方程式（stochastic differential equation; SDE）で表される確率過程は、**Ornstein–Uhlenbeck（OU）過程** と呼ばれる。ノイズ$\xi(t)$が標準正規分布$\mathcal{N}(0, 1)$に従うホワイトノイズ$\eta(t)$を用いて $\xi(t) = \tilde{\mu} + \tilde{\sigma} \eta(t)$ と表すこともできる。
+
+さらに、$\xi(t)$が発火率$\lambda$のポアソン過程に従う場合を考える。シナプス前細胞の数を$N_\text{pre}$、$i$番目のシナプスにおけるシナプス強度に比例する定数を$J_i$とすると、ノイズの平均と分散はそれぞれ$\tilde{\mu} = \langle J_i \rangle N_\text{pre} \cdot \lambda$、$\tilde{\sigma}^2 = \langle J_i^2 \rangle N_\text{pre} \cdot \lambda$と書ける。ただし、$\langle \cdot \rangle$は平均を意味する。このような連続的なガウス過程でポアソン入力を近似する手法を**拡散近似**（diffusion approximation）と呼び、これは**Campbellの定理**に基づいて導かれる。
+
+このような確率微分方程式を数値的にシミュレーションするためには、時間離散化が必要となるが、その際には注意が必要である。たとえば、ドリフト項を省略し、ノイズ項のみを残した場合、
+
+$$
+\tau_m \frac{dV_m(t)}{dt} = \xi(t)
+$$
+
+となる。この式を時間ステップ$\Delta t$でEuler法により離散化すると、
+
+$$
+V_m(t + \Delta t) = V_m(t) + \frac{1}{\tau_m} \xi_1(t)
+$$
+
+と書ける。ここで、時間ステップを$\Delta t$から$\Delta t/2$に変更して同様に離散化すると、
+
+$$
+\begin{aligned}
+V_m(t + \Delta t) &= V_m(t + \Delta t/2) + \frac{1}{\tau_m} \xi_1(t) \\
+&= V_m(t) + \frac{1}{\tau_m} \left[ \xi_1(t) + \xi_2(t) \right]
+\end{aligned}
+$$
+
+となる。ノイズ項$\xi_1(t)$と$\xi_2(t)$は互いに独立と仮定すると、それぞれの標準偏差は$\tilde{\sigma}/\tau_m$であり、その和$\xi_1(t) + \xi_2(t)$の分散は$2\tilde{\sigma}^2$、すなわち標準偏差は$\sqrt{2} \tilde{\sigma}/\tau_m$となる。これは時間ステップの取り方によってノイズ項の大きさが変化することを意味しており、正確なシミュレーションのためには問題となる。したがって、時間ステップに依存しないようノイズ項をスケーリングする必要があり、そのためにはノイズに$\sqrt{\Delta t}$を掛けることで対処できる。すなわち、離散化式は以下のように修正するのが望ましい：
+
+$$
+V_m(t + \Delta t) = V_m(t) + \frac{\sqrt{\Delta t}}{\tau_m} \xi_1(t)
+$$
+
+このように修正することで、時間ステップに依存しない安定なノイズスケーリングが可能となる。このように確率微分方程式をEuler法で離散化する方法は、**Euler–Maruyama法**と呼ばれる\footnote{他の離散化手法としては、Milstein法なども存在する。}。
+
+\footnote{Scholarpediaの[Neuronal noise](http://www.scholarpedia.org/article/Neuronal_noise)を参照してください. }
+
+
+
+このようなSDEを解析的に解くことは一般に困難であるため、数値的な近似解法が必要となる。Euler–Maruyama法は、その最も基本的な手法の一つであり、常微分方程式に対するEuler法の自然な拡張である。時間を刻み幅$\Delta t$で離散化し、$t_n = n \Delta t$、$X_n \approx X(t_n)$とおくと、Euler–Maruyama法は次のように与えられる：
+
+$$
+X_{n+1} = X_n + f(X_n, t_n)\, \Delta t + g(X_n, t_n)\, \Delta W_n
+$$
+
+ここで$\Delta W_n = W(t_{n+1}) - W(t_n)$は、正規分布$\mathcal{N}(0, \Delta t)$に従う確率変数である。実装上は、$\Delta W_n$を標準正規分布$\mathcal{N}(0, 1)$に従う独立な乱数$\eta_n$を用いて$\Delta W_n = \sqrt{\Delta t} \cdot \eta_n$と近似する。この結果、Euler–Maruyama法は以下のように書き換えられる：
+
+$$
+X_{n+1} = X_n + f(X_n, t_n)\, \Delta t + g(X_n, t_n)\, \sqrt{\Delta t} \cdot \eta_n
+$$
+
+この手法は簡便でありながら、確率過程の時間発展を模倣するのに有用であり、多くのシミュレーションにおいて第一選択となる。ただし、その強収束次数は$0.5$であり、すなわち刻み幅$\Delta t$を小さくしても誤差は$\mathcal{O}(\sqrt{\Delta t})$でしか減少しない。そのため、より高精度な数値解が必要な場合には、Milstein法などの高次手法の導入が検討される。Euler–Maruyama法は、その単純さと広範な適用性から、確率微分方程式の数値解析における基本的な出発点となる手法である。
 
 ## 学習に関する基礎的概念
 本書のテーマの1つとして「学習」が挙げられる．

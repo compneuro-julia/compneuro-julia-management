@@ -677,25 +677,3 @@ $$
 
 \footnote{Scholarpediaの[Neuronal noise](http://www.scholarpedia.org/article/Neuronal_noise)を参照してください. }
 
-#### 確率微分方程式についての補足
-確率微分方程式（Stochastic Differential Equation; SDE）は、決定論的な時間変化に加えて確率的なゆらぎ（ノイズ）を含む微分方程式であり、実世界の多くの物理・生物・経済現象のモデリングに広く用いられる。SDEの一般的な形は以下のように与えられる：
-
-$$
-dX(t) = f(X(t), t)\,dt + g(X(t), t)\,dW(t)
-$$
-
-ここで、$f(X(t), t)$はドリフト項と呼ばれる決定論的な変化、$g(X(t), t)$は拡散項と呼ばれるノイズの強度を表す関数、$W(t)$は標準ブラウン運動（ウィーナー過程）である。$W(t)$は連続時間の確率過程であり、その増分$W(t + \Delta t) - W(t)$は平均0、分散$\Delta t$の正規分布$\mathcal{N}(0, \Delta t)$に従う。
-
-このようなSDEを解析的に解くことは一般に困難であるため、数値的な近似解法が必要となる。Euler–Maruyama法は、その最も基本的な手法の一つであり、常微分方程式に対するEuler法の自然な拡張である。時間を刻み幅$\Delta t$で離散化し、$t_n = n \Delta t$、$X_n \approx X(t_n)$とおくと、Euler–Maruyama法は次のように与えられる：
-
-$$
-X_{n+1} = X_n + f(X_n, t_n)\, \Delta t + g(X_n, t_n)\, \Delta W_n
-$$
-
-ここで$\Delta W_n = W(t_{n+1}) - W(t_n)$は、正規分布$\mathcal{N}(0, \Delta t)$に従う確率変数である。実装上は、$\Delta W_n$を標準正規分布$\mathcal{N}(0, 1)$に従う独立な乱数$\eta_n$を用いて$\Delta W_n = \sqrt{\Delta t} \cdot \eta_n$と近似する。この結果、Euler–Maruyama法は以下のように書き換えられる：
-
-$$
-X_{n+1} = X_n + f(X_n, t_n)\, \Delta t + g(X_n, t_n)\, \sqrt{\Delta t} \cdot \eta_n
-$$
-
-この手法は簡便でありながら、確率過程の時間発展を模倣するのに有用であり、多くのシミュレーションにおいて第一選択となる。ただし、その強収束次数は$0.5$であり、すなわち刻み幅$\Delta t$を小さくしても誤差は$\mathcal{O}(\sqrt{\Delta t})$でしか減少しない。そのため、より高精度な数値解が必要な場合には、Milstein法などの高次手法の導入が検討される。Euler–Maruyama法は、その単純さと広範な適用性から、確率微分方程式の数値解析における基本的な出発点となる手法である。
