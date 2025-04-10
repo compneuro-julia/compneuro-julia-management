@@ -2,7 +2,9 @@
 ## 運動制御と最適制御
 ここまでは神経系のみで閉じていたが，本章と次章「強化学習」では，神経とその他外界との相互作用について説明を行う．
 
-身体の運動には、四肢運動，頭部運動，眼球運動（サッケード）など多様な形式が存在する。これらの運動は、大脳皮質、大脳基底核、小脳、脊髄路、末梢運動神経など、複数の神経系の協調的な活動によって制御されている。運動が制御されているとは，実質的には複数の筋肉の収縮を制御するということを意味する．
+身体の運動には、四肢運動，頭部運動，眼球運動（サッケード）など多様な形式が存在する。これらの運動，すなわち多数の筋肉の収縮の程度は、大脳皮質、大脳基底核、小脳など、複数の神経系の協調的な活動によって制御されている。
+
+運動を伝達する経路としては**皮質脊髄路**（錐体路）および**錐体外路** があり，
 
 そのため，筋疾患や整形外科的疾患による運動障害を除外した場合，運動にかかわる神経の障害は運動の障害として外界に表出される．脳の画像検査や侵襲的検査なしで神経の様子を大まかに推し量れるため，運動は神経の「窓」であるともいえる．
 （もちろん，診断のためには上記の検査も必要不可欠である）
@@ -19,45 +21,11 @@
 
 本章では到達運動 (reaching)，すなわち上肢や眼球を目標位置まで移動させる運動を課題として最適制御モデルを紹介する．
 
-## 状態空間モデル
-最適制御のモデルは状態空間モデル (state-space model) により記述される．
-(修正する)
-
-状態空間モデルとは、時間発展する力学系の状態の変化と出力を、ベクトルと行列を用いて表現する数学的枠組みである。一般に、あるシステムが時刻$t$において内部状態$\mathbf{x}(t) \in \mathbb{R}^n$、外部からの入力$\mathbf{u}(t) \in \mathbb{R}^m$、および観測可能な出力$\mathbf{y}(t) \in \mathbb{R}^p$をもつとき、その振る舞いは以下のような**一階の微分方程式**と**代数方程式**によって記述される：
-
-$$
-\begin{aligned}
-\dot{\mathbf{x}}(t) &= \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t), \\
-\mathbf{y}(t) &= \mathbf{C}\mathbf{x}(t) + \mathbf{D}\mathbf{u}(t).
-\end{aligned}
-$$
-
-ここで、行列$\mathbf{A} \in \mathbb{R}^{n \times n}$は状態遷移行列と呼ばれ、状態がどのように時間発展するかを決定する。行列$\mathbf{B} \in \mathbb{R}^{n \times m}$は入力が状態に与える影響を、$\mathbf{C} \in \mathbb{R}^{p \times n}$は状態が出力に与える影響を、$\mathbf{D} \in \mathbb{R}^{p \times m}$は入力が直接出力に与える影響を表す。これは連続時間系における線形状態空間モデルであり、離散時間系の場合には微分方程式を差分方程式に置き換えることで表現される：
-
-$$
-\begin{aligned}
-\mathbf{x}_{k+1} &= \mathbf{A}\mathbf{x}_k + \mathbf{B}\mathbf{u}_k, \\
-\mathbf{y}_k &= \mathbf{C}\mathbf{x}_k + \mathbf{D}\mathbf{u}_k,
-\end{aligned}
-$$
-
-ここで$k$は離散時刻を表す。
-
-このようなモデルは、制御理論や信号処理、ロボティクス、経済学、生体計測などさまざまな分野で応用されており、特に複雑な高次元システムをコンパクトに扱うことができる点が大きな利点である。また、モデルを非線形系に拡張することで、一般の非線形動的システムも同様の枠組みで扱うことができる。非線形状態空間モデルでは、状態と出力の式は次のように一般化される：
-
-$$
-\begin{aligned}
-\dot{\mathbf{x}}(t) &= f(\mathbf{x}(t), \mathbf{u}(t)), \\
-\mathbf{y}(t) &= g(\mathbf{x}(t), \mathbf{u}(t)),
-\end{aligned}
-$$
-
-ここで$f$および$g$は非線形関数である。さらに、観測ノイズやシステムノイズを導入することで確率的な状態空間モデルを定式化でき、これに基づく代表的な手法としてカルマンフィルタや拡張カルマンフィルタ、粒子フィルタなどが存在する。
-
-このように、状態空間モデルは、システムの内部状態と出力の関係を時間的に記述するための統一的かつ強力な理論的枠組みである。
-
 ## 躍度最小モデル
-躍度最小モデル (minimum-jerk model; {cite:p}`Flash1985-vj`)を実装する．解析的に求まるが以下では二次計画法を用いて数値的に求める．
+
+目的関数として
+
+**躍度最小モデル** (minimum-jerk model; {cite:p}`Flash1985-vj`) という．
 
 ### 変分法による解法
 位置のベクトルを$\mathbf{x}(t) \in \mathbb{R}^n$とする．位置を1, 2, 3回微分したものをそれぞれ，速度，加速度，躍度と呼ぶ．躍度最小モデルでは，運動過程における躍度のノルムの二乗の総和を最小化することを目的とする．目的関数 $J$は
@@ -295,13 +263,112 @@ $$
 \end{equation}
 $$
 
-とすることで，等式制約が書き下せる．ただし，$[\cdot]_{i:j}$はベクトルあるいは行列の $i$番目から $j$番目までを取り出す操作を意味する．このように，$\mathbf{P}, \mathbf{q}, \mathbf{C}, \mathbf{d}$を設定すると，等式制約下の二次計画問題を用いて $\mathbf{u}$を求めることができる．の二次計画問題を用いて $\mathbf{u}$を求める．
+とすることで，等式制約が書き下せる．ただし，$[\cdot]_{i:j}$はベクトルあるいは行列の $i$番目から $j$番目までを取り出す操作を意味する．このように，$\mathbf{P}, \mathbf{q}, \mathbf{C}, \mathbf{d}$を設定すると，等式制約下の二次計画問題を用いて $\mathbf{u}$を求めることができる．
+
+## 状態空間モデル
+観測過程も考慮した最適制御のモデルは状態空間モデル (state-space model) により記述される．この節では，後のモデルの基礎として触れる．
+
+状態空間モデルとは、時間発展する力学系の状態の変化と出力を、ベクトルと行列を用いて表現する数学的枠組みである。一般に、あるシステムが時刻$t$において内部状態$\mathbf{x}(t) \in \mathbb{R}^n$、外部からの入力$\mathbf{u}(t) \in \mathbb{R}^m$、および観測可能な出力$\mathbf{y}(t) \in \mathbb{R}^p$をもつとき、その振る舞いは以下のような**一階の微分方程式**と**代数方程式**によって記述される：
+
+$$
+\begin{aligned}
+\dot{\mathbf{x}}(t) &= f(\mathbf{x}(t), \mathbf{u}(t)), \\
+\mathbf{y}(t) &= g(\mathbf{x}(t), \mathbf{u}(t)),
+\end{aligned}
+$$
+
+ここで$f$および$g$は非線形関数である。
+観測ノイズやシステムノイズを導入することで確率的な状態空間モデルを定式化でき、これに基づく代表的な手法としてカルマンフィルタなどがある．線形かつ連続な場合は，
+
+$$
+\begin{aligned}
+\dot{\mathbf{x}}(t) &= \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t), \\
+\mathbf{y}(t) &= \mathbf{C}\mathbf{x}(t) + \mathbf{D}\mathbf{u}(t).
+\end{aligned}
+$$
+
+ここで、行列$\mathbf{A} \in \mathbb{R}^{n \times n}$は状態遷移行列と呼ばれ、状態がどのように時間発展するかを決定する。行列$\mathbf{B} \in \mathbb{R}^{n \times m}$は入力が状態に与える影響を、$\mathbf{C} \in \mathbb{R}^{p \times n}$は状態が出力に与える影響を、$\mathbf{D} \in \mathbb{R}^{p \times m}$は入力が直接出力に与える影響を表す。これは連続時間系における線形状態空間モデルであり、離散時間系の場合には微分方程式を差分方程式に置き換えることで表現される：
+
+$$
+\begin{aligned}
+\mathbf{x}_{k+1} &= \mathbf{A}\mathbf{x}_k + \mathbf{B}\mathbf{u}_k, \\
+\mathbf{y}_k &= \mathbf{C}\mathbf{x}_k + \mathbf{D}\mathbf{u}_k,
+\end{aligned}
+$$
+
+ここで$k$は離散時刻を表す。連続時間のモデルを離散時間に変換する場合は，行列を補正する必要がある．このことについては第1章にて触れている．
+
+$$
+A \leftarrow A
+$$
+
+このように、状態空間モデルは、システムの内部状態と出力の関係を時間的に記述するための統一的かつ強力な理論的枠組みである。
+
+## 最適制御（文字修正）
+
+
+Todorovの論文からはノイズ項を減らす．
+
+離散時間で
+
+$$
+\begin{align}
+\mathbf{x}_{t+1}&=\mathbf{A} \mathbf{x}_{t}+\mathbf{B} \mathbf{u}_{t}+\mathbf{w}_{t}\\
+\mathbf{y}_{t+1}&=\mathbf{C} \mathbf{x}_{t}+\mathbf{v}_{t}
+\end{align}
+$$
+
+ただし，$\mathbf{w}_{t}\sim \mathcal{N(\mathbf{0}, \Omega_w)}, \mathbf{v}_{t}\sim \mathcal{N(\mathbf{0}, \Omega_v)}$ である．このとき，
+連続時間で
+
+$$
+\begin{align}
+d\mathbf{x}(t)&=[\mathbf{A} \mathbf{x}(t)+\mathbf{B} \mathbf{u}(t)]dt+d\mathbf{w}(t)\\
+d\mathbf{y}(t)&=\mathbf{C} \mathbf{x}(t)dt+d\mathbf{v}(t)
+\end{align}
+$$
+
+ただし，$\mathbf{E}[d\mathbf{w}(t)]=\mathbf{0}, \mathbf{E}[d\mathbf{w}(t)d\mathbf{w}(t)^\top]=\Omega_w dt, \mathbf{E}[d\mathbf{v}(t)]=\mathbf{0}, \mathbf{E}[d\mathbf{v}(t)d\mathbf{v}(t)^\top]=\Omega_v dt$
+
+と表記するのは正しいですか？
+
+
+$$
+\begin{align}
+&\mathbf{x}_{t+1}=\mathbf{A} \mathbf{x}_{t}+\mathbf{B} \mathbf{u}_{t} +\boldsymbol{\xi}_{t}+\mathbf{Y}\mathbf{u}_{t}\gamma_t\\
+&\mathbf{y}_{t}=\mathbf{C} \mathbf{x}_{t}+\omega_{t}\\
+&\mathbf{x}_{t}^\top Q_{t} \mathbf{x}_{t}+\mathbf{u}_{t}^\top R \mathbf{u}_{t}\\
+&\mathbf{u}_{t}=-\mathbf{L}_{t} \hat{\mathbf{x}}_{t}\\
+&\hat{\mathbf{x}}_{t+1}=\mathbf{A} \hat{\mathbf{x}}_{t}+\mathbf{B} \mathbf{u}_{t}+\mathbf{K}_{t}\left(\mathbf{y}_{t}-\mathbf{C} \hat{\mathbf{x}}_{t}\right)+\boldsymbol{\eta}_{t} \\ 
+\end{align}
+$$
+
+$$
+\begin{align}
+\mathbf{L}_{t}&=\left(R+\mathbf{B}^{\top} \mathbf{S}_{t+1} \mathbf{B}\right)^{-1} \mathbf{B}^{\top} \mathbf{S}_{t+1} \mathbf{A}\\
+\mathbf{S}_{t}&=Q_{t}+\mathbf{A}^{\top} \mathbf{S}_{t+1}\left(\mathbf{A}-\mathbf{B} \mathbf{L}_{t}\right)\\
+s_t &= \mathrm{tr}(\mathbf{S}_{t+1}\Omega^\xi) + s_{t+1}
+\end{align}
+$$
+
+$\mathbf{S}_{T}=Q_{T}, s_T=0$
+
+定数項が田中本と異なる．
+
+$$
+\begin{align}
+\mathbf{K}_{t}&=\mathbf{A} \Sigma_{t} \mathbf{C}^{\top}\left(\mathbf{C} \Sigma_{t} \mathbf{C}^{\top}+\Omega^{\omega}\right)^{-1} \\ 
+\Sigma_{t+1}&=\Omega^{\xi}+\left(\mathbf{A}-\mathbf{K}_{t} \mathbf{C}\right) \Sigma_{t} \mathbf{A}^{\top}
+\end{align}
+$$
+
 
 ## 最適フィードバック制御モデル
 ToDo: infiniteOFCと数式の統一を行う．
 
 ### 最適フィードバック制御モデルの構造
 **最適フィードバック制御モデル** (optimal feedback control; OFC) の特徴として目標軌道を必要としないことが挙げられる．**Kalman フィルタ**による状態推定と**線形2次レギュレーター** (linear-quadratic regurator; LQR) により推定された状態に基づいて運動指令を生成という2つの流れが基本となる．
+
 
 ### 系の状態変化
 
@@ -313,11 +380,23 @@ $$
 \end{align}
 $$
 
-### LQG
-加法ノイズしかない場合($C=D=0$)，制御問題は**線形2次ガウシアン** (linear-quadratic-Gaussian; LQG)制御と呼ばれる．
 
+動的計画法（Dynamic Programming, DP）で解くと、**最適フィードバック制御**が導かれる．
 
-#### 運動制御 (Linear-Quadratic Regulator)
+cost-to-go関数
+
+$$
+V_t(\mathbf{x}_t) = \min_{\{\mathbf{u}_\tau\}_{\tau=t}^{T-1}} \sum_{\tau=t}^{T-1} \left[ \mathbf{x}_\tau^\top Q \mathbf{x}_\tau + \mathbf{u}_\tau^\top R \mathbf{u}_\tau \right] + \mathbf{x}_T^\top Q_f \mathbf{x}_T
+$$
+
+Bellman方程式により，逐次的に以下のように解ける
+$$
+V_t(\mathbf{x}_t) = \min_{\mathbf{u}_t} \left[ \mathbf{x}_t^\top Q \mathbf{x}_t + \mathbf{u}_t^\top R \mathbf{u}_t + V_{t+1}(A \mathbf{x}_t + B \mathbf{u}_t) \right]
+$$
+
+加法ノイズしかない場合($C=D=0$)，制御問題は**線形二次ガウシアン** (linear-quadratic-Gaussian; LQG)制御と呼ばれる．
+
+システムが線形で、コストが2次である場合を**線形二次制御** (linear-quadratic regulator; LQR) と呼ぶ．
 
 $$
 \begin{align}
@@ -327,6 +406,8 @@ S_{t}&=Q_{t}+A^{\top} S_{t+1}\left(A-B L_{t}\right)\\
 s_t &= \mathrm{tr}(S_{t+1}\Omega^\xi) + s_{t+1}; s_T=0
 \end{align}
 $$
+
+**リカッチ方程式**（Riccati recursion）によって逐次的に求まる．
 
 $\boldsymbol{S}_{T}=Q$
 
@@ -340,6 +421,7 @@ K_{t}&=A \Sigma_{t} H^{\top}\left(H \Sigma_{t} H^{\top}+\Omega^{\omega}\right)^{
 \end{align}
 $$
 
+**遠心性コピー** (efference copy)
 この場合に限り，運動制御と状態推定を独立させることができる．
 
 #### 一般化LQG
@@ -376,17 +458,17 @@ cost per stepは脳内で計算できるのか？
 
 $$
 \begin{align}
-d x&=(\mathbf{A} x+\mathbf{B} u) dt +\mathbf{Y} u d \gamma+\mathbf{G} d \omega \\
-d y&=\mathbf{C} x dt+\mathbf{D} d \xi\\
-d \hat{x}&=(\mathbf{A} \hat{x}+\mathbf{B} u) dt+\mathbf{K}(dy-\mathbf{C} \hat{x} dt)
+d \mathbf{x}&=(\mathbf{A} \mathbf{x}+\mathbf{B} \mathbf{u}) dt +\mathbf{Y} \mathbf{u} d \gamma+\mathbf{G} d \omega \\
+d \mathbf{y}&=\mathbf{C} \mathbf{x} dt+\mathbf{D} d \xi\\
+d \hat{\mathbf{x}}&=(\mathbf{A} \hat{\mathbf{x}}+\mathbf{B} \mathbf{u}) dt+\mathbf{K}(d\mathbf{y}-\mathbf{C} \hat{\mathbf{x}} dt)
 \end{align}
 $$
 
 $$
 \begin{align}
 \mathbf{X}:=\begin{bmatrix}
-x \\
-\tilde{x}
+\mathbf{x} \\
+\tilde{\mathbf{x}}
 \end{bmatrix}, d \bar{\omega} :=\begin{bmatrix}
 d \omega \\
 d \xi
