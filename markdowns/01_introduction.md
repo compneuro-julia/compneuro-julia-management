@@ -1,7 +1,7 @@
 # 第1章：はじめに
 ## 本書の目的と構成
 ### 神経科学における計算論
-本書では神経科学における数理モデルを主として取り扱う．初めに神経科学におけるモデルの役割について触れておこう．まず，神経科学の目標は端的に言えば「脳神経系を理解する」ことにある．神経科学に限らず，種々の学問分野においては実験と理論の2本柱で，対象とする現象や物質の理解が進められる．ここで実験は調査等も踏まえ実データを取る行為とする．理論の役割は複数あり，実験結果の抽象化，仮説の提供，現象の予測等である \citep{Blohm2020-vc}．
+本書では神経科学における数理モデルを主として取り扱う．初めに神経科学におけるモデルの役割について触れておこう．まず，神経科学の目標は端的に言えば「脳神経系を理解する」ことにある．神経科学に限らず，種々の学問分野においては実験と理論の2本柱で，対象とする現象や物質の理解が進められる．ここで実験は調査等も踏まえ実データを取る行為とする．理論の役割は複数あり，実験結果の抽象化および統合，仮説の提供，現象の予測等である \citep{Blohm2020-vc}．
 
 「脳神経系を理解する」ということに関して，その定義は研究者により様々である．ここでは脳の計算処理に関する理論的理解を進めるための1つの方法として Marrの3レベル (Marr's Three Levels) を紹介する \citep{Marr1982-wk}．Marrの3レベルは視覚系における計算処理の理解を主としていたが，他でも適用可能である．3レベルとは(1)計算理論 (computational theory), (2) 表現・アルゴリズム (representation and algorithm), (3)実装 (implementation) であり，それぞれの段階での議論や理解を行う．(1)では脳の目的関数とそれを用いた最適化問題の設定を行う．(2)では(1)を実現するための表現およびアルゴリズムを解明する．(3)では(1,2)を神経回路・ハードウェア上で実装する方法を解明することを目標とし，平易には「脳」を作って理解すると言い換えることもできる\footnote{ここでの「作る」は計算機等でシミュレーションするという意味であり，脳オルガノイド (brain organoid) を作成するなどの意味ではない}．本書ではこの(3)を重視し，読者が自らの手で理論を検証し，数値計算による結果を再現できることを目標とした．また，本書は数式をプログラミングのコードに変換する具体例集としての役割も持っている．
 
@@ -69,8 +69,14 @@ Google ColabにおいてPythonやRに並んでJuliaを選択して使用する�
 
 https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
+### 命名規則
+この節では，本書で用いるJuliaの変数名や関数名等に関する基本的な取り決めをまとめる．
+#### 変数名
+- `nt`: 時間ステップ数 (number of time steps)
+- `t`, `tt`: 時間ステップのインデント
+
 ## 基礎的数学とJuliaでの記法
-数式の表記法も兼ねて，本書で使用する数学的内容を整理する．
+本書で使用する数学的内容を整理する．
 
 ### 表記法
 本書では次のような記号表記を用いる．
@@ -78,12 +84,14 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 - スカラーは小文字・斜体で$x$のように表記する．
 - ベクトルは小文字・立体・太字で$\mathbf{x}$のように表記し，列ベクトル (縦ベクトル) として扱う．
 - 行列は大文字・立体・太字で$\mathbf{X}$のように表記する．
--$n\times 1$の実ベクトルの集合を$\mathbb{R}^n$,$n\times m$の実行列の集合を$\mathbb{R}^{n\times m}$と表記する．
+- $n\times 1$の実ベクトルの集合を$\mathbb{R}^n$,$n\times m$の実行列の集合を$\mathbb{R}^{n\times m}$と表記する．
 - 行列$\mathbf{X}$の置換は$\mathbf{X}^\top$と表記する．ベクトルの要素を表す場合は$\mathbf{x} = (x_1, x_2,\cdots, x_n)^\top$のように表記する．
-- 単位行列を$\mathbf{I}$と表記する．
-- ゼロベクトルは$\mathbf{0}$, 要素が全て1のベクトルは$\mathbf{1}$と表記する．  
--$e$を自然対数の底とし，指数関数を$e^x=\exp(x)$と表記する．また，自然対数を$\ln(x)$と表記する．
-- 定義を$\coloneqq$を用いて行う．例えば，$f(x)\coloneqq2x$は$f(x)$という関数を$2x$として定義するという意味である．定義する対象が右側である場合は，$\eqqcolon$を用いる．
+- 単位行列を$\mathbf{I}$と表記する．$n \times n$ 次元の単位行列は $\mathbf{I}_n$ と表記する．
+- ゼロベクトルは$\mathbf{0}$, 要素が全て1のベクトルは$\mathbf{1}$と表記する．
+- ベクトル・行列の微分には分子レイアウト記法を使用する．
+- 基本的に確率変数は大文字 $X$ のように表記し，確率変数の実現値は小文字 $x$ を用いる．ただし，大文字であっても確率変数でない場合や，実現値がベクトルの場合などがあるため，必ずしもこの規則に従うわけではない．
+- $e$を自然対数の底とし，指数関数を$e^x=\exp(x)$と表記する．また，自然対数を$\ln(x)$と表記する．
+- 定義を$\coloneqq$を用いて行う．例えば，$f(x)\coloneqq2x$ は $f(x)$ という関数を$2x$として定義するという意味である．定義する対象が右側である場合は，$\eqqcolon$を用いる．
 - 平均$\mu$, 標準偏差$\sigma$の正規分布を$\mathcal{N}(\mu, \sigma^2)$と表記する．
 
 ### 線形代数と微分
@@ -114,14 +122,15 @@ $$
 
 という形で記述される。ここで$\mathbf{x} \in \mathbb{R}^n$,$\mathbf{y} \in \mathbb{R}^m$はそれぞれ入力および出力ベクトルである。
 
-行列の基本演算には以下が含まれる：
+**行列の積**：$A \in \mathbb{R}^{m \times n}, B \in \mathbb{R}^{n \times p}$に対し、$AB \in \mathbb{R}^{m \times p}$を定義。
 
-- **行列の積**：$A \in \mathbb{R}^{m \times n}, B \in \mathbb{R}^{n \times p}$に対し、$AB \in \mathbb{R}^{m \times p}$を定義。
-- **転置**：$A^\top$は行列$A$の行と列を交換したもの。
-- **逆行列**：$A \in \mathbb{R}^{n \times n}$が正則（可逆）であれば、$A^{-1}$が存在し$AA^{-1} = A^{-1}A = I$を満たす。
-- **行列式**（determinant）：$\det A$は正方行列$A$に対するスカラー量で、行列の体積のスケーリング率や可逆性の指標となる。
+**転置**：$A^\top$は行列$A$の行と列を交換したもの。
 
-特に、線形代数の重要な応用の一つは**線形方程式系**の解法である。$A\mathbf{x} = \mathbf{b}$の形をした方程式において、$A$の逆行列が存在するならば、その解は
+**逆行列**：$A \in \mathbb{R}^{n \times n}$が正則（可逆）であれば、$A^{-1}$が存在し$AA^{-1} = A^{-1}A = I$を満たす。
+
+**行列式**（determinant）：$\det A$は正方行列$A$に対するスカラー量で、行列の体積のスケーリング率や可逆性の指標となる。
+
+**線形方程式系**の解法である。$A\mathbf{x} = \mathbf{b}$の形をした方程式において、$A$の逆行列が存在するならば、その解は
 
 $$
 \mathbf{x} = A^{-1}\mathbf{b}
@@ -129,7 +138,9 @@ $$
 
 と求められる。
 
-また、行列の固有値問題も重要である。ある正方行列$A$に対し、スカラー$\lambda$およびベクトル$\mathbf{v} \ne \mathbf{0}$が
+**固有値問題**
+
+ある正方行列$A$に対し、スカラー$\lambda$およびベクトル$\mathbf{v} \ne \mathbf{0}$が
 
 $$
 A\mathbf{v} = \lambda \mathbf{v}
@@ -139,7 +150,96 @@ $$
 
 matrix cookbookに詳しいが，
 
+#### ベクトル・行列の微分
+本書ではベクトルおよび行列の微分を多用する．これは成分ごとに記載するよりも，ベクトル・行列演算をコードに変換しやすいという実装上の利点があるためである．初めに注意したいこととして，ベクトル・行列の微分の記法には分子レイアウト記法 (numerator-layout notation) と分母レイアウト記法 (denominator-layout notation) の2種類が存在する．これらは，ベクトル関数やスカラー関数に対する微分の定義の仕方に違いがあり，特に勾配ベクトルの形（行ベクトルか列ベクトルか）や連鎖律の表記に影響を及ぼす．いずれが使用されているかは文献ごとにバラバラであり，中には両方の記法を採用している文献も存在する．本書では，本書では**分子レイアウト記法**を統一的に使用する．記法の例を記述するため，スカラー $x, y \in \mathbb{R}$, ベクトル $\mathbf{x}=[x_i] \in \mathbb{R}^n, \mathbf{y}=[y_j] \in \mathbb{R}^m$, 行列 $\mathbf{A}=[a_{ij}] \in \mathbb{R}^{p \times q}$ を使用する．まず，スカラーで微分する場合，
 
+$$
+\frac{\partial y}{\partial x} \in \mathbb{R}
+$$
+
+$$
+\frac{\partial \mathbf{y}}{\partial x}:=
+\begin{bmatrix}
+\frac{\partial y_{1}}{\partial x}\\
+\frac{\partial y_{2}}{\partial x}\\
+\vdots \\
+\frac{\partial y_{m}}{\partial x}\\
+\end{bmatrix}
+\in \mathbb{R}^m
+$$
+
+$$
+\frac{\partial \mathbf{A}}{\partial x}\in \mathbb{R}^{p \times q}
+$$
+
+ベクトルで微分する場合，
+
+$$
+\begin{align}
+\frac{\partial y}{\partial \mathbf{x}}:=
+\begin{bmatrix}
+\frac{\partial y}{\partial x_{1}}&\frac{\partial y}{\partial x_{2}}&\cdots &\frac{\partial y}{\partial x_{n}}
+\end{bmatrix}
+\in \mathbb{R}^{1\times n}
+\end{align}
+$$
+
+および
+
+$$
+\frac{\partial \mathbf{y}}{\partial \mathbf{x}}:=
+\begin{bmatrix}
+\frac{\partial y_{1}}{\partial x_{1}}&\frac{\partial y_{1}}{\partial x_{2}}&\cdots &\frac{\partial y_{1}}{\partial x_{n}}\\
+\frac{\partial y_{2}}{\partial x_{1}}&\frac{\partial y_{2}}{\partial x_{2}}&\cdots &\frac{\partial y_{2}}{\partial x_{n}}\\
+\vdots &\vdots &\ddots &\vdots\\
+\frac{\partial y_{m}}{\partial x_{1}}&\frac{\partial y_{m}}{\partial x_{2}}&\cdots &\frac{\partial y_{m}}{\partial x_{n}}\\
+\end{bmatrix}
+\in \mathbb{R}^{m \times n}
+$$
+
+となる．行列で微分する場合，
+
+$$
+\frac{\partial y}{\partial \mathbf{A}}=
+\begin{bmatrix}
+\frac{\partial y}{\partial x_{11}}&\frac{\partial y}{\partial x_{21}}&\cdots &{\frac{\partial y}{\partial x_{p1}}}\\
+\frac{\partial y}{\partial x_{12}}&\frac{\partial y}{\partial x_{22}}&\cdots &{\frac{\partial y}{\partial x_{p2}}}\\
+\vdots &\vdots &\ddots &\vdots \\
+\frac{\partial y}{\partial x_{1q}}&\frac{\partial y}{\partial x_{2q}}&\cdots &{\frac{\partial y}{\partial x_{pq}}}\\
+\end{bmatrix}
+\in \mathbb{R}^{q \times p}
+$$
+となる．
+
+
+部分的にNewtonの記法も使用する．
+
+まず，スカラー関数 \( f(\mathbf{x}) \) に対するベクトル変数 \( \mathbf{x} \in \mathbb{R}^n \) の勾配は，偏微分を成分として並べた列ベクトルであり，その定義は以下の通りである：
+\[
+\frac{\partial f}{\partial \mathbf{x}} = 
+\begin{bmatrix}
+\frac{\partial f}{\partial x_1} \\
+\frac{\partial f}{\partial x_2} \\
+\vdots \\
+\frac{\partial f}{\partial x_n}
+\end{bmatrix}
+\in \mathbb{R}^n
+\]
+このような微分は，目的関数がスカラー値を返す最適化問題において頻出し，勾配 (gradient) を呼ばれる．$\nabla_\mathbf{x}:=\frac{\partial}{\partial \mathbf{x}}$
+
+次に，ベクトル関数 \( \mathbf{f}(\mathbf{x}) \in \mathbb{R}^m \) に対するベクトル変数 \( \mathbf{x} \in \mathbb{R}^n \) のヤコビ行列（Jacobian）は，成分 \( f_i \) の各偏微分を行方向に並べた \( m \times n \) 行列であり，次のように定義される：
+\[
+\frac{\partial \mathbf{f}}{\partial \mathbf{x}} = 
+\begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
+\vdots & \ddots & \vdots \\
+\frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n}
+\end{bmatrix}
+\in \mathbb{R}^{m \times n}
+\]
+このヤコビ行列は，ベクトル値関数の線形近似や連鎖律の適用において基礎的な役割を果たす．
+
+https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions
 
 
 
@@ -194,7 +294,7 @@ $$
 Laplace変換は、実時間領域$t \ge 0$上で定義された関数$f(t)$に対して、以下のように定義される：
 
 $$
-F(s) := \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} dt
+F(s) \coloneqq \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} dt
 $$
 
 ここで$s \in \mathbb{C}$は複素数変数であり、通常は$s = \sigma + i\omega$の形をとる。変換核$e^{-st}$を掛けて積分することにより、関数$f(t)$の無限大での振る舞いを抑制し、積分を収束させる効果を持つ。特に、$f(t)$が指数関数的増加を含む場合でも、$e^{-st}$による減衰によってその成分を抑えることが可能となる。
@@ -230,7 +330,7 @@ $$
 \end{equation}
 $$
 
-この線形行列微分方程式をLaplace変換$\mathscr{L}$を用いて解こう．$\boldsymbol{X}(s) := \mathscr{L}(\mathbf{x}(t)), \boldsymbol{U}(s) := \mathscr{L}(\mathbf{u}(t))$とすると，
+この線形行列微分方程式をLaplace変換$\mathscr{L}$を用いて解こう．$\boldsymbol{X}(s) \coloneqq \mathscr{L}(\mathbf{x}(t)), \boldsymbol{U}(s) \coloneqq \mathscr{L}(\mathbf{u}(t))$とすると，
 
 $$
 \begin{align}
@@ -244,13 +344,11 @@ $$
 
 $$
 \begin{equation}
-e^\mathbf{A} = \exp(\mathbf{A}) := \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
+e^\mathbf{A} = \exp(\mathbf{A}) \coloneqq \sum_{k=0}^\infty \frac{1}{k!}\mathbf{A}^k = \mathbf{I}+\mathbf{A}+\frac{\mathbf{A}^2}{2!}+\cdots
 \end{equation}
 $$
 
-として定義される．
-
-天下り的だが，
+として定義される．天下り的だが，
 
 $$
 \begin{align}
@@ -259,7 +357,7 @@ $$
 \end{align}
 $$
 
-となる．よって
+であるので．よって
 
 $$
 \begin{align}
@@ -344,7 +442,7 @@ $$
 まず、**期待値 (Expectation)** は、確率変数$x$に関する関数$f(x)$の平均値を、$x$の確率分布$p(x)$に基づいて計算する操作である。連続値の場合、期待値は次のように定義される。
 
 $$
-\mathbb{E}_{x\sim p(x)}\left[f(x)\right] := \int f(x)p(x)\,dx
+\mathbb{E}_{x\sim p(x)}\left[f(x)\right] \coloneqq \int f(x)p(x)\,dx
 $$
 
 ここで$x \sim p(x)$は、$x$が分布$p(x)$に従うことを表す。文脈が明確な場合には、簡略に$\mathbb{E}_{p(x)}[f(x)]$や$\mathbb{E}[f(x)]$と表記する。
@@ -352,19 +450,19 @@ $$
 次に、**情報量 (Information)** は、ある特定の事象$x$の出現がどれほどの「驚き」や「情報」をもたらすかを定量化するものである。情報理論の創始者であるShannon (1948) によって導入された。出現確率が低い事象ほど、多くの情報を含むと考えられる。情報量は次のように定義される。
 
 $$
-\mathbb{I}(x) := \ln\left(\frac{1}{p(x)}\right) = -\ln p(x)
+\mathbb{I}(x) \coloneqq \ln\left(\frac{1}{p(x)}\right) = -\ln p(x)
 $$
 
 **エントロピー (Entropy)** は、確率変数の持つ平均的な不確実性、すなわち平均情報量を表す。離散的な場合には和を、連続的な場合には積分を用いて定義されるが、ここでは連続的な場合を考える。エントロピーは以下のように定義される。
 
 $$
-\mathbb{H}(x) := \mathbb{E}[-\ln p(x)] = -\int p(x) \ln p(x)\,dx
+\mathbb{H}(x) \coloneqq \mathbb{E}[-\ln p(x)] = -\int p(x) \ln p(x)\,dx
 $$
 
 また、条件付きエントロピー$\mathbb{H}(x|y)$は、$y$が与えられたときの$x$の不確実性を測る指標であり、次のように定義される。
 
 $$
-\mathbb{H}(x \vert y) := \mathbb{E}_{x,y}[-\ln p(x \vert y)]
+\mathbb{H}(x \vert y) \coloneqq \mathbb{E}_{x,y}[-\ln p(x \vert y)]
 $$
 
 この期待値は、$p(x,y)$に基づいて計算される。
@@ -373,7 +471,7 @@ $$
 
 $$
 \begin{aligned}
-D_{\text{KL}}(p(x)\Vert q(x)) &:= \int p(x) \ln \frac{p(x)}{q(x)} dx \\
+D_{\text{KL}}(p(x)\Vert q(x)) &\coloneqq \int p(x) \ln \frac{p(x)}{q(x)} dx \\
 &= \int p(x) \ln p(x)\,dx - \int p(x) \ln q(x)\,dx \\
 &= \mathbb{E}_{x\sim p(x)}[\ln p(x)] - \mathbb{E}_{x\sim p(x)}[\ln q(x)] \\
 &= -\mathbb{H}(x) - \mathbb{E}_{x\sim p(x)}[\ln q(x)]
@@ -383,7 +481,7 @@ $$
 最後に、**相互情報量 (Mutual Information)** は、二つの確率変数$x$と$y$の間にどれほどの情報的関連性があるか、すなわち$y$を知ることによって$x$の不確実性がどれほど減少するかを定量化する。相互情報量は、エントロピーの差として次のように定義される。
 
 $$
-\mathbb{I}(x;y) := \mathbb{H}(x) - \mathbb{H}(x\vert y)
+\mathbb{I}(x;y) \coloneqq \mathbb{H}(x) - \mathbb{H}(x\vert y)
 $$
 
 これはまた、対称的な形でも書ける。
@@ -529,7 +627,7 @@ $$
 ### モデルと学習・予測
 **機械学習** (machine learning) における**モデル** (model) とは，2つの集合$\mathcal{X}, \mathcal{Y}$を仮定した際に，入力$x\in \mathcal{X}$を出力$y\in \mathcal{Y}$に変換する関数 (写像)$f: x \to y$あるいは条件付き確率分布$p(y|x)$を意味する．モデルは内部に媒介変数あるいはパラメータ (parameter)$\theta$を持ち，$\mathcal{Y}$を設定した後に$y=f(x; \theta)$あるいは$p(y|x; \theta)$を満たすように$\theta$を更新する．この過程を**学習** (learning) あるいは**訓練** (training) と呼ぶ．学習後のパラメータ$\theta^*$を用い，$x$が与えられた際の$y$の推定値$\hat{y}$を$\hat{y}=f(x; \theta^*)$あるいは$p(y|x; \theta^*)$から取得することを**予測** (prediction) と呼ぶ．推定値の取得の方法としてはサンプリング$\hat{y}\sim p(y|x; \theta^*)$や$\hat{y}=\textrm{argmax}\ p(y|x; \theta^{*})$などが考えられる．学習の際に用いられるデータを訓練データ (training data) と呼び，学習後のモデルの予測精度の評価に用いるデータを評価データ (test data) と呼ぶ．
 
-$y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$と$y$の対応関係を学習する過程を教師あり学習 (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を教師なし学習 (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する半教師あり学習 (semi-supervised learning), 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する自己教師あり学習 (self-supervised learning) などが存在する．この他の学習手法として強化学習 (reinforcement learning) があり，第11章で詳しく説明を行う．強化学習では環境の中で行動するエージェントを仮定し，状態に応じて多くの報酬を得るための行動を学習することが目的である．
+$y$が既知の場合は$D=\{(x,y)\}$は教師付きデータ ($y$がラベルの場合はラベル付きデータ) と呼ばれ，$x$と$y$の対応関係を学習する過程を**教師あり学習** (supervised learning) と呼ぶ．$y$が未知の場合，$D=\{x\}$はラベルなしデータと呼ばれ，これのみでモデルを学習する過程を**教師なし学習** (unsupervised learning) と呼ぶ．この2つの学習の派生として，ラベルあり・なしデータを併用する**半教師あり学習** (semi-supervised learning) や, 教師なし学習の一種であり，入力データの部分集合から他の部分集合を予測する**自己教師あり学習** (self-supervised learning) などが存在する．この他の学習手法として**強化学習** (reinforcement learning) があり，第11章で詳しく説明を行う．強化学習では環境の中で行動するエージェントを仮定し，状態に応じて多くの報酬を得るための行動を学習することが目的である．
 
 ### 回帰と分類
 
@@ -584,7 +682,7 @@ $$
 
 $$
 \begin{equation}
-\mathcal{L}(\mathbf{w}) := \|\boldsymbol{\delta}\|^2 = \boldsymbol{\delta}^\top \boldsymbol{\delta}
+\mathcal{L}(\mathbf{w}) \coloneqq \|\boldsymbol{\delta}\|^2 = \boldsymbol{\delta}^\top \boldsymbol{\delta}
 \end{equation}
 $$
 
@@ -617,7 +715,7 @@ $$
 \end{equation}
 $$
 
-なお、$A^+ := (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top$は$\mathbf{X}$の**Moore–Penrose 擬似逆行列**（pseudoinverse）と呼ばれ、この表現を用いると$\hat{\mathbf{w}} = A^+ \mathbf{y}$と簡潔に記述できる。
+なお、$A^+ \coloneqq (\mathbf{X}^\top \mathbf{X})^{-1} \mathbf{X}^\top$は$\mathbf{X}$の**Moore–Penrose 擬似逆行列**（pseudoinverse）と呼ばれ、この表現を用いると$\hat{\mathbf{w}} = A^+ \mathbf{y}$と簡潔に記述できる。
 
 ##### 勾配法による数値的推定
 最小二乗法に基づくパラメータ推定は、数値的には**勾配法**（gradient descent）によっても実現できる。 目的関数の勾配$\nabla \mathcal{L}(\mathbf{w})$を用いると、更新式は次のように与えられる：
@@ -700,7 +798,7 @@ $$
 z = w_0 + \sum_{j=1}^p w_j x_j = \mathbf{w}^\top \mathbf{x}'
 $$
 
-ここで$\mathbf{x}' := [1, x_1, x_2, \dots, x_p]^\top \in \mathbb{R}^{p+1}$はバイアス項を含んだ拡張入力ベクトル、$\mathbf{w} \in \mathbb{R}^{p+1}$はパラメータベクトルである。
+ここで$\mathbf{x}' \coloneqq [1, x_1, x_2, \dots, x_p]^\top \in \mathbb{R}^{p+1}$はバイアス項を含んだ拡張入力ベクトル、$\mathbf{w} \in \mathbb{R}^{p+1}$はパラメータベクトルである。
 
 この線形出力$z$に対して、シグモイド関数$\sigma(z)$を適用することで、出力の確率的解釈が得られる：
 

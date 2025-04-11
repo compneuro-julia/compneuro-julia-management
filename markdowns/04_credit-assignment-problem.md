@@ -394,7 +394,7 @@ $$
 でパラメータを更新する．
 
 #### 不偏推定量であることの証明
-各手法の更新則が勾配の不偏推定量 (unbiased estimator) であることを示す．まず方向微分 (Directional derivative) を導入する．関数 $f$ について点 $\mathbf{u}$ における方向 $\mathbf{v}$ の方向微分は
+各手法の更新則が勾配の不偏推定量 (unbiased estimator) であることを示す．まず方向微分 (directional derivative) を導入する．関数 $f$ について点 $\mathbf{u}$ における方向 $\mathbf{v}$ の方向微分は
 
 $$
 \begin{equation}
