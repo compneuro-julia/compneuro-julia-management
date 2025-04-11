@@ -65,6 +65,9 @@ juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理
 
 Google ColabにおいてPythonやRに並んでJuliaを選択して使用することが可能となっている．
 
+### 使用するライブラリ
+aaaどすaaa
+
 ### Julia言語の基本構文
 
 https://docs.julialang.org/en/v1/manual/noteworthy-differences/
@@ -151,13 +154,26 @@ $$
 matrix cookbookに詳しいが，
 
 #### ベクトル・行列の微分
-本書ではベクトルおよび行列の微分を多用する．これは成分ごとに記載するよりも，ベクトル・行列演算をコードに変換しやすいという実装上の利点があるためである．初めに注意したいこととして，ベクトル・行列の微分の記法には分子レイアウト記法 (numerator-layout notation) と分母レイアウト記法 (denominator-layout notation) の2種類が存在する．これらは，ベクトル関数やスカラー関数に対する微分の定義の仕方に違いがあり，特に勾配ベクトルの形（行ベクトルか列ベクトルか）や連鎖律の表記に影響を及ぼす．いずれが使用されているかは文献ごとにバラバラであり，中には両方の記法を採用している文献も存在する．本書では，本書では**分子レイアウト記法**を統一的に使用する．記法の例を記述するため，スカラー $x, y \in \mathbb{R}$, ベクトル $\mathbf{x}=[x_i] \in \mathbb{R}^n, \mathbf{y}=[y_j] \in \mathbb{R}^m$, 行列 $\mathbf{A}=[a_{ij}] \in \mathbb{R}^{p \times q}$ を使用する．まず，スカラーで微分する場合，
+本書ではベクトルおよび行列の微分を多用する．これは成分ごとに記載するよりも，ベクトル・行列演算をコードに変換しやすいという実装上の利点があるためである．初めに注意したいこととして，ベクトル・行列の微分の記法には分子レイアウト記法 (numerator-layout notation) と分母レイアウト記法 (denominator-layout notation) の2種類が存在する．これらは，ベクトル関数やスカラー関数に対する微分の定義の仕方に違いがあり，特に勾配ベクトルの形（行ベクトルか列ベクトルか）や連鎖律の表記に影響を及ぼす．いずれが使用されているかは文献ごとにバラバラであり，中には両方の記法を採用している文献も存在する．本書では，本書では**分子レイアウト記法**を統一的に使用する．記法の例を記述するため，スカラー $x, y \in \mathbb{R}$, ベクトル $\mathbf{x}=[x_i] \in \mathbb{R}^n, \mathbf{y}=[y_j] \in \mathbb{R}^m$, 行列 $\mathbf{A}=[a_{ij}] \in \mathbb{R}^{p \times q}$ を使用する．分子（従属変数）と分母（独立変数）の組み合わせから，次の6通りの微分が定義される．
 
 $$
-\frac{\partial y}{\partial x} \in \mathbb{R}
+\begin{array}{c|c|c|c}
+& \text{スカラー} & \text{ベクトル} & \text{行列}\\
+\hline
+\text{スカラー} & \frac{\partial y}{\partial x} & \frac{\partial \mathbf{y}}{\partial x} & \frac{\partial \mathbf{A}}{\partial x} \\
+\hline
+\text{ベクトル} & \frac{\partial y}{\partial \mathbf{x}} & \frac{\partial \mathbf{y}}{\partial \mathbf{x}} &  \\
+\hline
+\text{行列} & \frac{\partial y}{\partial \mathbf{A}} & &  \\
+\hline
+\end{array}
 $$
 
+行名が分子の変数の種類，列名が分母の変数の種類を表している．まず，スカラーで偏微分する場合は，
+
 $$
+\begin{align}
+\dfrac{\partial y}{\partial x} \in \mathbb{R}, \quad
 \frac{\partial \mathbf{y}}{\partial x}:=
 \begin{bmatrix}
 \frac{\partial y_{1}}{\partial x}\\
@@ -165,14 +181,19 @@ $$
 \vdots \\
 \frac{\partial y_{m}}{\partial x}\\
 \end{bmatrix}
-\in \mathbb{R}^m
+\in \mathbb{R}^m, \quad
+\frac{\partial \mathbf{A}}{\partial x}:=
+\begin{bmatrix}
+\frac{\partial a_{11}}{\partial x}&\frac{\partial a_{12}}{\partial x}&\cdots &\frac{\partial a_{1q}}{\partial x}\\
+\frac{\partial a_{21}}{\partial x}&\frac{\partial a_{22}}{\partial x}&\cdots &\frac{\partial a_{2q}}{\partial x}\\
+\vdots &\vdots &\ddots &\vdots \\
+\frac{\partial a_{p1}}{\partial x}&\frac{\partial a_{p2}}{\partial x}&\cdots &\frac{\partial a_{pq}}{\partial x}\\
+\end{bmatrix}
+\in \mathbb{R}^{p \times q}
+\end{align}
 $$
 
-$$
-\frac{\partial \mathbf{A}}{\partial x}\in \mathbb{R}^{p \times q}
-$$
-
-ベクトルで微分する場合，
+である．次にベクトルで偏微分する場合，
 
 $$
 \begin{align}
@@ -180,13 +201,7 @@ $$
 \begin{bmatrix}
 \frac{\partial y}{\partial x_{1}}&\frac{\partial y}{\partial x_{2}}&\cdots &\frac{\partial y}{\partial x_{n}}
 \end{bmatrix}
-\in \mathbb{R}^{1\times n}
-\end{align}
-$$
-
-および
-
-$$
+\in \mathbb{R}^{1\times n}, \quad
 \frac{\partial \mathbf{y}}{\partial \mathbf{x}}:=
 \begin{bmatrix}
 \frac{\partial y_{1}}{\partial x_{1}}&\frac{\partial y_{1}}{\partial x_{2}}&\cdots &\frac{\partial y_{1}}{\partial x_{n}}\\
@@ -195,53 +210,23 @@ $$
 \frac{\partial y_{m}}{\partial x_{1}}&\frac{\partial y_{m}}{\partial x_{2}}&\cdots &\frac{\partial y_{m}}{\partial x_{n}}\\
 \end{bmatrix}
 \in \mathbb{R}^{m \times n}
+\end{align}
 $$
 
-となる．行列で微分する場合，
+である．ここで $\nabla_\mathbf{x} y(\mathbf{x}):=\left(\frac{\partial y}{\partial \mathbf{x}}\right)^\top$ は $y$ に対する $\mathbf{x}$ の勾配 (gradient) と呼ばれる．また，$\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$ は $\mathbf{y}$ に対する $\mathbf{x}$ のJacobian行列と呼ばれる．最後に，行列で偏微分する場合，
 
 $$
 \frac{\partial y}{\partial \mathbf{A}}=
 \begin{bmatrix}
-\frac{\partial y}{\partial x_{11}}&\frac{\partial y}{\partial x_{21}}&\cdots &{\frac{\partial y}{\partial x_{p1}}}\\
-\frac{\partial y}{\partial x_{12}}&\frac{\partial y}{\partial x_{22}}&\cdots &{\frac{\partial y}{\partial x_{p2}}}\\
+\frac{\partial y}{\partial a_{11}}&\frac{\partial y}{\partial a_{21}}&\cdots &{\frac{\partial y}{\partial a_{p1}}}\\
+\frac{\partial y}{\partial a_{12}}&\frac{\partial y}{\partial a_{22}}&\cdots &{\frac{\partial y}{\partial a_{p2}}}\\
 \vdots &\vdots &\ddots &\vdots \\
-\frac{\partial y}{\partial x_{1q}}&\frac{\partial y}{\partial x_{2q}}&\cdots &{\frac{\partial y}{\partial x_{pq}}}\\
+\frac{\partial y}{\partial a_{1q}}&\frac{\partial y}{\partial a_{2q}}&\cdots &{\frac{\partial y}{\partial a_{pq}}}\\
 \end{bmatrix}
 \in \mathbb{R}^{q \times p}
 $$
-となる．
 
-
-部分的にNewtonの記法も使用する．
-
-まず，スカラー関数 \( f(\mathbf{x}) \) に対するベクトル変数 \( \mathbf{x} \in \mathbb{R}^n \) の勾配は，偏微分を成分として並べた列ベクトルであり，その定義は以下の通りである：
-\[
-\frac{\partial f}{\partial \mathbf{x}} = 
-\begin{bmatrix}
-\frac{\partial f}{\partial x_1} \\
-\frac{\partial f}{\partial x_2} \\
-\vdots \\
-\frac{\partial f}{\partial x_n}
-\end{bmatrix}
-\in \mathbb{R}^n
-\]
-このような微分は，目的関数がスカラー値を返す最適化問題において頻出し，勾配 (gradient) を呼ばれる．$\nabla_\mathbf{x}:=\frac{\partial}{\partial \mathbf{x}}$
-
-次に，ベクトル関数 \( \mathbf{f}(\mathbf{x}) \in \mathbb{R}^m \) に対するベクトル変数 \( \mathbf{x} \in \mathbb{R}^n \) のヤコビ行列（Jacobian）は，成分 \( f_i \) の各偏微分を行方向に並べた \( m \times n \) 行列であり，次のように定義される：
-\[
-\frac{\partial \mathbf{f}}{\partial \mathbf{x}} = 
-\begin{bmatrix}
-\frac{\partial f_1}{\partial x_1} & \cdots & \frac{\partial f_1}{\partial x_n} \\
-\vdots & \ddots & \vdots \\
-\frac{\partial f_m}{\partial x_1} & \cdots & \frac{\partial f_m}{\partial x_n}
-\end{bmatrix}
-\in \mathbb{R}^{m \times n}
-\]
-このヤコビ行列は，ベクトル値関数の線形近似や連鎖律の適用において基礎的な役割を果たす．
-
-https://en.wikipedia.org/wiki/Matrix_calculus#Layout_conventions
-
-
+である．これは $\nabla_\mathbf{A} y(\mathbf{A}):=\frac{\partial y}{\partial \mathbf{A}}$ とも表記する．
 
 ### 微分方程式
 微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
@@ -785,8 +770,6 @@ $$
 
 ### ロジスティック回帰
 本節では、非線形回帰の一種である**ロジスティック回帰** (logistic regression) について取り扱う。
-
-### ロジスティック回帰
 
 ロジスティック回帰は、入力$\mathbf{x} \in \mathbb{R}^p$に対して出力$y \in \{0, 1\}$を予測する**確率的な分類モデル**である。出力は事後確率$\Pr(y=1 \mid \mathbf{x})$を表し、その予測にはシグモイド関数（ロジスティック関数）を用いる。
 
