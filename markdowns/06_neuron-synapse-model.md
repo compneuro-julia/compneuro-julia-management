@@ -110,6 +110,11 @@ HHモデルにおいて，入力電流に対する発火率がどのように変
 
 このような曲線を**frequency-current (F-I) 曲線** (または neuronal input/output (I/O) 曲線)と呼ぶ．$I_\theta$は閾値電流を意味する（ここでは発火率が1Hz以上になる点を閾値と設定している）．F-I曲線の種類に応じてType IおよびIIに分けられる\footnote{Type IIIニューロンも存在する}．
 
+
+Type I neuron (with A-current) Output ring increases continuously from zero as input current exceeds the ring threshold. 
+Type II neuron (without A-current)
+Output ring increases discontinuously as input current exceeds the ring threshold.
+
 ### 全か無かの法則の反例
 ニューロンは電流が流入することで膜電位が変化し, 膜電位がある一定の閾値を超えると活動電位が発生する, というのはニューロンの活動電位発生についての典型的な説明である．膜電位が閾値を超えるか超えないかで活動電位の発生が決まるという法則を， **全か無かの法則** (all-or-none principle) と呼ぶ．後に説明するLIFモデルなどは，全か無かの法則に従って神経活動のモデル化を行っている．しかし，この全か無かの法則の法則は必ずしも成立するわけではない．反例として **抑制後リバウンド** (Postinhibitory rebound; PIR)という現象がある．抑制後リバウンドは過分極性の電流の印加を止めた際に膜電位が静止膜電位に回復するのみならず, さらに脱分極をして発火をするという現象である．この時生じる発火を**リバウンド発火** (rebound spikes)と呼ぶ．この現象が生じる要因として**アノーダルブレイク** (anodal break, またはanode break excitation; ABE)や，遅いT型カルシウム電流 (slow T-type calcium current) が考えられている {cite:p}`Chik2004-ka`．HH モデルはこのうちアノーダルブレイクを再現できるため, シミュレーションによりどのような現象か確認してみよう．これは入力電流を変更するだけで行える．
 
@@ -131,7 +136,7 @@ $v$は膜電位で，$u$は回復変数(recovery variable)と呼ばれる． Fit
 
 ## 積分発火モデル
 ### Leaky integrate-and-fire モデル
-生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルを**Integrate-and-fire (IF, 積分発火)モデル** という．さらに, IFモデルにおいて膜電位の漏れ(leak)\footnote{この漏れはイオンの拡散などによるもの． }も考慮したモデルを **Leaky integrate-and-fire (LIF, 漏れ積分発火) モデル** と呼ぶ．ここではLIFモデルのみを取り扱う．
+生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルを**integrate-and-fire** (IF, 積分発火)モデル という．さらに, IFモデルにおいて膜電位の漏れ (leak) \footnote{この漏れはイオンの拡散などによるもの． }も考慮したモデルを **leaky integrate-and-fire** (LIF, 漏れ積分発火) モデル と呼ぶ．ここではLIFモデルのみを取り扱う．
 
 ニューロンの膜電位を$V_m(t)$, 静止膜電位を$V_\text{rest}$, 入力電流\footnote{シナプス入力による電流がどうなるかは，第三章「シナプス伝達のモデル」で扱う．}を$I(t)$, 膜抵抗を$R_m$, 膜電位の時定数を$\tau_m\ (=R_m \cdot C_m)$とすると, 式は次のようになる\footnote{$(V_{m}(t)-V_\text{rest})$の部分は膜電位の基準を静止膜電位としたことにして, 単に$V_m(t)$だけの場合もある． また, 右辺の$RI(t)$の部分は単に$I(t)$とされることもある． 同じ表記だが, この場合の$I(t)$はシナプス電流に比例する量, となっている(単位はmV)． }．
 
@@ -205,8 +210,7 @@ $$
 \end{align} 
 $$
 
-ここで，$v$と$u$が変数であり, $v$は膜電位(membrane potential;単位はmV), $u$は回復電流(recovery current; 単位はpA)\footnote{ここでの「回復」というのは脱分極した後の膜電位が静止膜電位へと戻る，という意味である (対義語はactivationで膜電位の上昇を意味する)．$u$は$v$の導関数において$v$の上昇を抑制するように$-u$で入っているため，$u$としてはK$^+$チャネル電流やNa$^+$チャネルの不活性化動態などが考えられる．}
-である．また，$a$は回復時定数(recovery time constant; 単位はms$^{-1}$)の逆数 (これが大きいと$u$が元に戻る時間が短くなる), $b$は$u$の$v$に対する感受性(共鳴度合い,  resonance; 単位はpA/mV)である．
+ここで，$v$と$u$が変数であり, $v$は膜電位(membrane potential;単位はmV), $u$は回復電流(recovery current; 単位はpA) である．ここでの「回復」というのは脱分極した後の膜電位が静止膜電位へと戻る，という意味である．対義語はactivationで膜電位の上昇を意味する．$u$は$v$の導関数において$v$の上昇を抑制するように$-u$で入っているため，$u$としてはK$^+$チャネル電流やNa$^+$チャネルの不活性化動態などが考えられる．また，$a$は回復時定数(recovery time constant; 単位はms$^{-1}$)の逆数 (これが大きいと$u$が元に戻る時間が短くなる), $b$は$u$の$v$に対する感受性(共鳴度合い,  resonance; 単位はpA/mV)である．
 
 この式は簡便だが，生理学的な意味づけが分かりにくい．改善された式として{cite:p}`Izhikevich2007-ff`のChapter 8で紹介されているのが次式である．
 
@@ -236,15 +240,31 @@ $$
 
 ## マルチコンパートメントモデル
 
+ケーブル方程式の離散化
+
+https://neuronaldynamics.epfl.ch/online/Ch3.S4.html
+
+https://github.com/orena1/NEURON_tutorial/tree/master
+https://github.com/orena1/NEURON_tutorial/blob/master/Jupyter_notebooks/Layer_5b_pyramidal_cell_Calcium_Spike.ipynb
+
+Ball and Stick model
+
+ E. Hay, S. Hill, F. Schürmann, H. Markram and I. Segev (2011-07) Models of neocortical layer 5b pyramidal cells capturing a wide range of dendritic and perisomatic active properties. PLoS Comput Biol 7 (7), pp. e1002107
+ 
+
+three compartment model
+https://pmc.ncbi.nlm.nih.gov/articles/PMC4516889/
+
+
 神経細胞の電気的活動を詳細に記述するためには，単一の点としてニューロンをモデル化する単純なモデル（例：leaky integrate-and-fireモデル）では不十分である．特に，樹状突起や軸索といった構造的に異なる部分の電気的性質を記述するためには，multi compartment model（多区画モデル）と呼ばれる手法が用いられる．このモデルでは，ニューロン全体を電気回路として捉え，各構造（区画）を電気的に独立した要素として記述し，それらを電気的に接続することで，ニューロン全体の動態を近似する．
 
-各区画（コンパートメント）は，膜容量 \( C_m \)，漏洩電導 \( g_L \)，静止電位 \( E_L \) を備えたRC回路として表現される．隣接するコンパートメント同士は，軸索や樹状突起を介した軸索流によって結合され，その伝導は軸内抵抗 \( R_a \) または電導 \( g_{ij} \) を通じて記述される．
+各区画（コンパートメント）は，膜容量 $C_m$，漏洩電導 $g_L$，静止電位 $E_L$ を備えたRC回路として表現される．隣接するコンパートメント同士は，軸索や樹状突起を介した軸索流によって結合され，その伝導は軸内抵抗 $R_a$ または電導 $g_{ij}$ を通じて記述される．
 
-コンパートメント \( i \) における膜電位 \( V_i(t) \) の時間発展は，ケーブル方程式を離散化した以下の形式で表される：
+コンパートメント $i$ における膜電位 $V_i(t)$ の時間発展は，ケーブル方程式を離散化した以下の形式で表される：
 
-\[
+$$
 C_m \frac{dV_i}{dt} = -g_L (V_i - E_L) + \sum_{j \in \mathcal{N}(i)} g_{ij} (V_j - V_i) + I^{\text{ext}}_i(t)
-\]
+$$
 
 ここで，\(\mathcal{N}(i)\) はコンパートメント \(i\) に隣接するコンパートメントの集合，\(g_{ij}\) は区画 \(i\) と \(j\) を接続する電導，\(I^{\text{ext}}_i(t)\) は外部から注入される電流を表す．この方程式は，すべてのコンパートメントに対して定義され，結果として連立微分方程式系が得られる．
 
@@ -252,9 +272,9 @@ C_m \frac{dV_i}{dt} = -g_L (V_i - E_L) + \sum_{j \in \mathcal{N}(i)} g_{ij} (V_j
 
 モデル内でこの現象を再現するには，樹状突起区画にも活動電位の伝搬に関与する電位依存性ナトリウムチャネル（\(I_{\text{Na}}\)）やカリウムチャネル（\(I_{\text{K}}\)）を含めたHodgkin-Huxley型のイオン電流モデルを導入する必要がある．例えば，コンパートメント \(i\) における電流項は以下のように拡張される：
 
-\[
+$$
 C_m \frac{dV_i}{dt} = -g_L (V_i - E_L) - I_{\text{Na}, i}(V_i, m_i, h_i) - I_{\text{K}, i}(V_i, n_i) + \sum_{j \in \mathcal{N}(i)} g_{ij} (V_j - V_i) + I^{\text{ext}}_i(t)
-\]
+$$
 
 ここで，\(m_i, h_i, n_i\) はイオンチャネルのゲーティング変数であり，それぞれ別の微分方程式に従って時間発展する．これにより，活動電位の発生とその伝播，さらに逆行性伝播が自然にモデルに組み込まれることになる．
 

@@ -4,6 +4,8 @@
 
 こうしたイオンチャネルの働き等を考慮した神経細胞の生物物理モデルに関しては，後の第6章で説明を行う．本章から第5章までは単純化した発火率モデルを使用する．
 
+AIS
+
 発火率モデル → 線形回帰 → リッジ回帰 → パーセプトロン → ロジスティック回帰 → Hebb則
 
 ## ニューロンの発火率モデルとパーセプトロン
@@ -17,9 +19,9 @@
 
 数学的には、入力信号の線形結合を $z = \sum_{j=1}^p w_j x_j + w_0$ とし、発火率（ニューロンの出力）を何らかの**活性化関数** $f(z)$ を通じて表現する：
 
-\[
+$$
 y = f(z) = f\left(\sum_{j=1}^p w_j x_j + w_0\right)
-\]
+$$
 
 このように、ニューロンは入力ベクトル $\mathbf{x} \in \mathbb{R}^p$ に対して加重和を計算し、それに非線形な関数を適用することで、出力 $y$ を生成する。代表的な活性化関数としては、**シグモイド関数**や**ReLU（Rectified Linear Unit）関数**がある。特にシグモイド関数は、出力が $[0,1]$ の範囲に収まるため、発火率（スパイク頻度）の確率的な解釈と親和性が高い。
 
@@ -35,12 +37,12 @@ y = f(z) = f\left(\sum_{j=1}^p w_j x_j + w_0\right)
 
 次に、活性化関数として**符号関数**を適用する：
 
-\[
+$$
 \hat{y} = \text{sign}(z) = \begin{cases}
 +1 & (z \geq 0) \\
 -1 & (z < 0)
 \end{cases}
-\]
+$$
 
 これにより、出力 $\hat{y} \in \{-1, +1\}$ が得られ、2クラス分類を実現する。
 
@@ -48,9 +50,9 @@ y = f(z) = f\left(\sum_{j=1}^p w_j x_j + w_0\right)
 
 パーセプトロンは**教師あり学習**に基づいて重み $\mathbf{w}$ を更新する。各ステップにおいて、予測と正解が一致していれば何も行わず、誤分類されたときにのみ以下のように重みを更新する：
 
-\[
+$$
 \mathbf{w} \leftarrow \mathbf{w} + \eta \cdot y^{(i)} \mathbf{x}^{(i)}
-\]
+$$
 
 ここで、$\eta > 0$ は学習率、$y^{(i)}$ は正解ラベルである。この更新則により、パーセプトロンは誤分類を修正する方向に重みを調整する。
 
@@ -155,19 +157,28 @@ $$
 \end{equation}
 $$
 
-として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率** (learning rate) と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．ただし，$\varphi(\cdot), \phi(\cdot)$は基本的に恒等関数に設定される場合が多い．この場合，Hebb則は$
-\tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top
-$と簡潔に表現される．
+として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率** (learning rate) と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．ただし，$\varphi(\cdot), \phi(\cdot)$は基本的に恒等関数に設定される場合が多い．この場合，Hebb則は $\tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top$ と簡潔に表現される．
 
-このHebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを**エネルギーベースモデル** (energy-based models) といい，次章で扱う．エネルギーベースモデルでは，先にエネルギー関数 (あるいはコスト関数) $\mathcal{E}$ を定義し，その目的関数を最小化するような神経活動 $\mathbf{z}$ および重み行列 $\mathbf{W}$ のダイナミクスをそれぞれ,
+
+#### Hebb則の生理的機序とLTP・LTDの実験的発見
+LTPの実験的発見 {cite:p}`Bliss1973-vj` {cite:p}`Dudek1992-nz`
+
+このHebb則の神経生理学的な基盤を裏付けるものとして，1973年にBlissとLømoによってウサギの海馬において**長期増強**（Long-Term Potentiation, LTP）が発見された．彼らの実験では，海馬のシェイファー側枝からCA1錐体細胞への経路に高頻度の電気刺激を加えることで，その後のシナプス応答が長時間にわたって増強される現象が観察された．この持続的なシナプス強度の増加は，まさにHebb則に対応する生理的現象と見なされ，Hebbian plasticityの実体と考えられるようになった．LTPはグルタミン酸作動性シナプスで観察されることが多く，特にNMDA受容体が関与することで知られている．この受容体は膜電位依存的にMg²⁺ブロックが外れることにより，カルシウムイオン（Ca²⁺）の流入を許し，それが下流のシグナル伝達を活性化してシナプス後部のAMPA受容体の増加や活性化を引き起こす．
+
+一方，1980年代には**長期抑圧**（Long-Term Depression, LTD）という現象も発見された．これは，シナプス前ニューロンとシナプス後ニューロンが低頻度で同時活動した場合に，シナプスの伝達効率が長期にわたって減少する現象である．LTDもまた海馬や小脳などの領域で観察されており，この減弱はHebb則の反対の効果を示すものとして位置づけられる．特に，小脳における登上線維と平行線維の同時活動により引き起こされるLTDは，運動学習のモデルとして重要視されている．LTPと同様に，LTDにおいてもCa²⁺シグナリングが重要な役割を果たすが，その振幅や時間的プロファイルが異なっていることが，シナプス強化と抑圧の分岐をもたらすと考えられている．
+
+これらの発見を通じて，Hebb則は単なる理論的仮説にとどまらず，シナプス可塑性という具体的な細胞メカニズムを通して，神経回路における学習と記憶の基盤であることが明らかにされた．
+
+#### 神経ダイナミクスからのHebb則の導出
+Hebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを**エネルギーベースモデル** (energy-based models) といい，次章で扱う．エネルギーベースモデルでは，先にエネルギー関数 (あるいはコスト関数) $\mathcal{E}$ を定義し，その目的関数を最小化するような神経活動 $\mathbf{z}$ および重み行列 $\mathbf{W}$ のダイナミクスをそれぞれ,
 
 $$
 \begin{equation}
-\frac{d \mathbf{z}}{dt}\propto-\frac{\partial \mathcal{E}}{\partial \mathbf{z}},\ \frac{d \mathbf{W}}{dt}\propto-\frac{\partial \mathcal{E}}{\partial \mathbf{W}}
+\frac{d \mathbf{z}}{dt}\propto-\left(\frac{\partial \mathcal{E}}{\partial \mathbf{z}}\right)^\top,\quad\frac{d \mathbf{W}}{dt}\propto-\left(\frac{\partial \mathcal{E}}{\partial \mathbf{W}}\right)^\top
 \end{equation}
 $$
 
-として導出する．この手順の逆を行う，すなわち先に神経細胞の活動ダイナミクスを定義し，神経活動で積分することで神経回路のエネルギー関数$\mathcal{E}$を導出し，さらに $\mathcal{E}$ を重み行列で微分することでHebb則が導出できる {cite:p}`Isomura2020-sn`．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで$\dfrac{\partial\mathcal{E}}{\partial\mathbf{y}}:=-\dfrac{d\mathbf{y}}{dt}$となるようなエネルギー関数 $\mathcal{E}(\mathbf{x}, \mathbf{y}, \mathbf{W})$を仮定すると，
+として導出する．この手順の逆を行う，すなわち先に神経細胞の活動ダイナミクスを定義し，神経活動で積分することで神経回路のエネルギー関数$\mathcal{E}$を導出し，さらに $\mathcal{E}$ を重み行列で微分することでHebb則が導出できる {cite:p}`Isomura2020-sn`．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで$\dfrac{\partial\mathcal{E}}{\partial\mathbf{y}}:=-\left(\dfrac{d\mathbf{y}}{dt}\right)^\top$となるようなエネルギー関数 $\mathcal{E}(\mathbf{x}, \mathbf{y}, \mathbf{W})$を仮定すると，
 
 $$
 \begin{equation}
@@ -186,7 +197,7 @@ $$
 
 となり，Hebb則が導出できる．
 
-### Hebb則の安定化とLTP/LTD
+### Hebb則の安定化
 #### BCM則
 Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，0に近づくこととなってしまう．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を$w\ (>0)$ とし，$y=wx$が成り立つとすると，Hebb則は$\dfrac{dw}{dt}=\eta yx=\eta x^2w$となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
 
@@ -200,7 +211,7 @@ $$
 \end{equation}
 $$
 
-ここで関数$\phi$は$\phi(y, \theta_m)=y(y-\theta_m)$などとする．また$\theta_m:=\mathbb{E}[y^2]$は閾値を決定するパラメータ，**修正閾値(modification threshold)** であり，
+ここで関数$\phi$は$\phi(y, \theta_m)=y(y-\theta_m)$などとする．また$\theta_m:=\mathbb{E}[y^2]$は閾値を決定するパラメータ，**修正閾値** (modification threshold) であり，
 
 $$
 \begin{equation}
@@ -210,10 +221,7 @@ $$
 
 として更新される．
 
-#### Hebb則の生理的機序
-LTPの実験的発見 {cite:p}`Bliss1973-vj` {cite:p}`Dudek1992-nz`
-
-### Oja則
+#### Oja則
 Hebb則を安定化させる別のアプローチとして，結合強度を正規化するという手法が考えられる．BCM則と同様に$\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}$とし，単一の出力$y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}$を持つ線形ニューロンを仮定する．$\eta$を学習率とすると，$\mathbf{w}\leftarrow\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とすれば正規化できる．ここで，$f(\eta):=\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とし，$\eta=0$においてTaylor展開を行うと，
 
 $$
@@ -248,12 +256,51 @@ ToDo:恒常的可塑性の詳細
 
 Johansen, Joshua P., Lorenzo Diaz-Mataix, Hiroki Hamanaka, Takaaki Ozawa, Edgar Ycu, Jenny Koivumaa, Ashwani Kumar, et al. 2014. “Hebbian and Neuromodulatory Mechanisms Interact to Trigger Associative Memory Formation.” Proceedings of the National Academy of Sciences 111 (51): E5584–92.
 
-#### Hebb則と主成分分析
-Oja則を用いることで**主成分分析(Principal component analysis; PCA)** という処理をニューラルネットワークにおいて実現できる．主成分分析とは-
+### Hebb則と主成分分析
+Oja則を用いることで**主成分分析** (Principal component analysis; PCA) という処理をニューラルネットワークにおいて実現できる．
 
-ToDo:主成分分析の説明
+#### 主成分分析
+主成分分析 (PCA) は，高次元のデータに内在する低次元の構造を抽出するための線形次元削減法である．この手法は，分散が最大となる方向にデータを射影することにより，元の情報をなるべく保ちながら次元を削減する．
 
-### Oja則によるPCAの実行
+まず，$n$ 個のサンプル $\{\mathbf{x}_1, \dots, \mathbf{x}_n\}$ が $d$ 次元の実ベクトル空間 $\mathbb{R}^d$ に属するとし，これらを列ベクトルとしてまとめたデータ行列を $\mathbf{X} = [\mathbf{x}_1, \dots, \mathbf{x}_n]^\top \in \mathbb{R}^{n \times d}$ とする．PCA では以下の手順を踏む．
+
+1. **平均の除去**  
+   各特徴量について平均を 0 にするため，データを中心化する：
+   $$
+   \bar{\mathbf{x}} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i, \quad \tilde{\mathbf{x}}_i = \mathbf{x}_i - \bar{\mathbf{x}}.
+   $$
+   中心化されたデータ行列を $\tilde{\mathbf{X}}$ とおく．
+
+2. **共分散行列の構築**  
+   中心化後のデータから共分散行列 $\mathbf{C}$ を求める：
+   $$
+   \mathbf{C} = \frac{1}{n} \tilde{\mathbf{X}}^\top \tilde{\mathbf{X}} \in \mathbb{R}^{d \times d}.
+   $$
+
+3. **固有値分解**  
+   共分散行列に対して固有値分解を行い，固有ベクトル $\{\mathbf{w}_1, \dots, \mathbf{w}_d\}$ と対応する固有値 $\{\lambda_1, \dots, \lambda_d\}$ を求める．固有値は分散量に対応し，$\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d \geq 0$ の順に並べる．固有ベクトルは以下を満たす：
+   $$
+   \mathbf{C} \mathbf{w}_k = \lambda_k \mathbf{w}_k, \quad k=1,\dots,d.
+   $$
+
+4. **次元削減と主成分の構成**  
+   上位 $m < d$ 個の固有ベクトル $\mathbf{W}_m = [\mathbf{w}_1, \dots, \mathbf{w}_m]$ を用いて，元のデータを $m$ 次元に射影する：
+   $$
+   \mathbf{z}_i = \mathbf{W}_m^\top \tilde{\mathbf{x}}_i \in \mathbb{R}^m.
+   $$
+   これにより得られる $\mathbf{z}_i$ は主成分と呼ばれる．
+
+PCA の目的は，情報損失（再構成誤差）を最小限に抑えながら，できるだけ少ない次元でデータを表現することである．この観点から，PCA は次の最適化問題の解とみなすこともできる：
+
+$$
+\max_{\mathbf{W}_m \in \mathbb{R}^{d \times m}} \operatorname{Tr}(\mathbf{W}_m^\top \mathbf{C} \mathbf{W}_m), \quad \text{s.t. } \mathbf{W}_m^\top \mathbf{W}_m = \mathbf{I}_m,
+$$
+
+ここで $\operatorname{Tr}(\cdot)$ はトレース演算，$\mathbf{I}_m$ は $m$ 次の単位行列である．この最適化問題の解は，共分散行列 $\mathbf{C}$ の上位 $m$ 個の固有ベクトルからなる直交行列 $\mathbf{W}_m$ である．
+
+PCA はデータの冗長性を取り除くと同時に，ノイズの低減や可視化の手法としても広く応用される．また，線形変換であるため，計算効率も高いという特徴がある．
+
+#### Oja則によるPCAの実行
 ここでOja則が主成分分析を実行できることを示す．重みの変化量の期待値を取る．
 
 $$
@@ -294,7 +341,7 @@ $$
 
 となる．ただし，$\mathrm{Diag}(\cdot)$は行列の対角成分からなる対角行列を生み出す作用素である．
 
-### Sanger則
+#### Sanger則
 Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．**Sanger則** (Sanger's rule)，あるいは**一般化Hebb則** (generalized Hebbian algorithm; GHA) は，Oja則に**Gram–Schmidtの正規直交化法** (Gram–Schmidt orthonormalization) を組み合わせた学習則であり，次式で表される．
 
 $$
@@ -311,10 +358,10 @@ $\mathrm{LT}(\cdot)$は行列の対角成分より上側の要素を0にした�
 ToDo: 詳細
 
 #### 非負主成分分析によるグリッドパターンの創発
-内側嗅内皮質(MEC)にある**グリッド細胞 (grid cells)** は六角形格子状の発火パターンにより自己位置等を符号化するのに貢献している．この発火パターンを生み出すモデルは多数あるが，**場所細胞(place cells)** の発火パターンを**非負主成分分析(nonnegative principal component analysis)** で次元削減するとグリッド細胞のパターンが生まれるというモデルがある {cite:p}`Dordek2016-ff`．非線形Hebb学習を用いてこのモデルを実装しよう．なお，同様のことは**非負値行列因子分解 (NMF: nonnegative matrix factorization)** でも可能である．
+内側嗅内皮質(MEC)にある**グリッド細胞** (grid cells) は六角形格子状の発火パターンにより自己位置等を符号化するのに貢献している．この発火パターンを生み出すモデルは多数あるが，**場所細胞** (place cells) の発火パターンを**非負主成分分析** (nonnegative principal component analysis) で次元削減するとグリッド細胞のパターンが生まれるというモデルがある {cite:p}`Dordek2016-ff`．非線形Hebb学習を用いてこのモデルを実装しよう．なお，同様のことは**非負値行列因子分解** (nonnegative matrix factorization; NMF) でも可能である．
 
 ##### 場所細胞の発火パターン
-まず，訓練データとなる場所細胞の発火パターンを人工的に作成する．場所細胞の発火パターンは**Difference of Gaussians (DoG)** で近似する．DoGは大きさの異なる2つのガウス関数の差分を取った関数であり，画像に適応すればband-passフィルタとして機能する．また，DoGは網膜神経節細胞等の受容野のON中心OFF周辺型受容野のモデルとしても用いられる．受容野中央では活動が大きく，その周辺では活動が抑制される，という特性を持つ．2次元のガウス関数とDoG関数を実装する．
+まず，訓練データとなる場所細胞の発火パターンを人工的に作成する．場所細胞の発火パターンはガウス差分フィルタ (difference of Gaussians; DoG) で近似する．DoGは大きさの異なる2つのガウス関数の差分を取った関数であり，画像に適応すればband-passフィルタとして機能する．また，DoGは網膜神経節細胞等の受容野のON中心OFF周辺型受容野のモデルとしても用いられる．受容野中央では活動が大きく，その周辺では活動が抑制される，という特性を持つ．2次元のガウス関数とDoG関数を実装する．
 
 Place cellの受容野をDoGに設定したが，これが無いと格子状の受容野は出現しない．path integrationをRNNで実行する場合も同様．一方で，DoGは場所細胞の受容野としては不適切である．
 
@@ -328,15 +375,15 @@ ToDo: 他のgrid cellsのモデルについて
 
 ICAでは，観測ベクトル $\mathbf{x} \in \mathbb{R}^n$ が独立な潜在変数ベクトル $\mathbf{s} \in \mathbb{R}^n$ の線形混合であると仮定する．すなわち，
 
-\[
+$$
 \mathbf{x} = \mathbf{A} \mathbf{s}
-\]
+$$
 
 と表される．ここで，$\mathbf{A}$ は未知の正則行列であり，これを分離行列 $\mathbf{W}$ によって推定することを目指す．独立成分 $\mathbf{s}$ の推定は，
 
-\[
+$$
 \mathbf{y} = \mathbf{W} \mathbf{x}
-\]
+$$
 
 と表されるように行い，得られた $\mathbf{y}$ の各成分が統計的に独立となるように $\mathbf{W}$ を求める．
 
@@ -344,17 +391,17 @@ ICAを実現するための代表的な原理の一つに，InfoMax（情報最�
 
 具体的には，非線形活性化関数 $g(\cdot)$ を用いた出力
 
-\[
+$$
 \mathbf{y} = g(\mathbf{W} \mathbf{x})
-\]
+$$
 
 に対し，出力のエントロピー $H(\mathbf{y})$ を最大化するように $\mathbf{W}$ を調整する．ただし，$g(\cdot)$ は例えばシグモイド関数のような非線形性を持つ関数とする．
 
 InfoMax原理に基づくICAの学習則は，出力の対数尤度を最大化する勾配上昇法として導出される．例えば，出力の対数尤度を $L(\mathbf{W})$ としたとき，
 
-\[
+$$
 \nabla_{\mathbf{W}} L(\mathbf{W}) \propto \left( \mathbf{I} + (\mathbf{1} - 2\mathbf{y}) \mathbf{x}^\top \right) \mathbf{W}^{-\top}
-\]
+$$
 
 といった形の学習則が得られる（ここで，$\mathbf{1}$ は全ての成分が1のベクトル）．このようにして，$\mathbf{y}$ の統計的独立性が最大化されるような $\mathbf{W}$ を求めることが可能となる．
 
@@ -371,9 +418,9 @@ InfoMax ICAは，確率密度関数の仮定を明示せずに信号の非ガウ
 
 SFAの基本的な最適化問題は以下のように定式化される：
 
-\[
+$$
 \min_{g} \left\langle \left( \frac{d}{dt} g(\mathbf{x}(t)) \right)^2 \right\rangle_t
-\]
+$$
 
 ただし，$\langle \cdot \rangle_t$ は時間平均を意味する．このままでは自明な定数解（全く変化しない出力）が得られるため，以下のような制約条件を課す：
 
@@ -398,19 +445,21 @@ Slow Feature Analysis (SFA) は，時系列データに含まれる情報のう�
 ### 競合学習
 
 ### 自己組織化マップと視覚野の構造
-視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生  (activity dependent development) により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，**自己組織化マップ (self-organizing map)** {cite:p}`Kohonen1982-mn`, {cite:p}`Kohonen2013-yt`を取り上げる．
+**自己組織化マップ**（Self-Organizing Map; SOM）は、Kohonenによって提案された教師なし学習アルゴリズムであり、高次元データを低次元（通常は2次元）の格子状マップに写像することにより、データのトポロジ的構造を保ちながら可視化する手法である。SOMは、**競合学習**（competitive learning）と呼ばれる学習規則に基づいており、入力パターンに最も近い出力ユニット（ニューロン）が「勝者」となり、その近傍のユニットとともに重みが更新される。競合学習はSOMに限らず、出力ニューロンが互いに競い合い、最も適合するものだけが活性化されるような学習機構を指す。SOMではこの競合に加えて、空間的な隣接性を重視した協調的な重み更新が行われる点が特徴的である。これにより、類似した入力はマップ上の近い位置に投影されるようになり、結果として**トポグラフィックマッピング** (topographic mapping) が実現される。
+
+視覚野にはコラム構造が存在する．こうした構造は神経活動依存的な発生  (activity dependent development) により獲得される．本節では視覚野のコラム構造を生み出す数理モデルの中で，**自己組織化マップ** (self-organizing map) {cite:p}`Kohonen1982-mn`, {cite:p}`Kohonen2013-yt`を取り上げる．
 
 自己組織化マップを視覚野の構造に適応したのは{cite:p}`Obermayer1990-gq` {cite:p}`N_V_Swindale1998-ri`などの研究である．視覚野マップの数理モデルとして自己組織化マップは受容野を考慮しないなどの簡略化がなされているが，単純な手法にして視覚野の構造に関する良い予測を与える．他の数理モデルとしては自己組織化マップと発想が類似している **Elastic net**  {cite:p}`Durbin1987-bp` {cite:p}`Durbin1990-xx` {cite:p}`Carreira-Perpinan2005-gy`　(ここでのElastic netは正則化手法としてのElastic net regularizationとは異なる)や受容野を明示的に設定した {cite:p}`Tanaka2004-vz`， {cite:p}`Ringach2007-oe`などのモデルがある．総説としては{cite:p}`Das2005-mq`，{cite:p}`Goodhill2007-va` ，数理モデル同士の関係については{cite:p}`2002-nm`が詳しい．
 
-自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる {cite:p}`Carreira-Perpinan2005-gy`　 (Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
+自己組織化マップでは「抹消から中枢への伝達過程で損失される情報量」，および「近い性質を持ったニューロン同士が結合するような配線長」の両者を最小化するような学習が行われる．包括性 (coverage) と連続性 (continuity) のトレードオフとも呼ばれる {cite:p}`Carreira-Perpinan2005-gy` (Elastic netは両者を明示的に計算し，線形結合で表されるエネルギー関数を最小化する．Elastic netは本書では取り扱わないが，MATLAB実装が公開されている
 <https://faculty.ucmerced.edu/mcarreira-perpinan/research/EN.html>) ． 連続性と関連する事項として，近い性質を持つ細胞が脳内で近傍に存在するような発生/発達過程を**トポグラフィックマッピング (topographic mapping)** と呼ぶ．トポグラフィックマッピングの数理モデルの初期の研究としては{cite:p}`Von_der_Malsburg1973-bz` {cite:p}`Willshaw1976-zo` {cite:p}`Takeuchi1979-mi`などがある．
 
 発生の数理モデルに関する総説 {cite:p}`Van_Ooyen2011-fz`, {cite:p}`Goodhill2018-ho`
 
 ### 単純なデータセット
-SOMにおける$n$番目の入力を $\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)$，$m$番目のニューロン$ (m=1, \ldots, M) $の重みベクトル (または活動ベクトル, 参照ベクトル) を$\mathbf{w}_m(t)\in \mathbb{R}^{D}$とする {cite:p}`Kohonen2013-yt`．また，各ニューロンの物理的な位置を$\mathbf{x}_m$とする．このとき，$\mathbf{v}(t)$に対して$\mathbf{w}_m(t)$を次のように更新する．
+SOMにおける $n$ 番目の入力を $\mathbf{v}(t)=\mathbf{v}_n\in \mathbb{R}^{D} (n=1, \ldots, N)$，$m$番目のニューロン $(m=1, \ldots, M)$ の重みベクトル（または活動ベクトル, 参照ベクトル）を $\mathbf{w}_m(t)\in \mathbb{R}^{D}$ とする {cite:p}`Kohonen2013-yt`．また，各ニューロンの物理的な位置を $\mathbf{x}_m$ とする．このとき，$\mathbf{v}(t)$ に対して $\mathbf{w}_m(t)$ を次のように更新する．
 
-まず，$\mathbf{v}(t)$と$\mathbf{w}_m(t)$の間の距離が最も小さい (類似度が最も大きい) ニューロンを見つける．距離や類似度としてはユークリッド距離やコサイン類似度などが考えられる．
+まず，$\mathbf{v}(t)$ と $\mathbf{w}_m(t)$ の間の距離が最も小さい (類似度が最も大きい) ニューロンを見つける．距離や類似度としてはユークリッド距離やコサイン類似度などが考えられる．
 
 $$
 \begin{align}
@@ -419,9 +468,9 @@ $$
 \end{align}
 $$
 
-この，$c$番目のニューロンを**勝者ユニット(best matching unit; BMU)** と呼ぶ．コサイン類似度において，$\mathbf{w}_m(t)^\top\mathbf{v}(t)$は線形ニューロンモデルの出力となる．このため，コサイン距離を採用する方が生理学的に妥当でありSOMの初期の研究ではコサイン類似度が用いられている {cite:p}`Kohonen1982-mn`．しかし，コサイン類似度を用いる場合は$\mathbf{w}_m$および$\mathbf{v}$を正規化する必要がある．ユークリッド距離を用いると正規化なしでも学習できるため，SOMを応用する上ではユークリッド距離が採用される事が多い．ユークリッド距離を用いる場合，$\mathbf{w}_m$は重みベクトルではなくなるため，活動ベクトルや参照ベクトルと呼ばれる．ここでは結果の安定性を優先してユークリッド距離を用いることとする．
+この，$c$ 番目のニューロンを **勝者ユニット** (best matching unit; BMU) と呼ぶ．コサイン類似度において，$\mathbf{w}_m(t)^\top\mathbf{v}(t)$ は線形ニューロンモデルの出力となる．このため，コサイン距離を採用する方が生理学的に妥当でありSOMの初期の研究ではコサイン類似度が用いられている {cite:p}`Kohonen1982-mn`．しかし，コサイン類似度を用いる場合は $\mathbf{w}_m$ および $\mathbf{v}$ を正規化する必要がある．ユークリッド距離を用いると正規化なしでも学習できるため，SOMを応用する上ではユークリッド距離が採用される事が多い．ユークリッド距離を用いる場合，$\mathbf{w}_m$ は重みベクトルではなくなるため，活動ベクトルや参照ベクトルと呼ばれる．ここでは結果の安定性を優先してユークリッド距離を用いることとする．
 
-こうして得られた$c$を用いて$\mathbf{w}_m$を次のように更新する．
+こうして得られた $c$ を用いて $\mathbf{w}_m$ を次のように更新する．
 
 $$
 \begin{equation}
