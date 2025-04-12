@@ -66,7 +66,36 @@ juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理
 Google ColabにおいてPythonやRに並んでJuliaを選択して使用することが可能となっている．
 
 ### 使用するライブラリ
-aaaどすaaa
+
+REPL
+で`]` を入力することで，パッケージ管理モードに移行する．
+
+本書で使用するJuliaライブラリは以下の通りである．
+
+
+描画用のライブラリには `PyPlot.jl` を使用した．`PyPlot` はPythonライブラリである `matplotlib` に依存したライブラリである．Juliaで完結させたい場合は `Plot.jl` や `Makie.jl` を使用することが推奨されるが，`PyPlot` (`matplotlib`) の方が高機能であるため，
+
+インタプリタ型言語である
+
+
+### 開発環境
+
+vscode
+
+筆者は（Pythonユーザーでもあるため）Jupyter Labを使用している．
+
+JuliaのみでJupyter Labを使用するには
+
+```julia
+using IJulia
+jupyterlab(detached=true)
+```
+
+とすればよい．ただし，この際にCondaを入れることになるため，別途Pythonをインストールしておく方が推奨される．
+
+p.33
+
+`Pluto.jl` を用いることも可能である
 
 ### Julia言語の基本構文
 
@@ -226,7 +255,7 @@ $$
 \in \mathbb{R}^{q \times p}
 $$
 
-である．これは $\nabla_\mathbf{A} y(\mathbf{A}):=\frac{\partial y}{\partial \mathbf{A}}$ とも表記する．
+である．これは $\nabla_\mathbf{A} y(\mathbf{A}):= (\frac{\partial y}{\partial \mathbf{A}})^\top$ とも表記する．
 
 ### 微分方程式
 微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
