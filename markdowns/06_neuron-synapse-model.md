@@ -18,7 +18,7 @@ $$
 
 $$
 \begin{equation}
-\underbrace{C_m\frac {dV(t)}{dt}}_{I_\text{Cap} (t)}=I_{m}(t)-I_\text{Na}(t)-I_\text{K}(t)-I_\text{L}(t)
+\underbrace{C_m\frac {dV(t)}{dt}}_{= I_\text{Cap} (t)}=I_{m}(t)-I_\text{Na}(t)-I_\text{K}(t)-I_\text{L}(t)
 \end{equation}
 $$
 
@@ -240,6 +240,19 @@ $$
 
 ## マルチコンパートメントモデル
 
+
+Hodgkin-Huxleyの定式化
+
+$k$ をイオンの種類として，
+
+$$
+I_k:=g_k m_k^x h_k^y (V_i - E_k)
+$$
+
+$g_k$ は最大コンダクタンス，$m_k, h_k$ はそれぞれ活性化ゲート変数，不活性化ゲート変数である．$x, y$ は指数である．$V_i$ は $i$ 番目のコンパートメントの膜電位であり，$E_k$ は平衡電位である．
+ 
+https://github.com/beaherrera/2-compartments_L5-PC_model/tree/master/IonicCurrents
+
 ケーブル方程式の離散化
 
 https://neuronaldynamics.epfl.ch/online/Ch3.S4.html
@@ -254,6 +267,13 @@ Ball and Stick model
 
 three compartment model
 https://pmc.ncbi.nlm.nih.gov/articles/PMC4516889/
+
+https://www.jneurosci.org/content/40/44/8513.full#ref-100
+
+https://www.nature.com/articles/s41467-019-11537-7
+https://www.science.org/doi/10.1126/science.1127240
+
+https://www.jneurosci.org/content/40/44/8513.full#sec-2
 
 
 神経細胞の電気的活動を詳細に記述するためには，単一の点としてニューロンをモデル化する単純なモデル（例：leaky integrate-and-fireモデル）では不十分である．特に，樹状突起や軸索といった構造的に異なる部分の電気的性質を記述するためには，multi compartment model（多区画モデル）と呼ばれる手法が用いられる．このモデルでは，ニューロン全体を電気回路として捉え，各構造（区画）を電気的に独立した要素として記述し，それらを電気的に接続することで，ニューロン全体の動態を近似する．
