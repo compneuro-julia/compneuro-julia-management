@@ -762,9 +762,7 @@ $$
 \end{equation}
 $$
 
-ここで$\lambda \geq 0$は**正則化係数**（regularization parameter）であり、モデルのあてはまりと複雑さのトレードオフを制御する。
-
-> **注記：** 通常、$w_0$（切片）には正則化を加えないことが多いため、必要に応じて$\mathbf{w}$の対象を$[w_1, \dots, w_p]^\top$に限定する処理を行う。
+ここで$\lambda \geq 0$は**正則化係数**（regularization parameter）であり、モデルのあてはまりと複雑さのトレードオフを制御する。なお通常、$w_0$（切片）には正則化を加えないことが多いため、必要に応じて$\mathbf{w}$の対象を$[w_1, \dots, w_p]^\top$に限定する処理を行う。
 
 ##### 正規方程式による解
 L2 正則化付きの目的関数を$\mathbf{w}$で微分して0に等しいとおくと、次のような修正された正規方程式が得られる：
@@ -849,3 +847,5 @@ $$
 $$
 \nabla \ell(\mathbf{w}) = \sum_{i=1}^n (y^{(i)} - \sigma(z^{(i)})) \mathbf{x}^{(i)}
 $$
+
+Cox, D. R. (1958). "The regression analysis of binary sequences." Journal of the Royal Statistical Society: Series B (Methodological), 20(2), 215–242.
