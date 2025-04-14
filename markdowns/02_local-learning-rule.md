@@ -6,12 +6,56 @@
 
 AIS
 
+神経細胞はある程度区画化されているが，
+
 神経細胞をモデル化する上では，詳細なモデルから抽象化されたモデルを説明する方が理解は深まるが，本書では発火率モデルの次にスパイキングモデルの説明を行う都合上，抽象化された単純なモデルから複雑な生物物理モデルの説明へと移行する．
 
 発火率モデル (firing rate model) と呼ぶ．発火率モデルは
 
+発火率モデル
+離散時間
+連続時間
+を説明．形式ニューロンとperceptronは省略するか．
+
+
+MuCulloch-Pittsの形式ニューロン (1943)
+
+離散時間
+
+$$
+\mathbf{y}=f(\mathbf{Wx})
+$$
+
+連続時間
+$$
+\tau\frac{d\mathbf{y}(t)}{dt} = -\mathbf{y}(t) + f(\mathbf{Wx}(t))
+$$
+
+Wilson Cowan
+
+Amari Model
+https://link.springer.com/referenceworkentry/10.1007/978-1-4614-7320-6_51-2
+
+FIRING RATE MODELS AS ASSOCIATIVE MEMORY: EXCITATORY-INHIBITORY BALANCE FOR ROBUST RETRIEVAL
+
+Evolution of the Wilson–Cowan equations
+https://link.springer.com/article/10.1007/s00422-021-00912-7
+
+Naka–Rushton関数
+
+
+The brain wave equation: a model for the EEG
+https://www.sciencedirect.com/science/article/pii/0025556474900200
+
+Tutorial on Neural Field Theory
+
+https://compneuro.neuromatch.io/tutorials/W2D4_DynamicNetworks/student/W2D4_Tutorial2.html
+
+Before and beyond the Wilson-Cowan equations
+
+
 ## 形式ニューロン
-人工ニューロンの理論的基盤は，生物の神経細胞の単純化に基づいており，その最も基本的な形式は**形式ニューロン（formal neuron）**と呼ばれる．これは，複数の入力信号を受け取り，それらを重み付きで加算し，ある閾値を超えたときに出力を発するという単純な演算規則に従うモデルである．形式ニューロンにおける出力 $y$ は，入力ベクトル $\mathbf{x} = (x_1, x_2, \dots, x_n)$ に対して，対応する重みベクトル $\mathbf{w} = (w_1, w_2, \dots, w_n)$ を用いて次のように定義される：
+人工ニューロンの理論的基盤は，生物の神経細胞の単純化に基づいており，その最も基本的な形式は**形式ニューロン**（formal neuron）と呼ばれる．これは，複数の入力信号を受け取り，それらを重み付きで加算し，ある閾値を超えたときに出力を発するという単純な演算規則に従うモデルである．形式ニューロンにおける出力 $y$ は，入力ベクトル $\mathbf{x} = (x_1, x_2, \dots, x_n)$ に対して，対応する重みベクトル $\mathbf{w} = (w_1, w_2, \dots, w_n)$ を用いて次のように定義される：
 
 $$
 y = \phi\left( \sum_{i=1}^n w_i x_i + b \right) = \phi(\mathbf{w}^\top \mathbf{x} + b)
@@ -216,7 +260,7 @@ $$
 \end{equation}
 $$
 
-として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率** (learning rate) と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．ただし，$\varphi(\cdot), \phi(\cdot)$は基本的に恒等関数に設定される場合が多い．この場合，Hebb則は $\tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top$ と簡潔に表現される．
+として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率** (learning rate) と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．$\varphi(\cdot), \phi(\cdot)$ が恒等関数に設定される場合，Hebb則は $\tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top$ と簡潔に表現される．
 
 
 #### Hebb則の生理的機序とLTP・LTDの実験的発見

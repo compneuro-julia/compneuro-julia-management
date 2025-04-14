@@ -3,6 +3,10 @@
 
 ## コンダクタンスベースモデル※
 
+Model neurons: From Hodgkin-Huxley to hopfield
+https://link.springer.com/chapter/10.1007/3540532676_37
+
+
 ### Hodgkin-Huxleyモデル
 **Hodgkin-Huxleyモデル** (HH モデル)は, ニューロンの膜興奮を表現する，初めに導出された数理モデルである {cite:p}`Hodgkin1952-gy`\footnote{HodgkinおよびHuxleyの論文の図をカラー化して分かりやすくした論文 {cite:p}`Hopper2022-xj` がある．}．HodgkinおよびHuxleyはヤリイカの巨大神経軸索に対して**電位固定法**(voltage-clamp)を用いた実験を行い, 実験から得られた観測結果を元にモデルを構築した {cite:p}`Schwiening2012-pi`．HHモデルには等価な電気回路モデルがあり, **膜の並列等価回路モデル** (parallel conductance model)と呼ばれている．膜の並列等価回路モデルでは, ニューロンの細胞膜をコンデンサ, 細胞膜に埋まっているイオンチャネルを可変抵抗 (動的に変化する抵抗) として置き換える．
 
@@ -138,6 +142,8 @@ $v$は膜電位で，$u$は回復変数(recovery variable)と呼ばれる． Fit
 
 ## 積分発火モデル
 ### Leaky integrate-and-fire モデル
+Lapicque's introduction of the integrate-and-fire model neuron (1907)
+
 生理学的なイオンチャネルの挙動は考慮せず, 入力電流を膜電位が閾値に達するまで時間的に積分するというモデルを**integrate-and-fire** (IF, 積分発火)モデル という．さらに, IFモデルにおいて膜電位の漏れ (leak) \footnote{この漏れはイオンの拡散などによるもの． }も考慮したモデルを **leaky integrate-and-fire** (LIF, 漏れ積分発火) モデル と呼ぶ．ここではLIFモデルのみを取り扱う．
 
 ニューロンの膜電位を$V_m(t)$, 静止膜電位を$V_\text{rest}$, 入力電流\footnote{シナプス入力による電流がどうなるかは，第三章「シナプス伝達のモデル」で扱う．}を$I(t)$, 膜抵抗を$R_m$, 膜電位の時定数を$\tau_m\ (=R_m \cdot C_m)$とすると, 式は次のようになる\footnote{$(V_{m}(t)-V_\text{rest})$の部分は膜電位の基準を静止膜電位としたことにして, 単に$V_m(t)$だけの場合もある． また, 右辺の$RI(t)$の部分は単に$I(t)$とされることもある． 同じ表記だが, この場合の$I(t)$はシナプス電流に比例する量, となっている(単位はmV)． }．
