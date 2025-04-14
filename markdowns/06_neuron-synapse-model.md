@@ -154,9 +154,11 @@ $$
 \end{equation}
 $$
 
-ここで, $V_m$が閾値(threshold)\footnote{thから始まるので文字$\theta$が使われることもある．}$V_{\text{th}}$を超えると, 脱分極が起こり, 膜電位はピーク電位 $V_{\text{peak}}$まで上昇する．発火後は再分極が起こり, 膜電位はリセット電位 $V_{\text{reset}}$まで低下すると仮定する\footnote{リセット電位は静止膜電位と同じ場合もあれば, 過分極を考慮して静止膜電位より低めに設定することもある．}．発火後, 一定の期間$\tau_{\text{ref}}$ の間は膜電位が変化しない\footnote{実装によっては不応期の間は膜電位の変化は許容するが発火は生じないようにすることもある．} とする．これを **不応期(refractory time period)** と呼ぶ．
+ここで, $V_m$が閾値(threshold)\footnote{thから始まるので文字$\theta$が使われることもある．}$V_{\text{th}}$を超えると, 脱分極が起こり, 膜電位はピーク電位 $V_{\text{peak}}$まで上昇する．発火後は再分極が起こり, 膜電位はリセット電位 $V_{\text{reset}}$まで低下すると仮定する\footnote{リセット電位は静止膜電位と同じ場合もあれば, 過分極を考慮して静止膜電位より低めに設定することもある．}．発火後, 一定の期間$\tau_{\text{ref}}$ の間は膜電位が変化しない\footnote{実装によっては不応期の間は膜電位の変化は許容するが発火は生じないようにすることもある．} とする．これを **不応期** (refractory time period) と呼ぶ．
 
 以上を踏まえてLIFモデルを実装してみよう．まず必要なパッケージを読み込む．
+
+閾値をadaptiveにする．
 
 ### 解析的計算によるF-I curveの描画
 ここまでは数値的なシミュレーションによりF-I curveを求めた．以下では解析的にF-I curveの式を求めよう．具体的には，一定かつ持続的な入力電流を$I$としたときのLIFニューロンの発火率(firing rate)が
@@ -659,7 +661,7 @@ $$
 
 ## 短期的シナプス可塑性
 
-シナプス前活動に応じて**シナプス伝達効率** (synaptic efficacy)が動的に変化する性質を**短期的シナプス可塑性** (Short-term synaptic plasticity; STSP)といい，このような性質を持つシナプスを**動的シナプス** (dynamical synapses)と呼ぶ．シナプス伝達効率が減衰する現象を短期抑圧 (short-term depression; STD)，増強する現象を短期促通(short-term facilitation; STF)という．さらにそれぞれに対応するシナプスを減衰シナプス，増強シナプスという．ここでは{cite:p}`Mongillo2008-kk`および{cite:p}`Orhan2019-rq`で用いられている定式化を使用する．
+シナプス前活動に応じて**シナプス伝達効率** (synaptic efficacy) が動的に変化する性質を**短期的シナプス可塑性** (Short-term synaptic plasticity; STSP) といい，このような性質を持つシナプスを**動的シナプス** (dynamical synapses)と呼ぶ．シナプス伝達効率が減衰する現象を短期抑圧 (short-term depression; STD)，増強する現象を短期促通(short-term facilitation; STF)という．さらにそれぞれに対応するシナプスを減衰シナプス，増強シナプスという．ここでは{cite:p}`Mongillo2008-kk`および{cite:p}`Orhan2019-rq`で用いられている定式化を使用する．
 
 $$
 \begin{align}
