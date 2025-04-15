@@ -1,0 +1,58 @@
+% https://github.com/JuliaLang/julia-logo-graphics
+\definecolor{JuliaRed}{HTML}{CB3C33}
+\definecolor{JuliaBlue}{HTML}{4063D8}
+\definecolor{JuliaGreen}{HTML}{389826}
+\definecolor{JuliaPurple}{HTML}{9558B2}
+
+\usepackage[colorlinks=true,allcolors=JuliaBlue]{hyperref}
+
+% main text styling
+\usepackage{luatexja-fontspec}
+
+% code styling
+%\setmonofont{DejaVu Sans Mono}
+\setmonofont{JuliaMono}[
+    Path = ./font/,
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Bold
+]
+\ltjsetparameter{jacharrange={-2,-3}}
+
+\usepackage{listings}
+\lstdefinelanguage{julia}%
+  {morekeywords=[1]{function,macro,if,elseif,else,end,return,begin,let,for,struct,while,
+                       try,catch,finally,module,using,import,export,global,const,local,abstract,mutable,
+                       primitive,type,do,break,continue,quote,baremodule,outer},
+  morekeywords = [2]{ %literal
+    false, true, nothing
+  },
+   sensitive=true,%
+   alsoother={$},%
+   morecomment=[l]\#,%
+   morecomment=[n]{\#=}{=\#},%
+   morestring=[s]{"}{"},%
+   morestring=[s]{\@}{\ },% %macro
+   morestring=[m]{'}{'},%
+}[keywords,comments,strings]%
+
+\lstset{%
+    language = julia,
+    basicstyle=\ttfamily\lst@ifdisplaystyle\footnotesize\fi,
+    breaklines=true,
+    breakatwhitespace=true,
+    prebreak=↵,
+    keywordstyle=\bfseries,
+    xleftmargin=15pt,  % indent
+    framexleftmargin=16pt,
+    framextopmargin=6pt,
+    framexbottommargin=6pt, 
+    frame=tb, framerule=0pt,
+    backgroundcolor=\color{gray!5},
+    keywordstyle     = [1]{\bfseries\color{JuliaBlue}},
+    keywordstyle     = [2]{\bfseries\color{JuliaRed}},
+    stringstyle      = \color{JuliaPurple},
+    commentstyle     = \color{JuliaGreen},
+    lineskip=-1pt,
+    showstringspaces=false,
+}

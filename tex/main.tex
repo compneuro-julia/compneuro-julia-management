@@ -1,0 +1,207 @@
+\documentclass[titlepage]{ltjsbook}
+\usepackage[
+  paperheight=232truemm, paperwidth=182truemm,
+  top=20truemm, bottom=15truemm, inner=15truemm, outer=15truemm
+  ]{geometry}
+
+%\documentclass[tombow, paper={182truemm, 232truemm}, titlepage]{ltjsbook}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+
+\usepackage{textgreek}
+\usepackage[luatex]{graphicx} 
+\usepackage[svgnames]{xcolor}
+\usepackage{sty/julia-syntax-highlighting} % 
+\usepackage{sty/indexing} % 
+
+\usepackage[export]{sty/adjustbox} % added
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyfoot{}
+\fancyhead[RO, LE]{\thepage}
+\fancyhead[LO]{\nouppercase{\leftmark}}
+\fancyhead[RE]{\nouppercase{\rightmark}}
+
+%\renewcommand{\chaptermark}[1]{\markboth{#1}{} }
+\renewcommand{\chaptermark}[1]{\markboth{第\ \thechapter\ 章. ~#1}{}}
+% \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{第\chaptername \thechapter 章.\ #1}}{}}
+% \renewcommand{\headrulewidth}{0pt}
+
+\usepackage{hyperref}
+
+% https://ja.overleaf.com/learn/latex/Bibliography_management_with_bibtex
+\usepackage[
+    backend=biber,
+    bibencoding=utf8,
+    style=authoryear-comp, 
+    url=false,
+    isbn=true,
+    doi=true,
+    natbib=true, 
+    alldates=year,
+    maxcitenames=2,
+    uniquelist=false, 
+    sorting=nty,
+    sortcites=true,
+    giveninits=true,
+    terseinits=false,
+    refsegment=chapter
+]{biblatex}
+
+% \addbibresource{bibfiles/appendix-references.bib}
+% \addbibresource{bibfiles/bayesian-brain-references.bib}
+% \addbibresource{bibfiles/energy-based-model-references.bib}
+% \addbibresource{bibfiles/introduction-references.bib}
+% \addbibresource{bibfiles/local-learning-rule-references.bib}
+% \addbibresource{bibfiles/motor-learning-references.bib}
+% \addbibresource{bibfiles/neuron-model-references.bib}
+% \addbibresource{bibfiles/neuronal-computation-references.bib}
+% \addbibresource{bibfiles/reinforcement-learning-references.bib}
+% \addbibresource{bibfiles/solve-credit-assignment-problem-references.bib}
+% \addbibresource{bibfiles/synapse-model-references.bib}
+
+\DeclareNameAlias{author}{last-first}
+\AtEveryBibitem{\clearlist{language}}
+\renewbibmacro{in:}{}
+
+% https://stackoverflow.com/questions/69682457/extended-links-in-citations
+% \makeatletter
+% \renewbibmacro*{cite}{%
+%   \printtext[bibhyperref]{\iffieldundef{shorthand}
+%     {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
+%        {\usebibmacro{cite:label}%
+%         \setunit{\printdelim{nonameyeardelim}}}
+%        {\printnames{labelname}%
+%         \setunit{\printdelim{nameyeardelim}}}%
+%      \usebibmacro{cite:labeldate+extradate}}
+%     {\usebibmacro{cite:shorthand}}}}
+% \makeatother
+
+\newcommand{\jl}{\lstinline[language=julia]}
+
+\title{\Huge \textbf{Juliaで学ぶ計算論的神経科学}}
+\author{\huge 山本 拓都}
+\date{\huge \today} 
+
+\begin{document}
+\maketitle
+
+\setcounter{tocdepth}{2}
+\tableofcontents
+\clearpage
+\chapter{はじめに}
+\input{./text/01_introduction.tex}
+% \input{./text/introduction/computational-neuroscience.tex} % 文献整理する
+% \input{./text/introduction/notation.tex} % ok
+% \input{./text/introduction/usage-julia-lang.tex} % 表を作り直す．これはtexで書いた方がよいか
+% \input{./text/introduction/linear-algebra.tex} % outputがtextの場合どうするか確認
+% \input{./text/introduction/differential-equation.tex} % ok
+% \input{./text/introduction/linear-regression.tex} % ok
+% \input{./text/introduction/probability-information-theory.tex} % ok
+% \input{./text/introduction/stochastic-process-differential-equation.tex} % ok
+
+\chapter{発火率モデルと局所学習則}
+%\input{./text/02_local-learning-rule.tex}
+% \chapter{神経細胞のモデル}
+% \input{./text/neuron-model/neuron-physiol.tex} % 内容なし
+% \input{./text/neuron-model/hodgkin-huxley.tex} % ok
+% \input{./text/neuron-model/fhn.tex}
+% \input{./text/neuron-model/lif.tex} % ok
+% \input{./text/neuron-model/izhikevich.tex}
+% \input{./text/neuron-model/isi.tex} % ok
+% \input{./text/neuron-model/neurite-growth-model.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+% % \printbibliography
+
+\chapter{エネルギーベースモデル}
+\chapter[ニューラルネットワークと貢献度分配問題]{ニューラルネットワークと\\貢献度分配問題}
+\chapter[再帰型ニューラルネットワークと経時的貢献度分配問題]{再帰型ニューラルネットワークと\\経時的貢献度分配問題}
+\chapter[ニューロンとシナプスの生物物理学的モデル]{ニューロンとシナプスの\\生物物理学的モデル}
+\chapter{スパイキングニューラルネットワークの学習則}
+\chapter{リザバーコンピューティング}
+\chapter{神経回路網によるベイズ推論}
+\chapter{運動学習と最適制御}
+\chapter{強化学習}
+\chapter{神経・神経回路の発生・構造的モデル}
+
+% \chapter{シナプス伝達のモデル}
+% \input{./text/synapse-model/synapse-physiol.tex} % ok
+% \input{./text/synapse-model/current-conductance-synapse.tex} %ok
+% \input{./text/synapse-model/expo-synapse.tex} % ok
+% \input{./text/synapse-model/kinetic-synapse.tex}% ok
+% \input{./text/synapse-model/synaptic-weighted.tex} % ok
+% \input{./text/synapse-model/dynamical-synapses.tex}% ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{神経回路網の演算処理}
+% \input{./text/neuronal-computation/neuronal-arithmetic.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{局所学習則}
+% % \input{./text/local-learning-rule/logistic-regression-perceptron.tex} % okだが修正必要．
+% \input{./text/local-learning-rule/pca-hebbian-learning.tex} % ok
+% % \input{./text/local-learning-rule/mds-anti-hebbian-learning.tex} % 大幅修正必要
+% \input{./text/local-learning-rule/slow-feature-analysis.tex} % ok
+% % \input{./text/local-learning-rule/stdp-learning.tex} % 大幅修正必要
+% \input{./text/local-learning-rule/self-organizing-map.tex} % ok2
+% \input{./text/local-learning-rule/heavy-tail.tex}
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{生成モデルとエネルギーベースモデル}
+% \input{./text/energy-based-model/energy-based-model.tex} % ok
+% \input{./text/energy-based-model/hopfield-model.tex} % ok
+% \input{./text/energy-based-model/boltzmann-machine.tex} % ok
+% \input{./text/energy-based-model/sparse-coding.tex} % ok
+% \input{./text/energy-based-model/predictive-coding.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{貢献度分配問題の解決策}
+% \input{./text/solve-credit-assignment-problem/backpropagation.tex} %ok
+% % \input{./text/solve-credit-assignment-problem/linear-network-learning-dynamics.tex} % 修正必要
+% \input{./text/solve-credit-assignment-problem/bptt.tex} % ok?
+% % \input{./text/solve-credit-assignment-problem/surrogate-gradient-snn.tex} % 未完成
+% % \input{./text/solve-credit-assignment-problem/reservoir-computing.tex} % 未完成
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{運動制御}
+% \input{./text/motor-learning/minimum-jerk.tex} % ok
+% \input{./text/motor-learning/minimum-variance.tex} % ok
+% \input{./text/motor-learning/optimal-feedback-control.tex} % ok
+% \input{./text/motor-learning/infinite-horizon-ofc.tex} % ok
+% % \input{./text/motor-learning/biological-ofc.tex} % 全体修正する
+% \input{./text/motor-learning/rat-trajectory.tex} % ok
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+% % \chapter{強化学習}
+% % % \input{./text/reinforcement-learning/td-learning.tex} % ref修正する
+% % \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% % \addcontentsline{toc}{section}{参考文献}
+
+% \chapter{神経回路網によるベイズ推論}
+% % \input{./text/bayesian-brain/neural-uncertainty-representation.tex} % 修正必要
+% \input{./text/bayesian-brain/bayesian-linear-regression.tex} % ok
+% \input{./text/bayesian-brain/mcmc.tex} % ok
+% \input{./text/bayesian-brain/neural-sampling.tex} % ok2
+% \input{./text/bayesian-brain/probabilistic-population-coding.tex} % ok
+% % \input{./text/bayesian-brain/quantile-expectile-regression.tex} 
+% \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+% \addcontentsline{toc}{section}{参考文献}
+
+%ここまで確認
+
+% \clearpage
+% \addcontentsline{toc}{chapter}{\indexname}
+% \printindex
+
+\end{document}

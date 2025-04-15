@@ -1,8 +1,8 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  15 APR 2025 13:32
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  15 APR 2025 13:44
  restricted system commands enabled.
  file:line:error style messages enabled.
-**d:/Github/compneuro-julia-management/book/main
-(d:/Github/compneuro-julia-management/book/main.tex
+**d:/Github/compneuro-julia-management/tex/main
+(d:/Github/compneuro-julia-management/tex/main.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 Lua module: luaotfload 2024-12-03 v3.29 Lua based OpenType font support
@@ -493,6 +493,9 @@ Package: mhsetup 2021/03/18 v1.4 programming setup (MH)
 \l_MT_below_shortintertext_sep=\dimen190
 \xmathstrut@box=\box72
 \xmathstrut@dim=\dimen191
+) (c:/texlive/2025/texmf-dist/tex/latex/jknapltx/mathrsfs.sty
+Package: mathrsfs 1996/01/01 Math RSFS package v1.0 (jk)
+\symrsfs=\mathgroup7
 ) (c:/texlive/2025/texmf-dist/tex/latex/textgreek/textgreek.sty
 Package: textgreek 2011/10/09 v0.7 Greek symbols in text
 Package textgreek Info: Loading the definitions for the Greek fontencoding. on input line 39.
@@ -1112,41 +1115,41 @@ Package: blx-case-expl3 2024/03/21 v3.20 expl3 case changing code for biblatex
 
 Package biblatex Warning: Conflicting options.
 (biblatex)                '<namepart>inits' conflicts with 'uniquename=full'.
-(biblatex)                Setting 'uniquename=init' on input line 89.
+(biblatex)                Setting 'uniquename=init' on input line 90.
 
 (./output/main.aux)
 \openout1 = main.aux
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for JY3/mc/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for JT3/mc/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for LGR/cmr/m/n on input line 89.
-LaTeX Font Info:    Trying loading font information for LGR+cmr on input line 89.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for JY3/mc/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for JT3/mc/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for LGR/cmr/m/n on input line 90.
+LaTeX Font Info:    Trying loading font information for LGR+cmr on input line 90.
  (c:/texlive/2025/texmf-dist/tex/latex/cbfonts-fd/lgrcmr.fd
 File: lgrcmr.fd 2017/07/29 v1.2 Greek European Computer Regular
 )
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 89.
-LaTeX Font Info:    ... okay on input line 89.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 90.
+LaTeX Font Info:    ... okay on input line 90.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: luatex
@@ -1201,7 +1204,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
  (c:/texlive/2025/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
-Package hyperref Info: Link coloring ON on input line 89.
+Package hyperref Info: Link coloring ON on input line 90.
  (./output/main.out) (./output/main.out)
 \@outlinefile=\write6
 
@@ -1211,58 +1214,58 @@ Package fontspec Info:
 (fontspec)             Adjusting the maths setup (use [no-math] to avoid
 (fontspec)             this).
 
-\symlegacymaths=\mathgroup7
+\symlegacymaths=\mathgroup8
 LaTeX Font Info:    Overwriting symbol font `legacymaths' in version `bold'
-(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 89.
-LaTeX Font Info:    Redeclaring math accent \acute on input line 89.
-LaTeX Font Info:    Redeclaring math accent \grave on input line 89.
-LaTeX Font Info:    Redeclaring math accent \ddot on input line 89.
-LaTeX Font Info:    Redeclaring math accent \tilde on input line 89.
-LaTeX Font Info:    Redeclaring math accent \bar on input line 89.
-LaTeX Font Info:    Redeclaring math accent \breve on input line 89.
-LaTeX Font Info:    Redeclaring math accent \check on input line 89.
-LaTeX Font Info:    Redeclaring math accent \hat on input line 89.
-LaTeX Font Info:    Redeclaring math accent \dot on input line 89.
-LaTeX Font Info:    Redeclaring math accent \mathring on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Delta on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Theta on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Xi on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Pi on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Phi on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Psi on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \Omega on input line 89.
-LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 89.
-LaTeX Font Info:    Redeclaring symbol font `operators' on input line 89.
+(Font)                  OT1/cmr/m/n --> OT1/cmr/bx/n on input line 90.
+LaTeX Font Info:    Redeclaring math accent \acute on input line 90.
+LaTeX Font Info:    Redeclaring math accent \grave on input line 90.
+LaTeX Font Info:    Redeclaring math accent \ddot on input line 90.
+LaTeX Font Info:    Redeclaring math accent \tilde on input line 90.
+LaTeX Font Info:    Redeclaring math accent \bar on input line 90.
+LaTeX Font Info:    Redeclaring math accent \breve on input line 90.
+LaTeX Font Info:    Redeclaring math accent \check on input line 90.
+LaTeX Font Info:    Redeclaring math accent \hat on input line 90.
+LaTeX Font Info:    Redeclaring math accent \dot on input line 90.
+LaTeX Font Info:    Redeclaring math accent \mathring on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Gamma on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Delta on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Theta on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Lambda on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Xi on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Pi on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Sigma on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Upsilon on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Phi on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Psi on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \Omega on input line 90.
+LaTeX Font Info:    Redeclaring math symbol \mathdollar on input line 90.
+LaTeX Font Info:    Redeclaring symbol font `operators' on input line 90.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `normal' on input line 89.
+(Font)              `operators' in the math version `normal' on input line 90.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 89.
+(Font)                  OT1/cmr/m/n --> TU/lmr/m/n on input line 90.
 LaTeX Font Info:    Encoding `OT1' has changed to `TU' for symbol font
-(Font)              `operators' in the math version `bold' on input line 89.
+(Font)              `operators' in the math version `bold' on input line 90.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 89.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/m/n on input line 90.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 89.
+(Font)                  TU/lmr/m/n --> TU/lmr/m/n on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 89.
+(Font)                  OT1/cmr/m/it --> TU/lmr/m/it on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 89.
+(Font)                  OT1/cmr/bx/n --> TU/lmr/b/n on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 89.
+(Font)                  OT1/cmss/m/n --> TU/lmss/m/n on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/m/n on input line 89.
+(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/m/n on input line 90.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 89.
+(Font)                  TU/lmr/m/n --> TU/lmr/b/n on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 89.
+(Font)                  OT1/cmr/bx/it --> TU/lmr/b/it on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 89.
+(Font)                  OT1/cmss/bx/n --> TU/lmss/b/n on input line 90.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/b/n on input line 89.
+(Font)                  OT1/cmtt/m/n --> TU/JuliaMono(0)/b/n on input line 90.
 \c@lstlisting=\count482
 Package biblatex Info: Trying to load language 'english'...
 Package biblatex Info: ... file 'english.lbx' found.
@@ -1276,48 +1279,53 @@ Package biblatex Info: Data encoding 'utf8' specified.
 
 \openout5 = main.bcf
 Package biblatex Info: Trying to load bibliographic data...
-Package biblatex Info: ... file 'main.bbl' found.
- (./main.bbl)
-Package biblatex Info: Reference section=0 on input line 89.
-Package biblatex Info: Reference segment=0 on input line 89.
+Package biblatex Info: ... file 'main.bbl' not found.
+
+No file main.bbl.
+Package biblatex Info: Reference section=0 on input line 90.
+Package biblatex Info: Reference segment=0 on input line 90.
 (load cache: extra_lmroman17-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 15.97903pt on input line 91.
+(Font)              scaled to size 15.97903pt on input line 92.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 15.97903pt on input line 91.
+(Font)              scaled to size 15.97903pt on input line 92.
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 91.
+(Font)              scaled to size 23.00687pt on input line 92.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 91.
+(Font)              scaled to size 23.00687pt on input line 92.
 (load cache: extra_lmroman12-bold.luc)
 LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <24.88> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 91.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 92.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 91.
+(Font)              scaled to size 23.00687pt on input line 92.
 LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <24.88> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 91.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 92.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 91.
+(Font)              scaled to size 23.00687pt on input line 92.
 (load cache: extra_lmroman12-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 91.
+(Font)              scaled to size 11.09656pt on input line 92.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 11.09656pt on input line 91.
+(Font)              scaled to size 11.09656pt on input line 92.
 (load cache: extra_lmroman6-regular.luc)
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 5.54828pt on input line 91.
-LaTeX Font Info:    Trying loading font information for U+msa on input line 91.
- (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+(Font)              scaled to size 5.54828pt on input line 92.
+LaTeX Font Info:    Trying loading font information for U+msa on input line 92.
+(c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying loading font information for U+msb on input line 91.
+LaTeX Font Info:    Trying loading font information for U+msb on input line 92.
  (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
+LaTeX Font Info:    Trying loading font information for U+rsfs on input line 92.
+ (c:/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 19.17854pt on input line 91.
+(Font)              scaled to size 19.17854pt on input line 92.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 19.17854pt on input line 91.
+(Font)              scaled to size 19.17854pt on input line 92.
 
 
 [1
@@ -1325,28 +1333,36 @@ LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
 
 {c:/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 93.
+(Font)              scaled to size 9.24713pt on input line 94.
 (load cache: extra_lmsans10-regular.luc)
 
 [2
 
 ]
-Package biblatex Info: Reference segment=1 on input line 93.
-Package biblatex Info: Setting label 'refsegment:01' on input line 93.
+Package biblatex Info: Reference segment=1 on input line 94.
+Package biblatex Info: Setting label 'refsegment:01' on input line 94.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 23.00687pt on input line 93.
-(load cache: extra_lmsans17-regular.luc) (./output/main.toc(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 1.
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 1.
-)
+(Font)              scaled to size 23.00687pt on input line 94.
+(load cache: extra_lmsans17-regular.luc) (./output/main.toc)
 \tf@toc=\write7
 
 \openout7 = main.toc
 
 
-[3] (./text/local-learning-rule/heavy-tail.tex
+[3]
+
+[4
+
+
+]
+第1章
+Package biblatex Info: Reference segment=2 on input line 96.
+Package biblatex Info: Setting label 'refsegment:02' on input line 96.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 19.17854pt on input line 96.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 19.17854pt on input line 96.
+(./text/01_introduction.tex
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
 LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
@@ -1357,109 +1373,397 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 13.31586pt on input line 1.
 (load cache: extra_lmsans12-regular.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 6.
+(Font)              scaled to size 11.09656pt on input line 2.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 6.
+(Font)              scaled to size 11.09656pt on input line 2.
+
+
+LaTeX Warning: Citation 'Blohm2020-vc' on page 5 undefined on input line 3.
+
+
+LaTeX Warning: Citation 'Marr1982-wk' on page 5 undefined on input line 4.
+
+(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 4.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 4.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 4.
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 5.54828pt on input line 4.
+
+LaTeX Warning: Citation 'Hassabis2017-zm' on page 5 undefined on input line 5.
+
+
+
+[5]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[6]
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 43.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 7.3977pt on input line 43.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[7]
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <8> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 7.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 62.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 7.
+(Font)              scaled to size 7.3977pt on input line 62.
 LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <8> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 7.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 62.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 7.
+(Font)              scaled to size 7.3977pt on input line 62.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_lmromandemi10-regular.luc)
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 84.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 84.
+
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
-[4
+[8]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[9]
+LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 142.
+
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[10]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[11]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[12]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[13]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[14]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[15]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[16]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[17]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[18]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[19]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[20]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[21]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[22]
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[23])
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[24]
+第2章
+Package biblatex Info: Reference segment=3 on input line 107.
+Package biblatex Info: Setting label 'refsegment:03' on input line 107.
+
+
+[25
 
 ]
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-<./fig/local-learning-rule/heavy-tail/cell006.png, id=72, 122.4575pt x 120.95187pt>
-File: ./fig/local-learning-rule/heavy-tail/cell006.png Graphic file (type png)
-<use ./fig/local-learning-rule/heavy-tail/cell006.png>
-Package luatex.def Info: ./fig/local-learning-rule/heavy-tail/cell006.png  used on input line 66.
-(luatex.def)             Requested size: 97.96611pt x 96.76161pt.
-(load cache: extra_lmroman9-regular.luc)
-LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 67.
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 8.32242pt on input line 67.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+
+[26
+
+]
+第3章
+Package biblatex Info: Reference segment=4 on input line 121.
+Package biblatex Info: Setting label 'refsegment:04' on input line 121.
 
 
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 4.80005pt, for example:
-(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+[27]
 
-[5<./fig/local-learning-rule/heavy-tail/cell006.png>]
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-<./fig/local-learning-rule/heavy-tail/cell011.png, id=105, 291.0875pt x 291.0875pt>
-File: ./fig/local-learning-rule/heavy-tail/cell011.png Graphic file (type png)
-<use ./fig/local-learning-rule/heavy-tail/cell011.png>
-Package luatex.def Info: ./fig/local-learning-rule/heavy-tail/cell011.png  used on input line 98.
-(luatex.def)             Requested size: 232.8703pt x 232.8703pt.
-)
+[28
+
+]
+第4章
+Package biblatex Info: Reference segment=5 on input line 122.
+Package biblatex Info: Setting label 'refsegment:05' on input line 122.
 
 
-Package fancyhdr Warning: \footskip is too small (0.0pt): 
-(fancyhdr)                Make it at least 4.80005pt, for example:
-(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+[29]
 
-[6<./fig/local-learning-rule/heavy-tail/cell011.png>] (./output/main.aux)
+[30
+
+]
+第5章
+Package biblatex Info: Reference segment=6 on input line 123.
+Package biblatex Info: Setting label 'refsegment:06' on input line 123.
+
+
+[31]
+
+[32
+
+]
+第6章
+Package biblatex Info: Reference segment=7 on input line 124.
+Package biblatex Info: Setting label 'refsegment:07' on input line 124.
+
+
+[33]
+
+[34
+
+]
+第7章
+Package biblatex Info: Reference segment=8 on input line 125.
+Package biblatex Info: Setting label 'refsegment:08' on input line 125.
+
+
+[35]
+
+[36
+
+]
+第8章
+Package biblatex Info: Reference segment=9 on input line 126.
+Package biblatex Info: Setting label 'refsegment:09' on input line 126.
+
+
+[37]
+
+[38
+
+]
+第9章
+Package biblatex Info: Reference segment=10 on input line 127.
+Package biblatex Info: Setting label 'refsegment:010' on input line 127.
+
+
+[39]
+
+[40
+
+]
+第10章
+Package biblatex Info: Reference segment=11 on input line 128.
+Package biblatex Info: Setting label 'refsegment:011' on input line 128.
+
+
+[41]
+
+[42
+
+]
+第11章
+Package biblatex Info: Reference segment=12 on input line 129.
+Package biblatex Info: Setting label 'refsegment:012' on input line 129.
+
+
+[43]
+
+[44
+
+]
+第12章
+Package biblatex Info: Reference segment=13 on input line 130.
+Package biblatex Info: Setting label 'refsegment:013' on input line 130.
+
+
+[45] (./output/main.aux)
  ***********
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A265761B4A33CF367218767FC9D7B908;149.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: F655D9ED9EA946674462AF8FDA63D939;3444
+(rerunfilecheck)             After:  9003EFEC0B60E8D8369195ED41693489;4992.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                main
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to 'main.run.xml'.
 
 \openout1 = main.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 28121 strings out of 475506
- 382242,1648299 words of node,token memory allocated
- 1087 words of node memory still in use:
-   10 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 179 attribute, 72 glue_spec, 27 attribute_list, 1 write, 13 user_defined nodes
-   avail lists: 1:49,2:96089,3:351,4:9262,5:1416,6:104,7:8124,8:57,9:9230,10:24,11:158,12:3
- 50451 multiletter control sequences out of 65536+600000
- 89 fonts using 73398471 bytes
- 125i,12n,128p,1898b,1160s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (6 pages, 220777 bytes).
+ 28395 strings out of 475506
+ 244637,1648299 words of node,token memory allocated
+ 3799 words of node memory still in use:
+   11 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 1 glyph, 1404 attribute, 74 glue_spec, 140 attribute_list, 1 write, 14 user_defined, 1 pdf_action nodes
+   avail lists: 1:24,2:54975,3:376,4:2350,5:531,6:66,7:6100,8:76,9:3045,10:46,11:68
+ 50611 multiletter control sequences out of 65536+600000
+ 111 fonts using 86112383 bytes
+ 125i,18n,128p,1897b,1182s stack positions out of 10000i,1000n,20000p,200000b,200000s
 
-PDF statistics: 204 PDF objects out of 1000 (max. 8388607)
- 157 compressed objects within 2 object streams
- 80 named destinations out of 1000 (max. 131072)
- 9 words of extra memory for PDF output out of 10000 (max. 100000000)
+warning  (pdf backend): unreferenced destination with name 'section.2.1'
+<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
+Output written on main.pdf (45 pages, 537119 bytes).
+
+PDF statistics: 606 PDF objects out of 1000 (max. 8388607)
+ 496 compressed objects within 5 object streams
+ 195 named destinations out of 1000 (max. 131072)
+ 233 words of extra memory for PDF output out of 10000 (max. 100000000)
 

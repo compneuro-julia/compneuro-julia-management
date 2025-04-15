@@ -1,0 +1,69 @@
+\indexentry{せんけいだいすう (Linear Algebra)@線形代数 (Linear Algebra)|hyperpage}{9}
+\indexentry{べくとるくうかん@ベクトル空間|hyperpage}{9}
+\indexentry{せんけいしゃぞう@線形写像|hyperpage}{9}
+\indexentry{ぎょうれつ@行列|hyperpage}{9}
+\indexentry{べくとるくうかん (vector space)@ベクトル空間 (vector space)|hyperpage}{9}
+\indexentry{せんけいしゃぞう (linear transformation)@線形写像 (linear transformation)|hyperpage}{9}
+\indexentry{ぎょうれつ (matrix)@行列 (matrix)|hyperpage}{9}
+\indexentry{ぎょうれつのせき@行列の積|hyperpage}{9}
+\indexentry{てんち@転置|hyperpage}{9}
+\indexentry{ぎゃくぎょうれつ@逆行列|hyperpage}{9}
+\indexentry{ぎょうれつしき@行列式|hyperpage}{9}
+\indexentry{せんけいほうていしきけい@線形方程式系|hyperpage}{10}
+\indexentry{こゆうちもんだい@固有値問題|hyperpage}{10}
+\indexentry{こゆうち (eigenvalue)@固有値 (eigenvalue)|hyperpage}{10}
+\indexentry{こゆうべくとる (eigenvector)@固有ベクトル (eigenvector)|hyperpage}{10}
+\indexentry{ぶんしれいあうときほう@分子レイアウト記法|hyperpage}{10}
+\indexentry{どうじほうていしき@同次方程式|hyperpage}{11}
+\indexentry{ひどうじほうていしき@非同次方程式|hyperpage}{11}
+\indexentry{Laplaceへんかん@Laplace変換|hyperpage}{12}
+\indexentry{びぶんえんざんをだいすうえんざんにへんかんできる@微分演算を代数演算に変換できる|hyperpage}{12}
+\indexentry{かくりつぶんぷ (probability distribution)@確率分布 (probability distribution)|hyperpage}{14}
+\indexentry{かくりつしつりょうかんすう@確率質量関数|hyperpage}{14}
+\indexentry{ぽあそんぶんぷ (Poisson distribution)@ポアソン分布 (Poisson distribution)|hyperpage}{14}
+\indexentry{かくりつみつどかんすう@確率密度関数|hyperpage}{14}
+\indexentry{せいきぶんぷ (normal distribution)@正規分布 (normal distribution)|hyperpage}{14}
+\indexentry{たへんりょうせいきぶんぷ (multivariate normal distribution)@多変量正規分布 (multivariate normal distribution)|hyperpage}{14}
+\indexentry{きたいち (Expectation)@期待値 (Expectation)|hyperpage}{15}
+\indexentry{じょうほうりょう (Information)@情報量 (Information)|hyperpage}{15}
+\indexentry{えんとろぴー (Entropy)@エントロピー (Entropy)|hyperpage}{15}
+\indexentry{Kullback-Leiblerじょうほうりょう (KL divergence)@Kullback-Leibler情報量 (KL divergence)|hyperpage}{15}
+\indexentry{そうごじょうほうりょう (Mutual Information)@相互情報量 (Mutual Information)|hyperpage}{16}
+\indexentry{かくりつかてい@確率過程|hyperpage}{16}
+\indexentry{Markovかてい@Markov過程|hyperpage}{16}
+\indexentry{Markovせい@Markov性|hyperpage}{16}
+\indexentry{Wienerかてい@Wiener過程|hyperpage}{16}
+\indexentry{のいず@ノイズ|hyperpage}{17}
+\indexentry{Ornstein–Uhlenbeck（OU）かてい@Ornstein–Uhlenbeck（OU）過程|hyperpage}{18}
+\indexentry{かくさんきんじ@拡散近似|hyperpage}{18}
+\indexentry{Campbellのていり@Campbellの定理|hyperpage}{18}
+\indexentry{Euler–Maruyamaほう@Euler–Maruyama法|hyperpage}{18}
+\indexentry{きかいがくしゅう@機械学習|hyperpage}{19}
+\indexentry{もでる@モデル|hyperpage}{19}
+\indexentry{がくしゅう@学習|hyperpage}{19}
+\indexentry{くんれん@訓練|hyperpage}{19}
+\indexentry{よそく@予測|hyperpage}{19}
+\indexentry{きょうしありがくしゅう@教師あり学習|hyperpage}{19}
+\indexentry{きょうしなしがくしゅう@教師なし学習|hyperpage}{20}
+\indexentry{はんきょうしありがくしゅう@半教師あり学習|hyperpage}{20}
+\indexentry{じこきょうしありがくしゅう@自己教師あり学習|hyperpage}{20}
+\indexentry{きょうかがくしゅう@強化学習|hyperpage}{20}
+\indexentry{せんけいかいきもでる@線形回帰モデル|hyperpage}{20}
+\indexentry{たんかいき@単回帰|hyperpage}{20}
+\indexentry{じゅうかいき@重回帰|hyperpage}{20}
+\indexentry{けいかくぎょうれつ@計画行列|hyperpage}{21}
+\indexentry{さいしょうじじょうほう@最小二乗法|hyperpage}{21}
+\indexentry{せいきほうていしき@正規方程式|hyperpage}{21}
+\indexentry{こうばいほう@勾配法|hyperpage}{21}
+\indexentry{せいきほうていしき@正規方程式|hyperpage}{21}
+\indexentry{Moore–Penrose ぎじぎゃくぎょうれつ@Moore–Penrose 擬似逆行列|hyperpage}{21}
+\indexentry{こうばいほう@勾配法|hyperpage}{22}
+\indexentry{がくしゅうりつ@学習率|hyperpage}{22}
+\indexentry{L2 せいそくか@L2 正則化|hyperpage}{22}
+\indexentry{りっじかいき@リッジ回帰|hyperpage}{22}
+\indexentry{せいそくかけいすう@正則化係数|hyperpage}{22}
+\indexentry{ろじすてぃっくかいき@ロジスティック回帰|hyperpage}{23}
+\indexentry{かくりつてきなぶんるいもでる@確率的な分類モデル|hyperpage}{23}
+\indexentry{かくりつもでる@確率モデル|hyperpage}{23}
+\indexentry{さいゆうすいてい@最尤推定|hyperpage}{23}
+\indexentry{こうばいこうかほう@勾配降下法|hyperpage}{24}

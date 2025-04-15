@@ -41,7 +41,7 @@
   >
 ]>
 <requests version="1.0">
-  <internal package="biblatex" priority="9" active="0">
+  <internal package="biblatex" priority="9" active="1">
     <generic>latex</generic>
     <provides type="dynamic">
       <file>main.bcf</file>
@@ -63,7 +63,7 @@
       <file>english.lbx</file>
     </requires>
   </internal>
-  <external package="biblatex" priority="5" active="0">
+  <external package="biblatex" priority="5" active="1">
     <generic>biber</generic>
     <cmdline>
       <binary>biber</binary>
@@ -80,19 +80,6 @@
     </provides>
     <requires type="dynamic">
       <file>main.bcf</file>
-    </requires>
-    <requires type="editable">
-      <file>bibfiles/appendix-references.bib</file>
-      <file>bibfiles/bayesian-brain-references.bib</file>
-      <file>bibfiles/energy-based-model-references.bib</file>
-      <file>bibfiles/introduction-references.bib</file>
-      <file>bibfiles/local-learning-rule-references.bib</file>
-      <file>bibfiles/motor-learning-references.bib</file>
-      <file>bibfiles/neuron-model-references.bib</file>
-      <file>bibfiles/neuronal-computation-references.bib</file>
-      <file>bibfiles/reinforcement-learning-references.bib</file>
-      <file>bibfiles/solve-credit-assignment-problem-references.bib</file>
-      <file>bibfiles/synapse-model-references.bib</file>
     </requires>
   </external>
 </requests>
