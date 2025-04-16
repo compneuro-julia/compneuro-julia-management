@@ -138,6 +138,8 @@ https://compneuro.neuromatch.io/tutorials/W2D4_DynamicNetworks/student/W2D4_Tuto
 
 Before and beyond the Wilson-Cowan equations
 
+https://www.sciencedirect.com/science/article/pii/S2211124722016606
+
 ## Wilson–Cowanモデル
 Wilson–Cowanモデルは、神経集団の平均的な活動、すなわち発火率の時間変化を記述する連続時間の力学系として定式化される。本モデルは、個々の神経細胞ではなく、一定数の興奮性あるいは抑制性ニューロン群の平均的な活動を扱う「集団モデル（population model）」の一種であり、特に皮質における神経活動のマクロな挙動を解析する上で有用である。
 
