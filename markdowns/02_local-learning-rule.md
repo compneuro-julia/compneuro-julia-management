@@ -138,6 +138,29 @@ https://compneuro.neuromatch.io/tutorials/W2D4_DynamicNetworks/student/W2D4_Tuto
 
 Before and beyond the Wilson-Cowan equations
 
+## Wilson–Cowanモデル
+Wilson–Cowanモデルは、神経集団の平均的な活動、すなわち発火率の時間変化を記述する連続時間の力学系として定式化される。本モデルは、個々の神経細胞ではなく、一定数の興奮性あるいは抑制性ニューロン群の平均的な活動を扱う「集団モデル（population model）」の一種であり、特に皮質における神経活動のマクロな挙動を解析する上で有用である。
+
+基本的な形は、興奮性ニューロンの平均発火率を $y_\textrm{E}(t)$、抑制性ニューロンの平均発火率を $\mathbf{y}_\textrm{I}(t)$ としたとき、以下の連立常微分方程式で与えられる：
+
+$$
+\begin{aligned}
+\tau_\textrm{E} \frac{dy_\textrm{E}(t)}{dt} &= -y_\textrm{E}(t) + (1 - r_\textrm{E} y_\textrm{E}(t)) \cdot f_\textrm{E}\left[w_\textrm{EE} y_\textrm{E}(t) - w_\textrm{EI} y_\textrm{I}(t) + x_\textrm{E}(t) \right]\\
+\tau_\textrm{I} \frac{dy_\textrm{I}(t)}{dt} &= -y_\textrm{I}(t) + (1 - r_\textrm{I} y_\textrm{I}(t)) \cdot f_\textrm{I}\left[w_\textrm{IE} y_\textrm{E}(t) - w_\textrm{II} y_\textrm{I}(t) + x_\textrm{I}(t) \right]
+\end{aligned}
+$$
+
+ここで $\tau_\textrm{E} , \tau_\textrm{I}$ はそれぞれの神経集団の時定数、$w_{ab} \geq 0$ は神経集団 $a$ から $b$ への結合強度を表すスカラー量 $(a, b \in \{\textrm{E}, \textrm{I}\})$、$x_E(t), x_I(t)$ は外部からの入力である。関数 $f_E(\cdot), f_I(\cdot)$ は神経の応答関数であり、通常はシグモイド関数など単調増加関数が用いられる。また $r_E, r_I$ はそれぞれの神経集団の**最大発火率**（maximum firing rate）に関係する係数であり、発火率が飽和する性質をモデルに明示的に取り入れている。項 $(1 - ry(t))$ は、発火率 $y(t)$ が増加するにつれて活動可能なリソースが減少すること、すなわち飽和現象を記述するものである。$r=0$ とし，Wilson-Cowanモデルを並列に用意すると，次のように前節で紹介した連続時間発火率モデルとして記述できる．
+
+興奮性ニューロン群の平均発火率を $\mathbf{y}_\textrm{E}(t) \in \mathbf{R}^{n_\textrm{E}}$、抑制性ニューロンの平均発火率を $\mathbf{y}_\textrm{I}(t)$ としたとき、以下の連立常微分方程式で与えられる：
+
+$$
+\begin{aligned}
+\tau_\textrm{E} \frac{d\mathbf{y}_\textrm{E}(t)}{dt} &= -\mathbf{y}_\textrm{E}(t) + f_\textrm{E}\left(\mathbf{W}_\textrm{EE} \mathbf{y}_\textrm{E}(t) - \mathbf{W}_\textrm{EI} \mathbf{y}_\textrm{I}(t) + \mathbf{x}_\textrm{E}(t) \right)\\
+\tau_\textrm{I} \frac{d\mathbf{y}_\textrm{I}(t)}{dt} &= -\mathbf{y}_\textrm{I}(t) + f_\textrm{I}\left[\mathbf{W}_\textrm{IE} \mathbf{y}_\textrm{E}(t) - \mathbf{W}_\textrm{II} \mathbf{y}_\textrm{I}(t) + \mathbf{x}_\textrm{I}(t) \right]
+\end{aligned}
+$$
+
 ### 神経活動の揺らぎ
 神経活動には**ノイズ**（neuronal noise）が常に存在しており、神経モデルにおいてもこれを考慮する必要がある。そのため、シナプス入力にノイズを加えることがある。たとえば、Leaky Integrate-and-Fire（LIF）モデルにおける膜電位の力学にノイズを加える場合を考える。ノイズ$\xi(t)$を平均$\tilde{\mu}$、分散$\tilde{\sigma}^2$の正規分布$\mathcal{N}(\tilde{\mu}, \tilde{\sigma}^2)$に従うガウシアンノイズとすると、膜電位$V_m(t)$の時間発展は次式で記述される：
 
