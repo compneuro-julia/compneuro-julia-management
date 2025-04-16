@@ -34,46 +34,82 @@
 最後に，**ミクログリア**（microglia）は中枢神経系内に存在する免疫細胞であり，発生学的には他のグリア細胞とは起源が異なる（造血系由来）．ミクログリアは脳内の異物の貪食（ファゴサイトーシス）やアポトーシス細胞の除去を担い，また炎症性サイトカインの分泌を通じて神経炎症応答を調節する．またミクログリアがシナプスの刈り込み（synaptic pruning）にも関与することが報告されており，神経回路の発達と可塑性にも寄与していると考えられている．
 
 ## ニューロンの発火率モデル
-前節で説明したように神経細胞は複雑な構造と機能を持った特殊な細胞であるが，基本的な機能の理解のために，本章から第5章までは単純化したモデルを使用する．イオンチャネルの働き等を考慮した神経細胞の生物物理モデルに関しては，後の第6章で説明を行う \footnote{神経細胞をモデル化する上では，詳細なモデルから抽象化されたモデルを説明する方が理解は深まるが，本書では発火率モデルの次にスパイキングモデルの説明を行う都合上，抽象化された単純なモデルから複雑な生物物理モデルの説明へと移行する．}．単純化された神経細胞のモデルとして，**発火率モデル** (firing rate model) と呼ばれる枠組みのモデルを使用する．**発火率** (firing rate) とは神経細胞の一定時間内での発火頻度を意味し，発火率の強弱で情報表現を行うことを**発火率による符号化** (rate coding) と呼ぶ．発火率モデルは，複数のシナプス前細胞の活動の重みづけ和に基づいてシナプス後細胞が活動を変動させるという過程を踏まえたモデルである．
+神経細胞は複雑な構造と機能を有する特殊な細胞であるが，その基本的な働きを理解するためには，ある程度抽象化された単純なモデルの導入が有用である．本章から第5章までは，この目的のもとに形式ニューロンや発火率モデルといった抽象的な数理モデルを用いることとし，チャネル動態などを含む詳細な生物物理モデルについては第6章で扱う\footnote{神経細胞のモデル化においては，詳細なモデルから抽象モデルを導出する記述順も考えられるが，本書では，コードのまとまりを考慮して，先に単純なモデルから入り，徐々に生物物理学的に忠実なモデルへと発展させる構成とする．}．本章で取り上げる**発火率モデル**（firing rate model）は，神経細胞の発火活動を平均的な頻度，すなわち**発火率**（firing rate）として記述する枠組みであり，この連続的な発火率により情報を表現する形式を**発火率による符号化**（rate coding）と呼ぶ．
 
-まず，情報が順伝播 (feedforward) する発火率モデルを取り扱う．発火率モデルには離散時間と連続時間での表現がある．シナプス前細胞の活動を $\mathbf{x} \in \mathbb{R}^n$, シナプス後細胞の活動を $\mathbf{y} \in \mathbb{R}^m$, シナプス重みを $\mathbf{W} \in \mathbb{R}^{m\times n}$，閾値などと関連するバイアスを $\mathbf{b} \in \mathbb{R}^m$ とすると，離散時間での発火率モデルは次のように表される．
+### 離散時間モデル
+発火率モデルでは，シナプス前細胞の活動の重みづけ和に基づき，シナプス後細胞の出力が決定される．まず，時間を離散的に扱い，時間発展を考慮しない場合のモデルを導入しよう．$n$ 個のシナプス前細胞の活動をベクトル $\mathbf{x} = [x_1, x_2, \dots, x_n]^\top \in \mathbb{R}^n$，シナプス重みを $\mathbf{w} = [w_1, w_2, \dots, w_n]^\top \in \mathbb{R}^n$，バイアス項を $b \in \mathbb{R}$，シナプス後細胞の出力を $y \in \mathbb{R}$ とすると，離散時間発火率モデルは以下のように定式化される：
 
 $$
 \begin{equation}
-\mathbf{y} = f(\mathbf{Wx} + \mathbf{b})
+y = f(\mathbf{w}^\top \mathbf{x} + b) = f\left(\sum_{i=1}^n w_i x_i + b\right)
 \end{equation}
 $$
 
-ここで，$f(\cdot)$ は入出力の関係を表す関数であり，活性化関数 (activation function) あるいは伝達関数 (transfer function) と呼ばれる．$\mathbf{Wx} + \mathbf{b}$ をシナプス後電流の総和，$\mathbf{y}$ が発火率に比例する量であると解釈すると，$f(\cdot)$ は周波数-電流曲線 (F-I曲線, frequency-current curve) に対応する．このF-I曲線に関しては，第6章で詳解する．活性化関数には線形・非線形関数が使用される．活性化関数に恒等関数，すなわち入力をそのまま出力として返す関数の場合，線形回帰モデルと同形となる．非線形な活性化関数としては，Heavisideの階段関数 (Heaviside step function)，シグモイド関数，tanh関数（双曲線正接関数），ReLU (Rectified Linear Unit) 関数などがある．
+ここで，$f(\cdot)$ は入出力関係を表す関数であり，**活性化関数**（activation function）または**伝達関数**（transfer function）と呼ばれる．生理学的観点からこの式を解釈すると，$\mathbf{x}$ はシナプス前細胞から送られる発火率（に比例する量），$\mathbf{w}$ は各シナプス結合の強度を反映した重みであり，その内積 $\mathbf{w}^\top \mathbf{x}$ はシナプス後細胞に流入する総電流に相当する\footnote{2つの神経細胞間は1つのシナプス結合しか繋がっていないわけではなく，冗長な結合が存在する．そうした複数のシナプス結合によるシナプス後細胞への影響の総和を取ってシナプス重みとしている．}．バイアス項 $b$ は，発火閾値（神経細胞の興奮性などの電気的特性）や定常的な興奮性入力などを含む項として解釈される．出力 $y$ は，神経細胞の平均的な発火率（に比例する量）とみなすことができ，活性化関数 $f$ はこの電流入力に応じた発火頻度の変化を表す関数，すなわち**周波数–電流曲線** (F-I曲線, frequency-current curve) に対応する．このF-I曲線の具体的形状と導出については，第6章で詳しく扱う．
 
-離散時間の発火率モデルはMcCullochとPittsにより1943年に提案された形式ニューロン (formal neuron, McCulloch-Pitts neuron) がベースとなっている．
+活性化関数には線形関数と非線形関数の両方が用いられるが，後者の方が生理的現象に即している．たとえば，活性化関数を恒等写像 $f(x) = x$ とした場合，このモデルは線形回帰と同型になり，こうしたモデルを**線形ニューロンモデル** (linear neuron model) と呼ぶ．一方，非線形な活性化関数としては，Heavisideの階段関数，符号関数，シグモイド関数，双曲線正接関数（tanh），ReLU（Rectified Linear Unit）関数などがある．
 
-Heavisideの階段関数を使用．
-
-学習則はパーセプトロン
-
-シグモイド関数の場合はロジスティック回帰モデルと同形となるが，パーセプトロンと同年．
-
-
-シグモイドは正規化された発火率関数と解釈できる．
-
-を説明．形式ニューロンとperceptronは省略するか．
-
-
-MuCulloch-Pittsの形式ニューロン (1943)
-
-離散時間
+#### 形式ニューロンとパーセプトロン
+この離散時間モデルは，McCullochとPittsによって1943年に提案された**形式ニューロン**（formal neuron, McCulloch–Pitts neuron）に起源を持つ \citep{mcculloch1943logical}．形式ニューロンでは，活性化関数として次のようなHeaviside関数が用いられる：
 
 $$
-\mathbf{y}=f(\mathbf{Wx})
+\begin{equation}
+\Theta(x) = \begin{cases}
+1 & (x \geq 0) \\
+0 & (x < 0)
+\end{cases}
+\end{equation}
 $$
 
-連続時間
+このモデルは出力が0か1のいずれかであり，発火率ではなくスパイクの発火の有無を二値的に表現するものである．したがって，形式ニューロンは「入力の重みづけ和がある閾値 ($-b$) を超えるかどうか」によって出力を決定する**閾値判定器**として機能する．
+
+このような形式ニューロンに学習機構を導入したモデルが，1958年にRosenblattによって提案された**パーセプトロン**（perceptron）である \citep{rosenblatt1958perceptron}．ただし，Rosenblattは形式ニューロンをただ使用するのではなく，形式ニューロンも含めた神経回路網のモデルを提案した．例えばRosenblattによって単純パーセプトロン (simple perceptron, Mark I perceptron)と呼ばれたモデルは，3つのユニット群（感覚ユニット，連想ユニット，応答ユニット）から構成されていた．感覚ユニットと連想ユニットはランダムなシナプス重みで結合\footnote{入力信号のランダム重みによる投射は第8章で触れるリザバーコンピューティングと同様の形態である．}しており，連想ユニットと応答ユニット間には双方向の結合が存在していた．これに対して，後に提案された簡略化されたモデルでは，連想ユニットと双方向の結合を排除し，感覚ユニットと応答ユニットを直接結合する形となっており，これが現在一般的に用いられている**現代的パーセプトロン**（modern perceptron）あるいは**単純パーセプトロン** (simple perceptron) である．したがって，本節で紹介した離散時間の発火率モデルは，広義にはこの単純化されたパーセプトロンに対応する．パーセプトロンの学習則に関しては次々節で詳解を行う．
+
+#### 活性化関数にシグモイド関数を用いる場合の補足
+活性化関数としてシグモイド関数を用いた場合，このモデルはロジスティック回帰と同型になる \footnote{パーセプトロンとロジスティック回帰は同年（1958年）に提案された．}．この場合の出力は「スパイク発生の確率」と「発火率」の双方の解釈が可能である．すなわち，出力が $[0, 1]$ の範囲に正規化されているため，「ある入力に対して神経細胞が発火する確率」として解釈することも，「ある入力に対する平均的な発火頻度を正規化した値」として解釈することもできる．
+
+F-I曲線の形状としては，シグモイド関数のような飽和関数（saturated function）が用いられることが多いが，実際の神経細胞では完全な飽和には至らず，部分的な飽和挙動を示すことが知られている\footnote{ただし，シグモイド関数に渡す入力を適切にスケーリングすることで飽和を防ぐことは可能である．}．そのような特性を表現する関数として，以下のようなNaka–Rushton関数が用いられることもある：
+
 $$
-\tau\frac{d\mathbf{y}(t)}{dt} = -\mathbf{y}(t) + f(\mathbf{Wx}(t))
+\begin{equation}
+s(x) = \frac{Mx^2}{\sigma^2 + x^2} \cdot \Theta(x)
+\end{equation}
 $$
 
-Wilson Cowan
+ここで，$M$ は最大応答，$\sigma$ は感度定数，$\Theta(x)$ は正の電流入力に対してのみ応答する制限を導入するための関数である．この関数は，入力に対して初期は急峻に応答し，その後徐々に応答が飽和する非線形性を持つ点で，生理的F-I曲線により近い特性を示す．
+
+#### 多出力形式への拡張
+発火率モデルは1つのシナプス後細胞を対象としたものであったが，容易に多出力形式へと拡張可能である．複数のシナプス後細胞が同一のシナプス前細胞群から投射を受けるとし，$m$ 個のシナプス後細胞を $\mathbf{y} \in \mathbb{R}^m$，重み行列を $\mathbf{W} \in \mathbb{R}^{m \times n}$，バイアスベクトルを $\mathbf{b} \in \mathbb{R}^m$ とすれば，多出力形式のモデルは次のように表される：
+
+$$
+\begin{equation}
+\mathbf{y} = f(\mathbf{W} \mathbf{x} + \mathbf{b})
+\end{equation}
+$$
+
+この形式では，入力ベクトル $\mathbf{x}$ から出力ベクトル $\mathbf{y}$ への変換が一組の線形変換 $\mathbf{W}\mathbf{x} + \mathbf{b}$ と非線形変換 $f(\cdot)$ からなる操作で構成されており，機械学習においてはこの一連の変換過程を**層**（layer）と呼ぶ．さらに層を区分化し，線形変換部分を**線形層**（linear layer）あるいは**全結合層**（fully connected layer），非線形変換 $f(\cdot)$ を**活性化層**（activation layer）と呼ぶこともある．このような層を複数連結し，ある層の出力が次の層の入力となるようにしたモデルが**多層パーセプトロン**（multilayer perceptron; MLP）である．MLPは**ニューラルネットワーク** (neural network; NN) の基本的な構造であり，第4章で詳解する．
+
+#### 再帰型結合の追加
+ここまで神経細胞間に順方向結合 (feedforward connection) しかない，すなわち電気的活動（あるいは情報）が順伝播するモデルを取り扱った．次に，時間発展とシナプス後細胞群の再帰的結合 (recurrent connection) も考慮したモデルを考える．時刻 $t$ の活動を $\mathbf{x}_t \in \mathbb{R}^n, \mathbf{y}_t \in \mathbb{R}^m$ とし，順方向結合重みを $\mathbf{W} \in \mathbb{R}^{m\times n}$，再帰的結合重みを $\mathbf{M} \in \mathbb{R}^{m \times m}$ とすると\footnote{ここで重みの時間発展は無視しているが，オンライン学習を行う場合は考慮が必要である．}，離散時間における再帰的発火率モデルは次のように表される：
+
+$$
+\begin{equation}
+\mathbf{y}_{t+1} = f(\mathbf{W} \mathbf{x}_{t+1} + \mathbf{M}\mathbf{y}_t+ \mathbf{b})
+\end{equation}
+$$
+
+なお，$\mathbf{M}$ の対角成分が0以外の場合は，神経細胞の軸索終末がそれ自身の樹状突起と結合している状態を意味する．こうしたシナプス結合をオータプス (autapse) と呼ぶ．
+
+### 連続時間モデル
+次に時間発展を考慮した連続時間における発火率モデル (continuous-time firing rate model) について説明する．連続時間モデルは離散時間モデルの出力をローパスフィルタに通したものと解釈できる．すなわち，時刻 $t$ における出力 $\mathbf{y}(t)$ の時間変化は以下のように表される：
+
+$$
+\begin{equation}
+\tau \frac{d\mathbf{y}(t)}{dt} = -\mathbf{y}(t) + f(\mathbf{W} \mathbf{x}(t) + \mathbf{M} \mathbf{y}(t)+\mathbf{b})
+\end{equation}
+$$
+
+ここで，$\tau$ は時定数であり，神経細胞の応答の時間スケールを決定するパラメータである．この連続時間モデルは，ゆるやかな時間変化をもつ神経活動を記述する上で有効であり，動的な入力に対する平滑化された出力応答を表現する．この連続時間モデルはWilsonおよびCowanの神経，甘利らの神経場モデル等にも基づいている．
 
 Amari Model
 https://link.springer.com/referenceworkentry/10.1007/978-1-4614-7320-6_51-2
@@ -83,18 +119,7 @@ FIRING RATE MODELS AS ASSOCIATIVE MEMORY: EXCITATORY-INHIBITORY BALANCE FOR ROBU
 Evolution of the Wilson–Cowan equations
 https://link.springer.com/article/10.1007/s00422-021-00912-7
 
-飽和関数 (saturated function) 
 
-Naka–Rushton関数
-
-$$
-s(x) = 
-\frac{Mx^2}{\sigma^2 + x^2} \cdot \Theta (x)
-$$
-
-部分飽和関数（partially saturated function）
-
-$\Theta (x)$ はHeaviside step function
 
 The brain wave equation: a model for the EEG
 https://www.sciencedirect.com/science/article/pii/0025556474900200
@@ -105,206 +130,7 @@ https://compneuro.neuromatch.io/tutorials/W2D4_DynamicNetworks/student/W2D4_Tuto
 
 Before and beyond the Wilson-Cowan equations
 
-
-## 形式ニューロン
-人工ニューロンの理論的基盤は，生物の神経細胞の単純化に基づいており，その最も基本的な形式は**形式ニューロン**（formal neuron）と呼ばれる．これは，複数の入力信号を受け取り，それらを重み付きで加算し，ある閾値を超えたときに出力を発するという単純な演算規則に従うモデルである．形式ニューロンにおける出力 $y$ は，入力ベクトル $\mathbf{x} = (x_1, x_2, \dots, x_n)$ に対して，対応する重みベクトル $\mathbf{w} = (w_1, w_2, \dots, w_n)$ を用いて次のように定義される：
-
-$$
-y = \phi\left( \sum_{i=1}^n w_i x_i + b \right) = \phi(\mathbf{w}^\top \mathbf{x} + b)
-$$
-
-ここで，$b$ はバイアス項であり，$\phi(\cdot)$ は活性化関数（activation function）を表す．この活性化関数には階段関数やシグモイド関数，ReLU関数などが用いられるが，形式ニューロンの原型では一般に**ステップ関数（Heaviside関数）**が想定されており，これは以下のように定義される：
-
-$$
-\phi(u) = 
-\begin{cases}
-1 & \text{if } u \geq 0 \\
-0 & \text{otherwise}
-\end{cases}
-$$
-
-このようにして形式ニューロンは，入力の線形結合がある閾値を超えるかどうかによって出力を決定する**閾値判定器**として機能する．
-
-
-## パーセプトロン
-形式ニューロンに学習機構を導入したものが**パーセプトロン（perceptron）**である．1958年にローゼンブラット（Rosenblatt）によって提案されたこのモデルは，出力が目標値と一致しない場合に重みを修正する単純な学習則を備えており，2クラス分類問題において線形分離可能なパターンを識別することができる．パーセプトロンの出力は形式ニューロンと同様に
-
-$$
-y = \phi(\mathbf{w}^\top \mathbf{x} + b)
-$$
-
-と表されるが，学習の過程でパラメータ $\mathbf{w}, b$ は次のように更新される：
-
-$$
-\mathbf{w} \leftarrow \mathbf{w} + \eta (t - y) \mathbf{x}, \quad b \leftarrow b + \eta (t - y)
-$$
-
-ここで，$t$ は目標出力（target），$y$ は現在の出力，$\eta$ は学習率（learning rate）を表す．この更新式は，出力が誤っていた場合にその方向に重みを修正するという単純なルールに基づいており，反復的に適用することで分類精度を高めていく．ただし，パーセプトロンは**線形分離可能でないデータ**に対しては学習が収束せず，分類が失敗するという制限を持つ．
-
-一方で，実際の神経細胞の活動は0か1のような離散的な出力ではなく，**一定時間あたりの発火頻度（spike rate）**として観察されることが多い．この現象を抽象化したものが**発火率モデル（rate-based model）**である．このモデルでは，ニューロンの出力はスパイクの発生の有無ではなく，時間的平均を取った連続値（例えば Hz 単位の発火頻度）として表現される．数式的には，出力は活性化関数を通じた連続値として次のように定義される：
-
-$$
-r = \phi(\mathbf{w}^\top \mathbf{x} + b)
-$$
-
-ここで $r$ はニューロンの発火率（rate），$\phi$ は連続的かつ微分可能な関数であり，しばしばシグモイド関数
-
-$$
-\phi(u) = \frac{1}{1 + \exp(-u)}
-$$
-
-や整流線形単位（ReLU関数）
-
-$$
-\phi(u) = \max(0, u)
-$$
-
-などが用いられる．このように発火率モデルは，数理的にはパーセプトロンと類似の構造を持ちながらも，出力を連続的に扱うことで，生物学的ニューロンの性質や誤差逆伝播法による学習の実装に適した形式となっている．
-
-したがって，形式ニューロンはニューロンの抽象的な演算原理を示す基礎であり，パーセプトロンはその学習機構を導入した離散分類モデル，発火率モデルは生物学的な現象をより忠実に反映した連続出力モデルと位置づけることができる．これらは人工ニューラルネットワークの設計と理解における基本的構成要素であり，それぞれの仮定と構造を理解することは，後続の深層学習や神経科学的モデルを学ぶための土台となる．
-
-## ニューロンの発火率モデルとパーセプトロン
-
-
-生物学的な神経回路に着想を得た計算モデルのひとつに，**ニューロンの発火率モデル**がある．このモデルでは，個々のニューロンが入力刺激に対してどの程度活性化されるか（＝発火するか）を連続値で表現し，情報の処理や伝達を数理的に記述する．
-
-### ニューロンの発火率モデル
-
-生物学的ニューロンは，樹状突起を通じて他のニューロンから電気的信号（シナプス電位）を受け取り，その総和が一定の閾値を超えた場合に軸索を通じてスパイク（活動電位）を発生させる．このスパイクの頻度（単位時間あたりの発火回数）は，入力の強度に依存して変化することが知られており，この関係を**発火率モデル** (*firing rate model*) と呼ぶ．
-
-数学的には，入力信号の線形結合を $z = \sum_{j=1}^p w_j x_j + w_0$ とし，発火率（ニューロンの出力）を何らかの**活性化関数** $f(z)$ を通じて表現する：
-
-$$
-y = f(z) = f\left(\sum_{j=1}^p w_j x_j + w_0\right)
-$$
-
-このように，ニューロンは入力ベクトル $\mathbf{x} \in \mathbb{R}^p$ に対して加重和を計算し，それに非線形な関数を適用することで，出力 $y$ を生成する．代表的な活性化関数としては，**シグモイド関数**や**ReLU（Rectified Linear Unit）関数**がある．特にシグモイド関数は，出力が $[0,1]$ の範囲に収まるため，発火率（スパイク頻度）の確率的な解釈と親和性が高い．
-
-シグモイドは正規化された発火率関数と解釈できる．
-
-この発火率モデルは，後述するロジスティック回帰やニューラルネットワークの基本構成要素として広く用いられている．
-
-### パーセプトロン
-
-このようなニューロンの抽象化を，分類問題に適用するために提案されたのが**パーセプトロン** (*perceptron*) である．パーセプトロンは，入力と重みの線形結合に対して符号関数（ステップ関数）を適用することにより，2クラス分類を実現する最も基本的な形式の**人工ニューロンモデル**である．
-
-#### モデルの構造
-
-入力ベクトル $\mathbf{x} \in \mathbb{R}^p$ に対して，重みベクトル $\mathbf{w} \in \mathbb{R}^{p+1}$（バイアス項 $w_0$ を含む）を用いて線形結合 $z = \mathbf{w}^\top \mathbf{x}'$ を計算する．ただし，$\mathbf{x}' := [1, x_1, x_2, \dots, x_p]^\top$ としてバイアス項を組み込んだ拡張ベクトルを用いる．
-
-次に，活性化関数として**符号関数**を適用する：
-
-$$
-\hat{y} = \text{sign}(z) = \begin{cases}
-+1 & (z \geq 0) \\
--1 & (z < 0)
-\end{cases}
-$$
-
-これにより，出力 $\hat{y} \in \{-1, +1\}$ が得られ，2クラス分類を実現する．
-
-#### 学習アルゴリズム：パーセプトロン則
-
-パーセプトロンは**教師あり学習**に基づいて重み $\mathbf{w}$ を更新する．各ステップにおいて，予測と正解が一致していれば何も行わず，誤分類されたときにのみ以下のように重みを更新する：
-
-$$
-\mathbf{w} \leftarrow \mathbf{w} + \eta \cdot y^{(i)} \mathbf{x}^{(i)}
-$$
-
-ここで，$\eta > 0$ は学習率，$y^{(i)}$ は正解ラベルである．この更新則により，パーセプトロンは誤分類を修正する方向に重みを調整する．
-
-もし訓練データが**線形分離可能**であるならば，このアルゴリズムは有限回の更新で必ず収束する（**パーセプトロン収束定理**）．ただし，データが線形分離不可能な場合は，収束せずに振動を続けることがある．
-
-### ニューロンモデルとの関係
-
-パーセプトロンは，ニューロンの発火率モデルを単純化した形式として位置づけられる．ニューロンの出力が連続値であるのに対し，パーセプトロンでは出力が離散値（2値）である点が主な違いである．また，ニューロンモデルではなめらかな活性化関数が使われるのに対し，パーセプトロンでは不連続な符号関数が用いられる．
-
-このように，**パーセプトロンはニューロンの発火を単純な2値信号として抽象化した分類器**であり，人工知能の初期における重要なモデルのひとつである．さらに，現代の多層ニューラルネットワーク（ディープラーニング）においても，ニューロンの発火率モデルの構造は基本単位として継承されている．
-
-### 1層パーセプトロン
-
-**パーセプトロン**は，1958年に Rosenblatt によって提案された，最も基本的な形式の線形分類器である．ロジスティック回帰と同様に線形結合を用いるが，確率ではなく**符号関数によって離散的な出力**を行う点が異なる．
-
-#### モデルの定義
-
-入力 $\mathbf{x} \in \mathbb{R}^p$ に対し，次のように線形結合を計算する：
-
-$$
-z = \mathbf{w}^\top \mathbf{x}'
-$$
-
-そして，活性化関数として符号関数 $\text{sign}(z)$ を適用することで，2クラス分類を行う：
-
-$$
-\hat{y} = \begin{cases}
-+1 & \text{if } z \geq 0 \\
--1 & \text{otherwise}
-\end{cases}
-$$
-
-このように，パーセプトロンは出力を $\{-1, +1\}$ のいずれかに決定的に分類する．
-
-#### パーセプトロン学習則
-
-パーセプトロンは教師あり学習アルゴリズムに基づいて重みを更新する．予測が正しい場合は更新を行わず，予測が誤っていた場合にのみ次のようにパラメータを更新する：
-
-$$
-\mathbf{w} \leftarrow \mathbf{w} + \eta \cdot y^{(i)} \mathbf{x}^{(i)}
-$$
-
-ここで $\eta > 0$ は学習率である．更新は誤分類されたデータ点に対してのみ行われ，分類境界が調整される．データが線形分離可能であれば，パーセプトロン学習則は有限回の更新で収束することが知られている（**パーセプトロン収束定理**）．
-
-分類問題
-, perceptron
-<https://www.cs.utexas.edu/~gdurrett/courses/fa2022/perc-lr-connections.pdf>
-
-<https://en.wikipedia.org/wiki/Perceptron>
-
-<https://arxiv.org/abs/2012.03642>
-
-
-perceptronは0/1 or -1/1のどちらか
-
-UNDERSTANDING STRAIGHT-THROUGH ESTIMATOR IN TRAINING ACTIVATION QUANTIZED NEURAL NETS
-
-Yoshua Bengio, Nicholas L´eonard, and Aaron Courville. Estimating or propagating gradients through stochastic neurons for conditional computation. arXiv preprint arXiv:1308.3432, 2013.
-
-Hinton (2012) in his lecture 15b
-
-G. Hinton. Neural networks for machine learning, 2012.
-<https://www.cs.toronto.edu/~hinton/coursera_lectures.html>
-
-delta rule
-
-
-Here σ denotes the (point-wise) activation function, $W \in R^{m\times n}$
-is the weight-matrix and $b \in R^n$
-is
-the bias-vector. The vector $x \in R^m$ and the vector $y \in R^n$ denote the input, respectively the output
-
-$$
-\begin{equation}
-y=\sigma(W^\top x + b)
-\end{equation}
-$$
-
-$$
-\begin{align}
-& \text { Initialize } W^0, b^0 \text {; } \\
-& \text { for } k=1,2, \ldots \text { do } \\
-& \qquad \begin{array}{|l}
-\text { for } i=1, \ldots, s \text { do } \\
-e_i=y_i-\sigma\left(\left(W^k\right)^{\top} x_i+b^k\right) \\
-W^{k+1}=W^k+e_i x_i^{\top} \\
-b^{k+1}=b^k+e_i
-\end{array} \\
-& \text { end }
-\end{align}
-$$
-
-これは単純ではあるが，この微分不可能な関数による学習則は，現代的に**Straight-Through Estimator** (STE) と呼ばれる概念と同一である．STEの考えはスパイキングニューラルネットワークの学習や，ニューラルネットワークの量子化へと発展する．ここでは深く触れず，第7章で改めて紹介を行う．
-
-## Hebb則と主成分分析
+## Hebb則
 ### Hebb則
 神経回路はどのようにして自己組織化するのだろうか．1940年代にカナダの心理学者Donald O. Hebbにより著書"The Organization of Behavior"{cite:p}`Hebb1949-iv` で提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを**Hebbの学習則** (Hebbian learning rule) あるいは**Hebb則** (Hebb's rule) という．Hebb則は（Hebb自身ではなく）Shatzにより"cells that fire together wire together"（共に活動する細胞は共に結合する）と韻を踏みながら短く言い換えられている {cite:p}`Shatz1992-he`．
 
@@ -317,7 +143,6 @@ $$
 $$
 
 として表される．ただし，$\tau$は時定数であり，$\eta:=1/\tau$ は**学習率** (learning rate) と呼ばれる学習の速さを決定するパラメータとなる．$\varphi(\cdot)$および$\phi(\cdot)$は，それぞれシナプス前細胞および後細胞の活動量に応じて重みの変化量を決定する関数である．$\varphi(\cdot), \phi(\cdot)$ が恒等関数に設定される場合，Hebb則は $\tau\dfrac{d\mathbf{W}}{dt}=\mathbf{y}\mathbf{x}^\top=(\text{post})\cdot (\text{pre})^\top$ と簡潔に表現される．
-
 
 #### Hebb則の生理的機序とLTP・LTDの実験的発見
 LTPの実験的発見 {cite:p}`Bliss1973-vj` {cite:p}`Dudek1992-nz`
@@ -355,6 +180,61 @@ $$
 $$
 
 となり，Hebb則が導出できる．
+
+### パーセプトロンの学習則
+このようなニューロンの抽象化を，分類問題に適用するために提案されたのが**パーセプトロン** (*perceptron*) である．パーセプトロンは，入力と重みの線形結合に対して符号関数（ステップ関数）を適用することにより，2クラス分類を実現する最も基本的な形式の**人工ニューロンモデル**である．
+
+#### モデルの構造
+
+入力ベクトル $\mathbf{x} \in \mathbb{R}^p$ に対して，重みベクトル $\mathbf{w} \in \mathbb{R}^{p+1}$（バイアス項 $w_0$ を含む）を用いて線形結合 $z = \mathbf{w}^\top \mathbf{x}'$ を計算する．ただし，$\mathbf{x}' := [1, x_1, x_2, \dots, x_p]^\top$ としてバイアス項を組み込んだ拡張ベクトルを用いる．
+
+次に，活性化関数として**符号関数**を適用する：
+
+$$
+\hat{y} = \text{sign}(z) = \begin{cases}
++1 & (z \geq 0) \\
+-1 & (z < 0)
+\end{cases}
+$$
+
+これにより，出力 $\hat{y} \in \{-1, +1\}$ が得られ，2クラス分類を実現する．
+
+#### 学習アルゴリズム：パーセプトロン則
+
+パーセプトロンは**教師あり学習**に基づいて重み $\mathbf{w}$ を更新する．各ステップにおいて，予測と正解が一致していれば何も行わず，誤分類されたときにのみ以下のように重みを更新する：
+
+$$
+\mathbf{w} \leftarrow \mathbf{w} + \eta \cdot y^{(i)} \mathbf{x}^{(i)}
+$$
+
+ここで，$\eta > 0$ は学習率，$y^{(i)}$ は正解ラベルである．この更新則により，パーセプトロンは誤分類を修正する方向に重みを調整する．
+
+もし訓練データが**線形分離可能**であるならば，このアルゴリズムは有限回の更新で必ず収束する（**パーセプトロン収束定理**）．ただし，データが線形分離不可能な場合は，収束せずに振動を続けることがある．
+
+分類問題
+, perceptron
+<https://www.cs.utexas.edu/~gdurrett/courses/fa2022/perc-lr-connections.pdf>
+
+<https://en.wikipedia.org/wiki/Perceptron>
+
+<https://arxiv.org/abs/2012.03642>
+
+
+perceptronは0/1 or -1/1のどちらか
+
+UNDERSTANDING STRAIGHT-THROUGH ESTIMATOR IN TRAINING ACTIVATION QUANTIZED NEURAL NETS
+
+Yoshua Bengio, Nicholas L´eonard, and Aaron Courville. Estimating or propagating gradients through stochastic neurons for conditional computation. arXiv preprint arXiv:1308.3432, 2013.
+
+Hinton (2012) in his lecture 15b
+
+G. Hinton. Neural networks for machine learning, 2012.
+<https://www.cs.toronto.edu/~hinton/coursera_lectures.html>
+
+delta rule
+
+
+これは単純ではあるが，この微分不可能な関数による学習則は，現代的に**Straight-Through Estimator** (STE) と呼ばれる概念と同一である．STEの考えはスパイキングニューラルネットワークの学習や，ニューラルネットワークの量子化へと発展する．ここでは深く触れず，第7章で改めて紹介を行う．
 
 ### Hebb則の安定化
 #### BCM則
@@ -415,7 +295,7 @@ ToDo:恒常的可塑性の詳細
 
 Johansen, Joshua P., Lorenzo Diaz-Mataix, Hiroki Hamanaka, Takaaki Ozawa, Edgar Ycu, Jenny Koivumaa, Ashwani Kumar, et al. 2014. “Hebbian and Neuromodulatory Mechanisms Interact to Trigger Associative Memory Formation.” Proceedings of the National Academy of Sciences 111 (51): E5584–92.
 
-### Hebb則と主成分分析
+## 主成分分析
 Oja則を用いることで**主成分分析** (Principal component analysis; PCA) という処理をニューラルネットワークにおいて実現できる．
 
 #### 主成分分析
