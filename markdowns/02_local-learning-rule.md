@@ -61,7 +61,7 @@ $$
 \end{equation}
 $$
 
-このモデルは出力が0か1のいずれかであり，発火率ではなくスパイクの発火の有無を二値的に表現するものである．したがって，形式ニューロンは「入力の重みづけ和がある閾値 ($-b$) を超えるかどうか」によって出力を決定する**閾値判定器**として機能する．
+このモデルは出力が0か1のいずれかであり，発火率ではなくスパイクの発火の有無を二値的に表現するものである．したがって，形式ニューロンは「入力の重みづけ和がある閾値 $\theta \ (=-b)$ を超えるかどうか」によって出力を決定する**閾値判定器**として機能する．
 
 このような形式ニューロンに学習機構を導入したモデルが，1958年にRosenblattによって提案された**パーセプトロン**（perceptron）である \citep{rosenblatt1958perceptron}．ただし，Rosenblattは形式ニューロンをただ使用するのではなく，形式ニューロンも含めた神経回路網のモデルを提案した．例えばRosenblattによって単純パーセプトロン (simple perceptron, Mark I perceptron)と呼ばれたモデルは，3つのユニット群（感覚ユニット，連想ユニット，応答ユニット）から構成されていた．感覚ユニットと連想ユニットはランダムなシナプス重みで結合\footnote{入力信号のランダム重みによる投射は第8章で触れるリザバーコンピューティングと同様の形態である．}しており，連想ユニットと応答ユニット間には双方向の結合が存在していた．これに対して，後に提案された簡略化されたモデルでは，連想ユニットと双方向の結合を排除し，感覚ユニットと応答ユニットを直接結合する形となっており，これが現在一般的に用いられている**現代的パーセプトロン**（modern perceptron）あるいは**単純パーセプトロン** (simple perceptron) である．したがって，本節で紹介した離散時間の発火率モデルは，広義にはこの単純化されたパーセプトロンに対応する．パーセプトロンの学習則に関しては次々節で詳解を行う．
 
@@ -90,11 +90,11 @@ $$
 この形式では，入力ベクトル $\mathbf{x}$ から出力ベクトル $\mathbf{y}$ への変換が一組の線形変換 $\mathbf{W}\mathbf{x} + \mathbf{b}$ と非線形変換 $f(\cdot)$ からなる操作で構成されており，機械学習においてはこの一連の変換過程を**層**（layer）と呼ぶ．さらに層を区分化し，線形変換部分を**線形層**（linear layer）あるいは**全結合層**（fully connected layer），非線形変換 $f(\cdot)$ を**活性化層**（activation layer）と呼ぶこともある．このような層を複数連結し，ある層の出力が次の層の入力となるようにしたモデルが**多層パーセプトロン**（multilayer perceptron; MLP）である．MLPは**ニューラルネットワーク** (neural network; NN) の基本的な構造であり，第4章で詳解する．
 
 #### 再帰型結合の追加
-ここまで神経細胞間に順方向結合 (feedforward connection) しかない，すなわち電気的活動（あるいは情報）が順伝播するモデルを取り扱った．次に，時間発展とシナプス後細胞群の再帰的結合 (recurrent connection) も考慮したモデルを考える．時刻 $t$ の活動を $\mathbf{x}_t \in \mathbb{R}^n, \mathbf{y}_t \in \mathbb{R}^m$ とし，順方向結合重みを $\mathbf{W} \in \mathbb{R}^{m\times n}$，再帰的結合重みを $\mathbf{M} \in \mathbb{R}^{m \times m}$ とすると\footnote{ここで重みの時間発展は無視しているが，オンライン学習を行う場合は考慮が必要である．}，離散時間における再帰的発火率モデルは次のように表される：
+ここまで神経細胞間に順方向結合 (feedforward connection) しかない，すなわち電気的活動（あるいは情報）が順伝播するモデルを取り扱った．次に，時間発展とシナプス後細胞群の再帰的結合 (recurrent connection) も考慮したモデルを考える．時刻 $t$ の活動を $\mathbf{x}_t \in \mathbb{R}^n, \mathbf{y}_t \in \mathbb{R}^m$ とし，順方向結合重みを $\mathbf{W} \in \mathbb{R}^{m\times n}$，再帰的結合重みを $\mathbf{M} \in \mathbb{R}^{m \times m}$ とすると\footnote{ここで重みの時間発展は無視しているが，オンライン学習を行う場合は考慮が必要である．}，シナプス後細胞群の離散時間における再帰的発火率モデルは次のように表される：
 
 $$
 \begin{equation}
-\mathbf{y}_{t+1} = f(\mathbf{W} \mathbf{x}_{t+1} + \mathbf{M}\mathbf{y}_t+ \mathbf{b})
+\mathbf{y}_{t+1} = f(\mathbf{W} \mathbf{x}_{t} + \mathbf{M}\mathbf{y}_t+ \mathbf{b})
 \end{equation}
 $$
 
@@ -110,6 +110,14 @@ $$
 $$
 
 ここで，$\tau$ は時定数であり，神経細胞の応答の時間スケールを決定するパラメータである．この連続時間モデルは，ゆるやかな時間変化をもつ神経活動を記述する上で有効であり，動的な入力に対する平滑化された出力応答を表現する．この連続時間モデルはWilsonおよびCowanの神経，甘利らの神経場モデル等にも基づいている．
+
+連続時間モデルはEuler近似により次のように離散化できる．
+
+$$
+\mathbf{y}_{t+1} \approx \mathbf{y}_t + \frac{\Delta t}{\tau} \left[ -\mathbf{y}_t + f(\mathbf{W} \mathbf{x}_t + \mathbf{M} \mathbf{y}_t + \mathbf{b}) \right]
+$$
+
+漏れ (leak) 項の違いである．
 
 Amari Model
 https://link.springer.com/referenceworkentry/10.1007/978-1-4614-7320-6_51-2
@@ -129,6 +137,48 @@ Tutorial on Neural Field Theory
 https://compneuro.neuromatch.io/tutorials/W2D4_DynamicNetworks/student/W2D4_Tutorial2.html
 
 Before and beyond the Wilson-Cowan equations
+
+### 神経活動の揺らぎ
+神経活動には**ノイズ**（neuronal noise）が常に存在しており、神経モデルにおいてもこれを考慮する必要がある。そのため、シナプス入力にノイズを加えることがある。たとえば、Leaky Integrate-and-Fire（LIF）モデルにおける膜電位の力学にノイズを加える場合を考える。ノイズ$\xi(t)$を平均$\tilde{\mu}$、分散$\tilde{\sigma}^2$の正規分布$\mathcal{N}(\tilde{\mu}, \tilde{\sigma}^2)$に従うガウシアンノイズとすると、膜電位$V_m(t)$の時間発展は次式で記述される：
+
+$$
+\tau_m \frac{dV_m(t)}{dt} = -(V_m(t) - V_\text{rest}) + R_m I(t) + \xi(t)
+$$
+
+このように、線形のドリフト項$-(V_m(t) - V_\text{rest})$とガウシアンノイズ項$\xi(t)$を含む確率微分方程式（stochastic differential equation; SDE）で表される確率過程は、**Ornstein–Uhlenbeck（OU）過程** と呼ばれる。ノイズ$\xi(t)$が標準正規分布$\mathcal{N}(0, 1)$に従うホワイトノイズ$\eta(t)$を用いて $\xi(t) = \tilde{\mu} + \tilde{\sigma} \eta(t)$ と表すこともできる。
+
+さらに、$\xi(t)$が発火率$\lambda$のポアソン過程に従う場合を考える。シナプス前細胞の数を$N_\text{pre}$、$i$番目のシナプスにおけるシナプス強度に比例する定数を$J_i$とすると、ノイズの平均と分散はそれぞれ$\tilde{\mu} = \langle J_i \rangle N_\text{pre} \cdot \lambda$、$\tilde{\sigma}^2 = \langle J_i^2 \rangle N_\text{pre} \cdot \lambda$と書ける。ただし、$\langle \cdot \rangle$は平均を意味する。このような連続的なガウス過程でポアソン入力を近似する手法を**拡散近似**（diffusion approximation）と呼び、これは**Campbellの定理**に基づいて導かれる。
+
+このような確率微分方程式を数値的にシミュレーションするためには、時間離散化が必要となるが、その際には注意が必要である。たとえば、ドリフト項を省略し、ノイズ項のみを残した場合、
+
+$$
+\tau_m \frac{dV_m(t)}{dt} = \xi(t)
+$$
+
+となる。この式を時間ステップ$\Delta t$でEuler法により離散化すると、
+
+$$
+V_m(t + \Delta t) = V_m(t) + \frac{1}{\tau_m} \xi_1(t)
+$$
+
+と書ける。ここで、時間ステップを$\Delta t$から$\Delta t/2$に変更して同様に離散化すると、
+
+$$
+\begin{aligned}
+V_m(t + \Delta t) &= V_m(t + \Delta t/2) + \frac{1}{\tau_m} \xi_1(t) \\
+&= V_m(t) + \frac{1}{\tau_m} \left[ \xi_1(t) + \xi_2(t) \right]
+\end{aligned}
+$$
+
+となる。ノイズ項$\xi_1(t)$と$\xi_2(t)$は互いに独立と仮定すると、それぞれの標準偏差は$\tilde{\sigma}/\tau_m$であり、その和$\xi_1(t) + \xi_2(t)$の分散は$2\tilde{\sigma}^2$、すなわち標準偏差は$\sqrt{2} \tilde{\sigma}/\tau_m$となる。これは時間ステップの取り方によってノイズ項の大きさが変化することを意味しており、正確なシミュレーションのためには問題となる。したがって、時間ステップに依存しないようノイズ項をスケーリングする必要があり、そのためにはノイズに$\sqrt{\Delta t}$を掛けることで対処できる。すなわち、離散化式は以下のように修正するのが望ましい：
+
+$$
+V_m(t + \Delta t) = V_m(t) + \frac{\sqrt{\Delta t}}{\tau_m} \xi_1(t)
+$$
+
+このように修正することで、時間ステップに依存しない安定なノイズスケーリングが可能となる。このように確率微分方程式をEuler法で離散化する方法は、**Euler–Maruyama法**と呼ばれる\footnote{他の離散化手法としては、Milstein法なども存在する。}。
+
+\footnote{Scholarpediaの[Neuronal noise](http://www.scholarpedia.org/article/Neuronal_noise)を参照してください. }
 
 ## Hebb則
 ### Hebb則
