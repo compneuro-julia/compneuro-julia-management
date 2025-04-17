@@ -101,7 +101,7 @@ $$
 なお，$\mathbf{M}$ の対角成分が0以外の場合は，神経細胞の軸索終末がそれ自身の樹状突起と結合している状態を意味する．こうしたシナプス結合をオータプス (autapse) と呼ぶ．
 
 ### 連続時間モデル
-次に時間発展を考慮した連続時間における発火率モデル (continuous-time firing rate model) について説明する．連続時間モデルは離散時間モデルの出力をローパスフィルタに通したものと解釈できる．すなわち，時刻 $t$ における出力 $\mathbf{y}(t)$ の時間変化は以下のように表される：
+次に、時間発展を考慮した**連続時間における発火率モデル**（continuous-time firing rate model）について説明する。連続時間モデルは、神経細胞の出力が入力に対して緩やかに時間変化する様子を記述するものであり、出力が入力に対してローパスフィルタ的に応答する構造を持つ。連続時間モデルにおいて、時刻 $t$ における出力 $\mathbf{y}(t)$ の時間変化は次のように表される：
 
 $$
 \begin{equation}
@@ -109,15 +109,32 @@ $$
 \end{equation}
 $$
 
-ここで，$\tau$ は時定数であり，神経細胞の応答の時間スケールを決定するパラメータである．この連続時間モデルは，ゆるやかな時間変化をもつ神経活動を記述する上で有効であり，動的な入力に対する平滑化された出力応答を表現する．この連続時間モデルはWilsonおよびCowanの神経，甘利らの神経場モデル等にも基づいている．
+ここで，$\tau$ は時定数であり，神経細胞の応答の時間スケールを決定するパラメータである．このモデルにおいて $-\mathbf{y}(t)$ は，入力が存在しない場合に神経活動が自然に減衰する性質を記述している．この項により，**平衡点**（equilibrium point, fixed point） $\frac{d\mathbf{y}(t)}{dt}=0$ が存在するとき，その値 $\mathbf{y}(t)$ は離散時間モデルの更新式と同様に $\mathbf{y} = f(\mathbf{W}\mathbf{x} + \mathbf{M} \mathbf{y} + \mathbf{b})$ を満たす．
 
-連続時間モデルはEuler近似により次のように離散化できる．
+コンピュータ上でシミュレーションする上では連続時間モデルを離散化する必要がある．単純な離散化手法として，Euler近似を用いると，次のように記述できる：
 
 $$
-\mathbf{y}_{t+1} \approx \mathbf{y}_t + \frac{\Delta t}{\tau} \left[ -\mathbf{y}_t + f(\mathbf{W} \mathbf{x}_t + \mathbf{M} \mathbf{y}_t + \mathbf{b}) \right]
+\begin{align}
+\mathbf{y}_{t+1} &= \mathbf{y}_t + \frac{\Delta t}{\tau} \left[ -\mathbf{y}_t + f(\mathbf{W} \mathbf{x}_t + \mathbf{M} \mathbf{y}_t + \mathbf{b}) \right]\\
+&= (1-\alpha)\cdot \mathbf{y}_t + \alpha \cdot f(\mathbf{W} \mathbf{x}_t + \mathbf{M} \mathbf{y}_t + \mathbf{b})
+\end{align}
 $$
 
-漏れ (leak) 項の違いである．
+ただし，$\alpha = \frac{\Delta t}{\tau}$ とした．また，出力 $\mathbf{y}(t)$ を内部状態 $\mathbf{u}(t)$ を通じて間接的に記述する形式もある：
+
+$$
+\begin{align}
+\tau \frac{d\mathbf{u}(t)}{dt} &= -\mathbf{u}(t) + \mathbf{W} \mathbf{x}(t) + \mathbf{M} \mathbf{y}(t) + \mathbf{b} \\
+\mathbf{y}(t) &= f(\mathbf{u}(t))
+\end{align}
+$$
+
+この2段階の構造では，$\mathbf{u}(t)$ を膜電位，$\mathbf{y}(t)$ を発火率と解釈することができ，より生理学的に妥当なモデルとなる。
+
+このような構造は，Wilson–Cowanモデルの神経集団の動力学や，甘利による神経場方程式（Amari neural field model）にも見られる。
+
+連続時間モデルにおいて，
+
 
 Amari Model
 https://link.springer.com/referenceworkentry/10.1007/978-1-4614-7320-6_51-2
@@ -140,28 +157,55 @@ Before and beyond the Wilson-Cowan equations
 
 https://www.sciencedirect.com/science/article/pii/S2211124722016606
 
+https://www.nature.com/articles/s41583-020-00390-z
+
+神経場モデル (neural field model)
+
 ## Wilson–Cowanモデル
 Wilson–Cowanモデルは、神経集団の平均的な活動、すなわち発火率の時間変化を記述する連続時間の力学系として定式化される。本モデルは、個々の神経細胞ではなく、一定数の興奮性あるいは抑制性ニューロン群の平均的な活動を扱う「集団モデル（population model）」の一種であり、特に皮質における神経活動のマクロな挙動を解析する上で有用である。
 
-基本的な形は、興奮性ニューロンの平均発火率を $y_\textrm{E}(t)$、抑制性ニューロンの平均発火率を $\mathbf{y}_\textrm{I}(t)$ としたとき、以下の連立常微分方程式で与えられる：
+Wilson–Cowan方程式は、興奮性ニューロン集団と抑制性ニューロン集団の平均発火率の時間変化を記述する常微分方程式系である。これらの2つの集団をそれぞれ $\mathbf{y}_\mathrm{E}(t)$ および $\mathbf{y}_\mathrm{I}(t)$ とし、時定数を $\tau_\mathrm{E}$ および $\tau_\mathrm{I}$、入力を $\mathbf{x}_\mathrm{E}(t)$ および $\mathbf{x}_\mathrm{I}(t)$、結合行列をそれぞれ $\mathbf{W}_\mathrm{EE}$（興奮性から興奮性），$\mathbf{W}_\mathrm{EI}$（抑制性から興奮性），$\mathbf{W}_\mathrm{IE}$（抑制性から興奮性），$\mathbf{W}_\mathrm{II}$（抑制性から抑制性）とすると、Wilson–Cowan方程式は次のように定式化される：
 
 $$
 \begin{aligned}
-\tau_\textrm{E} \frac{dy_\textrm{E}(t)}{dt} &= -y_\textrm{E}(t) + (1 - r_\textrm{E} y_\textrm{E}(t)) \cdot f_\textrm{E}\left[w_\textrm{EE} y_\textrm{E}(t) - w_\textrm{EI} y_\textrm{I}(t) + x_\textrm{E}(t) \right]\\
-\tau_\textrm{I} \frac{dy_\textrm{I}(t)}{dt} &= -y_\textrm{I}(t) + (1 - r_\textrm{I} y_\textrm{I}(t)) \cdot f_\textrm{I}\left[w_\textrm{IE} y_\textrm{E}(t) - w_\textrm{II} y_\textrm{I}(t) + x_\textrm{I}(t) \right]
+\tau_\mathrm{E} \frac{d\mathbf{y}_\mathrm{E}(t)}{dt} &= -\mathbf{y}_\mathrm{E}(t) + f_\mathrm{E} \left[ \mathbf{W}_\mathrm{EE} \mathbf{y}_\mathrm{E}(t) - \mathbf{W}_\mathrm{EI} \mathbf{y}_\mathrm{I}(t) + \mathbf{x}_\mathrm{E}(t) \right] \\
+\tau_\mathrm{I} \frac{d\mathbf{y}_\mathrm{I}(t)}{dt} &= -\mathbf{y}_\mathrm{I}(t) + f_\mathrm{I} \left[ \mathbf{W}_\mathrm{IE} \mathbf{y}_\mathrm{E}(t) - \mathbf{W}_\mathrm{II} \mathbf{y}_\mathrm{I}(t) + \mathbf{x}_\mathrm{I}(t) \right]
 \end{aligned}
 $$
 
-ここで $\tau_\textrm{E} , \tau_\textrm{I}$ はそれぞれの神経集団の時定数、$w_{ab} \geq 0$ は神経集団 $a$ から $b$ への結合強度を表すスカラー量 $(a, b \in \{\textrm{E}, \textrm{I}\})$、$x_E(t), x_I(t)$ は外部からの入力である。関数 $f_E(\cdot), f_I(\cdot)$ は神経の応答関数であり、通常はシグモイド関数など単調増加関数が用いられる。また $r_E, r_I$ はそれぞれの神経集団の**最大発火率**（maximum firing rate）に関係する係数であり、発火率が飽和する性質をモデルに明示的に取り入れている。項 $(1 - ry(t))$ は、発火率 $y(t)$ が増加するにつれて活動可能なリソースが減少すること、すなわち飽和現象を記述するものである。$r=0$ とし，Wilson-Cowanモデルを並列に用意すると，次のように前節で紹介した連続時間発火率モデルとして記述できる．
+ただし，$\mathbf{y}_\alpha, \mathbf{W}_{\alpha \beta}\ (\alpha, \beta \in \{\mathrm{E}, \mathrm{I}\})$ の要素はすべて非負である．このモデルは、それぞれの神経集団が自己結合および他集団からの入力を受け取り、非線形な活性化関数を通じて平均発火率を変化させることを記述している。ここで、活性化関数 $f_\mathrm{E}, f_\mathrm{I}$ は各集団に応じた非線形性を表し、通常はシグモイド関数のような単調増加かつ飽和的な関数が用いられる\footnote{Wilson–Cowanモデルのより原型に近い形式として、活性化関数に $(1 - r_\alpha \mathbf{y}_\alpha(t))$ を乗じた形式が提案されている。この項は、神経細胞の発火率が生理学的に上限をもつという事実、すなわち**飽和的性質**を数理モデルに明示的に組み込むことを意図して導入されたものである。ただし、$r_\alpha$ の値を小さく（あるいは 0 に）設定した場合でも、モデルの定性的挙動には大きな差が見られないことが知られている。したがって、本書では記述の簡明さを優先し、この飽和項は導入せずに Wilson–Cowan モデルを扱うこととする。}。
 
-興奮性ニューロン群の平均発火率を $\mathbf{y}_\textrm{E}(t) \in \mathbf{R}^{n_\textrm{E}}$、抑制性ニューロンの平均発火率を $\mathbf{y}_\textrm{I}(t)$ としたとき、以下の連立常微分方程式で与えられる：
+この連立微分方程式は、ベクトルとブロック行列を用いて単一の微分方程式に統合することができる。まず、興奮性・抑制性集団の発火率をまとめたベクトルとして $\mathbf{y}(t) := \begin{bmatrix} \mathbf{y}_\mathrm{E}(t) \\ \mathbf{y}_\mathrm{I}(t) \end{bmatrix}$ を定義し、外部入力 $\mathbf{x}(t)$ も同様に結合されたベクトル $\mathbf{x}(t) := \begin{bmatrix} \mathbf{x}_\mathrm{E}(t) \\ \mathbf{x}_\mathrm{I}(t) \end{bmatrix}$ とする。各結合を表す行列をブロック構造としてまとめることで、再帰的結合行列 $\mathbf{M}$ は
 
 $$
-\begin{aligned}
-\tau_\textrm{E} \frac{d\mathbf{y}_\textrm{E}(t)}{dt} &= -\mathbf{y}_\textrm{E}(t) + f_\textrm{E}\left(\mathbf{W}_\textrm{EE} \mathbf{y}_\textrm{E}(t) - \mathbf{W}_\textrm{EI} \mathbf{y}_\textrm{I}(t) + \mathbf{x}_\textrm{E}(t) \right)\\
-\tau_\textrm{I} \frac{d\mathbf{y}_\textrm{I}(t)}{dt} &= -\mathbf{y}_\textrm{I}(t) + f_\textrm{I}\left[\mathbf{W}_\textrm{IE} \mathbf{y}_\textrm{E}(t) - \mathbf{W}_\textrm{II} \mathbf{y}_\textrm{I}(t) + \mathbf{x}_\textrm{I}(t) \right]
-\end{aligned}
+\begin{equation}
+\mathbf{M} := \begin{bmatrix}
+\mathbf{W}_\mathrm{EE} & -\mathbf{W}_\mathrm{EI} \\
+\mathbf{W}_\mathrm{IE} & -\mathbf{W}_\mathrm{II}
+\end{bmatrix}
+\end{equation}
 $$
+
+と定義できる。さらに、時定数を要素ごとに異なる対角行列 $\boldsymbol{\tau}$ として
+
+$$
+\begin{equation}
+\boldsymbol{\tau} := \begin{bmatrix}
+\tau_\mathrm{E} \mathbf{I} & \mathbf{0} \\
+\mathbf{0} & \tau_\mathrm{I} \mathbf{I}
+\end{bmatrix}
+\end{equation}
+$$
+
+と表す．さらに活性化関数 $f(\cdot)$ が $f_\textrm{E}$ や $f_\textrm{I}$ を要素ごとに適用するベクトル値関数とすると，Wilson–Cowan方程式は次のように統合された形式にまとめることができる：
+
+$$
+\begin{equation}
+\boldsymbol{\tau} \frac{d\mathbf{y}(t)}{dt} = -\mathbf{y}(t) + f(\mathbf{M} \mathbf{y}(t) + \mathbf{x}(t))
+\end{equation}
+$$
+
+この形式にまとめることで、Wilson–Cowanモデルは、前節で紹介した一般的な連続時間発火率モデルの枠組みの中に位置づけることができる。なお，外部入力の構造をより詳細に反映したい場合には、$\mathbf{x}(t) \to \mathbf{W} \mathbf{x}(t) + \mathbf{b}$ と置換し，入力重みと定常項（バイアス）を明示的に導入することも可能である。
 
 ### 神経活動の揺らぎ
 神経活動には**ノイズ**（neuronal noise）が常に存在しており、神経モデルにおいてもこれを考慮する必要がある。そのため、シナプス入力にノイズを加えることがある。たとえば、Leaky Integrate-and-Fire（LIF）モデルにおける膜電位の力学にノイズを加える場合を考える。ノイズ$\xi(t)$を平均$\tilde{\mu}$、分散$\tilde{\sigma}^2$の正規分布$\mathcal{N}(\tilde{\mu}, \tilde{\sigma}^2)$に従うガウシアンノイズとすると、膜電位$V_m(t)$の時間発展は次式で記述される：
@@ -204,6 +248,31 @@ $$
 このように修正することで、時間ステップに依存しない安定なノイズスケーリングが可能となる。このように確率微分方程式をEuler法で離散化する方法は、**Euler–Maruyama法**と呼ばれる\footnote{他の離散化手法としては、Milstein法なども存在する。}。
 
 \footnote{Scholarpediaの[Neuronal noise](http://www.scholarpedia.org/article/Neuronal_noise)を参照してください. }
+
+### コラム：Neural Mass ModelとNeural Field Model
+
+神経回路の大域的・集団的な活動を記述するモデルとして，**Neural Mass Model（神経集団モデル）**と**Neural Field Model（神経場モデル）**がある．これらはどちらも個々のニューロンではなく**神経細胞集団の平均的な活動**を対象とし，脳波や脳機能画像などのマクロスケールの神経活動を理論的に説明する枠組みを提供する．
+
+**Neural Mass Model**は，ミニコラムや皮質局所回路といった小規模な神経集団を1ユニットとしてモデル化し，**集団平均の膜電位や発火率の時間変化**を常微分方程式（ODE）で記述する．代表的な構造はWilson–Cowanモデルに基づいており，たとえば興奮性ニューロン集団$E(t)$と抑制性ニューロン集団$I(t)$の相互作用を次のように定式化する：
+
+$$
+\begin{aligned}
+\tau_E \frac{dE(t)}{dt} &= -E(t) + f_E(w_{EE}E(t) - w_{EI}I(t) + P_E), \\
+\tau_I \frac{dI(t)}{dt} &= -I(t) + f_I(w_{IE}E(t) - w_{II}I(t) + P_I),
+\end{aligned}
+$$
+
+ここで，$w_{ab}$は集団間の結合強度，$P_E, P_I$は外部入力，$f_E, f_I$は活性化関数である．このようなモデルは脳波（EEG）の周波数成分や認知状態の遷移を記述するために用いられ，後に述べるNeural Field Modelの局所近似とも解釈できる．
+
+一方，**Neural Field Model**は神経活動を**空間的に連続な場**として拡張し，皮質全体における神経活動の**時間的かつ空間的ダイナミクス**を記述する．代表的な数式は以下のような積分–微分方程式の形式を取る：
+
+$$
+\tau \frac{\partial u(x,t)}{\partial t} = -u(x,t) + \int_{\Omega} w(x, x') f(u(x', t)) dx' + I(x,t),
+$$
+
+ここで，$u(x,t)$は位置$x$における発火率，$w(x,x')$は位置$x'$から$x$への結合重み，$f(\cdot)$は活性化関数，$I(x,t)$は外部入力を表す．このモデルでは，**神経活動の波動的伝播**，**空間パターンの形成**，**視覚皮質の地図構造**などが理論的に説明可能であり，Turing不安定性やHopf分岐を通じたダイナミクス解析も行われている．
+
+両者の違いをまとめると，neural mass model は空間を持たない局所集団の記述に特化し，neural field model はそれを**空間連続体へと拡張**した枠組みである．いずれも神経活動のマクロな時間構造や空間構造を理解する上で有用な理論的ツールであり，生理的データとの比較，病態モデル，人工知能との接続など，広範な応用が進んでいる．
 
 ## Hebb則
 ### Hebb則
