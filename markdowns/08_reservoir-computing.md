@@ -5,6 +5,8 @@
 
 このように，一般的なRNNがネットワーク内のすべての結合重みを学習するのに対し，リザバーコンピューティングではRNN部分の結合重みはランダムに初期化されて以降は固定され，学習は読み出し器の出力重みに限定される．一般のRNNと比較すると，リザバーコンピューティングの表現力には制約があるものの，学習対象となるパラメータ数が少ないため，学習の計算コストを大幅に削減できるという利点がある．
 
+https://github.com/google-research/computation-thru-dynamics
+
 ## エコーステートネットワークとリキッドステートマシン
 
 https://reservoirpy.readthedocs.io/en/latest/user_guide/quickstart.html

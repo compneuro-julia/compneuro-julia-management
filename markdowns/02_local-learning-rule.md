@@ -100,6 +100,7 @@ $$
 \end{equation}
 $$
 
+このような再帰的結合を含むネットワークを**再帰型ニューラルネットワーク** (recurrent neural network; RNN) と呼ぶ．
 なお，$\mathbf{M}$ の対角成分が0以外の場合は，神経細胞の軸索終末がそれ自身の樹状突起と結合している状態を意味する．こうしたシナプス結合をオータプス (autapse) と呼ぶ．
 
 ### 連続時間モデル
@@ -180,47 +181,60 @@ $$
 
 この形式にまとめることで，Wilson–Cowanモデルは，前節で紹介した一般的な連続時間発火率モデルの枠組みの中に位置づけることができる．なお，外部入力の構造をより詳細に反映したい場合には，$\mathbf{x}(t) \to \mathbf{W} \mathbf{x}(t) + \mathbf{b}$ と置換し，入力重みと定常項（バイアス）を明示的に導入することも可能である．
 
-#### 抑制安定化ネットワーク
+#### 抑制安定化ネットワークと安定性解析
 Wilson–Cowanモデル等でモデル化される興奮性および抑制性神経細胞群が相互作用する神経回路網は，各シナプス結合強度のバランスが取れていなければ活動は不安定（発散あるいは静止）となる\footnote{シナプス結合強度のバランスを保ったモデルを学習させる手法として\citep{soldado2022paradoxical}などがある．}．抑制性神経集団により神経回路網全体の活動が安定化されている神経回路網（あるいはその状態）を**抑制安定化ネットワーク** (inhibition-stabilized network; ISN) と呼ぶ \citep{sadeh2021inhibitory}．
 
-ISNでは，興奮性細胞間の結合が強いために本来は活動が発散してしまうところを，抑制性細胞の抑制があることでネットワークが安定化されている．このような状態で生じる現象が逆説的効果 (paradoxical effect) であり \citep{tsodyks1997paradoxical}，これは抑制性細胞に興奮性刺激を加えると，逆に抑制性細胞群の活動が減少するという現象である．逆説的効果は抑制性細胞の活動が高まると興奮性細胞への抑制が強まり，結果として興奮性細胞からの抑制性細胞への入力が減少するために生じる．ISNや逆説的効果が生体脳でも存在するかを実験的に示した報告は\citep{ozeki2009inhibitory,sanzeni2020inhibition}などがある \footnote{なお，同一の神経回路でも入力の強度等によってISN・非ISNのいずれの状態になりうる．}
+ISNでは，興奮性細胞間の結合が強いために本来は活動が発散してしまうところを，抑制性細胞の抑制があることでネットワークが安定化されている．このような状態で生じる現象が**逆説的効果** (paradoxical effect) であり \citep{tsodyks1997paradoxical}，これは抑制性細胞に興奮性刺激を加えると，逆に抑制性細胞群の活動が減少するという現象である．逆説的効果は抑制性細胞の活動が高まると興奮性細胞への抑制が強まり，結果として興奮性細胞からの抑制性細胞への入力が減少するために生じる．逆の過程として，抑制性細胞に抑制性刺激を加えると逆に活動が増加するという現象も逆説的効果と呼ばれる．このような逆説的効果が生理的に存在することを示した実験研究としては \citep{ozeki2009inhibitory,kato2017network,sanzeni2020inhibition} があり，ISNという枠組みが生体脳においても成立しうることを支持している．
 
-Wilson–Cowanモデルはその構造上，ISN的な状態を自然に含みうるため，ISNの数理的性質の理論解析においてもしばしば基礎モデルとして用いられる．あるモデルがISNかどうかは，局所安定性解析によって判定できる．具体的には，非線形モデルを平衡点 $\mathbf{y}^*$ のまわりで線形化し，ヤコビ行列 $\mathbf{J}$ を導出し，その固有値の実部の符号を調べればよい．以下では簡単のために全ての細胞の活性化関数 $f(\cdot)$ が同一であるとする．ヤコビ行列は次のように計算できる：
-
-$$
-\begin{align}
-\mathbf{J} &= \left. \frac{\partial}{\partial \mathbf{y}} \left[ -\mathbf{y} + f(\mathbf{M} \mathbf{y} + \mathbf{x}) \right] \right|_{\mathbf{y} = \mathbf{y}^*}\\
-&=-\mathbf{I} + \left. \frac{df}{d\mathbf{z}} \cdot \mathbf{M} \right|_{\mathbf{z} = \mathbf{M} \mathbf{y}^* + \mathbf{x}}\\
-&=-\mathbf{I} + f'(\mathbf{z}^*)\cdot \mathbf{M}
-\end{align}
-$$
-
-ここで$\mathbf{z}^* := \mathbf{M} \mathbf{y}^* + \mathbf{x}$ とした．したがって，$\mathbf{J}$ の$i$番目の固有値 $\lambda_i$ は $\mathbf{M}$ の固有値 $\mu_i$ に対して：
+Wilson–CowanモデルはISN状態を含むため，ISNの数理的性質を理論的に解析する際の基礎モデルとして広く用いられている．あるモデルがISNであるかどうかを調べるには，まず**固定点解析**（fixed point analysis）\footnote{安定性解析まで含めて固定点解析と呼ぶ場合もある．} により系の平衡点（固定点）を求める．次に，その平衡点が安定かどうかは，線形安定性解析（linear stability analysis）によって判定される \citep{strogatz2024nonlinear}．線形安定性解析は，具体的には，非線形モデルを平衡点まわりで線形化し，ヤコビ行列（Jacobian matrix）を導出したうえで，その固有値の実部の符号を調べれば，安定性の有無を判定できる．以下では，興奮性・抑制性細胞が統合された形式でのWilson-Cowan方程式を例として，安定性解析を行う．なお，外部入力 $\mathbf{x}$ は一定であるとし，全ての細胞の活性化関数 $f(\cdot)$ が同一であるとする．まず，平衡点 $\mathbf{y}^*$ に小さな摂動$\delta \mathbf{y}(t)$を加え，$\mathbf{y}(t) = \mathbf{y}^* + \delta \mathbf{y}(t)$ として元の微分方程式に代入する：
 
 $$
 \begin{equation}
-\lambda_i = -1 + f'(\mathbf{z}^*) \cdot \mu_i
+\tau \frac{d}{dt} (\mathbf{y}^* + \delta \mathbf{y}) = -(\mathbf{y}^* + \delta \mathbf{y}) + f(\mathbf{M} (\mathbf{y}^* + \delta \mathbf{y}) + \mathbf{x})
 \end{equation}
 $$
 
-という関係に従う．平衡点が漸近的に安定 (asymptotically stable) であるためには，すべての固有値 $\lambda_i$ の実部が負であればよく，このような状態がISNに対応する．
+右辺第2項をTaylor展開すると，
+
+$$
+\begin{equation}
+f(\mathbf{M} (\mathbf{y}^* + \delta \mathbf{y}) + \mathbf{x})
+=f(\mathbf{M} \mathbf{y}^* + \mathbf{x}) + \mathbf{D}_f \mathbf{M}\delta \mathbf{y} + \mathcal{O}(\|\delta \mathbf{y}\|^2)
+\end{equation}
+$$
+
+となる．ただし，$\mathbf{D}_f := \mathrm{diag}\left(f'(\mathbf{M} \mathbf{y}^* + \mathbf{x})\right)$ は固定点における微分値を並べた対角行列であり，$\mathcal{O}(\cdot)$はLandauの略記（この場合は $\delta \mathbf{y}$ の2次以上の項）を意味する．
+ここで $\frac{d\mathbf{y}^*}{dt}=0$ かつ $-\mathbf{y}^*+f(\mathbf{M} \mathbf{y}^* + \mathbf{x})=0$ が成り立つことも踏まえ，$O(\|\delta \mathbf{y}\|^2)$ を無視して整理すると，平衡点周囲の線形系が得られる：
+
+$$
+\begin{align}
+\tau \frac{d\delta \mathbf{y}}{dt} &= -\delta \mathbf{y} + \mathbf{D}_f \mathbf{M} \delta \mathbf{y}\\
+&=\left(-\mathbf{I} + \mathbf{D}_f \mathbf{M} \right) \delta \mathbf{y} = \mathcal{J} \delta \mathbf{y}
+\end{align}
+$$
+
+ここで，$\mathcal{J}:=-\mathbf{I} + \mathbf{D}_f \mathbf{M}$ を平衡点 $\mathbf{y}^*$ におけるヤコビ行列という．平衡点が漸近的に安定 (asymptotically stable) であるためには，ヤコビ行列 $\mathcal{J}$ の全ての固有値 $\lambda$ の実部が負，すなわち $\mathrm{Re}(\lambda) < 0$ を満たせばよい．この場合，ネットワークは安定となる．
+
+なお，機能的なRNNの内部機構を明らかにする手法としても，固定点解析および安定性解析は有用である．例えば，パルス入力の符号を記憶するフリップフロップ（flip-flop）課題では，入力ごとに「+1」または「−1」のパルスが与えられ，RNNはその最新の入力値を出力として保持する．この課題を実行するRNNでは，各記憶状態が安定固定点として実装されており，状態遷移は鞍点を通じて実現される \citep{sussillo2013opening}．このように，RNNが「記憶の遷移」をどのように表現しているかを，固定点空間の構造として記述することができる．一方，正弦波のような周期的な動的パターンを生成する課題では，RNNの出力は時間とともに変化し続けるため，状態空間の軌道は固定点から大きく離れる場合が多い．にもかかわらず，各周波数に対して対応する静的入力を与えた条件下でRNNの固定点を求め，その周囲の線形化を行うと，得られる線形系は振動的な不安定性（虚部をもつ複素固有値）を示す．その虚部の大きさは，目標とする正弦波の角周波数（radians/sec）と数値的に一致しており，線形近似によってRNNの出力振動の周期性を的確に説明できることが示されている．したがって，このような動的挙動であっても，固定点周辺の線形ダイナミクスが振動パターンの生成機構を支配していると解釈できる．なお，こうした機能的なRNNを訓練する方法に関しては主に第5章で詳解する．
 
 #### 神経集団モデルと神経場モデル
 Wilson–Cowanモデルと密接に関連し，より大域的・集団的な神経活動を記述する枠組みとして，**神経集団モデル**（neural mass model, neural population model）および**神経場モデル**（neural field model）があり，これらのモデルに関して簡単に触れておく．いずれも個々のニューロンの詳細な活動ではなく，神経細胞集団の平均的な膜電位や発火率の時間変化を対象とし，脳波などのマクロな神経活動を記述するための理論的枠組みを提供する．
 
 神経集団モデルでは，皮質のマイクロカラムや局所回路といった小規模な神経集団を1ユニットとしてモデル化し，Wilson–Cowanモデルと同様に，平均発火率や膜電位のダイナミクスを扱う．神経集団モデルの例としては局所神経回路をモデル化したJansen-Ritモデル \citep{jansen1995electroencephalogram} や，てんかん活動の動態を記述するWendlingモデル \citep{wendling2002epileptic} などがある．
 
-一方，神経場モデル（neural field model）では，神経活動を空間的に連続な関数として記述し，広範囲における神経活動の時空間的なダイナミクスを扱う．神経場モデルはWilsonとCowan \citep{wilson1973mathematical}, Nunez \citep{nunez1974brain}, 甘利 \citep{amari1975homogeneous, amari1977dynamics} らの研究に基づいており，ここでは甘利による定式化（**甘利モデル**, Amari model）を簡単に説明する \citep{coombes2014tutorial, cook2022neural, potthast2022amari}．甘利モデルでは，まず神経場の定義域 $\Omega$（一次元の皮質断面や二次元の皮質平面など）を考える．$\Omega$ における神経活動は以下のような積分–微分方程式によって与えられる：
+一方，神経場モデル（neural field model）では，神経活動を空間的に連続な関数として記述し，広範囲における神経活動の時空間的なダイナミクスを扱う \citep{coombes2014tutorial, cook2022neural}．神経場モデルはWilsonおよびCowan \citep{wilson1973mathematical}, Nunez \citep{nunez1974brain}, 甘利 \citep{amari1975homogeneous, amari1977dynamics} らの研究に基づいており，ここでは甘利による定式化（**甘利モデル**, Amari model）を簡単に説明する．甘利モデルでは，まず神経場の定義域 $\Omega$（一次元の皮質断面や二次元の皮質平面など）を考える．$\Omega$ における神経活動は以下のような積分–微分方程式によって与えられる：
 
 $$
+\begin{equation}
 \tau \frac{\partial u(x,t)}{\partial t} = -u(x,t) + \int_{\Omega} w(x, x') f(u(x', t)) dx' + I(x,t)
+\end{equation}
 $$
 
 ここで，$x, x' \in \Omega$ は神経場における位置を表す．$u(x,t)$ は位置 $x$ における時刻 $t$ の発火率，$w(x,x')$ は位置 $x'$ から $x$ への結合重み，$f(\cdot)$ は活性化関数，$I(x,t)$ は外部入力を表す．神経場モデルは，皮質進行波（cortical travelling waves）\sitep{muller2018cortical} 等の現象を理論的に説明する手段となる．
 
 ## Hebb則とシナプス可塑性
 ### Hebb則
-神経回路はどのようにして自己組織化するのだろうか．1940年代にカナダの心理学者Donald O. Hebbにより著書"The Organization of Behavior"{cite:p}`Hebb1949-iv` で提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを**Hebbの学習則** (Hebbian learning rule) あるいは**Hebb則** (Hebb's rule) という．Hebb則は（Hebb自身ではなく）Shatzにより"cells that fire together wire together"（共に活動する細胞は共に結合する）と韻を踏みながら短く言い換えられている {cite:p}`Shatz1992-he`．
+神経回路はどのようにして自己組織化するのだろうか．1940年代にHebbにより提案された学習則は「細胞Aが反復的または持続的に細胞Bの発火に関与すると，細胞Aが細胞Bを発火させる効率が向上するような成長過程または代謝変化が一方または両方の細胞に起こる」というものであった \citep{Hebb1949-iv}．すなわち，発火に時間的相関のある細胞間のシナプス結合を強化するという学習則である．これを**Hebbの学習則** (Hebbian learning rule) あるいは**Hebb則** (Hebb's rule) という．Hebb則は（Hebb自身ではなく）Shatzにより"cells that fire together wire together"（共に活動する細胞は共に結合する）と韻を踏みながら短く言い換えられている {cite:p}`Shatz1992-he`．
 
 数式でHebb則を表してみよう．$n$個のシナプス前細胞と$m$個の後細胞の発火率をそれぞれ$\mathbf{x}\in \mathbb{R}^n, \mathbf{y}\in \mathbb{R}^m$ とする．前細胞と後細胞間のシナプス結合強度を表す行列を$\mathbf{W}\in \mathbb{R}^{m\times n}$とし，$\mathbf{y}=\mathbf{W}\mathbf{x}$が成り立つとする．このようなモデルを線形ニューロンモデル (Linear neuron model) という．このとき，Hebb則は
 
@@ -235,11 +249,14 @@ $$
 #### シナプス可塑性とLTP・LTD
 LTPの実験的発見 {cite:p}`Bliss1973-vj` {cite:p}`Dudek1992-nz`
 
-このHebb則の神経生理学的な基盤を裏付けるものとして，1973年にBlissとLømoによってウサギの海馬において**長期増強**（Long-Term Potentiation, LTP）が発見された．彼らの実験では，海馬のシェイファー側枝からCA1錐体細胞への経路に高頻度の電気刺激を加えることで，その後のシナプス応答が長時間にわたって増強される現象が観察された．この持続的なシナプス強度の増加は，まさにHebb則に対応する生理的現象と見なされ，Hebbian plasticityの実体と考えられるようになった．LTPはグルタミン酸作動性シナプスで観察されることが多く，特にNMDA受容体が関与することで知られている．この受容体は膜電位依存的にMg²⁺ブロックが外れることにより，カルシウムイオン（Ca²⁺）の流入を許し，それが下流のシグナル伝達を活性化してシナプス後部のAMPA受容体の増加や活性化を引き起こす．
+このHebb則の神経生理学的な基盤を裏付けるものとして，1973年にBlissとLømoによってウサギの海馬において**長期増強**（Long-Term Potentiation, LTP）が発見された．彼らの実験では，海馬のSchaffer側枝からCA1錐体細胞への経路に高頻度の電気刺激を加えることで，その後のシナプス応答が長時間にわたって増強される現象が観察された．この持続的なシナプス強度の増加は，まさにHebb則に対応する生理的現象と見なされ，Hebbian plasticityの実体と考えられるようになった．LTPはグルタミン酸作動性シナプスで観察されることが多く，特にNMDA受容体が関与することで知られている．この受容体は膜電位依存的にMg²⁺ブロックが外れることにより，カルシウムイオン（Ca²⁺）の流入を許し，それが下流のシグナル伝達を活性化してシナプス後部のAMPA受容体の増加や活性化を引き起こす．
 
 一方，1980年代には**長期抑圧**（Long-Term Depression, LTD）という現象も発見された．これは，シナプス前ニューロンとシナプス後ニューロンが低頻度で同時活動した場合に，シナプスの伝達効率が長期にわたって減少する現象である．LTDもまた海馬や小脳などの領域で観察されており，この減弱はHebb則の反対の効果を示すものとして位置づけられる．特に，小脳における登上線維と平行線維の同時活動により引き起こされるLTDは，運動学習のモデルとして重要視されている．LTPと同様に，LTDにおいてもCa²⁺シグナリングが重要な役割を果たすが，その振幅や時間的プロファイルが異なっていることが，シナプス強化と抑圧の分岐をもたらすと考えられている．
 
 これらの発見を通じて，Hebb則は単なる理論的仮説にとどまらず，シナプス可塑性という具体的な細胞メカニズムを通して，神経回路における学習と記憶の基盤であることが明らかにされた．
+
+Hebb則
+
 
 https://www.science.org/doi/10.1126/science.ads4706
 https://pubmed.ncbi.nlm.nih.gov/24183021/
@@ -248,6 +265,72 @@ https://pubmed.ncbi.nlm.nih.gov/26139370/
 https://pubmed.ncbi.nlm.nih.gov/15450157/
 https://pubmed.ncbi.nlm.nih.gov/18275283/
 https://pubmed.ncbi.nlm.nih.gov/17332410/
+
+---
+
+分類問題
+, perceptron
+<https://www.cs.utexas.edu/~gdurrett/courses/fa2022/perc-lr-connections.pdf>
+
+<https://en.wikipedia.org/wiki/Perceptron>
+
+<https://arxiv.org/abs/2012.03642>
+
+
+perceptronは0/1 or -1/1のどちらか
+
+UNDERSTANDING STRAIGHT-THROUGH ESTIMATOR IN TRAINING ACTIVATION QUANTIZED NEURAL NETS
+
+Yoshua Bengio, Nicholas L´eonard, and Aaron Courville. Estimating or propagating gradients through stochastic neurons for conditional computation. arXiv preprint arXiv:1308.3432, 2013.
+
+Hinton (2012) in his lecture 15b
+
+G. Hinton. Neural networks for machine learning, 2012.
+<https://www.cs.toronto.edu/~hinton/coursera_lectures.html>
+
+delta rule
+
+---
+
+
+ToDo:恒常的可塑性の詳細
+
+Johansen, Joshua P., Lorenzo Diaz-Mataix, Hiroki Hamanaka, Takaaki Ozawa, Edgar Ycu, Jenny Koivumaa, Ashwani Kumar, et al. 2014. “Hebbian and Neuromodulatory Mechanisms Interact to Trigger Associative Memory Formation.” Proceedings of the National Academy of Sciences 111 (51): E5584–92.
+
+---
+
+No Free Lunch from Deep Learning in Neuroscience: A Case Study through Models of the Entorhinal-Hippocampal Circuit 
+<https://openreview.net/forum?id=mxi1xKzNFrb>
+
+ToDo: 他のgrid cellsのモデルについて
+
+---
+
+1. **平均の除去**  
+   各特徴量について平均を 0 にするため，データを中心化する：
+   $$
+   \bar{\mathbf{x}} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i, \quad \tilde{\mathbf{x}}_i = \mathbf{x}_i - \bar{\mathbf{x}}.
+   $$
+   中心化されたデータ行列を $\tilde{\mathbf{X}}$ とおく．
+
+2. **共分散行列の構築**  
+   中心化後のデータから共分散行列 $\mathbf{C}$ を求める：
+   $$
+   \mathbf{C} = \frac{1}{n} \tilde{\mathbf{X}}^\top \tilde{\mathbf{X}} \in \mathbb{R}^{d \times d}.
+   $$
+
+3. **固有値分解**  
+   共分散行列に対して固有値分解を行い，固有ベクトル $\{\mathbf{w}_1, \dots, \mathbf{w}_d\}$ と対応する固有値 $\{\lambda_1, \dots, \lambda_d\}$ を求める．固有値は分散量に対応し，$\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d \geq 0$ の順に並べる．固有ベクトルは以下を満たす：
+   $$
+   \mathbf{C} \mathbf{w}_k = \lambda_k \mathbf{w}_k, \quad k=1,\dots,d.
+   $$
+
+4. **次元削減と主成分の構成**  
+   上位 $m < d$ 個の固有ベクトル $\mathbf{W}_m = [\mathbf{w}_1, \dots, \mathbf{w}_m]$ を用いて，元のデータを $m$ 次元に射影する：
+   $$
+   \mathbf{z}_i = \mathbf{W}_m^\top \tilde{\mathbf{x}}_i \in \mathbb{R}^m.
+   $$
+   これにより得られる $\mathbf{z}_i$ は主成分と呼ばれる．
 
 #### 神経ダイナミクスからのHebb則の導出
 Hebb則は数学的に導出されたものではないが，特定の目的関数を神経活動及び重みを変化させて最適化するようなネットワークを構築すれば自然に出現する．このようなネットワークを**エネルギーベースモデル** (energy-based models) といい，次章で扱う．エネルギーベースモデルでは，先にエネルギー関数 (あるいはコスト関数) $\mathcal{E}$ を定義し，その目的関数を最小化するような神経活動 $\mathbf{z}$ および重み行列 $\mathbf{W}$ のダイナミクスをそれぞれ,
@@ -307,29 +390,6 @@ $$
 
 もし訓練データが**線形分離可能**であるならば，このアルゴリズムは有限回の更新で必ず収束する（**パーセプトロン収束定理**）．ただし，データが線形分離不可能な場合は，収束せずに振動を続けることがある．
 
-分類問題
-, perceptron
-<https://www.cs.utexas.edu/~gdurrett/courses/fa2022/perc-lr-connections.pdf>
-
-<https://en.wikipedia.org/wiki/Perceptron>
-
-<https://arxiv.org/abs/2012.03642>
-
-
-perceptronは0/1 or -1/1のどちらか
-
-UNDERSTANDING STRAIGHT-THROUGH ESTIMATOR IN TRAINING ACTIVATION QUANTIZED NEURAL NETS
-
-Yoshua Bengio, Nicholas L´eonard, and Aaron Courville. Estimating or propagating gradients through stochastic neurons for conditional computation. arXiv preprint arXiv:1308.3432, 2013.
-
-Hinton (2012) in his lecture 15b
-
-G. Hinton. Neural networks for machine learning, 2012.
-<https://www.cs.toronto.edu/~hinton/coursera_lectures.html>
-
-delta rule
-
-
 これは単純ではあるが，この微分不可能な関数による学習則は，現代的に**Straight-Through Estimator** (STE) と呼ばれる概念と同一である．STEの考えはスパイキングニューラルネットワークの学習や，ニューラルネットワークの量子化へと発展する．ここでは深く触れず，第7章で改めて紹介を行う．
 
 ### Hebb則の安定化
@@ -387,10 +447,6 @@ $$
 #### 恒常的可塑性
 Oja則は更新時の即時的な正規化から導出されたものであるが，恒常的可塑性 (synaptic scaling)により安定化しているという説がある{cite:p}`Turrigiano2008-lm`{cite:p}`Yee2017-fb`．しかし，この過程は遅すぎるため，Hebb則の不安定化を安定化するに至らない{cite:p}`Zenke2017-el`
 
-ToDo:恒常的可塑性の詳細
-
-Johansen, Joshua P., Lorenzo Diaz-Mataix, Hiroki Hamanaka, Takaaki Ozawa, Edgar Ycu, Jenny Koivumaa, Ashwani Kumar, et al. 2014. “Hebbian and Neuromodulatory Mechanisms Interact to Trigger Associative Memory Formation.” Proceedings of the National Academy of Sciences 111 (51): E5584–92.
-
 ## 主成分分析
 Oja則を用いることで**主成分分析** (Principal component analysis; PCA) という処理をニューラルネットワークにおいて実現できる．
 
@@ -398,32 +454,6 @@ Oja則を用いることで**主成分分析** (Principal component analysis; PC
 主成分分析 (PCA) は，高次元のデータに内在する低次元の構造を抽出するための線形次元削減法である．この手法は，分散が最大となる方向にデータを射影することにより，元の情報をなるべく保ちながら次元を削減する．
 
 まず，$n$ 個のサンプル $\{\mathbf{x}_1, \dots, \mathbf{x}_n\}$ が $d$ 次元の実ベクトル空間 $\mathbb{R}^d$ に属するとし，これらを列ベクトルとしてまとめたデータ行列を $\mathbf{X} = [\mathbf{x}_1, \dots, \mathbf{x}_n]^\top \in \mathbb{R}^{n \times d}$ とする．PCA では以下の手順を踏む．
-
-1. **平均の除去**  
-   各特徴量について平均を 0 にするため，データを中心化する：
-   $$
-   \bar{\mathbf{x}} = \frac{1}{n} \sum_{i=1}^n \mathbf{x}_i, \quad \tilde{\mathbf{x}}_i = \mathbf{x}_i - \bar{\mathbf{x}}.
-   $$
-   中心化されたデータ行列を $\tilde{\mathbf{X}}$ とおく．
-
-2. **共分散行列の構築**  
-   中心化後のデータから共分散行列 $\mathbf{C}$ を求める：
-   $$
-   \mathbf{C} = \frac{1}{n} \tilde{\mathbf{X}}^\top \tilde{\mathbf{X}} \in \mathbb{R}^{d \times d}.
-   $$
-
-3. **固有値分解**  
-   共分散行列に対して固有値分解を行い，固有ベクトル $\{\mathbf{w}_1, \dots, \mathbf{w}_d\}$ と対応する固有値 $\{\lambda_1, \dots, \lambda_d\}$ を求める．固有値は分散量に対応し，$\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d \geq 0$ の順に並べる．固有ベクトルは以下を満たす：
-   $$
-   \mathbf{C} \mathbf{w}_k = \lambda_k \mathbf{w}_k, \quad k=1,\dots,d.
-   $$
-
-4. **次元削減と主成分の構成**  
-   上位 $m < d$ 個の固有ベクトル $\mathbf{W}_m = [\mathbf{w}_1, \dots, \mathbf{w}_m]$ を用いて，元のデータを $m$ 次元に射影する：
-   $$
-   \mathbf{z}_i = \mathbf{W}_m^\top \tilde{\mathbf{x}}_i \in \mathbb{R}^m.
-   $$
-   これにより得られる $\mathbf{z}_i$ は主成分と呼ばれる．
 
 PCA の目的は，情報損失（再構成誤差）を最小限に抑えながら，できるだけ少ない次元でデータを表現することである．この観点から，PCA は次の最適化問題の解とみなすこともできる：
 
