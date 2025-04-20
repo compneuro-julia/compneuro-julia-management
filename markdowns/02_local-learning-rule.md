@@ -407,6 +407,15 @@ https://www.cell.com/neuron/fulltext/S0896-6273(20)30188-4?uuid=uuid%3Afdd605ec-
 
 https://www.pnas.org/doi/full/10.1073/pnas.1421304111
 
+https://www.sciencedirect.com/science/article/abs/pii/S095943880000091X?via%3Dihub
+https://www.cell.com/trends/neurosciences/abstract/S0166-2236(98)01341-1?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0166223698013411%3Fshowall%3Dtrue
+
+https://www.nature.com/articles/nrn1949
+
+Synaptic scaling
+
+実装上はノルムで割る（乗法的スケーリング）
+
 ### Hebb則の変分原理的導出
 Hebb則は数学的に導出されたものではないが，神経回路のダイナミクスがある目的関数（エネルギー関数）を最適化するように設計されていると仮定すれば、Hebb則に対応する重み更新則が自然に導出される。このようなネットワークを**エネルギーベースモデル** (energy-based models) といい，次章で扱う．
 
