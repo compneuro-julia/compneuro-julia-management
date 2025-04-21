@@ -147,9 +147,9 @@ $$
 \end{aligned}
 $$
 
-このモデルは，それぞれの神経集団が自己結合および他集団からの入力を受け取り，非線形な活性化関数を通じて平均発火率を変化させることを記述している．ここで，活性化関数 $f_\mathrm{E}, f_\mathrm{I}$ は各集団に応じた非線形性を表し，通常はシグモイド関数のような単調増加かつ飽和的な関数が用いられる\footnote{Wilson–Cowanモデルのより原型に近い形式として，活性化関数に $(1 - r_\alpha \mathbf{y}_\alpha(t))$ を乗じた形式が提案されている．この項は，神経細胞の発火率が生理学的に上限をもつという事実，すなわち飽和的性質を数理モデルに明示的に組み込むことを意図して導入されたものである．ただし，$r_\alpha=0$ と設定した場合でも，モデルの定性的挙動には大きな差が見られないことが知られている \citep{wilson2021evolution}．したがって，本書では記述の簡明さを優先し，この飽和項は導入せずにWilson–Cowanモデルを扱うこととする．}．
+このモデルは，それぞれの神経集団が自己結合および他集団からの入力を受け取り，非線形な活性化関数を通じて平均発火率を変化させることを記述している．ここで，活性化関数 $f_\mathrm{E}, f_\mathrm{I}$ は各集団に応じた非線形性を表し，通常はシグモイド関数のような単調増加かつ飽和的な関数が用いられる\footnote{Wilson–Cowanモデルのより原型に近い形式では，活性化関数の前に $(1 - r_\alpha \mathbf{y}_\alpha(t))$ を乗じる．この項は，神経細胞の発火率が生理学的に上限をもつという事実，すなわち飽和的性質を数理モデルに明示的に組み込むことを意図して導入されたものである．ただし，$r_\alpha=0$ と設定した場合でも，モデルの定性的挙動には大きな差が見られないことが知られている \citep{wilson2021evolution}．したがって，本書では記述の簡明さを優先し，この飽和項は導入せずにWilson–Cowanモデルを扱うこととする．}．
 
-この連立微分方程式は，ベクトルとブロック行列を用いて単一の微分方程式に統合することができる．まず，興奮性・抑制性集団の発火率をまとめたベクトルとして $\mathbf{y}(t) := \begin{bmatrix} \mathbf{y}_\mathrm{E}(t) \\ \mathbf{y}_\mathrm{I}(t) \end{bmatrix}$ を定義し，外部入力 $\mathbf{x}(t)$ も同様に結合されたベクトル $\mathbf{x}(t) := \begin{bmatrix} \mathbf{x}_\mathrm{E}(t) \\ \mathbf{x}_\mathrm{I}(t) \end{bmatrix}$ とする．各結合を表す行列をブロック構造としてまとめることで，再帰的結合行列 $\mathbf{M}$ は
+この連立微分方程式は，ベクトルとブロック行列を用いて単一の微分方程式に統合することができる．まず，興奮性・抑制性集団の発火率をまとめたベクトルとして $\mathbf{y}(t) := \begin{bmatrix} \mathbf{y}_\mathrm{E}(t) \\ \mathbf{y}_\mathrm{I}(t) \end{bmatrix}$ を定義し，外部入力 $\mathbf{x}(t)$ も同様に結合されたベクトル $\mathbf{x}(t) := \begin{bmatrix} \mathbf{x}_\mathrm{E}(t) \\ \mathbf{x}_\mathrm{I}(t) \end{bmatrix}$ とする．各結合を表す行列をブロック行列としてまとめることで，再帰的結合行列 $\mathbf{M}$ は
 
 $$
 \begin{equation}
@@ -288,95 +288,50 @@ Hebb則には問題点があり，シナプス結合強度が際限なく増大�
 
 この問題に対して、さまざまな修正Hebb則 (modified hebbian rule) が提案されている．ここでは代表的な学習則である **CLO則**、**Oja則**、そして**BCM則**について説明する．
 
+以下では 入力 $\mathbf{x}\in \mathbb{R}^n$ $y\in \mathbb{R}$ とし，シナプス結合 $\mathbf{w}\in \mathbb{R}^n$ を持つ，単一の神経細胞モデルし，単一の出力$y = f(\mathbf{w}^\top \mathbf{x})$ を持つを仮定する．
+
 #### CLO則
-Cooper, Liberman, Ojaらにより頭文字をとって**CLO則** (CLO rule) が提案された \citep{Cooper1979-wz}．
+視覚野のニューロンが経験により方向選択性を獲得し、かつ視覚刺激の遮断によってその選択性を失うといった生理的実験の結果を説明する理論として，Cooper, Liberman, Ojaにより閾値制約付き受動的可塑性 (threshold passive modification) と呼ばれる形式の学習則が提案された \citep{Cooper1979-wz}．この学習則は提案者の頭文字を取って，**CLO則** (CLO rule) と呼ばれる．CLO則は、Hebb則に対して出力の大きさに応じた閾値的な修正と重みの減衰項（忘却）を加えることにより、選択性の獲得と重みの安定性の両立を目指した学習則である。
 
-以下では$\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}$とし，単一の出力$y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}$を持つ線形ニューロンを仮定する．
-
-CLO則は、Hebb則に対して**出力の大きさに応じた閾値的な修正**と**重みの減衰項（忘却）**を加えることにより、**選択性の獲得と安定性の両立**を目指した学習則である。Cooper, Liberman, Oja（1979）は視覚野のニューロンが経験により方向選択性を獲得し、かつ視覚刺激の遮断によってその選択性を失うという実験事実を説明する理論として、閾値制約付き受動的可塑性 (threshold passive modification) と呼ばれる形式を提案した。
-
-視覚野のニューロンが正常な視覚刺激にさらされることによって選択性（とくに方向選択性）を獲得し、視覚入力が遮断された場合にはこの選択性が失われるという生理学的観察結果​を説明する理論である。さらに、視覚刺激を再提示することで選択性が回復するという可塑性の可逆性も、本理論によって再現可能である。
-
-この学習則は、出力 $y(t) = \mathbf{w}(t)^\top \mathbf{x}(t)$ が**可塑性閾値 $\theta_M$** や**出力飽和値 $\theta_\mathrm{max}$** によって区分される3つの範囲で異なる更新を行う。
-
-離散時間の $\mathbf{w}(t+1) = \gamma \mathbf{w}(t) + \Delta \mathbf{w}(t)$ を連続時間に変換するには，$\gamma \approx 1 - \epsilon \lambda$ のように重み減衰項を導入し，$\eta_{\pm} = \epsilon \tilde{\eta}_{\pm}$ とスケーリングして $\epsilon \to 0$ の極限を取ると：
+CLO則は、出力 $y$ が可塑性閾値 $\theta_M$ や出力飽和値 $\theta_\mathrm{max}$ によって区分される3つの範囲で異なる更新を行う。CLO則の元の形式は離散時間での更新則であるが，表記を統一するため，連続時間でのCLO則を示す：
 
 $$
 \frac{d\mathbf{w}}{dt} =
 \begin{cases}
-- \lambda \mathbf{w} + \eta_+ (\theta_{\max} - y) \mathbf{x}, & \theta_M \leq y < \theta_{\max} \\
-- \lambda \mathbf{w}, & y \geq \theta_{\max} \\
-- \lambda \mathbf{w} - \eta_- y \mathbf{x}, & y < \theta_M
+- \lambda \mathbf{w} & (y \geq \theta_{\max}) \\
+- \lambda \mathbf{w} + \eta_+ (\theta_{\max} - y) \mathbf{x} & (\theta_M \leq y < \theta_{\max}) \\
+- \lambda \mathbf{w} - \eta_- y \mathbf{x} & (y < \theta_M)
 \end{cases}
 $$
 
-ここで：
-- $\lambda > 0$ は重みの減衰（leak）項
-- $y = \mathbf{w}^\top \mathbf{x}$ は連続時間における出力
-- $\eta_+, \eta_-$ はそれぞれ強化・抑制の学習率
-
-この形式では、重みの変化が時間的に滑らかに記述され、微分方程式として数値的に解くことができる。
-
-
-更新則は以下のように与えられる：
-
-$$
-\mathbf{w}(t+1) =
-\begin{cases}
-\gamma \mathbf{w}(t), & (y(t) \geq \theta_\mathrm{max}) \\
-\gamma \mathbf{w}(t) + \eta_+ (\theta_\mathrm{max} - y(t)) \mathbf{x}(t), & (\theta_M \leq y(t) < \theta_\mathrm{max}) \\
-\gamma \mathbf{w}(t) - \eta_- y(t) \mathbf{x}(t), & (y(t) < \theta_M)
-\end{cases}
-$$
-
-ここで、$\gamma \in (0,1]$ は重みの減衰係数、$\eta_+, \eta_-$ はそれぞれLTPとLTDに対応する学習率である。このように、適度な出力のときにのみ強化が起こり、過剰な出力では学習が停止し、出力が小さすぎる場合には抑制が起こるという、**三相性の学習則**が構築される。これにより、各ニューロンは特定の入力パターンに対してのみ強い応答を示すようになり、他のパターンには反応しなくなる。これは方向選択性や空間選択性のような**感覚特異性（specificity）**の獲得を数理的に説明する。
-
-CLO則は、重みの制限を**出力活動に依存する非線形関数**で制御する点において、Oja則よりも生理学的制約を柔軟に表現できる。また、可塑性の反転（LTD）を組み込んでいる点において、Hebb則を超えた**競合的・分散的学習**を可能にする。
+ここで，$\lambda \geq 0$ は重みの減衰（leak）の度合いを決める定数であり，$\eta_+, \eta_-$ はそれぞれLTP・LTDに対応する学習率である．このように、適度な出力のときにのみ強化が起こり、過剰な出力では学習が停止し、出力が小さすぎる場合には抑制が起こるという、三相性の学習則が構築される。これにより、各ニューロンは特定の入力パターンに対してのみ強い応答を示すようになり、他のパターンには反応しなくなる。これは方向選択性や空間選択性のような感覚特異性（specificity）の獲得を数理的に説明する。CLO則はLTPに加えてLTDも組み込み，重みの減衰項も加えているため，不安定性はHebb則よりも低減されている．一方で，複雑で不連続な三相性の学習則を持ち，閾値も固定であるという欠点があった．
 
 #### BCM則
-一方、Bienenstock, Cooper, Munroらにより提案された**BCM則**（Bienenstock–Cooper–Munro則）は、Hebb則の不安定性の修正に加えて、生理学的可塑性の双方向性（LTPとLTD）を統一的に記述することを目指した学習則である \citep{Bienenstock1982-km} \citep{Cooper2012-ec}．BCM則の核となるのは、出力活動の履歴に応じて変化する**修正閾値**（modification threshold）$\theta_m$の導入である。BCM則は次のように表される：
+CLO則を踏まえて，Bienenstock, Cooper, Munroにより提案された**BCM則**（Bienenstock–Cooper–Munro則）は、Hebb則の不安定性の修正に加えて、生理学的可塑性の双方向性（LTPとLTD）を統一的に記述することを目指した学習則である \citep{Bienenstock1982-km} \citep{Cooper2012-ec}．BCM則の核となるのは、出力活動の履歴に応じて変化する**修正閾値**（modification threshold）$\theta_m$の導入である。BCM則は次のように表される：
 
 $$
 \frac{d\mathbf{w}}{dt} = \eta_w \, \mathbf{x} \, y (y - \theta_m)
 $$
 
-ここで $\theta_m$ は活動履歴に基づいて動的に変化し、たとえば以下のように定義される：
+関数$\phi$は$\phi(y, \theta_m)=y(y-\theta_m)$などとする．非線形Hebb則の一種である．また $\theta_m:=\mathbb{E}[y^2]$は閾値を決定するパラメータ，**修正閾値** (modification threshold) である．$\theta_m$ は活動履歴に基づいて動的に変化し、たとえば以下のように定義される：
 
 $$
 \frac{d\theta_m}{dt} = \eta_\theta (y^2 - \theta_m)
 $$
 
-この構造により、出力 $y$ が $\theta_m$ を超えるときにはシナプスが強化され（LTP）、逆に $y < \theta_m$ のときには弱化（LTD）される。このように、BCM則は同一の数式の中でHebbian強化とAnti-Hebbian抑制を両立させている。
-
-また、この動的閾値 $\theta_m$ は、ニューロンが自らの「活動水準の平均」を内部的に学習していく仕組みであり、これにより入力空間に対する**選択的な応答性**が獲得される。これは、視覚野ニューロンの方位選択性など、実際の神経生理学的観測とも整合する
-
-$$
-\begin{equation}
-\frac{d\mathbf{w}}{dt} = \eta_w \mathbf{x} \phi(y, \theta_m)
-\end{equation}
-$$
-
-ここで関数$\phi$は$\phi(y, \theta_m)=y(y-\theta_m)$などとする．また$\theta_m:=\mathbb{E}[y^2]$は閾値を決定するパラメータ，**修正閾値** (modification threshold) であり，
-
-$$
-\begin{equation}
-\frac{d\theta_m}{dt} = \eta_{\theta} \left(y^2-\theta_m\right)
-\end{equation}
-$$
-
-として更新される．
+この構造により、出力 $y$ が $\theta_m$ を超えるときにはシナプスが強化され（LTP）、逆に $y < \theta_m$ のときには弱化（LTD）される。このように、BCM則は同一の数式の中でHebbian強化とAnti-Hebbian抑制を両立させている。また、この動的閾値 $\theta_m$ は、ニューロンが自らの「活動水準の平均」を内部的に学習していく仕組みであり、これにより入力空間に対する**選択的な応答性**が獲得される。これは、視覚野ニューロンの方位選択性など、実際の神経生理学的観測とも整合する
 
 #### Oja則
-Hebb則を安定化させる別のアプローチとして，結合強度を正規化するという手法が考えられる．BCM則と同様に$\mathbf{x}\in \mathbb{R}^d, \mathbf{w}\in \mathbb{R}^d, y\in \mathbb{R}$とし，単一の出力$y = \mathbf{w}^\top \mathbf{x}=\mathbf{x}^\top \mathbf{w}$を持つ線形ニューロンを仮定する．$\eta$を学習率とすると，$\mathbf{w}\leftarrow\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とすれば正規化できる．ここで，$f(\eta):=\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とし，$\eta=0$においてTaylor展開を行うと，
+Hebb則を安定化させる別のアプローチとして，結合強度を正規化するという手法が考えられる．学習率を $\eta$ とすると，$\mathbf{w}\leftarrow\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とすれば正規化できる．ここで，$h(\eta):=\dfrac{\mathbf{w}+\eta \mathbf{x}y}{\|\mathbf{w}+\eta \mathbf{x}y\|}$とし，$\eta=0$においてTaylor展開を行うと，
 
 $$
 \begin{align}
-f(\eta)&\approx f(0) + \eta \left.\frac{df(\eta^*)}{d\eta^*}\right|_{\eta^*=0} + \mathcal{O}(\eta^2)\\
+h(\eta)&\approx h(0) + \eta \left.\frac{dh(\eta^*)}{d\eta^*}\right|_{\eta^*=0} + \mathcal{O}(\eta^2)\\
 &=\frac{\mathbf{w}}{\|\mathbf{w}\|} + \eta \left(\frac{\mathbf{x}y}{\|\mathbf{w}\|}-\frac{y^2\mathbf{w}}{\|\mathbf{w}\|^3}\right)+ \mathcal{O}(\eta^2)
 \end{align}
 $$
 
-ここで$\|\mathbf{w}\|=1$として，1次近似すれば$f(\eta)\approx \mathbf{w} + \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)$となる．重みの変化が連続的であるとすると，
+ここで $\|\mathbf{w}\|=1$ として，1次近似すれば $h(\eta)\approx \mathbf{w} + \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)$ となる．重みの変化が連続的であるとすると，
 
 $$
 \begin{equation}
@@ -392,7 +347,7 @@ $$
 \end{equation}
 $$
 
-より，$\dfrac{d\|\mathbf{w}\|^2}{dt}=0$のとき，$\|\mathbf{w}\|= 1$となる．
+より，平衡状態 $\frac{d\|\mathbf{w}\|^2}{dt}=0$ において，$\|\mathbf{w}\|= 1$となる．
 
 ### 非線形Hebb学習
 出力$\mathbf{y}$に非線形関数$g(\cdot)$を適用し，$\mathbf{y}\to g(\mathbf{y})$として置き換えることで非線形Hebb学習となる\citep{Oja1997-hr}\citep{Brito2016-mx}. 
@@ -414,6 +369,7 @@ https://www.nature.com/articles/nrn1949
 
 Synaptic scaling
 
+Oja則と同様に，
 実装上はノルムで割る（乗法的スケーリング）
 
 ### Hebb則の変分原理的導出
@@ -427,11 +383,11 @@ $$
 \end{equation}
 $$
 
-このとき、逆に神経活動のダイナミクスのみが先に与えられている場合でも、それに整合するエネルギー関数を定義すれば、重みの更新則（すなわち学習則）を変分原理的に導出することができる。具体的には，神経細胞の活動ダイナミクスを積分することで神経回路のエネルギー関数 $E$ を導出し，さらに $E$ を重み行列で微分することでHebb則が導出できる \citep{Isomura2020-sn}．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで $\dfrac{\partial E}{\partial\mathbf{y}}:=-\left(\dfrac{d\mathbf{y}}{dt}\right)^\top$ となるようなエネルギー関数 $E(\mathbf{x}, \mathbf{y}, \mathbf{W})$ を仮定すると，
+このとき、逆に神経活動のダイナミクスのみが先に与えられている場合でも、それに整合するエネルギー関数を定義すれば、重みの更新則（すなわち学習則）を変分原理的に導出することができる。具体的には，神経細胞の活動ダイナミクスを積分することで神経回路のエネルギー関数 $E$ を導出し，さらに $E$ を重み行列で微分することでHebb則が導出できる \citep{Isomura2020-sn}．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=-\mathbf{y}+\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで $\dfrac{\partial E}{\partial\mathbf{y}}:=-\left(\dfrac{d\mathbf{y}}{dt}\right)^\top$ となるようなエネルギー関数 $E(\mathbf{x}, \mathbf{y}, \mathbf{W})$ を仮定すると，
 
 $$
 \begin{equation}
-E(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\int \mathbf{W}\mathbf{x}\ d\mathbf{y}=-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
+E(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\left(\int -\mathbf{y}+\mathbf{W}\mathbf{x}\ d\mathbf{y}\right)=\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
 \end{equation}
 $$
 
@@ -446,9 +402,11 @@ $$
 
 となり，Hebb則が導出できる．
 
-このような導出の仕方は、物理学の解析力学における**変分原理**（variational principle）あるいは **最小作用の原理**（principle of least action）の発想に基づいている．これらの原理においては、ある経路に沿って定義される作用（action）と呼ばれる量が極値（多くの場合、極小値）を取るような経路が、実際に物理系が取る経路として実現されるとされる。この考え方と同様に、神経活動やシナプス結合の変化も、あるエネルギー関数（または汎関数）の極値（神経回路が安定している場合には極小値）を実現するようなダイナミクスとして捉えることができる。もちろん、神経活動とシナプス結合が同一のエネルギー関数を最小化しているというのは大きな仮定である。しかし、このように神経回路の時間発展を最適化の視点から記述する立場は、神経可塑性を理論的に理解するための一つの有力な枠組みを提供し得る \citep{isomura2023experimental}．
+このような導出の仕方は、物理学の解析力学における**変分原理**（variational principle）あるいは **最小作用の原理**（principle of least action）の発想に基づいている．これらの原理においては、ある経路に沿って定義される**作用**（action）と呼ばれる量が極値（多くの場合、極小値）を取るような経路が、実際に物理系が取る経路として実現されるとされる。この考え方と同様に、神経活動やシナプス結合の変化も、あるエネルギー関数（または汎関数）の極値（神経回路が安定している場合には極小値）を実現するようなダイナミクスとして捉えることができる。もちろん、神経活動とシナプス結合が同一のエネルギー関数を最小化しているというのは大きな仮定である。しかし、このように神経回路の時間発展を最適化の視点から記述する立場は、神経可塑性を理論的に理解するための一つの有力な枠組みを提供し得る \citep{isomura2023experimental}．
 
 ## パーセプトロンの学習則
+ここからは，Hebb則とその派生形による局所学習則を紹介する．前々節で紹介したパーセプトロン
+
 このようなニューロンの抽象化を，分類問題に適用するために提案されたのが**パーセプトロン** (*perceptron*) である．パーセプトロンは，入力と重みの線形結合に対して符号関数（ステップ関数）を適用することにより，2クラス分類を実現する最も基本的な形式の**人工ニューロンモデル**である．
 
 分類問題
