@@ -14,17 +14,32 @@ RNNは、出力が次の入力に影響を与えるという再帰的な構造�
 Backpropagation through time and the brain
 https://www.sciencedirect.com/science/article/pii/S0959438818302009
 
+
+$$
+\begin{align}
+\text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
+\text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
+&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
+\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
+\end{align}
+$$
+
+
 RNN
 
-状態
+入力を $\mathbf{x}_{t}$, 状態を $\mathbf{z}_t$, 出力を $\hat{\mathbf{y}}_t$ とする．活性化関数を $f, g$ とし，時定数を $\tau$，重みを $\mathbf{W}$ とする． 
+状態遷移を
+
 $$
-\mathbf{h}(t+1)=\left(1-\frac{1}{\tau}\right)\mathbf{h}(t)+\frac{1}{\tau}f(\mathbf{W}\mathbf{h}(t)+\mathbf{W}_{in}\mathbf{x}(t+1)+\mathbf{b})
+\mathbf{z}_{t}=\left(1-\frac{1}{\tau}\right)\cdot \mathbf{z}_{t-1} +\frac{1}{\tau}\cdot f(\mathbf{W}_{\mathrm{rec}}\mathbf{z}_{t-1} +\mathbf{W}_{\mathrm{in}}\mathbf{x}_{t}+\mathbf{b})
 $$
 
-出力は
+出力を
 $$
-\mathbf{y}(t)=\mathbf{W}\mathbf{h}(t)
+\hat{\mathbf{y}}_t = g(\mathbf{W}_{\mathrm{out}}\mathbf{z}_t)
 $$
+
+とする．モデルを訓練するために正解 $\mathbf{y}_t$ が与えられる．
 
 BPTT (Backpropagation through time)
 backpropagation through time (BPTT) (Rumelhart et al., 1985) in order to compare it with the learning rules presented above. The derivation here follows Lecun (1988).

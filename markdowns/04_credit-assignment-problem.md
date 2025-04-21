@@ -36,12 +36,7 @@ local lossの発想
 
 https://arxiv.org/abs/1702.07800
 
-この形式では、入力ベクトル $\mathbf{x}$ から出力ベクトル $\mathbf{y}$ への変換が一組の線形変換 $\mathbf{W}\mathbf{x} + \mathbf{b}$ と非線形変換 $f(\cdot)$ からなる操作で構成されており、この一連の変換過程が「**層**」（layer）と呼ばれる。より正確には、線形変換部分を**線形層**（linear layer）あるいは**全結合層**（fully connected layer）、非線形変換 $f(\cdot)$ を**活性化層**（activation layer）と呼ぶこともある。したがって、神経回路における「ニューロンの集団」を1つの層に対応させ、前の層から次の層へと順次情報を伝播させていく構造がニューラルネットワークの基本単位をなす。
-
-このような層を複数接続し、出力層の出力が次の層の入力となるように重ねたモデルが**多層パーセプトロン**（multilayer perceptron; MLP）であり、現在のニューラルネットワークの基本構造を形成している。各層の出力を次の層に入力することで、複数の非線形変換を逐次適用でき、より複雑な関数の近似が可能となる。**なお、最初の層を**入力層**（input layer）、最後の層を**出力層**（output layer）、その間に位置する層を**隠れ層**（hidden layers）と呼ぶ。隠れ層の数や構造の工夫によって、モデルの表現力や学習能力が大きく変化する。**
-
-
-### 勾配法と誤差逆伝播法
+## ニューラルネットワークと誤差逆伝播法
 ニューラルネットワークにおいて，効率よく各重みの勾配を推定することで貢献度割り当て問題を解決する方法が**誤差逆伝播法** (backpropagation) である．本節では入力層，隠れ層，出力層からなる多層ニューラルネットワークを実装し，誤差逆伝播法による勾配推定を用いて学習を行う．
 
 本書では誤差逆伝播法を用いない学習法を実施することも考慮し，数式と対応するような実装を行う．そのため，Deep Learningライブラリ (PyTorch, Flux.jl等) のようにLayerを定義し，それを繋げてモデルを定義するということや計算グラフの構築は行わない．
@@ -79,7 +74,7 @@ $$
 
 これらの活性化関数を構造体 `ActivationFunction`を用いて実装する．
 
-struct `MLP`を用意し，**重みの初期化(weight initialization)** を行う同名の関数`MLP`を用意する．重みの初期化に関しては，各層の出力および勾配の分散が一定となるような初期化をすることで学習が進行することが知られている．出力は活性化関数に依存するため，初期化についても活性化関数に応じて変更することが推奨され，sigmoid関数やtanh関数を用いる場合はXavierの初期化 \citep{Glorot2010-iu}，ReLU関数を用いる場合はHeの初期化 \citep{He2015-fs} が用いられる．入力ユニット数を $n_{\textrm{in}}$, 出力ユニット数を $n_{\textrm{out}}$ とすると，Xavierの初期化では重み $w$ の平均が0, 分散が $\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}$ となるように一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}, \sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ 等から重みをサンプリングする．Heの初期化ではReLUを用いる場合，重み $w$ の平均が0, 分散が$\frac{2}{n_{\textrm{in}}}$ あるいは $\frac{2}{n_{\textrm{out}}}$ となるようにし，前者の分散を使用する場合は一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}}}, \sqrt{\frac{6}{n_{\textrm{in}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}}}\right)$ 等から重みをサンプリングする．
+struct `MLP`を用意し，**重みの初期化** (weight initialization) を行う同名の関数`MLP`を用意する．重みの初期化に関しては，各層の出力および勾配の分散が一定となるような初期化をすることで学習が進行することが知られている．出力は活性化関数に依存するため，初期化についても活性化関数に応じて変更することが推奨され，sigmoid関数やtanh関数を用いる場合はXavierの初期化 \citep{Glorot2010-iu}，ReLU関数を用いる場合はHeの初期化 \citep{He2015-fs} が用いられる．入力ユニット数を $n_{\textrm{in}}$, 出力ユニット数を $n_{\textrm{out}}$ とすると，Xavierの初期化では重み $w$ の平均が0, 分散が $\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}$ となるように一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}, \sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ 等から重みをサンプリングする．Heの初期化ではReLUを用いる場合，重み $w$ の平均が0, 分散が$\frac{2}{n_{\textrm{in}}}$ あるいは $\frac{2}{n_{\textrm{out}}}$ となるようにし，前者の分散を使用する場合は一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}}}, \sqrt{\frac{6}{n_{\textrm{in}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}}}\right)$ 等から重みをサンプリングする．
 
 ### 順伝播 (forward propagation)
 $f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以下のようになる．$(\ell=1,\ldots,L)$
@@ -152,7 +147,8 @@ https://www.sciencedirect.com/science/article/pii/S030326472300285X
 
 重みのL2正則化 (Weight decay) を加える．正則化があることにより，実際のニューロンの活動を人工神経回路で再現できる研究も複数ある．バイアス項にはweight decayをしないため，optimizerの構造体の外からweight decayの値を与えることとする．
 
-### 例1. スパイラルデータセット (分類課題)
+### サンプル課題
+#### 例1. スパイラルデータセット (分類課題)
 スパイラルデータセットは渦巻状をしており，$k$番目$(k=1, \ldots, K)$のクラスに属するサンプルは次の式で表される:
 
 $$
@@ -163,12 +159,12 @@ $$
 $$
 ただし，$\theta/r=\pi$であり，$\delta\theta \sim \mathcal{N}(0, \sigma^2=0.2^2)$である．
 
-### 例2. Zipser-Andersenモデル
+#### 例2. 座標系の変換：Zipser-Andersenモデル
 ニューラルネットワークを用いた神経回路網のモデル化の例としてZipser-Andersenモデル {cite:p}`Zipser1988-nc` を取り上げる．モデルの説明の前に，脳における**座標系** (coordinate system, reference frame) について説明する．座標系は身体や他の物体の位置を「定義」し，自己の運動制御や外界の理解をするために必要とされ，脳内では異なる原点を持つ複数の座標系が神経回路により並列して表現されている．座標系は大別して自己の位置を基準とした自己中心座標系 (egocentric coordinates) と外部の物体や環境を基準とした外界中心座標系 (allocentric coordinates) に分けられる．自己中心座標系としては網膜の中心窩を原点とした網膜中心座標系 (retinotopic coordinate)，頭部や身体を原点とした頭部/身体中心座標系(head centered/body centered coordinate) がある．外界中心座標系としては海馬の場所細胞 (place cells) などが代表的である．
 
 Zipser-Andersenモデル {cite:p}`Zipser1988-nc` は頭頂葉の7a野のモデルであり，眼球位置の情報を用いて物体の位置の表現を網膜座標系から頭部中心座標に変換する3層ニューラルネットワークモデルである．隠れ層はPPC(Posterior parietal cortex)の細胞のモデルになっている．網膜座標系から頭部中心座標への変換を体験してみよう．例えば本書を読んでいるとして，頭を動かさずに眼球だけを上に動かしてみる (動かすとこの先の文章は読めなくなるが)．本の位置が網膜像では下側にずれたと思われる．しかし，頭部を動かしていない限り，頭部に対する相対的な位置は変化していない．
 
-#### データセットの生成
+##### データセットの生成
 物体位置の表現にはGaussian形式とmonotonic形式があるが，簡単のために，Gaussian形式を用いる．
 
 入力は64(網膜座標系での位置)+2(眼球位置信号)=66とする．元のZipser-Andersenモデルにおいては眼球位置信号は活動が単調変化する32ユニット (=8ユニット×2(x, y方向)×2 (傾き正負)) によって符号化されているが，ここでは簡単のために眼球位置信号は$x, y$の2次元とする．
@@ -177,18 +173,16 @@ Zipser-Andersenモデル {cite:p}`Zipser1988-nc` は頭頂葉の7a野のモデ�
 
 視覚刺激は-40度から40度までの範囲であり，10度で離散化する．よって，網膜座標系での位置は$8\times 8$の行列で表現される．位置は2次元のGaussianで表現する．ただし，$1/e$ 幅（ピークから $1/e$ に減弱する幅）は15度である．$1/e$ の代わりに $1/2 $とすれば半値全幅(FWHM)となる．スポットサイズを $w$，ガウス関数を $G(x)$ とすると．$G(x+w/2)=G/e$ より，$\sigma=\frac{\sqrt{2}w}{4}$ と求まる．
 
-### 例3. MNIST
+#### 例3. MNIST
 `MNIST` の代わりに`FashionMNIST` を用いることもできる．MNISTは易しい課題であるため，MNISTを訓練できるからと言って複雑な課題でも機能する保証はない．とは言え，基本的なデータセットであるため，
 
-### 例4. 自己符号化器
+#### 例4. 自己符号化器
 
 ### 線形多層ニューラルネットワークの学習ダイナミクス
 
-## 線形多層ニューラルネットワークにおける学習ダイナミクスと知識の獲得
-
 > A. M. Saxe, J. L. McClelland, S. Ganguli. "**A mathematical theory of semantic development in deep neural networks**". *PNAS.* (2019). ([arXiv](https://arxiv.org/abs/1810.10531)). ([PNAS](https://www.pnas.org/content/early/2019/05/16/1820226116))
 
-### モデルと学習
+#### モデルと学習
 入力 $\mathbf{x}$ は「もの」の項目(例えばカナリア，犬，サーモン，樫など)，出力 $\mathbf{y}$はそれぞれの項目の性質・特性となっている．例えばカナリア(Canary)は成長し(Grow)，動き(Move)，空を飛べる(Fly)ので，Canaryという入力に対し，ネットワークが出力するのはGrow, Move, Flyとなる．モデルは3層の全結合線形ネットワークである．
 
 $$
@@ -206,27 +200,30 @@ $$
 3層ネットワークの学習(重みの更新)は誤差逆伝搬から導かれる次の2式により行う．
 
 $$
-\begin{aligned} \tau \frac{d\mathbf{W}_1}{dt} &=\mathbf{W}_2^\top \left(\mathbf{\Sigma}^{yx} - \mathbf{W}_2 \mathbf{W}_1 \mathbf{\Sigma}^{x}\right)\\
+\begin{aligned} 
+\tau \frac{d\mathbf{W}_1}{dt} &=\mathbf{W}_2^\top \left(\mathbf{\Sigma}^{yx} - \mathbf{W}_2 \mathbf{W}_1 \mathbf{\Sigma}^{x}\right)\\
 \tau \frac{d\mathbf{W}_2}{dt} &=\left(\mathbf{\Sigma}^{yx} - \mathbf{W}_2 \mathbf{W}_1 \mathbf{\Sigma}^{x}\right) \mathbf{W}_1^\top
 \end{aligned}
 $$
 
-ただし，$ \mathbf{\Sigma}^{x}$は入力間の関係を表す行列，$\mathbf{\Sigma}^{yx}$は入出力の関係を表す行列である．
+ただし，$\mathbf{\Sigma}^{x}$ は入力間の関係を表す行列，$\mathbf{\Sigma}^{yx}$ は入出力の関係を表す行列である．
 
-### 特異値分解(SVD)による学習ダイナミクスの解析
-学習ダイナミクスは$ \mathbf{\Sigma}^{yx}$に対する特異値分解(singular value decomposition; SVD)を用いて説明できる．
+#### 特異値分解(SVD)による学習ダイナミクスの解析
+学習ダイナミクスは $\mathbf{\Sigma}^{yx}$ に対する特異値分解(singular value decomposition; SVD)を用いて説明できる．
 
 $$
+\begin{equation}
 \mathbf{\Sigma}^{yx}=\mathbf{USV}^\top
+\end{equation}
 $$
 
-行列$ \mathbf{ S}$の対角成分の非ゼロ要素が特異値である．次に学習途中の時刻$(t)$における$\hat{\mathbf{\Sigma}}^{yx}(t)=\mathbf{W}_2 (t) \mathbf{W}_1(t) \mathbf{\Sigma}^{x}$に対してSVDを実行し，特異値$\mathbf{A}(t)=[a_{\alpha}(t)]$を得る．この $a _ {\alpha}(t)$だが，3層のネットワークでは大きな特異値から先に学習されるのに対し，2層のネットワークでは全ての特異値が同時に学習される．このダイナミクスだが，**低ランク近似** (low-rank approximation)が生じていて，特異値の大きな要素から学習されていると捉えることができる．学習が進むとランクが大きくなっていく，ということである．低ランク近似の例として，SVDによる画像の圧縮と復元を見てみよう．カメラマンの画像に対し，低ランク近似を行い，ランクを上げていく．するとランクが上がるにつれて，画像が鮮明になる．
+行列$\mathbf{S}$ の対角成分の非ゼロ要素が特異値である．次に学習途中の時刻$(t)$における $\hat{\mathbf{\Sigma}}^{yx}(t)=\mathbf{W}_2 (t) \mathbf{W}_1(t) \mathbf{\Sigma}^{x}$ に対してSVDを実行し，特異値 $\mathbf{A}(t)=[a_{\alpha}(t)]$ を得る．この $a_{\alpha}(t)$ だが，3層のネットワークでは大きな特異値から先に学習されるのに対し，2層のネットワークでは全ての特異値が同時に学習される．このダイナミクスだが，**低ランク近似** (low-rank approximation)が生じていて，特異値の大きな要素から学習されていると捉えることができる．学習が進むとランクが大きくなっていく，ということである．低ランク近似の例として，SVDによる画像の圧縮と復元を見てみよう．カメラマンの画像に対し，低ランク近似を行い，ランクを上げていく．するとランクが上がるにつれて，画像が鮮明になる．
 
 3層線形ネットワーク (deep)では大きな特異値から学習が始まっているのが分かる．また，それぞれの特異値の学習においてはシグモイド関数様の急速な学習段階が見られる．一方で2層線形ネットワーク (shallow)では全ての特異値の学習が初めから起こっていることがわかる．パラメータが少ないため，収束はこちらの方が速い．
 
-このモデルが面白い理由の一つとして，知識の混同（例えば『芋虫には骨がある』）の仕組みを提供することがある．発達において，大きい特異値から先に学習されるため，「動く」，「成長する」などの動物の要素が先に獲得される．身の回りの動物のほとんどが「骨を持つ」ので，**低ランク近似により，『芋虫にも骨がある』と錯覚してしまう**のではないか，という仮説が立てられている．
+このモデルの特徴として，知識の混同（例えば「芋虫には骨がある」）の仕組みを提供することがある．発達において，大きい特異値から先に学習されるため，「動く」，「成長する」などの動物の要素が先に獲得される．身の回りの動物のほとんどが「骨を持つ」ので，低ランク近似により，「芋虫にも骨がある」と錯覚してしまうのではないか，という仮説が立てられている．
 
-## 線形多層ニューラルネットワークにおける勾配降下法による低ランク解の獲得
+#### 線形多層ニューラルネットワークにおける勾配降下法による低ランク解の獲得
 
 > Jing, L., Zbontar, J. & LeCun, Y. **Implicit Rank-Minimizing Autoencoder**. *NeurIPS' 20*, 2020. <https://arxiv.org/abs/2010.00679>
 
@@ -251,7 +248,7 @@ $$
 このように線形多層ニューラルネットワークを勾配降下法で学習させると**陰的正則化(implicit regularization)** により低ランクの解が得られるということが複数の研究により明らかとなっている（線形多層ニューラルネットワークの陰的正則化に関して日本語で書かれた資料としては鈴木大慈先生の[深層学習の数理](https://www.slideshare.net/trinmu/ss-161240890)のスライドp.64, 65がある)．Jingらはこの性質を用い，**Autoencoderに線形層を複数追加**するという簡便な方法で低次元表現を学習する決定論的Autoencoder (**Implicit Rank-Minimizing Autoencoder; IRMAE)** を考案した．
 
 ## 非対称な逆向き投射による誤差伝播
-Feedback alignment
+Feedback alignment, DFA, CP
 
 ## 予測符号化による活動と結合の共調整
 

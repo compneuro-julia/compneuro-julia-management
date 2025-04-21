@@ -111,6 +111,7 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
 ### 命名規則
 この節では，本書で用いるJuliaの変数名や関数名等に関する基本的な取り決めをまとめる．
+
 #### 変数名
 - `nt`: 時間ステップ数 (number of time steps)
 - `t`, `tt`: 時間ステップのインデント
@@ -132,6 +133,7 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 - 基本的に確率変数は大文字 $X$ のように表記し，確率変数の実現値は小文字 $x$ を用いる．ただし，大文字であっても確率変数でない場合や，実現値がベクトルの場合などがあるため，必ずしもこの規則に従うわけではない．
 - $e$を自然対数の底とし，指数関数を$e^x=\exp(x)$と表記する．また，自然対数を$\ln(x)$と表記する．
 - 定義を$\coloneqq$を用いて行う．例えば，$f(x)\coloneqq2x$ は $f(x)$ という関数を$2x$として定義するという意味である．定義する対象が右側である場合は，$\eqqcolon$を用いる．
+- 比例関係を表す際は $\propto$ を使用する．例えば $a \propto b$ は $a$ と $b$ が比例関係にあることを意味する．
 - 平均$\mu$, 標準偏差$\sigma$の正規分布を$\mathcal{N}(\mu, \sigma^2)$と表記する．
 
 ### 線形代数と微分

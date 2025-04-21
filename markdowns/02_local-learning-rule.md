@@ -387,7 +387,7 @@ $$
 
 $$
 \begin{equation}
-E(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\left(\int -\mathbf{y}+\mathbf{W}\mathbf{x}\ d\mathbf{y}\right)=\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
+E(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\left(\int -\mathbf{y}+\mathbf{W}\mathbf{x}\ d\mathbf{y}\right)\propto\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
 \end{equation}
 $$
 
@@ -549,7 +549,7 @@ $$
 となる．ただし，$\mathrm{Diag}(\cdot)$は行列の対角成分からなる対角行列を生み出す作用素である．
 
 #### Sanger則
-Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．**Sanger則** (Sanger's rule)，あるいは**一般化Hebb則** (generalized Hebbian algorithm; GHA) は，Oja則に**Gram–Schmidtの正規直交化法** (Gram–Schmidt orthonormalization) を組み合わせた学習則であり，次式で表される．
+Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．**Sanger則** (Sanger's rule)，あるいは**一般化Hebb則** (generalized Hebbian algorithm; GHA)\footnote{あくまでSangerが「一般化」と呼んでいるだけで，Hebb則の一般化された形式ではない．} は，Oja則に**Gram–Schmidtの正規直交化法** (Gram–Schmidt orthonormalization) を組み合わせた学習則であり，次式で表される．
 
 $$
 \begin{equation}
