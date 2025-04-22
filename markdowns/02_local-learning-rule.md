@@ -284,30 +284,39 @@ https://www.sciencedirect.com/science/article/pii/S0959438823001034?casa_token=O
 https://www.jneurosci.org/content/40/14/2828.abstract
 
 ### Hebb則の不安定性と修正Hebb則
-Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，あるいは消失するかという不安定性がある．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を$w\ (>0)$ とし，$y=wx$が成り立つとすると，Hebb則は$\dfrac{dw}{dt}=\eta yx=\eta x^2w$となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
+Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，あるいは消失するかという不安定性がある．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を $w\ (>0)$ とし，線形ニューロンを仮定，すなわち $y=wx$ が成り立つとすると，Hebb則は $\dfrac{dw}{dt}=\eta yx=\eta x^2w$ となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
 
 この問題に対して、さまざまな修正Hebb則 (modified hebbian rule) が提案されている．ここでは代表的な学習則である **CLO則**、**Oja則**、そして**BCM則**について説明する．
 
-以下では 入力 $\mathbf{x}\in \mathbb{R}^n$ $y\in \mathbb{R}$ とし，シナプス結合 $\mathbf{w}\in \mathbb{R}^n$ を持つ，単一の神経細胞モデルし，単一の出力$y = f(\mathbf{w}^\top \mathbf{x})$ を持つを仮定する．
+以下では 入力 $\mathbf{x}\in \mathbb{R}^n$ $y\in \mathbb{R}$ とし，シナプス結合 $\mathbf{w}\in \mathbb{R}^n$ を持つ，単一の神経細胞モデル $y = f(\mathbf{w}^\top \mathbf{x})$ を仮定する．
+
+https://bsd.neuroinf.jp/wiki/Bienenstock-Cooper-Munro%E7%90%86%E8%AB%96#
+https://bsd.neuroinf.jp/wiki/%E9%95%B7%E6%9C%9F%E5%A2%97%E5%BC%B7
+https://julien-vitay.net/lecturenotes-neurocomputing/4-neurocomputing/5-Hebbian.html
+https://lcnwww.epfl.ch/gerstner/SPNM/node72.html
 
 #### CLO則
 視覚野のニューロンが経験により方向選択性を獲得し、かつ視覚刺激の遮断によってその選択性を失うといった生理的実験の結果を説明する理論として，Cooper, Liberman, Ojaにより閾値制約付き受動的可塑性 (threshold passive modification) と呼ばれる形式の学習則が提案された \citep{Cooper1979-wz}．この学習則は提案者の頭文字を取って，**CLO則** (CLO rule) と呼ばれる．CLO則は、Hebb則に対して出力の大きさに応じた閾値的な修正と重みの減衰項（忘却）を加えることにより、選択性の獲得と重みの安定性の両立を目指した学習則である。
 
-CLO則は、出力 $y$ が可塑性閾値 $\theta_M$ や出力飽和値 $\theta_\mathrm{max}$ によって区分される3つの範囲で異なる更新を行う。CLO則の元の形式は離散時間での更新則であるが，表記を統一するため，連続時間でのCLO則を示す：
+CLO則は、出力 $y$ の値と**修正閾値**（modification threshold） $\theta_m$ および出力飽和値 $\theta_\mathrm{max}$ によって区分される3つの範囲で異なる更新を行う。CLO則の元の形式は離散時間での更新則であるが，表記を統一するため，連続時間でのCLO則を示す：
 
 $$
+\begin{align}
 \frac{d\mathbf{w}}{dt} =
 \begin{cases}
 - \lambda \mathbf{w} & (y \geq \theta_{\max}) \\
-- \lambda \mathbf{w} + \eta_+ (\theta_{\max} - y) \mathbf{x} & (\theta_M \leq y < \theta_{\max}) \\
-- \lambda \mathbf{w} - \eta_- y \mathbf{x} & (y < \theta_M)
+- \lambda \mathbf{w} + \eta_+ (\theta_{\max} - y) \mathbf{x} & (\theta_m \leq y < \theta_{\max}) \\
+- \lambda \mathbf{w} - \eta_- y \mathbf{x} & (y < \theta_m)
 \end{cases}
+\end{align}
 $$
 
-ここで，$\lambda \geq 0$ は重みの減衰（leak）の度合いを決める定数であり，$\eta_+, \eta_-$ はそれぞれLTP・LTDに対応する学習率である．このように、適度な出力のときにのみ強化が起こり、過剰な出力では学習が停止し、出力が小さすぎる場合には抑制が起こるという、三相性の学習則が構築される。これにより、各ニューロンは特定の入力パターンに対してのみ強い応答を示すようになり、他のパターンには反応しなくなる。これは方向選択性や空間選択性のような感覚特異性（specificity）の獲得を数理的に説明する。CLO則はLTPに加えてLTDも組み込み，重みの減衰項も加えているため，不安定性はHebb則よりも低減されている．一方で，複雑で不連続な三相性の学習則を持ち，閾値も固定であるという欠点があった．
+ここで，$\lambda\ (\geq 0)$ は重みの減衰（leak）の度合いを決める定数であり，$\eta_+, \eta_-\ (> 0)$ はそれぞれ増強・抑圧に対応する学習率である．なお，第2項はHebb則であるが，第3項は**反Hebb則** (anti-Hebbian rule) と呼ばれる．
+
+このように、適度な出力のときにのみ強化が起こり、過剰な出力では学習が停止し、出力が小さすぎる場合には抑制が起こるという、三相性の学習則が構築される。これにより、各ニューロンは特定の入力パターンに対してのみ強い応答を示すようになり、他のパターンには反応しなくなる。これは方向選択性や空間選択性のような感覚特異性（specificity）の獲得を数理的に説明する。CLO則はLTPに加えてLTDも組み込み，重みの減衰項も加えているため，不安定性はHebb則よりも低減されている．一方で，複雑で不連続な三相性の学習則を持ち，修正閾値 $\theta_m$ も固定値であるという欠点があった．$\theta_m$ が固定されていると，$\theta_m$ が大きければLTDしか生じず，小さければLTPのみが生じる．
 
 #### BCM則
-CLO則を踏まえて，Bienenstock, Cooper, Munroにより提案された**BCM則**（Bienenstock–Cooper–Munro則）は、Hebb則の不安定性の修正に加えて、生理学的可塑性の双方向性（LTPとLTD）を統一的に記述することを目指した学習則である \citep{Bienenstock1982-km} \citep{Cooper2012-ec}．BCM則の核となるのは、出力活動の履歴に応じて変化する**修正閾値**（modification threshold）$\theta_m$の導入である。BCM則は次のように表される：
+CLO則を踏まえて，Bienenstock, Cooper, Munroにより提案された**BCM則**（Bienenstock–Cooper–Munro則）ではLTPとLTDを連続的に記述し，修正閾値 $\theta_m$ は出力活動の履歴に応じて変化するように修正された \citep{Bienenstock1982-km} \citep{Cooper2012-ec}．BCM則は次のように表される：
 
 $$
 \frac{d\mathbf{w}}{dt} = \eta_w \, \mathbf{x} \, y (y - \theta_m)
