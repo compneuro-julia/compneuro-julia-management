@@ -27,6 +27,13 @@ $$
 
 ## Hopfield モデル
 
+連想記憶のとそのモデルの説明 (Asociatron)
+相関の記憶モデル
+Hopfieldモデルの構造，エネルギーと学習則，同期・非同期更新
+エネルギー関数はなぜこのように設定されているか？
+記憶容量
+DAM
+
 {cite:p}`Hopfield1982-vu`で提案．始めは1と0の状態を取った．
 
 Hopfieldモデルと呼ばれることが多いが，Amariの先駆的研究{cite:p}`Amari1972-fq`を踏まえAmari-Hopfieldモデルと呼ばれることもある．
