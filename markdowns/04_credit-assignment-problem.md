@@ -36,6 +36,10 @@ local lossの発想
 
 https://arxiv.org/abs/1702.07800
 
+Stork, D. G. (1989). Is backpropagation biologically plausible. In International joint
+conference on neural networks (Vol. 2, pp. 241–246).
+
+
 ## ニューラルネットワークと誤差逆伝播法
 ニューラルネットワークにおいて，効率よく各重みの勾配を推定することで貢献度割り当て問題を解決する方法が**誤差逆伝播法** (backpropagation) である．本節では入力層，隠れ層，出力層からなる多層ニューラルネットワークを実装し，誤差逆伝播法による勾配推定を用いて学習を行う．
 

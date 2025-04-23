@@ -1,5 +1,9 @@
 # 第3章：エネルギーベースモデル
-本章では、**エネルギーベースモデル**（energy-based models; EBMs）と呼ばれる確率モデルの枠組みを取り上げる。EBMsは、入力データに対して**スカラー値のエネルギー（あるいはコスト）を割り当てる関数**を定義し、そのエネルギーを最小化するようにシステムの状態を決定・学習するという特徴を持つ。これは、ニューラルネットワークなどの高次元な状態空間における確率的な推論や学習に広く応用されている枠組みである{cite:p}`LeCun2006-dt`。
+本章では、**エネルギーベースモデル**（energy-based models; EBMs）と呼ばれる確率モデルの枠組みを取り上げる。
+
+エネルギーベースモデルでは，系の状態に
+
+EBMsは、入力データに対して**スカラー値のエネルギー（あるいはコスト）を割り当てる関数**を定義し、そのエネルギーを最小化するようにシステムの状態を決定・学習するという特徴を持つ。これは、ニューラルネットワークなどの高次元な状態空間における確率的な推論や学習に広く応用されている枠組みである \citep{lecun2006tutorial}。
 
 エネルギーベースモデルでは、入力ベクトル $\mathbf{x} \in \mathbb{R}^d$ に対して、パラメータ $\theta$ に依存する**エネルギー関数** (energy function) $E_\theta : \mathbb{R}^d \to \mathbb{R}$ を定義する。このエネルギー関数は、ある状態 $\mathbf{x}$ の「好ましさ」や「自然さ」を定量的に評価するものであり、エネルギーが小さいほどその状態がより実現しやすいと解釈される。
 
@@ -34,9 +38,9 @@ Hopfieldモデルの構造，エネルギーと学習則，同期・非同期更
 記憶容量
 DAM
 
-{cite:p}`Hopfield1982-vu`で提案．始めは1と0の状態を取った．
+\citep{`Hopfield1982-vu`で提案．始めは1と0の状態を取った．
 
-Hopfieldモデルと呼ばれることが多いが，Amariの先駆的研究{cite:p}`Amari1972-fq`を踏まえAmari-Hopfieldモデルと呼ばれることもある．
+Hopfieldモデルと呼ばれることが多いが，Amariの先駆的研究\citep{`Amari1972-fq`を踏まえAmari-Hopfieldモデルと呼ばれることもある．
 
 次のような連続時間線形モデルを考える．シナプス前活動を$\mathbf{x}\in \mathbb{R}^n$, 後活動を$\mathbf{y}\in \mathbb{R}^m$, 重み行列を$\mathbf{W}\in \mathbb{R}^{m\times n}$とする．
 
@@ -303,6 +307,15 @@ h_i^{(t)}=\sum_{j}w_{ij}S_j^{(t)}+b_i,
 逆に，結合の符号と活動の相関が不一致（例えば興奮性結合なのに一方だけ発火）だと，その項はエネルギーを増大させ，その状態はネットワークが避けようとする「非安定」なパターンになります。  
 このように、\(\,w_{ij}S_iS_j>0\) となる局所条件を満たすほどエネルギーが低くなる仕組みは、「重みの符号とニューロン活動の一致度」を測り、ネットワークが学習した相関構造を安定なアトラクターとして再現する〈局所的な整合性ルール〉であると解釈できます。
 
+
+**エネルギー地形解析** (Energy landscape analysis)
+
+[1] T. Ezaki, T. Watanabe, M. Ohzeki, and N. Masuda, "Energy landscape analysis of neuroimaging data", Phil. Trans. R. Soc. A 375, 20160287 (2017).
+
+[2] T. Watanabe, N. Masuda, F. Megumi, R. Kanai, G. Rees, "Energy Landscape and dynamics of brain activity during human bistable perception", Nat. Commun. 5, 4765 (2014).
+
+[3] T. Watanabe, S. Hirose, H. Wada, Y. Imai, T. Machida, I Shirouzu, Y. Miyashita, N. Masuda, "Energy Landscapes of resting-state brain networks", Front. Neuroinform. 8, 12 (2014).
+
 ## Boltzmann マシン
 (Boltzmann machine)
 
@@ -420,7 +433,7 @@ $$
 
 ## スパース符号化モデル
 ### スパース符号化と生成モデル
-**スパース符号化モデル** (Sparse coding model) {cite:p}`Olshausen1996-xe` {cite:p}`Olshausen1997-qu`はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
+**スパース符号化モデル** (Sparse coding model) \citep{`Olshausen1996-xe` \citep{`Olshausen1997-qu`はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
 
 $$
 \begin{equation}
@@ -562,7 +575,7 @@ $$
 \end{equation}
 $$
 
-ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，{cite:p}`Olshausen1996-xe`では**共役勾配法** (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，**LCA**  (locally competitive algorithm)が提案されている {cite:p}`Rozell2008-wp`．LCAは**側抑制** (local competition, lateral inhibition)と**閾値関数** (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは**Hopfield trick**と呼んでいる．
+ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\citep{`Olshausen1996-xe`では**共役勾配法** (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，**LCA**  (locally competitive algorithm)が提案されている \citep{`Rozell2008-wp`．LCAは**側抑制** (local competition, lateral inhibition)と**閾値関数** (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは**Hopfield trick**と呼んでいる．
 
 #### 軟判定閾値関数を用いる場合 (ISTA)
 $S(x)=|x|$とした場合の閾値関数を用いる手法として**ISTA**(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
@@ -595,7 +608,7 @@ y-\lambda & (y>\lambda)\\
 \end{equation}
 $$
 
-$\Theta_\lambda(\cdot)$を関数として定義すると次のようになる．また，ReLU (ランプ関数)は`max(x, 0)`で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる {cite:p}`Papyan2018-yr`．
+$\Theta_\lambda(\cdot)$を関数として定義すると次のようになる．また，ReLU (ランプ関数)は`max(x, 0)`で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる \citep{`Papyan2018-yr`．
 
 なお，軟判定閾値関数は次の目的関数$C$を最小化する$x$を求めることで導出できる．
 
@@ -632,8 +645,29 @@ $$
 ## 予測符号化モデル
 $u$ を $w$ に変更．
 
+https://arxiv.org/abs/2011.07464
+https://arxiv.org/abs/2112.10048
+
+Srinivasan, M. V., Laughlin, S., & Dubs, A. (1982). Predictive coding: a fresh view of
+inhibition in the retina. Proceedings of the Royal Society of London. Series B. Biological
+Sciences, 216(1205), 427–459.
+
+Dong, D. W., & Atick, J. J. (1995). Temporal decorrelation: a theory of lagged and
+nonlagged responses in the lateral geniculate nucleus. Network: Computation in Neural
+Systems, 6(2), 159–178.
+
+A forward-inverse optics model of reciprocal connections between visual cortical areas
+https://www.tandfonline.com/doi/abs/10.1088/0954-898X_4_4_001
+
+https://pmc.ncbi.nlm.nih.gov/articles/PMC1569488/#bib45
+https://pubmed.ncbi.nlm.nih.gov/15937014/
+
+Kalman filter
+Kalman, R. E. (1960). A new approach to linear filtering and prediction problems. Journal
+of Basic Engineering, 82(1), 35–45.
+
 ### 観測世界の階層的予測
-**階層的予測符号化(hierarchical predictive coding; HPC)** は{cite:p}`Rao1999-zv`により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち**潜在変数** (latent variable)を$\mathbf{r} \in \mathbb{R}^{n_1}$とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
+**階層的予測符号化(hierarchical predictive coding; HPC)** は\citep{`Rao1999-zv`により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち**潜在変数** (latent variable)を$\mathbf{r} \in \mathbb{R}^{n_1}$とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
 
 $$
 \begin{equation}
