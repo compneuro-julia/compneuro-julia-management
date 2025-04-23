@@ -1,4 +1,29 @@
 # 第5章：再帰型ニューラルネットワークと経時的貢献度分配問題
+## 再帰型ニューラルネットワーク
+再帰型ニューラルネットワーク (recurrent neural network; RNN)
+時刻 $t$ における入力を $\mathbf{x}_t \in \mathbb{R}^{n}$，隠れ状態を $\mathbf{h}_t \in \mathbb{R}^{d}$，出力を $\hat{\mathbf{y}}_t \in \mathbb{R}^{m}$ とすると，隠れ状態と出力は
+
+$$
+\begin{align}
+\mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}\\
+\mathbf{h}_t &= \left(1-\alpha\right)\mathbf{h}_{t-1} + \alpha f(\mathbf{u}_t)\\
+\mathbf{a}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t\\
+\hat{\mathbf{y}}_t &= g(\mathbf{a}_t)
+\end{align}
+$$  
+
+で与えられる。ただし，$\mathbf{W}_{\mathrm{in}} \in \mathbb{R}^{d\times n}, \mathbf{W}_{\mathrm{rec}} \in \mathbb{R}^{d\times d}, \mathbf{W}_{\mathrm{out}} \in \mathbb{R}^{m\times d}$ はシナプス結合重み，$\mathbf{b} \in \mathbb{R}^{d}$ は定常項，$f(\cdot), g(\cdot)$ は活性化関数であり，$\alpha:=\frac{1}{\tau}$ は状態の更新率（時定数 $\tau$ の逆数）である \footnote{$\alpha < 1$であるRNNは，重み共有をした残差結合 (residual/skip connection) のある順伝播モデル (ResNetなど) に展開することが可能である \citep{liao2016bridging}．}．
+また，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．時刻 $t$ での教師信号を $\mathbf{y}_t$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
+
+$$
+\begin{equation}
+\mathcal{L} = \sum_t \mathcal{L}_t\left(\mathbf{y}_t,\hat{\mathbf{y}}_t\right)
+\end{equation}
+$$  
+
+として与えられる．
+
+
 ## 経時的貢献度分配問題
 
 **時間的貢献度分配問題 (Temporal Credit Assignment Problem)** は、強化学習やリカレントニューラルネットワーク（RNN）のような動的システムにおいて、時間的に遅延のある報酬に対して、どのタイミングでどの行動がどれだけ貢献したのかを特定する問題です。具体的には、ある行動が取られた後、その結果として報酬が遅れて現れる場合、報酬がどの行動に対してどれだけ寄与したのかを明確に評価する必要があります。このような問題は、時間的遅延のある状況において、個々の行動の貢献度を割り当てることができなければ、エージェントが適切に学習することは難しくなります。
@@ -11,76 +36,63 @@ RNNは、出力が次の入力に影響を与えるという再帰的な構造�
 
 ## BPTT による勾配計算
 
-時刻 $t$ における隠れ状態と出力は
-
-$$
-\begin{align}
-\mathbf{a}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{z}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}\\
-\mathbf{z}_t &= \left(1-\alpha\right)\mathbf{z}_{t-1} + \alpha f(\mathbf{a}_t)\\
-\mathbf{u}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{z}_t\\
-\hat{\mathbf{y}}_t &= g(\mathbf{u}_t)
-\end{align}
-$$  
-
-で与えられる。ただし，$\alpha:=\frac{1}{\tau}$であり，$\mathbf{z}_{0}=\mathbf{0}$ とする．損失は全時刻和として  
-
-$$
-\begin{equation}
-\mathcal{L} = \sum_t \mathcal{L}_t\left(\mathbf{y}_t,\hat{\mathbf{y}}_t\right)
-\end{equation}
-$$  
-
-である。
 
 まず，出力層の誤差信号を
 
 $$
 \begin{equation}
-\boldsymbol\delta_t^{\mathrm{out}}
-=\frac{\partial \mathcal{L}_t}{\partial \mathbf{u}_t}
-=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\odot g'(\mathbf{u}_t)
+\boldsymbol{\delta}_t^{\mathrm{out}}
+:=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}
+=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\odot g'(\mathbf{a}_t)\quad \left(\in \mathbb{R}^{1\times m}\right)
 \end{equation}
 $$  
 
-と定義する。ここで $\odot$ は要素ごとの積を表す。また中間層に逆伝播する誤差を  
-$$\begin{equation}
-\boldsymbol{\varepsilon}_t
-=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_t}
-\end{equation}$$  
+と定義する。ここで $\odot$ は要素積 (Hadamard product) を表す。また中間層に逆伝播する誤差を  
+
+$$
+\begin{equation}
+\boldsymbol{\delta}_t
+:=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\quad \left(\in \mathbb{R}^{1\times d}\right)
+\end{equation}
+$$  
+
 とおくと，時間方向の再帰関係から  
 
 $$
 \begin{equation}
-\boldsymbol{\varepsilon}_t
-=\mathbf{W}_{\mathrm{out}}^\mathsf{T}\boldsymbol\delta_t^{\mathrm{out}}
+\boldsymbol{\delta}_t
+=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}
 +\left[\left(1-\alpha\right)\mathbf{I}
-+\alpha\mathbf{W}_{\mathrm{rec}}^\mathsf{T}\mathbf{D}_f(\mathbf{a}_{t+1})\right]
-\boldsymbol{\varepsilon}_{t+1}
++\alpha\mathbf{W}_{\mathrm{rec}}^\top \odot f'(\mathbf{u}_{t+1}) 
+\right]
+\boldsymbol{\delta}_{t+1}
 \end{equation}
 $$  
 
-が成立する。ただし，$\mathbf{D}_f(\mathbf{a}_t)=\operatorname{diag}\left(f'(\mathbf{a}_t)\right)$ とし，境界条件として $\boldsymbol{\varepsilon}_{T+1}=\mathbf{0}$ とする。
+が成立する。境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。
 
-これを用いて各重み行列の勾配を時刻方向に和をとる形で求める。すなわち  
+これを用いて各重み行列の勾配を時刻方向に和をとる形で求める。ここで，$\delta_{t}^\mathbf{h} := f'(\mathbf{u}_t)^\top \odot \boldsymbol{\delta}_t\ \left(\in \mathbb{R}^{1\times d}\right)$ とすると，
+
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{out}}}
-&=\sum_t \boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{z}_t^\mathsf{T}\\
+&=\sum_t \mathbf{h}_t\boldsymbol\delta_t^{\mathrm{out}}\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{rec}}}
-&=\sum_t \alpha\mathbf{D}_f(\mathbf{a}_t)\boldsymbol{\varepsilon}_t\;\mathbf{z}_{t-1}^\mathsf{T}\\
+&=\alpha \sum_t \mathbf{h}_{t-1}\delta_{t}^\mathbf{h}\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{in}}}
-&=\sum_t \alpha\mathbf{D}_f(\mathbf{a}_t)\boldsymbol{\varepsilon}_t\;\mathbf{x}_t^\mathsf{T},
+&=\alpha \sum_t \mathbf{x}_t\delta_{t}^\mathbf{h}
 \\
 \frac{\partial \mathcal{L}}{\partial \mathbf{b}}
-&=\sum_t \alpha\mathbf{D}_f(\mathbf{a}_t)\boldsymbol{\varepsilon}_t\\
+&=\alpha\sum_t \delta_{t}^\mathbf{h}\\
 \end{align}
 $$  
+
 以上が BPTT による重み更新の基本式である。
 
 ## 2. RTRL による逐次勾配計算
 RTRL では各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ に対して時刻 $t$ での状態感度行列  
 $$\begin{equation}
-\mathbf{P}_t^{(\theta)} = \frac{\partial \mathbf{z}_t}{\partial \theta}
+\mathbf{P}_t^{(\theta)} = \frac{\partial \mathbf{h}_t}{\partial \theta}
 \end{equation}$$  
 を逐次的に保持し，出力誤差と組み合わせて各時刻ごとに重み更新を行う。まず状態感度は以下の再帰式で更新される：  
 $$\begin{equation}
@@ -95,7 +107,7 @@ $$
 
 $$
 \begin{equation}
-\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{rec}})}=\mathbf{z}_{t-1},\quad
+\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{rec}})}=\mathbf{h}_{t-1},\quad
 \mathbf{Q}_t^{(\mathbf{W}_{\mathrm{in}})}=\mathbf{x}_t,\quad
 \mathbf{Q}_t^{(\mathbf{b})}=\mathbf{1}
 \end{equation}
@@ -105,15 +117,15 @@ $$
 $\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
 $$\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \theta}
-=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\mathsf{T}
+=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
 \;\frac{\partial \mathbf{u}_t}{\partial \theta}
-=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\mathsf{T}
+=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
 \;\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
 \end{equation}$$  
 ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は  
 $$\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
-=\boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{z}_t^\mathsf{T}.
+=\boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{h}_t^\top.
 \end{equation}$$  
 このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
 
@@ -127,26 +139,26 @@ https://www.sciencedirect.com/science/article/pii/S0959438818302009
 
 $$
 \begin{align}
-\text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
-\text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
-&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
-\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
+\text{入力層 : }&\mathbf{h}_1=\mathbf{x}\\
+\text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{h}_\ell +\mathbf{b}_\ell\\
+&\mathbf{h}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
+\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{h}_{L+1}
 \end{align}
 $$
 
 
 RNN
 
-入力を $\mathbf{x}_{t}$, 状態を $\mathbf{z}_t$, 出力を $\hat{\mathbf{y}}_t$ とする．活性化関数を $f, g$ とし，時定数を $\tau$，重みを $\mathbf{W}$ とする． 
+入力を $\mathbf{x}_{t}$, 状態を $\mathbf{h}_t$, 出力を $\hat{\mathbf{y}}_t$ とする．活性化関数を $f, g$ とし，時定数を $\tau$，重みを $\mathbf{W}$ とする． 
 状態遷移を
 
 $$
-\mathbf{z}_{t}=\left(1-\alpha\right)\cdot \mathbf{z}_{t-1} +\alpha\cdot f(\mathbf{W}_{\mathrm{rec}}\mathbf{z}_{t-1} +\mathbf{W}_{\mathrm{in}}\mathbf{x}_{t}+\mathbf{b})
+\mathbf{h}_{t}=\left(1-\alpha\right)\cdot \mathbf{h}_{t-1} +\alpha\cdot f(\mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} +\mathbf{W}_{\mathrm{in}}\mathbf{x}_{t}+\mathbf{b})
 $$
 
 出力を
 $$
-\hat{\mathbf{y}}_t = g(\mathbf{W}_{\mathrm{out}}\mathbf{z}_t)
+\hat{\mathbf{y}}_t = g(\mathbf{W}_{\mathrm{out}}\mathbf{h}_t)
 $$
 
 とする．モデルを訓練するために正解 $\mathbf{y}_t$ が与えられる．
@@ -192,8 +204,8 @@ Eligibility trace $\mathbf{P}\in \mathbb{R}^{N_{rec}\times N_{rec}}, \mathbf{Q}\
 
 $$
 \begin{align}
-\mathbf{P}_t&=\alphaf'(\mathbf{u}_t)\mathbf{h}_{t-1}^\top+\left(1-\alpha\right)\mathbf{P}_{t-1}\\
-\mathbf{Q}_t&=\alphaf'(\mathbf{u}_t)\mathbf{x}_{t-1}^\top+\left(1-\alpha\right)\mathbf{Q}_{t-1}
+\mathbf{P}_t&=\alpha f'(\mathbf{u}_t)\mathbf{h}_{t-1}^\top+\left(1-\alpha\right)\mathbf{P}_{t-1}\\
+\mathbf{Q}_t&=\alpha f'(\mathbf{u}_t)\mathbf{x}_{t-1}^\top+\left(1-\alpha\right)\mathbf{Q}_{t-1}
 \end{align}
 $$
 
@@ -351,3 +363,5 @@ $$
 
 ## 実時間リカレント学習 (RTRL)
 ## 適格度トレースによるRTRLの近似※
+
+http://frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2022.1018006/full

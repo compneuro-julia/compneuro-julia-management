@@ -121,7 +121,7 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
 ### 表記法
 本書では次のような記号表記を用いる．
-- 実数全体を$\mathbb{R}$, 複素数全体は$\mathbb{C}$と表記する．
+- 実数全体を$\mathbb{R}$，自然数全体を $\mathbb{N}$，複素数全体は$\mathbb{C}$と表記する．
 - スカラーは小文字・斜体で$x$のように表記する．
 - ベクトルは小文字・立体・太字で$\mathbf{x}$のように表記し，列ベクトル (縦ベクトル) として扱う．
 - 行列は大文字・立体・太字で$\mathbf{X}$のように表記する．
