@@ -9,111 +9,115 @@ RNNは、出力が次の入力に影響を与えるという再帰的な構造�
 
 時間的貢献度分配問題とBPTTは、特に強化学習において重要です。強化学習では、エージェントが環境とインタラクションを行い、遅延した報酬を得ることがあります。このような環境では、エージェントがどの行動に対して報酬を得たのか、またその行動が全体の目標達成にどれだけ貢献したのかを評価する必要があります。BPTTを使用することで、時間的な依存関係を適切に学習し、遅延した報酬を適切に割り当てることが可能となり、エージェントは長期的な報酬を最大化するために必要な行動を学習することができます。
 
-以下に，まず BPTT（Back‑Propagation Through Time）による学習則を導出し，続いて RTRL（Real‑Time Recurrent Learning）による学習則を示す。教科書体・常体で数式を交え，一続きの文章として記述する。
+## BPTT による勾配計算
 
----
+時刻 $t$ における隠れ状態と出力は
 
-## 1. BPTT による勾配計算
+$$
+\begin{align}
+\mathbf{a}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{z}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}\\
+\mathbf{z}_t &= \left(1-\alpha\right)\mathbf{z}_{t-1} + \alpha f(\mathbf{a}_t)\\
+\mathbf{u}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{z}_t\\
+\hat{\mathbf{y}}_t &= g(\mathbf{u}_t)
+\end{align}
+$$  
 
-時刻 \(t\) における隠れ状態の前活性化を  
-\[
-\mathbf{a}_t = \mathbf{W}_{\mathrm{rec}}\,\mathbf{z}_{t-1} + \mathbf{W}_{\mathrm{in}}\,\mathbf{x}_t + \mathbf{b}
-\]  
-と定義し，出力ユニットの前活性化を  
-\[
-\mathbf{u}_t = \mathbf{W}_{\mathrm{out}}\,\mathbf{z}_t
-\]  
-とおく。このとき隠れ状態と出力はそれぞれ  
-\[
-\mathbf{z}_t = \Bigl(1-\tfrac1\tau\Bigr)\mathbf{z}_{t-1} \;+\;\tfrac1\tau\,f(\mathbf{a}_t),
-\qquad
-\hat{\mathbf{y}}_t = g(\mathbf{u}_t)
-\]  
-で与えられる。損失は全時刻和として  
-\[
-\mathcal{L} = \sum_t \mathcal{L}_t\bigl(\mathbf{y}_t,\hat{\mathbf{y}}_t\bigr)
-\]  
+で与えられる。ただし，$\alpha:=\frac{1}{\tau}$であり，$\mathbf{z}_{0}=\mathbf{0}$ とする．損失は全時刻和として  
+
+$$
+\begin{equation}
+\mathcal{L} = \sum_t \mathcal{L}_t\left(\mathbf{y}_t,\hat{\mathbf{y}}_t\right)
+\end{equation}
+$$  
+
 である。
 
-まず，出力層の誤差信号を  
-\[
+まず，出力層の誤差信号を
+
+$$
+\begin{equation}
 \boldsymbol\delta_t^{\mathrm{out}}
 =\frac{\partial \mathcal{L}_t}{\partial \mathbf{u}_t}
-=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\,\odot\,g'(\mathbf{u}_t)
-\]  
-と定義する。ここで \(\odot\) は要素ごとの積を表す。また中間層に逆伝播する誤差を  
-\[
-\boldsymbol\varepsilon_t
+=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\odot g'(\mathbf{u}_t)
+\end{equation}
+$$  
+
+と定義する。ここで $\odot$ は要素ごとの積を表す。また中間層に逆伝播する誤差を  
+$$\begin{equation}
+\boldsymbol{\varepsilon}_t
 =\frac{\partial \mathcal{L}}{\partial \mathbf{z}_t}
-\]  
+\end{equation}$$  
 とおくと，時間方向の再帰関係から  
-\[
-\boldsymbol\varepsilon_t
-=\mathbf{W}_{\mathrm{out}}^\mathsf{T}\,\boldsymbol\delta_t^{\mathrm{out}}
-\;+\;\biggl[\Bigl(1-\tfrac1\tau\Bigr)\mathbf{I}
-\;+\;\tfrac1\tau\,\mathbf{W}_{\mathrm{rec}}^\mathsf{T}\,\mathbf{D}_f(\mathbf{a}_{t+1})\biggr]\,
-\boldsymbol\varepsilon_{t+1}
-\]  
-が成立する。ただし，\(\mathbf{D}_f(\mathbf{a}_t)=\operatorname{diag}\bigl(f'(\mathbf{a}_t)\bigr)\) とし，境界条件として \(\boldsymbol\varepsilon_{T+1}=\mathbf{0}\) とする。
+
+$$
+\begin{equation}
+\boldsymbol{\varepsilon}_t
+=\mathbf{W}_{\mathrm{out}}^\mathsf{T}\boldsymbol\delta_t^{\mathrm{out}}
++\left[\left(1-\alpha\right)\mathbf{I}
++\alpha\mathbf{W}_{\mathrm{rec}}^\mathsf{T}\mathbf{D}_f(\mathbf{a}_{t+1})\right]
+\boldsymbol{\varepsilon}_{t+1}
+\end{equation}
+$$  
+
+が成立する。ただし，$\mathbf{D}_f(\mathbf{a}_t)=\operatorname{diag}\left(f'(\mathbf{a}_t)\right)$ とし，境界条件として $\boldsymbol{\varepsilon}_{T+1}=\mathbf{0}$ とする。
 
 これを用いて各重み行列の勾配を時刻方向に和をとる形で求める。すなわち  
-\[
+$$
+\begin{align}
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{out}}}
-=\sum_t \boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{z}_t^\mathsf{T},
-\]  
-\[
+&=\sum_t \boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{z}_t^\mathsf{T}\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{rec}}}
-=\sum_t \frac1\tau\,\mathbf{D}_f(\mathbf{a}_t)\,\boldsymbol\varepsilon_t\;\mathbf{z}_{t-1}^\mathsf{T},
-\]  
-\[
+&=\sum_t \alpha\mathbf{D}_f(\mathbf{a}_t)\boldsymbol{\varepsilon}_t\;\mathbf{z}_{t-1}^\mathsf{T}\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{in}}}
-=\sum_t \frac1\tau\,\mathbf{D}_f(\mathbf{a}_t)\,\boldsymbol\varepsilon_t\;\mathbf{x}_t^\mathsf{T},
-\qquad
+&=\sum_t \alpha\mathbf{D}_f(\mathbf{a}_t)\boldsymbol{\varepsilon}_t\;\mathbf{x}_t^\mathsf{T},
+\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{b}}
-=\sum_t \frac1\tau\,\mathbf{D}_f(\mathbf{a}_t)\,\boldsymbol\varepsilon_t.
-\]  
+&=\sum_t \alpha\mathbf{D}_f(\mathbf{a}_t)\boldsymbol{\varepsilon}_t\\
+\end{align}
+$$  
 以上が BPTT による重み更新の基本式である。
 
----
-
 ## 2. RTRL による逐次勾配計算
-
-RTRL では各パラメータ \(\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}\) に対して時刻 \(t\) での状態感度行列  
-\[
+RTRL では各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ に対して時刻 $t$ での状態感度行列  
+$$\begin{equation}
 \mathbf{P}_t^{(\theta)} = \frac{\partial \mathbf{z}_t}{\partial \theta}
-\]  
+\end{equation}$$  
 を逐次的に保持し，出力誤差と組み合わせて各時刻ごとに重み更新を行う。まず状態感度は以下の再帰式で更新される：  
-\[
+$$\begin{equation}
 \mathbf{P}_t^{(\theta)}
-=\Bigl(1-\tfrac1\tau\Bigr)\,\mathbf{P}_{t-1}^{(\theta)}
-\;+\;\tfrac1\tau\;\mathbf{D}_f(\mathbf{a}_t)\,
-\Bigl(\mathbf{W}_{\mathrm{rec}}\,\mathbf{P}_{t-1}^{(\theta)} + \mathbf{Q}_t^{(\theta)}\Bigr),
-\]  
-ここでパラメータ依存の入力感度 \(\mathbf{Q}_t^{(\theta)}\) は  
-\[
+=\left(1-\alpha\right)\mathbf{P}_{t-1}^{(\theta)}
++\alpha\mathbf{D}_f(\mathbf{a}_t)
+\left(\mathbf{W}_{\mathrm{rec}}\mathbf{P}_{t-1}^{(\theta)} + \mathbf{Q}_t^{(\theta)}\right),
+\end{equation}
+$$  
+
+ここでパラメータ依存の入力感度 $\mathbf{Q}_t^{(\theta)}$ は  
+
+$$
+\begin{equation}
 \mathbf{Q}_t^{(\mathbf{W}_{\mathrm{rec}})}=\mathbf{z}_{t-1},\quad
 \mathbf{Q}_t^{(\mathbf{W}_{\mathrm{in}})}=\mathbf{x}_t,\quad
 \mathbf{Q}_t^{(\mathbf{b})}=\mathbf{1}
-\]  
-とし，\(\mathbf{P}_t^{(\mathbf{W}_{\mathrm{out}})}=\mathbf{0}\) とする。一方，出力層の誤差は BPTT と同様に  
-\(\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t\) であるから，時刻 \(t\) における各パラメータの勾配は  
-\[
+\end{equation}
+$$  
+
+とし，$\mathbf{P}_t^{(\mathbf{W}_{\mathrm{out}})}=\mathbf{0}$ とする。一方，出力層の誤差は BPTT と同様に  
+$\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
+$$\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \theta}
-=\bigl(\boldsymbol\delta_t^{\mathrm{out}}\bigr)^\mathsf{T}
+=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\mathsf{T}
 \;\frac{\partial \mathbf{u}_t}{\partial \theta}
-=\bigl(\boldsymbol\delta_t^{\mathrm{out}}\bigr)^\mathsf{T}
-\;\mathbf{W}_{\mathrm{out}}\,\mathbf{P}_t^{(\theta)},
-\]  
-ただし \(\theta=\mathbf{W}_{\mathrm{out}}\) の場合は  
-\[
+=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\mathsf{T}
+\;\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
+\end{equation}$$  
+ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は  
+$$\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
 =\boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{z}_t^\mathsf{T}.
-\]  
-このように RTRL では時刻ごとに \(\mathbf{P}_t^{(\theta)}\) を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
+\end{equation}$$  
+このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
 
----
-
-以上，BPTT と RTRL の学習則を同一モデルに適用した形でまとめた。どちらも同じ損失 \(\mathcal{L}\) を最小化するが，BPTT は全時刻を遡ってまとめて誤差を伝播させる一方，RTRL は逐次的に感度を保持しリアルタイムで勾配を得る点が異なる。
+以上，BPTT と RTRL の学習則を同一モデルに適用した形でまとめた。どちらも同じ損失 $\mathcal{L}$ を最小化するが，BPTT は全時刻を遡ってまとめて誤差を伝播させる一方，RTRL は逐次的に感度を保持しリアルタイムで勾配を得る点が異なる。
 
 ## 経時的誤差逆伝播法 (BPTT)
 
@@ -137,7 +141,7 @@ RNN
 状態遷移を
 
 $$
-\mathbf{z}_{t}=\left(1-\frac{1}{\tau}\right)\cdot \mathbf{z}_{t-1} +\frac{1}{\tau}\cdot f(\mathbf{W}_{\mathrm{rec}}\mathbf{z}_{t-1} +\mathbf{W}_{\mathrm{in}}\mathbf{x}_{t}+\mathbf{b})
+\mathbf{z}_{t}=\left(1-\alpha\right)\cdot \mathbf{z}_{t-1} +\alpha\cdot f(\mathbf{W}_{\mathrm{rec}}\mathbf{z}_{t-1} +\mathbf{W}_{\mathrm{in}}\mathbf{x}_{t}+\mathbf{b})
 $$
 
 出力を
@@ -159,7 +163,7 @@ RFRO (Random feedback local online learning)
 Check the implementation
 
 $$
-\frac{\partial h_{j} (t )}{\partial W_{a b}} = (1 - \frac{1}{\tau} ) \frac{\partial h_{j} (t - 1 )}{\partial W_{a b}} + \frac{1}{\tau} \delta_{j a} \phi^{\prime} (u_{a} (t ) ) h_{b} (t - 1 ) + \frac{1}{\tau} \underset{k}{ \left (\sum \right ) } \phi^{\prime} (u_{j} (t ) ) W_{j k} \frac{\partial h_{k} (t - 1 )}{\partial W_{a b}} ,
+\frac{\partial h_{j} (t )}{\partial W_{a b}} = (1 - \alpha ) \frac{\partial h_{j} (t - 1 )}{\partial W_{a b}} + \alpha \delta_{j a} \phi^{\prime} (u_{a} (t ) ) h_{b} (t - 1 ) + \alpha \underset{k}{ \left (\sum \right ) } \phi^{\prime} (u_{j} (t ) ) W_{j k} \frac{\partial h_{k} (t - 1 )}{\partial W_{a b}} ,
 $$
 
 Output error
@@ -188,8 +192,8 @@ Eligibility trace $\mathbf{P}\in \mathbb{R}^{N_{rec}\times N_{rec}}, \mathbf{Q}\
 
 $$
 \begin{align}
-\mathbf{P}_t&=\frac{1}{\tau}f'(\mathbf{u}_t)\mathbf{h}_{t-1}^\top+\left(1-\frac{1}{\tau}\right)\mathbf{P}_{t-1}\\
-\mathbf{Q}_t&=\frac{1}{\tau}f'(\mathbf{u}_t)\mathbf{x}_{t-1}^\top+\left(1-\frac{1}{\tau}\right)\mathbf{Q}_{t-1}
+\mathbf{P}_t&=\alphaf'(\mathbf{u}_t)\mathbf{h}_{t-1}^\top+\left(1-\alpha\right)\mathbf{P}_{t-1}\\
+\mathbf{Q}_t&=\alphaf'(\mathbf{u}_t)\mathbf{x}_{t-1}^\top+\left(1-\alpha\right)\mathbf{Q}_{t-1}
 \end{align}
 $$
 
