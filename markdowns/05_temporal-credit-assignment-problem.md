@@ -43,51 +43,64 @@ $$
 \begin{equation}
 \boldsymbol{\delta}_t^{\mathrm{out}}
 :=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}
-=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\odot g'(\mathbf{a}_t)\quad \left(\in \mathbb{R}^{1\times m}\right)
+=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\frac{\partial \hat{\mathbf{y}}_t}{\partial \mathbf{a}_t}=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\odot g'(\mathbf{a}_t)^\top\quad \left(\in \mathbb{R}^{1\times m}\right)
 \end{equation}
 $$  
 
-と定義する。ここで $\odot$ は要素積 (Hadamard product) を表す。また中間層に逆伝播する誤差を  
+と定義する。ここで $\odot$ は要素積 (Hadamard product) を表す。また中間層に逆伝播する誤差は時間方向の再帰関係から
 
 $$
 \begin{equation}
 \boldsymbol{\delta}_t
-:=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\quad \left(\in \mathbb{R}^{1\times d}\right)
+:=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}=\underbrace{\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}}_{\llap{現在時刻の直接寄与}} + \underbrace{\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}}_{\mathclap{次時刻以降への間接寄与}}
+\quad \left(\in \mathbb{R}^{1\times d}\right)
 \end{equation}
 $$  
 
-とおくと，時間方向の再帰関係から  
+が成り立つ．ここで直接寄与項は
+
+$$
+\begin{equation}
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}\frac{\partial \mathbf{a}_t}{\partial \mathbf{h}_t}=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}
+\end{equation}
+$$
+
+であり，間接寄与項は
+
+$$
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}&=\boldsymbol{\delta}_{t+1}\left[(1-\alpha)\mathbf{I}_d+\alpha \frac{\partial f(\mathbf{u}_{t+1})}{\partial \mathbf{u}_{t+1}}\frac{\partial \mathbf{u}_{t+1}}{\partial \mathbf{h}_{t}}\right]\\
+&=\left(1-\alpha\right)\boldsymbol{\delta}_{t+1}
++\alpha \boldsymbol{\delta}_t \odot f'(\mathbf{u}_t)^\top \mathbf{W}_{\mathrm{rec}}
+\end{align}
+$$
+
+である．ここで，$\delta_{t}^\mathrm{h} := \boldsymbol{\delta}_t \odot f'(\mathbf{u}_t)^\top\ \left(\in \mathbb{R}^{1\times d}\right)$ とすると，
 
 $$
 \begin{equation}
 \boldsymbol{\delta}_t
-=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}
-+\left[\left(1-\alpha\right)\mathbf{I}
-+\alpha\mathbf{W}_{\mathrm{rec}}^\top \odot f'(\mathbf{u}_{t+1}) 
-\right]
-\boldsymbol{\delta}_{t+1}
+=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}} +\left(1-\alpha\right)\boldsymbol{\delta}_{t+1} +\alpha \delta_{t+1}^\mathrm{h} \mathbf{W}_{\mathrm{rec}}
 \end{equation}
 $$  
 
-が成立する。境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。
-
-これを用いて各重み行列の勾配を時刻方向に和をとる形で求める。ここで，$\delta_{t}^\mathbf{h} := f'(\mathbf{u}_t)^\top \odot \boldsymbol{\delta}_t\ \left(\in \mathbb{R}^{1\times d}\right)$ とすると，
+が成立する。境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。これらを用いて各重み行列の勾配を時刻方向に和をとる形で求める。
 
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{out}}}
 &=\sum_t \mathbf{h}_t\boldsymbol\delta_t^{\mathrm{out}}\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{rec}}}
-&=\alpha \sum_t \mathbf{h}_{t-1}\delta_{t}^\mathbf{h}\\
+&=\alpha \sum_t \mathbf{h}_{t-1}\delta_{t}^\mathrm{h}\\
 \frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{in}}}
-&=\alpha \sum_t \mathbf{x}_t\delta_{t}^\mathbf{h}
+&=\alpha \sum_t \mathbf{x}_t\delta_{t}^\mathrm{h}
 \\
 \frac{\partial \mathcal{L}}{\partial \mathbf{b}}
-&=\alpha\sum_t \delta_{t}^\mathbf{h}\\
+&=\alpha\sum_t \delta_{t}^\mathrm{h}\\
 \end{align}
-$$  
+$$
 
-以上が BPTT による重み更新の基本式である。
+以上が BPTT による重み更新の基本式である。BPの時と同様に，実装時には$\delta_{t}$ は列ベクトルとなり，バッチ処理も考慮するため，転置の有無や行列積の順序は変化する．
 
 ## 2. RTRL による逐次勾配計算
 RTRL では各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ に対して時刻 $t$ での状態感度行列  

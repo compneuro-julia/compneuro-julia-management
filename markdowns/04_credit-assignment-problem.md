@@ -5,6 +5,8 @@
 
 学習中に特定のシナプスがどのように選択され、異なる形態の可塑性が生じるのかは依然として不明であり、これはしばしば「クレジット割り当て問題」と呼ばれます。
 
+どのシナプスが重要か．
+
 生体における神経回路には、情報の入出力を中継する神経細胞が存在し、これらの細胞群は神経経路を構成している。
 
 例えば、物体に手を伸ばして到達運動を行う際、一次運動野を経て錐体路を通り、末梢神経へと情報が伝達される（修正必要）。
@@ -38,24 +40,28 @@ https://arxiv.org/abs/1702.07800
 Stork, D. G. (1989). Is backpropagation biologically plausible. In International joint
 conference on neural networks (Vol. 2, pp. 241–246).
 
-## ニューラルネットワークと順伝播
+## ニューラルネットワーク
+### 順伝播
 **ニューラルネットワーク** (neural network) \footnote{ニューラルネットワーク（neural network）」という用語は，実際の神経細胞から構成されるネットワークを指すのか，人工的に構築された数理モデルを指すのかが，字面だけでは判別しにくい．両者を区別する必要がある文脈では，人工的なモデルには「ニューラルネットワーク (neural network)」，「人工ニューラルネットワーク (artificial neural network; ANN)」，あるいは「人工神経回路網」といった用語が用いられる．一方，生体の神経回路を指す場合には，「ニューロナルネットワーク (neuronal network)」，「生物的ニューラルネットワーク (biological neural network; BNN)」，あるいは「神経回路網」といった用語を使用し，両者を区別することができる．}
 
 順伝播 (forward propagation)
-$f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以下のようになる．$(\ell=1,\ldots,L)$
-活動を $\mathbf{z}_\ell \in \mathbb{R}^{n_\ell}$, 結合重みを $\mathbf{W}_\ell \in \mathbb{R}^{n_{\ell+1} \times n_{\ell}}$，定常項を $\mathbf{b}_\ell \in \mathbb{R}^{n_{\ell+1}}$
+$f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以下のようになる 
+$(\ell=1,\ldots,L)$．ただし，活動を $\mathbf{z}_\ell \in \mathbb{R}^{n_\ell}$, 結合重みを $\mathbf{W}_\ell \in \mathbb{R}^{n_{\ell+1} \times n_{\ell}}$，定常項を $\mathbf{b}_\ell \in \mathbb{R}^{n_{\ell+1}}$ とする．
 
 $$
+\boxed{
 \begin{align}
 \text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
 \text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
 &\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
 \text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
 \end{align}
+}
 $$
 
 代表的な活性化関数を紹介する．なお，`backward` における `y` は `forward` での出力に対応する．これは活性化関数を作用させる前の変数 ($x$であり，膜電位に対応する) を保持しておかなくても良いようにするためである．
 
+### 活性化関数
 シグモイド関数 (sigmoid function) あるいはロジスティック関数 (logistic function) の場合，
 
 $$
@@ -87,7 +93,11 @@ $$
 
 これらの活性化関数を構造体 `ActivationFunction`を用いて実装する．
 
+以下では$z=f(a), g(z)=f'(a)$として膜電位を使わず，発火率情報のみを使うようにしている．このようにできない関数もあるが，今回はこのように書き下せる活性化関数のみを扱う．
+
+### 重みの初期化
 struct `MLP`を用意し，**重みの初期化** (weight initialization) を行う同名の関数`MLP`を用意する．重みの初期化に関しては，各層の出力および勾配の分散が一定となるような初期化をすることで学習が進行することが知られている．出力は活性化関数に依存するため，初期化についても活性化関数に応じて変更することが推奨され，sigmoid関数やtanh関数を用いる場合はXavierの初期化 \citep{Glorot2010-iu}，ReLU関数を用いる場合はHeの初期化 \citep{He2015-fs} が用いられる．入力ユニット数を $n_{\textrm{in}}$, 出力ユニット数を $n_{\textrm{out}}$ とすると，Xavierの初期化では重み $w$ の平均が0, 分散が $\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}$ となるように一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}, \sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ 等から重みをサンプリングする．Heの初期化ではReLUを用いる場合，重み $w$ の平均が0, 分散が$\frac{2}{n_{\textrm{in}}}$ あるいは $\frac{2}{n_{\textrm{out}}}$ となるようにし，前者の分散を使用する場合は一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}}}, \sqrt{\frac{6}{n_{\textrm{in}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}}}\right)$ 等から重みをサンプリングする．
+
 
 ## 誤差逆伝播法
 ニューラルネットワークにおいて，効率よく各重みの勾配を推定することで貢献度割り当て問題を解決する方法が**誤差逆伝播法** (backpropagation) である．本節では入力層，隠れ層，出力層からなる多層ニューラルネットワークを実装し，誤差逆伝播法による勾配推定を用いて学習を行う．
@@ -98,7 +108,7 @@ struct `MLP`を用意し，**重みの初期化** (weight initialization) を行
 ニューラルネットワークの学習 (learning) あるいは訓練 (training) とは，目的関数 (objective function) あるいは損失関数 (loss function) と呼ばれる評価指標を可能な限り小さく (場合によっては大きく) するようなパラメータ集合 $\Theta = \{W_\ell, b_\ell\}_{\ell=1}^{L}$ を求める過程のことである．学習においてパラメータを最適化するアルゴリズムを**オプティマイザ** (optimizer) という．オプティマイザは多数提案されており，代表的なものを後ほど紹介する．まず，最も単純なオプティマイザである **勾配降下法** (gradient descent; GD) を紹介する．勾配降下法では全データを用いてパラメータ $\theta \in \Theta$ の更新量 $\Delta \theta$ を 
 
 $$
-\Delta \theta = -\eta \frac{\partial \mathcal{L}_{\textrm{GD}}}{\partial \theta} = -\frac{\eta}{N} \sum_{i=1}^N \frac{\partial \mathcal{L}^{(i)}}{\partial \theta}
+\Delta \theta = -\eta \left(\frac{\partial \mathcal{L}_{\textrm{GD}}}{\partial \theta}\right)^\top = -\frac{\eta}{N} \sum_{i=1}^N \left(\frac{\partial \mathcal{L}^{(i)}}{\partial \theta}\right)^\top
 $$
 
 として計算する (パラメータは$\theta\leftarrow \theta + \Delta \theta$により更新される)．ただし，$\mathcal{L}_{\textrm{GD}}:=\frac{1}{N}\sum_{i=1}^N \mathcal{L}^{(i)}$ であり，$\mathcal{L}^{(i)}$は$i$ 番目のサンプルに対する目的関数であり，$N$ は全データのサンプル数を意味する．$\eta$ は学習率 (learning rate) である．オプティマイザは一般的に勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ の計算を必要とする．この計算を効率よく行う手法が**誤差逆伝播法** (backpropagation) である．誤差逆伝播法は連鎖律 (chain rule; 合成関数の微分の関係式) を用いて導くことができる．$\mathbf{a}_\ell=W_\ell \mathbf{z}_\ell +\mathbf{b}_\ell$ および $\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)$ であることを踏まえ，分子レイアウト記法\footnote{第1章参照}を用いると，
@@ -106,16 +116,16 @@ $$
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
-\delta_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
-\mathbf{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
+\boldsymbol{\delta}_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
+\boldsymbol{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
 &=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell+1}}\frac{\partial \mathbf{a}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_{\ell}}\\
-&=\delta_{\ell+1}{\mathbf{W}_{\ell+1}} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)^\top \quad\left(\in \mathbb{R}^{1\times n_{\ell+1}}\right)\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}=\mathbf{z}_\ell \delta_\ell  \quad\left(\in \mathbb{R}^{n_{\ell}\times n_{\ell+1}}\right)\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\delta_\ell \quad\left(\in \mathbb{R}^{1\times n_{\ell+1}}\right)
+&=\boldsymbol{\delta}_{\ell+1}{\mathbf{W}_{\ell+1}} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)^\top \quad\left(\in \mathbb{R}^{1\times n_{\ell+1}}\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}=\mathbf{z}_\ell \boldsymbol{\delta}_\ell  \quad\left(\in \mathbb{R}^{n_{\ell}\times n_{\ell+1}}\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\boldsymbol{\delta}_\ell \quad\left(\in \mathbb{R}^{1\times n_{\ell+1}}\right)
 \end{align}
 $$
 
-が成り立つ．バッチ処理を考慮すると，行列を乗ずる順番が変わる．以下では$z=f(a), g(z)=f'(a)$として膜電位を使わず，発火率情報のみを使うようにしている．このようにできない関数もあるが，今回はこのように書き下せる活性化関数のみを扱う．
+が成り立つ．実装時に注意したいこととして，Juliaは基本が列ベクトルであるので，$\boldsymbol{\delta}_\ell$ も行ベクトルではなく列ベクトルとして保存および処理をする．さらにバッチ処理も考慮するので，行列を乗じる順番や転置の有無などが数式通りとはならない．
 
 ### 損失関数
 回帰問題において，代表的に用いられるのが平均二乗誤差 (mean squared error) である．
@@ -256,6 +266,8 @@ $$
 ## 非対称な逆向き投射による誤差伝播
 Feedback alignment, DFA, CP
 
+本書では連鎖律の記法をスカラーの場合と同一にするため，行列の微分計算を分子レイアウト記法で統一している．このため，逆伝播時は $W$ の転置にはなっていないが，
+
 ## 予測符号化による活動と結合の共調整
 
 本節では予測符号化による
@@ -353,12 +365,12 @@ fixed prediction assumptionという (Millidge etal., 2022. Rosebvbaum 2022) 修
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}\\
-\delta_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\\
-\mathbf{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
+\boldsymbol{\delta}_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\\
+\boldsymbol{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
 &=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell+1}}\frac{\partial \mathbf{a}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_{\ell}}\\
-&={\mathbf{W}_{\ell+1}}^\top \delta_{\ell+1} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}=\delta_\ell \mathbf{z}_\ell^\top\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\delta_\ell
+&={\mathbf{W}_{\ell+1}}^\top \boldsymbol{\delta}_{\ell+1} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}=\boldsymbol{\delta}_\ell \mathbf{z}_\ell^\top\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\boldsymbol{\delta}_\ell
 \end{align}
 $$
 
