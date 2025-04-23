@@ -54,7 +54,7 @@ $$
 \text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
 \text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
 &\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
-\text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
+\text{出力層 : }&\mathbf{y}=\mathbf{z}_{L+1}
 \end{align}
 }
 $$
@@ -115,7 +115,7 @@ $$
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{y}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
 \boldsymbol{\delta}_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
 \boldsymbol{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
 &=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell+1}}\frac{\partial \mathbf{a}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_{\ell}}\\
@@ -128,14 +128,14 @@ $$
 が成り立つ．実装時に注意したいこととして，Juliaは基本が列ベクトルであるので，$\boldsymbol{\delta}_\ell$ も行ベクトルではなく列ベクトルとして保存および処理をする．さらにバッチ処理も考慮するので，行列を乗じる順番や転置の有無などが数式通りとはならない．
 
 ### 損失関数
-回帰問題において，代表的に用いられるのが平均二乗誤差 (mean squared error) である．
+回帰問題において，代表的に用いられるのが平均二乗誤差 (mean squared error) である．教師信号を $\mathbf{y}^*$ として，
 
 $$
 \begin{align}
-\hat{\mathbf{y}} &= \mathbf{z}_{L+1}\\
-\mathcal{L}&:=\frac{1}{2}\left\|\hat{\mathbf{y}}-\mathbf{y}\right\|^{2}\\
-\frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}=\hat{\mathbf{y}}-\mathbf{y}\\
-\delta_L&=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}=\left(\hat{\mathbf{y}}-\mathbf{y}\right) \odot f_L^{\prime}\left(\mathbf{a}_L\right)\\
+\mathbf{y} &= \mathbf{z}_{L+1}\\
+\mathcal{L}&:=\frac{1}{2}\left\|\mathbf{y}-\mathbf{y}^*\right\|^{2}\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{y}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}=\mathbf{y}-\mathbf{y}^*\\
+\delta_L&=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}=\left(\mathbf{y}-\mathbf{y}^*\right) \odot f_L^{\prime}\left(\mathbf{a}_L\right)\\
 \end{align}
 $$
 

@@ -1,23 +1,23 @@
 # 第5章：再帰型ニューラルネットワークと経時的貢献度分配問題
 ## 再帰型ニューラルネットワーク
 再帰型ニューラルネットワーク (recurrent neural network; RNN)
-時刻 $t$ における入力を $\mathbf{x}_t \in \mathbb{R}^{n}$，隠れ状態を $\mathbf{h}_t \in \mathbb{R}^{d}$，出力を $\hat{\mathbf{y}}_t \in \mathbb{R}^{m}$ とすると，隠れ状態と出力は
+時刻 $t$ における入力を $\mathbf{x}_t \in \mathbb{R}^{n}$，隠れ状態を $\mathbf{h}_t \in \mathbb{R}^{d}$，出力を $\mathbf{y}_t \in \mathbb{R}^{m}$ とすると，隠れ状態と出力は
 
 $$
 \begin{align}
 \mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}\\
 \mathbf{h}_t &= \left(1-\alpha\right)\mathbf{h}_{t-1} + \alpha f(\mathbf{u}_t)\\
 \mathbf{a}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t\\
-\hat{\mathbf{y}}_t &= g(\mathbf{a}_t)
+\mathbf{y}_t &= g(\mathbf{a}_t)
 \end{align}
 $$  
 
 で与えられる。ただし，$\mathbf{W}_{\mathrm{in}} \in \mathbb{R}^{d\times n}, \mathbf{W}_{\mathrm{rec}} \in \mathbb{R}^{d\times d}, \mathbf{W}_{\mathrm{out}} \in \mathbb{R}^{m\times d}$ はシナプス結合重み，$\mathbf{b} \in \mathbb{R}^{d}$ は定常項，$f(\cdot), g(\cdot)$ は活性化関数であり，$\alpha:=\frac{1}{\tau}$ は状態の更新率（時定数 $\tau$ の逆数）である \footnote{$\alpha < 1$であるRNNは，重み共有をした残差結合 (residual/skip connection) のある順伝播モデル (ResNetなど) に展開することが可能である \citep{liao2016bridging}．}．
-また，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．時刻 $t$ での教師信号を $\mathbf{y}_t$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
+また，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．時刻 $t$ での教師信号を $\mathbf{y}_t^*$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
 
 $$
 \begin{equation}
-\mathcal{L} = \sum_t \mathcal{L}_t\left(\mathbf{y}_t,\hat{\mathbf{y}}_t\right)
+\mathcal{L} = \sum_t \mathcal{L}_t\left(\mathbf{y}_t,\mathbf{y}_t^*\right)
 \end{equation}
 $$  
 
@@ -34,16 +34,14 @@ RNNは、出力が次の入力に影響を与えるという再帰的な構造�
 
 時間的貢献度分配問題とBPTTは、特に強化学習において重要です。強化学習では、エージェントが環境とインタラクションを行い、遅延した報酬を得ることがあります。このような環境では、エージェントがどの行動に対して報酬を得たのか、またその行動が全体の目標達成にどれだけ貢献したのかを評価する必要があります。BPTTを使用することで、時間的な依存関係を適切に学習し、遅延した報酬を適切に割り当てることが可能となり、エージェントは長期的な報酬を最大化するために必要な行動を学習することができます。
 
-## BPTT による勾配計算
-
-
-まず，出力層の誤差信号を
+## 経時的誤差逆伝播法 (BPTT)
+出力層の誤差信号を
 
 $$
 \begin{equation}
 \boldsymbol{\delta}_t^{\mathrm{out}}
 :=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}
-=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\frac{\partial \hat{\mathbf{y}}_t}{\partial \mathbf{a}_t}=\frac{\partial \mathcal{L}_t}{\partial \hat{\mathbf{y}}_t}\odot g'(\mathbf{a}_t)^\top\quad \left(\in \mathbb{R}^{1\times m}\right)
+=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\frac{\partial \mathbf{y}_t}{\partial \mathbf{a}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\odot g'(\mathbf{a}_t)^\top\quad \left(\in \mathbb{R}^{1\times m}\right)
 \end{equation}
 $$  
 
@@ -52,7 +50,7 @@ $$
 $$
 \begin{equation}
 \boldsymbol{\delta}_t
-:=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}=\underbrace{\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}}_{\llap{現在時刻の直接寄与}} + \underbrace{\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}}_{\mathclap{次時刻以降への間接寄与}}
+:=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}=\underbrace{\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}}_{\mathclap{\substack{\text{現在時刻の}\\\text{直接寄与}}}} + \underbrace{\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}}_{\mathclap{\substack{\text{次時刻以降への}\\\text{間接寄与}}}}
 \quad \left(\in \mathbb{R}^{1\times d}\right)
 \end{equation}
 $$  
@@ -70,8 +68,7 @@ $$
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}&=\boldsymbol{\delta}_{t+1}\left[(1-\alpha)\mathbf{I}_d+\alpha \frac{\partial f(\mathbf{u}_{t+1})}{\partial \mathbf{u}_{t+1}}\frac{\partial \mathbf{u}_{t+1}}{\partial \mathbf{h}_{t}}\right]\\
-&=\left(1-\alpha\right)\boldsymbol{\delta}_{t+1}
-+\alpha \boldsymbol{\delta}_t \odot f'(\mathbf{u}_t)^\top \mathbf{W}_{\mathrm{rec}}
+&=\left(1-\alpha\right)\boldsymbol{\delta}_{t+1} +\alpha \boldsymbol{\delta}_{t+1} \odot f'(\mathbf{u}_{t+1})^\top \mathbf{W}_{\mathrm{rec}}
 \end{align}
 $$
 
@@ -84,7 +81,7 @@ $$
 \end{equation}
 $$  
 
-が成立する。境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。これらを用いて各重み行列の勾配を時刻方向に和をとる形で求める。
+が成立する。ただし，境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。これらを用いて各重み行列の勾配を時刻方向に和をとる形で求める。
 
 $$
 \begin{align}
@@ -102,7 +99,7 @@ $$
 
 以上が BPTT による重み更新の基本式である。BPの時と同様に，実装時には$\delta_{t}$ は列ベクトルとなり，バッチ処理も考慮するため，転置の有無や行列積の順序は変化する．
 
-## 2. RTRL による逐次勾配計算
+## 実時間リカレント学習 (RTRL)
 RTRL では各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ に対して時刻 $t$ での状態感度行列  
 $$\begin{equation}
 \mathbf{P}_t^{(\theta)} = \frac{\partial \mathbf{h}_t}{\partial \theta}
@@ -144,6 +141,32 @@ $$\begin{equation}
 
 以上，BPTT と RTRL の学習則を同一モデルに適用した形でまとめた。どちらも同じ損失 $\mathcal{L}$ を最小化するが，BPTT は全時刻を遡ってまとめて誤差を伝播させる一方，RTRL は逐次的に感度を保持しリアルタイムで勾配を得る点が異なる。
 
+## BPTTとRTRLの比較
+A Practical Sparse Approximation for Real Time Recurrent Learning
+
+前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
+
+$$
+\begin{align}
+\fbox{\text{BPTT}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
+\fbox{\text{RTRL}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
+\end{align}
+$$
+
+いずれの手法も，時系列モデルの状態更新則が  
+
+$$
+\mathbf{h}_t = F\bigl(\mathbf{h}_{t-1},\,\mathbf{x}_t;\,\theta\bigr)
+$$  
+
+のように，状態は過去から未来への一方向性を持つため，過去の状態を未来の状態で微分する操作 $\partial \mathbf{h}_{t-1}/\partial \mathbf{h}_t$ は常にゼロとなる．
+
+$\frac{\partial \mathbf{h}_t}{\partial \theta} \in \mathbb{R}^{d \times |\theta|}, \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}} \in \mathbb{R}^{d\times d}$
+
+状態感度 (state sensitivity) $\frac{\partial \mathbf{h}_t}{\partial \theta}$
+
+---
+
 ## 経時的誤差逆伝播法 (BPTT)
 
 Backpropagation through time and the brain
@@ -162,7 +185,7 @@ $$
 
 RNN
 
-入力を $\mathbf{x}_{t}$, 状態を $\mathbf{h}_t$, 出力を $\hat{\mathbf{y}}_t$ とする．活性化関数を $f, g$ とし，時定数を $\tau$，重みを $\mathbf{W}$ とする． 
+入力を $\mathbf{x}_{t}$, 状態を $\mathbf{h}_t$, 出力を $\mathbf{y}_t$ とする．活性化関数を $f, g$ とし，時定数を $\tau$，重みを $\mathbf{W}$ とする． 
 状態遷移を
 
 $$
@@ -171,7 +194,7 @@ $$
 
 出力を
 $$
-\hat{\mathbf{y}}_t = g(\mathbf{W}_{\mathrm{out}}\mathbf{h}_t)
+\mathbf{y}_t = g(\mathbf{W}_{\mathrm{out}}\mathbf{h}_t)
 $$
 
 とする．モデルを訓練するために正解 $\mathbf{y}_t$ が与えられる．
