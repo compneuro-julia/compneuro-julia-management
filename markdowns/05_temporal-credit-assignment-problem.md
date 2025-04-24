@@ -128,14 +128,14 @@ $\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ 
 $$\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \theta}
 =\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
-\;\frac{\partial \mathbf{u}_t}{\partial \theta}
+\frac{\partial \mathbf{u}_t}{\partial \theta}
 =\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
-\;\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
+\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
 \end{equation}$$  
 ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は  
 $$\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
-=\boldsymbol\delta_t^{\mathrm{out}}\;\mathbf{h}_t^\top.
+=\boldsymbol\delta_t^{\mathrm{out}}\mathbf{h}_t^\top.
 \end{equation}$$  
 このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
 
@@ -147,13 +147,7 @@ A Practical Sparse Approximation for Real Time Recurrent Learning
 A Unified Framework of Online Learning Algorithms for
 Training Recurrent Neural Networks
 
-前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
-
-入力から損失の向きに計算するか，損失から入力の向きに計算するか．
-future-facing, past-facingか．
-字義上での前向き，後ろ向きが入れ替わるのでややこしいが，未来指向，過去指向
-
-ここでは，BPTTとRTRLを統合的に理解する．
+BPTTとRTRLの学習則をより深く理解するために比較をする．
 
 $$
 \begin{align}
@@ -162,26 +156,34 @@ $$
 \end{align}
 $$
 
-BPTTとRTRLを統合的に理解したいので質問をします．まず，
+BPTTとRTRLを以下の2つの観点から見よう．
+前向き(RTRL)・後ろ向き自動微分(BPTT) に対応する．
+勾配の和を過去向き(RTRL)・未来向き(BPTT)に取る．
+
+### 前向き・後ろ向き自動微分
+
+前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
+
+入力から損失の向きに計算するか，損失から入力の向きに計算するか．
+
+### 過去向き・未来向きの勾配計算
+次に勾配の和を取る方向が過去向き (past facing)・未来向き (future facing) という話である．先ほどの自動微分における前後と過去未来を混同しないように注意してほしい．
+
+パラメータ $\theta$ への勾配は次のような2種類の二重和で書くことができる．
+時刻の範囲は$1 \leq s, t \leq T\quad (s\leq t)$ である．
 
 $$
-\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \theta_t}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial \theta}=
+\begin{dcases}
+\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{未来向き; BPTT})\\
+\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{過去向き; RTRL})
+\end{dcases}
+\end{align}
 $$
 
 損失に対する状態感度
 状態に対するパラメータ感度
-
-$$
-\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}
-$$
-
-ですか？
-
-RTRLは
-L1/w1
-L2/w1, L2/w2
-L3/w1, L3/w2, L3/w3
-...
 
 BPTTは
 
