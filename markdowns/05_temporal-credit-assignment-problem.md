@@ -144,7 +144,14 @@ $$\begin{equation}
 ## BPTTとRTRLの比較
 A Practical Sparse Approximation for Real Time Recurrent Learning
 
+A Unified Framework of Online Learning Algorithms for
+Training Recurrent Neural Networks
+
 前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
+
+入力から損失の向きに計算するか，損失から入力の向きに計算するか．
+future-facing, past-facingか．
+字義上での前向き，後ろ向きが入れ替わるのでややこしいが，未来指向，過去指向
 
 $$
 \begin{align}
@@ -152,6 +159,15 @@ $$
 \fbox{\text{RTRL}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
 \end{align}
 $$
+
+RTRLは
+L1/w1
+L2/w1, L2/w2
+L3/w1, L3/w2, L3/w3
+...
+
+BPTTは
+
 
 いずれの手法も，時系列モデルの状態更新則が  
 
