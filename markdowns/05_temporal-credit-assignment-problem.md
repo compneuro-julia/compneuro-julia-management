@@ -32,14 +32,16 @@ $$
 
 として与えられる．
 
-### 過去向き・未来向きの勾配計算
+### 過去向き・未来向きの勾配和
 このRNNにおける目標は損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \ \left(\in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}\}\right)$ を最適化することである．勾配法の観点では，パラメータの勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，パラメータの勾配は
 
 $$
-\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t}\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}\frac{\partial \theta_s}{\partial \theta}=\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}
+\begin{equation}
+\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t}\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}\underbrace{\frac{\partial \theta_s}{\partial \theta}}_{= \mathbf{I}}=\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}
+\end{equation}
 $$
 
-と計算できる．ここで時刻 $s$ におけるパラメータ $\theta$ を特に $\theta_s$ と表記した．ゆえに，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は時刻 $t$ における損失 $\mathcal{L}_t$ に対する，時刻 $s\ (s\leq t)$ でのパラメータ $\theta_s$ の勾配を意味する．なお，オンライン学習をしない限り，通常は全時刻において同じパラメータを使用する，すなわち，全ての $s$ について $\theta = \theta_s$ である．この場合，$\frac{\partial \theta_s}{\partial \theta}=\mathbf{I}$ が成立し，上式ではこれを用いた．
+ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習で毎時刻パラメータを更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
 
 なぜ，BPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれる．
 
