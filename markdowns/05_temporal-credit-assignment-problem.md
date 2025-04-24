@@ -153,12 +153,29 @@ Training Recurrent Neural Networks
 future-facing, past-facingか．
 字義上での前向き，後ろ向きが入れ替わるのでややこしいが，未来指向，過去指向
 
+ここでは，BPTTとRTRLを統合的に理解する．
+
 $$
 \begin{align}
 \fbox{\text{BPTT}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
 \fbox{\text{RTRL}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
 \end{align}
 $$
+
+BPTTとRTRLを統合的に理解したいので質問をします．まず，
+
+$$
+\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \theta_t}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}
+$$
+
+損失に対する状態感度
+状態に対するパラメータ感度
+
+$$
+\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}
+$$
+
+ですか？
 
 RTRLは
 L1/w1
