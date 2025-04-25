@@ -41,12 +41,9 @@ $$
 \end{equation}
 $$
 
-ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習で毎時刻パラメータを更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
+ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
 
-なぜ，BPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれる．
-
-パラメータ $\theta$ への勾配は次のような2種類の二重和で書くことができる．
-時刻の範囲は$1 \leq s, t \leq T\quad (s\leq t)$ である．
+なぜ，BPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれ，次のように表せる：
 
 $$
 \begin{align}
@@ -57,6 +54,10 @@ $$
 \end{dcases}
 \end{align}
 $$
+
+時刻の範囲は$1 \leq s, t \leq T\quad (s\leq t)$ である．
+未来向きはBPTT，過去向きはRTRLに対応する．
+ここで注意したいのが，動的計画法 (dynamic programming; DP) の向きとは逆であること．
 
 #### 過去向き（past-facing）勾配  
 現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して，過去のすべてのパラメータ $\theta_s\ (s\leq t)$ が与えた影響を合算するのが過去向き勾配である。すなわち  
