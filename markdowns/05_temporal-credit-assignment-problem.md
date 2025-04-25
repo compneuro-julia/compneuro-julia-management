@@ -1,17 +1,10 @@
 # 第5章：再帰型ニューラルネットワークと経時的貢献度分配問題
 本章では再帰型ニューラルネットワーク（recurrent neural networks; RNN），すなわち再帰的結合を持った発火率モデルの学習則について取り扱う．前章で扱った前方向結合のみのニューラルネットワークでは通常，入力と出力の間の遅延は考慮せず，即時的に学習することを想定する。しかしRNNや運動制御，強化学習などの動的な系では，シナプス結合，神経活動や行動の変化が，誤差や報酬という形で観測されるまでに時間的な遅れを伴う場合がある。このような状況において，「ある時点のシナプス結合，神経活動，行動等の変化が，後になって得られる誤差や報酬にどれだけ寄与したか」を明らかにし，適切に割り当てる問題を経時的貢献度分配問題（temporal credit assignment problem）と呼ぶ。時間のずれによって評価信号が遅れて到来する場合，因果の流れを遡って「いつ，どの変化が，どれほど貢献したか」を正確に見積もることが，学習の要となる。
 
-勾配法に基づいて経時的貢献度分配をする代表的な手法として，経時的誤差逆伝播法  (backpropagation through time; BPTT) と実時間再帰学習 (real-time recurrent learning; RTRL) の2種類がある．本章ではまず，BPTTとRTRLを統合的な視点から説明し，なぜ勾配法から2種類の学習則が生じるのかについて説明する．次に，BPTTとRTRLを実装に落とし込むための詳細を説明する．最後に，BPTTとRTRLを踏まえたうえで，生理学的妥当性の高い学習則について説明を行う．
-
-Backpropagation through time and the brain
-https://www.sciencedirect.com/science/article/pii/S0959438818302009
-
+勾配法に基づいて経時的貢献度分配をする代表的な手法として，経時的誤差逆伝播法  (backpropagation through time; BPTT) と実時間再帰学習 (real-time recurrent learning; RTRL) \citep{williams1989learning} の2種類がある．本章ではまず，BPTTとRTRLを統合的な視点から説明し，なぜ勾配法から2種類の学習則が生じるのかについて説明する．次に，BPTTとRTRLを実装に落とし込むための詳細を説明する．最後に，BPTTとRTRLを踏まえたうえで，生理学的妥当性の高い学習則について説明を行う．
 
 BPTT (Backpropagation through time)
 backpropagation through time (BPTT) (Rumelhart et al., 1985) in order to compare it with the learning rules presented above. The derivation here follows Lecun (1988).
-
-RTRL (Real-time recurrent learning)
-Williams RJ, Zipser D. 1989. A learning algorithm for continually running fully recurrent neural networks. Neural Computation 1:270–280. DOI: https://doi.org/10.1162/neco.1989.1.2.270
 
 ## 勾配法に基づく経時的貢献度分配：BPTTとRTRL
 A Practical Sparse Approximation for Real Time Recurrent Learning
@@ -24,15 +17,15 @@ Training Recurrent Neural Networks
 
 $$
 \begin{align}
-\mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}\\
+\mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}_h\\
 \mathbf{h}_t &= \left(1-\alpha\right)\mathbf{h}_{t-1} + \alpha f(\mathbf{u}_t)\\
 \mathbf{a}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t\\
-\mathbf{y}_t &= g(\mathbf{a}_t)
+\mathbf{y}_t &= g(\mathbf{a}_t+ \mathbf{b}_y)
 \end{align}
 $$  
 
 で与えられる。ただし，$\mathbf{W}_{\mathrm{in}} \in \mathbb{R}^{d\times n}, \mathbf{W}_{\mathrm{rec}} \in \mathbb{R}^{d\times d}, \mathbf{W}_{\mathrm{out}} \in \mathbb{R}^{m\times d}$ はシナプス結合重み，$\mathbf{b} \in \mathbb{R}^{d}$ は定常項，$f(\cdot), g(\cdot)$ は活性化関数であり，$\alpha:=\frac{1}{\tau}$ は状態の更新率（時定数 $\tau$ の逆数）である \footnote{$\alpha < 1$であるRNNは，重み共有をした残差結合 (residual/skip connection) のある順伝播モデル (ResNetなど) に展開することが可能である \citep{liao2016bridging}．}．
-また，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．時刻 $t$ での教師信号を $\mathbf{y}_t^*$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
+また，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．$\alpha = 1$ の場合はElmanネットワークと同一である \citep{elman1990finding}．時刻 $t$ での教師信号を $\mathbf{y}_t^*$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
 
 $$
 \begin{equation}
@@ -100,17 +93,9 @@ $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \theta}=
 \begin{dcases}
-\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
-\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
+\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\quad(\text{未来向き; BPTT})\\
+\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)\quad(\text{過去向き; RTRL})
 \end{dcases}
-\end{align}
-$$
-
-
-$$
-\begin{align}
-\text{BPTT:}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
-\text{RTRL:}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
 \end{align}
 $$
 
@@ -122,6 +107,9 @@ $$
 入力から損失の向きに計算するか，損失から入力の向きに計算するか．
 
 ## 経時的誤差逆伝播法 (BPTT)
+\citep{werbos1990backpropagation}
+\citep{}
+
 ここからはBPTTについて，各パラメータごとの具体的な勾配を求める．
 
 出力層の誤差信号を
@@ -189,12 +177,21 @@ $$
 以上が BPTT による重み更新の基本式である。BPの時と同様に，実装時には$\delta_{t}$ は列ベクトルとなり，バッチ処理も考慮するため，転置の有無や行列積の順序は変化する．
 
 ## 実時間リカレント学習 (RTRL)
+
+\citep{williams1989learning}
+
 RTRL では各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ に対して時刻 $t$ での状態感度行列  
-$$\begin{equation}
+
+$$
+\begin{equation}
 \mathbf{P}_t^{(\theta)} = \frac{\partial \mathbf{h}_t}{\partial \theta}
-\end{equation}$$  
+\end{equation}
+$$
+
 を逐次的に保持し，出力誤差と組み合わせて各時刻ごとに重み更新を行う。まず状態感度は以下の再帰式で更新される：  
-$$\begin{equation}
+
+$$
+\begin{equation}
 \mathbf{P}_t^{(\theta)}
 =\left(1-\alpha\right)\mathbf{P}_{t-1}^{(\theta)}
 +\alpha\mathbf{D}_f(\mathbf{a}_t)
@@ -214,24 +211,31 @@ $$
 
 とし，$\mathbf{P}_t^{(\mathbf{W}_{\mathrm{out}})}=\mathbf{0}$ とする。一方，出力層の誤差は BPTT と同様に  
 $\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
-$$\begin{equation}
+
+$$
+\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \theta}
 =\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
 \frac{\partial \mathbf{u}_t}{\partial \theta}
 =\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
 \mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
-\end{equation}$$  
+\end{equation}
+$$  
+
 ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は  
-$$\begin{equation}
+
+$$
+\begin{equation}
 \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
 =\boldsymbol\delta_t^{\mathrm{out}}\mathbf{h}_t^\top.
-\end{equation}$$  
+\end{equation}
+$$
+
 このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
 
 以上，BPTT と RTRL の学習則を同一モデルに適用した形でまとめた。どちらも同じ損失 $\mathcal{L}$ を最小化するが，BPTT は全時刻を遡ってまとめて誤差を伝播させる一方，RTRL は逐次的に感度を保持しリアルタイムで勾配を得る点が異なる。
 
-
-## 両者のトレードオフ  
+### 両者のトレードオフ  
 過去向き方式はオンライン性が強く，一度に扱うパラメータ依存を１つの損失にまとめるため，リアルタイム更新が可能であるが，その分、「過去→現在」の微分を保持する大きなテンソル（感度行列）を圧縮する工夫が必要となる。未来向き方式は「現在→未来」の影響を直接扱うため，パラメータ感度の保持は不要だが，未来の損失を参照する逆伝播がオンラインでは難しく，しばしばトランケート（打ち切り）を伴う。  
 
 
@@ -253,12 +257,9 @@ $\frac{\partial \mathbf{h}_t}{\partial \theta} \in \mathbb{R}^{d \times |\theta|
 
 状態感度 (state sensitivity) $\frac{\partial \mathbf{h}_t}{\partial \theta}$
 
-## 実時間リカレント学習 (RTRL)
 ## 適格度トレースによるRTRLの近似※
 
-
-RFRO (Random feedback local online learning)
-Check the implementation
+RFRO (random feedback local online learning) \citep{murray2019local}
 
 $$
 \frac{\partial h_{j} (t )}{\partial W_{a b}} = (1 - \alpha ) \frac{\partial h_{j} (t - 1 )}{\partial W_{a b}} + \alpha \delta_{j a} \phi^{\prime} (u_{a} (t ) ) h_{b} (t - 1 ) + \alpha \underset{k}{ \left (\sum \right ) } \phi^{\prime} (u_{j} (t ) ) W_{j k} \frac{\partial h_{k} (t - 1 )}{\partial W_{a b}} ,
