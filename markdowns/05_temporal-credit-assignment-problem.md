@@ -1,5 +1,5 @@
 # 第5章：再帰型ニューラルネットワークと経時的貢献度分配問題
-本章では再帰型ニューラルネットワーク（recurrent neural networks; RNN），すなわち再帰的結合を持った発火率モデルの学習則について取り扱う．前章で扱った前方向結合のみのニューラルネットワークでは通常，入力と出力の間の遅延は考慮せず，即時的に学習することを想定する。しかしRNNや運動制御，強化学習などの動的な系では，ある神経活動や行動の変化が，誤差や報酬という形で観測されるまでに時間的な遅れを伴う場合がある。このような状況において，「ある時点の神経活動または行動の変化が，後になって得られる誤差や報酬にどれだけ寄与したか」を明らかにし，適切に割り当てる問題を経時的貢献度分配問題（temporal credit assignment problem）と呼ぶ。時間のずれによって評価信号が遅れて到来する場合，因果の流れを遡って「いつ，どの変化が，どれほど貢献したか」を正確に見積もることが，学習の要となる。
+本章では再帰型ニューラルネットワーク（recurrent neural networks; RNN），すなわち再帰的結合を持った発火率モデルの学習則について取り扱う．前章で扱った前方向結合のみのニューラルネットワークでは通常，入力と出力の間の遅延は考慮せず，即時的に学習することを想定する。しかしRNNや運動制御，強化学習などの動的な系では，シナプス結合，神経活動や行動の変化が，誤差や報酬という形で観測されるまでに時間的な遅れを伴う場合がある。このような状況において，「ある時点のシナプス結合，神経活動，行動等の変化が，後になって得られる誤差や報酬にどれだけ寄与したか」を明らかにし，適切に割り当てる問題を経時的貢献度分配問題（temporal credit assignment problem）と呼ぶ。時間のずれによって評価信号が遅れて到来する場合，因果の流れを遡って「いつ，どの変化が，どれほど貢献したか」を正確に見積もることが，学習の要となる。
 
 勾配法に基づいて経時的貢献度分配をする代表的な手法として，経時的誤差逆伝播法  (backpropagation through time; BPTT) と実時間再帰学習 (real-time recurrent learning; RTRL) の2種類がある．本章ではまず，BPTTとRTRLを統合的な視点から説明し，なぜ勾配法から2種類の学習則が生じるのかについて説明する．次に，BPTTとRTRLを実装に落とし込むための詳細を説明する．最後に，BPTTとRTRLを踏まえたうえで，生理学的妥当性の高い学習則について説明を行う．
 
@@ -33,7 +33,7 @@ $$
 として与えられる．
 
 ### 過去向き・未来向きの勾配和
-このRNNにおける目標は損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \ \left(\in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}\}\right)$ を最適化することである．勾配法の観点では，パラメータの勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，パラメータの勾配は
+このRNNにおける目標は損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \ \left(\in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}\}\right)$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
 
 $$
 \begin{equation}
@@ -41,9 +41,9 @@ $$
 \end{equation}
 $$
 
-ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
+と時間方向に分解できる．ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
 
-なぜ，BPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれ，次のように表せる：
+ここで，なぜBPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれ，次のように表せる：
 
 $$
 \begin{align}
@@ -55,58 +55,65 @@ $$
 \end{align}
 $$
 
-時刻の範囲は$1 \leq s, t \leq T\quad (s\leq t)$ である．
-未来向きはBPTT，過去向きはRTRLに対応する．
-ここで注意したいのが，動的計画法 (dynamic programming; DP) の向きとは逆であること．
+ただし，時刻の範囲を $1 \leq s, t \leq T\quad (s\leq t)$ と明示的にした．
+現在時刻 $s$ におけるパラメータ $\theta_s$ が未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響を合算するのが未来向き勾配であり，この形は「現在のパラメータの変更が将来の損失にどれだけ寄与するか」を評価する．一方で，現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して，過去のすべてのパラメータ $\theta_s\ (s\leq t)$ が与えた影響を合算するのが過去向き勾配であり，この形は「現在の損失が過去のパラメータの適用にどれだけ依存するか」を評価する．
 
-#### 過去向き（past-facing）勾配  
-現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して，過去のすべてのパラメータ $\theta_s\ (s\leq t)$ が与えた影響を合算するのが過去向き勾配である。すなわち  
+BPTTは未来向き勾配を用い，RTRLは過去向き勾配を用いるが，いずれの場合でも二重和をそのまま計算するのは，計算量 $\mathcal{O}(T^2)$ を要するため非効率である．このため，動的計画法 (dynamic programming; DP) を使用し，計算量を $\mathcal{O}(T)$ に削減する．なお，動的計画法はある問題を部分問題に分割し、それらの解を再利用して計算量を削減するアルゴリズム設計手法である．誤差逆伝播法も動的計画法の一種であり，運動制御や強化学習等でも動的計画法は頻繁に使用される重要な考え方である．ここで注意すべきは，「勾配評価における時間軸の方向」と「動的計画法を進める方向」は逆になる点である。例えば，未来の損失や報酬を含めた評価を動的計画法で求めるときは，未来から過去の方向に漸化式を遡る。これは第11章で説明する強化学習におけるBellman方程式やTD学習においても同様である．
 
-$$
-\begin{equation}
-\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}
-\end{equation}
-$$
+動的計画法を用いるために，勾配を展開する．勾配を展開するときのルールとして，現在の状態やパラメータは過去の損失，状態，パラメータに影響しないということである．すなわち，過去の変数の，現在の変数に対する勾配は0となる．逆に，未来の変数の，現在の変数に対する勾配は意味を持つので，これと連鎖律を用いて勾配を展開する．
 
-この形は「現在の損失が過去のパラメータ適用にどれだけ依存するか」を評価するため，RTRLのように損失 $\mathcal{L}_t$ に対する状態の感度行列を逐次更新しながら勾配を得る．
-
-#### 未来向き（future-facing）勾配  
-現在時刻 $s$ におけるパラメータ $\theta_s$ が未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響を合算するのが未来向き勾配である。すなわち  
-
-$$
-\begin{equation}
-\nabla_w\mathcal{L}(s)
-=\sum_{t=s}^T\frac{\partial\mathcal{L}(t)}{\partial w(s)}
-=\frac{\partial\mathcal{L}}{\partial w(s)}\,.
-\end{equation}
-$$
-
-この形は「現在のパラメータ変更が将来の損失にどれだけ寄与するか」を評価するため，出力誤差を未来方向に逆伝播させる BPTT（Back-Propagation Through Time）が典型例である。式 (3) に対応する。  
-
-先ほどの自動微分における前後と過去未来を混同しないように注意してほしい．
-
-### BPTTとRTRL
-
-BPTTとRTRLの学習則をより深く理解するために比較をする．
+未来向きの場合，外側の総和の中身は
 
 $$
 \begin{align}
-\fbox{\text{BPTT}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
-\fbox{\text{RTRL}}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
+\frac{\partial \mathcal{L}}{\partial \theta_t}&=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\left(\sum_{s \geq t} \frac{\partial \mathcal{L}_s}{\partial \mathbf{h}_t} \right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
+&=\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} + \sum_{s \geq t+1} \frac{\partial \mathcal{L}_s}{\partial \mathbf{h}_t} \right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
+&=\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} + \sum_{s \geq t+1} \frac{\partial \mathcal{L}_s}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t} \right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
+&=\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} + \frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t} \right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}
 \end{align}
 $$
 
-BPTTとRTRLを以下の2つの観点から見よう．
-前向き(RTRL)・後ろ向き自動微分(BPTT) に対応する．
-勾配の和を過去向き(RTRL)・未来向き(BPTT)に取る．
+となり，$\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}$ を未来の勾配 $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}$ で表すことができる．次に，過去向きの場合，外側の総和の中身は
+
+$$
+\begin{align}
+\frac{\partial \mathcal{L}_t}{\partial \theta}&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\sum_{s\leq t} \frac{\partial \mathbf{h}_t}{\partial \theta_s}\right)\\
+&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \sum_{s\leq t-1} \frac{\partial \mathbf{h}_t}{\partial \theta_s}\right)\\
+&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \sum_{s\leq t-1} \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta_s}\right)\\
+&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
+\end{align}
+$$
+
+となり，$\frac{\partial \mathbf{h}_t}{\partial \theta}$ を過去の勾配 $\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}$ を用いて表すことができる．これらをまとめると以下のように表すことができる：
+
+$$
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial \theta}=
+\begin{dcases}
+\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
+\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
+\end{dcases}
+\end{align}
+$$
+
+
+$$
+\begin{align}
+\text{BPTT:}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\\
+\text{RTRL:}\quad \frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
+\end{align}
+$$
 
 ### 前向き・後ろ向き自動微分
+先ほどの自動微分における前後と過去未来を混同しないように注意してほしい．
 
 前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
 
 入力から損失の向きに計算するか，損失から入力の向きに計算するか．
 
 ## 経時的誤差逆伝播法 (BPTT)
+ここからはBPTTについて，各パラメータごとの具体的な勾配を求める．
+
 出力層の誤差信号を
 
 $$
@@ -476,6 +483,11 @@ http://frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2022.1018006
 ## 合成勾配学習
 DNI
 
+Online Learning via Synthetic Gradients
+
+Decoupled Neural Interfaces (DNI)
+Jaderberg et al. (2017)
+
 合成勾配，すなわち損失に対するパラメータの勾配を予測することと同一ではないが，
 運動において，結果が分かる前に誤差を推定することがある．
 この場合は，損失に対する状態の勾配である．
@@ -485,3 +497,19 @@ DNI
 誤差や勾配を推定することで
 
 DNI(B), DNI(lambda), 小脳・大脳連関
+
+Decoupled Neural Interfaces（DNI）とは，深層ニューラルネットワークの層間における誤差逆伝播（backpropagation）の依存関係を緩和し，各層の重み更新を部分的に「分離」して行うことで，並列化および生体適合性を高めようとする学習手法である。従来の誤差逆伝播法では，出力層から入力層に向かって誤差信号を逐次的に伝搬させる必要があり，すべての中間層は前段の勾配情報を待ってから自らのパラメータ更新を行う。この逐次依存性は計算グラフの層深が深くなるほど同期のボトルネックとなり，特に生体ニューラル回路や大規模分散システムへの実装に際して問題となる。  
+
+DNIはこの問題に対して，各中間層に「合成勾配（synthetic gradient）」と呼ばれる局所的な誤差信号を予測する小さな補助モデルを付与する。具体的には，ある層ℓの出力 $h^{(\ell)}$ を受けて，補助モデル $M^{(\ell)}$ がその後段で生じるであろう真の勾配 $\partial \mathcal{L}/\partial h^{(\ell)}$ を予測し，これを用いて層ℓの重みを即時に更新する。すなわち，真の勾配が上流から到着するのを待たず，予測された合成勾配 $\hat g^{(\ell)} = M^{(\ell)}(h^{(\ell)})$ に基づいてパラメータ $\theta^{(\ell)}$ を更新することで，学習プロセスの層間同期を解消する。  
+
+合成勾配モデル $M^{(\ell)}$ は通常小規模な多層パーセプトロンで実装され，真の勾配が利用可能になった後にその予測を教師信号として自身も学習する。すなわち，補助モデルは損失関数  
+$$
+\mathcal{L}_{\rm synth}^{(\ell)} = \bigl\|\hat g^{(\ell)} - g^{(\ell)}\bigr\|^2
+$$ 
+を最小化するように訓練される。この二重学習構造により，各メインモデルの層は独立に,—「decoupled」— 自らの補助モデルから供給される勾配情報だけで重み更新できるため，層間の待ち時間が排除され，完全な非同期分散学習が可能となる。  
+
+DNIのメリットは第一に計算効率の向上であり，層深ネットワークのスケーラビリティが改善される点である。各層は逐次的な勾配伝搬の待機を必要としないため，ハードウェアパイプラインや分散ノード間で並列に学習更新を実行できる。第二に生物的妥当性の向上が期待される。生体神経回路では長距離の逆伝播による誤差信号の伝送機構は実証されておらず，DNIは局所的予測によって学習信号を得る点で神経回路の活動様式に近い可能性を示す。  
+
+一方で合成勾配の予測誤差が大きい場合，メインモデルの学習が不安定化するリスクがあるため，補助モデルの設計や真の勾配との整合性をいかに保つかが重要となる。また，補助モデル自身の追加パラメータがオーバーヘッドとなるため，メモリおよび計算コストのトレードオフを慎重に評価する必要がある。これらの課題に対しては，合成勾配の正則化や補助モデルの軽量化手法，さらには真の勾配とのハイブリッド学習スケジュールの導入などが提案されている。  
+
+まとめると，Decoupled Neural Interfacesは誤差逆伝播の逐次的制約を局所予測によって解除し，同期なし非同期学習を可能にする枠組みであり，大規模分散学習および生物的学習メカニズムの解明に向けた有力な手法として注目されている。
