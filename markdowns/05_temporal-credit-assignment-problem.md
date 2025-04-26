@@ -76,7 +76,7 @@ $$
 \end{align}
 $$
 
-となり，$\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}$ を未来の勾配 $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}$ で表すことができる．次に，過去向きの場合，外側の総和の中身は
+となり，現在の勾配 $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}$ を未来の勾配 $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}$ で表すことができる．次に，過去向きの場合，外側の総和の中身は
 
 $$
 \begin{align}
@@ -87,14 +87,14 @@ $$
 \end{align}
 $$
 
-となり，$\frac{\partial \mathbf{h}_t}{\partial \theta}$ を過去の勾配 $\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}$ を用いて表すことができる．これらをまとめると以下のように表すことができる：
+となり，現在の勾配 $\frac{\partial \mathbf{h}_t}{\partial \theta}$ を過去の勾配 $\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}$ を用いて表すことができる．これらをまとめると以下のように表すことができる：
 
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \theta}=
 \begin{dcases}
-\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\quad(\text{未来向き; BPTT})\\
-\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)\quad(\text{過去向き; RTRL})
+\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \theta_t}=\sum_{t=1}^T\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}=\sum_{t=1}^T\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}\right)\frac{\partial \mathbf{h}_t}{\partial \theta_t}\quad(\text{未来向き; BPTT})\\
+\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}+\frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)\quad(\text{過去向き; RTRL})
 \end{dcases}
 \end{align}
 $$
@@ -341,3 +341,179 @@ DNIのメリットは第一に計算効率の向上であり，層深ネット�
 一方で合成勾配の予測誤差が大きい場合，メインモデルの学習が不安定化するリスクがあるため，補助モデルの設計や真の勾配との整合性をいかに保つかが重要となる。また，補助モデル自身の追加パラメータがオーバーヘッドとなるため，メモリおよび計算コストのトレードオフを慎重に評価する必要がある。これらの課題に対しては，合成勾配の正則化や補助モデルの軽量化手法，さらには真の勾配とのハイブリッド学習スケジュールの導入などが提案されている。  
 
 まとめると，Decoupled Neural Interfacesは誤差逆伝播の逐次的制約を局所予測によって解除し，同期なし非同期学習を可能にする枠組みであり，大規模分散学習および生物的学習メカニズムの解明に向けた有力な手法として注目されている。
+
+accumulate BP(λ) アルゴリズムは，強化学習における accumulate TD(λ) に着想を得て，RNNの出力誤差に基づく**将来の勾配（合成勾配）** を，BPTT を用いずに逐次的かつオンラインに学習する手法である。本節では，このアルゴリズムの各ステップを時間順に追い，教科書的な流れで逐次的に解説する。
+
+---
+
+### 準備：モデル構造と定義
+
+- 時刻 $t$ における RNN の隠れ状態を $h_t$，RNN パラメータを $\Psi$，損失を $L_t$ とする。
+- 合成勾配 $\hat{G}_t \approx \frac{\partial L_{>t}}{\partial h_t}$ を出力する**synthesiser** $g(h_t; \theta)$ を学習する。
+- 目的：$g(h_t; \theta)$ が正しい未来勾配を予測できるように，$\theta$ を更新する。
+
+---
+
+### ステップ 0: 初期化
+
+\[
+\Psi \leftarrow \Psi_0,\quad \theta \leftarrow \theta_0,\quad h \leftarrow 0,\quad \partial h \leftarrow 0,\quad e \leftarrow 0
+\]
+
+- $h$：RNN の現在の隠れ状態
+- $\partial h$：Jacobian（$\partial h_{t+1}/\partial h_t$）
+- $e$：synthesiser の**eligibility trace**
+
+---
+
+### ステップ 1: 新しい入力を処理
+
+\[
+h' \leftarrow f(x_t, h; \Psi),\quad L \leftarrow \mathcal{L}(h', y_t)
+\]
+
+- 入力 $x_t$ を受けて，RNN は次の状態 $h'$ と出力を生成し，損失 $L$ を計算する。
+
+---
+
+### ステップ 2: 勾配のローカル成分を計算
+
+\[
+\partial h \leftarrow \frac{\partial h'}{\partial h},\quad \frac{\partial L}{\partial h'}\quad\text{および}\quad \frac{\partial h'}{\partial \Psi}
+\]
+
+- この時点で得られるのは現在の状態 $h_t$ における**局所損失** $L_t$ の勾配のみであり，将来損失 $L_{>t}$ の勾配はまだ得られない。
+
+---
+
+### ステップ 3: 時間差誤差（TD-error）を計算
+
+\[
+\delta_t := \left(\frac{\partial L}{\partial h'} + \gamma\,g(h'; \theta)\right)^\top \frac{\partial h'}{\partial h} - g(h; \theta)
+\]
+
+- 合成勾配によって将来の勾配を推定し，**誤差 $\delta_t$** として TD 誤差に類似した量を構成する。
+- これは「現在の予測 $g(h; \theta)$」と「次の状態での推定値を反映したターゲット値」の誤差を表す。
+
+---
+
+### ステップ 4: eligibility trace を更新
+
+\[
+e \leftarrow \gamma\lambda\,\partial h\,e + \nabla_\theta g(h; \theta)
+\]
+
+- 時間方向に前向きに伝播する形で，$\theta$ に関する**パラメータごとのトレース**を更新する。
+- $\lambda$ によって短期記憶と長期記憶の加重が決まる。
+
+---
+
+### ステップ 5: パラメータ更新
+
+**Synthesiser（θ）の更新**：
+
+\[
+\theta \leftarrow \theta + \alpha\,\delta_t^\top e
+\]
+
+**RNN パラメータ（Ψ）の更新**：
+
+\[
+\Psi \leftarrow \Psi + \eta\,\left(\frac{\partial L}{\partial h'} + g(h'; \theta)\right)^\top \frac{\partial h'}{\partial \Psi}
+\]
+
+- ここでの合成勾配を含む勾配が $\Psi$ の更新にも使われるため，synthesiser が誤っていると RNN 自身も誤った方向に学習される点に注意が必要である。
+
+---
+
+### ステップ 6: 状態更新
+
+\[
+h \leftarrow h'
+\]
+
+- 状態を更新して次の時刻へ進む。
+
+---
+
+### 特徴とポイント
+
+- **λ = 0**：一歩先のブートストラップ合成勾配を使う元の手法（Jaderberg et al., 2017）に相当。
+- **λ = 1**：将来のすべての損失を反映した完全な勾配（理論的に BPTT と同等）に一致。
+- **ただし BPTT 不要**：いかなる時刻にも「過去の状態に遡る必要がなく」、**逐次的かつオンラインで**更新が可能。
+
+---
+
+このように，accumulate BP(λ) は，TD(λ) の構造と学習理論に基づいて，BPTT の近似を計算的に軽量な形で実現する枠組みである。特に生物学的実装の観点からも，後方パスを用いず，forward trace と局所勾配のみで学習を行う点において有望とされている。
+
+ステップ 2 における「ローカル勾配の計算」では，時刻 $t$ における RNN の状態遷移 $h_t \mapsto h_{t+1}$ および出力 $y_{t+1}$ に関して，以下の3つの勾配を計算する必要があります：
+
+1. $\dfrac{\partial h_{t+1}}{\partial h_t}$  
+2. $\dfrac{\partial \mathcal{L}_{t+1}}{\partial h_{t+1}}$  
+3. $\dfrac{\partial h_{t+1}}{\partial \Psi}$  
+
+以下ではそれぞれを順に展開する。
+
+---
+
+## 1. $\dfrac{\partial h_{t+1}}{\partial h_t}$：RNN状態のヤコビアン
+
+RNN の状態更新は，一般に次のような形式をとる：
+
+\[
+h_{t+1} = f(x_t, h_t; \Psi)
+\]
+
+ここで，$f$ は例えば以下のような非線形関数であることが多い（tanh RNN の場合）：
+
+\[
+h_{t+1} = \tanh(W_{in} x_t + W_{rec} h_t + b)
+\]
+
+このとき，$h_t$ による $h_{t+1}$ のヤコビアンは：
+
+\[
+\frac{\partial h_{t+1}}{\partial h_t} = \operatorname{diag}\bigl[1 - \tanh^2(a_t)\bigr] \cdot W_{rec}
+\quad \text{ただし} \quad a_t := W_{in} x_t + W_{rec} h_t + b
+\]
+
+ここで $\operatorname{diag}[v]$ はベクトル $v$ を対角成分に持つ対角行列である。
+
+---
+
+## 2. $\dfrac{\partial \mathcal{L}_{t+1}}{\partial h_{t+1}}$：ローカル損失の勾配
+
+タスクにおける出力が $y_{t+1} = W_{out} h_{t+1}$ で，目標出力が $\hat{y}_{t+1}$，損失が MSE の場合：
+
+\[
+\mathcal{L}_{t+1} = \frac{1}{2} \| \hat{y}_{t+1} - y_{t+1} \|^2
+= \frac{1}{2} \| \hat{y}_{t+1} - W_{out} h_{t+1} \|^2
+\]
+
+このとき，$h_{t+1}$ に関する損失勾配は：
+
+\[
+\frac{\partial \mathcal{L}_{t+1}}{\partial h_{t+1}} = -W_{out}^\top (\hat{y}_{t+1} - W_{out} h_{t+1})
+\]
+
+---
+
+## 3. $\dfrac{\partial h_{t+1}}{\partial \Psi}$：パラメータに対する勾配
+
+ここでは RNN パラメータ $\Psi = \{W_{in}, W_{rec}, b\}$ に対して偏微分をとる。
+
+それぞれの成分について：
+
+- $\dfrac{\partial h_{t+1}}{\partial W_{in}} = \operatorname{diag}\bigl[1 - \tanh^2(a_t)\bigr] \cdot x_t^\top$
+- $\dfrac{\partial h_{t+1}}{\partial W_{rec}} = \operatorname{diag}\bigl[1 - \tanh^2(a_t)\bigr] \cdot h_t^\top$
+- $\dfrac{\partial h_{t+1}}{\partial b} = \operatorname{diag}\bigl[1 - \tanh^2(a_t)\bigr]$
+
+これらはテンソル形式でまとめて記述されるか，各パラメータに対してベクトル形式で記録される。
+
+---
+
+## まとめ：すべての項の役割
+
+ステップ 2 は合成勾配更新に必要な各種偏微分を局所的に計算するステップであり，すべて forward pass の情報のみに基づいて，かつ $t+1$ 時点までの情報だけで完結する。
+
+したがってこのステップは完全にオンラインかつ BPTT 非依存であり，合成勾配の正確さと伝搬に必要な中間量を準備する要である。
