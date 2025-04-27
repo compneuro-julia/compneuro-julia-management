@@ -5,7 +5,7 @@
 
 ## 勾配法に基づく経時的貢献度分配：BPTTとRTRL
 ### RNNの構造と損失関数
-まず，本節で扱うRNNの定義を行う．時刻 $t$ における入力を $\mathbf{x}_t \in \mathbb{R}^{n}$，隠れ状態を $\mathbf{h}_t \in \mathbb{R}^{d}$，出力を $\mathbf{y}_t \in \mathbb{R}^{m}$ とすると，隠れ状態と出力は
+まず，本節で扱うRNNの定義を行う．時刻 $t\ (1\leq t \leq T)$\footnote{隠れ状態 $\mathbf{h}_t$ についてのみ $t=0$ を定義する．} における入力を $\mathbf{x}_t \in \mathbb{R}^{n}$，隠れ状態を $\mathbf{h}_t \in \mathbb{R}^{d}$，出力を $\mathbf{y}_t \in \mathbb{R}^{m}$ とすると，隠れ状態と出力は
 
 $$
 \begin{align}
@@ -21,42 +21,42 @@ $$
 
 $$
 \begin{equation}
-\mathcal{L} = \sum_t \mathcal{L}_t\left(\mathbf{y}_t,\mathbf{y}_t^*\right)
+\mathcal{L} = \sum_{t=1}^T \mathcal{L}_t\left(\mathbf{y}_t,\mathbf{y}_t^*\right)
 \end{equation}
 $$  
 
 として与えられる．
 
-逆方向蓄積
-
-### 未来向き・過去向きの勾配和
-このRNNにおける目標は損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \ \left(\in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}\}\right)$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
-
-$$
-\begin{equation}
-\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t}\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}\underbrace{\frac{\partial \theta_s}{\partial \theta}}_{= \mathbf{I}}=\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}
-\end{equation}
-$$
-
-と時間方向に分解できる．ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
-
-ここで，なぜBPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれ，次のように表せる \citep{marschall2020unified}：
+### 過去向き・未来向きの勾配和
+このRNNを学習させる際の目標は，損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \ \left(\in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}\}\right)$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}=
+\frac{\partial \mathcal{L}}{\partial \theta}&=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}\underbrace{\frac{\partial \theta_s}{\partial \theta}}_{= \mathbf{I}}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}
+\end{align}
+$$
+
+と時間方向に分解できる．ここで，$s, t$ はいずれも時刻を表し，$1 \leq s, t \leq T$ である．また，便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，オンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては $\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立する。さらに現在のパラメータの状態は過去の損失に影響を与えないため，$s>t$ では $\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\mathbf{0}$ となり，上式では $s\leq t$ の範囲の勾配のみが残っている．
+
+ここで，なぜBPTTとRTRLの2種類の学習法が存在するのかを考えると、$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ という二重和において、どちらの変数に対して先に和を取るかに2通りの方法があるためである。すなわち、現在時刻を $t$ または $s$ のいずれかを基準にとるかによって、内側の和を過去向き (past-facing) または未来向き (future-facing) に進めることができ、これに応じて勾配の和の取り方も区別される \citep{marschall2020unified}：
+
+$$
+\begin{align}
+\frac{\partial \mathcal{L}}{\partial \theta}=
 \begin{dcases}
-\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}\quad(\text{未来向き; BPTT})\\
-\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}\quad(\text{過去向き; RTRL})
+\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{過去向き勾配和; e.g. RTRL})\\
+\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{未来向き勾配和; e.g. BPTT})
 \end{dcases}
 \end{align}
 $$
 
-ただし，時刻の範囲を $1 \leq s, t \leq T$ と明示的にした．現在のパラメータの状態は過去の損失に影響を与えないため，$s>t$ では $\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\mathbf{0}$ となることを上式では用いた．現在時刻 $s$ におけるパラメータ $\theta_s$ が未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響を合算するのが未来向き勾配であり，この形は「現在のパラメータの変更が将来の損失にどれだけ寄与するか」を評価する．一方で，現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して，過去のすべてのパラメータ $\theta_s\ (s\leq t)$ が与えた影響を合算するのが過去向き勾配であり，この形は「現在の損失が過去のパラメータの適用にどれだけ依存するか」を評価する．
+過去向き勾配和では、「現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して、過去のすべてのパラメータ $\theta_s\ (s \leq t)$ が及ぼした影響」を合算する。すなわち、この形式では、「現在の損失が過去のパラメータの微小な変化にどれだけ応答するか」を評価することになる。一方、未来向き勾配和では、「現在時刻 $s$ におけるパラメータ $\theta_s$ が、未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響」を合算する。したがって、この形式では、「現在のパラメータの微小な変化が将来の損失にどれだけ影響を及ぼすか」を評価することになる。結論から言えば，RTRLは過去向き勾配和，BPTTは未来向き勾配和を利用する．
 
-BPTTは未来向き勾配を用い，RTRLは過去向き勾配を用いるが，いずれの場合でも二重和をそのまま計算するのは，計算量 $\mathcal{O}(T^2)$ を要するため非効率である．このため，動的計画法 (dynamic programming; DP) を使用し，計算量を $\mathcal{O}(T)$ に削減する．なお，動的計画法はある問題を部分問題に分割し、それらの解を再利用して計算量を削減するアルゴリズム設計手法である．誤差逆伝播法も動的計画法の一種であり，運動制御や強化学習等でも動的計画法は頻繁に使用される重要な考え方である．ここで注意すべきは，「勾配評価における時間軸の方向」と「動的計画法を進める方向」は逆になる点である。例えば，未来の損失や報酬を含めた評価を動的計画法で求めるときは，未来から過去の方向に遡る。このため，未来向き勾配は逆方向累積 (reverse accumulation)，過去向き勾配は順方向累積 (forward accumulation) を用いて求める \citep{cooijmans2019variance}．
+勾配和をいずれの方向で取る場合であっても、二重和をそのまま計算すれば、計算量は $\mathcal{O}(T^2)$ となり、非効率である。このため、動的計画法 (dynamic programming; DP) を用いて、計算量を $\mathcal{O}(T)$ に削減するのが一般的である。ここで，動的計画法とは、問題を部分問題に分割し、それらの部分問題の解を再利用することで、全体の計算量を削減するアルゴリズム設計手法である。誤差逆伝播法（backpropagation）も動的計画法の一種に位置づけられ、また、運動制御や強化学習など、さまざまな分野で動的計画法は頻繁に用いられている。  
 
-動的計画法を用いるために，勾配を展開する．勾配を展開するときのルールとして，現在の状態やパラメータは過去の損失，状態，パラメータに影響しないということである．すなわち，過去の変数の，現在の変数に対する勾配は0となる．逆に，未来の変数の，現在の変数に対する勾配は意味を持つので，これと連鎖律を用いて勾配を展開する．
+なお，RTRLとBPTTをある程度ご存じの読者であれば，「RTRLは未来向きで，BPTTは過去向きではないのか」という疑問が浮かぶであろう．ここで「勾配和の評価における時間軸の進行方向」と「動的計画法における計算の進行方向」は逆になることに注意していただきたい．たとえば、将来に発生する損失や報酬を考慮して損失関数を評価する場合、動的計画法を適用すると、計算は未来から過去へと逆向きに進める必要がある。このように、将来の結果をもとに現在の値を推定する構図は、強化学習のTD学習における状態価値の推定にも見られる。すなわち、状態価値を将来の累積報酬の期待値として定義した上で、その推定は未来から過去へと逆向きに進められる\footnote{TD学習を含め，強化学習は第11章で詳解する．}。
+
+以上を踏まえ，勾配和を動的計画法を用いて計算しよう．動的計画法を適用するためには、まず勾配を適切に展開し，現在の勾配を、ひとつ前（または後）の時刻における勾配との関係で再帰的に表現する必要がある。このとき留意すべき基本原則は、「現在の状態やパラメータは、過去の損失、状態、パラメータに影響を及ぼさない」という事実である。すなわち、過去の変数に対する現在の変数の勾配は常に0となる。一方で、未来の変数は現在の変数に依存するため、現在の変数が未来の損失に及ぼす影響は意味を持つ。したがって、勾配を展開する際には、未来の損失に向かう方向で連鎖律を適用していくことになる。
 
 未来向きの場合，外側の総和の中身は
 
@@ -98,6 +98,11 @@ $$
 \end{equation}
 $$
 
+このように，未来向き勾配は逆方向累積 (reverse accumulation)，過去向き勾配は順方向累積 (forward accumulation) を用いて求める \citep{cooijmans2019variance}．
+
+前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
+
+入力から損失の向きに計算するか，損失から入力の向きに計算するか．
 
 
 これらをまとめると以下のように表すことができる：
@@ -111,13 +116,6 @@ $$
 \end{dcases}
 \end{align}
 $$
-
-### 前向き・後ろ向き自動微分
-先ほどの自動微分における前後と過去未来を混同しないように注意してほしい．
-
-前向きモード自動微分 (forward-mode differentiation) がRTRLに対応し，後ろ向きモード自動微分がBPTTに対応する．
-
-入力から損失の向きに計算するか，損失から入力の向きに計算するか．
 
 ## 経時的誤差逆伝播法 (BPTT)
 経時的誤差逆伝播法  (backpropagation through time; BPTT) \citep{werbos1988generalization,werbos1990backpropagation}
