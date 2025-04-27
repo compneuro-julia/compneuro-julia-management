@@ -1,17 +1,9 @@
 # 第5章：再帰型ニューラルネットワークと経時的貢献度分配問題
 本章では再帰型ニューラルネットワーク（recurrent neural networks; RNN），すなわち再帰的結合を持った発火率モデルの学習則について取り扱う．前章で扱った前方向結合のみのニューラルネットワークでは通常，入力と出力の間の遅延は考慮せず，即時的に学習することを想定する。しかしRNNや運動制御，強化学習などの動的な系では，シナプス結合，神経活動や行動の変化が，誤差や報酬という形で観測されるまでに時間的な遅れを伴う場合がある。このような状況において，「ある時点のシナプス結合，神経活動，行動等の変化が，後になって得られる誤差や報酬にどれだけ寄与したか」を明らかにし，適切に割り当てる問題を経時的貢献度分配問題（temporal credit assignment problem）と呼ぶ。時間のずれによって評価信号が遅れて到来する場合，因果の流れを遡って「いつ，どの変化が，どれほど貢献したか」を正確に見積もることが，学習の要となる。
 
-勾配法に基づいて経時的貢献度分配をする代表的な手法として，経時的誤差逆伝播法  (backpropagation through time; BPTT) と実時間再帰学習 (real-time recurrent learning; RTRL) \citep{williams1989learning} の2種類がある．本章ではまず，BPTTとRTRLを統合的な視点から説明し，なぜ勾配法から2種類の学習則が生じるのかについて説明する．次に，BPTTとRTRLを実装に落とし込むための詳細を説明する．最後に，BPTTとRTRLを踏まえたうえで，生理学的妥当性の高い学習則について説明を行う．
-
-BPTT (Backpropagation through time)
-backpropagation through time (BPTT) (Rumelhart et al., 1985) in order to compare it with the learning rules presented above. The derivation here follows Lecun (1988).
+勾配法に基づいて経時的貢献度分配をする代表的な手法として，**経時的誤差逆伝播法**  (backpropagation through time; BPTT) と**実時間再帰学習** (real-time recurrent learning; RTRL) の2種類がある．本章ではまず，BPTTとRTRLを統合的な視点から説明し，なぜ勾配法から2種類の学習則が生じるのかについて説明する．次に，BPTTとRTRLを実装に落とし込むための詳細を説明する．最後に，BPTTとRTRLを踏まえたうえで，生理学的妥当性の高い学習則について説明を行う．
 
 ## 勾配法に基づく経時的貢献度分配：BPTTとRTRL
-A Practical Sparse Approximation for Real Time Recurrent Learning
-
-A Unified Framework of Online Learning Algorithms for
-Training Recurrent Neural Networks
-
 ### RNNの構造と損失関数
 まず，本節で扱うRNNの定義を行う．時刻 $t$ における入力を $\mathbf{x}_t \in \mathbb{R}^{n}$，隠れ状態を $\mathbf{h}_t \in \mathbb{R}^{d}$，出力を $\mathbf{y}_t \in \mathbb{R}^{m}$ とすると，隠れ状態と出力は
 
@@ -19,8 +11,8 @@ $$
 \begin{align}
 \mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}_h\\
 \mathbf{h}_t &= \left(1-\alpha\right)\mathbf{h}_{t-1} + \alpha f(\mathbf{u}_t)\\
-\mathbf{a}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t\\
-\mathbf{y}_t &= g(\mathbf{a}_t+ \mathbf{b}_y)
+\mathbf{a}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t+ \mathbf{b}_y\\
+\mathbf{y}_t &= g(\mathbf{a}_t)
 \end{align}
 $$  
 
@@ -35,7 +27,9 @@ $$
 
 として与えられる．
 
-### 過去向き・未来向きの勾配和
+逆方向蓄積
+
+### 未来向き・過去向きの勾配和
 このRNNにおける目標は損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \ \left(\in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}\}\right)$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
 
 $$
@@ -46,22 +40,21 @@ $$
 
 と時間方向に分解できる．ここで便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ （$s\leq t$）に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，たとえオンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては$\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立し，これを上式に適用している。
 
-ここで，なぜBPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれ，次のように表せる：
+ここで，なぜBPTTとRTRLの2種類の学習法があるのかといえば，$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ の二重和においてどちらの和を先に計算するかが2通りあるためである．勾配の和を取る2通りの方法は，その和の向きが過去向き (past facing) と未来向き (future facing) と呼ばれ，次のように表せる \citep{marschall2020unified}：
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \theta}=
+\frac{\partial \mathcal{L}}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}=
 \begin{dcases}
-\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{未来向き; BPTT})\\
-\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{過去向き; RTRL})
+\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}\quad(\text{未来向き; BPTT})\\
+\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}\quad(\text{過去向き; RTRL})
 \end{dcases}
 \end{align}
 $$
 
-ただし，時刻の範囲を $1 \leq s, t \leq T\quad (s\leq t)$ と明示的にした．
-現在時刻 $s$ におけるパラメータ $\theta_s$ が未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響を合算するのが未来向き勾配であり，この形は「現在のパラメータの変更が将来の損失にどれだけ寄与するか」を評価する．一方で，現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して，過去のすべてのパラメータ $\theta_s\ (s\leq t)$ が与えた影響を合算するのが過去向き勾配であり，この形は「現在の損失が過去のパラメータの適用にどれだけ依存するか」を評価する．
+ただし，時刻の範囲を $1 \leq s, t \leq T$ と明示的にした．現在のパラメータの状態は過去の損失に影響を与えないため，$s>t$ では $\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\mathbf{0}$ となることを上式では用いた．現在時刻 $s$ におけるパラメータ $\theta_s$ が未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響を合算するのが未来向き勾配であり，この形は「現在のパラメータの変更が将来の損失にどれだけ寄与するか」を評価する．一方で，現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して，過去のすべてのパラメータ $\theta_s\ (s\leq t)$ が与えた影響を合算するのが過去向き勾配であり，この形は「現在の損失が過去のパラメータの適用にどれだけ依存するか」を評価する．
 
-BPTTは未来向き勾配を用い，RTRLは過去向き勾配を用いるが，いずれの場合でも二重和をそのまま計算するのは，計算量 $\mathcal{O}(T^2)$ を要するため非効率である．このため，動的計画法 (dynamic programming; DP) を使用し，計算量を $\mathcal{O}(T)$ に削減する．なお，動的計画法はある問題を部分問題に分割し、それらの解を再利用して計算量を削減するアルゴリズム設計手法である．誤差逆伝播法も動的計画法の一種であり，運動制御や強化学習等でも動的計画法は頻繁に使用される重要な考え方である．ここで注意すべきは，「勾配評価における時間軸の方向」と「動的計画法を進める方向」は逆になる点である。例えば，未来の損失や報酬を含めた評価を動的計画法で求めるときは，未来から過去の方向に漸化式を遡る。これは第11章で説明する強化学習におけるBellman方程式やTD学習においても同様である．
+BPTTは未来向き勾配を用い，RTRLは過去向き勾配を用いるが，いずれの場合でも二重和をそのまま計算するのは，計算量 $\mathcal{O}(T^2)$ を要するため非効率である．このため，動的計画法 (dynamic programming; DP) を使用し，計算量を $\mathcal{O}(T)$ に削減する．なお，動的計画法はある問題を部分問題に分割し、それらの解を再利用して計算量を削減するアルゴリズム設計手法である．誤差逆伝播法も動的計画法の一種であり，運動制御や強化学習等でも動的計画法は頻繁に使用される重要な考え方である．ここで注意すべきは，「勾配評価における時間軸の方向」と「動的計画法を進める方向」は逆になる点である。例えば，未来の損失や報酬を含めた評価を動的計画法で求めるときは，未来から過去の方向に遡る。このため，未来向き勾配は逆方向累積 (reverse accumulation)，過去向き勾配は順方向累積 (forward accumulation) を用いて求める \citep{cooijmans2019variance}．
 
 動的計画法を用いるために，勾配を展開する．勾配を展開するときのルールとして，現在の状態やパラメータは過去の損失，状態，パラメータに影響しないということである．すなわち，過去の変数の，現在の変数に対する勾配は0となる．逆に，未来の変数の，現在の変数に対する勾配は意味を持つので，これと連鎖律を用いて勾配を展開する．
 
@@ -76,7 +69,17 @@ $$
 \end{align}
 $$
 
-となり，現在の勾配 $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}$ を未来の勾配 $\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}$ で表すことができる．次に，過去向きの場合，外側の総和の中身は
+となる．ここで貢献度分配ベクトル (credit assignment vector) を $\boldsymbol{\delta}_t := \dfrac{\partial \mathcal{L}}{\partial \mathbf{h}_t} \in \mathbb{R}^{1\times d}$，即時的貢献度分配ベクトルを $\tilde{\boldsymbol{\delta}}_t := \dfrac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \in \mathbb{R}^{1\times d}$, 状態遷移ヤコビ行列を $\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t} \in \mathbb{R}^{d\times d}$ とすると，$\boldsymbol{\delta}_t$ は次のように未来から過去に向かう再帰的な関係式で表せる：
+
+$$
+\begin{equation}
+\boldsymbol{\delta}_t=\tilde{\boldsymbol{\delta}}_t + \boldsymbol{\delta}_{t+1}\mathbf{J}_t
+\end{equation}
+$$
+
+この関係式を用いて，動的計画法に基づき $\boldsymbol{\delta}_t$ を計算する．この際，
+
+次に，過去向きの場合，外側の総和の中身は
 
 $$
 \begin{align}
@@ -87,7 +90,17 @@ $$
 \end{align}
 $$
 
-となり，現在の勾配 $\frac{\partial \mathbf{h}_t}{\partial \theta}$ を過去の勾配 $\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}$ を用いて表すことができる．これらをまとめると以下のように表すことができる：
+となる．ここで感度行列 (sensitivity matrix, influence matrix) を $\mathbf{P}_t:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とすると，$\mathbf{P}_t$ は次のように過去から未来に向かう再帰的な関係式で表せる：
+
+$$
+\begin{equation}
+\mathbf{P}_t=\tilde{\mathbf{P}}_t + \mathbf{J}_{t-1}\mathbf{P}_{t-1}
+\end{equation}
+$$
+
+
+
+これらをまとめると以下のように表すことができる：
 
 $$
 \begin{align}
@@ -107,8 +120,9 @@ $$
 入力から損失の向きに計算するか，損失から入力の向きに計算するか．
 
 ## 経時的誤差逆伝播法 (BPTT)
-\citep{werbos1990backpropagation}
-\citep{}
+経時的誤差逆伝播法  (backpropagation through time; BPTT) \citep{werbos1988generalization,werbos1990backpropagation}
+
+RNNにおける時間を空間的に展開して誤差逆伝播法を適応するのと同じである．
 
 ここからはBPTTについて，各パラメータごとの具体的な勾配を求める．
 
@@ -176,9 +190,8 @@ $$
 
 以上が BPTT による重み更新の基本式である。BPの時と同様に，実装時には$\delta_{t}$ は列ベクトルとなり，バッチ処理も考慮するため，転置の有無や行列積の順序は変化する．
 
-## 実時間リカレント学習 (RTRL)
-
-\citep{williams1989learning}
+## 実時間再帰学習 (RTRL)
+実時間再帰学習 (real-time recurrent learning; RTRL) \citep{williams1989learning}
 
 RTRL では各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ に対して時刻 $t$ での状態感度行列  
 
@@ -256,6 +269,9 @@ $$
 $\frac{\partial \mathbf{h}_t}{\partial \theta} \in \mathbb{R}^{d \times |\theta|}, \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}} \in \mathbb{R}^{d\times d}$
 
 状態感度 (state sensitivity) $\frac{\partial \mathbf{h}_t}{\partial \theta}$
+
+脳は過去の状態を全て保存して逆向きに再生することは困難である．
+再活性化などで可能となっている部分もあるが，全ての状態を保存しておくのは難しい．
 
 ## 適格度トレースによるRTRLの近似※
 
