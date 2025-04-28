@@ -119,9 +119,37 @@ $$
 ## 実時間再帰学習 (RTRL)
 まず，過去方向勾配和を利用する，**実時間再帰学習** (real-time recurrent learning; RTRL) \citep{williams1989learning} を用いて，各パラメータの勾配を計算する．
 
-各パラメータ $\theta\in\{\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{in}},\mathbf{b}\}$ 
+各パラメータ $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}_h, \mathbf{b}_y\}$
+まず，前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_y$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\ (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_y\})$ である．よって感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_h\}$ において考える．即時的感度行列を具体的に書き下すと，次のようになる：
 
-前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$，状態遷移のヤコビ行列を $\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}} \in \mathbb{R}^{d\times d}$ とする．
+$$
+\begin{equation}
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t)) \mathbf{x}_t^\top, \quad 
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t)) \mathbf{h}_{t-1}^\top, \quad
+\tilde{\mathbf{P}}_t^{(\mathbf{b}_h)} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))
+\end{equation}
+$$
+
+となる．ここで各パラメータの入力感度 $\mathbf{Q}_t^{(\theta)}$ を
+
+$$
+\begin{equation}
+\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{in}})}:=\mathbf{x}_t^\top,\quad
+\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{rec}})}:=\mathbf{h}_{t-1}^\top,\quad
+\mathbf{Q}_t^{(\mathbf{b}_h)}:=\mathbf{I}
+\end{equation}
+$$  
+
+とおくと，$\tilde{\mathbf{P}}_t^{(\theta)}=\alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\mathbf{Q}_t^{(\theta)}$ と表せる．次に，状態遷移のヤコビ行列は
+
+$$
+\begin{equation}
+\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}}=(1-\alpha)\cdot \mathbf{I} + \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\mathbf{W}_{\mathrm{rec}}
+\end{equation}
+$$ 
+
+であるので，（分子レイアウトで書き直す）
+https://en.wikipedia.org/wiki/Matrix_calculus
 
 $$
 \begin{align}
@@ -129,6 +157,8 @@ $$
 &=
 \end{align}
 $$
+
+と求められる．
 
 ただし，境界条件として $\mathbf{P}_{0}=\mathbf{0}$ とする。この式を用いて，$\mathbf{P}_t$ を逐次的に求め，$\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}$ を即時的に計算して $\mathbf{P}_t$ に乗じれば，$\frac{\partial \mathcal{L}_t}{\partial \theta}$ が求まる．
 
@@ -143,15 +173,7 @@ $$
 \end{equation}
 $$  
 
-ここでパラメータ依存の入力感度 $\mathbf{Q}_t^{(\theta)}$ は  
 
-$$
-\begin{equation}
-\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{rec}})}=\mathbf{h}_{t-1},\quad
-\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{in}})}=\mathbf{x}_t,\quad
-\mathbf{Q}_t^{(\mathbf{b})}=\mathbf{1}
-\end{equation}
-$$  
 
 とし，$\mathbf{P}_t^{(\mathbf{W}_{\mathrm{out}})}=\mathbf{0}$ とする。一方，出力層の誤差は BPTT と同様に  
 $\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
