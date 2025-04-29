@@ -572,3 +572,6 @@ h_{t+1} = \tanh(W_{in} x_t + W_{rec} h_t + b)
 ステップ 2 は合成勾配更新に必要な各種偏微分を局所的に計算するステップであり，すべて forward pass の情報のみに基づいて，かつ $t+1$ 時点までの情報だけで完結する。
 
 したがってこのステップは完全にオンラインかつ BPTT 非依存であり，合成勾配の正確さと伝搬に必要な中間量を準備する要である。
+
+## 摂動を用いた学習則
+https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2024.1439155/full
