@@ -140,6 +140,22 @@ https://docs.julialang.org/en/v1/manual/noteworthy-differences/
 
 **線形代数 (Linear Algebra)** は、ベクトルや行列といった線形構造を持つ対象の性質を解析する数学の分野であり、現代のあらゆる数学・工学・情報科学の基礎をなしている。線形代数の中心的な対象は、**ベクトル空間**、**線形写像**、およびそれらの表現である**行列**である。
 
+
+matrix cookbookに詳しいが，
+https://arxiv.org/abs/2501.14787
+Introduction to Applied Linear Algebra – Vectors, Matrices, and Least Squares
+スタンフォード　ベクトル・行列からはじめる最適化数学
+
+@book{Piaget1936,
+  author = {Jean Piaget},
+  title = {La naissance de l'intelligence chez l'enfant},
+  year = {1936},
+  publisher = {Delachaux et Niestlé},
+  note = {田中寛一訳『児童の知能の誕生』, 岩波書店, 1970年}
+}
+
+訳本はnoteに記載．
+
 まず、**ベクトル空間 (vector space)** とは、スカラー体（通常は実数$\mathbb{R}$または複素数$\mathbb{C}$）に対して定義された加法とスカラー倍という2つの演算に関して閉じている集合である。たとえば$\mathbb{R}^n$は、$n$個の実数からなるベクトル全体の集合であり、典型的なベクトル空間の例である。任意のベクトル$\mathbf{v}, \mathbf{w} \in \mathbb{R}^n$とスカラー$\alpha \in \mathbb{R}$に対して、
 
 $$
@@ -200,7 +216,99 @@ $$
 
 を満たすとき、$\lambda$は$A$の**固有値 (eigenvalue)**、$\mathbf{v}$は**固有ベクトル (eigenvector)** と呼ばれる。固有値分解や対角化は、線形変換の構造解析や行列の関数（例：指数関数）を考える際に中心的な役割を果たす。
 
-matrix cookbookに詳しいが，
+
+#### 外積・内積
+まず、次のような行列とベクトルを考えます。
+$$
+\begin{equation}
+M = 
+\begin{pmatrix}
+1 & 2 \\
+3 & 4
+\end{pmatrix}
+\in \mathbb{R}^{2\times 2},\quad \mathbf{v} = 
+\begin{pmatrix}
+5 \\ 6
+\end{pmatrix}
+\in \mathbb{R}^{2}
+\end{equation}$$
+
+これらの**テンソル積**（外積）$M \otimes \mathbf{v}$ を取る．
+
+各成分について、単にすべてのペアを作り、**行列の成分 × ベクトルの成分**を計算して、新たな配列を作る。  
+添え字を明示すると、
+$$
+\begin{equation}
+(M\otimes \mathbf{v})_{ijk} = M_{ij}\, v_k
+\end{equation}
+$$
+のように、行列$M_{ij}$（行$i$、列$j$）と、ベクトル$v_k$（要素$k$）をかけたものを並べる。よって $M\otimes \mathbf{v}$ は次のような形状は $(2,2,2)$ の**3階テンソル**になります。
+
+$$\begin{equation}
+M \otimes \mathbf{v} =
+\begin{pmatrix}
+\begin{pmatrix}
+5 & 6 \\
+10 & 12
+\end{pmatrix}
+\\
+\begin{pmatrix}
+15 & 18 \\
+20 & 24
+\end{pmatrix}
+\end{pmatrix}
+\end{equation}$$
+
+直感的にいうと行列のそれぞれの成分をコピーし、ベクトルの各成分でスケールして、奥行き方向（新しい次元）に並べる．
+
+#### テンソル縮約（Contraction）とアインシュタイン縮約記法（Einsum）
+
+テンソルとは、多次元配列の一般化された概念である。一次元配列であるベクトルや二次元配列である行列を含むより高次の対象を統一的に扱う枠組みであり、階数（rank）と呼ばれる次元数によって分類される。階数が1のテンソルはベクトル、階数が2のテンソルは行列に対応し、それ以上の階数を持つものを一般に高次元テンソルと呼ぶ。テンソルは、座標変換に対して一定の変換則に従う数学的対象としても定義されるが、ここでは具体的な数値配列としての側面に焦点を当てる。
+
+テンソルの縮約とは、多次元配列（テンソル）の特定の軸同士について和を取る操作を指す。これは線形代数における内積や行列積を高次元に拡張した概念であり、縮約によって元のテンソルの階数は減少し、より低次元のテンソルが得られる。縮約演算は、テンソルの特定の軸にわたる要素同士を対応させ、それらの積にわたる総和を計算することで実現される。
+
+最も基本的な例として行列積が挙げられる。たとえば、行列 $A \in \mathbb{R}^{n \times m}$ と $B \in \mathbb{R}^{m \times p}$ の積 $C = AB \in \mathbb{R}^{n \times p}$ は、$A$ の第2軸と $B$ の第1軸を縮約することで得られる。このとき、各成分は
+
+$$
+\begin{equation}
+C_{ik} = \sum_{j=1}^m A_{ij} B_{jk}
+\end{equation}
+$$
+
+により与えられる。この縮約操作により、縮約された軸（ここでは $m$）は計算後に消失し、残された軸に対応する新たなテンソルが得られる。
+
+テンソル縮約をより簡潔かつ体系的に記述する方法として、アインシュタイン縮約記法（Einstein summation convention）が存在する。アインシュタイン記法では、縮約される添え字を明示的に総和記号で表すことなく、単に同じ添え字が現れた場合にはその添え字について暗黙に総和を取る規則を採用する。これにより、数式表記が大幅に簡潔化される。
+
+たとえば、行列積はアインシュタイン記法を用いると
+$$
+\begin{equation}
+C_{ik} = A_{ij} B_{jk}
+\end{equation}
+$$
+
+と書かれる。この表式では、添え字 $j$ が2回出現しているため、この添え字について縮約（すなわち総和を取る）が暗黙に行われるものと解釈される。
+
+アインシュタイン縮約記法において、添え字には**ダミーインデックス**（dummy index）と **フリーインデックス**（free index）の2種類がある。ひとつはである。ダミーインデックスとは、式中に2回出現し、その添え字について縮約（総和）が行われるものを指す。たとえば先の例では添え字 $j$ がダミーインデックスである。一方、フリーインデックスとは、式中に1回しか現れず、縮約されずに最終的な結果の軸（次元）として残る添え字を指す。この例では $i$ と $k$ がフリーインデックスであり、結果のテンソル $C$ はフリーインデックス $(i,k)$ によってパラメータ付けされる。
+
+ダミーインデックスは縮約により消失し、最終的なテンソルの構造に寄与しないが、フリーインデックスは結果のテンソルの階数や形状を決定するため、慎重に取り扱う必要がある。アインシュタイン記法においては、同じダミーインデックスを複数の場所で用いることはできず、また、フリーインデックスは各項で一貫して同じ意味を持たなければならない。この規則を守ることで、式の整合性と意味の明確性が保証される。
+
+テンソル縮約は、二次元の行列同士の積に限らず、より高次元のテンソル間にも自然に拡張される。たとえば、テンソル $A \in \mathbb{R}^{n \times m \times p}$ と $B \in \mathbb{R}^{p \times m \times q}$ に対して、軸 $p$ と $m$ を縮約し、残る軸 $n$ と $q$ に対応するテンソル $C \in \mathbb{R}^{n \times q}$ を得ることができる。このときアインシュタイン記法では、
+
+$$
+\begin{equation}
+C_{nq} = A_{imp} B_{pmq}
+\end{equation}
+$$
+
+と表される。この表式では添え字 $m$ および $p$ がそれぞれ2回ずつ現れているため、それらについて縮約が行われ、フリーインデックス $n$ と $q$ に対応する次元が保持されることになる。
+
+高次元テンソルの演算では、複数の軸の縮約を同時に行ったり、縮約と同時に軸の入れ替え（転置）や結合（reshape）を伴うことも一般的である。こうした複雑な操作もアインシュタイン記法を用いれば一貫した枠組みの中で簡潔に記述できる。特に、縮約する添え字と残す添え字を明確に区別することにより、結果となるテンソルの構造を容易に予測することができる。
+
+アインシュタイン記法に基づいた計算は、プログラミングにおいても広く利用されている。特に、PythonのNumPyやJuliaなどの数値計算ライブラリでは、
+
+TensorOperations.jl
+Einsum.jl
+
 
 #### ベクトル・行列の微分
 本書ではベクトルおよび行列の微分を多用する．これは成分ごとに記載するよりも，ベクトル・行列演算をコードに変換しやすいという実装上の利点があるためである．初めに注意したいこととして，ベクトル・行列の微分の記法には分子レイアウト記法 (numerator-layout notation) と分母レイアウト記法 (denominator-layout notation) の2種類が存在する．これらは，ベクトル関数やスカラー関数に対する微分の定義の仕方に違いがあり，特に勾配ベクトルの形（行ベクトルか列ベクトルか）や連鎖律の表記に影響を及ぼす．いずれが使用されているかは文献ごとにバラバラであり，中には両方の記法を採用している文献も存在する．本書では，本書では**分子レイアウト記法**を統一的に使用する．記法の例を記述するため，スカラー $x, y \in \mathbb{R}$, ベクトル $\mathbf{x}=[x_i] \in \mathbb{R}^n, \mathbf{y}=[y_j] \in \mathbb{R}^m$, 行列 $\mathbf{A}=[a_{ij}] \in \mathbb{R}^{p \times q}$ を使用する．分子（従属変数）と分母（独立変数）の組み合わせから，次の6通りの微分が定義される．
@@ -264,7 +372,7 @@ $$
 \end{align}
 $$
 
-である．ここで $\nabla_\mathbf{x} y(\mathbf{x}):=\left(\frac{\partial y}{\partial \mathbf{x}}\right)^\top$ は $y$ に対する $\mathbf{x}$ の勾配 (gradient) と呼ばれる．また，$\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$ は $\mathbf{y}$ に対する $\mathbf{x}$ のJacobian行列と呼ばれる．最後に，行列で偏微分する場合，
+である．ここで $\nabla_\mathbf{x} y(\mathbf{x}):=\left(\frac{\partial y}{\partial \mathbf{x}}\right)^\top\in \mathbb{R}^{n}$ は $y$ の $\mathbf{x}$ に対する勾配 (gradient) と呼ばれ，分子レイアウト記法において，勾配は導関数（derivative）の転置として表される\footnote{$\nabla$ はナブラ (nabla) と呼ばれる演算子であり，Juliaでも`\nabla TAB` として入力可能である．}．すなわち、要素は同じだが，勾配は列ベクトル，導関数は行ベクトルになる。しかしながら、機械学習でのパラメータ更新では、転置の有無にかかわらず「勾配」という語が広く使われている。そこで本書では、転置前の導関数 $\frac{\partial y}{\partial \mathbf{x}}$ に対しても便宜的に「勾配」と呼ぶこととする。また，$\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$ は $\mathbf{y}$ に対する $\mathbf{x}$ のJacobian行列と呼ばれる．最後に，行列で偏微分する場合，
 
 $$
 \begin{align}
@@ -279,14 +387,26 @@ $$
 \end{align}
 $$
 
-である．これは $\nabla_\mathbf{A} y(\mathbf{A}):= (\frac{\partial y}{\partial \mathbf{A}})^\top$ とも表記する．
+である．これも $\nabla_\mathbf{A} y(\mathbf{A}):= \left(\frac{\partial y}{\partial \mathbf{A}}\right)^\top$ とも表記でき，$y$ の $\mathbf{A}$ に対する勾配と呼ぶ．
+
+微分係数 $f'$
+
+| 微分対象 | 微分元 | 添え字 | 結果の次元 |
+|:---|:---|:---|:---|
+| $\frac{\partial y}{\partial x^j}$ | スカラー／ベクトル | $j$ | $1\times n$ |
+| $\frac{\partial y}{\partial X^{ij}}$ | スカラー／行列 | $i,j$ | $m\times n$ |
+| $\frac{\partial y^i}{\partial x^j}$ | ベクトル／ベクトル | $i,j$ | $m\times n$ |
+| $\frac{\partial y^i}{\partial X^{pq}}$ | ベクトル／行列 | $i,p,q$ | $m\times m\times n$ |
+| $\frac{\partial Y^{ij}}{\partial x^k}$ | 行列／ベクトル | $i,j,k$ | $m\times n\times n$ |
+| $\frac{\partial Y^{ij}}{\partial X^{pq}}$ | 行列／行列 | $i,j,p,q$ | $m\times n\times m\times n$ |
+
 
 ### 微分方程式
 微分方程式はある関数とそれを微分した導関数の関係式であり，関数の特定の変数に対する変化を記述することができる．まず，1階線形微分方程式を例として見てみよう．
 
 $$
 \begin{equation}
-\frac{dx(t)}{dt}=a_c x(t)+b_c u(t)
+\frac{\mathrm{d}x(t)}{\mathrm{d}t}=a_c x(t)+b_c u(t)
 \end{equation}
 $$
 
@@ -299,7 +419,7 @@ $$
 
 $$
 \begin{equation}
-x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) d\tau
+x(t)=e^{a_c t}x(0)+\int_0^t e^{a_c (t-\tau)}b_c u(\tau) \,\mathrm{d}\tau
 \end{equation}
 $$
 
@@ -314,7 +434,7 @@ $n$個の微分方程式
 
 $$
 \begin{equation}
-\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
+\frac{d\mathbf{x}(t)}{\mathrm{d}t} = \mathbf{A}_c\mathbf{x}(t) + \mathbf{B}_c\mathbf{u}(t)
 \end{equation}
 $$
 
@@ -322,7 +442,7 @@ $$
 
 $$
 \begin{equation}
-\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) d\tau
+\mathbf{x}(t)=e^{t\mathbf{A}_c}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}_c}\mathbf{B}_c\mathbf{u}(\tau) \,\mathrm{d}\tau
 \end{equation}
 $$
 
@@ -333,17 +453,17 @@ Laplace変換は、実時間領域$t \ge 0$上で定義された関数$f(t)$に�
 
 $$
 \begin{equation}
-F(s) \coloneqq \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} dt
+F(s) \coloneqq \mathscr{L}(f(t)) = \int_0^{\infty} f(t)\, e^{-st} \mathrm{d}t
 \end{equation}
 $$
 
 ここで$s \in \mathbb{C}$は複素数変数であり、通常は$s = \sigma + i\omega$の形をとる。変換核$e^{-st}$を掛けて積分することにより、関数$f(t)$の無限大での振る舞いを抑制し、積分を収束させる効果を持つ。特に、$f(t)$が指数関数的増加を含む場合でも、$e^{-st}$による減衰によってその成分を抑えることが可能となる。
 
-Laplace変換の大きな利点の一つは、**微分演算を代数演算に変換できる**という性質にある。すなわち、$f(t)$の微分$\frac{d}{dt}f(t)$に対するLaplace変換は、次のように与えられる：
+Laplace変換の大きな利点の一つは、**微分演算を代数演算に変換できる**という性質にある。すなわち、$f(t)$の微分$\frac{d}{\mathrm{d}t}f(t)$に対するLaplace変換は、次のように与えられる：
 
 $$
 \begin{equation}
-\mathscr{L}\left(\frac{df}{dt}\right) = sF(s) - f(0)
+\mathscr{L}\left(\frac{df}{\mathrm{d}t}\right) = sF(s) - f(0)
 \end{equation}
 $$
 
@@ -372,7 +492,7 @@ $$
 
 $$
 \begin{equation}
-\frac{d\mathbf{x}(t)}{dt} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
+\frac{d\mathbf{x}(t)}{\mathrm{d}t} = \mathbf{A}\mathbf{x}(t) + \mathbf{B}\mathbf{u}(t)
 \end{equation}
 $$
 
@@ -409,17 +529,17 @@ $$
 \begin{align}
 \boldsymbol{X}(s) &= (s\mathbf{I} - \mathbf{A})^{-1}(\mathbf{x}(0) + \mathbf{B}\boldsymbol{U}(s))\\
 &= (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{x}(0) + (s\mathbf{I} - \mathbf{A})^{-1}\mathbf{B}\boldsymbol{U}(s)\\
-\mathbf{x}(t)&=e^{t\mathbf{A}}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau
+\mathbf{x}(t)&=e^{t\mathbf{A}}\mathbf{x}(0)+\int_0^t e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) \,\mathrm{d}\tau
 \end{align}
 $$
 
-となる．最後の式は両辺を逆Laplace変換した．ここで，$\mathscr{L}^{-1}(F(s)G(s))=\int_0^tf(\tau)g(t-\tau)d\tau$であることを用いた．区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
+となる．最後の式は両辺を逆Laplace変換した．ここで，$\mathscr{L}^{-1}(F(s)G(s))=\int_0^tf(\tau)g(t-\tau)\,\mathrm{d}\tau$であることを用いた．区間$[t, t+\Delta t]$において入力$\mathbf{u}(t)$が一定であると仮定すると，
 
 $$
 \begin{align}
-\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
-&=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) d\tau\\
-&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
+\mathbf{x}(t+\Delta t)&=e^{(t+\Delta t)\mathbf{A}}\mathbf{x}(0)+\int_0^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) \,\mathrm{d}\tau\\
+&=e^{\Delta t\mathbf{A}}e^{t\mathbf{A}}\mathbf{x}(0)+e^{\Delta t\mathbf{A}}\int_0^{t} e^{(t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) \,\mathrm{d}\tau + \int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}}\mathbf{B}\mathbf{u}(\tau) \,\mathrm{d}\tau\\
+&\approx \underbrace{e^{\Delta t\mathbf{A}}}_{=: \mathbf{A}_d}\mathbf{x}(t)+\underbrace{\left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} \,\mathrm{d}\tau\right] \mathbf{B}}_{=: \mathbf{B}_d}\mathbf{u}(t)\\
 &=\mathbf{A}_d\mathbf{x}(t)+\mathbf{B}_d\mathbf{u}(t)\\
 \end{align}
 $$
@@ -428,7 +548,7 @@ $$
 
 $$
 \begin{align}
-\mathbf{B}_d &= \left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} d\tau\right] \mathbf{B}\\
+\mathbf{B}_d &= \left[\int_t^{t+\Delta t} e^{(t+\Delta t-\tau)\mathbf{A}} \,\mathrm{d}\tau\right] \mathbf{B}\\
 &=\mathbf{A}^{-1}\left[e^{\Delta t \mathbf{A}}-\mathbf{I}\right]\mathbf{B}
 \end{align}
 $$
@@ -460,7 +580,7 @@ $$
 
 $$
 \begin{equation}
-\mathbb{P}(a \leq x \leq b) = \int_a^b p(x)\,dx
+\mathbb{P}(a \leq x \leq b) = \int_a^b p(x)\,\mathrm{d}x
 \end{equation}
 $$
 
@@ -468,7 +588,7 @@ $$
 
 $$
 \begin{equation}
-\int p(x)\,dx = 1
+\int p(x)\,\mathrm{d}x = 1
 \end{equation}
 $$
 
@@ -501,7 +621,7 @@ $$
 
 $$
 \begin{equation}
-\mathbb{E}_{x\sim p(x)}\left[f(x)\right] \coloneqq \int f(x)p(x)\,dx
+\mathbb{E}_{x\sim p(x)}\left[f(x)\right] \coloneqq \int f(x)p(x)\,\mathrm{d}x
 \end{equation}
 $$
 
@@ -519,7 +639,7 @@ $$
 
 $$
 \begin{equation}
-\mathbb{H}(x) \coloneqq \mathbb{E}[-\ln p(x)] = -\int p(x) \ln p(x)\,dx
+\mathbb{H}(x) \coloneqq \mathbb{E}[-\ln p(x)] = -\int p(x) \ln p(x)\,\mathrm{d}x
 \end{equation}
 $$
 
@@ -537,8 +657,8 @@ $$
 
 $$
 \begin{align}
-D_{\text{KL}}(p(x)\Vert q(x)) &\coloneqq \int p(x) \ln \frac{p(x)}{q(x)} dx \\
-&= \int p(x) \ln p(x)\,dx - \int p(x) \ln q(x)\,dx \\
+D_{\text{KL}}(p(x)\Vert q(x)) &\coloneqq \int p(x) \ln \frac{p(x)}{q(x)} \mathrm{d}x \\
+&= \int p(x) \ln p(x)\,\mathrm{d}x - \int p(x) \ln q(x)\,\mathrm{d}x \\
 &= \mathbb{E}_{x\sim p(x)}[\ln p(x)] - \mathbb{E}_{x\sim p(x)}[\ln q(x)] \\
 &= -\mathbb{H}(x) - \mathbb{E}_{x\sim p(x)}[\ln q(x)]
 \end{align}
@@ -564,7 +684,7 @@ $$
 
 $$
 \begin{equation}
-\mathbb{I}(x;y) = \int p(x,y) \ln \frac{p(x,y)}{p(x)p(y)} dxdy
+\mathbb{I}(x;y) = \int p(x,y) \ln \frac{p(x,y)}{p(x)p(y)} \mathrm{d}xdy
 \end{equation}
 $$
 
@@ -607,7 +727,7 @@ Wiener過程$\{W_t\}_{t \ge 0}$は、以下の性質を満たす確率過程で�
 
 $$
 \begin{equation}
-dX(t) = f(X(t), t)\,dt + g(X(t), t)\,dW(t)
+\mathrm{d}x(t) = f(X(t), t)\,\mathrm{d}t + g(X(t), t)\,dW(t)
 \end{equation}
 $$
 
@@ -631,7 +751,7 @@ $$
 
 $$
 \begin{equation}
-\tau_m \frac{dV_m(t)}{dt} = -(V_m(t) - V_\text{rest}) + R_m I(t) + \xi(t)
+\tau_m \frac{dV_m(t)}{\mathrm{d}t} = -(V_m(t) - V_\text{rest}) + R_m I(t) + \xi(t)
 \end{equation}
 $$
 
@@ -643,7 +763,7 @@ $$
 
 $$
 \begin{equation}
-\tau_m \frac{dV_m(t)}{dt} = \xi(t)
+\tau_m \frac{dV_m(t)}{\mathrm{d}t} = \xi(t)
 \end{equation}
 $$
 

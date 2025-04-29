@@ -119,13 +119,12 @@ $$
 ## 実時間再帰学習 (RTRL)
 まず，過去方向勾配和を利用する，**実時間再帰学習** (real-time recurrent learning; RTRL) \citep{williams1989learning} を用いて，各パラメータの勾配を計算する．
 
-各パラメータ $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}_h, \mathbf{b}_y\}$
-まず，前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_y$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\ (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_y\})$ である．よって感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_h\}$ において考える．即時的感度行列を具体的に書き下すと，次のようになる：
+まず，前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_y$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\ (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_y\})$ である．よって（即時的）感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_h\}$ において考える．即時的感度行列を具体的に書き下すと，次のようになる：
 
 $$
 \begin{equation}
-\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t)) \mathbf{x}_t^\top, \quad 
-\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t)) \mathbf{h}_{t-1}^\top, \quad
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\otimes \mathbf{x}_t, \quad 
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\otimes \mathbf{h}_{t-1}, \quad
 \tilde{\mathbf{P}}_t^{(\mathbf{b}_h)} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))
 \end{equation}
 $$
@@ -311,7 +310,12 @@ https://www.biorxiv.org/content/10.1101/2023.02.19.529130v4
 RFRO (random feedback local online learning) \citep{murray2019local}
 
 $$
-\frac{\partial h_{j} (t )}{\partial W_{a b}} = (1 - \alpha ) \frac{\partial h_{j} (t - 1 )}{\partial W_{a b}} + \alpha \delta_{j a} \phi^{\prime} (u_{a} (t ) ) h_{b} (t - 1 ) + \alpha \underset{k}{ \left (\sum \right ) } \phi^{\prime} (u_{j} (t ) ) W_{j k} \frac{\partial h_{k} (t - 1 )}{\partial W_{a b}} ,
+\frac{\partial h_{j}(t)}{\partial W_{a b}} = (1 - \alpha) \frac{\partial h_{j} (t - 1 )}{\partial W_{a b}} + \alpha \delta_{j a} \phi^{\prime} (u_{a} (t ) ) h_{b} (t - 1 ) + \alpha \underset{k}{ \left (\sum \right ) } \phi^{\prime} (u_{j} (t ) ) W_{j k} \frac{\partial h_{k} (t - 1 )}{\partial W_{a b}}
+$$
+
+
+$$
+\frac{\partial h_{j} (t )}{\partial W_{a b}} = (1 - \alpha ) \frac{\partial h_{j} (t - 1 )}{\partial W_{a b}} + \alpha \delta_{j a} \phi^{\prime} (u_{a} (t ) ) h_{b} (t - 1 ) + \alpha \underset{k}{ \left (\sum \right ) } \phi^{\prime} (u_{j} (t ) ) W_{j k} \frac{\partial h_{k} (t - 1 )}{\partial W_{a b}}
 $$
 
 Output error

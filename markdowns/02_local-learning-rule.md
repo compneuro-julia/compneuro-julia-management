@@ -108,11 +108,11 @@ $$
 
 $$
 \begin{equation}
-\tau \frac{d\mathbf{y}(t)}{dt} = -\mathbf{y}(t) + f(\mathbf{W} \mathbf{x}(t) + \mathbf{M} \mathbf{y}(t)+\mathbf{b})
+\tau \frac{\mathrm{d}\mathbf{y}(t)}{\mathrm{d}t} = -\mathbf{y}(t) + f(\mathbf{W} \mathbf{x}(t) + \mathbf{M} \mathbf{y}(t)+\mathbf{b})
 \end{equation}
 $$
 
-ここで，$\tau$ は時定数であり，神経細胞の応答の時間スケールを決定するパラメータである．このモデルにおいて第一項の $-\mathbf{y}(t)$ は，入力が存在しない場合に神経活動が自然に減衰する性質を記述している．また $\mathbf{x}(t)$ が一定であり，$\frac{d\mathbf{y}(t)}{dt}=0$ を満たす **平衡点** (equilibrium point, fixed point) $\mathbf{y}^*$ が存在するとき，平衡点は離散時間モデルの更新式と同様の形式 $\mathbf{y}^* = f(\mathbf{W}\mathbf{x} + \mathbf{M} \mathbf{y}^* + \mathbf{b})$ を満たす．
+ここで，$\tau$ は時定数であり，神経細胞の応答の時間スケールを決定するパラメータである．このモデルにおいて第一項の $-\mathbf{y}(t)$ は，入力が存在しない場合に神経活動が自然に減衰する性質を記述している．また $\mathbf{x}(t)$ が一定であり，$\frac{\mathrm{d}\mathbf{y}(t)}{\mathrm{d}t}=0$ を満たす **平衡点** (equilibrium point, fixed point) $\mathbf{y}^*$ が存在するとき，平衡点は離散時間モデルの更新式と同様の形式 $\mathbf{y}^* = f(\mathbf{W}\mathbf{x} + \mathbf{M} \mathbf{y}^* + \mathbf{b})$ を満たす．
 
 コンピュータ上でシミュレーションする上では連続時間モデルを離散化する必要がある．単純な離散化手法として，Euler近似を用いると，次のように記述できる：
 
@@ -127,7 +127,7 @@ $$
 
 $$
 \begin{align}
-\tau \frac{d\mathbf{u}(t)}{dt} &= -\mathbf{u}(t) + \mathbf{W} \mathbf{x}(t) + \mathbf{M} \mathbf{y}(t) + \mathbf{b} \\
+\tau \frac{\mathrm{d}\mathbf{u}(t)}{\mathrm{d}t} &= -\mathbf{u}(t) + \mathbf{W} \mathbf{x}(t) + \mathbf{M} \mathbf{y}(t) + \mathbf{b} \\
 \mathbf{y}(t) &= f(\mathbf{u}(t))
 \end{align}
 $$
@@ -142,8 +142,8 @@ $$
 
 $$
 \begin{aligned}
-\tau_\mathrm{E} \frac{d\mathbf{y}_\mathrm{E}(t)}{dt} &= -\mathbf{y}_\mathrm{E}(t) + f_\mathrm{E} \left[ \mathbf{W}_\mathrm{EE} \mathbf{y}_\mathrm{E}(t) - \mathbf{W}_\mathrm{EI} \mathbf{y}_\mathrm{I}(t) + \mathbf{x}_\mathrm{E}(t) \right] \\
-\tau_\mathrm{I} \frac{d\mathbf{y}_\mathrm{I}(t)}{dt} &= -\mathbf{y}_\mathrm{I}(t) + f_\mathrm{I} \left[ \mathbf{W}_\mathrm{IE} \mathbf{y}_\mathrm{E}(t) - \mathbf{W}_\mathrm{II} \mathbf{y}_\mathrm{I}(t) + \mathbf{x}_\mathrm{I}(t) \right]
+\tau_\mathrm{E} \frac{\mathrm{d}\mathbf{y}_\mathrm{E}(t)}{\mathrm{d}t} &= -\mathbf{y}_\mathrm{E}(t) + f_\mathrm{E} \left[ \mathbf{W}_\mathrm{EE} \mathbf{y}_\mathrm{E}(t) - \mathbf{W}_\mathrm{EI} \mathbf{y}_\mathrm{I}(t) + \mathbf{x}_\mathrm{E}(t) \right] \\
+\tau_\mathrm{I} \frac{\mathrm{d}\mathbf{y}_\mathrm{I}(t)}{\mathrm{d}t} &= -\mathbf{y}_\mathrm{I}(t) + f_\mathrm{I} \left[ \mathbf{W}_\mathrm{IE} \mathbf{y}_\mathrm{E}(t) - \mathbf{W}_\mathrm{II} \mathbf{y}_\mathrm{I}(t) + \mathbf{x}_\mathrm{I}(t) \right]
 \end{aligned}
 $$
 
@@ -175,7 +175,7 @@ $$
 
 $$
 \begin{equation}
-\boldsymbol{\tau} \frac{d\mathbf{y}(t)}{dt} = -\mathbf{y}(t) + f(\mathbf{M} \mathbf{y}(t) + \mathbf{x}(t))
+\boldsymbol{\tau} \frac{\mathrm{d}\mathbf{y}(t)}{\mathrm{d}t} = -\mathbf{y}(t) + f(\mathbf{M} \mathbf{y}(t) + \mathbf{x}(t))
 \end{equation}
 $$
 
@@ -190,7 +190,7 @@ Wilson–CowanモデルはISN状態を含むため，ISNの数理的性質を理
 
 $$
 \begin{equation}
-\tau \frac{d}{dt} (\mathbf{y}^* + \delta \mathbf{y}) = -(\mathbf{y}^* + \delta \mathbf{y}) + f(\mathbf{M} (\mathbf{y}^* + \delta \mathbf{y}) + \mathbf{x})
+\tau \frac{\mathrm{d}}{\mathrm{d}t} (\mathbf{y}^* + \delta \mathbf{y}) = -(\mathbf{y}^* + \delta \mathbf{y}) + f(\mathbf{M} (\mathbf{y}^* + \delta \mathbf{y}) + \mathbf{x})
 \end{equation}
 $$
 
@@ -204,11 +204,11 @@ f(\mathbf{M} (\mathbf{y}^* + \delta \mathbf{y}) + \mathbf{x})
 $$
 
 となる．ただし，$\mathbf{D}_f := \mathrm{diag}\left(f'(\mathbf{M} \mathbf{y}^* + \mathbf{x})\right)$ は固定点における微分値を並べた対角行列である（$\mathrm{diag}(\cdot)$ はベクトルの各要素を対角要素に持つ対角行列を作る関数）．また，$\mathcal{O}(\cdot)$ はLandauの略記であり，$\mathcal{O}(\|\delta \mathbf{y}\|^2)$ は $\delta \mathbf{y}$ の2次以上の項を意味する．
-ここで $\frac{d\mathbf{y}^*}{dt}=0$ かつ $-\mathbf{y}^*+f(\mathbf{M} \mathbf{y}^* + \mathbf{x})=0$ が成り立つことも踏まえ，$\mathcal{O}(\|\delta \mathbf{y}\|^2)$ を無視して整理すると，平衡点周囲の線形系が得られる：
+ここで $\frac{\mathrm{d}\mathbf{y}^*}{\mathrm{d}t}=0$ かつ $-\mathbf{y}^*+f(\mathbf{M} \mathbf{y}^* + \mathbf{x})=0$ が成り立つことも踏まえ，$\mathcal{O}(\|\delta \mathbf{y}\|^2)$ を無視して整理すると，平衡点周囲の線形系が得られる：
 
 $$
 \begin{align}
-\tau \frac{d\delta \mathbf{y}}{dt} &= -\delta \mathbf{y} + \mathbf{D}_f \mathbf{M} \delta \mathbf{y}\\
+\tau \frac{\mathrm{d}\delta \mathbf{y}}{\mathrm{d}t} &= -\delta \mathbf{y} + \mathbf{D}_f \mathbf{M} \delta \mathbf{y}\\
 &=\left(-\mathbf{I} + \mathbf{D}_f \mathbf{M} \right) \delta \mathbf{y} = \mathcal{J} \delta \mathbf{y}
 \end{align}
 $$
@@ -228,7 +228,7 @@ Wilson–Cowanモデルと密接に関連し，より大域的・集団的な神
 
 $$
 \begin{equation}
-\tau \frac{\partial u(x,t)}{\partial t} = -u(x,t) + \int_{\Omega} w(x, x') f(u(x', t)) dx' + I(x,t)
+\tau \frac{\partial u(x,t)}{\partial t} = -u(x,t) + \int_{\Omega} w(x, x') f(u(x', t))\,\mathrm{d}x' + I(x,t)
 \end{equation}
 $$
 
@@ -242,7 +242,7 @@ $$
 
 $$
 \begin{equation}
-\tau \frac{d\mathbf{W}}{dt} = \phi(\mathbf{y}) \varphi(\mathbf{x})^\top
+\tau \frac{\mathrm{d}\mathbf{W}}{\mathrm{d}t} = \phi(\mathbf{y}) \varphi(\mathbf{x})^\top
 \end{equation}
 $$
 
@@ -250,7 +250,7 @@ $$
 
 $$
 \begin{equation}
-\tau \dfrac{d\mathbf{W}}{dt} = \mathbf{y} \mathbf{x}^\top\quad \left(= (\textrm{後細胞の活動}) \cdot (\textrm{前細胞の活動})^\top\right)
+\tau \dfrac{\mathrm{d}\mathbf{W}}{\mathrm{d}t} = \mathbf{y} \mathbf{x}^\top\quad \left(= (\textrm{後細胞の活動}) \cdot (\textrm{前細胞の活動})^\top\right)
 \end{equation}
 $$
 
@@ -286,7 +286,7 @@ https://www.sciencedirect.com/science/article/pii/S0959438823001034?casa_token=O
 https://www.jneurosci.org/content/40/14/2828.abstract
 
 ### Hebb則の不安定性と修正Hebb則
-Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，あるいは消失するかという不安定性がある．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を $w\ (>0)$ とし，線形ニューロンを仮定，すなわち $y=wx$ が成り立つとすると，Hebb則は $\dfrac{dw}{dt}=\eta yx=\eta x^2w$ となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
+Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，あるいは消失するかという不安定性がある．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を $w\ (>0)$ とし，線形ニューロンを仮定，すなわち $y=wx$ が成り立つとすると，Hebb則は $\dfrac{dw}{\mathrm{d}t}=\eta yx=\eta x^2w$ となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
 
 この問題に対して、さまざまな修正Hebb則 (modified hebbian rule) が提案されている．ここでは代表的な学習則である **CLO則**、**Oja則**、そして**BCM則**について説明する．
 
@@ -304,7 +304,7 @@ CLO則は、出力 $y$ の値と**修正閾値**（modification threshold） $\t
 
 $$
 \begin{align}
-\frac{d\mathbf{w}}{dt} =
+\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t} =
 \begin{cases}
 - \lambda \mathbf{w} & (y \geq \theta_{\max}) \\
 - \lambda \mathbf{w} + \eta_+ (\theta_{\max} - y) \mathbf{x} & (\theta_m \leq y < \theta_{\max}) \\
@@ -321,13 +321,13 @@ $$
 CLO則を踏まえて，Bienenstock, Cooper, Munroにより提案された**BCM則**（Bienenstock–Cooper–Munro則）ではLTPとLTDを連続的に記述し，修正閾値 $\theta_m$ は出力活動の履歴に応じて変化するように修正された \citep{Bienenstock1982-km} \citep{Cooper2012-ec}．BCM則は次のように表される：
 
 $$
-\frac{d\mathbf{w}}{dt} = \eta_w \, \mathbf{x} \, y (y - \theta_m)
+\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t} = \eta_w \, \mathbf{x} \, y (y - \theta_m)
 $$
 
 関数$\phi$は$\phi(y, \theta_m)=y(y-\theta_m)$などとする．非線形Hebb則の一種である．また $\theta_m:=\mathbb{E}[y^2]$は閾値を決定するパラメータ，**修正閾値** (modification threshold) である．$\theta_m$ は活動履歴に基づいて動的に変化し、たとえば以下のように定義される：
 
 $$
-\frac{d\theta_m}{dt} = \eta_\theta (y^2 - \theta_m)
+\frac{\mathrm{d}\theta_m}{\mathrm{d}t} = \eta_\theta (y^2 - \theta_m)
 $$
 
 この構造により、出力 $y$ が $\theta_m$ を超えるときにはシナプスが強化され（LTP）、逆に $y < \theta_m$ のときには弱化（LTD）される。このように、BCM則は同一の数式の中でHebbian強化とAnti-Hebbian抑制を両立させている。また、この動的閾値 $\theta_m$ は、ニューロンが自らの「活動水準の平均」を内部的に学習していく仕組みであり、これにより入力空間に対する**選択的な応答性**が獲得される。これは、視覚野ニューロンの方位選択性など、実際の神経生理学的観測とも整合する
@@ -337,7 +337,7 @@ Hebb則を安定化させる別のアプローチとして，結合強度を正�
 
 $$
 \begin{align}
-h(\eta)&\approx h(0) + \eta \left.\frac{dh(\eta^*)}{d\eta^*}\right|_{\eta^*=0} + \mathcal{O}(\eta^2)\\
+h(\eta)&\approx h(0) + \eta \left.\frac{dh(\eta^*)}{\mathrm{d}\eta^*}\right|_{\eta^*=0} + \mathcal{O}(\eta^2)\\
 &=\frac{\mathbf{w}}{\|\mathbf{w}\|} + \eta \left(\frac{\mathbf{x}y}{\|\mathbf{w}\|}-\frac{y^2\mathbf{w}}{\|\mathbf{w}\|^3}\right)+ \mathcal{O}(\eta^2)
 \end{align}
 $$
@@ -346,7 +346,7 @@ $$
 
 $$
 \begin{equation}
-\frac{d\mathbf{w}}{dt} = \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)
+\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t} = \eta \left(\mathbf{x}y-y^2 \mathbf{w}\right)
 \end{equation}
 $$
 
@@ -354,11 +354,11 @@ $$
 
 $$
 \begin{equation}
-\frac{d\|\mathbf{w}\|^2}{dt}=2\mathbf{w}^\top\frac{d\mathbf{w}}{dt}= 2\eta y^2\left(1-\|\mathbf{w}\|^2\right)
+\frac{\mathrm{d}\|\mathbf{w}\|^2}{\mathrm{d}t}=2\mathbf{w}^\top\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t}= 2\eta y^2\left(1-\|\mathbf{w}\|^2\right)
 \end{equation}
 $$
 
-より，平衡状態 $\frac{d\|\mathbf{w}\|^2}{dt}=0$ において，$\|\mathbf{w}\|= 1$となる．
+より，平衡状態 $\frac{\mathrm{d}\|\mathbf{w}\|^2}{\mathrm{d}t}=0$ において，$\|\mathbf{w}\|= 1$となる．
 
 ### 非線形Hebb学習
 出力$\mathbf{y}$に非線形関数$g(\cdot)$を適用し，$\mathbf{y}\to g(\mathbf{y})$として置き換えることで非線形Hebb学習となる\citep{Oja1997-hr}\citep{Brito2016-mx}. 
@@ -374,7 +374,7 @@ https://www.cell.com/neuron/fulltext/S0896-6273(20)30188-4?uuid=uuid%3Afdd605ec-
 https://www.pnas.org/doi/full/10.1073/pnas.1421304111
 
 https://www.sciencedirect.com/science/article/abs/pii/S095943880000091X?via%3Dihub
-https://www.cell.com/trends/neurosciences/abstract/S0166-2236(98)01341-1?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0166223698013411%3Fshowall%3Dtrue
+https://www.cell.com/trends/neurosciences/abstract/S0166-2236(98)01341-1?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS0166223698013411%3Fshowall%3\mathrm{d}true
 
 https://www.nature.com/articles/nrn1949
 
@@ -390,15 +390,15 @@ Hebb則は数学的に導出されたものではないが，神経回路のダ�
 
 $$
 \begin{equation}
-\frac{d \mathbf{z}}{dt}\propto-\left(\frac{\partial E}{\partial \mathbf{z}}\right)^\top,\quad\frac{d \mathbf{W}}{dt}\propto-\left(\frac{\partial E}{\partial \mathbf{W}}\right)^\top
+\frac{\mathrm{d}\mathbf{z}}{\mathrm{d}t}\propto-\left(\frac{\partial E}{\partial \mathbf{z}}\right)^\top,\quad \frac{\mathrm{d} \mathbf{W}}{\mathrm{d}t}\propto-\left(\frac{\partial E}{\partial \mathbf{W}}\right)^\top
 \end{equation}
 $$
 
-このとき、逆に神経活動のダイナミクスのみが先に与えられている場合でも、それに整合するエネルギー関数を定義すれば、重みの更新則（すなわち学習則）を変分原理的に導出することができる。具体的には，神経細胞の活動ダイナミクスを積分することで神経回路のエネルギー関数 $E$ を導出し，さらに $E$ を重み行列で微分することでHebb則が導出できる \citep{Isomura2020-sn}．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{d\mathbf{y}}{dt}=-\mathbf{y}+\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで $\dfrac{\partial E}{\partial\mathbf{y}}:=-\left(\dfrac{d\mathbf{y}}{dt}\right)^\top$ となるようなエネルギー関数 $E(\mathbf{x}, \mathbf{y}, \mathbf{W})$ を仮定すると，
+このとき、逆に神経活動のダイナミクスのみが先に与えられている場合でも、それに整合するエネルギー関数を定義すれば、重みの更新則（すなわち学習則）を変分原理的に導出することができる。具体的には，神経細胞の活動ダイナミクスを積分することで神経回路のエネルギー関数 $E$ を導出し，さらに $E$ を重み行列で微分することでHebb則が導出できる \citep{Isomura2020-sn}．Hebb則の導出を連続時間線形ニューロンモデル $\dfrac{\mathrm{d}\mathbf{y}}{\mathrm{d}t}=-\mathbf{y}+\mathbf{W}\mathbf{x}$ を例にして考えよう（簡単のため $\tau=1$ とした）．ここで $\dfrac{\partial E}{\partial\mathbf{y}}:=-\left(\dfrac{\mathrm{d}\mathbf{y}}{\mathrm{d}t}\right)^\top$ となるようなエネルギー関数 $E(\mathbf{x}, \mathbf{y}, \mathbf{W})$ を仮定すると，
 
 $$
 \begin{equation}
-E(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\left(\int -\mathbf{y}+\mathbf{W}\mathbf{x}\ d\mathbf{y}\right)\propto\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
+E(\mathbf{x}, \mathbf{y}, \mathbf{W})=-\left(\int -\mathbf{y}+\mathbf{W}\mathbf{x}\,\mathrm{d}\mathbf{y}\right)\propto\|\mathbf{y}\|^2-\mathbf{y}^\top \mathbf{W}\mathbf{x} \in \mathbb{R}
 \end{equation}
 $$
 
@@ -407,7 +407,7 @@ $$
 $$
 \begin{equation}
 \dfrac{\partial E}{\partial\mathbf{W}}=-\mathbf{x}\mathbf{y}^\top\Rightarrow
-\frac{d\mathbf{W}}{dt}=-\left(\frac{\partial E}{\partial \mathbf{W}}\right)^\top=\mathbf{y}\mathbf{x}^\top
+\frac{\mathrm{d}\mathbf{W}}{\mathrm{d}t}=-\left(\frac{\partial E}{\partial \mathbf{W}}\right)^\top=\mathbf{y}\mathbf{x}^\top
 \end{equation}
 $$
 
@@ -506,7 +506,7 @@ svdを用いて実装をする．
    $$
 
 3. **固有値分解**  
-   共分散行列に対して固有値分解を行い，固有ベクトル $\{\mathbf{w}_1, \dots, \mathbf{w}_d\}$ と対応する固有値 $\{\lambda_1, \dots, \lambda_d\}$ を求める．固有値は分散量に対応し，$\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d \geq 0$ の順に並べる．固有ベクトルは以下を満たす：
+   共分散行列に対して固有値分解を行い，固有ベクトル $\{\mathbf{w}_1, \dots, \mathbf{w}_\mathrm{d}\}$ と対応する固有値 $\{\lambda_1, \dots, \lambda_\mathrm{d}\}$ を求める．固有値は分散量に対応し，$\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_d \geq 0$ の順に並べる．固有ベクトルは以下を満たす：
    $$
    \mathbf{C} \mathbf{w}_k = \lambda_k \mathbf{w}_k, \quad k=1,\dots,d.
    $$
@@ -523,12 +523,12 @@ svdを用いて実装をする．
 
 $$
 \begin{align}
-\frac{d\mathbf{w}}{dt} &= \eta \left(\mathbf{x}y - y^2 \mathbf{w}\right)=\eta \left(\mathbf{x}\mathbf{x}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{x}\mathbf{x}^\top \mathbf{w}\right] \mathbf{w}\right)\\
-\mathbb{E}\left[\frac{d\mathbf{w}}{dt}\right] &= \eta \left(\mathbf{C} \mathbf{w} - \left[\mathbf{w}^\top \mathbf{C} \mathbf{w}\right] \mathbf{w}\right)
+\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t} &= \eta \left(\mathbf{x}y - y^2 \mathbf{w}\right)=\eta \left(\mathbf{x}\mathbf{x}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{x}\mathbf{x}^\top \mathbf{w}\right] \mathbf{w}\right)\\
+\mathbb{E}\left[\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t}\right] &= \eta \left(\mathbf{C} \mathbf{w} - \left[\mathbf{w}^\top \mathbf{C} \mathbf{w}\right] \mathbf{w}\right)
 \end{align}
 $$
 
-$\mathbf{C}:=\mathbb{E}[\mathbf{x}\mathbf{x}^\top]\in \mathbb{R}^{d\times d}$とする．$\mathbf{x}$の平均が0の場合，$\mathbf{C}$は分散共分散行列である．$\mathbb{E}\left[\dfrac{d\mathbf{w}}{dt}\right]=0$となる$\mathbf{w}$が収束する固定点(fixed point)では次の式が成り立つ．
+$\mathbf{C}:=\mathbb{E}[\mathbf{x}\mathbf{x}^\top]\in \mathbb{R}^{\mathrm{d}\times d}$とする．$\mathbf{x}$の平均が0の場合，$\mathbf{C}$は分散共分散行列である．$\mathbb{E}\left[\dfrac{\mathrm{d}\mathbf{w}}{\mathrm{d}t}\right]=0$となる$\mathbf{w}$が収束する固定点(fixed point)では次の式が成り立つ．
 
 $$
 \begin{equation}
@@ -538,11 +538,11 @@ $$
 
 これは固有値問題であり，$\lambda:=\mathbf{w}^\top \mathbf{C} \mathbf{w}$は固有値，$\mathbf{w}$は固有ベクトル(eigen vector)になる．
 
-ここでサンプルサイズを$n$とし，$\mathbf{X} \in \mathbb{R}^{d\times n}, \mathbf{y}=\mathbf{X}^\top\mathbf{w} \in \mathbb{R}^n$とする．標本平均で近似して$\mathbf{C}\simeq \mathbf{X}\mathbf{X}^\top$とする．この場合，
+ここでサンプルサイズを$n$とし，$\mathbf{X} \in \mathbb{R}^{\mathrm{d}\times n}, \mathbf{y}=\mathbf{X}^\top\mathbf{w} \in \mathbb{R}^n$とする．標本平均で近似して$\mathbf{C}\simeq \mathbf{X}\mathbf{X}^\top$とする．この場合，
 
 $$
 \begin{align}
-\mathbb{E}\left[\frac{d\mathbf{w}}{dt}\right] &\simeq \eta \left(\mathbf{X}\mathbf{X}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{X}\mathbf{X}^\top \mathbf{w}\right] \mathbf{w}\right)\\
+\mathbb{E}\left[\frac{\mathrm{d}\mathbf{w}}{\mathrm{d}t}\right] &\simeq \eta \left(\mathbf{X}\mathbf{X}^\top \mathbf{w} - \left[\mathbf{w}^\top \mathbf{X}\mathbf{X}^\top \mathbf{w}\right] \mathbf{w}\right)\\
 &=\eta \left(\mathbf{X}\mathbf{y} - \left[\mathbf{y}^\top\mathbf{y}\right] \mathbf{w}\right)
 \end{align}
 $$
@@ -553,18 +553,18 @@ $$
 
 $$
 \begin{equation}
-\frac{d\mathbf{W}}{dt} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{Diag}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
+\frac{\mathrm{d}\mathbf{W}}{\mathrm{d}t} = \eta \left(\mathbf{y}\mathbf{x}^\top - \mathrm{Diag}\left[\mathbf{y}\mathbf{y}^\top\right] \mathbf{W}\right)
 \end{equation}
 $$
 
 となる．ただし，$\mathrm{Diag}(\cdot)$は行列の対角成分からなる対角行列を生み出す作用素である．
 
 #### Sanger則
-Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．**Sanger則** (Sanger's rule)，あるいは**一般化Hebb則** (generalized Hebbian algorithm; GHA)\footnote{あくまでSangerが「一般化」と呼んでいるだけで，Hebb則の一般化された形式ではない．} は，Oja則に**Gram–Schmidtの正規直交化法** (Gram–Schmidt orthonormalization) を組み合わせた学習則であり，次式で表される．
+Oja則に複数の出力を持たせた場合であっても，出力が直交しないため，PCAの第1主成分しか求めることができない．**Sanger則** (Sanger's rule)，あるいは**一般化Hebb則** (generalized Hebbian algorithm; GHA)\footnote{あくまでSangerが「一般化」と呼んでいるだけで，Hebb則の一般化された形式ではない．} は，Oja則に**Gram–Schmi\mathrm{d}tの正規直交化法** (Gram–Schmi\mathrm{d}t orthonormalization) を組み合わせた学習則であり，次式で表される．
 
 $$
 \begin{equation}
-\frac{d\mathbf{W}}{dt} = \eta \left[\mathbf{y}\mathbf{x}^\top - \mathrm{LT}\left(\mathbf{y}\mathbf{y}^\top\right) \mathbf{W}\right]
+\frac{\mathrm{d}\mathbf{W}}{\mathrm{d}t} = \eta \left[\mathbf{y}\mathbf{x}^\top - \mathrm{LT}\left(\mathbf{y}\mathbf{y}^\top\right) \mathbf{W}\right]
 \end{equation}
 $$
 
@@ -626,7 +626,7 @@ InfoMax ICAは，確率密度関数の仮定を明示せずに信号の非ガウ
 以上より，独立成分分析は，観測データを生成する潜在変数の独立性という前提に基づき，情報理論的な原理に従ってその分離を行う手法であり，InfoMaxはその実現方法の一つとして広く用いられている．
 
 ## 低速特徴分析
-**Slow Feature Analysis (SFA)** とは, 複数の時系列データの中から低速に変化する成分 (slow feature) を抽出する教師なし学習のアルゴリズムである \citep{Wiskott2002-vb,Wiskott2011-uz}．潜在変数 $y$ の時間変化の2乗である $\left(\frac{dy}{dt}\right)^2$を最小にするように教師なし学習を行う．初期視覚野の受容野 \citep{Berkes2005-i} や格子細胞・場所細胞などのモデルに応用がされている \citep{Franzius2007-sf}．
+**Slow Feature Analysis (SFA)** とは, 複数の時系列データの中から低速に変化する成分 (slow feature) を抽出する教師なし学習のアルゴリズムである \citep{Wiskott2002-vb,Wiskott2011-uz}．潜在変数 $y$ の時間変化の2乗である $\left(\frac{dy}{\mathrm{d}t}\right)^2$を最小にするように教師なし学習を行う．初期視覚野の受容野 \citep{Berkes2005-i} や格子細胞・場所細胞などのモデルに応用がされている \citep{Franzius2007-sf}．
 
 生理学的妥当性についてはいくつかの検討がされている．\citep{Sprekeler2007-qm} ではSTDP則によりSFAが実現できることを報告している．古典的な線形Recurrent neural networkでの実装も提案されている \citep{Lipshutz2020-uj}．
 
@@ -635,7 +635,7 @@ InfoMax ICAは，確率密度関数の仮定を明示せずに信号の非ガウ
 SFAの基本的な最適化問題は以下のように定式化される：
 
 $$
-\min_{g} \left\langle \left( \frac{d}{dt} g(\mathbf{x}(t)) \right)^2 \right\rangle_t
+\min_{g} \left\langle \left( \frac{d}{\mathrm{d}t} g(\mathbf{x}(t)) \right)^2 \right\rangle_t
 $$
 
 ただし，$\langle \cdot \rangle_t$ は時間平均を意味する．このままでは自明な定数解（全く変化しない出力）が得られるため，以下のような制約条件を課す：
@@ -648,7 +648,7 @@ $$
 
 まずデータセットの生成を行う．\citep{Wiskott2002-vb}で用いられているトイデータを用いる．
 
-Slow Feature Analysis (SFA) は，時系列データに含まれる情報のうち，時間的に最もゆっくりと変化する成分（slow features）を抽出するための教師なし学習アルゴリズムである．このアルゴリズムでは，観測された高次元の信号 $\mathbf{x}(t) \in \mathbb{R}^n$ に対して，線形または非線形な写像 $y(t) = g(\mathbf{x}(t))$ を学習し，その出力が時間的に滑らかになるように設計される．特に線形SFAの場合，写像 $g(\mathbf{x})$ は線形関数 $\mathbf{w}^\top \mathbf{x}(t)$ として表され，その時間微分の2乗平均 $\left\langle \left( \frac{d}{dt} \mathbf{w}^\top \mathbf{x}(t) \right)^2 \right\rangle_t$ を最小化することが目的となる．
+Slow Feature Analysis (SFA) は，時系列データに含まれる情報のうち，時間的に最もゆっくりと変化する成分（slow features）を抽出するための教師なし学習アルゴリズムである．このアルゴリズムでは，観測された高次元の信号 $\mathbf{x}(t) \in \mathbb{R}^n$ に対して，線形または非線形な写像 $y(t) = g(\mathbf{x}(t))$ を学習し，その出力が時間的に滑らかになるように設計される．特に線形SFAの場合，写像 $g(\mathbf{x})$ は線形関数 $\mathbf{w}^\top \mathbf{x}(t)$ として表され，その時間微分の2乗平均 $\left\langle \left( \frac{d}{\mathrm{d}t} \mathbf{w}^\top \mathbf{x}(t) \right)^2 \right\rangle_t$ を最小化することが目的となる．
 
 この最適化問題を解くためには，まず入力データ $\mathbf{x}(t)$ を前処理し，時間平均を引くことでゼロ平均化する．次に，共分散行列 $\mathbf{C}_x = \langle \tilde{\mathbf{x}}(t) \tilde{\mathbf{x}}(t)^\top \rangle_t$ を求め，これに対して固有値分解 $\mathbf{C}_x = \mathbf{E} \mathbf{D} \mathbf{E}^\top$ を適用することで主成分空間を構成し，白色化変換 $\mathbf{z}(t) = \mathbf{D}^{-1/2} \mathbf{E}^\top \tilde{\mathbf{x}}(t)$ を得る．この変換により，$\mathbf{z}(t)$ は単位分散かつ直交性を持つ特徴ベクトルとなる．
 
