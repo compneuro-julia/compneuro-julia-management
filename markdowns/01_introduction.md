@@ -401,7 +401,7 @@ $$
 \end{align}
 $$
 
-である．ここで $\nabla_\mathbf{x} y(\mathbf{x}):=\left(\frac{\partial y}{\partial \mathbf{x}}\right)^\top\in \mathbb{R}^{n}$ は $y$ の $\mathbf{x}$ に対する勾配 (gradient) と呼ばれ，分子レイアウト記法において，勾配は導関数（derivative）の転置として表される\footnote{$\nabla$ はナブラ (nabla) と呼ばれる演算子であり，Juliaでも`\nabla TAB` として入力可能である．}．すなわち、要素は同じだが，勾配は列ベクトル，導関数は行ベクトルになる。しかしながら、機械学習でのパラメータ更新では、転置の有無にかかわらず「勾配」という語が広く使われている。そこで本書では、転置前の導関数 $\frac{\partial y}{\partial \mathbf{x}}$ に対しても便宜的に「勾配」と呼ぶこととする。また，$\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$ は $\mathbf{y}$ に対する $\mathbf{x}$ のJacobian行列と呼ばれる．最後に，行列で偏微分する場合，
+である．ここで $\nabla_\mathbf{x} y(\mathbf{x}):=\left(\dfrac{\partial y}{\partial \mathbf{x}}\right)^\top=\dfrac{\partial y}{\partial \mathbf{x}^\top}\in \mathbb{R}^{n}$ は $y$ の $\mathbf{x}$ に対する勾配 (gradient) と呼ばれ，分子レイアウト記法において，勾配は導関数（derivative）の転置として表される\footnote{$\nabla$ はナブラ (nabla) と呼ばれる演算子であり，Juliaでも`\nabla TAB` として入力可能である．}．すなわち、要素は同じだが，勾配は列ベクトル，導関数は行ベクトルになる。しかしながら、機械学習でのパラメータ更新では、転置の有無にかかわらず「勾配」という語が広く使われている。そこで本書では、転置前の導関数 $\frac{\partial y}{\partial \mathbf{x}}$ に対しても便宜的に「勾配」と呼ぶこととする。また，$\frac{\partial \mathbf{y}}{\partial \mathbf{x}}$ は $\mathbf{y}$ に対する $\mathbf{x}$ のJacobian行列と呼ばれる．最後に，行列で偏微分する場合，
 
 $$
 \begin{align}
@@ -416,7 +416,7 @@ $$
 \end{align}
 $$
 
-である．これも $\nabla_\mathbf{A} y(\mathbf{A}):= \left(\frac{\partial y}{\partial \mathbf{A}}\right)^\top$ とも表記でき，$y$ の $\mathbf{A}$ に対する勾配と呼ぶ．
+である．これも $\nabla_\mathbf{A} y(\mathbf{A}):= \left(\dfrac{\partial y}{\partial \mathbf{A}}\right)^\top=\dfrac{\partial y}{\partial \mathbf{A}^\top}$ とも表記でき，$y$ の $\mathbf{A}$ に対する勾配と呼ぶ．
 
 微分係数 $f'$
 

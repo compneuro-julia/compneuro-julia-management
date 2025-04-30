@@ -9,15 +9,15 @@
 
 $$
 \begin{align}
-\mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}_h\\
+\mathbf{u}_t &= \mathbf{W}_{\mathrm{rec}}\mathbf{h}_{t-1} + \mathbf{W}_{\mathrm{in}}\mathbf{x}_t + \mathbf{b}_\mathrm{rec}\\
 \mathbf{h}_t &= \left(1-\alpha\right)\mathbf{h}_{t-1} + \alpha f(\mathbf{u}_t)\\
-\mathbf{a}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t+ \mathbf{b}_y\\
-\mathbf{y}_t &= g(\mathbf{a}_t)
+\mathbf{v}_t &= \mathbf{W}_{\mathrm{out}}\mathbf{h}_t+ \mathbf{b}_\mathrm{out}\\
+\mathbf{y}_t &= g(\mathbf{v}_t)
 \end{align}
 $$  
 
-で与えられる。ただし，$\mathbf{W}_{\mathrm{in}} \in \mathbb{R}^{d\times n}, \mathbf{W}_{\mathrm{rec}} \in \mathbb{R}^{d\times d}, \mathbf{W}_{\mathrm{out}} \in \mathbb{R}^{m\times d}$ はシナプス結合重み，$\mathbf{b} \in \mathbb{R}^{d}$ は定常項，$f(\cdot), g(\cdot)$ は活性化関数であり，$\alpha:=\frac{1}{\tau}$ は状態の更新率（時定数 $\tau$ の逆数）である \footnote{$\alpha < 1$であるRNNは，重み共有をした残差結合 (residual/skip connection) のある順伝播モデル (ResNetなど) に展開することが可能である \citep{liao2016bridging}．}．
-また，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．$\alpha = 1$ の場合はElmanネットワークと同一である \citep{elman1990finding}．時刻 $t$ での教師信号を $\mathbf{y}_t^*$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
+で与えられる。ただし，$\mathbf{W}_{\mathrm{in}} \in \mathbb{R}^{d\times n}, \mathbf{W}_{\mathrm{rec}} \in \mathbb{R}^{d\times d}, \mathbf{W}_{\mathrm{out}} \in \mathbb{R}^{m\times d}$ はシナプス結合重み，$\mathbf{b}_\mathrm{rec} \in \mathbb{R}^{d}, \mathbf{b}_\mathrm{out} \in \mathbb{R}^{m}$ は定常項である．$f(\cdot), g(\cdot)$ は活性化関数であり，入力ベクトルの要素ごとに作用する．$\mathbf{u}_t, \mathbf{v}_t$ は膜電位に対応し，勾配を書き下す際に使用する．$\alpha:=\frac{1}{\tau}$ は状態の更新率（時定数 $\tau$ の逆数）であり \footnote{$\alpha < 1$であるRNNは，重み共有をした残差結合 (residual/skip connection) のある順伝播モデル (ResNetなど) に展開することが可能である \citep{liao2016bridging}．}，
+$\alpha = 1$ の場合はElmanネットワーク \citep{elman1990finding} と同一である．なお，状態の初期値を $\mathbf{h}_{0}=\mathbf{0}$ とする．時刻 $t$ での教師信号を $\mathbf{y}_t^*$ とすると，損失 $\mathcal{L}$ は各時刻における損失 $\mathcal{L}_t$ の和を取り，
 
 $$
 \begin{equation}
@@ -28,7 +28,7 @@ $$
 として与えられる．
 
 ### 未来方向・過去方向の勾配和
-このRNNを学習させる際の目標は，損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}_h, \mathbf{b}_y\}$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
+このRNNを学習させる際の目標は，損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}_\mathrm{rec}, \mathbf{b}_\mathrm{out}\}$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
 
 $$
 \begin{align}
@@ -124,8 +124,8 @@ $$
 $$
 \begin{equation}
 \boldsymbol{\delta}_t^{\mathrm{out}}
-:=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}
-=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\frac{\partial \mathbf{y}_t}{\partial \mathbf{a}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\odot g'(\mathbf{a}_t)^\top\quad \left(\in \mathbb{R}^{1\times m}\right)
+:=\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{v}_t}\right)^\top
+=\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\frac{\partial \mathbf{y}_t}{\partial \mathbf{v}_t}\right)^\top=\left(\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\right)^\top\odot g'(\mathbf{v}_t)\quad \left(\in \mathbb{R}^{m}\right)
 \end{equation}
 $$  
 
@@ -134,8 +134,8 @@ $$
 $$
 \begin{equation}
 \boldsymbol{\delta}_t
-:=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}=\underbrace{\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}}_{\mathclap{\substack{\text{現在時刻の}\\\text{直接寄与}}}} + \underbrace{\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}}_{\mathclap{\substack{\text{次時刻以降への}\\\text{間接寄与}}}}
-\quad \left(\in \mathbb{R}^{1\times d}\right)
+:=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\right)^\top=\biggl(\underbrace{\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}}_{\mathclap{\substack{\text{現在時刻の}\\\text{直接寄与}}}} + \underbrace{\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}}_{\mathclap{\substack{\text{次時刻以降への}\\\text{間接寄与}}}}\biggr)^\top
+\quad \left(\in \mathbb{R}^{d}\right)
 \end{equation}
 $$  
 
@@ -143,7 +143,7 @@ $$
 
 $$
 \begin{equation}
-\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}\frac{\partial \mathbf{a}_t}{\partial \mathbf{h}_t}=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{v}_t}\frac{\partial \mathbf{v}_t}{\partial \mathbf{h}_t}=\left(\boldsymbol{\delta}_t^{\mathrm{out}}\right)^\top\mathbf{W}_{\mathrm{out}}
 \end{equation}
 $$
 
@@ -151,33 +151,46 @@ $$
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}&=\boldsymbol{\delta}_{t+1}\left[(1-\alpha)\mathbf{I}_d+\alpha \frac{\partial f(\mathbf{u}_{t+1})}{\partial \mathbf{u}_{t+1}}\frac{\partial \mathbf{u}_{t+1}}{\partial \mathbf{h}_{t}}\right]\\
-&=\left(1-\alpha\right)\boldsymbol{\delta}_{t+1} +\alpha \boldsymbol{\delta}_{t+1} \odot f'(\mathbf{u}_{t+1})^\top \mathbf{W}_{\mathrm{rec}}
+\frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}}\frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t}&=\boldsymbol{\delta}_{t+1}^\top\left[(1-\alpha)\mathbf{I}_d+\alpha \frac{\partial f(\mathbf{u}_{t+1})}{\partial \mathbf{u}_{t+1}}\frac{\partial \mathbf{u}_{t+1}}{\partial \mathbf{h}_{t}}\right]\\
+&=\left(1-\alpha\right)\boldsymbol{\delta}_{t+1}^\top +\alpha \left[\boldsymbol{\delta}_{t+1} \odot f'(\mathbf{u}_{t+1})\right]^\top \mathbf{W}_{\mathrm{rec}}
 \end{align}
 $$
 
-である．ここで，$\delta_{t}^\mathrm{h} := \boldsymbol{\delta}_t \odot f'(\mathbf{u}_t)^\top\ \left(\in \mathbb{R}^{1\times d}\right)$ とすると，
+である．ここで，$\delta_{t}^\mathrm{h} := \boldsymbol{\delta}_t \odot f'(\mathbf{u}_t)\ \left(\in \mathbb{R}^{d}\right)$ とすると，
 
 $$
 \begin{equation}
 \boldsymbol{\delta}_t
-=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}} +\left(1-\alpha\right)\boldsymbol{\delta}_{t+1} +\alpha \delta_{t+1}^\mathrm{h} \mathbf{W}_{\mathrm{rec}}
+=\mathbf{W}_{\mathrm{out}}^\top\boldsymbol{\delta}_t^{\mathrm{out}}+\left(1-\alpha\right)\boldsymbol{\delta}_{t+1} +\alpha \mathbf{W}_{\mathrm{rec}}^\top \delta_{t+1}^\mathrm{h}
 \end{equation}
 $$  
 
-が成立する。ただし，境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。これらを用いて各重み行列の勾配を時刻方向に和をとる形で求める。
+が成立する。ただし，境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。時刻 $t$ のパラメータの更新量を $\Delta \theta_t$ とすると，
+
+$$
+\Delta \theta_t \propto \left(\dfrac{\partial \mathcal{L}}{\partial \theta_t}\right)^\top=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}
+$$
+
+これらを用いて各重み行列の勾配を時刻方向に和をとる形で求める。
+
+$$
+\begin{alignat}{2}
+\Delta \mathbf{W}_{\mathrm{rec}}^t &\propto \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{rec}}^\top}
+&&=\alpha \boldsymbol{\delta}_{t}^\mathrm{h}\mathbf{h}_{t-1}^\top\\
+\Delta \mathbf{W}_{\mathrm{in}}^t &\propto \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{in}}^\top}
+&&=\alpha \boldsymbol{\delta}_{t}^\mathrm{h}\mathbf{x}_t^\top\\
+\Delta \mathbf{b}_{\mathrm{rec}}^t &\propto \frac{\partial \mathcal{L}_t}{\partial \mathbf{b}_{\mathrm{rec}}^\top}
+&&=\alpha\boldsymbol{\delta}_{t}^\mathrm{h}
+\end{alignat}
+$$
+
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{out}}}
-&=\sum_t \mathbf{h}_t\boldsymbol\delta_t^{\mathrm{out}}\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{rec}}}
-&=\alpha \sum_t \mathbf{h}_{t-1}\delta_{t}^\mathrm{h}\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{in}}}
-&=\alpha \sum_t \mathbf{x}_t\delta_{t}^\mathrm{h}
-\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}}
-&=\alpha\sum_t \delta_{t}^\mathrm{h}\\
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}^\top}
+&=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{h}_t^\top\\
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{b}_{\mathrm{out}}^\top}
+&=\boldsymbol{\delta}_t^{\mathrm{out}}\\
 \end{align}
 $$
 
@@ -186,13 +199,13 @@ $$
 ## 実時間再帰学習 (RTRL)
 次に，実時間再帰学習（real-time recurrent learning; RTRL）\citep{williams1989learning} を用いた際の各パラメータの勾配計算を行う．RTRLではテンソル積およびテンソル縮約を使用するため，適宜第1章を参照してほしい．
 
-前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_y$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\; (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_y\})$ である．よって（即時的）感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_h\}$ において考える．即時的感度行列は、それぞれのパラメータに対応して次のように書き下すことができる：
+前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_\mathrm{out}$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\; (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_\mathrm{out}\})$ である．よって（即時的）感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_\mathrm{rec}\}$ において考える．即時的感度行列は、それぞれのパラメータに対応して次のように書き下すことができる：
 
 $$
 \begin{align}
-\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{x}_t &&\in \mathbb{R}^{d \times d \times n} \\
-\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{h}_{t-1} &&\in \mathbb{R}^{d \times d \times d} \\
-\tilde{\mathbf{P}}_t^{(\mathbf{b}_h)} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) &&\in \mathbb{R}^{d \times d}
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{x}_t &&\left(\in \mathbb{R}^{d \times d \times n}\right) \\
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{h}_{t-1} &&\left(\in \mathbb{R}^{d \times d \times d}\right) \\
+\tilde{\mathbf{P}}_t^{(\mathbf{b}_\mathrm{rec})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) &&\left(\in \mathbb{R}^{d \times d}\right)
 \end{align}
 $$
 
@@ -220,50 +233,52 @@ $$
 \begin{alignat}{3}
 \mathbf{P}_t^{(\mathbf{W}_{\mathrm{in}})} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{in}})} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{x}_t  + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\,\tilde{\otimes}_1\,\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{in}})}\right]&&\in \mathbb{R}^{d \times d \times n} \\
 \mathbf{P}_t^{(\mathbf{W}_{\mathrm{rec}})} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{rec}})} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{h}_{t-1} + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\,\tilde{\otimes}_1\,\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{rec}})}\right]&&\in \mathbb{R}^{d \times d \times d} \\
-\mathbf{P}_t^{(\mathbf{b}_h)} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{b}_h)} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\mathbf{P}_{t-1}^{(\mathbf{b}_h)}\right]&&\in \mathbb{R}^{d \times d} \\
+\mathbf{P}_t^{(\mathbf{b}_\mathrm{rec})} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{b}_\mathrm{rec})} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\mathbf{P}_{t-1}^{(\mathbf{b}_\mathrm{rec})}\right]&&\in \mathbb{R}^{d \times d} \\
 \end{alignat}
 $$
 
 と求められる．ここで，$\tilde{\otimes}_1$ は、左側の行列 (2階テンソル) と右側の3階テンソルに対し，3階テンソルの第1軸に沿って縮約を行う演算子である。ここでの演算結果は、3階テンソル $\mathbf{P}_{t-1}$ の第3軸に沿った各スライス $(\mathbf{P}_{t-1})_{::k}$ に対して行列積 $\mathbf{W}_{\mathrm{rec}} (\mathbf{P}_{t-1})_{::k}$ を並列に適用し、それらを第3軸方向に再構成した3階テンソルとなる。
 
-BPTTと同様に
+出力層の誤差はBPTTと同様に次のように定義する：
+
+$$
+\begin{equation}
+\boldsymbol{\delta}_t^{\mathrm{out}}
+:=\frac{\partial \mathcal{L}_t}{\partial \mathbf{v}_t}
+=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\frac{\partial \mathbf{y}_t}{\partial \mathbf{v}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\odot g'(\mathbf{v}_t)^\top\quad \in \mathbb{R}^{1\times d}
+\end{equation}
+$$
+
+即時的損失の状態に対する勾配は
+
+$$
+\begin{equation}
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{v}_t}\frac{\partial \mathbf{v}_t}{\partial \mathbf{h}_t}=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}\quad \in \mathbb{R}^{1\times d}
+\end{equation}
+$$
+
+であり，パラメータ $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_\mathrm{rec}\}$ について $\frac{\partial \mathcal{L}_t}{\partial \theta}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}$ であるので，各パラメータの即時的勾配は次のように求まる：
+
+$$
+\begin{alignat}{2}
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{in}}}&=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}\,\tilde{\otimes}_1\,\mathbf{P}_t^{(\mathbf{W}_{\mathrm{in}})}&&\in \mathbb{R}^{d\times n}\\
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{rec}}}&=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}\,\tilde{\otimes}_1\,\mathbf{P}_t^{(\mathbf{W}_{\mathrm{rec}})}&&\in \mathbb{R}^{d\times d}\\
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{b}_{\mathrm{rec}}}&=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\mathbf{b}_{\mathrm{rec}})}&&\in \mathbb{R}^{1\times d}\\
+\end{alignat}
+$$
+
+また，出力に関わるパラメータの勾配はBPTTと同様に
 
 $$
 \begin{align}
-\boldsymbol{\delta}_t^{\mathrm{out}}
-&:=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}
-=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\frac{\partial \mathbf{y}_t}{\partial \mathbf{a}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\odot g'(\mathbf{a}_t)^\top\quad \left(\in \mathbb{R}^{1\times m}\right)\\
-\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}\frac{\partial \mathbf{a}_t}{\partial \mathbf{h}_t}=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
+&=\mathbf{h}_t\boldsymbol{\delta}_t^{\mathrm{out}}\\
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{b}_\mathrm{out}}
+&=\boldsymbol{\delta}_t^{\mathrm{out}}
 \end{align}
 $$
 
-であり，
-
 ただし，境界条件として $\mathbf{P}_{0}=\mathbf{0}$ とする。この式を用いて，$\mathbf{P}_t$ を逐次的に求め，$\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}$ を即時的に計算して $\mathbf{P}_t$ に乗じれば，$\frac{\partial \mathcal{L}_t}{\partial \theta}$ が求まる．
-
-
-
-一方，出力層の誤差は BPTT と同様に  
-$\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
-
-$$
-\begin{equation}
-\frac{\partial \mathcal{L}_t}{\partial \theta}
-=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
-\frac{\partial \mathbf{u}_t}{\partial \theta}
-=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
-\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
-\end{equation}
-$$  
-
-ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は BPTTと同様に
-
-$$
-\begin{equation}
-\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
-=\boldsymbol\delta_t^{\mathrm{out}}\mathbf{h}_t^\top.
-\end{equation}
-$$
 
 このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
 
