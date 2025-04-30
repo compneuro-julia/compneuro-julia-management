@@ -261,6 +261,17 @@ M \otimes \mathbf{v} =
 
 直感的にいうと行列のそれぞれの成分をコピーし、ベクトルの各成分でスケールして、奥行き方向（新しい次元）に並べる．
 
+テンソル積 (tensor product)
+テンソル縮約 (tensor contraction)
+
+ここで，$\tilde{\otimes}_1$ を次のように定義する．行列 $\mathbf{A} \in \mathbb{R}^{m \times n}$、テンソル $\mathbf{B} \in \mathbb{R}^{n \times p \times q}$ とする．$\mathbf{C} \in \mathbb{R}^{m \times p \times q}$ を  
+
+$$
+\mathbf{C} := \mathbf{A} \,\tilde{\otimes}_1\, \mathbf{B}
+$$
+
+と定義する。ただし、$\tilde{\otimes}_1$ は $\mathbf{B}$ の第1軸に沿って $\mathbf{A}$ と縮約（行列積）を行う演算であり、これは $\mathbf{B}$ の各スライス $\mathbf{B}_{::\ell}$ に対して $\mathbf{A} \mathbf{B}_{::\ell}$ を逐次計算した結果を第3軸に沿って並べたものである。
+
 #### テンソル縮約（Contraction）とアインシュタイン縮約記法（Einsum）
 
 テンソルとは、多次元配列の一般化された概念である。一次元配列であるベクトルや二次元配列である行列を含むより高次の対象を統一的に扱う枠組みであり、階数（rank）と呼ばれる次元数によって分類される。階数が1のテンソルはベクトル、階数が2のテンソルは行列に対応し、それ以上の階数を持つものを一般に高次元テンソルと呼ぶ。テンソルは、座標変換に対して一定の変換則に従う数学的対象としても定義されるが、ここでは具体的な数値配列としての側面に焦点を当てる。
@@ -306,8 +317,26 @@ $$
 
 アインシュタイン記法に基づいた計算は、プログラミングにおいても広く利用されている。特に、PythonのNumPyやJuliaなどの数値計算ライブラリでは、
 
+ここで、$\tilde{\otimes}_1$ を次のように定める。行列 $\mathbf{A} \in \mathbb{R}^{m \times n}$、テンソル $\mathbf{B} \in \mathbb{R}^{n \times p \times q}$ に対し、
+
+$$
+\begin{equation}
+\mathbf{C} := \mathbf{A} \,\tilde{\otimes}_1\, \mathbf{B} \in \mathbb{R}^{m \times p \times q}
+\end{equation}
+$$
+
+を、$\mathbf{B}$ の第1軸に沿って $\mathbf{A}$ と縮約（行列積）を行う操作として定義する。すなわち、各 $\ell = 1,\dots,q$ に対し $\mathbf{C}_{::\ell} = \mathbf{A} \mathbf{B}_{::\ell}$ が成り立つ。
+
 TensorOperations.jl
 Einsum.jl
+
+
+$$
+\begin{equation}
+\delta _{ij}={\begin{cases}1&(i=j)\\0&(i\neq j)\end{cases}}
+\end{equation}
+$$
+
 
 
 #### ベクトル・行列の微分

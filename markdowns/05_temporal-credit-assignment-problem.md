@@ -27,7 +27,7 @@ $$
 
 として与えられる．
 
-### 過去方向・未来方向の勾配和
+### 未来方向・過去方向の勾配和
 このRNNを学習させる際の目標は，損失 $\mathcal{L}$ を最小化するようにパラメータ $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{W}_{\mathrm{out}},\mathbf{b}_h, \mathbf{b}_y\}$ を最適化することである．勾配法の観点では，損失のパラメータに対する勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ が求まれば最適化が可能である．損失は $\mathcal{L} = \sum_t \mathcal{L}_t$ と時間方向に分解できるので，勾配は
 
 $$
@@ -38,48 +38,27 @@ $$
 
 と時間方向に分解できる．ここで，$s, t$ はいずれも時刻を表し，$1 \leq s, t \leq T$ である．また，便宜的に「時刻 $s$ に用いられたパラメータ $\theta$」を $\theta_s$ と表記した。従って，$\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ は「時刻 $t$ における損失 $\mathcal{L}_t$ の時刻 $s$ に用いられたパラメータ $\theta_s$ に対する勾配」を意味する。また，オンライン学習でパラメータを毎時刻更新する場合であっても，勾配計算においては $\theta_s$ の微小変化 $\delta \theta_s$ はそのまま現在の $\theta$ の微小変化  $\delta \theta$ に等しいと見なせるため，$\frac{\partial \theta_s}{\partial \theta} = \mathbf{I}$ が成立する。さらに現在のパラメータの状態は過去の損失に影響を与えないため，$s>t$ では $\frac{\partial \mathcal{L}_t}{\partial \theta_s}=\mathbf{0}$ となり，上式では $s\leq t$ の範囲の勾配のみが残っている．
 
-ここで，なぜRTRLとBPTTの2種類の学習法が存在するのかを考えると、$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ という二重和において、どちらの変数に対して先に和を取るかに2通りの方法があるためである。すなわち、現在時刻を $t$ または $s$ のいずれかを基準にとるかによって、内側の和を過去方向 (past-facing) または未来方向 (future-facing) に進めることができ、これに応じて勾配の和の取り方も区別される \citep{marschall2020unified}：
+ここで，なぜBPTTとRTRLの2種類の学習法が存在するのかを考えると、$\sum_{t}\sum_{s\leq t}\frac{\partial \mathcal{L}_t}{\partial \theta_s}$ という二重和において、どちらの変数に対して先に和を取るかに2通りの方法があるためである。すなわち、現在時刻を $t$ または $s$ のいずれかを基準にとるかによって、内側の和を未来方向 (future-facing) または過去方向 (past-facing)に進めることができ、これに応じて勾配の和の取り方も区別される \citep{marschall2020unified}：
 
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \theta}=
 \begin{dcases}
-\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{過去方向勾配和; e.g., RTRL})\\
-\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{未来方向勾配和; e.g., BPTT})
+\sum_{s=1}^T\frac{\partial \mathcal{L}}{\partial \theta_s}=\sum_{s=1}^T\sum_{t=s}^T\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{未来方向勾配和; e.g., BPTT})\\
+\sum_{t=1}^T\frac{\partial \mathcal{L}_t}{\partial \theta}=\sum_{t=1}^T\sum_{s=1}^t\frac{\partial \mathcal{L}_t}{\partial \theta_s}\quad(\text{過去方向勾配和; e.g., RTRL})
 \end{dcases}
 \end{align}
 $$
 
-過去方向勾配和では、「現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して、過去のすべてのパラメータ $\theta_s\ (s \leq t)$ が及ぼした影響」を合算する。すなわち、この形式では、「現在の損失が過去のパラメータの微小な変化にどれだけ応答するか」を評価することになる。一方、未来方向勾配和では、「現在時刻 $s$ におけるパラメータ $\theta_s$ が、未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響」を合算する。したがって、この形式では、「現在のパラメータの微小な変化が将来の損失にどれだけ影響を及ぼすか」を評価することになる。結論から言えば，RTRLは過去方向勾配和，BPTTは未来方向勾配和を利用する．
+未来方向勾配和では、「現在時刻 $s$ におけるパラメータ $\theta_s$ が、未来のすべての損失 $\mathcal{L}_t\ (t \geq s)$ に与える影響」を合算する。したがって、この形式では、「現在のパラメータの微小な変化が将来の損失にどれだけ影響を及ぼすか」を評価することになる。未来方向勾配和を利用する手法の代表例がBPTTである．一方、過去方向勾配和では、「現在時刻 $t$ における損失 $\mathcal{L}_t$ に対して、過去のすべてのパラメータ $\theta_s\ (s \leq t)$ が及ぼした影響」を合算する。すなわち、この形式では、「現在の損失が過去のパラメータの微小な変化にどれだけ応答するか」を評価することになる。過去方向勾配和を利用する手法の代表例がRTRLである．
 
 勾配和をいずれの方向で取る場合であっても、二重和をそのまま計算すれば、計算量は $\mathcal{O}(T^2)$ となり、非効率である。このため、動的計画法 (dynamic programming; DP) を用いて、計算量を $\mathcal{O}(T)$ に削減するのが一般的である。ここで，動的計画法とは、問題を部分問題に分割し、それらの部分問題の解を再利用することで、全体の計算量を削減するアルゴリズム設計手法である。誤差逆伝播法（backpropagation）も動的計画法の一種に位置づけられ、また、運動制御や強化学習など、さまざまな分野で動的計画法は頻繁に用いられている。
 
-なお，RTRLとBPTTをある程度ご存じの読者であれば，「RTRLは未来方向で，BPTTは過去方向ではないのか」という疑問が浮かぶであろう．ここで「勾配和の評価において時間を進める方向」と「動的計画法において計算を進める方向」は逆になることに注意していただきたい．例えば、未来向き勾配和のように，将来に発生する損失や報酬を考慮して損失関数を評価する場合、動的計画法を適用すると、計算は未来から過去へと逆向きに進める必要がある。このように、将来の結果をもとに現在の値を推定する構図は、強化学習のTD学習における状態価値の推定にも見られる。すなわち、状態価値を将来の累積報酬の期待値として定義した上で、その推定は未来から過去へと逆向きに進められる\footnote{TD学習を含め，強化学習は第11章で詳解する．}。
+なお，BPTTとRTRLをある程度ご存じの読者であれば，「BPTTは過去方向でRTRLは未来方向ではないのか」という疑問が浮かぶであろう．ここで「勾配和の評価において時間を進める方向」と「動的計画法において計算を進める方向」は逆になることに注意していただきたい．例えば、未来向き勾配和のように，将来に発生する損失や報酬を考慮して損失関数を評価する場合、動的計画法を適用すると、計算は未来から過去へと逆向きに進める必要がある。このように、将来の結果をもとに現在の値を推定する構図は、強化学習のTD学習における状態価値の推定にも見られる。すなわち、状態価値を将来の累積報酬の期待値として定義した上で、その推定は未来から過去へと逆向きに進められる\footnote{TD学習を含め，強化学習は第11章で詳解する．}。
 
 以上を踏まえ，勾配和を動的計画法を用いて計算しよう．動的計画法を適用するためには、まず勾配を適切に展開し，現在の勾配を、ひとつ前（または後）の時刻における勾配との関係で再帰的に表現する必要がある。このとき留意すべき基本原則は、「現在の状態やパラメータは、過去の損失、状態、パラメータに影響を及ぼさない」という事実である。すなわち、現在の変数に対する過去の変数の勾配は常に0となる（例えば $\frac{\partial \mathbf{h}_{t-1}}{\partial \mathbf{h}_t}=\mathbf{0}$ である）。一方で、未来の変数は現在の変数に依存するため、現在の変数が未来の損失に及ぼす影響は意味を持つ。したがって、勾配を展開する際には、未来の損失に向かう方向で連鎖律を適用していくことになる。
 
-まず，過去方向勾配和の場合を考える．パラメータに対する即時的な損失の勾配は
-
-$$
-\begin{align}
-\frac{\partial \mathcal{L}_t}{\partial \theta}&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\sum_{s\leq t} \frac{\partial \mathbf{h}_t}{\partial \theta_s}\right)\\
-&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \sum_{s\leq t-1} \frac{\partial \mathbf{h}_t}{\partial \theta_s}\right)\\
-&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \sum_{s\leq t-1} \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta_s}\right)\\
-&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
-\end{align}
-$$
-
-となる．ここで感度行列 (sensitivity matrix, influence matrix) を $\mathbf{P}_t:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$，状態遷移のヤコビ行列を $\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}} \in \mathbb{R}^{d\times d}$ とする．ただし，$|\theta|$ はパラメータの次元数を意味する．この場合，$\mathbf{P}_t$ は次のように過去から未来に向かう再帰的な関係式で表せる：
-
-$$
-\begin{equation}
-\mathbf{P}_t=\tilde{\mathbf{P}}_t + \mathbf{J}_{t}\mathbf{P}_{t-1}
-\end{equation}
-$$
-
-ただし，境界条件として $\mathbf{P}_{0}=\mathbf{0}$ とする。この式を用いて，$\mathbf{P}_t$ を逐次的に求め，$\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}$ を即時的に計算して $\mathbf{P}_t$ に乗じれば，$\frac{\partial \mathcal{L}_t}{\partial \theta}$ が求まる．
-
-次に，未来方向勾配和の場合を考える．即時的なパラメータに対する損失の勾配は，
+まず，未来方向勾配和の場合を考える．即時的なパラメータに対する損失の勾配は，
 
 $$
 \begin{align}
@@ -90,7 +69,7 @@ $$
 \end{align}
 $$
 
-となる．ここで貢献度分配ベクトル (credit assignment vector) を $\boldsymbol{\delta}_t := \dfrac{\partial \mathcal{L}}{\partial \mathbf{h}_t} \in \mathbb{R}^{1\times d}$，即時的貢献度分配ベクトルを $\tilde{\boldsymbol{\delta}}_t := \dfrac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \in \mathbb{R}^{1\times d}$とすると，$\boldsymbol{\delta}_t$ は次のように未来から過去に向かう再帰的な関係式で表せる：
+となる．ここで貢献度分配ベクトル (credit assignment vector) を $\boldsymbol{\delta}_t := \dfrac{\partial \mathcal{L}}{\partial \mathbf{h}_t} \in \mathbb{R}^{1\times d}$，即時的貢献度分配ベクトルを $\tilde{\boldsymbol{\delta}}_t := \dfrac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \in \mathbb{R}^{1\times d}$，状態遷移のヤコビ行列を $\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}} \in \mathbb{R}^{d\times d}$ とすると，$\boldsymbol{\delta}_t$ は次のように未来から過去に向かう再帰的な関係式で表せる：
 
 $$
 \begin{equation}
@@ -100,106 +79,45 @@ $$
 
 ただし，境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。この式を用いて，$\boldsymbol{\delta}_t$ を逐次的に求め，$\frac{\partial \mathbf{h}_t}{\partial \theta_t}$ を即時的に計算して $\boldsymbol{\delta}_t$ に乗じれば，$\frac{\partial \mathcal{L}}{\partial \theta_t}$ が求まる．
 
-連鎖律に基づき理論的な勾配導出を行ったが、数値計算においては、誤差逆伝播法における処理と同様に、自動微分（automatic differentiation, AD）の枠組みを適用して勾配を効率的に計算することができる。自動微分では、微分の累積過程に応じて2つのモードがあり，それぞれが勾配和の2つの方向と対応する。すなわち、過去方向に対する勾配和の計算は順方向累積（forward accumulation）または順モード（forward-mode）自動微分によって、未来方向に対する勾配和の計算は逆方向累積（reverse accumulation）または逆モード（reverse-mode）自動微分によって、それぞれ実行される．
-
-本節の最後に、パラメータに対する損失勾配の展開を整理する。すなわち、過去方向（RTRLに相当）および未来方向（BPTTに相当）での勾配和は、それぞれ次のように表される。
+次に過去方向勾配和の場合を考える．パラメータに対する即時的な損失の勾配は
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \theta} =
-\begin{dcases}
-\sum_{t=1}^T \frac{\partial \mathcal{L}_t}{\partial \theta} = \sum_{t=1}^T \frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \frac{\partial \mathbf{h}_t}{\partial \theta} = \sum_{t=1}^T \frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \left( \frac{\partial \mathbf{h}_t}{\partial \theta_t} + \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}} \frac{\partial \mathbf{h}_{t-1}}{\partial \theta} \right) &(\text{過去方向勾配和; e.g., RTRL})\\
-\sum_{t=1}^T \frac{\partial \mathcal{L}}{\partial \theta_t} = \sum_{t=1}^T \frac{\partial \mathcal{L}}{\partial \mathbf{h}_t} \frac{\partial \mathbf{h}_t}{\partial \theta_t} = \sum_{t=1}^T \left( \frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} + \frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}} \frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t} \right) \frac{\partial \mathbf{h}_t}{\partial \theta_t} &(\text{未来方向勾配和; e.g., BPTT})
-\end{dcases}
+\frac{\partial \mathcal{L}_t}{\partial \theta}&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\sum_{s\leq t} \frac{\partial \mathbf{h}_t}{\partial \theta_s}\right)\\
+&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \sum_{s\leq t-1} \frac{\partial \mathbf{h}_t}{\partial \theta_s}\right)\\
+&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \sum_{s\leq t-1} \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta_s}\right)\\
+&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}\left(\frac{\partial \mathbf{h}_t}{\partial \theta_t} + \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}}\frac{\partial \mathbf{h}_{t-1}}{\partial \theta}\right)
 \end{align}
 $$
 
-次節および次々節では、ここで導出した関係式に基づいて、各パラメータの勾配を具体的に計算する。
-
-## 実時間再帰学習 (RTRL)
-まず，過去方向勾配和を利用する，**実時間再帰学習** (real-time recurrent learning; RTRL) \citep{williams1989learning} を用いて，各パラメータの勾配を計算する．
-
-まず，前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_y$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\ (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_y\})$ である．よって（即時的）感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_h\}$ において考える．即時的感度行列を具体的に書き下すと，次のようになる：
+となる．ここで感度行列 (sensitivity matrix, influence matrix) を $\mathbf{P}_t:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．ただし，$|\theta|$ はパラメータの次元数を意味する．この場合，$\mathbf{P}_t$ は次のように過去から未来に向かう再帰的な関係式で表せる：
 
 $$
 \begin{equation}
-\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\otimes \mathbf{x}_t, \quad 
-\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\otimes \mathbf{h}_{t-1}, \quad
-\tilde{\mathbf{P}}_t^{(\mathbf{b}_h)} = \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))
+\mathbf{P}_t=\tilde{\mathbf{P}}_t + \mathbf{J}_{t}\mathbf{P}_{t-1}
 \end{equation}
 $$
-
-となる．ここで各パラメータの入力感度 $\mathbf{Q}_t^{(\theta)}$ を
-
-$$
-\begin{equation}
-\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{in}})}:=\mathbf{x}_t^\top,\quad
-\mathbf{Q}_t^{(\mathbf{W}_{\mathrm{rec}})}:=\mathbf{h}_{t-1}^\top,\quad
-\mathbf{Q}_t^{(\mathbf{b}_h)}:=\mathbf{I}
-\end{equation}
-$$  
-
-とおくと，$\tilde{\mathbf{P}}_t^{(\theta)}=\alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\mathbf{Q}_t^{(\theta)}$ と表せる．次に，状態遷移のヤコビ行列は
-
-$$
-\begin{equation}
-\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}}=(1-\alpha)\cdot \mathbf{I} + \alpha\cdot \mathrm{diag}(f'(\mathbf{u}_t))\mathbf{W}_{\mathrm{rec}}
-\end{equation}
-$$ 
-
-であるので，（分子レイアウトで書き直す）
-https://en.wikipedia.org/wiki/Matrix_calculus
-
-$$
-\begin{align}
-\mathbf{P}_t^{(\theta)} &=\tilde{\mathbf{P}}_t^{(\theta)}  + \mathbf{J}_{t}\mathbf{P}_{t-1}^{(\theta)}\\
-&=
-\end{align}
-$$
-
-と求められる．
 
 ただし，境界条件として $\mathbf{P}_{0}=\mathbf{0}$ とする。この式を用いて，$\mathbf{P}_t$ を逐次的に求め，$\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}$ を即時的に計算して $\mathbf{P}_t$ に乗じれば，$\frac{\partial \mathcal{L}_t}{\partial \theta}$ が求まる．
 
-を逐次的に保持し，出力誤差と組み合わせて各時刻ごとに重み更新を行う。まず状態感度は以下の再帰式で更新される：  
+連鎖律に基づき理論的な勾配導出を行ったが、数値計算においては、誤差逆伝播法における処理と同様に、自動微分（automatic differentiation, AD）の枠組みを適用して勾配を効率的に計算することができる。自動微分では、微分の累積過程に応じて2つのモードがあり，それぞれが勾配和の2つの方向と対応する。すなわち、未来方向に対する勾配和の計算は逆方向累積（reverse accumulation）または逆モード（reverse-mode）自動微分によって、過去方向に対する勾配和の計算は順方向累積（forward accumulation）または順モード（forward-mode）自動微分によって、それぞれ実行される．
+
+本節の最後に、パラメータに対する損失勾配の展開を整理する。すなわち、未来方向（BPTTに相当）および過去方向（RTRLに相当）での勾配和は、それぞれ次のように表される。
 
 $$
-\begin{equation}
-\mathbf{P}_t^{(\theta)}
-=\left(1-\alpha\right)\mathbf{P}_{t-1}^{(\theta)}
-+\alpha\mathbf{D}_f(\mathbf{a}_t)
-\left(\mathbf{W}_{\mathrm{rec}}\mathbf{P}_{t-1}^{(\theta)} + \mathbf{Q}_t^{(\theta)}\right),
-\end{equation}
-$$  
-
-
-
-とし，$\mathbf{P}_t^{(\mathbf{W}_{\mathrm{out}})}=\mathbf{0}$ とする。一方，出力層の誤差は BPTT と同様に  
-$\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
-
-$$
-\begin{equation}
-\frac{\partial \mathcal{L}_t}{\partial \theta}
-=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
-\frac{\partial \mathbf{u}_t}{\partial \theta}
-=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
-\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
-\end{equation}
-$$  
-
-ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は  
-
-$$
-\begin{equation}
-\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
-=\boldsymbol\delta_t^{\mathrm{out}}\mathbf{h}_t^\top.
-\end{equation}
+\begin{alignat}{3}
+\frac{\partial \mathcal{L}}{\partial \theta} =
+\begin{dcases}
+\sum_{t=1}^T \frac{\partial \mathcal{L}}{\partial \theta_t} &= \sum_{t=1}^T \frac{\partial \mathcal{L}}{\partial \mathbf{h}_t} \frac{\partial \mathbf{h}_t}{\partial \theta_t} &&= \sum_{t=1}^T \left( \frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} + \frac{\partial \mathcal{L}}{\partial \mathbf{h}_{t+1}} \frac{\partial \mathbf{h}_{t+1}}{\partial \mathbf{h}_t} \right) \frac{\partial \mathbf{h}_t}{\partial \theta_t} &&(\text{未来方向勾配和; e.g., BPTT})\\
+\sum_{t=1}^T \frac{\partial \mathcal{L}_t}{\partial \theta} &= \sum_{t=1}^T \frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \frac{\partial \mathbf{h}_t}{\partial \theta} &&= \sum_{t=1}^T \frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t} \left( \frac{\partial \mathbf{h}_t}{\partial \theta_t} + \frac{\partial \mathbf{h}_t}{\partial \mathbf{h}_{t-1}} \frac{\partial \mathbf{h}_{t-1}}{\partial \theta} \right) &&(\text{過去方向勾配和; e.g., RTRL})
+\end{dcases}
+\end{alignat}
 $$
 
-このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
+次節 (BPTT) および次々節 (RTRL) では、ここで導出した関係式に基づいて、各パラメータの勾配を具体的に計算する。
 
 ## 経時的誤差逆伝播法 (BPTT)
-次に，未来方向勾配和を利用する，**経時的誤差逆伝播法** (backpropagation through time; BPTT) \citep{werbos1988generalization,werbos1990backpropagation} を用いて，各パラメータの勾配を計算する．BPTTはRNNにおける時間方向の処理を空間的に展開してBPを適用するのと同じであるが，どのような処理が行われており，生理学的に妥当性のある処理であるのかを検証するために，ここでは具体的な勾配を計算する．
+**経時的誤差逆伝播法** (backpropagation through time; BPTT) \citep{werbos1988generalization,werbos1990backpropagation} を用いた際の，各パラメータの勾配を計算する．BPTTはRNNにおける時間方向の処理を空間的に展開してBPを適用するのと同じであるが，どのような処理が行われており，生理学的に妥当性のある処理であるのかを検証するために，ここでは具体的な勾配を計算する．
 
 まず，出力層の誤差信号を
 
@@ -264,6 +182,90 @@ $$
 $$
 
 以上が BPTT による重み更新の基本式である。BPの時と同様に，実装時には$\delta_{t}$ は列ベクトルとなり，バッチ処理も考慮するため，転置の有無や行列積の順序は変化する．
+
+## 実時間再帰学習 (RTRL)
+次に，実時間再帰学習（real-time recurrent learning; RTRL）\citep{williams1989learning} を用いた際の各パラメータの勾配計算を行う．RTRLではテンソル積およびテンソル縮約を使用するため，適宜第1章を参照してほしい．
+
+前節と同様に，感度行列を $\mathbf{P}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta}\in \mathbb{R}^{d \times |\theta|}$，即時的感度行列を $\tilde{\mathbf{P}}_t^{(\theta)}:=\dfrac{\partial \mathbf{h}_t}{\partial \theta_t}\in \mathbb{R}^{d \times |\theta|}$ とする．出力に関わるパラメータ $\mathbf{W}_{\mathrm{out}}$ および $\mathbf{b}_y$ は状態 $\mathbf{h}_t$ に影響しないため，$\mathbf{P}_t^{(\theta)}=\tilde{\mathbf{P}}_t^{(\theta)}=\mathbf{0}\; (\theta\in\{\mathbf{W}_{\mathrm{out}}, \mathbf{b}_y\})$ である．よって（即時的）感度行列は  $\theta \in\{\mathbf{W}_{\mathrm{in}},\mathbf{W}_{\mathrm{rec}},\mathbf{b}_h\}$ において考える．即時的感度行列は、それぞれのパラメータに対応して次のように書き下すことができる：
+
+$$
+\begin{align}
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{x}_t &&\in \mathbb{R}^{d \times d \times n} \\
+\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{h}_{t-1} &&\in \mathbb{R}^{d \times d \times d} \\
+\tilde{\mathbf{P}}_t^{(\mathbf{b}_h)} &= \alpha \cdot \mathbf{D}_f(\mathbf{u}_t) &&\in \mathbb{R}^{d \times d}
+\end{align}
+$$
+
+ここで，$\mathbf{D}_f(\mathbf{u}_t):=\mathrm{diag}(f'(\mathbf{u}_t))$ とした．$\mathrm{diag}(\cdot)$ はベクトルの各成分を対角要素として並べた対角行列を生成する演算子である．また，$\otimes$ はテンソル積を意味する。例えば，$\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})}$ は，対角行列 $\mathrm{diag}(f'(\mathbf{u}_t))$ を入力次元 $n$ の各要素に対してコピーし，コピーされた各行列に対応する $\mathbf{x}_t$ の各要素をスカラーとして掛け合わせた構造を持つ。各成分を明示的に記述すれば，次のようになる：
+
+$$
+\begin{equation}
+\left(\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{in}})}\right)_{ijk} = \alpha\, f'(u_t^i)\, \delta_{ij}\, x_t^k
+\end{equation}
+$$
+
+ここで，$u_t^i$ は $\mathbf{u}_t$ の第 $i$ 成分，$x_t^k$ は $\mathbf{x}_t$ の第 $k$ 成分，$\delta_{ij}$ は Kronecker のデルタ（$i = j$ のときに1，それ以外は0）である。なお，$\tilde{\mathbf{P}}_t^{(\mathbf{W}_{\mathrm{rec}})}$ についても同様の構造であり，$\mathbf{x}_t$ を $\mathbf{h}_{t-1}$ に置き換えればよい。
+
+次に，状態遷移のヤコビ行列は
+
+$$
+\begin{equation}
+\mathbf{J}_t := \dfrac{\partial \mathbf{h}_{t}}{\partial \mathbf{h}_{t-1}}=(1-\alpha)\; \mathbf{I} + \alpha\cdot \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}
+\end{equation}
+$$ 
+
+であるので，感度行列の更新則は $\mathbf{P}_t^{(\theta)} =\tilde{\mathbf{P}}_t^{(\theta)}  + \mathbf{J}_{t}\mathbf{P}_{t-1}^{(\theta)}$ より，
+
+$$
+\begin{alignat}{3}
+\mathbf{P}_t^{(\mathbf{W}_{\mathrm{in}})} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{in}})} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{x}_t  + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\,\tilde{\otimes}_1\,\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{in}})}\right]&&\in \mathbb{R}^{d \times d \times n} \\
+\mathbf{P}_t^{(\mathbf{W}_{\mathrm{rec}})} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{rec}})} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) \otimes \mathbf{h}_{t-1} + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\,\tilde{\otimes}_1\,\mathbf{P}_{t-1}^{(\mathbf{W}_{\mathrm{rec}})}\right]&&\in \mathbb{R}^{d \times d \times d} \\
+\mathbf{P}_t^{(\mathbf{b}_h)} &=(1-\alpha)\mathbf{P}_{t-1}^{(\mathbf{b}_h)} &&+ \alpha \left[\mathbf{D}_f(\mathbf{u}_t) + \mathbf{D}_f(\mathbf{u}_t)\mathbf{W}_{\mathrm{rec}}\mathbf{P}_{t-1}^{(\mathbf{b}_h)}\right]&&\in \mathbb{R}^{d \times d} \\
+\end{alignat}
+$$
+
+と求められる．ここで，$\tilde{\otimes}_1$ は、左側の行列 (2階テンソル) と右側の3階テンソルに対し，3階テンソルの第1軸に沿って縮約を行う演算子である。ここでの演算結果は、3階テンソル $\mathbf{P}_{t-1}$ の第3軸に沿った各スライス $(\mathbf{P}_{t-1})_{::k}$ に対して行列積 $\mathbf{W}_{\mathrm{rec}} (\mathbf{P}_{t-1})_{::k}$ を並列に適用し、それらを第3軸方向に再構成した3階テンソルとなる。
+
+BPTTと同様に
+
+$$
+\begin{align}
+\boldsymbol{\delta}_t^{\mathrm{out}}
+&:=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}
+=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\frac{\partial \mathbf{y}_t}{\partial \mathbf{a}_t}=\frac{\partial \mathcal{L}_t}{\partial \mathbf{y}_t}\odot g'(\mathbf{a}_t)^\top\quad \left(\in \mathbb{R}^{1\times m}\right)\\
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}&=\frac{\partial \mathcal{L}_t}{\partial \mathbf{a}_t}\frac{\partial \mathbf{a}_t}{\partial \mathbf{h}_t}=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{W}_{\mathrm{out}}
+\end{align}
+$$
+
+であり，
+
+ただし，境界条件として $\mathbf{P}_{0}=\mathbf{0}$ とする。この式を用いて，$\mathbf{P}_t$ を逐次的に求め，$\frac{\partial \mathcal{L}_t}{\partial \mathbf{h}_t}$ を即時的に計算して $\mathbf{P}_t$ に乗じれば，$\frac{\partial \mathcal{L}_t}{\partial \theta}$ が求まる．
+
+
+
+一方，出力層の誤差は BPTT と同様に  
+$\boldsymbol\delta_t^{\mathrm{out}}=\partial\mathcal{L}_t/\partial\mathbf{u}_t$ であるから，時刻 $t$ における各パラメータの勾配は  
+
+$$
+\begin{equation}
+\frac{\partial \mathcal{L}_t}{\partial \theta}
+=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
+\frac{\partial \mathbf{u}_t}{\partial \theta}
+=\left(\boldsymbol\delta_t^{\mathrm{out}}\right)^\top
+\mathbf{W}_{\mathrm{out}}\mathbf{P}_t^{(\theta)},
+\end{equation}
+$$  
+
+ただし $\theta=\mathbf{W}_{\mathrm{out}}$ の場合は BPTTと同様に
+
+$$
+\begin{equation}
+\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}}
+=\boldsymbol\delta_t^{\mathrm{out}}\mathbf{h}_t^\top.
+\end{equation}
+$$
+
+このように RTRL では時刻ごとに $\mathbf{P}_t^{(\theta)}$ を更新し，それを用いて逐次的に勾配を計算するため，オンライン学習が可能となる。
 
 ## RTRLとBPTTの生理学的実装の困難点
 時空間的に局所
