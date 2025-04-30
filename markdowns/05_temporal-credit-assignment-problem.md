@@ -165,36 +165,37 @@ $$
 \end{equation}
 $$  
 
-が成立する。ただし，境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。時刻 $t$ のパラメータの更新量を $\Delta \theta_t$ とすると，
+が成立する。ただし，境界条件として $\boldsymbol{\delta}_{T+1}=\mathbf{0}$ とする。パラメータの更新量を $\Delta \theta$ とすると，
 
 $$
-\Delta \theta_t \propto \left(\dfrac{\partial \mathcal{L}}{\partial \theta_t}\right)^\top=\frac{\partial \mathcal{L}}{\partial \mathbf{h}_t}\frac{\partial \mathbf{h}_t}{\partial \theta_t}
+\Delta \theta \propto \sum_t \left(\dfrac{\partial \mathcal{L}}{\partial \theta_t}\right)^\top=\sum_t \left(\frac{\partial \mathbf{h}_t}{\partial \theta_t}\right)^\top\boldsymbol{\delta}_t
 $$
 
 これらを用いて各重み行列の勾配を時刻方向に和をとる形で求める。
 
 $$
 \begin{alignat}{2}
-\Delta \mathbf{W}_{\mathrm{rec}}^t &\propto \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{rec}}^\top}
-&&=\alpha \boldsymbol{\delta}_{t}^\mathrm{h}\mathbf{h}_{t-1}^\top\\
-\Delta \mathbf{W}_{\mathrm{in}}^t &\propto \frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{in}}^\top}
-&&=\alpha \boldsymbol{\delta}_{t}^\mathrm{h}\mathbf{x}_t^\top\\
-\Delta \mathbf{b}_{\mathrm{rec}}^t &\propto \frac{\partial \mathcal{L}_t}{\partial \mathbf{b}_{\mathrm{rec}}^\top}
-&&=\alpha\boldsymbol{\delta}_{t}^\mathrm{h}
+\Delta \mathbf{W}_{\mathrm{rec}} &\propto \sum_t\left(\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{rec}}^t}\right)^\top
+&&=\alpha \sum_t\boldsymbol{\delta}_{t}^\mathrm{h}\mathbf{h}_{t-1}^\top\\
+\Delta \mathbf{W}_{\mathrm{in}} &\propto \sum_t\left(\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{in}}^t}\right)^\top
+&&=\alpha \sum_t\boldsymbol{\delta}_{t}^\mathrm{h}\mathbf{x}_t^\top\\
+\Delta \mathbf{b}_{\mathrm{rec}} &\propto \sum_t\left(\frac{\partial \mathcal{L}}{\partial \mathbf{b}_{\mathrm{rec}}^t}\right)^\top
+&&=\alpha \sum_t\boldsymbol{\delta}_{t}^\mathrm{h}
 \end{alignat}
 $$
 
 
+
 $$
-\begin{align}
-\frac{\partial \mathcal{L}_t}{\partial \mathbf{W}_{\mathrm{out}}^\top}
-&=\boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{h}_t^\top\\
-\frac{\partial \mathcal{L}_t}{\partial \mathbf{b}_{\mathrm{out}}^\top}
-&=\boldsymbol{\delta}_t^{\mathrm{out}}\\
-\end{align}
+\begin{alignat}{2}
+\Delta \mathbf{W}_{\mathrm{out}}&\propto \sum_t\left(\frac{\partial \mathcal{L}}{\partial \mathbf{W}_{\mathrm{out}}^t}\right)^\top
+&&=\sum_t \boldsymbol{\delta}_t^{\mathrm{out}}\mathbf{h}_t^\top\\
+\Delta \mathbf{b}_{\mathrm{out}}&\propto \sum_t\left(\frac{\partial \mathcal{L}}{\partial \mathbf{b}_{\mathrm{out}}^t}\right)^\top
+&&=\sum_t \boldsymbol{\delta}_t^{\mathrm{out}}\\
+\end{alignat}
 $$
 
-以上が BPTT による重み更新の基本式である。BPの時と同様に，実装時には$\delta_{t}$ は列ベクトルとなり，バッチ処理も考慮するため，転置の有無や行列積の順序は変化する．
+以上が BPTT による重み更新の基本式である。BPの時と同様に，バッチ処理を考慮するため，転置の有無や行列積の順序は変化する．
 
 ## 実時間再帰学習 (RTRL)
 次に，実時間再帰学習（real-time recurrent learning; RTRL）\citep{williams1989learning} を用いた際の各パラメータの勾配計算を行う．RTRLではテンソル積およびテンソル縮約を使用するため，適宜第1章を参照してほしい．

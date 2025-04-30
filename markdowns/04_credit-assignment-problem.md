@@ -49,14 +49,12 @@ $f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以
 $(\ell=1,\ldots,L)$．ただし，活動を $\mathbf{z}_\ell \in \mathbb{R}^{n_\ell}$, 結合重みを $\mathbf{W}_\ell \in \mathbb{R}^{n_{\ell+1} \times n_{\ell}}$，定常項を $\mathbf{b}_\ell \in \mathbb{R}^{n_{\ell+1}}$ とする．
 
 $$
-\boxed{
 \begin{align}
-\text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
-\text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
-&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
-\text{出力層 : }&\mathbf{y}=\mathbf{z}_{L+1}
+\textrm{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
+\textrm{隠れ層 : }&\mathbf{u}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
+&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{u}_\ell\right)\\
+\textrm{出力層 : }&\mathbf{y}=\mathbf{z}_{L+1}
 \end{align}
-}
 $$
 
 代表的な活性化関数を紹介する．なお，`backward` における `y` は `forward` での出力に対応する．これは活性化関数を作用させる前の変数 ($x$であり，膜電位に対応する) を保持しておかなくても良いようにするためである．
@@ -98,31 +96,48 @@ $$
 ### 重みの初期化
 struct `MLP`を用意し，**重みの初期化** (weight initialization) を行う同名の関数`MLP`を用意する．重みの初期化に関しては，各層の出力および勾配の分散が一定となるような初期化をすることで学習が進行することが知られている．出力は活性化関数に依存するため，初期化についても活性化関数に応じて変更することが推奨され，sigmoid関数やtanh関数を用いる場合はXavierの初期化 \citep{Glorot2010-iu}，ReLU関数を用いる場合はHeの初期化 \citep{He2015-fs} が用いられる．入力ユニット数を $n_{\textrm{in}}$, 出力ユニット数を $n_{\textrm{out}}$ とすると，Xavierの初期化では重み $w$ の平均が0, 分散が $\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}$ となるように一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}, \sqrt{\frac{6}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}+n_{\textrm{out}}}}\right)$ 等から重みをサンプリングする．Heの初期化ではReLUを用いる場合，重み $w$ の平均が0, 分散が$\frac{2}{n_{\textrm{in}}}$ あるいは $\frac{2}{n_{\textrm{out}}}$ となるようにし，前者の分散を使用する場合は一様分布 $U\left(-\sqrt{\frac{6}{n_{\textrm{in}}}}, \sqrt{\frac{6}{n_{\textrm{in}}}}\right)$ や正規分布 $\mathcal{N}\left(0, \sqrt{\frac{2}{n_{\textrm{in}}}}\right)$ 等から重みをサンプリングする．
 
-
 ## 誤差逆伝播法
 ニューラルネットワークにおいて，効率よく各重みの勾配を推定することで貢献度割り当て問題を解決する方法が**誤差逆伝播法** (backpropagation) である．本節では入力層，隠れ層，出力層からなる多層ニューラルネットワークを実装し，誤差逆伝播法による勾配推定を用いて学習を行う．
 
 本書では誤差逆伝播法を用いない学習法を実施することも考慮し，数式と対応するような実装を行う．そのため，Deep Learningライブラリ (PyTorch, Flux.jl等) のようにLayerを定義し，それを繋げてモデルを定義するということや計算グラフの構築は行わない．
 
 ### 逆伝播 (backward propagation)
-ニューラルネットワークの学習 (learning) あるいは訓練 (training) とは，目的関数 (objective function) あるいは損失関数 (loss function) と呼ばれる評価指標を可能な限り小さく (場合によっては大きく) するようなパラメータ集合 $\Theta = \{W_\ell, b_\ell\}_{\ell=1}^{L}$ を求める過程のことである．学習においてパラメータを最適化するアルゴリズムを**オプティマイザ** (optimizer) という．オプティマイザは多数提案されており，代表的なものを後ほど紹介する．まず，最も単純なオプティマイザである **勾配降下法** (gradient descent; GD) を紹介する．勾配降下法では全データを用いてパラメータ $\theta \in \Theta$ の更新量 $\Delta \theta$ を 
+ニューラルネットワークの学習 (learning) あるいは訓練 (training) とは，目的関数 (objective function) あるいは損失関数 (loss function) と呼ばれる評価指標を可能な限り小さく\footnote{場合によっては大きくすることも求められるが，そのような最大化問題であっても，目的関数の符号を逆にすれば最小化問題に帰着する．}するようなパラメータ集合 $\Theta = \{W_\ell, b_\ell\}_{\ell=1}^{L}$ を求める過程のことである．学習においてパラメータを最適化するアルゴリズムを**オプティマイザ** (optimizer) という．オプティマイザは多数提案されており，代表的なものを後ほど紹介する．まず，最も単純なオプティマイザである **勾配降下法** (gradient descent; GD) を紹介する．勾配降下法では全データを用いてパラメータ $\theta \in \Theta$ の更新量 $\Delta \theta$ を 
 
 $$
-\Delta \theta = -\eta \left(\frac{\partial \mathcal{L}_{\textrm{GD}}}{\partial \theta}\right)^\top = -\frac{\eta}{N} \sum_{i=1}^N \left(\frac{\partial \mathcal{L}^{(i)}}{\partial \theta}\right)^\top
+\begin{equation}
+\Delta \theta = -\eta \nabla_\theta \mathcal{L}_{\textrm{GD}} = -\eta \left(\frac{\partial \mathcal{L}_{\textrm{GD}}}{\partial \theta}\right)^\top = -\frac{\eta}{N} \sum_{i=1}^N \left(\frac{\partial \mathcal{L}^{(i)}}{\partial \theta}\right)^\top
+\end{equation}
 $$
 
-として計算する (パラメータは$\theta\leftarrow \theta + \Delta \theta$により更新される)．ただし，$\mathcal{L}_{\textrm{GD}}:=\frac{1}{N}\sum_{i=1}^N \mathcal{L}^{(i)}$ であり，$\mathcal{L}^{(i)}$は$i$ 番目のサンプルに対する目的関数であり，$N$ は全データのサンプル数を意味する．$\eta$ は学習率 (learning rate) である．オプティマイザは一般的に勾配 $\dfrac{\partial \mathcal{L}}{\partial \theta}$ の計算を必要とする．この計算を効率よく行う手法が**誤差逆伝播法** (backpropagation) である．誤差逆伝播法は連鎖律 (chain rule; 合成関数の微分の関係式) を用いて導くことができる．$\mathbf{a}_\ell=W_\ell \mathbf{z}_\ell +\mathbf{b}_\ell$ および $\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)$ であることを踏まえ，分子レイアウト記法\footnote{第1章参照}を用いると，
+として計算する（パラメータは$\theta\leftarrow \theta + \Delta \theta$により更新される）．ただし，$\mathcal{L}_{\textrm{GD}}:=\frac{1}{N}\sum_{i=1}^N \mathcal{L}^{(i)}$ であり，$\mathcal{L}^{(i)}$ は $i$ 番目のサンプルに対する目的関数であり，$N$ は全データのサンプル数を意味する．$\eta$ は学習率 (learning rate) である．勾配降下法のようにオプティマイザは一般的に損失のパラメータに対する勾配 $\nabla_\theta \mathcal{L}=\left(\frac{\partial \mathcal{L}}{\partial \theta}\right)^\top$ の計算を必要とする．**誤差逆伝播法**（backpropagation; BP）は、損失関数 $\mathcal{L}$ の各層のパラメータに対する勾配を効率的に計算するアルゴリズムであり、その導出には合成関数の微分則である**連鎖律**（chain rule）が用いられる。以下では分子レイアウト記法\footnote{第1章参照}を用いて、各層における勾配を順に求める．
+
+まず、出力層 ($L+1$ 層) における損失 $\mathcal{L}$ の出力 $\mathbf{y} = \mathbf{z}_{L+1}$ に関する勾配は、
+ここで $\boldsymbol{\delta}_L\in \mathbb{R}^{n_{L+1}}$ は**誤差信号**（error signal）と呼ばれ、以下のように再帰的に中間層へ伝播させる。
+
+$$
+\begin{equation}
+\boldsymbol{\delta}_L:=\,\left(\frac{\partial \mathcal{L}}{\partial \mathbf{u}_L}\right)^\top=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{u}_L}\right)^\top
+\end{equation}
+$$
+
+となる。$\boldsymbol{\delta}_L$ の具体的な導出には損失関数の定義が必要となる．次に，$\ell$ 番目の中間層においては、1つ上の $\ell+1$ 番目の層における誤差信号 $\boldsymbol{\delta}_{\ell+1} \in \mathbb{R}^{n_{\ell+2}}$ を用いて、以下のように誤差信号 $\boldsymbol{\delta}_\ell \in \mathbb{R}^{n_{\ell+1}}$ を更新する：
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \mathbf{y}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
-\boldsymbol{\delta}_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\quad\left(\in \mathbb{R}^{1\times n_{L+1}}\right)\\
-\boldsymbol{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
-&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell+1}}\frac{\partial \mathbf{a}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_{\ell}}\\
-&=\boldsymbol{\delta}_{\ell+1}{\mathbf{W}_{\ell+1}} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)^\top \quad\left(\in \mathbb{R}^{1\times n_{\ell+1}}\right)\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}=\mathbf{z}_\ell \boldsymbol{\delta}_\ell  \quad\left(\in \mathbb{R}^{n_{\ell}\times n_{\ell+1}}\right)\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\boldsymbol{\delta}_\ell \quad\left(\in \mathbb{R}^{1\times n_{\ell+1}}\right)
+\boldsymbol{\delta}_\ell:=&\,\left(\frac{\partial \mathcal{L}}{\partial \mathbf{u}_{\ell}}\right)^\top=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{u}_{\ell+1}}\frac{\partial \mathbf{u}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{u}_{\ell}}\right)^\top\\
+=&\,\mathrm{diag}\left(f_\ell^{\prime}\left(\mathbf{u}_{\ell}\right)\right){\mathbf{W}_{\ell+1}^\top} \boldsymbol{\delta}_{\ell+1}\\
+=&\,f_\ell^{\prime}\left(\mathbf{u}_{\ell}\right)\odot \left({\mathbf{W}_{\ell+1}^\top} \boldsymbol{\delta}_{\ell+1}\right)
 \end{align}
+$$
+
+ここで，$\mathrm{diag}(\cdot)$ は，ベクトルの各成分を対角要素に配置した対角行列を生成する演算子である．また，$\odot$ は同じ次元のベクトル同士の要素積（Hadamard積）を表す記号である．任意の $\mathbf{a}, \mathbf{b} \in \mathbb{R}^n$ に対して，$\mathrm{diag}(\mathbf{a}) \mathbf{b} = \mathbf{a} \odot \mathbf{b}$ が成り立つことから，最後の式変形ではこの等式を用いて簡略化している．
+
+$$
+\begin{alignat}{4}
+\nabla_{\mathbf{W}_{\ell}}\mathcal{L}&= \left(\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}\right)^\top&&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{u}_\ell} \frac{\partial \mathbf{u}_\ell}{\partial \mathbf{W}_\ell}\right)^\top&&=\boldsymbol{\delta}_\ell \mathbf{z}_\ell^\top &&\left(\in \mathbb{R}^{n_{\ell+1}\times n_{\ell}}\right)\\
+\nabla_{\mathbf{b}_{\ell}}\mathcal{L}&= \left(\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}\right)^\top&&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{u}_\ell} \frac{\partial \mathbf{u}_\ell}{\partial \mathbf{b}_\ell}\right)^\top&&=\boldsymbol{\delta}_\ell^\top &&\left(\in \mathbb{R}^{n_{\ell+1}}\right)
+\end{alignat}
 $$
 
 が成り立つ．実装時に注意したいこととして，Juliaは基本が列ベクトルであるので，$\boldsymbol{\delta}_\ell$ も行ベクトルではなく列ベクトルとして保存および処理をする．さらにバッチ処理も考慮するので，行列を乗じる順番や転置の有無などが数式通りとはならない．
@@ -134,8 +149,8 @@ $$
 \begin{align}
 \mathbf{y} &= \mathbf{z}_{L+1}\\
 \mathcal{L}&:=\frac{1}{2}\left\|\mathbf{y}-\mathbf{y}^*\right\|^{2}\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{y}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}=\mathbf{y}-\mathbf{y}^*\\
-\delta_L&=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}=\left(\mathbf{y}-\mathbf{y}^*\right) \odot f_L^{\prime}\left(\mathbf{a}_L\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{y}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}=\left(\mathbf{y}-\mathbf{y}^*\right)^\top\\
+\delta_L&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{u}_L}\right)^\top=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{u}_L}\right)^\top=\left(\mathbf{y}-\mathbf{y}^*\right) \odot f_L^{\prime}\left(\mathbf{u}_L\right)\\
 \end{align}
 $$
 
@@ -233,7 +248,7 @@ $$
 \end{equation}
 $$
 
-行列$\mathbf{S}$ の対角成分の非ゼロ要素が特異値である．次に学習途中の時刻$(t)$における $\hat{\mathbf{\Sigma}}^{yx}(t)=\mathbf{W}_2 (t) \mathbf{W}_1(t) \mathbf{\Sigma}^{x}$ に対してSVDを実行し，特異値 $\mathbf{A}(t)=[a_{\alpha}(t)]$ を得る．この $a_{\alpha}(t)$ だが，3層のネットワークでは大きな特異値から先に学習されるのに対し，2層のネットワークでは全ての特異値が同時に学習される．このダイナミクスだが，**低ランク近似** (low-rank approximation)が生じていて，特異値の大きな要素から学習されていると捉えることができる．学習が進むとランクが大きくなっていく，ということである．低ランク近似の例として，SVDによる画像の圧縮と復元を見てみよう．カメラマンの画像に対し，低ランク近似を行い，ランクを上げていく．するとランクが上がるにつれて，画像が鮮明になる．
+行列$\mathbf{S}$ の対角成分の非ゼロ要素が特異値である．次に学習途中の時刻$(t)$における $\hat{\mathbf{\Sigma}}^{yx}(t)=\mathbf{W}_2 (t) \mathbf{W}_1(t) \mathbf{\Sigma}^{x}$ に対してSVDを実行し，特異値 $\mathbf{u}(t)=[a_{\alpha}(t)]$ を得る．この $a_{\alpha}(t)$ だが，3層のネットワークでは大きな特異値から先に学習されるのに対し，2層のネットワークでは全ての特異値が同時に学習される．このダイナミクスだが，**低ランク近似** (low-rank approximation)が生じていて，特異値の大きな要素から学習されていると捉えることができる．学習が進むとランクが大きくなっていく，ということである．低ランク近似の例として，SVDによる画像の圧縮と復元を見てみよう．カメラマンの画像に対し，低ランク近似を行い，ランクを上げていく．するとランクが上がるにつれて，画像が鮮明になる．
 
 3層線形ネットワーク (deep)では大きな特異値から学習が始まっているのが分かる．また，それぞれの特異値の学習においてはシグモイド関数様の急速な学習段階が見られる．一方で2層線形ネットワーク (shallow)では全ての特異値の学習が初めから起こっていることがわかる．パラメータが少ないため，収束はこちらの方が速い．
 
@@ -317,8 +332,8 @@ $f(\cdot)$を活性化関数とする．順伝播(feedforward propagation)は以
 $$
 \begin{align}
 \text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
-\text{隠れ層 : }&\mathbf{a}_\ell=W_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
-&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
+\text{隠れ層 : }&\mathbf{u}_\ell=W_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
+&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{u}_\ell\right)\\
 \text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
 \end{align}
 $$
@@ -365,12 +380,12 @@ fixed prediction assumptionという (Millidge etal., 2022. Rosebvbaum 2022) 修
 $$
 \begin{align}
 \frac{\partial \mathcal{L}}{\partial \hat{\mathbf{y}}}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}}\\
-\boldsymbol{\delta}_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{a}_L}\\
-\boldsymbol{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_\ell}\\
-&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{a}_{\ell+1}}\frac{\partial \mathbf{a}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{a}_{\ell}}\\
-&={\mathbf{W}_{\ell+1}}^\top \boldsymbol{\delta}_{\ell+1} \odot f_\ell^{\prime}\left(\mathbf{a}_{\ell}\right)\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}=\boldsymbol{\delta}_\ell \mathbf{z}_\ell^\top\\
-\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\boldsymbol{\delta}_\ell
+\boldsymbol{\delta}_L&:=\frac{\partial \mathcal{L}}{\partial \mathbf{u}_L}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{L+1}} \frac{\partial \mathbf{z}_{L+1}}{\partial \mathbf{u}_L}\\
+\boldsymbol{\delta}_\ell&:=\frac{\partial \mathcal{L}}{\partial \mathbf{u}_{\ell}}=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_{\ell+1}} \frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{u}_\ell}\\
+&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{u}_{\ell+1}}\frac{\partial \mathbf{u}_{\ell+1}}{\partial \mathbf{z}_{\ell+1}}\right)\frac{\partial \mathbf{z}_{\ell+1}}{\partial \mathbf{u}_{\ell}}\\
+&={\mathbf{W}_{\ell+1}}^\top \boldsymbol{\delta}_{\ell+1} \odot f_\ell^{\prime}\left(\mathbf{u}_{\ell}\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{u}_\ell} \frac{\partial \mathbf{u}_\ell}{\partial \mathbf{W}_\ell}=\boldsymbol{\delta}_\ell \mathbf{z}_\ell^\top\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{u}_\ell} \frac{\partial \mathbf{u}_\ell}{\partial \mathbf{b}_\ell}=\boldsymbol{\delta}_\ell
 \end{align}
 $$
 
@@ -385,8 +400,8 @@ $$
 $$
 \begin{align}
 \text{入力層 : }&\mathbf{z}_1=\mathbf{x}\\
-\text{隠れ層 : }&\mathbf{a}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
-&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{a}_\ell\right)\\
+\text{隠れ層 : }&\mathbf{u}_\ell=\mathbf{W}_\ell \mathbf{z}_\ell +\mathbf{b}_\ell\\
+&\mathbf{z}_{\ell+1}=f_\ell\left(\mathbf{u}_\ell\right)\\
 \text{出力層 : }&\hat{\mathbf{y}}=\mathbf{z}_{L+1}
 \end{align}
 $$
@@ -485,8 +500,8 @@ $$
 
 $$
 \begin{align}
-\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell} \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{W}_\ell}\\
-&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{a}_\ell}\frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}\right) \mathbf{z}_\ell^\top\quad \left(\because \frac{\partial \mathbf{a}_\ell}{\partial \mathbf{b}_\ell}=\mathbf{1}\right)\\
+\frac{\partial \mathcal{L}}{\partial \mathbf{W}_\ell}&=\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{u}_\ell} \frac{\partial \mathbf{u}_\ell}{\partial \mathbf{W}_\ell}\\
+&=\left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}_\ell} \frac{\partial \mathbf{z}_\ell}{\partial \mathbf{u}_\ell}\frac{\partial \mathbf{u}_\ell}{\partial \mathbf{b}_\ell}\right) \mathbf{z}_\ell^\top\quad \left(\because \frac{\partial \mathbf{u}_\ell}{\partial \mathbf{b}_\ell}=\mathbf{1}\right)\\
 &=\frac{\partial \mathcal{L}}{\partial \mathbf{b}_\ell}\mathbf{z}_\ell^\top
 \end{align}
 $$
