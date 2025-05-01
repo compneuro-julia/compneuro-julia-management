@@ -1,6 +1,0 @@
-format: jb-article
-root: index
-sections:
-- file: preface
-  sections:
-  - file: neuron-model/hodgkin-huxley
