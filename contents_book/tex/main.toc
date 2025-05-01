@@ -41,10 +41,10 @@
 \contentsline {chapter}{\numberline {第3章}エネルギーベースモデル}{27}{chapter.3}%
 \contentsline {chapter}{\numberline {第4章}ニューラルネットワークと貢献度分配問題}{29}{chapter.4}%
 \contentsline {chapter}{\numberline {第5章}再帰型ニューラルネットワークと経時的貢献度分配問題}{31}{chapter.5}%
-\contentsline {chapter}{\numberline {第6章}ニューロンとシナプスの生物物理学的モデル}{33}{chapter.6}%
+\contentsline {chapter}{\numberline {第6章}神経細胞とシナプスの生物物理学的モデル}{33}{chapter.6}%
 \contentsline {chapter}{\numberline {第7章}スパイキングニューラルネットワークの学習則}{35}{chapter.7}%
 \contentsline {chapter}{\numberline {第8章}リザバーコンピューティング}{37}{chapter.8}%
-\contentsline {chapter}{\numberline {第9章}神経回路網によるベイズ推論}{39}{chapter.9}%
+\contentsline {chapter}{\numberline {第9章}神経回路網による不確実性の表現とベイズ推論}{39}{chapter.9}%
 \contentsline {chapter}{\numberline {第10章}運動学習と最適制御}{41}{chapter.10}%
 \contentsline {chapter}{\numberline {第11章}強化学習}{43}{chapter.11}%
-\contentsline {chapter}{\numberline {第12章}神経・神経回路の発生・構造的モデル}{45}{chapter.12}%
+\contentsline {chapter}{\numberline {第12章}神経系の発生と発達の数理モデル}{45}{chapter.12}%
