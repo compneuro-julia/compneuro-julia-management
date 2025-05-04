@@ -1,6 +1,14 @@
 ## 予測符号化モデル
 $u$ を $w$ に変更．
 
+
+Annotated Bibliographyはもう一度確認する．
+
+Pece, AEC (1992) Redundancy reduction of a Gabor representation: A possible computational role for feedback from primary visual cortex to lateral geniculate nucleus. In I Aleksander, & J Taylor, eds., Artificial Neural Networks, 2, 865–868. Amsterdam: Elsevier
+
+Kawato, M, Hayakama, H, & Inui, T (1993) A forward-inverse optics model of reciprocal connections between visual cortical areas. Network: Computation in Neural Systems 4:415–422.
+
+
 https://arxiv.org/abs/2011.07464
 https://arxiv.org/abs/2112.10048
 

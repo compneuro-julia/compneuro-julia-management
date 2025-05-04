@@ -21,9 +21,9 @@ Pythonは機械学習等の豊富なライブラリと書きやすさから広�
 
 ### Julia言語のインストール方法
 
-Julia (\url{https://julialang.org/}) に
+Julia (\url{https://julialang.org/}) にアクセスして使用しているOSのdownloadで
 
-juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理
+juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理可能である．
 
 また，2025年3月以降，Google Colab (\url{https://colab.google/}) においてPythonやRに並んでJuliaを選択して使用することが可能となっている．
 

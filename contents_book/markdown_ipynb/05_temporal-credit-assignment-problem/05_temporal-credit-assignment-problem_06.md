@@ -1,6 +1,9 @@
 ## 合成勾配学習によるBPTTの近似
 DNI
 
+https://pmc.ncbi.nlm.nih.gov/articles/PMC7105376/
+https://www.nature.com/articles/s41467-018-03541-0
+
 Online Learning via Synthetic Gradients
 
 Decoupled Neural Interfaces (DNI)

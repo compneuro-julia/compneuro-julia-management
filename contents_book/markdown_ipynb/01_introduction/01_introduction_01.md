@@ -1,24 +1,29 @@
 # 第1章：はじめに
 ## 本書の目的と構成
 ### 神経科学におけるモデルの意義
-本書では、神経科学における数理モデルの構築と実装を中心的な主題とし、その背景にある計算論的視点と実践的手法を扱う。冒頭にあたり、神経科学におけるモデルの意義について整理しておこう。
+本書では、神経科学における数理モデルの構築とJulia言語での実装を中心的な主題とし、その背景にある計算論的理論と実践的手法を扱う。初めに、神経科学におけるモデルの意義について整理しておこう。
 
-神経科学の最終的な目的は、端的に言えば「脳神経系を理解すること」にある。この目標に向けて、自然科学に共通するように、神経科学もまた実験と理論という二つの柱に支えられて発展してきた。実験は観察や計測を通じて実データを得る行為であり、理論はそれらのデータを抽象化・統合し、予測や仮説の創出へと昇華させる枠組みである。特にモデルは、以下のような多面的な役割を担っている：
-（1）仮説の駆動と明示化、（2）複雑な知見の整理と統合、（3）観察結果の再現や予測、（4）仮想実験の実行、（5）科学的コミュニケーションの明確化、（6）臨床や技術への応用可能性の提供である \citep{Blohm2020-vc}。このように、モデルは単なる計算装置ではなく、科学的思考そのものの外化であり、神経科学の進展に不可欠な知的道具である。
+神経科学の最終的な目的は、端的に言えば「脳神経系を理解すること」にある。この目標に向けて、自然科学に共通するように、神経科学もまた実験と理論という二つの柱に支えられて発展してきた。実験は観察や計測を通じて実データを得る行為であり、理論はそれらのデータを抽象化・統合し、予測や仮説の創出へと昇華させる枠組みである。特にモデルは、次のような多面的な役割を担っている \citep{Blohm2020-vc}：
+（1）仮説の駆動と明示化、（2）複雑な知見の整理と統合、（3）観察結果の再現や予測、（4）仮想実験の実行、（5）科学的コミュニケーションの明確化、（6）臨床や技術への応用可能性の提供である。このように、モデルは単なる計算装置ではなく、科学的思考そのものの外化であり、神経科学の進展に不可欠な知的道具である。
 
 とはいえ、「脳を理解する」とは具体的に何を意味するのか。この問いに対する明確な答えは一様ではない。本書では、こうした理解の枠組みを与えるために、**Marrの三つのレベル**（Marr’s Three Levels）** \citep{Marr1982-wk} およびDayanとAbbottによる3レベルを紹介する．
+
+対応するモデル
 
 
 解釈 (interpretive), 説明 (descriptive)  and mechanistic approaches
 
 
-Interpretive model（解釈的モデル）：行動や最適性の観点から機構を説明する（例：ベイズ推論、強化学習）
+Interpretive model（解釈的モデル, why）：行動や最適性の観点から機構を説明する（例：ベイズ推論、強化学習）
 
-Descriptive model（記述的モデル）：データの構造や統計的特徴をそのまま記述する（例：PSTH、tuning curves）
+Descriptive model（記述的モデル, how）：データの構造や統計的特徴をそのまま記述する（例：PSTH、tuning curves）
 
-Mechanistic model（機構的モデル）：要素間の因果的な関係を定式化する（例：LIFモデル、STDP則）
+Mechanistic model（機構的モデル, what）：要素間の因果的な関係を定式化する（例：LIFモデル、STDP則）
 
 抽象的な意味的構成から，生体現象に即した具体的なモデル
+
+
+
 
 
 ---
@@ -36,12 +41,6 @@ Dayan, P., & Abbott, L. F. (2005). Theoretical neuroscience. MIT Press.
 Dayanらの序文
 
 Theoretical analysis and computational modeling are important tools for characterizing what nervous systems do, determining how they function, and understanding why they operate in particular ways. Neuroscience encompasses approaches ranging from molecular and cellular studies to human psychophysics and psychology. Theoretical neuroscience encourages crosstalk among these subdisciplines by constructing compact representations of what has been learned, building bridges between different levels of description, and identifying unifying concepts and principles. In this book, we present the basic methods used for these purposes and discuss examples in which theoretical approaches have yielded insight into nervous system function. The questions what, how, and why are addressed by descriptive, mechanistic, and interpretive models, each of which we discuss in the following chapters. Descriptive models summarize large amounts of experimental data compactly yet accurately, thereby characterizing what neurons and neural circuits do. These models may be based loosely on biophysical, anatomical, and physiological findings, but their primary purpose is to describe phenomena, not to explain them. Mechanistic models, on the other hand, address the question of how nervous systems operate on the basis of known anatomy, physiology, and circuitry. Such models often form a bridge between descriptive models couched at different levels. Interpretive models use computational and information-theoretic principles to explore the behavioral and cognitive significance of various aspects of nervous system function, addressing the question of why nervous systems operate as they do.
-
-Annotated Bibliographyはもう一度確認する．
-
-Pece, AEC (1992) Redundancy reduction of a Gabor representation: A possible computational role for feedback from primary visual cortex to lateral geniculate nucleus. In I Aleksander, & J Taylor, eds., Artificial Neural Networks, 2, 865–868. Amsterdam: Elsevier
-
-Kawato, M, Hayakama, H, & Inui, T (1993) A forward-inverse optics model of reciprocal connections between visual cortical areas. Network: Computation in Neural Systems 4:415–422.
 
 情報処理タスクを実行するあらゆる機械を理解するために必要な3つのレベル
 
