@@ -54,3 +54,5 @@ $$
 
 対称性の破れを考慮していないので，円系に成長している．
 ToDo: 神経細胞極性についての記述．
+
+https://www.nature.com/articles/nrn2056
