@@ -20,8 +20,12 @@ Pythonは機械学習等の豊富なライブラリと書きやすさから広�
 多重ディスパッチ（multiple dispatch）があることはJulia言語の大きな特徴である．
 
 ### Julia言語のインストール方法
+Julia (\url{https://julialang.org/}) にアクセスし，`install` 
 
-Julia (\url{https://julialang.org/}) にアクセスして使用しているOSのdownloadで
+現在は \url{https://julialang.org/install/} でJuliaupを使用することが推奨されている．
+個別に\url{https://julialang.org/downloads/} から使用しているOSに応じてmanual downloadを行う．
+
+て使用しているOSのdownloadで
 
 juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理可能である．
 
