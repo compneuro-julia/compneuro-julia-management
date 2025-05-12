@@ -36,6 +36,9 @@ https://pubmed.ncbi.nlm.nih.gov/26139370/
 https://pubmed.ncbi.nlm.nih.gov/15450157/
 https://pubmed.ncbi.nlm.nih.gov/18275283/
 https://pubmed.ncbi.nlm.nih.gov/17332410/
+https://www.sciencedirect.com/science/article/pii/S0959438823001034
+https://www.jneurosci.org/content/40/14/2828.abstract
+https://www.sciencedirect.com/science/article/pii/S0149763419310942
 
 NMDA, Ca
 BDNF 
@@ -44,12 +47,6 @@ TrkB
 TNF-\alpha
 
 シナプス強度が増加するとは何が変化しているのか，とはspine sizeや受容体の数，
-
-https://www.sciencedirect.com/science/article/pii/S0959438823001034?casa_token=ONmKH_RolAYAAAAA:DpV67Cj98lAp6pZk0_f-hTKCRbQ1wq20NPX_Fm1X0IF-eN6NhICDEAbgDIWdIPe3cLxCsadBJsRn
-
-https://www.jneurosci.org/content/40/14/2828.abstract
-
-https://www.sciencedirect.com/science/article/pii/S0149763419310942
 
 ### Hebb則の不安定性と修正Hebb則
 Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，あるいは消失するかという不安定性がある．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を $w\ (>0)$ とし，線形ニューロンを仮定，すなわち $y=wx$ が成り立つとすると，Hebb則は $\dfrac{dw}{\mathrm{d}t}=\eta yx=\eta x^2w$ となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．
