@@ -60,6 +60,9 @@ https://bsd.neuroinf.jp/wiki/%E9%95%B7%E6%9C%9F%E5%A2%97%E5%BC%B7
 https://julien-vitay.net/lecturenotes-neurocomputing/4-neurocomputing/5-Hebbian.html
 https://lcnwww.epfl.ch/gerstner/SPNM/node72.html
 
+https://www.nature.com/articles/nrn3353
+https://www.nature.com/articles/nn.4180
+
 #### CLO則
 視覚野のニューロンが経験により方向選択性を獲得し、かつ視覚刺激の遮断によってその選択性を失うといった生理的実験の結果を説明する理論として，Cooper, Liberman, Ojaにより閾値制約付き受動的可塑性 (threshold passive modification) と呼ばれる形式の学習則が提案された \citep{Cooper1979-wz}．この学習則は提案者の頭文字を取って，**CLO則** (CLO rule) と呼ばれる．CLO則は、Hebb則に対して出力の大きさに応じた閾値的な修正と重みの減衰項（忘却）を加えることにより、選択性の獲得と重みの安定性の両立を目指した学習則である。
 
