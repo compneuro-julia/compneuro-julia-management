@@ -53,3 +53,18 @@ $$
 もし訓練データが**線形分離可能**であるならば，このアルゴリズムは有限回の更新で必ず収束する（**パーセプトロン収束定理**）．ただし，データが線形分離不可能な場合は，収束せずに振動を続けることがある．
 
 これは単純ではあるが，この微分不可能な関数による学習則は，現代的に**Straight-Through Estimator** (STE) と呼ばれる概念と同一である．STEの考えはスパイキングニューラルネットワークの学習や，ニューラルネットワークの量子化へと発展する．ここでは深く触れず，第7章で改めて紹介を行う．
+
+ADALINE
+
+https://en.wikipedia.org/wiki/ADALINE
+
+https://www.pnas.org/doi/full/10.1073/pnas.0909394107
+
+Recently a more subtle version of time multiplexing has been suggested, in which the target value is delivered to the neuron with a precisely timed delay after the actual value has been produced (D’Souza et al., 2010).
+
+Learning by the Dendritic Prediction of Somatic Spiking
+https://www.sciencedirect.com/science/article/pii/S0896627313011276?via%3Dihub
+
+https://www.sciencedirect.com/science/article/pii/S0893608019301741#b65
+
+小脳パーセプトロン仮説
