@@ -2,6 +2,8 @@
 ### STDP則
 シナプスの可塑性は、シナプス前細胞と後細胞の発火タイミングの差に依存して変化することがある。このような可塑性の一種である**Spike-Timing-Dependent Plasticity**（STDP）は、1990年代後半に実験的に報告された（Markram et al., 1997; Bi and Poo, 1998）。その中でも最も基本的な形式は**Pair-based STDP則**と呼ばれ、シナプス前細胞と後細胞のスパイクのペアの時刻差に基づいて、シナプス強度の増強（LTP）または抑制（LTD）が引き起こされる。
 
+https://www.sciencedirect.com/science/article/pii/S0896627312007039
+
 ここでは、Pair-based STDP則に基づくシナプス強度の変化について述べる。シナプス前細胞におけるスパイクの時刻を $t_{\text{pre}}$、後細胞におけるスパイクの時刻を $t_{\text{post}}$ とし、それらの差を
 
 $$
