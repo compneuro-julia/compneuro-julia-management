@@ -12,6 +12,9 @@ Kawato, M, Hayakama, H, & Inui, T (1993) A forward-inverse optics model of recip
 https://arxiv.org/abs/2011.07464
 https://arxiv.org/abs/2112.10048
 
+https://arxiv.org/abs/2410.19315
+Predictive coding as variational inference
+
 Srinivasan, M. V., Laughlin, S., & Dubs, A. (1982). Predictive coding: a fresh view of
 inhibition in the retina. Proceedings of the Royal Society of London. Series B. Biological
 Sciences, 216(1205), 427–459.
@@ -25,6 +28,9 @@ https://www.tandfonline.com/doi/abs/10.1088/0954-898X_4_4_001
 
 https://pmc.ncbi.nlm.nih.gov/articles/PMC1569488/#bib45
 https://pubmed.ncbi.nlm.nih.gov/15937014/
+
+
+https://arxiv.org/abs/2212.00720
 
 Kalman filter
 
