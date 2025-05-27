@@ -43,10 +43,24 @@ $$
 
 ただし，$\alpha := \frac{\Delta t}{\tau}$ とした．
 
-#### 多細胞形式のWilson–Cowanモデル
-前節で導入した連続時間発火率モデルは，WilsonとCowanによって提案された，縮約化された神経回路網の数理モデル（**Wilson–Cowanモデル**）に基づいている \citep{wilson1972excitatory, wilson1973mathematical, wilson2021evolution, chow2020before}．このモデルは，個々の神経細胞の発火活動を扱うのではなく，興奮性あるいは抑制性の神経細胞群における平均的な発火活動の時間変化を連続時間の微分方程式として記述するものである．そのため，Wilson–Cowanモデルは神経集団の力学を対象とする**集団モデル**（population model）の一種であり，特に大脳皮質などにおけるマクロな神経活動の時空間的構造を解析する目的で広く用いられている．元来のWilson–Cowanモデルは2つの変数からなる連立微分方程式で構成され，それぞれが興奮性および抑制性の神経集団の平均発火率を表している．本節では，このモデルにおける1変数を1個の神経細胞群の代表値ではなく1個の神経細胞の活動と解釈し，並列化することで多細胞系へと拡張したモデルを導入する\footnote{元のWilson-Cowanモデルと同様に解釈し，多数の神経細胞群間での相互作用のモデルと解釈することも可能である．}．さらに，この拡張された形式が前節で述べた一般的な連続時間発火率モデルと一致する構造を持つことを明示し，両者の関係を明らかにする．
+#### Wilson–Cowanモデル
+前節で導入した連続時間発火率モデルは，WilsonとCowanによって提案された，縮約化された神経回路網の数理モデル（**Wilson–Cowanモデル**）に基づいている \citep{wilson1972excitatory, wilson1973mathematical, wilson2021evolution, chow2020before}．このモデルは，個々の神経細胞の発火活動を扱うのではなく，興奮性あるいは抑制性の神経細胞群における平均的な発火活動の時間変化を連続時間の微分方程式として記述するものである．そのため，Wilson–Cowanモデルは神経集団の力学を対象とする**集団モデル**（population model）の一種であり，特に大脳皮質などにおけるマクロな神経活動の時空間的構造を解析する目的で広く用いられている．元来のWilson–Cowanモデルは2つの変数からなる連立微分方程式で構成され，それぞれが興奮性および抑制性の神経集団の平均発火率を表している．
 
-以下では興奮性 (excitatory) あるいは抑制性 (inhibitory) の細胞群が関わる変数にそれぞれ添え字 $\mathrm{E}$ あるいは $\mathrm{I}$ をつける．また表記を簡略化するため，添え字 $\alpha, \beta$ が $\mathrm{E}$ あるいは $\mathrm{I}$ を表すとする．まず，各細胞群の活動を $\mathbf{y}_\alpha(t) \in \mathbb{R}^{n_\alpha}$ とする．ここで $n_\mathrm{E}=n_\mathrm{I}=1$ とすれば元の形のWilson–Cowanモデルとなる．時定数を $\tau_\alpha$，細胞群への入力を $\mathbf{x}_\mathrm{\alpha}(t) \in \mathbb{R}^{n_\alpha}$，細胞群間での結合行列を $\mathbf{W}_{\alpha \beta}\in \mathbb{R}^{n_\alpha\times n_\beta}$とする．
+以下では興奮性 (excitatory) あるいは抑制性 (inhibitory) の細胞群が関わる変数にそれぞれ添え字 $\mathrm{E}$ あるいは $\mathrm{I}$ をつける．また表記を簡略化するため，添え字 $\alpha, \beta$ が $\mathrm{E}$ あるいは $\mathrm{I}$ を表すとする．
+
+
+$$
+\begin{aligned}
+\tau_\mathrm{E} \frac{\mathrm{d}y_\mathrm{E}(t)}{\mathrm{d}t} &= -y_\mathrm{E}(t) + f_\mathrm{E} \left[w_\mathrm{EE} y_\mathrm{E}(t) - w_\mathrm{EI} y_\mathrm{I}(t) + x_\mathrm{E}(t) \right] \\
+\tau_\mathrm{I} \frac{\mathrm{d}y_\mathrm{I}(t)}{\mathrm{d}t} &= -y_\mathrm{I}(t) + f_\mathrm{I} \left[w_\mathrm{IE} y_\mathrm{E}(t) - w_\mathrm{II} y_\mathrm{I}(t) + x_\mathrm{I}(t) \right]
+\end{aligned}
+$$
+
+ここで，活性化関数 $f_\mathrm{E}, f_\mathrm{I}$ は各集団に応じた非線形性を表し，通常はシグモイド関数のような単調増加かつ飽和的な関数が用いられる\footnote{Wilson–Cowanモデルのより原型に近い形式では，活性化関数の前に $(1 - r_\alpha \mathbf{y}_\alpha(t))$ を乗じる．この項は，神経細胞の発火率が生理学的に上限をもつという事実，すなわち飽和的性質を数理モデルに明示的に組み込むことを意図して導入されたものである．ただし，$r_\alpha=0$ と設定した場合でも，モデルの定性的挙動には大きな差が見られないことが知られている \citep{wilson2021evolution}．したがって，本書では記述の簡明さを優先し，この飽和項は導入せずにWilson–Cowanモデルを扱うこととする．}．
+
+次に，このWilson-Cowanモデルにおける1変数を1個の神経細胞群の代表値ではなく1個の神経細胞の活動と解釈し，並列化することで多細胞系へと拡張したモデルを導入する\footnote{元のWilson-Cowanモデルと同様に解釈し，多数の神経細胞群間での相互作用のモデルと解釈することも可能である．}．さらに，この拡張された形式が前節で述べた一般的な連続時間発火率モデルと一致する構造を持つことを明示し，両者の関係を明らかにする．
+
+まず，各細胞群の活動を $\mathbf{y}_\alpha(t) \in \mathbb{R}^{n_\alpha}$ とする．ここで $n_\mathrm{E}=n_\mathrm{I}=1$ とすれば元の形のWilson–Cowanモデルとなる．時定数を $\tau_\alpha$，細胞群への入力を $\mathbf{x}_\mathrm{\alpha}(t) \in \mathbb{R}^{n_\alpha}$，細胞群間での結合行列を $\mathbf{W}_{\alpha \beta}\in \mathbb{R}^{n_\alpha\times n_\beta}$とする．
 ただし，$\mathbf{y}_\alpha, \mathbf{W}_{\alpha \beta}$ の要素はすべて非負である．この場合，時間的に粗視化した多細胞形式のWilson–Cowan方程式は次のように定式化される：
 
 $$
@@ -56,7 +70,7 @@ $$
 \end{aligned}
 $$
 
-このモデルは，それぞれの神経集団が自己結合および他集団からの入力を受け取り，非線形な活性化関数を通じて平均発火率を変化させることを記述している．ここで，活性化関数 $f_\mathrm{E}, f_\mathrm{I}$ は各集団に応じた非線形性を表し，通常はシグモイド関数のような単調増加かつ飽和的な関数が用いられる\footnote{Wilson–Cowanモデルのより原型に近い形式では，活性化関数の前に $(1 - r_\alpha \mathbf{y}_\alpha(t))$ を乗じる．この項は，神経細胞の発火率が生理学的に上限をもつという事実，すなわち飽和的性質を数理モデルに明示的に組み込むことを意図して導入されたものである．ただし，$r_\alpha=0$ と設定した場合でも，モデルの定性的挙動には大きな差が見られないことが知られている \citep{wilson2021evolution}．したがって，本書では記述の簡明さを優先し，この飽和項は導入せずにWilson–Cowanモデルを扱うこととする．}．
+このモデルは，それぞれの神経集団が自己結合および他集団からの入力を受け取り，非線形な活性化関数を通じて平均発火率を変化させることを記述している．
 
 この連立微分方程式は，ベクトルとブロック行列を用いて単一の微分方程式に統合することができる．まず，興奮性・抑制性集団の発火率をまとめたベクトルとして $\mathbf{y}(t) := \begin{bmatrix} \mathbf{y}_\mathrm{E}(t) \\ \mathbf{y}_\mathrm{I}(t) \end{bmatrix}$ を定義し，外部入力 $\mathbf{x}(t)$ も同様に結合されたベクトル $\mathbf{x}(t) := \begin{bmatrix} \mathbf{x}_\mathrm{E}(t) \\ \mathbf{x}_\mathrm{I}(t) \end{bmatrix}$ とする．各結合を表す行列をブロック行列としてまとめることで，再帰的結合行列 $\mathbf{M}$ は
 
@@ -125,18 +139,3 @@ $$
 ここで，$\mathcal{J}:=-\mathbf{I} + \mathbf{D}_f \mathbf{M}$ を平衡点 $\mathbf{y}^*$ におけるヤコビ行列という．平衡点が漸近的に安定 (asymptotically stable) であるためには，ヤコビ行列 $\mathcal{J}$ の全ての固有値 $\lambda$ の実部が負，すなわち $\mathrm{Re}(\lambda) < 0$ を満たせばよい．この場合，ネットワークは安定となる．
 
 なお，機能的なRNNの内部機構を明らかにする手法としても，固定点解析および安定性解析は有用である \citep{sussillo2013opening}．Sussilloらの解析に基づいて2つの例を紹介する．1つ目の例として，パルス入力の符号を記憶するフリップフロップ（flip-flop）課題を考える．この課題では，入力ごとに $+1$ または $−1$ のパルス信号が与えられ，RNNはその最新の入力値を出力として保持する．フリップフロップ課題を実行するRNNを固定点解析すると，各記憶状態が安定固定点として実装されており，状態遷移は鞍点を通じて実現されることが示された．このように，RNNが「記憶の遷移」をどのように表現しているかを，固定点空間の構造として記述することができる．2つ目の例として，正弦波のような周期的な動的パターンを生成する課題を考える．この課題では，RNNの出力は時間とともに変化し続けるため，状態空間の軌道は固定点から大きく離れる場合が多い．しかしながら，各周波数に対して対応する静的入力を与えた条件下でRNNの固定点を求め，その周囲の線形化を行うと，得られる線形系は振動的な不安定性（虚部をもつ複素固有値）を示す．その虚部の大きさは，目標とする正弦波の角周波数と一致しており，線形近似によってRNNの出力振動の周期性を的確に説明できることが示されている．従って，このような動的挙動であっても，固定点周辺の線形ダイナミクスが振動パターンの生成機構を支配していると解釈できる．なお，こうした機能的なRNNを訓練する方法に関しては主に第5章で詳解する．
-
-#### 神経集団モデルと神経場モデル
-Wilson–Cowanモデルと密接に関連し，より大域的・集団的な神経活動を記述する枠組みとして，**神経集団モデル**（neural mass model, neural population model）および**神経場モデル**（neural field model）があり，これらのモデルに関して簡単に触れておく．いずれも個々のニューロンの詳細な活動ではなく，神経細胞集団の平均的な膜電位や発火率の時間変化を対象とし，脳波などのマクロな神経活動を記述するための理論的枠組みを提供する．
-
-神経集団モデルでは，皮質のマイクロカラムや局所回路といった小規模な神経集団を1ユニットとしてモデル化し，Wilson–Cowanモデルと同様に，平均発火率や膜電位のダイナミクスを扱う．神経集団モデルの例としては局所神経回路をモデル化したJansen-Ritモデル \citep{jansen1995electroencephalogram, david2003neural} や，てんかん活動の動態を記述するWendlingモデル \citep{wendling2002epileptic} などがある．
-
-一方，神経場モデル（neural field model）では，神経活動を空間的に連続な関数として記述し，広範囲における神経活動の時空間的なダイナミクスを扱う \citep{coombes2014tutorial, cook2022neural}．神経場モデルはWilsonおよびCowan \citep{wilson1973mathematical}, Nunez \citep{nunez1974brain}, 甘利 \citep{amari1975homogeneous, amari1977dynamics} らの研究に基づいており，ここでは甘利による定式化（**甘利モデル**, Amari model）を簡単に説明する．甘利モデルでは，まず神経場の定義域 $\Omega$（一次元の皮質断面や二次元の皮質平面など）を考える．$\Omega$ における神経活動は以下のような積分–微分方程式によって与えられる：
-
-$$
-\begin{equation}
-\tau \frac{\partial u(x,t)}{\partial t} = -u(x,t) + \int_{\Omega} w(x, x') f(u(x', t))\,\mathrm{d}x' + I(x,t)
-\end{equation}
-$$
-
-ここで，$x, x' \in \Omega$ は神経場における位置を表す．$u(x,t)$ は位置 $x$ における時刻 $t$ の発火率，$w(x,x')$ は位置 $x'$ から $x$ への結合重み，$f(\cdot)$ は活性化関数，$I(x,t)$ は外部入力を表す．神経場モデルは，皮質進行波（cortical travelling waves）\sitep{muller2018cortical} 等の現象を理論的に説明する手段となる．
