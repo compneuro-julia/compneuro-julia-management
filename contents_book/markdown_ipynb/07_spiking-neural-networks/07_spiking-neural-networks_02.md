@@ -152,3 +152,8 @@ A_-(w) &= \eta_- \cdot \Theta(-w)
 $$
 
 この形式では、$w = w_{\max}$ のときには LTP が起こらず、$w = 0$ のときには LTD が生じない。したがって、シナプス強度が定められた範囲を超えることはない。
+
+
+ReSuMe法
+
+https://direct.mit.edu/neco/article/22/2/467/7529/Supervised-Learning-in-Spiking-Neural-Networks
