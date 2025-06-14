@@ -66,6 +66,22 @@ F. Zenke and S. Ganguli, “SuperSpike: Supervised Learning in Multilayer Spikin
 
 当然ではあるが，代理勾配には微分不可能関数を用いても問題ない．
 
+
+直通推定量や代理勾配を用いることで，通常の機械学習フレームワークにLIFモデルを取り入れることが可能である．
+この場合，閾値判定はif文ではなく，状態量を入れる必要がある．
+通常の機械学習フレームワークで実装するには，順伝播と逆伝播をそれぞれ実装してあげれば問題ない．
+このように状態量と代理勾配を用い，通常の機械学習フレームワークで構築されたLIFモデルをSpiking Neural Unit (SNU) と呼ぶ．SNUはLSTMやGRUと同様に組み込むことが可能である．
+ただし，BPTTをLIFでやる場合，時間ステップを小さくとる必要がある都合上，計算量が多くなり，勾配消失・爆発も生じやすい．
+
+SNUは流して，
+SUperSpikeを例にする．
+- spikeのタイミング合わせ，
+- MNIST (BPTTでなくてよさそう)
+https://www.pnas.org/doi/10.1073/pnas.2109194119#sec-5
+https://www.nature.com/articles/s41467-024-51110-5
+https://www.nature.com/articles/s42256-021-00311-4?fromPaywallRec=false
+https://arxiv.org/abs/1705.11146
+
 ### Spiking Neural Unit
 
 単純な例．
