@@ -83,6 +83,10 @@ readout電流を元に，スカラー値を出力として損失関数を計算�
 
 1つ目の目的関数について，superspikeと呼ばれる手法を元に説明を行う．
 
+SLAYERは
+https://www.youtube.com/watch?v=wCs2lv3g4A4&t=9s
+https://papers.nips.cc/paper_files/paper/2018/hash/82f2b308c3b01637c607ce05f52a2fed-Abstract.html
+
 SUperSpikeを例にする．
 - spikeのタイミング合わせ，
 - MNIST (BPTTでなくてよさそう)
