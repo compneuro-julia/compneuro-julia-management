@@ -53,7 +53,10 @@ $$
 
 M. Courbariaux, I. Hubara, D. Soudry, R. El-Yaniv, and Y. Bengio, “Binarized Neural Networks: Training Deep Neural Networks with Weights and Activations Constrained to +1 or-1,” arXiv:1602.02830 [cs], Feb. 2016, arXiv: 1602.02830. [17] Y. Bengio, N. L´ eonard, and A. Courville, “Estimating or Propagating Gradients Through Stochastic Neurons for Conditional Computation,” arXiv:1308.3432 [cs], Aug. 2013, arXiv: 1308.3432.
 
+なぜ直通推定量が機能するかと言えば，勾配の大きさの推定は悪くとも，勾配の向きは一致しているからである．これはデルタ関数が非負であることから導かれる．$\mathcal{L+\epsilon}-\mathcal{L}$ から導かれる真の勾配と比較してみよう．
+
 本書では詳しく触れないが，通常の（つまり発火率モデルでの）ANNを処理の高速化，計算量の削減のために離散化されたニューラルネットワークに変換することがある．これをニューラルネットワークの量子化と呼ぶ．これと同様に，機能的なSNNを作成するために，通常のANNを元にして変換を行う手法が開発されている．ANNからSNNへの変換は，ニューラルネットワークの量子化と同様の目的で行われることもあれば，解析対象となりうる機能的なSNNを得る目的もある．
+
 
 #### 代理勾配
 直通推定量は導関数を恒等関数に置き換える手法であるが，導関数の選び方は任意であるため，経験則に基づいてよりよい関数を選択することが可能である．その中でも，元の導関数に基づいて滑らかな関数で近似した関数を導関数として代わりに用いる手法を**代理勾配** (surrogate gradient) あるいは**疑微分** (pseudo-derivative) と呼ぶ \footnote{似たような名称を持つ概念として劣微分 (subderivative) があるが，これは凸関数にのみ適応可能であり，step関数のような非凸関数には適応できない．}．なお，直通推定量と代理勾配はいずれも最適化における一種のトリックであり，経験則に基づくため，代替的な勾配を使用した勾配法での数学的な収束性や安定性は保証されない．
