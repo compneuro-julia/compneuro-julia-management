@@ -116,6 +116,9 @@ BPTTは未来から過去へ戻る必要がある．
 再活性化などで可能となっている部分もあるが，全ての状態を保存しておくのは難しい．
 
 海馬においては状態の逆再生 (reverse replay) が行われることが報告されている．
+これを海馬における再生 (hippocampal replay) と呼ぶ．
+
+https://www.nature.com/articles/nn1825
 
 https://pubmed.ncbi.nlm.nih.gov/16474382/
 https://www.nature.com/articles/nature04587
