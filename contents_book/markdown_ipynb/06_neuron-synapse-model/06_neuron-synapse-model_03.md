@@ -59,3 +59,9 @@ C_m \frac{dV_i}{dt} = -g_L (V_i - E_L) - I_{\text{Na}, i}(V_i, m_i, h_i) - I_{\t
 $$
 
 ここで，\(m_i, h_i, n_i\) はイオンチャネルのゲーティング変数であり，それぞれ別の微分方程式に従って時間発展する．これにより，活動電位の発生とその伝播，さらに逆行性伝播が自然にモデルに組み込まれることになる．
+
+
+https://www.nature.com/articles/s41467-023-41553-7
+
+Hines法
+https://www.nature.com/articles/srep00928

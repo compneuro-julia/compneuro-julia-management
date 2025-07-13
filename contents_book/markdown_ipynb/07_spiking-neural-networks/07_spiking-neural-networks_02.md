@@ -157,3 +157,5 @@ $$
 ReSuMe法
 
 https://direct.mit.edu/neco/article/22/2/467/7529/Supervised-Learning-in-Spiking-Neural-Networks
+
+https://www.cell.com/neuron/fulltext/S0896-6273(13)01127-6
