@@ -1,8 +1,8 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  1 MAY 2025 17:22
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  11 JUL 2025 13:59
  restricted system commands enabled.
  file:line:error style messages enabled.
-**d:/Github/compneuro-julia-management/contents_combined/tex/main
-(d:/Github/compneuro-julia-management/contents_combined/tex/main.tex
+**d:/Github/compneuro-julia-management/contents_book/tex/main
+(d:/Github/compneuro-julia-management/contents_book/tex/main.tex
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
 Lua module: luaotfload 2024-12-03 v3.29 Lua based OpenType font support
@@ -1745,15 +1745,15 @@ Package logreq Info: Writing requests to 'main.run.xml'.
 
 Here is how much of LuaTeX's memory you used:
  28409 strings out of 475506
- 244639,1648299 words of node,token memory allocated
+ 244642,1648299 words of node,token memory allocated
  3799 words of node memory still in use:
    11 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 1 glyph, 1404 attribute, 74 glue_spec, 140 attribute_list, 1 write, 14 user_defined, 1 pdf_action nodes
-   avail lists: 1:19,2:54975,3:376,4:2350,5:531,6:95,7:6101,8:76,9:3045,10:46,11:68
+   avail lists: 1:20,2:54975,3:376,4:2350,5:531,6:99,7:6100,8:76,9:3045,10:46,11:68
  50621 multiletter control sequences out of 65536+600000
  111 fonts using 86112383 bytes
- 125i,18n,128p,1915b,1182s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 125i,18n,128p,1911b,1182s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman12-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/rsfs/rsfs10.pfb>
-Output written on main.pdf (45 pages, 543804 bytes).
+Output written on main.pdf (45 pages, 543898 bytes).
 
 PDF statistics: 673 PDF objects out of 1000 (max. 8388607)
  562 compressed objects within 6 object streams

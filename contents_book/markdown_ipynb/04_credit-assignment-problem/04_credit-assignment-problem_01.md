@@ -37,3 +37,7 @@ https://arxiv.org/abs/1702.07800
 
 Stork, D. G. (1989). Is backpropagation biologically plausible. In International joint
 conference on neural networks (Vol. 2, pp. 241–246).
+
+代謝も貢献度分配問題を必要とする．
+
+https://kording.substack.com/p/want-to-bet-all-cells-do-gradient
