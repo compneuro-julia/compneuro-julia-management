@@ -1,4 +1,10 @@
 # Writing ToDo list
+
+https://arxiv.org/html/2310.00965v5
+を参考に図を作成．
+
+two point methodは結局勾配の定義に基づいているだけ？
+
 https://simons.berkeley.edu/sites/default/files/docs/9574/backpropagationanddeeplearninginthebrain-timothylillicrap.pdf
 
 Dale's law backpropagation

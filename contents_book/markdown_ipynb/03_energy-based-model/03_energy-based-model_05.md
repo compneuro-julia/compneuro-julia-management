@@ -38,7 +38,7 @@ Kalman, R. E. (1960). A new approach to linear filtering and prediction problems
 of Basic Engineering, 82(1), 35–45.
 
 ### 観測世界の階層的予測
-**階層的予測符号化(hierarchical predictive coding; HPC)** は\citep{`Rao1999-zv`により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち**潜在変数** (latent variable)を$\mathbf{r} \in \mathbb{R}^{n_1}$とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
+**階層的予測符号化(hierarchical predictive coding; HPC)** は\citep{`Rao1999-zv`により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち**潜在変数** (latent variable) を $\mathbf{r} \in \mathbb{R}^{n_1}$ とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$ は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
 
 $$
 \begin{equation}
