@@ -1,5 +1,7 @@
 ## 摂動を用いた学習則
-本節では摂動法 (permutation) による勾配推定について説明する．摂動法に含まれる手法は複数あるが，総じて次のような手法を指す．まず，あるモデル（ネットワーク）を用意し，その目的関数を $\mathcal{L}$ とする．次にモデルのパラメータや活動にランダムな微小変化（摂動）$\mathbf{v}$ を加え，摂動を受ける前後の目的関数の変化量 $\delta \mathcal{L}$ を取得する．この $\delta \mathcal{L}$ や $\mathbf{v}$ およびモデルの活動等を用いてパラメータを更新するのが摂動法である．こうした摂動法は導関数フリー最適化 (derivative-free optimization; DFO)\footnote{他には，勾配フリー最適化 (greadient-free optimization), 0次最適化 (zeroth-order optimization) やブラックボックス最適化 (blackbox optimization) とも呼ばれる．こうした手法としては} の一種であり，誤差逆伝播の近似手法のように連鎖率における一部の勾配を近似する手法とは区別される．
+本節では摂動法 (permutation) による勾配推定について説明する．摂動法に含まれる手法は複数あるが，総じて次のような手法を指す．まず，あるモデル（ネットワーク）を用意し，その目的関数を $\mathcal{L}$ とする．次にモデルのパラメータや活動にランダムな微小変化（摂動）$\mathbf{v}$ を加え，摂動を受ける前後の目的関数の変化量 $\delta \mathcal{L}$ を取得する．この $\delta \mathcal{L}$ や $\mathbf{v}$ およびモデルの活動等を用いてパラメータを更新するのが摂動法である．
+
+こうした摂動法は導関数フリー最適化 (derivative-free optimization; DFO)\footnote{他には，勾配フリー最適化 (greadient-free optimization), 0次最適化 (zeroth-order optimization) やブラックボックス最適化 (blackbox optimization) とも呼ばれる．本書では触れないが，勾配フリー最適化としては焼きなまし法 (Simulated annealing)，進化戦略 (Evolution strategy)，ベイズ最適化 (Bayesian optimization)，遺伝的アルゴリズム (Genetic algorithm, GA)，粒子群最適化 (Particle swarm optimization, PSO) などが該当する．} の一種であり，誤差逆伝播の近似手法のように連鎖率における一部の勾配を近似する手法とは区別される．
 
 ### 勾配の近似法
 #### 有限差分法
