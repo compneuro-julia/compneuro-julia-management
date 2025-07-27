@@ -212,3 +212,5 @@ https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2024.14
 ## RNNにおける摂動学習
 
 https://www.frontiersin.org/journals/neuroscience/articles/10.3389/fnins.2024.1439155/full
+
+## contrastive divergenceとの関係
