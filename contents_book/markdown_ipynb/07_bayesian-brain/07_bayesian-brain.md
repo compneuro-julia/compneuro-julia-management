@@ -1,209 +1,158 @@
-## 生成モデルとベイズ脳仮説
+## 推論的知覚と生成モデル
 ### 逆問題と推論的知覚
-これまでの章では、**知覚**（perception）のモデル、すなわち外界からの入力に対して、どのようにして神経回路網が意味のある出力を生成するのか、という問題を主に扱ってきた。ここで改めて知覚の基本的な定義を確認しておこう。知覚とは、外界からの刺激を感覚受容器によって受容し、それに意味を与える過程である。
+これまでの章では，知覚（perception）のモデル，すなわち外界からの入力に対して，どのようにして神経回路網が意味のある出力を生成するのか，という問題を主に扱ってきた．ここで改めて知覚の基本的な定義を確認しておこう．知覚とは，外界からの刺激を感覚受容器によって受容し，それに意味を与える過程である．
 
-この「刺激に意味を与える」という個所を，より体系的に理解するために、「順問題」と「逆問題」という概念を導入しよう。一般に，ある原因から結果を予測する問題は**順問題** (forward problem) と呼ばれる。逆に、観測された結果からその原因を推定する問題は**逆問題** (inverse problem) と呼ばれる。
+この「刺激に意味を与える」という個所を，より体系的に理解するために，「順問題」と「逆問題」という概念を導入しよう．一般に，ある原因から結果を予測する問題は順問題 (forward problem) と呼ばれる．逆に，観測された結果からその原因を推定する問題は逆問題 (inverse problem) と呼ばれる．
 
-視覚を例にして順問題と逆問題を考えよう．例えば、三次元の物体が光を反射して二次元の網膜上にどのような像を形成するか、という問いは順問題に属する。これに対し、網膜上に投影された二次元の像から、元の物体の三次元構造，大きさ，位置などを推定するという課題は逆問題であり、とくに**逆光学** (inverse optics) と呼ばれている。
+視覚を例にして順問題と逆問題を考えよう．例えば，三次元の物体が光を反射して二次元の網膜上にどのような像を形成するか，という問いは順問題に属する．これに対し，網膜上に投影された二次元の像から，元の物体の三次元構造，大きさ，位置などを推定するという課題は逆問題であり，とくに逆光学 (inverse optics) と呼ばれている．
 
-逆問題は、外部から脳の構造や機能を推定する際にも生じる。たとえば、医用画像解析におけるコンピュータ断層撮影 (computed tomography; CT)，磁気共鳴画像 (magnetic resonance imaging; MRI), 陽電子放射断層撮影 (positron emission tomography; PET) などの再構成処理\footnote{画像の再構成は，CTやPETでは逆ラドン変換，MRIでは逆フーリエ変換などに基づく．}、あるいは神経活動の非侵襲的計測における脳波(electroencephalography; EEG) や脳磁図 (magnetoencephalography; MEG) の電流源推定 (source localization) \footnote{EEGやMEGにおける順問題とは、脳内で生じた神経電流源の位置や方向・強度から、頭皮上の電極 (EEG) や磁場センサ (MEG) で計測される電位や磁場分布を予測することである。これに対し、逆問題は、観測された電位や磁場のデータから、脳内における神経電流源の空間的位置と活動を推定することである。逆問題は不適切定であるため、解くためにはMRIなどから得られた頭部構造に基づいて構築された順モデル（forward model）が必要となる．}などがその典型である。いずれの場合も、観測された結果から、元となる原因を推定する必要がある。
+逆問題は，外部から脳の構造や機能を推定する際にも生じる．たとえば，医用画像解析におけるコンピュータ断層撮影 (computed tomography; CT)，磁気共鳴画像 (magnetic resonance imaging; MRI), 陽電子放射断層撮影 (positron emission tomography; PET) などの再構成処理\footnote{画像の再構成は，CTやPETでは逆ラドン変換，MRIでは逆フーリエ変換などに基づく．}，あるいは神経活動の非侵襲的計測における脳波(electroencephalography; EEG) や脳磁図 (magnetoencephalography; MEG) の電流源推定 (source localization) \footnote{EEGやMEGにおける順問題とは，脳内で生じた神経電流源の位置や方向・強度から，頭皮上の電極 (EEG) や磁場センサ (MEG) で計測される電位や磁場分布を予測することである．これに対し，逆問題は，観測された電位や磁場のデータから，脳内における神経電流源の空間的位置と活動を推定することである．逆問題は不適切定であるため，解くためにはMRIなどから得られた頭部構造に基づいて構築された順モデル（forward model）が必要となる．}などがその典型である．いずれの場合も，観測された結果から，元となる原因を推定する必要がある．
 
-逆問題は多くの場合，不良設定問題 (ill-posed problem) となる \footnote{対義語は良設定問題 (well-posed problem) である．}。すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化する，といった性質を持つ．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数（あるいは無数に）存在する．そのため、逆問題を解くには、事前知識や仮定（制約条件，正則化）の導入などが必要となる．
+逆問題は多くの場合，不良設定問題 (ill-posed problem) となる \footnote{対義語は良設定問題 (well-posed problem) である．}．すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化する，といった性質を持つ．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数（あるいは無数に）存在する．そのため，逆問題を解くには，事前知識や仮定（制約条件，正則化）の導入などが必要となる．
 
-こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく、感覚入力という結果から外界に存在する潜在的な原因を推定する**逆推論**の過程とみなす考えがある。この枠組みを**推論的知覚** (perception as inference) と呼ぶ．次節では、この推論的知覚を支える数理モデルである，**生成モデル** (generative model）について詳しく見ていくことにする。
-
-Helmholzを引用すべきだが，膨大なため読めず．
-逆問題に関してはKawato-inuiに明示的に記載．
+こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論の過程とみなす考えがある \citep{mumford1992computational, kawato1993forward, friston2003learning}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．次節では，この推論的知覚を支える数理モデルである，生成モデル (generative model）について詳しく見ていくことにする．
 
 ### 生成モデル
+観測データ（たとえば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，その背後にある真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この関数は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．
 
-観測データ（感覚入力）を $\mathbf{x}$ とし，その確率分布を $p_{\mathrm{data}}(\mathbf{x})$ とする．$p_{\mathrm{data}}(\cdot)$ が既知であれば，データを生成（サンプリング）できるが，ほとんどの場合で $p_{\mathrm{data}}(\cdot)$ は未知である．ここで，パラメータ $\theta$ を伴う確率モデル $p_\theta (\cdot)$ を導入する．$p_\theta (\cdot)$ が $p_{\mathrm{data}}(\cdot)$ を近似できれば，観測データに近いデータを $p_\theta (\cdot)$ に基づいて生成することが可能である．この $p_\theta (\cdot)$ が生成モデルであり，生成モデルを訓練するとは $p_\theta (\cdot)$ が $p_{\mathrm{data}}(\cdot)$ を近似するようにパラメータ $\theta$ を調整することである．
+このような密度関数 $p_{\mathrm{data}}(\cdot)$ が既知であれば，任意のサンプル $\mathbf{x}$ をそこから生成（サンプリング）することができる．しかし現実には，$p_{\mathrm{data}}(\cdot)$ は明示的な形では与えられておらず，ほとんどの場合において未知である．
 
-外界の変数がすべて感覚入力として得られる状態，すなわち全て観測可能 (fully visible) であればよいが，基本的には部分的にのみ観測可能 (partially visible) である．観測できない変数を潜在変数 (latent variable) $\mathbf{z}$ とする．視覚系に対応付けると，$\mathbf{x}$ よりも $\mathbf{z}$ の方が高次領野の活動に対応する．
+このような状況下で，観測データの背後にある生成過程をモデル化するために，パラメータ $\theta$ を持つ確率密度関数 $p_\theta(\cdot)$ を導入する．これが生成モデル（generative model）である．生成モデルを訓練するとは，パラメータ $\theta$ を調整して，$p_\theta(\cdot)$ が $p_{\mathrm{data}}(\cdot)$ に近づくようにすることである．すなわち，$p_\theta(\cdot)$ が観測データと同様の統計構造を持つように学習することが目的である．
 
-潜在変数に基づいて観測データが生成される過程をモデル化すると，
+理想的には，外界のすべての変数が観測可能（fully visible）であることが望ましいが，実際には観測できない変数が存在することが多い．そのような隠れた構造を表現するために，潜在変数（latent variable） $\mathbf{z} \in \mathbb{R}^k$ を導入する．視覚系に対応させると，$\mathbf{x}$ は網膜像のような感覚入力を表し，$\mathbf{z}$ は物体のカテゴリ，三次元形状，照明条件など，より抽象的で高次の視覚的表現に相当すると考えられる．
+
+ここで，潜在変数に基づいて観測データが生成されるという構造は，以下のような同時確率密度関数として定式化される：
+
+$$
+p_\theta(\mathbf{x}, \mathbf{z}) = p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) 
+$$
+
+ここで $p_\theta(\mathbf{z})$ は潜在変数の事前分布（prior），$p_\theta(\mathbf{x} \mid \mathbf{z})$ は潜在変数が与えられたときの観測データの条件付き分布（likelihood）である．
+
+生成モデルの学習や推論を行うためには，観測データ $\mathbf{x}$ に対する潜在変数 $\mathbf{z}$ の事後分布（posterior distribution）を求める必要がある．これはベイズの定理により次のように与えられる：
+
+$$
+p_\theta(\mathbf{z} \mid \mathbf{x}) = \frac{p_\theta(\mathbf{x} \mid \mathbf{z}) \cdot p_\theta(\mathbf{z})}{p_\theta(\mathbf{x})}
+$$
+
+ただし、分母の $p_\theta(\mathbf{x})$ は $p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) d\mathbf{z}$ によって計算される周辺尤度（またはエビデンス）である．
+
+この事後分布 $p_\theta(\mathbf{z} \mid \mathbf{x})$ は，観測されたデータからその原因（$\mathbf{z}$）を推定するための分布であり，逆モデル（inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
+
+推論的知覚の枠組みにおいては，順モデルは上位から下位への下行性投射（top-down projection）に，逆モデルは下位から上位への上行性投射（bottom-up projection）に対応すると考えられる．
+
+モデル全体 $p_\theta(\mathbf{x})$ を指して生成モデルと呼ぶこともあるが、潜在変数モデルの文脈では、このデータ生成過程を担う部分を特に生成モデルと呼ぶ。
+
+なお，ここで述べた「順モデル」，「逆モデル」という用語は，運動制御における内部モデル（internal model）の文脈で使われるものとは異なる概念であることに注意が必要である．
+
+潜在変数生成モデルにおいては、周辺尤度 $\log p_\theta(\mathbf{x})$ の計算が困難である。この問題を解決するために、**変分推論**や **ELBO**（evidence lower bound）が導入されることもある。一方で、こうした明示的な確率密度を前提としない学習枠組みとして、エネルギーベースモデル（EBM）がある。
+
+### エネルギーベースモデル
+前節での潜在変数モデルの問題は，周辺尤度 $p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) d\mathbf{z}$ の計算が困難であるという点である．この問題を回避するために，エネルギーベースモデル（energy-based model; EBM）と呼ばれる確率モデルの枠組みを導入する \citep{lecun2006tutorial}．エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義する．モデルのすべての変数をまとめて $\mathbf{x}' = \{\mathbf{x}, \mathbf{z}\}$ とする.
+
+このエネルギー関数は，ある状態 $\mathbf{x}'$ の「好ましさ」や「自然さ」を定量的に評価するものであり，エネルギーが小さいほどその状態がより実現しやすいと解釈される．
+
+第2章で紹介したHopfieldモデルにおけるエネルギーが例である．
+
+パラメータ$\theta$, （ポテンシャル）エネルギー関数 $E_{\theta}:\ \mathbb{R}^{n}\mathbb{\rightarrow R}$とすると，$\mathbf{x}'$ の分布はGibbs-Boltzmann分布を用いて次のように表せる．
 
 $$
 \begin{equation}
-p_\theta(\mathbf{x}, \mathbf{z}) = p_\theta(\mathbf{x} \mid \mathbf{z}) \cdot p_\theta(\mathbf{z})
+p_{\theta}(\mathbf{x}')\  = \frac{\exp\left( - {\beta E}_{\theta}\left( \mathbf{x}' \right) \right)}{Z_{\theta}}
 \end{equation}
 $$
 
-となる．ベイズの定理により，
+ただし，$Z_{\theta}$は規格化定数であり，$Z_{\theta} = \int - \beta E_{\theta}\left( \mathbf{x}' \right)d\mathbf{x}'$ である．
 
-$$
-p_\theta(\mathbf{z} \mid \mathbf{x}) = \frac{p_\theta(\mathbf{x} \mid \mathbf{z})\cdot p_\theta(\mathbf{z})}{p_\theta(\mathbf{x})}
-$$
+なお，ここでの「エネルギー」は代謝コスト (metabolic cost) と完全に対応するものではなく，計算上取り入れられたものである．神経系における代謝コストはニューロンの発火活動やシナプス伝達に伴ってイオンポンプによる電位回復（たとえばNa/K ポンプ） などによって消費される実際のエネルギー（ATPなど）を指す \citep{jamadar2025metabolic}．例えば神経活動の大きさをエネルギー関数に組み込んだ場合，神経活動が大きいほど代謝コストは大きくなるため，EBMのエネルギーと代謝コストは関連付けることができる．
 
-が成り立つ．上行性投射（下位から上位へ）を $p_\theta(\mathbf{z} \mid \mathbf{x})$, 下行性投射（上位から下位へ）を $p_\theta(\mathbf{x} \mid \mathbf{z})$ に対応付けることができる．
-
-
-主成分分析や独立成分分析も生成モデルと捉えることが可能である．
-主成分分析は...
-独立成分分析は...
-
-
-### ベイズ脳仮説
-ベイズ脳仮説はより広い枠組みである．
-
-変分ベイズ推論は
-
-https://arxiv.org/abs/1901.07945
-
-Knill, David C., and Alexandre Pouget. 2004. “The Bayesian Brain: The Role of Uncertainty in Neural Coding and Computation.” Trends in Neurosciences 27 (12): 712–19.
-
-## エネルギーベースモデル
-エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義し，推論時と学習時の双方においてエネルギーを最小化するようにネットワークの状態を更新する (LeCun, Chopra, Hadsell, Ranzato, & Huang, 2006)．エネルギーベースモデルとしてはIsingモデルや(Amari-)Hopfieldモデル，Boltzmannマシン等が該当する．モデルの神経活動を$\mathbf{x} \in \mathbb{R}^{n}$，パラメータ$\theta$, （ポテンシャル）エネルギー関数 $E_{\theta}:\ \mathbb{R}^{n}\mathbb{\rightarrow R}$とすると，$\mathbf{x}$の分布はGibbs-Boltzmann分布を用いて次のように表せる．
-
-$$
-\begin{equation}
-p_{\theta}(\mathbf{x})\  = \frac{\exp\left( - {\beta E}_{\theta}\left( \mathbf{x} \right) \right)}{Z_{\theta}}
-\end{equation}
-$$
-
-ただし，$Z_{\theta}$は規格化定数であり，$Z_{\theta} = \ \int_{}^{}{- \beta E_{\theta}\left( \mathbf{x} \right)d\mathbf{x}}$ である．定義した任意の $E_{\theta}(\mathbf{x})$ を神経活動$\mathbf{x}$やパラメータ$\theta$で微分することで，推論と学習ダイナミクスを定義できる (Fig. 3)．逆に神経活動のダイナミクスを積分することでエネルギーを定義することもできる (Isomura & Friston, 2020)．
-
-Fig. 3. (上) エネルギー，神経活動の確率分布，推論・学習ダイナミクスの関係．簡単のため$\beta = 1$とした．いずれかを定義すれば他が導出できる．確率分布は直接保持されず，神経活動のダイナミクスによるサンプリングで表現される．（下）神経活動のダイナミクスからエネルギーと学習ダイナミクスを導出する例．
-
-
-**エネルギーベースモデル**（energy-based model; EBM）と呼ばれる確率モデルの枠組みを取り上げる。
-
-エネルギーベースモデルでは，系の状態に
-
-EBMsは、入力データに対して**スカラー値のエネルギー（あるいはコスト）を割り当てる関数**を定義し、そのエネルギーを最小化するようにシステムの状態を決定・学習するという特徴を持つ。これは、ニューラルネットワークなどの高次元な状態空間における確率的な推論や学習に広く応用されている枠組みである \citep{lecun2006tutorial}。
-
-エネルギーベースモデルでは、入力ベクトル $\mathbf{x} \in \mathbb{R}^d$ に対して、パラメータ $\theta$ に依存する**エネルギー関数** (energy function) $E_\theta : \mathbb{R}^d \to \mathbb{R}$ を定義する。このエネルギー関数は、ある状態 $\mathbf{x}$ の「好ましさ」や「自然さ」を定量的に評価するものであり、エネルギーが小さいほどその状態がより実現しやすいと解釈される。
-
-このようなエネルギー関数を用いて、状態 $\mathbf{x}$ の**確率密度関数** $p_\theta(\mathbf{x})$ を以下のように定義する：
-
-$$
-\begin{equation}
-p_\theta(\mathbf{x}) = \frac{\exp(-E_\theta(\mathbf{x}))}{Z_\theta}
-\end{equation}
-$$
-
-ここで $Z_\theta:=\int \exp(-E_\theta(\mathbf{x})) \, d\mathbf{x}$ は**分配関数**（partition function）と呼ばれ、確率分布を正規化するための定数である．$Z_\theta$ は状態空間全体にわたる積分であり、一般には計算が困難である点がEBMの学習と推論を難しくする主な要因である。
-
-このように、エネルギーベースモデルは、確率分布を明示的にパラメトライズする代わりに、各状態に対するスカラーのスコア（＝エネルギー）を割り当て、そのスコアを通じて確率的な解釈を与えるという柔軟な表現力を持つ。そのため、EBMsは画像生成、異常検知、表現学習など、多様な応用分野で注目されている。
-
-また、エネルギー関数 $E_\theta(\mathbf{x})$ の定義により、EBMs は生成モデルとして扱うこともできるが、識別的モデルとして利用することも可能である。たとえば、識別タスクにおいては、入力 $\mathbf{x}$ とラベル $y$ のペア $(\mathbf{x}, y)$ に対して $E_\theta(\mathbf{x}, y)$ を定義し、正しいラベルに対するエネルギーを最小にするようなパラメータ $\theta$ を学習することができる。このように、EBM は生成と識別の両方の枠組みにまたがる柔軟なモデルである。
-
----
-
-推論時と学習時の双方においてエネルギーを最小化するようにネットワークの状態を更新する
-
-エネルギーベースモデルは、
-神経系の状態遷移と安定性を記述する枠組みとして自然であり、
-記憶や知覚といった脳の高次機能の数理的モデル化を可能にし、
-確率的処理や最適化の観点からも神経活動の特徴をうまく表現できるため、
-計算論的神経科学における理論的支柱の1つとして重要な役割を果たしています。
-
-代謝コスト (metabolic cost) との関連．
-脳は20Wしか消費しない？
-
-ATP消費
-https://www.cell.com/trends/cognitive-sciences/fulltext/S1364-6613(24)00319-X
-
-エネルギーベースモデルでのエネルギーは代謝コストと一対一関係するものではない．
-脳の代謝コストは、
-
-ニューロンの発火活動
-
-シナプス伝達
-
-イオンポンプによる電位回復（たとえばNa/K ポンプ） などによって消費される**実際のエネルギー（ATPなど）**を指します。
-
-定量的には、脳は体重の約2%しか占めないにも関わらず、体全体のエネルギー消費の20%前後を使うその大部分は神経活動、特に**シナプス活動（興奮性シナプス）**に起因する
-ことが知られています。これは物理的、化学的なエネルギー消費です。
-
-## ボルツマンマシン
+### ボルツマンマシン
 エネルギーベースモデルの一種としてボルツマンマシン (Boltzmann machine) を取り上げる．
 
-生成モデル (generative model)
+定義した任意の $E_{\theta}(\mathbf{x}')$ を神経活動 $\mathbf{x}'$ やパラメータ $\theta$ で微分することで，推論と学習ダイナミクスを定義できる．
 
 Hopfieldモデルの各ユニットが取りうる活動を確率的にしたモデルがBoltzmannマシンである．
 
-Boltzmannマシンは、確率的生成モデルの一例として、その状態の確率分布をエネルギー関数に基づいて定義するモデルである。ここで、システムの状態は $\mathbf{s} = (s_1, s_2, \ldots, s_N)$ という2値のユニットの組で表され、各 $s_i$ は0または1の値を取る。Boltzmannマシンでは、各状態のエネルギーは以下の式によって与えられる：
+Boltzmannマシンは，確率的生成モデルの一例として，その状態の確率分布をエネルギー関数に基づいて定義するモデルである．ここで，システムの状態は $\mathbf{s} = (s_1, s_2, \ldots, s_N)$ という2値のユニットの組で表され，各 $s_i$ は0または1の値を取る．Boltzmannマシンでは，各状態のエネルギーは以下の式によって与えられる：
 
 $$
 E(\mathbf{s}) = -\sum_{i} b_i s_i - \sum_{i < j} W_{ij} s_i s_j
 $$
 
-ここで、$b_i$ は各ユニットに対応するバイアス項、$W_{ij}$ はユニット $i$ と $j$ の間の対称的な結合重みを表す。状態 \(\mathbf{s}\) が出現する確率は、エネルギー関数に基づいてボルツマン分布として定義され、以下のように記述される：
+ここで，$b_i$ は各ユニットに対応するバイアス項，$W_{ij}$ はユニット $i$ と $j$ の間の対称的な結合重みを表す．状態 \(\mathbf{s}\) が出現する確率は，エネルギー関数に基づいてボルツマン分布として定義され，以下のように記述される：
 
 $$
 P(\mathbf{s}) = \frac{1}{Z} \exp\left(-E(\mathbf{s})\right)
 $$
 
-ここで、正規化定数 $Z$（分配関数）は全状態にわたる和で定義される：
+ここで，正規化定数 $Z$（分配関数）は全状態にわたる和で定義される：
 
 $$
 Z = \sum_{\mathbf{s}} \exp\left(-E(\mathbf{s})\right)
 $$
 
-このモデルは、全ユニット間に結合が存在するため、内部の依存関係が複雑になり、特に学習の際にパラメータ更新のための勾配計算が指数的な計算量を要するという難点がある。
+このモデルは，全ユニット間に結合が存在するため，内部の依存関係が複雑になり，特に学習の際にパラメータ更新のための勾配計算が指数的な計算量を要するという難点がある．
 
-Boltzmannマシンにおける学習および推論の主要な困難さは、その計算に内在する分配関数 $Z$ の評価に起因する。Boltzmannマシンでは、エネルギー関数
+Boltzmannマシンにおける学習および推論の主要な困難さは，その計算に内在する分配関数 $Z$ の評価に起因する．Boltzmannマシンでは，エネルギー関数
 
 $$
 E(\mathbf{s}) = -\sum_{i} b_i s_i - \sum_{i<j} W_{ij} s_i s_j
 $$
 
-に従い、状態 \(\mathbf{s}\) の確率分布は
+に従い，状態 \(\mathbf{s}\) の確率分布は
 
 $$
 P(\mathbf{s}) = \frac{1}{Z} \exp\left(-E(\mathbf{s})\right)
 $$
 
-と定義されるが、ここで正規化定数 $Z$ は
+と定義されるが，ここで正規化定数 $Z$ は
 
 $$
 Z = \sum_{\mathbf{s}} \exp\left(-E(\mathbf{s})\right)
 $$
 
-と全可能状態 \(\mathbf{s}\) にわたる和として計算されなければならない。各ユニットが2値の確率変数である場合、全状態数は \(2^N\) となるため、ネットワークの規模が大きくなるとこの和は指数関数的に増大し、厳密な計算が事実上不可能となる。
+と全可能状態 \(\mathbf{s}\) にわたる和として計算されなければならない．各ユニットが2値の確率変数である場合，全状態数は \(2^N\) となるため，ネットワークの規模が大きくなるとこの和は指数関数的に増大し，厳密な計算が事実上不可能となる．
 
-さらに、学習に必要なパラメータ更新のための勾配計算でも、この正規化定数 $Z$ に依存する項が現れる。具体的には、尤度関数の勾配として、例えば重み $W_{ij}$ に関しては
+さらに，学習に必要なパラメータ更新のための勾配計算でも，この正規化定数 $Z$ に依存する項が現れる．具体的には，尤度関数の勾配として，例えば重み $W_{ij}$ に関しては
 
 $$
 \frac{\partial \log P(\mathbf{s})}{\partial W_{ij}} = \langle s_i s_j \rangle_{\text{data}} - \langle s_i s_j \rangle_{\text{model}}
 $$
 
-と表されるが、ここで \(\langle s_i s_j \rangle_{\text{model}}\) はモデル分布における期待値であり、これは
+と表されるが，ここで \(\langle s_i s_j \rangle_{\text{model}}\) はモデル分布における期待値であり，これは
 
 $$
 \langle s_i s_j \rangle_{\text{model}} = \sum_{\mathbf{s}} s_i s_j \, P(\mathbf{s})
 $$
 
-として計算される必要がある。しかし、前述のように $P(\mathbf{s})$ の計算には $Z$ の求積が不可欠であり、これもまた指数的な計算量を要するため、直接計算することは困難である。
+として計算される必要がある．しかし，前述のように $P(\mathbf{s})$ の計算には $Z$ の求積が不可欠であり，これもまた指数的な計算量を要するため，直接計算することは困難である．
 
-このような計算の困難性は、統計物理における分配関数の計算問題と同様に、組み合わせ爆発（combinatorial explosion）の問題として知られ、計算複雑性理論では #P困難（#P-complete）であると指摘される。これに対処するため、実際の学習ではサンプルに基づく近似手法（モンテカルロ法、ギブスサンプリングなど）や、特定の近似アルゴリズム（コントラスト・ダイバージェンスなど）が利用される。しかしこれら近似手法にも収束の問題や精度の限界が存在するため、一般的なBoltzmannマシンは大規模な問題に対して直接適用するのが難しく、その計算効率の改善は依然として重要な研究課題である。
+このような計算の困難性は，統計物理における分配関数の計算問題と同様に，組み合わせ爆発（combinatorial explosion）の問題として知られ，計算複雑性理論では #P困難（#P-complete）であると指摘される．これに対処するため，実際の学習ではサンプルに基づく近似手法（モンテカルロ法，ギブスサンプリングなど）や，特定の近似アルゴリズム（コントラスト・ダイバージェンスなど）が利用される．しかしこれら近似手法にも収束の問題や精度の限界が存在するため，一般的なBoltzmannマシンは大規模な問題に対して直接適用するのが難しく，その計算効率の改善は依然として重要な研究課題である．
 
-この問題点を解消するために考案されたのが、制限Boltzmannマシン（Restricted Boltzmann Machine: RBM）である。RBMでは、ネットワークを二層構造に限定し、可視層 $\mathbf{v}$ と隠れ層 $\mathbf{h}$ のみを用いる。ここで、可視ユニット $v_i$ は入力データを表し、隠れユニット $h_j$ はデータの特徴（潜在変数）を表す。RBMのエネルギー関数は次の形で定義される：
+この問題点を解消するために考案されたのが，制限Boltzmannマシン（Restricted Boltzmann Machine: RBM）である．RBMでは，ネットワークを二層構造に限定し，可視層 $\mathbf{v}$ と隠れ層 $\mathbf{h}$ のみを用いる．ここで，可視ユニット $v_i$ は入力データを表し，隠れユニット $h_j$ はデータの特徴（潜在変数）を表す．RBMのエネルギー関数は次の形で定義される：
 
 $$
 E(\mathbf{v}, \mathbf{h}) = -\sum_{i} a_i v_i - \sum_{j} b_j h_j - \sum_{i, j} v_i W_{ij} h_j
 $$
 
-このとき、$a_i$ は可視ユニットのバイアス、$b_j$ は隠れユニットのバイアス、そして $W_{ij}$ は可視ユニットと隠れユニット間の結合重みである。RBMでは、同一層内のユニット間の結合（例えば、可視層同士、隠れ層同士）は存在しないため、モデル内の条件付き独立性が成立する。具体的には、隠れ層の各ユニットは可視層が与えられた条件下で独立に分布し、その条件付き確率は次の式で表される：
+このとき，$a_i$ は可視ユニットのバイアス，$b_j$ は隠れユニットのバイアス，そして $W_{ij}$ は可視ユニットと隠れユニット間の結合重みである．RBMでは，同一層内のユニット間の結合（例えば，可視層同士，隠れ層同士）は存在しないため，モデル内の条件付き独立性が成立する．具体的には，隠れ層の各ユニットは可視層が与えられた条件下で独立に分布し，その条件付き確率は次の式で表される：
 
 $$
 P(h_j = 1 \mid \mathbf{v}) = \sigma\left(b_j + \sum_{i} v_i W_{ij}\right)
 $$
 
-また、可視層の各ユニットに関しても同様に、
+また，可視層の各ユニットに関しても同様に，
 
 $$
 P(v_i = 1 \mid \mathbf{h}) = \sigma\left(a_i + \sum_{j} h_j W_{ij}\right)
 $$
 
-と記述される。ここで、\(\sigma(x) = \frac{1}{1+\exp(-x)}\) はシグモイド関数である。これらの性質により、RBMは効率的なギブスサンプリングが可能となり、コントラスト・ダイバージェンス（Contrastive Divergence, CD）と呼ばれる近似的な学習アルゴリズムが用いられて実用的な学習が可能となる。
+と記述される．ここで，\(\sigma(x) = \frac{1}{1+\exp(-x)}\) はシグモイド関数である．これらの性質により，RBMは効率的なギブスサンプリングが可能となり，コントラスト・ダイバージェンス（Contrastive Divergence, CD）と呼ばれる近似的な学習アルゴリズムが用いられて実用的な学習が可能となる．
 
-このようにして、Boltzmannマシンは複雑な結合を持つモデルとして理論的な基盤を提供する一方、RBMはその結合を制限することにより計算の効率化を実現している。これらのモデルは、特にディープラーニングにおける事前学習や特徴抽出の文脈で重要な役割を果たし、画像認識や信号処理など幅広い応用がなされている。
+このようにして，Boltzmannマシンは複雑な結合を持つモデルとして理論的な基盤を提供する一方，RBMはその結合を制限することにより計算の効率化を実現している．これらのモデルは，特にディープラーニングにおける事前学習や特徴抽出の文脈で重要な役割を果たし，画像認識や信号処理など幅広い応用がなされている．
 
-### 制限ボルツマンマシン
-(Restricted Boltzmann machine) 
-(cf.) <http://deeplearning.net/tutorial/rbm.html>
+#### 制限ボルツマンマシン
+制限ボルツマンマシン (Restricted Boltzmann machine) 
 
 離散の観測変数(visible variable) $\mathbf{v}$, 潜在変数(hidden variable) $\mathbf{h}$とする．各ユニットの値は$\{0, 1\}$の2値 (binary)である．
 
@@ -227,7 +176,7 @@ $$
 
 とする．
 
-### 訓練データで学習
+#### 訓練データで学習
 $$
 \begin{align}
 p_\theta(\mathbf{h}|\mathbf{v})&=\prod_i p_\theta(h_i=1|\mathbf{v})=\prod_i \sigma(c_i + W_i \mathbf{v})\\
@@ -262,10 +211,10 @@ $$
 
 MAP推定をしない方法についてはしばらく後で説明する．
 
-## スパース符号化モデル
+### スパース符号化モデル
 
-### スパース符号化と生成モデル
-**スパース符号化モデル** (Sparse coding model) \citep{`Olshausen1996-xe` \citep{`Olshausen1997-qu`はV1のニューロンの応答特性を説明する**線形生成モデル** (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
+#### スパース符号化と生成モデル
+スパース符号化モデル (Sparse coding model) \citep{`Olshausen1996-xe` \citep{`Olshausen1997-qu`はV1のニューロンの応答特性を説明する線形生成モデル (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
 
 $$
 \begin{equation}
@@ -277,7 +226,7 @@ $$
 
 Sparse codingでは神経活動 $\mathbf{r}$ が潜在変数の推定量を表現しているという仮定の下，少数の基底で画像 (や目的変数)を表すことを目的とする．要は上式において，ほとんどが0で，一部だけ0以外の値を取るという疎 (=sparse)な係数$\mathbf{r}$を求めたい．
 
-### 確率的モデルの記述
+#### 確率的モデルの記述
 入力される画像パッチ $\mathbf{x}_i\ (i=1, \ldots, N)$ の真の分布を $p_{data}(\mathbf{x})$ とする．また，$\mathbf{x}$ の生成モデルを $p(\mathbf{x}|\mathbf{\Phi})$ とする．さらに潜在変数 $\mathbf{r}$ の事前分布 (prior)を $p(\mathbf{r})$, 画像パッチ $\mathbf{x}$ の尤度 (likelihood)を $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$ とする．このとき，
 
 $$
@@ -296,8 +245,8 @@ $$
 
 と表せる．ただし，$Z_{\sigma}$は規格化定数である．
 
-### 事前分布の設定
-事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは **super-Gaussian distribution** (Laplace分布やCauchy分布などGaussian分布よりもkurtoticな分布) を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して次のように表記する．
+#### 事前分布の設定
+事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは super-Gaussian distribution (Laplace分布やCauchy分布などGaussian分布よりもkurtoticな分布) を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して次のように表記する．
 
 $$
 \begin{align}
@@ -322,7 +271,7 @@ $$
 
 分布$p(r)$や$S(r)$を描画すると次のようになる．
 
-### 目的関数の設定と最適化
+#### 目的関数の設定と最適化
 最適な生成モデルを得るために，入力される画像パッチの真の分布 $p_{data}(\mathbf{x})$と$\mathbf{x}$の生成モデル $p(\mathbf{x}|\mathbf{\Phi})$を近づける．このために，2つの分布のKullback-Leibler ダイバージェンス $D_{\text{KL}}\left(p_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$を最小化したい．しかし，真の分布は得られないので，経験分布 
 
 $$
@@ -388,7 +337,7 @@ $$
 \end{equation}
 $$
 
-これは $\mathbf{r}$ について **MAP推定** (maximum a posteriori estimation)を行うことに等しい．次に$\hat{\mathbf{r}}$を用いて
+これは $\mathbf{r}$ について MAP推定 (maximum a posteriori estimation)を行うことに等しい．次に$\hat{\mathbf{r}}$を用いて
 
 $$
 \begin{equation}
@@ -396,9 +345,9 @@ $$
 \end{equation}
 $$
 
-とすることにより，$\mathbf{\Phi}$を最適化する．こちらは $\mathbf{\Phi}$ について **最尤推定** (maximum likelihood estimation)を行うことに等しい．
+とすることにより，$\mathbf{\Phi}$を最適化する．こちらは $\mathbf{\Phi}$ について 最尤推定 (maximum likelihood estimation)を行うことに等しい．
 
-### 局所競合則
+#### 局所競合則
 局所競合則 (Locally competitive algorithm; LCA)．
 
 $\mathbf{r}$の勾配法による更新則は，$E$の微分により次のように得られる．
@@ -409,10 +358,10 @@ $$
 \end{equation}
 $$
 
-ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\citep{`Olshausen1996-xe`では**共役勾配法** (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，**LCA**  (locally competitive algorithm)が提案されている \citep{`Rozell2008-wp`．LCAは**側抑制** (local competition, lateral inhibition)と**閾値関数** (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，Olshausenは**Hopfield trick**と呼んでいる．
+ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\citep{`Olshausen1996-xe`では共役勾配法 (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，LCA  (locally competitive algorithm)が提案されている \citep{`Rozell2008-wp`．LCAは側抑制 (local competition, lateral inhibition)と閾値関数 (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，OlshausenはHopfield trickと呼んでいる．
 
-#### 軟判定閾値関数を用いる場合 (ISTA)
-$S(x)=|x|$とした場合の閾値関数を用いる手法として**ISTA**(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
+##### 軟判定閾値関数を用いる場合 (ISTA)
+$S(x)=|x|$とした場合の閾値関数を用いる手法としてISTA(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
 
 解くべき問題は次式で表される．
 
@@ -429,7 +378,7 @@ $$
 - $\mathbf{r}(t+1) = \Theta_\lambda(\mathbf{r}_*(t+1))$
 - $\mathbf{r}$が収束するまで2と3を繰り返す
 
-ここで$\Theta_\lambda(\cdot)$は**軟判定閾値関数** (Soft thresholding function)と呼ばれ，次式で表される．
+ここで$\Theta_\lambda(\cdot)$は軟判定閾値関数 (Soft thresholding function)と呼ばれ，次式で表される．
 
 $$
 \begin{equation}
@@ -464,7 +413,7 @@ $$
 
 なお，閾値関数としては軟判定閾値関数だけではなく，硬判定閾値関数や$y=x - \text{tanh}(x)$ (Tanh-shrink)など様々な関数を用いることができる．
 
-### 重み行列の更新則
+#### 重み行列の更新則
 $\mathbf{r}$が収束したら勾配法により$\mathbf{\Phi}$を更新する．
 
 $$
@@ -473,10 +422,10 @@ $$
 \end{equation}
 $$
 
-### スパース符号化モデルの実装
+#### スパース符号化モデルの実装
 ネットワークは入力層を含め2層の単純な構造である．今回は，入力はランダムに切り出した16×16 (＝256)の画像パッチとし，これを入力層の256個のニューロンが受け取るとする．入力層のニューロンは次層の100個のニューロンに投射するとする．100個のニューロンが入力をSparseに符号化するようにその活動および重み行列を最適化する．
 
-## 予測符号化モデル
+### 予測符号化モデル
 
 $u$ を $w$ に変更．
 
@@ -516,8 +465,8 @@ Kalman filter
 Kalman, R. E. (1960). A new approach to linear filtering and prediction problems. Journal
 of Basic Engineering, 82(1), 35–45.
 
-### 観測世界の階層的予測
-**階層的予測符号化(hierarchical predictive coding; HPC)** は\citep{`Rao1999-zv`により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち**潜在変数** (latent variable) を $\mathbf{r} \in \mathbb{R}^{n_1}$ とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$ は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
+#### 観測世界の階層的予測
+階層的予測符号化(hierarchical predictive coding; HPC) は\citep{`Rao1999-zv`により導入された．構築するネットワークは入力層を含め，3層のネットワークとする．LGNへの入力として画像 $\mathbf{x} \in \mathbb{R}^{n_0}$を考える．画像 $\mathbf{x}$ の観測世界における隠れ変数，すなわち潜在変数 (latent variable) を $\mathbf{r} \in \mathbb{R}^{n_1}$ とし，ニューロン群によって発火率で表現されているとする (真の変数と $\mathbf{r}$ は異なるので文字を分けるべきだが簡単のためにこう表す)．このとき，
 
 $$
 \begin{equation}
@@ -589,11 +538,11 @@ $$
 
 ただし，$k_1$は更新率 (updating rate)である．または，発火率の時定数を$\tau:=1/k_1$として，$k_1$は発火率の時定数$\tau$の逆数であると捉えることもできる．ここで1番目の式において，中間表現 $\mathbf{r}$ のダイナミクスはbottom-up errorとtop-down errorで記述されている．このようにbottom-up errorが $\mathbf{r}$ への入力となることは自然に導出される．なお，top-down errorに関しては高次からの予測 (prediction)の項 $f(\mathbf{x}^h)$とleaky-integratorとしての項 $-\mathbf{r}$に分割することができる．また$\mathbf{U}^\top, (\mathbf{U}^h)^\top$は重み行列の転置となっており，bottom-upとtop-downの投射において対称な重み行列を用いることを意味している．$-g'(\mathbf{r})$は発火率を抑制してスパースにすることを目的とする項だが，無理やり解釈をすると自己再帰的な抑制と言える．
 
-## 予測符号化による活動と結合の共調整
+#### 予測符号化による活動と結合の共調整
 
 本節では予測符号化による
 
-### 予測符号化による訓練
+##### 予測符号化による訓練
 PCには"Standard" Generative PC と "Reverse" Discriminative PCが存在する．
 Millidge, B., Seth, A., & Buckley, C. L. (2021). Predictive Coding: a Theoretical and Experimental Review. In arXiv [cs.AI]. arXiv. http://arxiv.org/abs/2107.12979
 
@@ -744,7 +693,7 @@ $$
 ## マルコフ連鎖モンテカルロ法
 
 ### マルコフ連鎖モンテカルロ法 (MCMC)
-前節では解析的に事後分布の計算をした．事後分布を近似的に推論する方法の1つに**マルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC)** がある．他の近似推論の手法としてはLaplace近似や変分推論（variational inference）などがある．MCMCは他の手法に比して，事後分布の推論だけでなく，確率分布を神経活動で表現する方法を提供するという利点がある．
+前節では解析的に事後分布の計算をした．事後分布を近似的に推論する方法の1つにマルコフ連鎖モンテカルロ法 (Markov chain Monte Carlo methods; MCMC) がある．他の近似推論の手法としてはLaplace近似や変分推論（variational inference）などがある．MCMCは他の手法に比して，事後分布の推論だけでなく，確率分布を神経活動で表現する方法を提供するという利点がある．
 
 データを$X$とし，パラメータを$\theta$とする．
 
@@ -789,7 +738,7 @@ Euler–Maruyama法により，
 
 LMCよりも一般的なMCMCの手法としてHamiltonianモンテカルロ法(Hamiltonian Monte Calro; HMC)あるいはハイブリッド・モンテカルロ法(Hybrid Monte Calro)がある．エネルギーポテンシャルの局面上をHamilton力学に従ってパラメータを運動させることにより高速にサンプリングする手法である．
 
-一般化座標を$\mathbf{q}$, 一般化運動量を$\mathbf{p}$とする．ポテンシャルエネルギーを$U(\mathbf{q})$としたとき，古典力学（解析力学）において保存力のみが作用する場合の**ハミルトニアン (Hamiltonian)** $\mathcal{H}(\mathbf{q}, \mathbf{p})$は
+一般化座標を$\mathbf{q}$, 一般化運動量を$\mathbf{p}$とする．ポテンシャルエネルギーを$U(\mathbf{q})$としたとき，古典力学（解析力学）において保存力のみが作用する場合のハミルトニアン (Hamiltonian) $\mathcal{H}(\mathbf{q}, \mathbf{p})$は
 
 $$
 \begin{equation}
@@ -805,37 +754,46 @@ $$
 \end{equation}
 $$
 
-これを**ハミルトンの運動方程式(hamilton's equations of motion)** あるいは**正準方程式 (canonical equations)** という．
+これをハミルトンの運動方程式(hamilton's equations of motion) あるいは正準方程式 (canonical equations) という．
 
 リープフロッグ(leap frog)法により離散化する．
 
-1. **共役事前分布を用いた解析的（閉形式）解**  
+1. 共役事前分布を用いた解析的（閉形式）解  
    - ノイズがガウス，かつ回帰係数に対して共役なガウス事前分布を仮定すると，事後分布もガウスとなり，平均・分散を閉形式で得られる．  
    - 具体的には，  
      \[
        p(\boldsymbol\beta\mid X,y)=\mathcal{N}\bigl(\Sigma_n(X^TX)\beta_0 + \Sigma_n X^Ty,\;\Sigma_n\bigr),\quad
        \Sigma_n=(X^TX+\Sigma_0^{-1})^{-1},
      \]  
-     のように書ける（PRML より）  ([Bayesian linear regression - Wikipedia](https://en.wikipedia.org/wiki/Bayesian_linear_regression?utm_source=chatgpt.com))。  
+     のように書ける（PRML より）  ([Bayesian linear regression - Wikipedia](https://en.wikipedia.org/wiki/Bayesian_linear_regression?utm_source=chatgpt.com))．  
 
-2. **ラプラス近似（Laplace’s method）**  
-   - 事後分布を最尤解（MAP）まわりの２次多項展開でガウス近似する手法。高次モーメントは捨象されるが，簡便かつ高速に適用可能。  
-   - LaplacesDemon などのソフトウェアでも標準的に実装されている  ([LaplacesDemon - Wikipedia](https://en.wikipedia.org/wiki/LaplacesDemon))。  
+2. ラプラス近似（Laplace’s method）  
+   - 事後分布を最尤解（MAP）まわりの２次多項展開でガウス近似する手法．高次モーメントは捨象されるが，簡便かつ高速に適用可能．  
+   - LaplacesDemon などのソフトウェアでも標準的に実装されている  ([LaplacesDemon - Wikipedia](https://en.wikipedia.org/wiki/LaplacesDemon))．  
 
-3. **変分ベイズ（Variational Inference; VI）**  
-   - 事後分布をパラメトリックな簡易分布族 \(q(\theta;\phi)\) で近似し，KLダイバージェンスを最小化する最適化問題として解く。  
-   - 平均場近似，α-divergence 最小化，Amortized VB など多様な拡張がある  ([[PDF] Bayesian inference for latent variable models](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-724.pdf?utm_source=chatgpt.com))。  
+3. 変分ベイズ（Variational Inference; VI）  
+   - 事後分布をパラメトリックな簡易分布族 \(q(\theta;\phi)\) で近似し，KLダイバージェンスを最小化する最適化問題として解く．  
+   - 平均場近似，α-divergence 最小化，Amortized VB など多様な拡張がある  ([[PDF] Bayesian inference for latent variable models](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-724.pdf?utm_source=chatgpt.com))．  
 
-4. **期待値伝播（Expectation Propagation; EP）**  
-   - 近似ファクタを逐次更新し，各因子が除かれた「残差分布」を moment-matching によりガウスで再近似する手法。VI より精度良く，ラプラス近似より堅牢とされる  ([[PDF] Bayesian inference for latent variable models](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-724.pdf?utm_source=chatgpt.com))。  
+4. 期待値伝播（Expectation Propagation; EP）  
+   - 近似ファクタを逐次更新し，各因子が除かれた「残差分布」を moment-matching によりガウスで再近似する手法．VI より精度良く，ラプラス近似より堅牢とされる  ([[PDF] Bayesian inference for latent variable models](https://www.cl.cam.ac.uk/techreports/UCAM-CL-TR-724.pdf?utm_source=chatgpt.com))．  
 
-5. **マルコフ連鎖モンテカルロ（MCMC）**  
-   - 事後分布をターゲットとするマルコフ連鎖を構築しサンプルを得る手法。  
-   - 代表的アルゴリズムに Gibbs sampling，Metropolis–Hastings，Hamiltonian Monte Carlo（HMC／NUTS）などがある  ([LaplacesDemon - Wikipedia](https://en.wikipedia.org/wiki/LaplacesDemon))。  
+5. マルコフ連鎖モンテカルロ（MCMC）  
+   - 事後分布をターゲットとするマルコフ連鎖を構築しサンプルを得る手法．  
+   - 代表的アルゴリズムに Gibbs sampling，Metropolis–Hastings，Hamiltonian Monte Carlo（HMC／NUTS）などがある  ([LaplacesDemon - Wikipedia](https://en.wikipedia.org/wiki/LaplacesDemon))．  
 
+
+### ベイズ脳仮説
+ベイズ脳仮説はより広い枠組みである．
+
+変分ベイズ推論は
+
+https://arxiv.org/abs/1901.07945
+
+Knill, David C., and Alexandre Pouget. 2004. “The Bayesian Brain: The Role of Uncertainty in Neural Coding and Computation.” Trends in Neurosciences 27 (12): 712–19.
 
 ### 神経回路における不確実性の表現
-ここまでは最尤推定やMAP推定などにより，パラメータ(神経活動，シナプス結合)の点推定を行ってきた．**不確実性(uncertainty)** を神経回路で表現する方法として主に2つの符号化方法，**サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)** および**確率的集団符号化(probabilistic population coding; PPC)** が提案されている．SBCは神経活動が元の確率分布のサンプルを表現しており，時間的に多数の活動を集めることで元の分布の情報が得られるというモデルである．PPCは神経細胞集団により，確率分布を表現するというモデルである．
+ここまでは最尤推定やMAP推定などにより，パラメータ(神経活動，シナプス結合)の点推定を行ってきた．不確実性(uncertainty) を神経回路で表現する方法として主に2つの符号化方法，サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model) および確率的集団符号化(probabilistic population coding; PPC) が提案されている．SBCは神経活動が元の確率分布のサンプルを表現しており，時間的に多数の活動を集めることで元の分布の情報が得られるというモデルである．PPCは神経細胞集団により，確率分布を表現するというモデルである．
 
 - (Walker et al., 2022)がまとめ．
 - (Fiser et al., 2010)の比較表を入れる．
@@ -847,11 +805,11 @@ $$
 
 　神経細胞あるいは細胞集団が確率分布を表現するにはどうすればよいだろうか．神経細胞の活動がある変数を表現していると仮定しよう．単一の細胞の瞬時的な活動がある変数の点推定に対応していると考えれば，単一の細胞の多数の活動あるいは多数の細胞の瞬時的な活動により分布は表現できると考えられる (Fig.2)．
 
-**Fig. 2**. 神経活動による確率分布表現の2種類の方法．(Fiser, Berkes, Orbán, & Lengyel, 2010)より引用．(a)多数の細胞の瞬時的な活動により分布を表現する符号化 (e.g. probabilistic population codes; PPCs)．(b)単一の細胞の多数の活動により分布を表現する符号化 (e.g. neural sampling codes; NSCs)．Table1は両者の比較．著者らはSampling-based codeの方が優れていると考えている．
+Fig. 2. 神経活動による確率分布表現の2種類の方法．(Fiser, Berkes, Orbán, & Lengyel, 2010)より引用．(a)多数の細胞の瞬時的な活動により分布を表現する符号化 (e.g. probabilistic population codes; PPCs)．(b)単一の細胞の多数の活動により分布を表現する符号化 (e.g. neural sampling codes; NSCs)．Table1は両者の比較．著者らはSampling-based codeの方が優れていると考えている．
 
-多数の細胞の瞬時的な活動により分布を表現する符号化としては**probabilistic population codes** (Ma, Beck, Latham, & Pouget, 2006)や**distributional TD learning** (Dabney et al., 2020; Lowet, Zheng, Matias, Drugowitsch, & Uchida, 2020)などが該当する．一方で単一の細胞の多数の活動により分布を表現する符号化は**サンプリングに基づいた符号化 (sampling-based coding)** あるいは**神経サンプリング (neural sampling)** と呼ぶ．神経サンプリングの基盤となる現象は**神経活動の変動性 (neural variability)** である．これは感覚を処理する皮質領野（例えば視覚野）において同じ入力であっても神経細胞の活動が時間や試行に応じて変動する現象のことである (Stein, Gossen, & Jones, 2005)．これが単なるノイズなのか機能があるのかに関しては様々な説が提案されているが，神経活動の変動性によりMCMCが行われているという仮説は(Hoyer & Hyvärinen, 2002)において（自分の知る限り）初めて提案された．(Sanborn & Chater, 2016)は”Bayesian Brains without Probabilities”というキャッチーな題だが，MCMCとBayesian Brainの勉強にはなる．
+多数の細胞の瞬時的な活動により分布を表現する符号化としてはprobabilistic population codes (Ma, Beck, Latham, & Pouget, 2006)やdistributional TD learning (Dabney et al., 2020; Lowet, Zheng, Matias, Drugowitsch, & Uchida, 2020)などが該当する．一方で単一の細胞の多数の活動により分布を表現する符号化はサンプリングに基づいた符号化 (sampling-based coding) あるいは神経サンプリング (neural sampling) と呼ぶ．神経サンプリングの基盤となる現象は神経活動の変動性 (neural variability) である．これは感覚を処理する皮質領野（例えば視覚野）において同じ入力であっても神経細胞の活動が時間や試行に応じて変動する現象のことである (Stein, Gossen, & Jones, 2005)．これが単なるノイズなのか機能があるのかに関しては様々な説が提案されているが，神経活動の変動性によりMCMCが行われているという仮説は(Hoyer & Hyvärinen, 2002)において（自分の知る限り）初めて提案された．(Sanborn & Chater, 2016)は”Bayesian Brains without Probabilities”というキャッチーな題だが，MCMCとBayesian Brainの勉強にはなる．
 
-ここで外界の状態を$x$, それによって生まれた感覚刺激を$y$, 脳内の神経結合を$W$としよう．**事前分布 (prior)** を$p(x|W)$とし，**尤度 (likelihood)** を$p(y|x,\ W)$とすると，**事後分布 (posterior)**は
+ここで外界の状態を$x$, それによって生まれた感覚刺激を$y$, 脳内の神経結合を$W$としよう．事前分布 (prior) を$p(x|W)$とし，尤度 (likelihood) を$p(y|x,\ W)$とすると，事後分布 (posterior)は
 
 $$
 \begin{equation}
@@ -876,7 +834,7 @@ RS Zemel, P Dayan, and A Pouget. Probabilistic interpretation of population code
 サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)をガウス尺度混合モデルを例にとり実装する．
 
 ## ガウス尺度混合モデル
-**ガウス尺度混合 (Gaussian scale mixture; GSM) モデル**は確率的生成モデルの一種である{cite:p}`Wainwright1999-cl`{cite:p}`Orban2016-tm`．GSMモデルでは入力を次式で予測する：
+ガウス尺度混合 (Gaussian scale mixture; GSM) モデルは確率的生成モデルの一種である{cite:p}`Wainwright1999-cl`{cite:p}`Orban2016-tm`．GSMモデルでは入力を次式で予測する：
 
 $$
 \begin{equation}
@@ -959,7 +917,7 @@ $$
 次に$z_{\mathrm{MAP}}$の周辺で$p(z\mid \mathbf{x})$を積分し，積分値が一定の閾値を超える$z$の範囲を求め，この範囲で$z$を積分消去してやればよい．しかし，$z$は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が{cite:p}`Echeveste2017-wu`において提案されている．Echevesteらは第一の近似として，$z$の分布を$z_{\mathrm{MAP}}$でのデルタ関数に置き換える，すなわち，$p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})$とすることを提案している．この場合，$z$は定数とみなせ，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})$となる．第二の近似として，$z_{\mathrm{MAP}}$を真のコントラスト$z^*$で置き換えることが提案されている．GSMへの入力$\mathbf{x}$は元の画像を$\mathbf{\tilde x}$とすると，$\mathbf{x}=z^* \mathbf{\tilde x}$としてスケーリングされる．この入力の前処理の際に用いる$z^*$を用いてしまおうということである．この場合，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)$となる．しかし，入力を任意の画像とする場合，$z^*$は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，$z=z_{\mathrm{MAP}}$とする手法を用いることにする．
 
 ## 興奮性・抑制性神経回路によるサンプリング
-前節で実装したMCMCを**興奮性・抑制性神経回路 (excitatory-inhibitory (E-I) network)** で実装する．HMCとLMCの両方を神経回路で実装する．ハミルトニアンを用いる場合，一般化座標$\mathbf{q}$を興奮性神経細胞の活動$\mathbf{u}$, 一般化運動量$\mathbf{p}$を抑制性神経細胞の活動$\mathbf{v}$に対応させる．$\mathbf{u,\ v}$は同じ次元のベクトルとする．$\mathbf{u}, \mathbf{v}$の時間発展はハミルトニアン$\mathcal{H}$を導入して
+前節で実装したMCMCを興奮性・抑制性神経回路 (excitatory-inhibitory (E-I) network) で実装する．HMCとLMCの両方を神経回路で実装する．ハミルトニアンを用いる場合，一般化座標$\mathbf{q}$を興奮性神経細胞の活動$\mathbf{u}$, 一般化運動量$\mathbf{p}$を抑制性神経細胞の活動$\mathbf{v}$に対応させる．$\mathbf{u,\ v}$は同じ次元のベクトルとする．$\mathbf{u}, \mathbf{v}$の時間発展はハミルトニアン$\mathcal{H}$を導入して
 
 $$
 \begin{equation}
@@ -1026,7 +984,7 @@ $$
 \end{align}
 $$
 
-となり，$\mathbf{u}\mathbf{,\ v}$と定行列およびノイズに依存してサンプリングダイナミクスを記述できる．長々と式変形を書いたが，重要なのは**興奮性・抑制性という2種類の細胞群の相互作用により生み出された振動を用いてサンプリングにおける自己相関を下げることができる**という点である．
+となり，$\mathbf{u}\mathbf{,\ v}$と定行列およびノイズに依存してサンプリングダイナミクスを記述できる．長々と式変形を書いたが，重要なのは興奮性・抑制性という2種類の細胞群の相互作用により生み出された振動を用いてサンプリングにおける自己相関を下げることができるという点である．
 
 簡単のため，前項で用いた入力刺激のうち，最も$z$が大きいサンプルのみを使用する．
 
@@ -1040,7 +998,7 @@ Hamiltonianネットワークの方が安定して事後分布を推定するこ
 前項で挙げた例は発火率モデルであったが，SNNにおいてサンプリングを実行する機構自体は考案されている．ToDo: 以下の記述．{cite:p}`Buesing2011-dm`{cite:p}`Masset2022-wh`{cite:p}`Zhang2022-bl`
 
 ## シナプスサンプリング
-ここまでシナプス結合強度は変化せず，神経活動の変動によりサンプリングを行うというモデルについて考えてきた．一方で，シナプス結合強度自体が短時間で変動することによりベイズ推論を実行するというモデルがあり，**シナプスサンプリング(synaptic sampling)** と呼ばれる．ToDo: 以下の記述．{cite:p}`Kappel2015-kq`{cite:p}`Aitchison2021-wo`
+ここまでシナプス結合強度は変化せず，神経活動の変動によりサンプリングを行うというモデルについて考えてきた．一方で，シナプス結合強度自体が短時間で変動することによりベイズ推論を実行するというモデルがあり，シナプスサンプリング(synaptic sampling) と呼ばれる．ToDo: 以下の記述．{cite:p}`Kappel2015-kq`{cite:p}`Aitchison2021-wo`
 
 ## 確率的集団符号化
 ### 確率的集団符号化 (probabilistic population coding)
