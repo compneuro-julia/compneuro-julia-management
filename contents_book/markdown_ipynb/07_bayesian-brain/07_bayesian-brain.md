@@ -95,6 +95,9 @@ $$
 \sum_\ell \log p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
 $$
 
+生成モデル→エネルギーベースモデル→階層的生成モデル?
+→MAP推定→スパース，予測符号化→不確実性の導入→ベイズ脳…
+
 ### 最大事後確率推定
 
 最大事後確率 (maximum a posteriori; MAP）推定という．
