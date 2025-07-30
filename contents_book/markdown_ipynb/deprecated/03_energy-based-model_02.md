@@ -1,5 +1,39 @@
 ## Hopfield モデル
 
+
+Nakano-Amari-Hopfieldモデル
+
+@article{nakano2007associatron,
+  title={Associatron-a model of associative memory},
+  author={Nakano, Kaoru},
+  journal={IEEE Transactions on Systems, Man, and Cybernetics},
+  number={3},
+  pages={380--388},
+  year={2007},
+  publisher={IEEE}
+}
+
+@article{amari1972learning,
+  title={Learning patterns and pattern sequences by self-organizing nets of threshold elements},
+  author={Amari, S-I},
+  journal={IEEE Transactions on computers},
+  volume={100},
+  number={11},
+  pages={1197--1206},
+  year={1972},
+  publisher={IEEE}
+}
+
+@article{hopfield1982neural,
+  title={Neural networks and physical systems with emergent collective computational abilities.},
+  author={Hopfield, John J},
+  journal={Proceedings of the national academy of sciences},
+  volume={79},
+  number={8},
+  pages={2554--2558},
+  year={1982}
+}
+
 連想記憶のとそのモデルの説明 (Asociatron)
 相関の記憶モデル
 Hopfieldモデルの構造，エネルギーと学習則，同期・非同期更新
