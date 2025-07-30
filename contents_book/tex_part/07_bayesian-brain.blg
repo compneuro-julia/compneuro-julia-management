@@ -1,0 +1,17 @@
+[0] Config.pm:308> INFO - This is Biber 2.20
+[1] Config.pm:311> INFO - Logfile is '07_bayesian-brain.blg'
+[118] biber-MSWIN64:340> INFO - === 
+[156] Biber.pm:420> INFO - Reading '07_bayesian-brain.bcf'
+[266] Biber.pm:994> INFO - Found 4 citekeys in bib section 0
+[281] Biber.pm:4463> INFO - Processing section 0
+[295] Biber.pm:4654> INFO - Looking for bibtex file '../references/07_bayesian-brain.bib' for section 0
+[366] bibtex.pm:1713> INFO - LaTeX decoding ...
+[448] bibtex.pm:1519> INFO - Found BibTeX data source '../references/07_bayesian-brain.bib'
+[512] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[513] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[513] Biber.pm:4283> INFO - Sorting list 'ynt/global//global/global/global' of type 'entry' with template 'ynt' and locale 'en-US'
+[513] Biber.pm:4289> INFO - No sort tailoring available for locale 'en-US'
+[518] bbl.pm:676> INFO - Writing '07_bayesian-brain.bbl' with encoding 'UTF-8'
+[521] bbl.pm:779> INFO - Output to 07_bayesian-brain.bbl
+[522] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\TAKUTO~1\AppData\Local\Temp\biber_tmp_VaX_\0b268498d11e2c5750a607ff7f4ac814_28524.utf8, line 5, warning: 6 characters of junk seen at toplevel
+[522] Biber.pm:133> INFO - WARNINGS: 1

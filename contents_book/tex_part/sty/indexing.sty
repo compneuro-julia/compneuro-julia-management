@@ -1,0 +1,44 @@
+% https://qiita.com/munepi/items/2e1524859e24b5fb44bc
+%%索引 theindex 環境
+\usepackage{needspace}
+\usepackage{makeidx}
+\makeindex
+
+\usepackage{multicol}
+\makeatletter
+\renewenvironment{theindex}{%
+   \columnsep2\zw
+   \columnseprule\z@
+   \begin{multicols}{2}[\chapter*{\indexname}]%
+     \small
+     \@mkboth{\indexname}{\indexname}%
+     \parindent\z@
+     \parskip\z@
+     \lineskiplimit\z@
+     \lineskip\z@
+     \raggedbottom
+     \raggedcolumns
+     \raggedright
+     \let\item\@idxitem}
+  {\end{multicols}
+   \clearpage}
+
+\renewcommand{\@idxitem}{\par\leavevmode\hangindent1\zw\inhibitglue}
+\renewcommand{\subitem}{\@idxitem\hangindent2\zw\hspace*{1\zw}\inhibitglue}
+\renewcommand{\subsubitem}{\@idxitem\hangindent3\zw\hspace*{2\zw}\inhibitglue}
+\renewcommand{\indexspace}{\par\vskip\baselineskip\relax}
+
+\newcommand\idxdelim{\nobreak{\reset@font\scriptsize\space
+  \leaders\hbox to .3333\zw{\hss\hbox{.}\hss}\hfill\space}\nobreak}
+
+\newcommand*{\symbolindexname}{記号・数字}
+
+\def\makeidxhead#1{%
+  \needspace{2\baselineskip}%
+  \vspace{\baselineskip}%
+  \hbox to \columnwidth{\hfil
+    \normalsize\sffamily\bfseries
+    \blacksquare\hspace{.5\zw}#1\hspace{.5\zw}\blacksquare\hfil}\par
+  \nopagebreak
+}
+\makeatother
