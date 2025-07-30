@@ -10,7 +10,7 @@
 
 逆問題は多くの場合，不良設定問題 (ill-posed problem) となる \footnote{対義語は良設定問題 (well-posed problem) である．}．すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化する，といった性質を持つ．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数（あるいは無数に）存在する．そのため，逆問題を解くには，事前知識や仮定（制約条件，正則化）の導入などが必要となる．
 
-こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論の過程とみなす考えがある \citep{mumford1992computational, kawato1993forward, friston2003learning}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．次節では，この推論的知覚を支える数理モデルである，生成モデル (generative model）について詳しく見ていくことにする．
+こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理（感覚）ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論 (abductive reasoning) の過程とみなす考えがある \citep{helmholtz1867, mumford1992computational, kawato1993forward, friston2003learning} \footnote{Helmholtzは，知覚は単なる感覚ではなく，感覚に意味付けや意味ある対象として構成される過程であり，この過程には観念の連合 (Vorstellungsverbindungen) が関与していると述べた．観念の連合とは，過去の経験により蓄積された観念や知識が現在の感覚入力と結び付けられる機構を指す．この観念の連合は無意識的推論 (unbewusster Schluss, unconscious inference) であると表現された．}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．次節では，この推論的知覚を支える数理モデルである，生成モデル (generative model）について詳しく見ていくことにする．
 
 ### 生成モデル
 観測データ（たとえば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，その背後にある真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この関数は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．
