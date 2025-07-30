@@ -1,25 +1,67 @@
 ## 推論的知覚と生成モデル
 ### 逆問題と推論的知覚
-これまでの章では，知覚（perception）のモデル，すなわち外界からの入力に対して，どのようにして神経回路網が意味のある出力を生成するのか，という問題を主に扱ってきた．ここで改めて知覚の基本的な定義を確認しておこう．知覚とは，外界からの刺激を感覚受容器によって受容し，それに意味を与える過程である．
+これまでの章では，知覚 (perception) のモデル，すなわち外界からの入力に対して，どのようにして神経回路網が意味のある出力を生成するのか，という問題を主に扱ってきた．ここで改めて知覚の基本的な定義を確認しておこう．知覚とは，外界からの刺激を感覚受容器によって受容し，それに意味を与える過程である．この「刺激に意味を与える」という個所を，より体系的に理解するために，「順問題」と「逆問題」という概念を導入しよう．
 
-この「刺激に意味を与える」という個所を，より体系的に理解するために，「順問題」と「逆問題」という概念を導入しよう．一般に，ある原因から結果を予測する問題は順問題 (forward problem) と呼ばれる．逆に，観測された結果からその原因を推定する問題は逆問題 (inverse problem) と呼ばれる．
+一般に，ある原因から結果を予測する問題は順問題 (forward problem) と呼ばれる．逆に，観測された結果からその原因を推定する問題は逆問題 (inverse problem) と呼ばれる．視覚を例にとって，順問題と逆問題について考えてみよう．たとえば，三次元の物体が光を反射し，それが二次元の網膜上にどのような像を結ぶか，という問いは順問題に分類される．これに対して，網膜上に投影された二次元像から，元の物体の三次元的な構造や大きさ，位置などを推定する課題が逆問題である\footnote{他にも逆問題は数多く存在する．逆問題は様々な分野に現れるが，ここでは医学や神経科学に関連した例として，外部から脳の構造や機能を推定する問題を取り上げる．たとえば，医用画像解析では，コンピュータ断層撮影（computed tomography; CT），磁気共鳴画像法（magnetic resonance imaging; MRI），陽電子放射断層撮影（positron emission tomography; PET）などにおいて，観測データから画像を再構成する必要がある．この再構成処理には，CTやPETでは逆ラドン変換，MRIでは逆フーリエ変換が用いられる．また，神経活動を非侵襲的に計測する手法として，脳波（electroencephalography; EEG）や脳磁図（magnetoencephalography; MEG）がある．これらにおける電流源推定（source localization）も典型的な逆問題である．EEGやMEGにおける順問題は，脳内の神経電流源の位置・方向・強度から，頭皮上の電極（EEG）や磁場センサ（MEG）によって観測される電位や磁場分布を予測することである．一方，逆問題は，実際に観測された電位や磁場データから，神経電流源の空間的位置と活動を推定することである．この逆問題は不良設定 (ill-posed) であるため，安定的に解くには，MRIから得られた頭部の構造データに基づいて構築された順モデル（forward model）が必要となる．}．光学の分野では，それぞれの問題は順光学（forward optics），逆光学（inverse optics）と呼ばれている．逆問題は多くの場合，不良設定問題（ill-posed problem）となる．すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化するといった性質をもつ\footnote{これに対して，良設定問題（well-posed problem）とは，解が存在し，一意であり，かつ入力の変動に対して連続的に変化する（安定性をもつ）ような問題を指す．良設定問題では，入力データに小さなノイズや誤差が含まれていても，求められる解は大きく変わることなく，安定に計算することができる．}．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数 (あるいは無数に) 存在する．そのため，逆問題を解くには，事前知識や仮定 (制約条件，正則化) の導入などが必要となる．
 
-視覚を例にして順問題と逆問題を考えよう．例えば，三次元の物体が光を反射して二次元の網膜上にどのような像を形成するか，という問いは順問題に属する．これに対し，網膜上に投影された二次元の像から，元の物体の三次元構造，大きさ，位置などを推定するという課題は逆問題であり，とくに逆光学 (inverse optics) と呼ばれている．
-
-逆問題は，外部から脳の構造や機能を推定する際にも生じる．たとえば，医用画像解析におけるコンピュータ断層撮影 (computed tomography; CT)，磁気共鳴画像 (magnetic resonance imaging; MRI), 陽電子放射断層撮影 (positron emission tomography; PET) などの再構成処理\footnote{画像の再構成は，CTやPETでは逆ラドン変換，MRIでは逆フーリエ変換などに基づく．}，あるいは神経活動の非侵襲的計測における脳波(electroencephalography; EEG) や脳磁図 (magnetoencephalography; MEG) の電流源推定 (source localization) \footnote{EEGやMEGにおける順問題とは，脳内で生じた神経電流源の位置や方向・強度から，頭皮上の電極 (EEG) や磁場センサ (MEG) で計測される電位や磁場分布を予測することである．これに対し，逆問題は，観測された電位や磁場のデータから，脳内における神経電流源の空間的位置と活動を推定することである．逆問題は不適切定であるため，解くためにはMRIなどから得られた頭部構造に基づいて構築された順モデル（forward model）が必要となる．}などがその典型である．いずれの場合も，観測された結果から，元となる原因を推定する必要がある．
-
-逆問題は多くの場合，不良設定問題 (ill-posed problem) となる \footnote{対義語は良設定問題 (well-posed problem) である．}．すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化する，といった性質を持つ．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数（あるいは無数に）存在する．そのため，逆問題を解くには，事前知識や仮定（制約条件，正則化）の導入などが必要となる．
-
-こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論の過程とみなす考えがある \citep{mumford1992computational, kawato1993forward, friston2003learning}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．次節では，この推論的知覚を支える数理モデルである，生成モデル (generative model）について詳しく見ていくことにする．
+こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論 (abductive reasoning) の過程とみなす考えがある \citep{helmholtz1867, mumford1992computational, kawato1993forward, friston2003learning} \footnote{Helmholtz は，知覚を単なる感覚の受容ではなく，感覚入力に意味を与え，対象として構成する過程であると捉えた．この過程には，観念の連合 (\textit{Vorstellungsverbindungen}) が関与している．観念の連合とは，過去の経験によって形成された (必ずしも言語化を伴わない) 観念や知識が，現在の感覚入力と結び付けられる過程を指す．通常，推論とは意識的に行われるものと考えられているが，Helmholtz はこのような観念の連合を，意識されることなく行われる推論として捉え，無意識的推論 (\textit{unbewusster Schluss}, unconscious inference)  と表現した．なお，この注釈ではドイツ語を斜体で表記した．}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．次節では，この推論的知覚を支える数理モデルである，生成モデル (generative model) について詳しく見ていくことにする．
 
 ### 生成モデル
-観測データ（たとえば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，その背後にある真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この関数は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．
+生成モデルとは，学習データに内在する特徴や構造を学習し，それに基づいて新たなデータを生成するモデルである．ここで，学習対象となる観測データ（例えば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，それらが従う真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この密度関数 $p_{\mathrm{data}}(\cdot)$ は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．このような密度関数 $p_{\mathrm{data}}(\cdot)$ が既知であれば，任意のサンプル $\mathbf{x}$ をそこから生成（サンプリング）することができる．しかし現実には，$p_{\mathrm{data}}(\cdot)$ は明示的な形では与えられておらず，ほとんどの場合において未知である．観測データがある確率的な生成過程に従って生じたと仮定し，その過程を表現するために，パラメータ $\theta$ をもつ確率密度関数 $p_\theta(\mathbf{x})$ を導入する．ここで，$p_\theta(\mathbf{x})$ は，観測変数 $\mathbf{x}$ に対する条件付き分布 $p(\mathbf{x} \mid \theta)$ の略記である．このような分布 $p_\theta(\mathbf{x})$ を定めるモデルを，生成モデル（generative model）と呼ぶ．
 
-このような密度関数 $p_{\mathrm{data}}(\cdot)$ が既知であれば，任意のサンプル $\mathbf{x}$ をそこから生成（サンプリング）することができる．しかし現実には，$p_{\mathrm{data}}(\cdot)$ は明示的な形では与えられておらず，ほとんどの場合において未知である．
+生成モデルの学習における目的は，パラメータ $\theta$ を調整して，生成モデルが定める確率密度関数 $p_\theta(\mathbf{x})$ を，学習データが従う真の分布 $p_{\mathrm{data}}(\mathbf{x})$ に近づけることである．この「近づける」という操作には，両分布間の差異を定量化する指標，すなわち確率分布間の距離（あるいは不一致度）を定義する必要がある．ここではその尺度として，Kullback–Leiblerダイバージェンス（KLダイバージェンス）を用いる：
 
-このような状況下で，観測データの背後にある生成過程をモデル化するために，パラメータ $\theta$ を持つ確率密度関数 $p_\theta(\cdot)$ を導入する．これが生成モデル（generative model）である．生成モデルを訓練するとは，パラメータ $\theta$ を調整して，$p_\theta(\cdot)$ が $p_{\mathrm{data}}(\cdot)$ に近づくようにすることである．すなわち，$p_\theta(\cdot)$ が観測データと同様の統計構造を持つように学習することが目的である．
+$$
+\begin{equation}
+D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p_\theta(\mathbf{x})\right)
+:= \int p_{\mathrm{data}}(\mathbf{x}) \log \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x}
+\end{equation}
+$$
 
-理想的には，外界のすべての変数が観測可能（fully visible）であることが望ましいが，実際には観測できない変数が存在することが多い．そのような隠れた構造を表現するために，潜在変数（latent variable） $\mathbf{z} \in \mathbb{R}^k$ を導入する．視覚系に対応させると，$\mathbf{x}$ は網膜像のような感覚入力を表し，$\mathbf{z}$ は物体のカテゴリ，三次元形状，照明条件など，より抽象的で高次の視覚的表現に相当すると考えられる．
+この量（KLダイバージェンス）は，真の分布 $p_{\mathrm{data}}(\mathbf{x})$ を基準としたときに，モデル分布 $p_\theta(\mathbf{x})$ がどれだけ情報的に乖離しているかを測る指標である．すなわち，モデルが生成する分布が，実際のデータ分布からどの程度逸脱しているかを定量化するものである．このKLダイバージェンスを展開すると，
+
+$$
+\begin{align}
+D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p_\theta(\mathbf{x})\right)
+&= \int p_{\mathrm{data}}(\mathbf{x}) \log \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x} \\
+&= \int p_{\mathrm{data}}(\mathbf{x}) \log p_{\mathrm{data}}(\mathbf{x}) \, d\mathbf{x} 
+\ - \int p_{\mathrm{data}}(\mathbf{x}) \log p_\theta(\mathbf{x}) \, d\mathbf{x} \\
+&= \text{const.} - \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \log p_\theta(\mathbf{x}) \right]
+\end{align}
+$$
+
+となる．ここで第1項は $\theta$ に依存しない定数であるため，パラメータ $\theta$ を最適化する際には，第2項の期待値（すなわち対数尤度の期待値）を最大化することに等しい．したがって，最適なパラメータ $\theta^*$ は，
+
+$$
+\begin{equation}
+\theta^* = \arg\min_\theta D_{\mathrm{KL}}\left(p_{\mathrm{data}} \,\Vert\, p_\theta\right)
+= \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \log p_\theta(\mathbf{x}) \right]
+\end{equation}
+$$
+
+として求められる．しかし実際には，真の分布 $p_{\mathrm{data}}(\mathbf{x})$ の形は不明であり，観測されるのは有限個のデータ点 $\{\mathbf{x}_i\}_{i=1}^N$ のみである．そこで，真の分布の代替として，以下のような経験分布（empirical distribution） $\hat{p}_{\mathrm{data}}(\mathbf{x})$ を用いる：
+
+$$
+\begin{equation}
+\hat{p}_{\mathrm{data}}(\mathbf{x}) := \frac{1}{N} \sum_{i=1}^N \delta(\mathbf{x} - \mathbf{x}_i)
+\end{equation}
+$$
+
+ここで，$\delta(\cdot)$ は Dirac のデルタ関数であり，この経験分布 $\hat{p}_{\mathrm{data}}(\mathbf{x})$ は，観測された各データ点の位置にのみ確率を集中させるような離散的な点分布として解釈できる．すなわち、サンプル $\{\mathbf{x}_i\}_{i=1}^N$ 以外の点では確率密度がゼロであり、各 $\mathbf{x}_i$ に等しい重み $1/N$ を割り当てているとみなせる．この近似を用いることで，最適化問題は次のように書き換えられる：
+
+$$
+\begin{equation}
+\theta^* \approx \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}} \left[ \log p_\theta(\mathbf{x}) \right]
+= \arg\max_\theta \sum_{i=1}^N \log p_\theta(\mathbf{x}_i)
+\end{equation}
+$$
+
+これは，観測されたデータに対する対数尤度のサンプル平均を最大化する操作に対応し，最大尤度推定（maximum likelihood estimation; MLE）と呼ばれる．
+
+この最適化問題をさらに具体的に扱うためには，確率密度関数 $p_\theta(\mathbf{x})$ の形式を明示的に定める必要がある．そこで次に，この $p_\theta(\mathbf{x})$ をどのような構造のもとに構築するかを紹介する．
+
+### 潜在変数モデル
+理想的には，外界のすべての変数が観測可能（fully visible）であることが望ましいが，実際には観測できない変数が存在することが多い．そのような隠れた構造を表現するために，潜在変数（latent variable） $\mathbf{z} \in \mathbb{R}^k$ を導入する．潜在変数に対して，$\mathbf{x}$ は観測変数 (observed variable) と呼ぶ．視覚系に対応させると，$\mathbf{x}$ は網膜像のような感覚入力を表し，$\mathbf{z}$ は物体のカテゴリ，三次元形状，照明条件など，より抽象的で高次の視覚的表現に相当すると考えられる．
 
 ここで，潜在変数に基づいて観測データが生成されるという構造は，以下のような同時確率密度関数として定式化される：
 
@@ -37,7 +79,7 @@ $$
 
 ただし、分母の $p_\theta(\mathbf{x})$ は $p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) d\mathbf{z}$ によって計算される周辺尤度（またはエビデンス）である．
 
-この事後分布 $p_\theta(\mathbf{z} \mid \mathbf{x})$ は，観測されたデータからその原因（$\mathbf{z}$）を推定するための分布であり，逆モデル（inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
+この事後分布 $p_\theta(\mathbf{z} \mid \mathbf{x})$ は，観測された結果からその原因（$\mathbf{z}$）を推論 (inference) するための分布であり，逆モデル (inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
 
 推論的知覚の枠組みにおいては，順モデルは上位から下位への下行性投射（top-down projection）に，逆モデルは下位から上位への上行性投射（bottom-up projection）に対応すると考えられる．
 
@@ -45,24 +87,63 @@ $$
 
 なお，ここで述べた「順モデル」，「逆モデル」という用語は，運動制御における内部モデル（internal model）の文脈で使われるものとは異なる概念であることに注意が必要である．
 
-潜在変数生成モデルにおいては、周辺尤度 $\log p_\theta(\mathbf{x})$ の計算が困難である。この問題を解決するために、**変分推論**や **ELBO**（evidence lower bound）が導入されることもある。一方で、こうした明示的な確率密度を前提としない学習枠組みとして、エネルギーベースモデル（EBM）がある。
+### 階層ベイズモデル
+生成モデルの表現力を高めるため，生成モデルを階層化することを考えよう．
+
+本章では階層的生成モデルを導入し，それからスパース符号化，予測符号化について説明する．
+
+$$
+p_\theta (\mathbf{x}, \mathbf{z}^{1:L})=p_\theta (\mathbf{x} \mid \mathbf{z}^{1:L}) \prod_{\ell=1}^L p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1:L})
+$$
+
+隣接する層にしか影響しない場合は，
+
+$$
+p_\theta (\mathbf{x}, \mathbf{z}^{1:L})=p_\theta (\mathbf{x} \mid \mathbf{z}^1) \prod_{\ell=1}^L p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
+$$
+
+となる．
+
+スパース符号化での議論をここでいれる．
+
+$Z_\theta$ は規格化「定数」とついているが，実際には $\theta$ に依存する関数であるため，微分をしても消えない．
+
+MAP推定までの展開を行う．
+
+対数を取ると，
+
+$$
+\sum_\ell \log p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
+$$
+
 
 ### エネルギーベースモデル
-前節での潜在変数モデルの問題は，周辺尤度 $p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) d\mathbf{z}$ の計算が困難であるという点である．この問題を回避するために，エネルギーベースモデル（energy-based model; EBM）と呼ばれる確率モデルの枠組みを導入する \citep{lecun2006tutorial}．エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義する．モデルのすべての変数をまとめて $\mathbf{x}' = \{\mathbf{x}, \mathbf{z}\}$ とする.
+潜在変数生成モデルにおいては、周辺尤度 $\log p_\theta(\mathbf{x})$ の計算が困難である。この問題を解決するために、変分推論や ELBO（evidence lower bound）が導入されることもある。一方で、こうした明示的な確率密度を前提としない学習枠組みとして、エネルギーベースモデル（EBM）がある。
+
+対数尤度 $\log p(\mathbf{x})$ の勾配 $\nabla_\mathbf{x} \log p(\mathbf{x})$ をスコアとよぶ．スコアには分配関数 (正規化定数) は関与しない．
+
+$$
+\nabla_\mathbf{x} \log p_\theta(\mathbf{x}) = -\nabla_\mathbf{x}E_\theta (\mathbf{x}) - \nabla_\mathbf{x} \log Z(\theta)=-\nabla_\mathbf{x}E_\theta (\mathbf{x}) 
+$$
+
+
+
+
+前節での潜在変数モデルの問題は，周辺尤度 $p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) d\mathbf{z}$ の計算が困難であるという点である．この問題を回避するために，エネルギーベースモデル（energy-based model; EBM）と呼ばれる確率モデルの枠組みを導入する \citep{lecun2006tutorial}．エネルギーベースモデルではネットワークの状態をスカラー値に変換するエネルギー関数 (あるいはコスト関数) を定義する．モデルのすべての変数をまとめて $\mathbf{s} = \{\mathbf{x}, \mathbf{z}\}$ とする.
 
 このエネルギー関数は，ある状態 $\mathbf{x}'$ の「好ましさ」や「自然さ」を定量的に評価するものであり，エネルギーが小さいほどその状態がより実現しやすいと解釈される．
 
 第2章で紹介したHopfieldモデルにおけるエネルギーが例である．
 
-パラメータ$\theta$, （ポテンシャル）エネルギー関数 $E_{\theta}:\ \mathbb{R}^{n}\mathbb{\rightarrow R}$とすると，$\mathbf{x}'$ の分布はGibbs-Boltzmann分布を用いて次のように表せる．
+パラメータ$\theta$, （ポテンシャル）エネルギー関数 $E_{\theta}:\ \mathbb{R}^{n}\mathbb{\rightarrow R}$とすると，$\mathbf{s}$ の分布はGibbs-Boltzmann分布を用いて次のように表せる．
 
 $$
 \begin{equation}
-p_{\theta}(\mathbf{x}')\  = \frac{\exp\left( - {\beta E}_{\theta}\left( \mathbf{x}' \right) \right)}{Z_{\theta}}
+p_{\theta}(\mathbf{s})\  = \frac{\exp\left(-E_{\theta}\left(\mathbf{s} \right)\right)}{Z_{\theta}},\quad Z_{\theta} = \int_{\mathbf{s}'\in \mathcal{S}} \exp(-E_{\theta}\left( \mathbf{s}' \right))d\mathbf{s}'
 \end{equation}
 $$
 
-ただし，$Z_{\theta}$は規格化定数であり，$Z_{\theta} = \int - \beta E_{\theta}\left( \mathbf{x}' \right)d\mathbf{x}'$ である．
+ただし，$Z_{\theta}$は規格化定数あるいは分配関数である．
 
 なお，ここでの「エネルギー」は代謝コスト (metabolic cost) と完全に対応するものではなく，計算上取り入れられたものである．神経系における代謝コストはニューロンの発火活動やシナプス伝達に伴ってイオンポンプによる電位回復（たとえばNa/K ポンプ） などによって消費される実際のエネルギー（ATPなど）を指す \citep{jamadar2025metabolic}．例えば神経活動の大きさをエネルギー関数に組み込んだ場合，神経活動が大きいほど代謝コストは大きくなるため，EBMのエネルギーと代謝コストは関連付けることができる．
 
@@ -95,8 +176,8 @@ $$
 \sum_\ell \log p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
 $$
 
-生成モデル→エネルギーベースモデル→階層的生成モデル?
-→MAP推定→スパース，予測符号化→不確実性の導入→ベイズ脳…
+生成モデル→エネルギーベースモデル→MAP推定→スパース→階層的生成モデル?
+→予測符号化→不確実性の導入→ベイズ脳…
 
 ### 最大事後確率推定
 

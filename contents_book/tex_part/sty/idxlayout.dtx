@@ -1,0 +1,1091 @@
+% \iffalse meta-comment
+%
+% This is file `idxlayout.dtx'.
+%
+% Copyright (C) 2010--2012 by Thomas Titz <thomas.titz@chello.at>
+%
+% Permission is granted to distribute and/or modify this work under the
+% terms of the LaTeX Project Public License (LPPL), version 1.3c or
+% later.
+%
+% The LPPL maintenance status of this work is "maintained".
+%
+% This work consists of the files idxlayout.dtx, idxlayout.ins and
+% README and the derived files idxlayout.pdf and idxlayout.sty.
+%
+% \fi
+%
+% \iffalse
+%
+%<*driver>
+\documentclass{ltxdoc}
+\EnableCrossrefs 
+\CodelineIndex
+\RecordChanges
+% \OnlyDescription
+\GlossaryPrologue{%
+  \section*{{Change History}}%
+  \markboth{{Change History}}{{Change History}}%
+  \vspace{-\multicolsep}%
+}
+\newcommand*{\SpecialOptIndex}[1]{%
+    \index{#1={\protect\sffamily#1} (option)|usage}%
+    \index{options:>#1={\protect\sffamily#1}|usage}%
+}
+\usepackage[columns=3,columnsep=15pt,indentunit=15pt,minspace=100pt,%
+    font=small]{idxlayout}
+\renewcommand*{\indexjustific}{%
+  \setlength{\parindent}{0pt}%
+  \setlength{\rightskip}{15pt}%
+  \setlength{\parfillskip}{-15pt}%
+}
+\setindexprenote{%
+  \normalsize%
+  Numbers written in italic refer to the page where the corresponding
+  entry is described; numbers underlined refer to the
+  \ifbool{codeline@index}{code line of the }{}%
+  definition; numbers in roman refer to the
+  \ifbool{codeline@index}{code lines }{pages }%
+  where the entry is used.%
+}
+\usepackage[bottom]{footmisc}
+\addtolength{\skip\footins}{5pt}
+\usepackage{array,booktabs,caption,enumitem,graphicx,url,varioref}
+\frenchspacing
+\def\ila/{\textsf{idxlayout}}
+\def\KOMA/{\textsf{KOMA-Script}}
+\def\mem/{\textsf{memoir}}
+\widowpenalty=10000
+\begin{document}
+\DocInput{idxlayout.dtx}
+\end{document}
+%</driver>
+%
+% \fi
+%
+% \CheckSum{397}
+%
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+% \changes{v0.4}{2010/01/10}{Initial public release}
+%
+% \GetFileInfo{idxlayout.sty}
+%
+% \DoNotIndex{\@minus,\@plus,\begin,\begingroup,\csname,\def,\edef}
+% \DoNotIndex{\else,\end,\endgroup,\endcsname,\endinput,\expandafter}
+% \DoNotIndex{\fi,\hspace,\ifcase,\ifcsname,\item,\let,\MessageBreak}
+% \DoNotIndex{\NeedsTeXFormat,\newcommand,\newcounter,\newlength}
+% \DoNotIndex{\@nameuse,\nobreak,\or,\p@,\par,\ProvidesPackage,\relax}
+% \DoNotIndex{\renewcommand,\renewenvironment,\RequirePackage}
+% \DoNotIndex{\setcounter,\setlength,\the,\tw@,\vspace,\z@}
+% \DoNotIndex{\boolfalse,\booltrue,\ifbool,\providecommand}
+%
+% \title{The \ila/ package\thanks{This document corresponds to
+% \ila/~\fileversion, dated \filedate.}}
+% \author{Thomas Titz\thanks{E-mail: \texttt{thomas.titz@chello.at}}}
+% \maketitle
+%
+% \begin{abstract}
+% \noindent The \ila/ package offers a key--value interface to configure
+% index layout parameters, e.\,g. allowing for three-column indexes or
+% for ``parent'' items and their affiliated subitems being typeset as a
+% single paragraph. The package is responsive to the index-related
+% options and commands of the \KOMA/- and \mem/ classes.
+% \end{abstract}
+%
+% \section{Introduction}
+%
+% Every once a while, questions pop up on \textsf{comp.text.tex} or
+% other \LaTeX-related newsgroups on how to change properties of the
+% index layout. The most common request is for an index with three
+% instead of two columns. The answer to this~-- although not necessarily
+% the implementation~-- is simple: Use a \texttt{multicols} environment.
+% An example in the \LaTeX\ Companion \cite[pp. 679--680]{Mit04} shows
+% how to do it.
+%
+% Besides being cumbersome for unversed \LaTeX\ users,\footnote{In the
+% words of user InsideMan on \textsf{mrunix.de}, November 27, 2009
+% (authors translation): ``I didn't believe this to be so laborious. I'd
+% rather have guessed there is a package option to cater for it.''} the
+% do-it-yourself approach is prone to break index-related options the
+% document class might provide (e.\,g. for including the index in the
+% table of contents). To address this, the \ila/ package offers a
+% key--value interface to configure index layout parameters while
+% emulating and extending the relevant functionality of the standard,
+% \KOMA/- and \mem/ classes.
+%
+% Note that \ila/ stays on the \LaTeX\ side of things. If you want to
+% add letter headings to each index group or to change the delimiter
+% between keyword and first page number, you still have to provide a
+% corresponding \textsf{MakeIndex} style file.
+%
+% \begin{figure}
+% \centering
+% \scalebox{0.83}{%
+% \begin{minipage}{125mm}
+% \columnsep 15pt
+% \raggedcolumns
+% \begin{multicols}{3}
+%
+% \idxlayout{columns=1,font=normalsize,justific=raggedright}
+% \noindexprenote
+%
+% \newcommand{\fakeindex}{%
+%   \begin{theindex}
+%   \item Dion, 2, 3, 5, 8, 13, 21, 1957--1960
+%     \subitem and the Belmonts, 1957--1960
+%
+%   \end{theindex}
+% }
+%
+% \fakeindex
+% \idxlayout{itemlayout=relhang}
+% \fakeindex
+% \idxlayout{itemlayout=singlepar}
+% \fakeindex
+% \idxlayout{columns=3,itemlayout=abshang,font=small}
+%
+% \end{multicols}
+% \end{minipage}
+% }
+% \caption{Option \textsf{itemlayout} with values \textsf{abshang},
+% \textsf{relhang} and \textsf{singlepar}}
+% \label{fig:itemlayout}
+% \end{figure}
+%
+% \section{Using the \ila/ package}
+%
+% \subsection{Default behaviour}
+%
+% If you just add |\usepackage{idxlayout}| to your document preamble,
+% the package will keep up the index-related behaviour of the document
+% class while correcting bugs and taking advantage of \textsf{multicol}
+% features. This amounts to the following changes:
+%
+% \begin{itemize}
+%
+% \item Columns will be balanced on the last index page.
+%
+% \item If you are using a class that lacks the |\chapter| command (or
+% \mem/ with the option \textsf{article}), the index will basically
+% behave like a normal |\section*|, i.\,e. it will not automatically
+% start a new page.\footnote{However, if you typeset your document in
+% \textsf{twocolumn} mode, \ila/ will temporarily switch to
+% \textsf{onecolumn}, causing a page break in the process.} The first
+% index page will also not use a special pagestyle like \textsf{plain}
+% appropriate only for chapter headings.
+%
+% \item When on top of the page, the vertical positioning of the index
+% heading will not differ from that of other headings typeset in
+% \textsf{onecolumn} mode, i.\,e. \LaTeX\ bug 3126 (|\twocolumn|
+% interfering with |\topskip|) will be avoided.
+%
+% \item With the standard classes \textsf{article}, \textsf{book} and
+% \textsf{report}, the space between index columns will be 35\,pt as
+% intended.\footnote{In the current version (v1.4h) of these classes,
+% the length \texttt{\textbackslash columnsep} is set to 35\,pt, but
+% only after \texttt{\textbackslash twocolumn} has been triggered. The
+% \KOMA/- and \mem/ classes have either corrected or never introduced
+% this bug. See \cite{col05} for details.}
+%
+% \end{itemize}
+%
+% \subsection{Options and commands}
+%
+% The options provided by \ila/ use the key--value interface
+% `\meta{key}=\meta{value}'. Set them with
+% |\usepackage[|\meta{options}|]{idxlayout}|. For boolean options, the
+% default value is \textsf{false}, and specifying \meta{key} is
+% equivalent to \meta{key}\textsf{=true}.
+%
+% \begin{description}[font=\sffamily]
+%
+% \item[columns]\SpecialOptIndex{columns} The number of columns used for
+% typesetting the index. The permitted values range from 1 to 10, the
+% default value is 2. A single-column index is e.\,g. suitable ``for an
+% index of first lines in a book of poetry'' \cite[p.
+% \textsc{xxix}]{Wil09}.
+%
+% \item[unbalanced]\SpecialOptIndex{unbalanced} A boolean option that,
+% if enabled, switches off the balancing of columns on the last index
+% page.
+%
+% \changes{v0.4a}{2010/01/24}{New option \textsf{unbalanced}}
+%
+% \item[columnsep]\SpecialOptIndex{columnsep} The space between index
+% columns. The default value is 35\,pt. As this is required for
+% compatibility rather than suggested by typographic considerations, you
+% may want to reduce the value of \textsf{columnsep} to, say, 1 to 1.5
+% times the value of \textsf{indentunit}.
+%
+% \item[rule]\SpecialOptIndex{rule} The thickness of a vertical rule
+% between index columns. The default value is 0\,pt, i.\,e. no rule.
+%
+% \item[itemlayout]\SpecialOptIndex{itemlayout} The layout of index
+% items, subitems and subsubitems. The permitted values, which are
+% described below, are \textsf{abshang}, \textsf{relhang} and
+% \textsf{singlepar}. The default value is \textsf{abshang} (which
+% corresponds to standard \LaTeX\ behaviour). See
+% figure~\vref{fig:itemlayout} for examples of the various layouts.
+%
+%    \begin{description}[font=\normalfont\sffamily]
+%
+%    \item[abshang] Index items feature a hanging indentation of value
+% \textsf{hangindent}. Subitems and subsubitems resemble items except
+% that their first line is indented by the values of \textsf{subindent}
+% and \textsf{subsubindent}, respectively.
+%
+%    \item[relhang] Differing from \textsf{abshang}, the hanging
+% indentations of subitems and subsubitems equal the sum of
+% \textsf{hangindent} and the respective first-line indentations.
+%
+%    \item[singlepar] ``Parent'' items and their affiliated subitems
+% (and, if present, subsubitems) are typeset as a single paragraph, with
+% a semicolon plus an interword space being used as the default
+% delimiter.\footnote{This blends in well with the default behaviour of
+% \textsf{MakeIndex} to put a comma plus an interword space between
+% keyword and first page number.}
+%
+%    \end{description}
+%
+% \item[indentunit]\SpecialOptIndex{indentunit} A length that serves as
+% a building block for other indentation lengths. The default value is
+% 20\,pt. You may want to match the value of \textsf{indentunit} with
+% that of the \TeX\ length |\parindent|. The default values of the
+% options \textsf{hangindent}, \textsf{subindent} and
+% \textsf{subsubindent} will be set in accordance with the chosen values
+% of \textsf{itemlayout} and \textsf{indentunit} (see
+% table~\vref{tab:indents}).
+%
+% \item[hangindent]\SpecialOptIndex{hangindent} Use this option to
+% override the default value of \textsf{hangindent}.
+%
+% \item[subindent]\SpecialOptIndex{subindent} Use this option to
+% override the default value of \textsf{subindent}.
+%
+% \item[subsubindent]\SpecialOptIndex{subsubindent} Use this option to
+% override the default value of \textsf{subsubindent}.
+%
+% \begin{table}
+% \centering
+% \small
+% \caption{Default values of options \textsf{hangindent},
+% \textsf{subindent} and \textsf{subsubindent}}
+% \begin{tabular}{>{\centering\hspace{0pt}}p{22mm}ccc}
+% \toprule
+% Value of option \\ \textsf{itemlayout} & \multicolumn{3}{c}{Default
+% value (multiple of \textsf{indentunit})} \\
+% \cmidrule(l){2-4}
+% & \textsf{hangindent} & \textsf{subindent} & \textsf{subsubindent }\\
+% \midrule
+% \textsf{abshang} & 2 & 1 & 1.5 \\
+% \textsf{relhang} & 1.5 & 1 & 2 \\
+% \textsf{singlepar} & 1 & -- & -- \\
+% \bottomrule
+% \end{tabular}
+% \label{tab:indents}
+% \end{table}
+%
+% \item[initsep]\SpecialOptIndex{initsep} The vertical space inserted
+% between index groups with differing initial letters. The default value
+% is 10\,pt plus 5\,pt minus 3\,pt.
+%
+% \item[notesep]\SpecialOptIndex{notesep} The vertical space inserted
+% between a possible prenote and the first index entry. The default
+% value is one times the value of \textsf{initsep}.
+%
+% \item[columnnote]\SpecialOptIndex{columnnote} A boolean option that
+% controls whether a possible prenote is typeset as part of the first
+% index column.
+%
+% \changes{v0.4b}{2010/03/01}{New option \textsf{columnnote}}
+%
+% \item[minspace]\SpecialOptIndex{minspace} The vertical space needed on
+% the current page to prevent the index from starting a new page. The
+% default value is 80\,pt. You may want to increase the value of
+% \textsf{minspace} if the index includes a prenote containing several
+% lines.
+%
+% \item[font]\SpecialOptIndex{font} The font used for typesetting the
+% index. The permitted values are \textsf{current} (i.\,e. the font in
+% effect at the time of |\printindex|), \textsf{normalsize},
+% \textsf{small} and \textsf{footnotesize}. The default value is
+% \textsf{current}.
+%
+% \item[justific]\SpecialOptIndex{justific} The justification of index
+% columns. The permitted values are \textsf{standard} (i.\,e. left and
+% right margin justified), \textsf{raggedright} and \textsf{RaggedRight}
+% (which uses the correspondent command of the automatically loaded
+% \textsf{ragged2e} package).\footnote{Before \ila/ v0.4c,
+% \textsf{justific=RaggedRight} erroneously utilized
+% \texttt{\textbackslash raggedright}.} The default value is
+% \textsf{standard}.
+%
+% \changes{v0.4c}{2010/06/26}{Corrected option \textsf{justific!=
+% RaggedRight}}
+%
+% \changes{v0.4c}{2010/06/26}{Package \textsf{ragged2e} now loaded
+% automatically}
+%
+% \item[totoc]\SpecialOptIndex{totoc} A boolean option that controls
+% whether the index is included in the table of contents. The default
+% value of this option is set according to the standard behaviour of the
+% document class (\textsf{true} for \mem/, \textsf{false} for other
+% classes).
+%
+% \end{description}
+%
+% \DescribeMacro{\setindexprenote}
+% \DescribeMacro{\noindexprenote}
+% Use the command |\setindexprenote|\{\meta{Some text}\} to typeset
+% explanatory text after the index heading. As a default, the prenote
+% (which may span several paragraphs) is set in the same font as the
+% index. Font changes within the argument of |\setindexprenote| won't
+% affect the index proper. A vertical space controlled by the
+% \textsf{notesep} option is inserted between the prenote and the first
+% index entry. With multiple indexes, use the command |\noindexprenote|
+% to reset the prenote text to empty and to take care of the proper
+% spacing between index heading and first entry.
+%
+% \DescribeMacro{\idxlayout}
+% The command |\idxlayout|, which takes a comma-separated list of
+% key--value options as argument, allows to change index layout
+% parameters within the document. A typographically sound example is
+% provided by \cite{Mit04} which typesets a general index in two columns
+% and then switches to three columns for an index of names.
+%
+% \DescribeMacro{\indexfont}
+% \DescribeMacro{\indexjustific}
+% If the permitted values of the options \textsf{font} and
+% \textsf{justific} do not cover your needs, you can resort to
+% redefining the commands |\indexfont| and |\indexjustific|, e.\,g. by
+% including |\renewcommand*{\indexfont}{\tiny\bfseries}| in your
+% document preamble.\footnote{See the file |idxlayout.dtx| for the
+% redefinition of \texttt{\textbackslash indexjustific} carried out in
+% order to use \ila/ with the \textsf{ltxdoc} class.}
+%
+% \DescribeMacro{\indexsubsdelim}
+% Redefine the command |\indexsubsdelim| if you happen to dislike the
+%default delimiter used with the option \textsf{itemlayout=singlepar}.
+%
+% \DescribeMacro{\indexstheadcase}
+% In the standard classes, the index header is typeset using
+% |\MakeUppercase|. \ila/ allows you to change this by redefining
+% |\indexstheadcase|.
+%
+% \changes{v0.4d}{2010/03/01}{Added \texttt{\textbackslash
+% indexstheadcase}}
+%
+% \subsection{Compatibility issues and notes}
+%
+% \ila/ has been tested with the standard classes \textsf{article},
+% \textsf{book} and \textsf{report} (v1.4h), the \KOMA/-classes
+% \textsf{scrartcl}, \textsf{scrbook} and \textsf{scrreprt} (v3.10a) and
+% the \mem/ class (v3.6j). It is responsive to their index-related
+% options and commands:
+%
+% \changes{v0.4d}{2012/03/30}{Adapted emulation of \textsf{theindex} to
+% \KOMA/ v3.10}
+%
+% \begin{itemize}
+%
+% \item The \KOMA/ options for including the index in the table of
+% contents (e.\,g. \textsf{index=totoc}) and the respective \mem/
+% commands (e.\,g. |\indexintoc|) are recognized and can be mixed with
+% the \ila/ option \textsf{totoc}.
+%
+% \item The \mem/ lengths |\indexcolsep| and |\indexrule| are supported,
+% and it is possible to alternate between setting these lengths and
+% using the respective \ila/ options \textsf{columnsep} and
+% \textsf{rule}.
+%
+% \item The \mem/ commands |\onecolindex| and |\twocolindex| are
+% recognized. (For an index with three or more columns, use the \ila/
+% option \textsf{columns}.)
+%
+% \item The \KOMA/ command |\setindexpreamble| and the \mem/ command
+% |\preindexhook| are supported.\footnote{Because these commands do not
+% automatically insert vertical space between their argument and the
+% first index entry, they have been made to operate independently of the
+% \ila/ commands \texttt{\textbackslash setindexprenote} and
+% \texttt{\textbackslash noindexprenote}. With \ila/ v0.4b and the
+% \textsf{scrartcl} class, \texttt{\textbackslash setindexpreamble} will
+% correctly typeset the preamble as part of the first index column.}
+%
+% \changes{v0.4b}{2010/03/01}{Corrected emulation of
+% \texttt{\textbackslash setindexpreamble}}
+%
+% \end{itemize}
+%
+% When using \ila/ together with the \textsf{splitidx} package, issue
+% the \textsf{splitidx} command |\extendtheindex| only after having
+% loaded \ila/.
+%
+% If you use the \textsf{tocbibind} package, you must load it before
+% \ila/. The influence of \textsf{tocbibind} on including the index in
+% the table of contents will be removed, so use the \ila/ option
+% \textsf{totoc} instead.\footnote{Just in case you ask, numbering the
+% index heading is not supported by \ila/ because it is a bad idea from
+% a typographic point of view. See \cite[pp. 86--87]{Koh08} for
+% details.}
+%
+% Another package which must not be loaded after \ila/ is
+% \textsf{imakeidx} which allows to create indexes during the main
+% typesetting run.
+%
+% The \textsf{index} package also has to be loaded before \ila/. You may
+% use the newly-defined second optional argument of |\printindex| to
+% override the prenote text of |\setindexprenote| for individual
+% indexes.
+%
+% \changes{v0.4b}{2010/03/01}{Package \textsf{index} now supported}
+%
+% The \textsf{multind} package (from 1991) is not supported.
+%
+% As \ila/ is based on the \textsf{multicol} package, the appearance of
+% the index is affected by any \textsf{multicol} parameter not
+% overridden by \ila/. Use the command |\raggedcolumns| if you aim at
+% typesetting the index on a grid.
+%
+% \StopEventually{%
+%
+% \bibliographystyle{plain}
+%
+% \begin{thebibliography}{9}
+%
+% \bibitem{col05}
+% ``columnsep in theindex (TLC2 and memoir)''.
+% Series of messages on \textsf{comp.text.tex}, May 22--29, 2005.
+% \url{http://groups.google.com/group/comp.text.tex/browse_thread/thread/937744003315b784}
+% (accessed January 2, 2010).
+%
+% \bibitem{dec09}
+% ``\textbackslash DeclareStringOption''.
+% Series of messages on \textsf{comp.text.tex}, December 14, 2009.
+% \url{http://groups.google.com/group/comp.text.tex/browse_thread/thread/1fb53938ac0026c5}
+% (accessed January 2, 2010).
+%
+% \bibitem{Koh08}
+% Kohm, Markus and Jens-Uwe Morawski.
+% \emph{KOMA-Script: Eine Sammlung von Klassen und Paketen f\"ur
+% \LaTeXe}. 3\textsuperscript{rd} edition.
+% Berlin: lehmanns media, 2008.
+%
+% \bibitem{Mit04}
+% Mittelbach, Frank and Michel Goossens.
+% \emph{The \LaTeX\ Companion}. 2\textsuperscript{nd} edition.
+% Boston: Addison-Wesley, 2004.
+%
+% \bibitem{Wil09}
+% Wilson, Peter.
+% \emph{The memoir class for configurable typesetting: User guide}.
+% 8\textsuperscript{th} edition.
+% Published by the author, 2009.
+% \url{http://www.ctan.org/tex-archive/macros/latex/contrib/memoir/memman.pdf}
+% (accessed January 2, 2010).
+%
+% \bibitem{Wri09}
+% Wright, Joseph and Christian Feuers\"anger.
+% ``Implementing key--value input: An introduction''.
+% \emph{TUGboat} 30.1 (2009), pp.~110--122.
+% \url{http://www.tug.org/TUGboat/tb30-1/tb94wright-keyval.pdf}
+% (accessed March 30, 2012).
+%
+% \end{thebibliography}
+%
+% \PrintIndex
+% \PrintChanges
+%
+% }
+%
+% \section{The package code}
+%
+% \subsection{Preliminaries}
+%
+% Announce the name and version of the package, which requires \LaTeXe.
+%    \begin{macrocode}
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{idxlayout}[2012/03/30 v0.4d Configurable index layout]
+%    \end{macrocode}
+% Besides \textsf{multicol}, we require the packages \textsf{kvoptions}
+% (to conveniently specify options as key--value pairs) and
+% \textsf{etoolbox} (e.\,g. for length assignments and boolean switch
+% handling). We also need \eTeX, whose presence is tested by
+% \textsf{etoolbox}.
+%    \begin{macrocode}
+\RequirePackage{etoolbox,kvoptions,multicol}
+%    \end{macrocode}
+% We use \texttt{ila@} as a short prefix to internal macros defined by
+% \textsf{kvoptions}.
+%    \begin{macrocode}
+\SetupKeyvalOptions{family=ila,prefix=ila@}
+%    \end{macrocode}
+% \begin{macro}{\ila@defradiokey}
+% \textsf{kvoptions} does not provide ``radio buttons''~-- options that
+% take a list of three or more values with associated functions and
+% yield an error message if an unknown value is given. However, in a
+% series of messages on \textsf{comp.text.tex} \cite{dec09}, Heiko
+% Oberdiek (author of \textsf{kvoptions}) and Joseph Wright showed how
+% radio button keys can be created using |\define@key| (from the
+% \textsf{keyval} package, which is loaded by \textsf{kvoptions}) and
+% the \eTeX\ primitive |\ifcsname|. What follows is basically a
+% shameless rip-off of Heikos and Josephs good advice.
+%
+% The command |\ila@defradiokey| takes one optional and two mandatory
+% arguments. The first mandatory argument is the key to be defined, the
+% second is a ``short key'' which must be used as a second prefix after
+% |ila@| when defining the functions associated with each value. The
+% optional argument specifies a default value ``which is then used if
+% the user does not supply one'' \cite[p.~111]{Wri09}.
+%    \begin{macrocode}
+\newcommand*{\ila@defradiokey}[3][]{%
+  \define@key{ila}{#2}[#1]{%
+    \ifcsname ila@#3@##1\endcsname
+      \csname ila@#3@##1\expandafter\endcsname
+    \else
+      \PackageError{idxlayout}{Unknown value ##1 for option #2}%
+    \fi
+  }%
+}
+%    \end{macrocode}
+% \end{macro}
+% \subsection{Options and commands}
+% \begin{macro}{\theidxcols}
+% \begin{macro}{\onecolindex}
+% \begin{macro}{\twocolindex}
+% We define the key \textsf{columns} to control the number of index
+% columns and initially set it to 2. (Actually, we use the counter
+% |idxcols| to store the number so that anything but an integer will
+% yield a \LaTeX\ error message.) If the \mem/ class is used, we check
+% the state of its boolean switch |onecolindex| and set \textsf{columns}
+% accordingly. We also append code to |\onecolindex| and |\twocolindex|
+% so that these \mem/ commands will set \textsf{columns} to the
+% respective number.
+%    \begin{macrocode}
+\newcounter{idxcols}
+\define@key{ila}{columns}{\setcounter{idxcols}{#1}}
+\setkeys{ila}{columns=2}
+\@ifclassloaded{memoir}{%
+  \ifbool{onecolindex}{%
+    \setkeys{ila}{columns=1}%
+  }{%
+  }%
+  \appto{\onecolindex}{\setkeys{ila}{columns=1}}%
+  \appto{\twocolindex}{\setkeys{ila}{columns=2}}%
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\indexcolsep}
+% \begin{macro}{\indexrule}
+% If any other class than \mem/ is used, we define the lengths
+% |\indexcolsep| and |\indexrule| and set them to appropriate values.
+% The keys \textsf{columnsep} and \textsf{rule} will be responsible for
+% changing these lengths. We don't set these keys here in order not to
+% override any changes carried out before loading \ila/.
+%    \begin{macrocode}
+}{%
+  \newlength{\indexcolsep}%
+  \setlength{\indexcolsep}{35\p@}%
+  \newlength{\indexrule}%
+  \setlength{\indexrule}{\z@}%
+}
+\define@key{ila}{columnsep}{\setlength{\indexcolsep}{#1}}
+\define@key{ila}{rule}{\setlength{\indexrule}{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \textsf{kvoptions} is used to define the boolean option
+% \textsf{unbalanced} which is responsible for switching off the
+% \textsf{multicol} balancing output routine.
+%    \begin{macrocode}
+\DeclareBoolOption{unbalanced}
+%    \end{macrocode}
+% \begin{macro}{\ila@indentunit}
+% The key \textsf{indentunit} is defined and set using \textsf{keyval}
+% commands so that its associated length can be used to set other
+% lengths.
+%    \begin{macrocode}
+\newlength{\ila@indentunit}
+\define@key{ila}{indentunit}{\setlength{\ila@indentunit}{#1}}
+\setkeys{ila}{indentunit=20\p@}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ila@hangindent}
+% \begin{macro}{\ila@subindent}
+% \begin{macro}{\ila@subsubindent}
+% We use \textsf{kvoptions} again to define the keys
+% \textsf{hangindent}, \textsf{subindent} and \textsf{subsubindent}.
+% Setting their default values is deferred to the definition of the
+% functions of the ``radio button'' key \textsf{itemlayout}.
+%    \begin{macrocode}
+\DeclareStringOption{hangindent}
+\DeclareStringOption{subindent}
+\DeclareStringOption{subsubindent}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\@idxitem}
+% |\@idxitem| is only slightly changed: Its hanging indentation is
+% controlled by the key \textsf{hangindent} instead of being a fixed
+% value.
+%    \begin{macrocode}
+\renewcommand{\@idxitem}{\par\setlength{\hangindent}{\ila@hangindent}}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\subitem}
+% \begin{macro}{\subsubitem}
+% The redefinitions of |\subitem| and |\subsubitem| have to be done
+% separately for each permitted value of \textsf{itemlayout}.
+% Beforehand, we have to set the values of \textsf{hangindent},
+% \textsf{subindent} and \textsf{subsubindent} to appropriate multiples
+% of \textsf{indentunit}.
+%    \begin{macrocode}
+\def\ila@it@abshang{%
+  \renewcommand*{\ila@hangindent}{2\ila@indentunit}%
+  \renewcommand*{\ila@subindent}{\ila@indentunit}%
+  \renewcommand*{\ila@subsubindent}{1.5\ila@indentunit}%
+  \renewcommand{\subitem}{\@idxitem\hspace*{\ila@subindent}}%
+  \renewcommand{\subsubitem}{\@idxitem\hspace*{\ila@subsubindent}}%
+}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% Defining the function of \textsf{relhang} also starts with setting
+% various indentation values. |\deflength| from the \textsf{etoolbox}
+% package comes in handy for the calculation of the hanging indentations
+% of |\subitem| and |\subsubitem|.
+%    \begin{macrocode}
+\def\ila@it@relhang{%
+  \renewcommand*{\ila@hangindent}{1.5\ila@indentunit}%
+  \renewcommand*{\ila@subindent}{\ila@indentunit}%
+  \renewcommand*{\ila@subsubindent}{2\ila@indentunit}%
+  \renewcommand{\subitem}{%
+    \par
+    \deflength{\hangindent}{\ila@hangindent + \ila@subindent}%
+    \hspace*{\ila@subindent}%
+  }%
+  \renewcommand{\subsubitem}{%
+    \par
+    \deflength{\hangindent}{\ila@hangindent + \ila@subsubindent}%
+    \hspace*{\ila@subsubindent}%
+  }%
+}
+%    \end{macrocode}
+% \begin{macro}{\indexsubsdelim}
+% For \textsf{singlepar}, only the value of \textsf{hangindent} needs to
+% be set. We define |\subitem| and |\subsubitem| as |\unskip| (to remove
+% the space generated by the preceding linebreak in the |ind|-file) plus
+% |\indexsubsdelim| which stores the delimiter.
+%    \begin{macrocode}
+\newcommand*{\indexsubsdelim}{; }
+\def\ila@it@singlepar{%
+  \renewcommand*{\ila@hangindent}{\ila@indentunit}%
+  \renewcommand{\subitem}{\unskip\indexsubsdelim}%
+  \renewcommand{\subsubitem}{\unskip\indexsubsdelim}%
+}
+%    \end{macrocode}
+% \end{macro}
+% At last, we define the ``radio button'' key \textsf{itemlayout}, which
+% defaults to \textsf{abshang}.
+%    \begin{macrocode}
+\ila@defradiokey{itemlayout}{it}
+\setkeys{ila}{itemlayout=abshang}
+%    \end{macrocode}
+% \begin{macro}{\ila@initsep}
+% \begin{macro}{\ila@notesep}
+% \begin{macro}{\ila@minspace}
+% We use \textsf{keyval} commands to define and set the key
+% \textsf{initsep}, then \textsf{kvoptions} to define the keys
+% \textsf{notesep} and \textsf{minspace}, this time also specifying
+% default values.
+%    \begin{macrocode}
+\newlength{\ila@initsep}
+\define@key{ila}{initsep}{\setlength{\ila@initsep}{#1}}
+\setkeys{ila}{initsep=10\p@ \@plus 5\p@ \@minus 3\p@}
+\DeclareStringOption[\ila@initsep]{notesep}
+\DeclareStringOption[80\p@]{minspace}
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\indexspace}
+% The fixed vertical space inserted by |\indexspace| is replaced by the
+% value of \textsf{initsep}.
+%    \begin{macrocode}
+\renewcommand{\indexspace}{\par\vspace{\ila@initsep}}
+%    \end{macrocode}
+% \end{macro}
+% The boolean option \textsf{columnnote} controls whether a possible
+% prenote is placed within the first index column.
+%    \begin{macrocode}
+\DeclareBoolOption{columnnote}
+%    \end{macrocode}
+% \begin{macro}{\indexfont}
+% The ``radio button'' key \textsf{font} produces an appropriate
+% definition of |\indexfont|.
+%    \begin{macrocode}
+\newcommand*{\indexfont}{}
+\def\ila@fo@current{\renewcommand*{\indexfont}{}}
+\def\ila@fo@normalsize{\renewcommand*{\indexfont}{\normalsize}}
+\def\ila@fo@small{\renewcommand*{\indexfont}{\small}}
+\def\ila@fo@footnotesize{\renewcommand*{\indexfont}{\footnotesize}}
+\ila@defradiokey{font}{fo}
+\setkeys{ila}{font=current}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\indexjustific}
+% The ``radio button'' key \textsf{justific} is responsible for defining
+% |\indexjustific|. With the value \textsf{standard} selected, we (like
+% the \KOMA/-classes) also explicitly set |\parfillskip| to its default
+% value of 0\,pt plus 1\,fil. This way, resettings done outside the
+% |theindex| environment won't affect the justification of index
+% columns. We try to load the \textsf{ragged2e} package at the end of
+% the preamble in order to prevent option clashes. If the package is not
+% available, we issue a warning message and use |\raggedright| instead
+% of |\RaggedRight|.
+%    \begin{macrocode}
+\newcommand*{\indexjustific}{}
+\def\ila@ju@standard{%
+  \renewcommand*{\indexjustific}{%
+    \setlength{\parindent}{\z@}%
+    \setlength{\parfillskip}{\z@ \@plus 1fil}%
+  }%
+}
+\def\ila@ju@raggedright{\renewcommand*{\indexjustific}{\raggedright}}
+\newcommand*{\ila@RaggedRight}{}
+\def\ila@ju@RaggedRight{%
+  \renewcommand*{\indexjustific}{\ila@RaggedRight}%
+}
+\AtEndPreamble{%
+  \IfFileExists{ragged2e.sty}{%
+    \RequirePackage{ragged2e}%
+    \renewcommand*{\ila@RaggedRight}{\RaggedRight}%
+  }{%
+    \PackageWarning{idxlayout}{%
+      Package ragged2e not available, therefore\MessageBreak
+      substituting command raggedright for RaggedRight\MessageBreak
+    }%
+    \renewcommand*{\ila@RaggedRight}{\raggedright}%
+  }%
+}
+\ila@defradiokey{justific}{ju}
+\setkeys{ila}{justific=standard}
+%    \end{macrocode}
+% \end{macro}
+% \begin{macro}{\ila@prenote}
+% \begin{macro}{\setindexprenote}
+% \begin{macro}{\noindexprenote}
+% We use |\setindexprenote| to specify the text of a possible prenote.
+% |\ila@prenote| typesets the text within a group (to keep font changes
+% local) and inserts the value of \textsf{notesep} as vertical space.
+% |\noindexprenote| defines |\ila@prenote| as |\relax| (which also means
+% that the control sequence test |\ifundef| will yield \textsf{true}).
+%    \begin{macrocode}
+\newcommand{\ila@prenote}{}
+\newcommand{\setindexprenote}[1]{%
+  \def\ila@prenote{%
+    \begingroup#1\par\nobreak\endgroup
+    \vspace{\ila@notesep}%
+  }%
+}
+\newcommand*{\noindexprenote}{\let\ila@prenote\relax}
+\noindexprenote
+%    \end{macrocode}
+% \end{macro}
+% \end{macro}
+% \end{macro}
+% \begin{macro}{\indexstheadcase}
+% The |\indexstheadcase| command allows to avoid hard-coding
+% |\MakeUppercase| into the index header definition (as is currently
+% done by the standard classes).
+%    \begin{macrocode}
+\newcommand*{\indexstheadcase}{\MakeUppercase}
+%    \end{macrocode}
+% \end{macro}
+% \subsection{Emulating specific document classes and packages}
+%
+% \begin{macro}{\ila@classtype}
+% We store the type of document class we use, differentiating between
+% the \KOMA/-classes (which define |\KOMAClassName|), the \mem/ class
+% and all other (notably the standard) classes.
+%    \begin{macrocode}
+\newcommand*{\ila@classtype}{0}
+\@ifclassloaded{memoir}{%
+  \def\ila@classtype{2}%
+}{%
+  \ifundef{\KOMAClassName}{%
+  }{%
+    \def\ila@classtype{1}%
+  }%
+}
+%    \end{macrocode}
+% \end{macro}
+% For any but the \KOMA/- and \mem/ classes, we define the boolean
+% option \textsf{totoc} which is responsible for including the index in
+% the table of contents. If not set, this option defaults to
+% \textsf{false}.
+%    \begin{macrocode}
+\ifcase\ila@classtype\relax
+  \DeclareBoolOption{totoc}%
+%    \end{macrocode}
+% \begin{macro}{\ila@prologue}
+% The command |\ila@prologue| comprises actions at the beginning of the
+% |theindex| environment that must be tailored to the type of document
+% class. For ``other'' classes, the code resembles that of the standard
+% classes \textsf{article}, \textsf{book} and \textsf{report}.
+%
+% Unlike |\twocolumn|, |\begin{multicols}| does not automatically insert
+% a pagebreak, so we use |\chapter*| instead of |\@makeschapterhead|.
+% With that, we also eliminate the need to set |\thispagestyle{plain}|
+% for classes containing the |\chapter| command. (For other classes, we
+% don't want the first index page to show a special pagestyle.)
+% Furthermore, we take our boolean option \textsf{totoc} into account.
+% Note that with version 6.79z of the \textsf{hyperref} package, we can
+% do without inserting |\phantomsection| before |\addcontentsline|.
+%    \begin{macrocode}
+  \def\ila@prologue{%
+    \ifundef{\chapter}{%
+      \section*{\indexname}%
+      \ifbool{ila@totoc}{%
+        \addcontentsline{toc}{section}{\indexname}%
+      }{%
+      }%
+    }{%
+      \chapter*{\indexname}%
+      \ifbool{ila@totoc}{%
+        \addcontentsline{toc}{chapter}{\indexname}%
+      }{%
+      }%
+    }%
+    \@mkboth{\indexstheadcase\indexname}{\indexstheadcase\indexname}%
+  }
+%    \end{macrocode}
+% \end{macro}
+% For the \KOMA/-classes \textsf{scrartcl}, \textsf{scrbook} and
+% \textsf{scrreprt}, we create \textsf{totoc} as a pseudo boolean key
+% using |\ila@defradiokey|. If not set, this key will respect the
+% default behaviour of the class plus any changes carried out before
+% loading \ila/. We also provide |\MakeMarkcase| to ensure compatibility
+% with older versions (below 3.10) of \KOMA/.
+%    \begin{macrocode}
+\or
+  \def\ila@tc@true{\KOMAoptions{index=totoc}}%
+  \def\ila@tc@false{\KOMAoptions{index=nottotoc}}%
+  \ila@defradiokey[true]{totoc}{tc}%
+  \providecommand{\MakeMarkcase}[1]{#1}%
+%    \end{macrocode}
+% Again, |\ila@prologue| is very much a recoding exercise. Note that the
+% \KOMA/-command |\idx@@heading| is responsive to |\KOMAoptions| and
+% therefore to our key \textsf{totoc}. For \textsf{scrbook} and
+% \textsf{scrreprt}, we only use |\setchapterpreamble| if
+% |\index@preamble| is not defined as |\relax|. Thus, we avoid excessive
+% vertical space between the index heading and the first entry. For 
+% \textsf{scrartcl}, we drop the special pagestyle of the first index
+% page and also (for the moment) do not use |\index@preamble|.
+%    \begin{macrocode}
+  \def\ila@prologue{%
+    \ifundef{\chapter}{%
+    }{%
+      \ifundef{\index@preamble}{%
+      }{%
+        \setchapterpreamble{\index@preamble}%
+      }%
+    }%
+    \idx@@heading{\indexname}%
+    \@mkboth{\MakeMarkcase{\indexname}}{\MakeMarkcase{\indexname}}%
+    \ifundef{\chapter}{%
+    }{%
+      \thispagestyle{\indexpagestyle}%
+    }%
+  }
+%    \end{macrocode}
+% For the \mem/ class, our pseudo boolean key \textsf{totoc} will also
+% respect prior settings.
+%    \begin{macrocode}
+\or
+  \def\ila@tc@true{\boolfalse{noindexintoc}}%
+  \def\ila@tc@false{\booltrue{noindexintoc}}%
+  \ila@defradiokey[true]{totoc}{tc}%
+%    \end{macrocode}
+% Another recoding exercise. Note that with \mem/ and its
+% \textsf{article} option, |\chapter| resembles |\section|. Again, we
+% get rid of special pagestyles, if necessary, and use neither
+% |\@makeschapterhead| nor |\phantomsection|.
+%    \begin{macrocode}
+  \def\ila@prologue{%
+    \chapter*{\indexname}%
+    \ifbool{noindexintoc}{%
+    }{%
+      \addcontentsline{toc}{chapter}{\indexname}%
+    }%
+    \ifbool{artopt}{%
+    }{%
+      \thispagestyle{indextitlepagestyle}%
+    }%
+    \indexmark
+    \preindexhook
+  }
+\fi
+%    \end{macrocode}
+% \begin{macro}{\ila@packindadjust}
+% If the \textsf{index} package is loaded, the command
+% |\ila@packindadjust| will~-- in accordance with the settings for
+% individual indexes~-- redefine |\indexname| and (depending on the
+% state of |\index@prologue| which stores the second optional argument
+% of |\printindex|) reset the argument of |\setindexprenote|. Because
+% the \mem/ class (with built-in features similar to those of the
+% \textsf{index} package) feigns the presence of the package,
+% |\ila@packindadjust| is also let to |\relax| if the reported package
+% date is newer than that of the last official version (v4.2beta).
+%    \begin{macrocode}
+\@ifpackageloaded{index}{%
+  \@ifpackagelater{index}{2004/01/21}{%
+    \let\ila@packindadjust\relax
+  }{%
+    \def\ila@packindadjust{%
+      \edef\indexname{\the\@nameuse{idxtitle@\@indextype}}%
+      \ifdefempty{\index@prologue}{%
+      }{%
+        \setindexprenote{\index@prologue}%
+      }%
+    }%
+  }%
+}{%
+  \let\ila@packindadjust\relax
+}
+%    \end{macrocode}
+% \end{macro}
+% Having defined the option \textsf{totoc}, we are able to process our
+% options.
+%    \begin{macrocode}
+\ProcessKeyvalOptions*
+%    \end{macrocode}
+% \begin{macro}{\idxlayout}
+% We define |\idxlayout| as a shorthand for |\setkeys{ila}|.
+%    \begin{macrocode}
+\newcommand*{\idxlayout}[1]{\setkeys{ila}{#1}}
+%    \end{macrocode}
+% \end{macro}
+% \subsection{Redefining the environment \texttt{theindex}}
+%
+% \begin{environment}{theindex}
+% At the beginning of |theindex|, we check if we are in
+% \textsf{twocolumn} mode, store the result in |@restonecol| and switch
+% to \textsf{onecolumn} mode, if necessary.
+%    \begin{macrocode}
+\renewenvironment{theindex}{%
+  \ifbool{@twocolumn}{%
+    \boolfalse{@restonecol}%
+    \onecolumn
+  }{%
+    \booltrue{@restonecol}%
+  }%
+%    \end{macrocode}
+% \end{environment}
+% |\multicolsep| is set to 0\,pt, again in order to avoid excessive
+% vertical space after the index heading. Also, the \mem/ lengths
+% |\indexcolsep| and |\indexrule| (now responsive to the \ila/ options
+% \textsf{columnsep} and \textsf{rule}) are put in charge. Note that in
+% order to be effective, this has to be done before opening a
+% |multicols| environment.
+%    \begin{macrocode}
+  \setlength{\multicolsep}{\z@}%
+  \setlength{\columnsep}{\indexcolsep}%
+  \setlength{\columnseprule}{\indexrule}%
+%    \end{macrocode}
+% The necessary adjustments to the \textsf{index} package are carried
+% out.
+%    \begin{macrocode}
+  \ila@packindadjust
+%    \end{macrocode}
+% \begin{macro}{\ila@prologueplus}
+% If a single-column index is requested, we simply execute
+% |\ila@prologue|, switch to |\indexfont| and (if the boolean option
+% \textsf{columnnote} is disabled) typeset a possible prenote. In case
+% of two or more columns, we do all this inside the first optional
+% argument of a properly chosen |multicols| (or, if the boolean option
+% \textsf{unbalanced} is enabled, |multicols*|) environment and specify
+% the value of \textsf{minspace} as its second optional argument.
+%    \begin{macrocode}
+  \def\ila@prologueplus{%
+    \ila@prologue
+    \indexfont
+    \ifbool{ila@columnnote}{%
+    }{%
+      \ila@prenote
+    }%
+  }%
+  \ifnumcomp{\theidxcols}{<}{\tw@}{%
+    \ila@prologueplus
+  }{%
+    \ifbool{ila@unbalanced}{%
+      \begin{multicols*}{\theidxcols}[\ila@prologueplus][\ila@minspace]%
+    }{%
+      \begin{multicols}{\theidxcols}[\ila@prologueplus][\ila@minspace]%
+    }%
+  }%
+%    \end{macrocode}
+% \end{macro}
+% We set |\parskip| to 0\,pt plus 0.3\,pt (exactly as in the standard
+% classes) and switch to the proper justification. For the
+% \textsf{scrartcl} class, we append its index preamble. We also typeset
+% a possible prenote in case \textsf{columnnote} is enabled. Last, but
+% not least, we redefine |\item|.
+%    \begin{macrocode}
+  \setlength{\parskip}{\z@ \@plus 0.3\p@}%
+  \indexjustific
+  \ifundef{\chapter}{%
+    \ifundef{\index@preamble}{%
+    }{%
+      \index@preamble\par\nobreak
+    }%
+  }{%
+  }%
+  \ifbool{ila@columnnote}{%
+    \ila@prenote
+  }{%
+  }%
+  \let\item\@idxitem
+%    \end{macrocode}
+% At the end of |theindex|, we close a possible |multicols| (or
+% |multicols*|) environment and switch back to \textsf{twocolumn} mode,
+% if necessary.
+%    \begin{macrocode}
+}{%
+  \ifnumcomp{\theidxcols}{<}{\tw@}{%
+  }{%
+    \ifbool{ila@unbalanced}{%
+      \end{multicols*}%
+    }{%
+      \end{multicols}%
+    }%
+  }%
+  \ifbool{@restonecol}{%
+  }{%
+    \twocolumn
+  }%
+}
+%    \end{macrocode}
+% The end of the package.
+%    \begin{macrocode}
+\endinput
+%    \end{macrocode}
+%
+% \Finale
+\endinput
