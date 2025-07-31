@@ -1,0 +1,28 @@
+\contentsline {chapter}{\numberline {第1章}発火率モデルと局所学習則}{3}{chapter.1}%
+\contentsline {section}{\numberline {1.1}神経細胞の概要}{3}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}脳における細胞の種類と数}{3}{subsection.1.1.1}%
+\contentsline {subsection}{\numberline {1.1.2}神経細胞の形態と構造}{3}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}神経細胞の電気的活動}{4}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}神経細胞の種類}{4}{subsection.1.1.4}%
+\contentsline {subsection}{\numberline {1.1.5}グリア細胞の種類}{5}{subsection.1.1.5}%
+\contentsline {section}{\numberline {1.2}神経細胞の発火率モデル}{6}{section.1.2}%
+\contentsline {subsection}{\numberline {1.2.1}静的離散時間モデル}{6}{subsection.1.2.1}%
+\contentsline {subsubsection}{多出力形式への拡張}{7}{section*.2}%
+\contentsline {subsubsection}{活性化関数}{7}{section*.3}%
+\contentsline {paragraph}{Heavisideの階段関数・符号関数}{8}{section*.4}%
+\contentsline {paragraph}{シグモイド関数・tanh関数}{8}{section*.5}%
+\contentsline {paragraph}{ReLU関数・ソフトプラス関数}{9}{section*.6}%
+\contentsline {paragraph}{Naka–Rushton関数}{10}{section*.7}%
+\contentsline {subsubsection}{神経集団モデルと神経場モデル}{11}{section*.8}%
+\contentsline {section}{\numberline {1.3}Hebb則とシナプス可塑性}{12}{section.1.3}%
+\contentsline {subsection}{\numberline {1.3.1}Hebb則}{12}{subsection.1.3.1}%
+\contentsline {subsection}{\numberline {1.3.2}シナプス可塑性とLTP・LTD}{12}{subsection.1.3.2}%
+\contentsline {subsection}{\numberline {1.3.3}Hebb則の不安定性と修正Hebb則}{13}{subsection.1.3.3}%
+\contentsline {subsection}{\numberline {1.3.4}CLO則}{13}{subsection.1.3.4}%
+\contentsline {subsection}{\numberline {1.3.5}BCM則}{14}{subsection.1.3.5}%
+\contentsline {subsection}{\numberline {1.3.6}Oja則}{15}{subsection.1.3.6}%
+\contentsline {subsection}{\numberline {1.3.7}Hebb則の変分原理的導出}{15}{subsection.1.3.7}%
+\contentsline {section}{\numberline {1.4}自己組織化マップ}{16}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}自己組織化マップと視覚野の構造}{16}{subsection.1.4.1}%
+\contentsline {subsubsection}{単純なデータセット}{17}{section*.9}%
+\contentsline {section}{参考文献}{21}{section*.10}%

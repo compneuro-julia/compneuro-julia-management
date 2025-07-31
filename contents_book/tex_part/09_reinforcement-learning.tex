@@ -123,26 +123,20 @@
 与えられた状態 $s$ に対してエージェントの行動 $a$ を決定する関数を方策 (policy) と呼び，$\pi$ で表される．ある状態 $s$ に対して常に同じ行動 $a$ を決定する方策を決定論的方策と呼び， $a=\pi(s)$ で表される．一方で行動を確率的に決定する方策を，確率的方策と呼び，$\pi(a \mid s) = p(a \mid s)$ で表される．ここで $\pi$ のみを使用する場合は方策それ自体を意味し，$\pi(a \mid s)$ は状態 $s$ が与えられた時に $a$ を選択する確率を意味する．
 
 次に 軌道 (trajectory) を定義する．軌道とは，あるエージェントが環境と相互作用する中で得られる状態，行動，報酬の系列全体をまとめたものであり，
-
 \begin{equation}
 \tau := \{s_0, a_0, r_1, s_1, a_1, r_2, \ldots, s_T, a_T, r_{T+1}, s_{T+1}\}
 \end{equation}
-  
 のように表される．ここで $T$ は任意の終端時刻を表し，$s_{T+1}$ は終端状態 (terminal state) と呼ばれる．終端時刻 $T$ が有限であり，目標の達成や失敗などの条件で明確に終了する（終端状態がある）軌道は，特に エピソード (episode) あるいは試行 (trial) と呼ばれる．すなわち，エピソードは終端条件を満たして終了する軌道であり，無限に続く可能性のある軌道（例えば定常方策による継続的な制御）と区別されうる．$T$ が有限の場合，方策 $\pi$ の下で，軌道（エピソード） $\tau$ を取る確率は，マルコフ性より，
-
 \begin{equation}
 p(\tau) := p(s_0) \prod_{t=0}^T p(s_{t+1}, r_{t+1}\mid s_t, a_t) \pi(a_t \mid s_t)
 \end{equation}
-
 と表される．ただし，$p(s_0)$ は初期状態 $s_0$ を取る確率である．
 
 \subsection{収益}
 強化学習は望ましい方策を得ることが目的であるが，そのためには方策の「良さ」を評価する必要がある．単純に瞬時的な報酬 $r_t$ で方策を評価した場合，即時的には報酬が少ないが後に大きな報酬が貰えるような方策を取らなくなってしまうため，これは望ましくない．こうした，行動に対する報酬が即時に得られず，後に得られるような場合の報酬を遅延報酬 (delayed reward) と呼ぶ．方策の評価のためには遅延報酬も含めた報酬を将来全体において累積的に評価することが必要であり，評価した値を収益 (return) と呼ぶ．最も単純な収益 $G_t$ としては，時刻 $t+1$ 以降の報酬を加算した累積報酬 (cumulative reward) があり，時刻 $T$ に得られる報酬までを考慮する場合は次式で表される．
-
 \begin{equation}
 G_t := r_{t+1}+r_{t+2}+r_{t+3}+\cdots+r_T = \sum_{k=t+1}^{T}r_{k}
 \end{equation}
-
 累積報酬は平易であるが，$T$ が大きい場合には $G_t$ が無限大に発散してしまう恐れがある．そこで，$G_t$ の発散を防ぐために割引率 (discount factor) $\gamma\ (0\leq \gamma \leq 1)$ と呼ばれる係数で将来の報酬が減衰するようにする．
 
 \begin{equation}
@@ -150,35 +144,30 @@ G_t := r_{t+1}+\gamma r_{t+2}+\gamma^2 r_{t+3}+\cdots+\gamma^{T-t-1}r_T = \sum_{
 \end{equation}
 
 これを割引報酬和 (discounted total reward) と呼ぶ．$T\to \infty$ の場合は $\gamma^{T-t-1}r_T \to 0$ となるため $G_t$ が発散することは防がれる．$\gamma$ が0に近い場合は短期的な報酬を重視し，1に近い場合は累積報酬のように長期的な報酬も重視して行動選択を行うこととなる．以降では，$T\to \infty$とし，無限の未来の報酬までを考慮した $G_t:=\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}$ を収益として考えることとする．この場合，
-
 \begin{align}
 G_t &= r_{t+1}+\gamma r_{t+2}+\gamma^2 r_{t+3}+\cdots\\
 &=r_{t+1}+\gamma (r_{t+2}+\gamma r_{t+3}+\cdots)\\
 &=r_{t+1} + \gamma G_{t+1}
 \end{align} 
-
 が成立する．
 
 \subsection{価値}
 方策は状態に応じて変化するため，方策 $\pi$ の収益は状態ごとに評価する必要がある．状態 $s$ から，方策 $\pi$ に従って行動を選択した場合の収益の期待値を，状態 $s$ の価値 (value) あるいは状態価値 (state value) と呼び，$v_\pi(s)$ で表す．MDPの場合，$v_\pi(s)$ は以下で定義される．
-
 \begin{equation}
 v_\pi(s) := \mathbb{E}_\pi \left[G_t \mid s_t = s \right]=\mathbb{E}_\pi \left[\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}\ \middle|\ s_t = s \right]
 \end{equation}
-
 ここで，$\mathbb{E}_\pi \left[\cdot \right]$ は方策 $\pi$ に従う場合の $[\cdot]$ 内の確率変数の期待値を取ることを意味する．また，$v_\pi(\cdot)$ を状態価値関数 (state value function) と呼ぶ．
 
 状態価値と同様の発想で，状態 $s$ において行動 $a$ を選択した場合の価値を行動価値 (action value)と呼ぶ．行動価値は，方策 $\pi$ に従う条件下で，状態 $s$ において行動 $a$ を選択した場合の収益の期待値として計算され，$q_\pi (s, a)$ で表される．
-
 \begin{equation}
 q_\pi(s, a) := \mathbb{E}_\pi \left[G_t \mid s_t = s, a_t=a \right]= \mathbb{E}_\pi \left[\sum_{k=t+1}^{\infty}\gamma^{k-t-1} r_{k}\ \middle|\ s_t = s, a_t=a \right]
 \end{equation}
-
 この $q_\pi (\cdot)$ を行動価値関数 (action value function) と呼ぶ．状態 $s$ における価値 $v_\pi(s)$は，状態 $s$ において取る可能性のあるすべての行動 $a$ の価値 $q_\pi(s, a)$ の期待値として次式のように表すことができる．
-
 \begin{equation}
 v_\pi(s) = \sum_{a} \pi(a \mid s) q_\pi(s, a)
 \end{equation}
-
 すなわち，状態 $s$ の価値 $v_\pi(s)$ は，その状態 $s$ での各行動 $a$ の価値 $q_\pi(s, a)$ に方策，つまり行動 $a$ が取られる確率 $\pi(a \mid s)$ の重みをつけた加重平均として計算できる．
+
+\printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
+\addcontentsline{toc}{section}{参考文献}
 \end{document}

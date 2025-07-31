@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  30 JUL 2025 16:54
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  31 JUL 2025 09:37
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/09_reinforcement-learning
@@ -1117,9 +1117,9 @@ Package biblatex Warning: Conflicting options.
 (biblatex)                '<namepart>inits' conflicts with 'uniquename=full'.
 (biblatex)                Setting 'uniquename=init' on input line 90.
 
-No file 09_reinforcement-learning.aux.
-
+(./09_reinforcement-learning.aux)
 \openout1 = 09_reinforcement-learning.aux
+
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 90.
 LaTeX Font Info:    ... okay on input line 90.
 LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 90.
@@ -1142,7 +1142,7 @@ LaTeX Font Info:    Checking defaults for JT3/mc/m/n on input line 90.
 LaTeX Font Info:    ... okay on input line 90.
 LaTeX Font Info:    Checking defaults for LGR/cmr/m/n on input line 90.
 LaTeX Font Info:    Trying loading font information for LGR+cmr on input line 90.
-(c:/texlive/2025/texmf-dist/tex/latex/cbfonts-fd/lgrcmr.fd
+ (c:/texlive/2025/texmf-dist/tex/latex/cbfonts-fd/lgrcmr.fd
 File: lgrcmr.fd 2017/07/29 v1.2 Greek European Computer Regular
 )
 LaTeX Font Info:    ... okay on input line 90.
@@ -1205,6 +1205,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 ))
 Package hyperref Info: Link coloring ON on input line 90.
+ (./09_reinforcement-learning.out) (./09_reinforcement-learning.out)
 \@outlinefile=\write6
 
 \openout6 = 09_reinforcement-learning.out
@@ -1297,8 +1298,23 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 23.00687pt on input line 93.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 23.00687pt on input line 93.
-(load cache: extra_lmsans17-regular.luc)
-No file 09_reinforcement-learning.toc.
+(load cache: extra_lmsans17-regular.luc) (./09_reinforcement-learning.toc(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 6.47299pt on input line 2.
+LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 2.
+LaTeX Font Info:    Trying loading font information for U+msa on input line 2.
+ (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying loading font information for U+msb on input line 2.
+ (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying loading font information for U+rsfs on input line 2.
+ (c:/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
+File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
+))
 \tf@toc=\write7
 
 \openout7 = 09_reinforcement-learning.toc
@@ -1342,23 +1358,7 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 97.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 97.
-(load cache: extra_lmroman7-regular.luc)(load cache: extra_lmroman5-regular.luc)
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 101.
-LaTeX Font Info:    Font shape `JY3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 101.
-LaTeX Font Info:    Trying loading font information for U+msa on input line 101.
-(c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsa.fd
-File: umsa.fd 2013/01/14 v3.01 AMS symbols A
-)
-LaTeX Font Info:    Trying loading font information for U+msb on input line 101.
- (c:/texlive/2025/texmf-dist/tex/latex/amsfonts/umsb.fd
-File: umsb.fd 2013/01/14 v3.01 AMS symbols B
-)
-LaTeX Font Info:    Trying loading font information for U+rsfs on input line 101.
- (c:/texlive/2025/texmf-dist/tex/latex/jknapltx/ursfs.fd
-File: ursfs.fd 1998/03/24 rsfs font definition file (jk)
-)
+
 
 [3]
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
@@ -1391,6 +1391,10 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [6]
 
+LaTeX Warning: Empty bibliography on input line 171.
+
+
+
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
@@ -1401,45 +1405,27 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-
-Package rerunfilecheck Warning: File `09_reinforcement-learning.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `09_reinforcement-learning.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  65C34934C2FBFF76E2D74A9584278ED2;1154.
-
-Package biblatex Warning: Please (re)run Biber on the file:
-(biblatex)                09_reinforcement-learning
-(biblatex)                and rerun LaTeX afterwards.
-
+Package rerunfilecheck Info: File `09_reinforcement-learning.out' has not changed.
+(rerunfilecheck)             Checksum: 774773F5FF7044110822B55D06D12D77;1243.
 Package logreq Info: Writing requests to '09_reinforcement-learning.run.xml'.
 
 \openout1 = 09_reinforcement-learning.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 27833 strings out of 475506
- 195705,1648299 words of node,token memory allocated
+ 27868 strings out of 475506
+ 195703,1648299 words of node,token memory allocated
  1551 words of node memory still in use:
    11 hlist, 2 vlist, 5 rule, 3 glue, 4 kern, 1 glyph, 381 attribute, 72 glue_spec, 47 attribute_list, 1 write, 14 user_defined nodes
-   avail lists: 1:40,2:55379,3:360,4:252,5:187,6:36,7:5763,8:57,9:2566,10:35,11:37
- 50240 multiletter control sequences out of 65536+600000
+   avail lists: 1:30,2:55379,3:360,4:395,5:198,6:59,7:5763,8:57,9:2566,10:35,11:41
+ 50255 multiletter control sequences out of 65536+600000
  83 fonts using 64374567 bytes
  125i,12n,128p,1937b,851s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 09_reinforcement-learning.pdf (7 pages, 215924 bytes).
+<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 09_reinforcement-learning.pdf (7 pages, 219686 bytes).
 
-PDF statistics: 158 PDF objects out of 1000 (max. 8388607)
- 113 compressed objects within 2 object streams
+PDF statistics: 211 PDF objects out of 1000 (max. 8388607)
+ 163 compressed objects within 2 object streams
  30 named destinations out of 1000 (max. 131072)
- 1 words of extra memory for PDF output out of 10000 (max. 100000000)
+ 89 words of extra memory for PDF output out of 10000 (max. 100000000)
 
