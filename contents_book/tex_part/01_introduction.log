@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  31 JUL 2025 13:58
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  31 JUL 2025 14:50
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/01_introduction
@@ -1361,6 +1361,9 @@ LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 LaTeX Warning: Citation 'levenstein2023role' on page 3 undefined on input line 90.
 
 
+LaTeX Warning: Citation 'van2024critical' on page 3 undefined on input line 90.
+
+
 
 [3]
 
@@ -1393,9 +1396,9 @@ Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 209.
+(Font)              scaled to size 7.3977pt on input line 222.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 209.
+(Font)              scaled to size 7.3977pt on input line 222.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
@@ -1408,13 +1411,17 @@ Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <8> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 238.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 251.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 238.
+(Font)              scaled to size 7.3977pt on input line 251.
 LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <8> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 238.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 251.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 238.
+(Font)              scaled to size 7.3977pt on input line 251.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
 
@@ -1430,13 +1437,13 @@ Package biblatex Warning: Name format 'last-first' deprecated.
 
 (load cache: extra_lmroman10-italic.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 259.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 272.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 259.
+(Font)              scaled to size 9.24713pt on input line 272.
 LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 259.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 272.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 259.
+(Font)              scaled to size 9.24713pt on input line 272.
 
 
 
@@ -1466,19 +1473,19 @@ Package logreq Info: Writing requests to '01_introduction.run.xml'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 28173 strings out of 475506
- 244637,1648299 words of node,token memory allocated
+ 28175 strings out of 475506
+ 244631,1648299 words of node,token memory allocated
  1087 words of node memory still in use:
    10 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 179 attribute, 72 glue_spec, 27 attribute_list, 1 write, 13 user_defined nodes
-   avail lists: 1:57,2:63007,3:368,4:2684,5:371,6:91,7:6613,8:36,9:3352,10:34,11:448
- 50548 multiletter control sequences out of 65536+600000
+   avail lists: 1:58,2:62472,3:358,4:2707,5:373,6:94,7:6468,8:36,9:3408,10:36,11:466
+ 50550 multiletter control sequences out of 65536+600000
  72 fonts using 68506927 bytes
- 125i,11n,128p,1927b,1449s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 125i,12n,128p,1927b,1449s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf>
-Output written on 01_introduction.pdf (8 pages, 267415 bytes).
+Output written on 01_introduction.pdf (8 pages, 267408 bytes).
 
-PDF statistics: 207 PDF objects out of 1000 (max. 8388607)
- 165 compressed objects within 2 object streams
+PDF statistics: 208 PDF objects out of 1000 (max. 8388607)
+ 166 compressed objects within 2 object streams
  37 named destinations out of 1000 (max. 131072)
  105 words of extra memory for PDF output out of 10000 (max. 100000000)
 
