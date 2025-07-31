@@ -1,0 +1,156 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{Blohm2020-vc}{article}{}{}
+      \name{author}{3}{}{%
+        {{un=0,uniquepart=base,hash=b7b612da52c3e4fdce5eca6fd0ca43d2}{%
+           family={Blohm},
+           familyi={B\bibinitperiod},
+           given={Gunnar},
+           giveni={G\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bc19386e95fe00742c37788c7d0eab45}{%
+           family={Kording},
+           familyi={K\bibinitperiod},
+           given={Konrad\bibnamedelima P},
+           giveni={K\bibinitperiod\bibinitdelim P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=c3839311c6a90067e111fbf8bf7b6235}{%
+           family={Schrater},
+           familyi={S\bibinitperiod},
+           given={Paul\bibnamedelima R},
+           giveni={P\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{8ec495ef87d1db816174af118b6ca6bc}
+      \strng{fullhash}{e561932da81210783fbff7f76f3f8d82}
+      \strng{fullhashraw}{e561932da81210783fbff7f76f3f8d82}
+      \strng{bibnamehash}{e561932da81210783fbff7f76f3f8d82}
+      \strng{authorbibnamehash}{e561932da81210783fbff7f76f3f8d82}
+      \strng{authornamehash}{8ec495ef87d1db816174af118b6ca6bc}
+      \strng{authorfullhash}{e561932da81210783fbff7f76f3f8d82}
+      \strng{authorfullhashraw}{e561932da81210783fbff7f76f3f8d82}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{eNeuro}
+      \field{month}{2}
+      \field{number}{1}
+      \field{title}{A {How-to-Model} Guide for Neuroscience}
+      \field{volume}{7}
+      \field{year}{2020}
+    \endentry
+    \entry{Hassabis2017-zm}{article}{}{}
+      \name{author}{4}{}{%
+        {{un=0,uniquepart=base,hash=b160026950ebb1e2286dfb40c15482f5}{%
+           family={Hassabis},
+           familyi={H\bibinitperiod},
+           given={Demis},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a425c81c03d315597e3f92690763e24d}{%
+           family={Kumaran},
+           familyi={K\bibinitperiod},
+           given={Dharshan},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0e19fe61e6ad22ca347bffe3e453c372}{%
+           family={Summerfield},
+           familyi={S\bibinitperiod},
+           given={Christopher},
+           giveni={C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9ac5fb35edeb23736953b00e66bef926}{%
+           family={Botvinick},
+           familyi={B\bibinitperiod},
+           given={Matthew},
+           giveni={M\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \strng{namehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
+      \strng{fullhash}{a1798de6d880fa773f33ca9b86cc4fd6}
+      \strng{fullhashraw}{a1798de6d880fa773f33ca9b86cc4fd6}
+      \strng{bibnamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
+      \strng{authorbibnamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
+      \strng{authornamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
+      \strng{authorfullhash}{a1798de6d880fa773f33ca9b86cc4fd6}
+      \strng{authorfullhashraw}{a1798de6d880fa773f33ca9b86cc4fd6}
+      \field{sortinit}{H}
+      \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Neuron}
+      \field{month}{7}
+      \field{number}{2}
+      \field{title}{{Neuroscience-Inspired} Artificial Intelligence}
+      \field{volume}{95}
+      \field{year}{2017}
+      \field{pages}{245\bibrangedash 258}
+      \range{pages}{14}
+      \keyw{artificial intelligence; brain; cognition; learning; neural network}
+    \endentry
+    \entry{Marr1982-wk}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=2cf5062b61963ac0956179a605c38d66}{%
+           family={Marr},
+           familyi={M\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{language}{1}{%
+        {en}%
+      }
+      \list{publisher}{1}{%
+        {W. H. Freeman \& Company}%
+      }
+      \strng{namehash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{fullhash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{fullhashraw}{2cf5062b61963ac0956179a605c38d66}
+      \strng{bibnamehash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{authorbibnamehash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{authornamehash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{authorfullhash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{authorfullhashraw}{2cf5062b61963ac0956179a605c38d66}
+      \field{sortinit}{M}
+      \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Vision: A Computational Investigation into the Human Representation and Processing of Visual Information}
+      \field{year}{1982}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
