@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.3 $
+% $ biblatex bbl format version 3.2 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,8 +18,8 @@
 
 
 \refsection{0}
-  \datalist[entry]{nty/global//global/global/global}
-    \entry{Blohm2020-vc}{article}{}{}
+  \datalist[entry]{nty/global//global/global}
+    \entry{Blohm2020-vc}{article}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=b7b612da52c3e4fdce5eca6fd0ca43d2}{%
            family={Blohm},
@@ -45,12 +45,10 @@
       }
       \strng{namehash}{8ec495ef87d1db816174af118b6ca6bc}
       \strng{fullhash}{e561932da81210783fbff7f76f3f8d82}
-      \strng{fullhashraw}{e561932da81210783fbff7f76f3f8d82}
       \strng{bibnamehash}{e561932da81210783fbff7f76f3f8d82}
       \strng{authorbibnamehash}{e561932da81210783fbff7f76f3f8d82}
       \strng{authornamehash}{8ec495ef87d1db816174af118b6ca6bc}
       \strng{authorfullhash}{e561932da81210783fbff7f76f3f8d82}
-      \strng{authorfullhashraw}{e561932da81210783fbff7f76f3f8d82}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{extradatescope}{labelyear}
@@ -64,7 +62,42 @@
       \field{volume}{7}
       \field{year}{2020}
     \endentry
-    \entry{Hassabis2017-zm}{article}{}{}
+    \entry{van2024critical}{article}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=0b7dfaa42abd3ad64110ea528fb196a7}{%
+           family={Bree},
+           familyi={B\bibinitperiod},
+           given={Sander},
+           giveni={S\bibinitperiod},
+           givenun=0,
+           prefix={van},
+           prefixi={v\bibinitperiod},
+           prefixun=0}}%
+      }
+      \list{publisher}{1}{%
+        {SAGE Publications Sage CA: Los Angeles, CA}%
+      }
+      \strng{namehash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{fullhash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{bibnamehash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{authorbibnamehash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{authornamehash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{authorfullhash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \field{sortinit}{B}
+      \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Perspectives on Psychological Science}
+      \field{number}{6}
+      \field{title}{A critical perspective on neural mechanisms in cognitive neuroscience: towards unification}
+      \field{volume}{19}
+      \field{year}{2024}
+      \field{pages}{993\bibrangedash 1010}
+      \range{pages}{18}
+    \endentry
+    \entry{Hassabis2017-zm}{article}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=b160026950ebb1e2286dfb40c15482f5}{%
            family={Hassabis},
@@ -96,12 +129,10 @@
       }
       \strng{namehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{fullhash}{a1798de6d880fa773f33ca9b86cc4fd6}
-      \strng{fullhashraw}{a1798de6d880fa773f33ca9b86cc4fd6}
       \strng{bibnamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{authorbibnamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{authornamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{authorfullhash}{a1798de6d880fa773f33ca9b86cc4fd6}
-      \strng{authorfullhashraw}{a1798de6d880fa773f33ca9b86cc4fd6}
       \field{sortinit}{H}
       \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
       \field{extradatescope}{labelyear}
@@ -118,7 +149,95 @@
       \range{pages}{14}
       \keyw{artificial intelligence; brain; cognition; learning; neural network}
     \endentry
-    \entry{Marr1982-wk}{book}{}{}
+    \entry{levenstein2023role}{article}{}
+      \true{moreauthor}
+      \true{morelabelname}
+      \name{author}{10}{}{%
+        {{un=0,uniquepart=base,hash=99c6083054699160b781f9fbd49fb20d}{%
+           family={Levenstein},
+           familyi={L\bibinitperiod},
+           given={Daniel},
+           giveni={D\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0789bff824347bcdc20040edde28ec63}{%
+           family={Alvarez},
+           familyi={A\bibinitperiod},
+           given={Veronica\bibnamedelima A},
+           giveni={V\bibinitperiod\bibinitdelim A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=149097d4ccc7ec451ca60e4683188eb6}{%
+           family={Amarasingham},
+           familyi={A\bibinitperiod},
+           given={Asohan},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=0faf1c5462f999981fce25123ad2e7ce}{%
+           family={Azab},
+           familyi={A\bibinitperiod},
+           given={Habiba},
+           giveni={H\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=203f22bdcff9e16fbf58937f76786a2b}{%
+           family={Chen},
+           familyi={C\bibinitperiod},
+           given={Zhe\bibnamedelima S},
+           giveni={Z\bibinitperiod\bibinitdelim S\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=fbf1369fb883a20e566f4a7c6dccb60d}{%
+           family={Gerkin},
+           familyi={G\bibinitperiod},
+           given={Richard\bibnamedelima C},
+           giveni={R\bibinitperiod\bibinitdelim C\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=a93c2c4e3860f150aa8a7c4a70d383ce}{%
+           family={Hasenstaub},
+           familyi={H\bibinitperiod},
+           given={Andrea},
+           giveni={A\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=bd0275a37239ac601d11ce4035412d2a}{%
+           family={Iyer},
+           familyi={I\bibinitperiod},
+           given={Ramakrishnan},
+           giveni={R\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=01b955e89d477d27fe30fbfa493aadca}{%
+           family={Jolivet},
+           familyi={J\bibinitperiod},
+           given={Renaud\bibnamedelima B},
+           giveni={R\bibinitperiod\bibinitdelim B\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=1d535b88d888c556aea7b1580ea75c9f}{%
+           family={Marzen},
+           familyi={M\bibinitperiod},
+           given={Sarah},
+           giveni={S\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Society for Neuroscience}%
+      }
+      \strng{namehash}{ffa58f0e01f414a0f729a62abf9610c1}
+      \strng{fullhash}{8c169ea0027ac43a71e6ae676110aeba}
+      \strng{bibnamehash}{ffa58f0e01f414a0f729a62abf9610c1}
+      \strng{authorbibnamehash}{ffa58f0e01f414a0f729a62abf9610c1}
+      \strng{authornamehash}{ffa58f0e01f414a0f729a62abf9610c1}
+      \strng{authorfullhash}{8c169ea0027ac43a71e6ae676110aeba}
+      \field{sortinit}{L}
+      \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Neuroscience}
+      \field{number}{7}
+      \field{title}{On the role of theory and modeling in neuroscience}
+      \field{volume}{43}
+      \field{year}{2023}
+      \field{pages}{1074\bibrangedash 1088}
+      \range{pages}{15}
+    \endentry
+    \entry{Marr1982-wk}{book}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=2cf5062b61963ac0956179a605c38d66}{%
            family={Marr},
@@ -135,12 +254,10 @@
       }
       \strng{namehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{fullhash}{2cf5062b61963ac0956179a605c38d66}
-      \strng{fullhashraw}{2cf5062b61963ac0956179a605c38d66}
       \strng{bibnamehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{authorbibnamehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{authornamehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{authorfullhash}{2cf5062b61963ac0956179a605c38d66}
-      \strng{authorfullhashraw}{2cf5062b61963ac0956179a605c38d66}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{extradatescope}{labelyear}

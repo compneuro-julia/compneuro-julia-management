@@ -16,6 +16,7 @@
 \usepackage[svgnames]{xcolor}
 \usepackage{sty/julia-syntax-highlighting} % 
 \usepackage{sty/indexing} % 
+\usepackage{multirow}
 
 \usepackage[export]{sty/adjustbox} % added
 
@@ -87,22 +88,49 @@
 \subsection{神経科学におけるモデルの意義}
 本書では、神経科学における数理モデルの構築とJulia言語での実装を中心的な主題とし、その背景にある計算論的理論と実践的手法を扱う。初めに、神経科学におけるモデルの意義について整理しておこう。
 
-神経科学の最終的な目的は、端的に言えば「脳神経系を理解すること」にある。この目標に向けて、自然科学に共通するように、神経科学もまた実験と理論という二つの柱に支えられて発展してきた。実験は観察や計測を通じて実データを得る行為であり、理論はそれらのデータを抽象化・統合し、予測や仮説の創出へと昇華させる枠組みである。特にモデルは、次のような多面的な役割を担っている \citep{Blohm2020-vc,levenstein2023role,van2024critical}：
+神経科学の重要な目標の一つは、ミクロからマクロまで、また基礎から臨床にわたる幅広い研究領域とスケールの観点から、脳神経系の構造（structure）と機能（function）について科学的説明を与えることである。
+
+この目標に向けて、自然科学に共通するように、神経科学もまた実験と理論という二つの柱に支えられて発展してきた。実験は観察や計測を通じて実データを得る行為であり、理論はデータを整理・統合し、予測や検証すべき問い（仮説）を導き出すための枠組みとなる。
+
+モデルは？
+
+特にモデルは、次のような多面的な役割を担っている \citep{Blohm2020-vc,levenstein2023role,van2024critical}：
  (1) 仮説の駆動と明示化、 (2) 複雑な知見の整理と統合、 (3) 観察結果の再現や予測、仮説の提供 (4) 仮想実験の実行、 (5) 科学的コミュニケーションの明確化、 (6) 臨床や技術への応用可能性の提供である。このように、モデルは単なる計算装置ではなく、科学的思考そのものの外化であり、神経科学の進展に不可欠な知的道具である。
 
- % 脳を理解，という用語から離れる．
-とはいえ、「脳を理解する」とは具体的に何を意味するのか。この問いに対する明確な答えは一様ではない。神経科学の実験は多様であり，
+次に「科学的説明」ということに関してどのような観点があるのかを述べる．神経科学における科学的説明の分類として有名なのがMarrの3つのレベル (Marr's Three Levels of analysis) \citep{Marr1982-wk} である．
+
+解析や理論のレベル．
+
+Marrは～
+
+次に，DayanとAbbottは～
+
+これらの科学的説明に関してまとめたものが次の表である．
+
+分析レベル
+
+とはいえ，あるモデルは何に属するか，というのは明確に区別づけられないため，本書では「これは何モデル」と明示的に記載はしない．
+
+本書では，これらの3つのモデルの
+
+\begin{table}[]
+\begin{tabular}{c|cccc}
+\hline
+疑問対象 &\citep{Marr1982-wk}  & Pylyshyn & Anderson & Dayan \& Abbott \\ \hline
+なぜ (Why) & 計算理論 & 意味論的 & 目的論的  & 解釈的 \\ \hline
+どのように (How) &  表現とアルゴリズム & アルゴリズム & アルゴリズム & 記述的 \\ \cline{3-4}
+& & 機能的構造  & 実装 &\\ \hline
+何が (What) & ハードウェア実装 & 生物学的 & 生物学的 & 機構的\\ \hline
+\end{tabular}
+\end{table}
+% The Adaptive Character of Thought
+
+%https://books.google.com.bz/books?id=T5JBLb1cNUgC&printsec=copyright#v=onepage&q&f=false
 
 %https://www.eneuro.org/content/7/1/ENEURO.0352-19.2019
 %https://www.jneurosci.org/content/43/7/1074
 %https://journals.sagepub.com/doi/full/10.1177/17456916231191744
 
-実験対象：線虫 (c. elegans)，ハエ (drosophila)，鳥類，コウモリ，哺乳類，甲殻類，rodent，無脊椎動物 (タコ) ，ウマ，ブタ， (サル，ネコ，マウス) ，ヒト
-ミクロとマクロ：分子生物学的，心理学実験
-培養系と生体，in vivo, in vitro
-構造と機能：解剖学，電気生理学・イメージング
-
-本書は構造も少々取り扱うが，主には機能を取り扱う．
 
 本書では、こうした理解の枠組みを与えるために、Marrの3つのレベル (Marr's Three Levels)  \citep{Marr1982-wk} およびDayanとAbbottによる3レベルを紹介する．
 
@@ -128,6 +156,9 @@ Mechanistic model (機構的モデル, what) ：要素間の因果的な関係�
 表を参考に，統合した階層を書く．
 
 %https://physoc.onlinelibrary.wiley.com/doi/full/10.1113/JP279549
+
+%https://physoc.onlinelibrary.wiley.com/doi/full/10.1113/JP279550?saml_referrer
+%
 
 %Dayan, P., & Abbott, L. F. (2005). Theoretical neuroscience. MIT Press.
 
