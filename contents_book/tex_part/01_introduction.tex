@@ -17,9 +17,9 @@
 \usepackage{sty/julia-syntax-highlighting} % 
 \usepackage{sty/indexing} % 
 \usepackage{multirow}
-
+\usepackage{tablefootnote}
 \usepackage[export]{sty/adjustbox} % added
-
+\usepackage{adjustbox}
 \usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyfoot{}
@@ -38,7 +38,7 @@
 \usepackage[
     backend=biber,
     bibencoding=utf8,
-    style=authoryear-comp, 
+    style=apa,%authoryear-comp, 
     url=false,
     isbn=true,
     doi=true,
@@ -113,18 +113,68 @@ Marrは～
 
 本書では，これらの3つのモデルの
 
+\setlength{\tabcolsep}{2pt}
 \begin{table}[]
+\centering
+\begin{adjustbox}{width=\linewidth}
 \begin{tabular}{c|c|cccc}
 \hline
-スケール &  \begin{tabular}{c}中心的な\\疑問対象 \end{tabular} & \citep{Marr1982-wk}  & Pylyshyn & Anderson & Dayan \& Abbott \\ \hline
-マクロ & \begin{tabular}{c}なぜ\\(Why) \end{tabular} & 計算理論 & 意味論的 & 目的論的  & 解釈的 \\ \cline{2-6}
-\multirow{2}{*}{\scalebox{2}[5]{\blacktriangledown}} & どのように& \multirow{2}{*}{表現とアルゴリズム} & アルゴリズム & アルゴリズム & \multirow{2}{*}{記述的} \\ \cline{4-5}
-& (How) & & 機能的構造  & 実装 &\\ \cline{2-6}
-ミクロ & \begin{tabular}{c}何が\\(What) \end{tabular}  & ハードウェア実装 & 生物学的 & 生物学的 & 機構的\\ \hline
+スケール &  \begin{tabular}{c}主要な\\疑問対象 \end{tabular} & \citep{Marr1982-wk}  & \citep{pylyshyn1984computation} & \citep{anderson2013adaptive} & \citep{dayan2005theoretical} \\ \hline
+マクロ & \begin{tabular}{c}なぜ\\(Why) \end{tabular} & \begin{tabular}{c}計算理論\\(Computational theory) \end{tabular} & \begin{tabular}{c}意味論的\\(Semantic) \end{tabular} & \begin{tabular}{c}合理的\\(Rational) \end{tabular} & \begin{tabular}{c}解釈的\\(Interpretive)\end{tabular}\\\cline{2-6}
+\multirow{2}{*}{\scalebox{2}[10]{\blacktriangledown}} 
+& どのように& 表現とアルゴリズム & \begin{tabular}{c}アルゴリズム\\(Algorithm) \end{tabular} & \begin{tabular}{c}アルゴリズム\\(Algorithm)\end{tabular}& 記述的 \\ \cline{4-5}
+& (How) & 
+\begin{tabular}{c}\(
+\biggl(
+\begin{array}{c}
+\!\!\text{Representation}\!\!\\[-4pt]
+\!\!\text{and algorithm}\!\!
+\end{array}
+\biggr)
+\)\end{tabular} & \begin{tabular}{c}機能的構造\\(Functional architecture)\end{tabular} & \begin{tabular}{c}実装\\(Implementation)\end{tabular} &(Descriptive)\\ \cline{2-6}
+ミクロ & \begin{tabular}{c}何が\\(What) \end{tabular}  & 
+\begin{tabular}{c}ハードウェア実装\\
+\(
+\biggl(
+\begin{array}{c}
+\!\!\text{Hardware}\!\!\\[-4pt]
+\!\!\text{implementation}\!\!
+\end{array}
+\biggr)
+\)\end{tabular}& \begin{tabular}{c}生物学的\\(Biological) \end{tabular} & \begin{tabular}{c}生物学的\\(Biological)\end{tabular} & \begin{tabular}{c}機構的\\(Mechanistic) \end{tabular}\\ \hline
 \end{tabular}
+\end{adjustbox}
 \end{table}
 
+\setlength{\tabcolsep}{5pt}
+\begin{table}[]
+\centering
+%\begin{adjustbox}{width=\linewidth}
+\begin{tabular}{c|c|c}
+\hline
+説明レベル & 内容 & 例\\\hline
+計算理論& &\\
+表現とアルゴリズム& &\\
+ハードウェア実装& &\\\hline
+\end{tabular}
+%\end{adjustbox}
+\end{table}
 
+\setlength{\tabcolsep}{5pt}
+\begin{table}[]
+\centering
+%\begin{adjustbox}{width=\linewidth}
+\begin{tabular}{c|c|c}
+\hline
+説明レベル & 内容 & 例\\\hline
+解釈的& &\\
+記述的& &\\
+機構的& &\\\hline
+\end{tabular}
+%\end{adjustbox}
+\end{table}
+
+合理的解析 (Rational analysis) では，システムが環境下で特定の目的を「合理的」に達成すると仮定した際に，その行動を支配する制約条件や，計算が達成すべき規範を特定する．
 
 % 分割統治の一種である．
 

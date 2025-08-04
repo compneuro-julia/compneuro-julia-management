@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
+% $ biblatex bbl format version 3.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,8 +18,37 @@
 
 
 \refsection{0}
-  \datalist[entry]{nty/global//global/global}
-    \entry{Blohm2020-vc}{article}{}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{anderson2013adaptive}{book}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=a26a1c29e402f0e1cace7046bf4f05a5}{%
+           family={Anderson},
+           familyi={A\bibinitperiod},
+           given={John\bibnamedelima R},
+           giveni={J\bibinitperiod\bibinitdelim R\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {Psychology Press}%
+      }
+      \strng{namehash}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{fullhash}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{fullhashraw}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{bibnamehash}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{authorbibnamehash}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{authornamehash}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{authorfullhash}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \strng{authorfullhashraw}{a26a1c29e402f0e1cace7046bf4f05a5}
+      \field{sortinit}{A}
+      \field{sortinithash}{2f401846e2029bad6b3ecc16d50031e2}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{The adaptive character of thought}
+      \field{year}{2013}
+    \endentry
+    \entry{Blohm2020-vc}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=b7b612da52c3e4fdce5eca6fd0ca43d2}{%
            family={Blohm},
@@ -45,10 +74,12 @@
       }
       \strng{namehash}{8ec495ef87d1db816174af118b6ca6bc}
       \strng{fullhash}{e561932da81210783fbff7f76f3f8d82}
+      \strng{fullhashraw}{e561932da81210783fbff7f76f3f8d82}
       \strng{bibnamehash}{e561932da81210783fbff7f76f3f8d82}
       \strng{authorbibnamehash}{e561932da81210783fbff7f76f3f8d82}
       \strng{authornamehash}{8ec495ef87d1db816174af118b6ca6bc}
       \strng{authorfullhash}{e561932da81210783fbff7f76f3f8d82}
+      \strng{authorfullhashraw}{e561932da81210783fbff7f76f3f8d82}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{extradatescope}{labelyear}
@@ -62,7 +93,7 @@
       \field{volume}{7}
       \field{year}{2020}
     \endentry
-    \entry{van2024critical}{article}{}
+    \entry{van2024critical}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=0b7dfaa42abd3ad64110ea528fb196a7}{%
            family={Bree},
@@ -79,10 +110,12 @@
       }
       \strng{namehash}{0b7dfaa42abd3ad64110ea528fb196a7}
       \strng{fullhash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{fullhashraw}{0b7dfaa42abd3ad64110ea528fb196a7}
       \strng{bibnamehash}{0b7dfaa42abd3ad64110ea528fb196a7}
       \strng{authorbibnamehash}{0b7dfaa42abd3ad64110ea528fb196a7}
       \strng{authornamehash}{0b7dfaa42abd3ad64110ea528fb196a7}
       \strng{authorfullhash}{0b7dfaa42abd3ad64110ea528fb196a7}
+      \strng{authorfullhashraw}{0b7dfaa42abd3ad64110ea528fb196a7}
       \field{sortinit}{B}
       \field{sortinithash}{d7095fff47cda75ca2589920aae98399}
       \field{extradatescope}{labelyear}
@@ -97,7 +130,42 @@
       \field{pages}{993\bibrangedash 1010}
       \range{pages}{18}
     \endentry
-    \entry{Hassabis2017-zm}{article}{}
+    \entry{dayan2005theoretical}{book}{}{}
+      \name{author}{2}{}{%
+        {{un=0,uniquepart=base,hash=ef0afbe0b4e15059c963e026fe213c34}{%
+           family={Dayan},
+           familyi={D\bibinitperiod},
+           given={Peter},
+           giveni={P\bibinitperiod},
+           givenun=0}}%
+        {{un=0,uniquepart=base,hash=9fa6a891808f87d1e39a0e383ad3502e}{%
+           family={Abbott},
+           familyi={A\bibinitperiod},
+           given={Laurence\bibnamedelima F},
+           giveni={L\bibinitperiod\bibinitdelim F\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MIT press}%
+      }
+      \strng{namehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{fullhash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{fullhashraw}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{bibnamehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authorbibnamehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authornamehash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authorfullhash}{c764b4223feffe95f38b6a2cfc79262a}
+      \strng{authorfullhashraw}{c764b4223feffe95f38b6a2cfc79262a}
+      \field{sortinit}{D}
+      \field{sortinithash}{6f385f66841fb5e82009dc833c761848}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Theoretical neuroscience: computational and mathematical modeling of neural systems}
+      \field{year}{2005}
+    \endentry
+    \entry{Hassabis2017-zm}{article}{}{}
       \name{author}{4}{}{%
         {{un=0,uniquepart=base,hash=b160026950ebb1e2286dfb40c15482f5}{%
            family={Hassabis},
@@ -129,10 +197,12 @@
       }
       \strng{namehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{fullhash}{a1798de6d880fa773f33ca9b86cc4fd6}
+      \strng{fullhashraw}{a1798de6d880fa773f33ca9b86cc4fd6}
       \strng{bibnamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{authorbibnamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{authornamehash}{92f9fd1b7a5ef819786552a2f44b5bdb}
       \strng{authorfullhash}{a1798de6d880fa773f33ca9b86cc4fd6}
+      \strng{authorfullhashraw}{a1798de6d880fa773f33ca9b86cc4fd6}
       \field{sortinit}{H}
       \field{sortinithash}{23a3aa7c24e56cfa16945d55545109b5}
       \field{extradatescope}{labelyear}
@@ -149,7 +219,7 @@
       \range{pages}{14}
       \keyw{artificial intelligence; brain; cognition; learning; neural network}
     \endentry
-    \entry{levenstein2023role}{article}{}
+    \entry{levenstein2023role}{article}{}{}
       \true{moreauthor}
       \true{morelabelname}
       \name{author}{10}{}{%
@@ -219,10 +289,12 @@
       }
       \strng{namehash}{ffa58f0e01f414a0f729a62abf9610c1}
       \strng{fullhash}{8c169ea0027ac43a71e6ae676110aeba}
+      \strng{fullhashraw}{8c169ea0027ac43a71e6ae676110aeba}
       \strng{bibnamehash}{ffa58f0e01f414a0f729a62abf9610c1}
       \strng{authorbibnamehash}{ffa58f0e01f414a0f729a62abf9610c1}
       \strng{authornamehash}{ffa58f0e01f414a0f729a62abf9610c1}
       \strng{authorfullhash}{8c169ea0027ac43a71e6ae676110aeba}
+      \strng{authorfullhashraw}{8c169ea0027ac43a71e6ae676110aeba}
       \field{sortinit}{L}
       \field{sortinithash}{7c47d417cecb1f4bd38d1825c427a61a}
       \field{extradatescope}{labelyear}
@@ -237,7 +309,7 @@
       \field{pages}{1074\bibrangedash 1088}
       \range{pages}{15}
     \endentry
-    \entry{Marr1982-wk}{book}{}
+    \entry{Marr1982-wk}{book}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=2cf5062b61963ac0956179a605c38d66}{%
            family={Marr},
@@ -254,10 +326,12 @@
       }
       \strng{namehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{fullhash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{fullhashraw}{2cf5062b61963ac0956179a605c38d66}
       \strng{bibnamehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{authorbibnamehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{authornamehash}{2cf5062b61963ac0956179a605c38d66}
       \strng{authorfullhash}{2cf5062b61963ac0956179a605c38d66}
+      \strng{authorfullhashraw}{2cf5062b61963ac0956179a605c38d66}
       \field{sortinit}{M}
       \field{sortinithash}{4625c616857f13d17ce56f7d4f97d451}
       \field{extradatescope}{labelyear}
@@ -266,6 +340,35 @@
       \field{labeltitlesource}{title}
       \field{title}{Vision: A Computational Investigation into the Human Representation and Processing of Visual Information}
       \field{year}{1982}
+    \endentry
+    \entry{pylyshyn1984computation}{article}{}{}
+      \name{author}{1}{}{%
+        {{un=0,uniquepart=base,hash=1a4433c3e4040dc9d88c3bb5f02b9161}{%
+           family={Pylyshyn},
+           familyi={P\bibinitperiod},
+           given={Zenon\bibnamedelima Walter},
+           giveni={Z\bibinitperiod\bibinitdelim W\bibinitperiod},
+           givenun=0}}%
+      }
+      \list{publisher}{1}{%
+        {MIT press Cambridge, MA}%
+      }
+      \strng{namehash}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{fullhash}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{fullhashraw}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{bibnamehash}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{authorbibnamehash}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{authornamehash}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{authorfullhash}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \strng{authorfullhashraw}{1a4433c3e4040dc9d88c3bb5f02b9161}
+      \field{sortinit}{P}
+      \field{sortinithash}{ff3bcf24f47321b42cb156c2cc8a8422}
+      \field{extradatescope}{labelyear}
+      \field{labeldatesource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Computation and cognition}
+      \field{year}{1984}
     \endentry
   \enddatalist
 \endrefsection
