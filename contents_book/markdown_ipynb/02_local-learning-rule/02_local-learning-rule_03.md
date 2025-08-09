@@ -27,6 +27,8 @@ LTPの実験的発見
 
 一方，1980年代には**長期抑圧**（Long-Term Depression, LTD）という現象も発見された \citep{Dudek1992-nz}．これは，シナプス前ニューロンとシナプス後ニューロンが低頻度で同時活動した場合に，シナプスの伝達効率が長期にわたって減少する現象である．LTDもまた海馬や小脳などの領域で観察されており，この減弱はHebb則の反対の効果を示すものとして位置づけられる．特に，小脳における登上線維と平行線維の同時活動により引き起こされるLTDは，運動学習のモデルとして重要視されている．LTPと同様に，LTDにおいてもCa²⁺シグナリングが重要な役割を果たすが，その振幅や時間的プロファイルが異なっていることが，シナプス強化と抑圧の分岐をもたらすと考えられている．
 
+
+
 これらの発見を通じて，Hebb則は単なる理論的仮説にとどまらず，シナプス可塑性という具体的な細胞メカニズムを通して，神経回路における学習と記憶の基盤であることが明らかにされた．
 
 https://www.science.org/doi/10.1126/science.ads4706
@@ -40,6 +42,8 @@ https://www.sciencedirect.com/science/article/pii/S0959438823001034
 https://www.jneurosci.org/content/40/14/2828.abstract
 https://www.sciencedirect.com/science/article/pii/S0149763419310942
 
+A brief history of LTP
+
 NMDA, Ca
 BDNF 
 TrkB
@@ -47,6 +51,9 @@ TrkB
 TNF-\alpha
 
 シナプス強度が増加するとは何が変化しているのか，とはspine sizeや受容体の数，
+
+LTPには構造的LTP (structioral LTP) と機能的LTP (functional LTP) の2種類があるが，主に構造的LTP
+LTP induction by structul rather than functions of CaMKII
 
 ### Hebb則の不安定性と修正Hebb則
 Hebb則には問題点があり，シナプス結合強度が際限なく増大するか，あるいは消失するかという不安定性がある．これを数式で確認しておこう．前細胞と後細胞がそれぞれ1つの場合を考える．2細胞間の結合強度を $w\ (>0)$ とし，線形ニューロンを仮定，すなわち $y=wx$ が成り立つとすると，Hebb則は $\dfrac{dw}{\mathrm{d}t}=\eta yx=\eta x^2w$ となる．この場合，$\eta x^2>1$ なら $\lim_{t\to\infty} w= \infty$, $\eta x^2<1$ なら $\lim_{t\to\infty} w= 0$ となる．当然，生理的にシナプス結合強度が無限大となることはあり得ないが，不安定なほど大きくなってしまう可能性があることに違いはない．このため，Hebb則を安定化させるための修正が必要とされた．

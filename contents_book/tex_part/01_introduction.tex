@@ -74,6 +74,11 @@
 
 \newcommand{\jl}{\lstinline[language=julia]}
 
+\usepackage{tikz}
+\newcommand{\narrowtriangle}[2]{%
+  \tikz[baseline=-0.5ex]{\filldraw[black] (0,0) -- (#1,0) -- ({#1/2},-#2) -- cycle;}%
+}
+
 \title{\Huge \textbf{Juliaで作って学ぶ計算論的神経科学}}
 \author{\huge 山本 拓都}
 \date{\huge \today} 
@@ -119,20 +124,22 @@ Marrは～
 \begin{adjustbox}{width=\linewidth}
 \begin{tabular}{c|c|cccc}
 \hline
-スケール &  \begin{tabular}{c}主要な\\疑問対象 \end{tabular} & \citep{Marr1982-wk}  & \citep{pylyshyn1984computation} & \citep{anderson2013adaptive} & \citep{dayan2005theoretical} \\ \hline
+スケール &  \begin{tabular}{c}主要な\\説明の観点 \end{tabular} & \citep{Marr1982-wk}  & \citep{pylyshyn1984computation} & \citep{anderson1990adaptive} & \citep{dayan2005theoretical} \\ \hline
 マクロ & \begin{tabular}{c}なぜ\\(Why) \end{tabular} & \begin{tabular}{c}計算理論\\(Computational theory) \end{tabular} & \begin{tabular}{c}意味論的\\(Semantic) \end{tabular} & \begin{tabular}{c}合理的\\(Rational) \end{tabular} & \begin{tabular}{c}解釈的\\(Interpretive)\end{tabular}\\\cline{2-6}
-\multirow{2}{*}{\scalebox{2}[10]{\blacktriangledown}} 
-& どのように& 表現とアルゴリズム & \begin{tabular}{c}アルゴリズム\\(Algorithm) \end{tabular} & \begin{tabular}{c}アルゴリズム\\(Algorithm)\end{tabular}& 記述的 \\ \cline{4-5}
-& (How) & 
-\begin{tabular}{c}\(
+\multirow{4}{*}{\narrowtriangle{0.5}{1.8}} & & 表現と & アルゴリズム & アルゴリズム & \\
+& どのように & アルゴリズム & (Algorithm) & (Algorithm) & 記述的\\\cline{4-5}
+& (How) & \multirow{2}{*}{
+  \begin{tabular}{c}\(
 \biggl(
 \begin{array}{c}
 \!\!\text{Representation}\!\!\\[-4pt]
 \!\!\text{and algorithm}\!\!
 \end{array}
 \biggr)
-\)\end{tabular} & \begin{tabular}{c}機能的構造\\(Functional architecture)\end{tabular} & \begin{tabular}{c}実装\\(Implementation)\end{tabular} &(Descriptive)\\ \cline{2-6}
-ミクロ & \begin{tabular}{c}何が\\(What) \end{tabular}  & 
+\)\end{tabular}
+} & 機能的構造 & 実装 & (Descriptive)\\
+&  & & (Functional architecture) & (Implementation)\\\cline{2-6}
+ミクロ & \begin{tabular}{c}何が/何を\\(What) \end{tabular}  & 
 \begin{tabular}{c}ハードウェア実装\\
 \(
 \biggl(
@@ -144,6 +151,8 @@ Marrは～
 \)\end{tabular}& \begin{tabular}{c}生物学的\\(Biological) \end{tabular} & \begin{tabular}{c}生物学的\\(Biological)\end{tabular} & \begin{tabular}{c}機構的\\(Mechanistic) \end{tabular}\\ \hline
 \end{tabular}
 \end{adjustbox}
+\caption{説明・解析のレベル}
+\label{tb:levels_of_analysis}
 \end{table}
 
 \setlength{\tabcolsep}{5pt}
@@ -158,6 +167,7 @@ Marrは～
 ハードウェア実装& &\\\hline
 \end{tabular}
 %\end{adjustbox}
+\caption{\citep{Marr1982-wk} における説明・解析のレベル}
 \end{table}
 
 \setlength{\tabcolsep}{5pt}
@@ -172,6 +182,7 @@ Marrは～
 機構的& &\\\hline
 \end{tabular}
 %\end{adjustbox}
+\caption{\citep{dayan2005theoretical} における説明・解析のレベル}
 \end{table}
 
 合理的解析 (Rational analysis) では，システムが環境下で特定の目的を「合理的」に達成すると仮定した際に，その行動を支配する制約条件や，計算が達成すべき規範を特定する．
@@ -219,7 +230,13 @@ Mechanistic model (機構的モデル, what) ：要素間の因果的な関係�
 
 Dayanらの序文
 
-Theoretical analysis and computational modeling are important tools for characterizing what nervous systems do, determining how they function, and understanding why they operate in particular ways. Neuroscience encompasses approaches ranging from molecular and cellular studies to human psychophysics and psychology. Theoretical neuroscience encourages crosstalk among these subdisciplines by constructing compact representations of what has been learned, building bridges between different levels of description, and identifying unifying concepts and principles. In this book, we present the basic methods used for these purposes and discuss examples in which theoretical approaches have yielded insight into nervous system function. The questions what, how, and why are addressed by descriptive, mechanistic, and interpretive models, each of which we discuss in the following chapters. Descriptive models summarize large amounts of experimental data compactly yet accurately, thereby characterizing what neurons and neural circuits do. These models may be based loosely on biophysical, anatomical, and physiological findings, but their primary purpose is to describe phenomena, not to explain them. Mechanistic models, on the other hand, address the question of how nervous systems operate on the basis of known anatomy, physiology, and circuitry. Such models often form a bridge between descriptive models couched at different levels. Interpretive models use computational and information-theoretic principles to explore the behavioral and cognitive significance of various aspects of nervous system function, addressing the question of why nervous systems operate as they do.
+Theoretical analysis and computational modeling are important tools for characterizing what nervous systems do, determining how they function, and understanding why they operate in particular ways. Neuroscience encompasses approaches ranging from molecular and cellular studies to human psychophysics and psychology. Theoretical neuroscience encourages crosstalk among these subdisciplines by constructing compact representations of what has been learned, building bridges between different levels of description, and identifying unifying concepts and principles. In this book, we present the basic methods used for these purposes and discuss examples in which theoretical approaches have yielded insight into nervous system function. The questions what, how, and why are addressed by descriptive, mechanistic, and interpretive models, each of which we discuss in the following chapters. 
+
+Descriptive models summarize large amounts of experimental data compactly yet accurately, thereby characterizing what neurons and neural circuits do. These models may be based loosely on biophysical, anatomical, and physiological findings, but their primary purpose is to describe phenomena, not to explain them. 
+
+Mechanistic models, on the other hand, address the question of how nervous systems operate on the basis of known anatomy, physiology, and circuitry. Such models often form a bridge between descriptive models couched at different levels. 
+
+Interpretive models use computational and information-theoretic principles to explore the behavioral and cognitive significance of various aspects of nervous system function, addressing the question of why nervous systems operate as they do.
 
 情報処理タスクを実行するあらゆる機械を理解するために必要な3つのレベル
 
@@ -283,7 +300,7 @@ Julia (\url{https://julialang.org/}) にアクセスし，`install`
 
 て使用しているOSのdownloadで
 
-juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理可能である．
+juliaup (\url{https://github.com/JuliaLang/juliaup}) でバージョン管理可能である．\jl{juliaup update}
 
 また，2025年3月以降，Google Colab (\url{https://colab.google/}) においてPythonやRに並んでJuliaを選択して使用することが可能となっている．
 

@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.9)  31 JUL 2025 11:15
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.9)  8 AUG 2025 15:09
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/github/compneuro-julia-management/contents_book/tex_part/02_local-learning-rule
@@ -1538,18 +1538,18 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [5](load cache: extra_lmromandemi10-regular.luc)
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 133.
+(Font)              scaled to size 6.47299pt on input line 137.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 133.
+(Font)              scaled to size 4.62357pt on input line 137.
 
 
-LaTeX Warning: Citation 'mcculloch1943logical' on page 6 undefined on input line 139.
+LaTeX Warning: Citation 'mcculloch1943logical' on page 6 undefined on input line 143.
 
 
-LaTeX Warning: Citation 'rosenblatt1958perceptron' on page 6 undefined on input line 141.
+LaTeX Warning: Citation 'rosenblatt1958perceptron' on page 6 undefined on input line 145.
 
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 5.54828pt on input line 141.
+(Font)              scaled to size 5.54828pt on input line 145.
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
@@ -1572,13 +1572,13 @@ Missing character: There is no ■ (U+25A0) in font [lmsans10-regular]:+tlig;!
 Missing character: There is no ■ (U+25A0) in font [lmsans10-regular]:+tlig;!
 ]
 
-LaTeX Warning: Citation 'householder1941theory' on page 9 undefined on input line 208.
+LaTeX Warning: Citation 'householder1941theory' on page 9 undefined on input line 212.
 
 
-LaTeX Warning: Citation 'nair2010rectified' on page 9 undefined on input line 208.
+LaTeX Warning: Citation 'nair2010rectified' on page 9 undefined on input line 212.
 
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 208.
+(Font)              scaled to size 4.62357pt on input line 212.
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
@@ -1588,13 +1588,13 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 Missing character: There is no ■ (U+25A0) in font [lmsans10-regular]:+tlig;!
 ]
 
-LaTeX Warning: Citation 'naka1966s' on page 10 undefined on input line 229.
+LaTeX Warning: Citation 'naka1966s' on page 10 undefined on input line 233.
 
 
-LaTeX Warning: Citation 'sclar1990coding' on page 10 undefined on input line 229.
+LaTeX Warning: Citation 'sclar1990coding' on page 10 undefined on input line 233.
 
 
-LaTeX Warning: Citation 'wilson1999spikes' on page 10 undefined on input line 229.
+LaTeX Warning: Citation 'wilson1999spikes' on page 10 undefined on input line 233.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1605,40 +1605,40 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 Missing character: There is no ■ (U+25A0) in font [lmsans10-regular]:+tlig;!
 ]
 
-LaTeX Warning: Citation 'jansen1995electroencephalogram' on page 11 undefined on input line 242.
+LaTeX Warning: Citation 'jansen1995electroencephalogram' on page 11 undefined on input line 246.
 
 
-LaTeX Warning: Citation 'david2003neural' on page 11 undefined on input line 242.
+LaTeX Warning: Citation 'david2003neural' on page 11 undefined on input line 246.
 
 
-LaTeX Warning: Citation 'wendling2002epileptic' on page 11 undefined on input line 242.
+LaTeX Warning: Citation 'wendling2002epileptic' on page 11 undefined on input line 246.
 
 
-LaTeX Warning: Citation 'coombes2014tutorial' on page 11 undefined on input line 244.
+LaTeX Warning: Citation 'coombes2014tutorial' on page 11 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'cook2022neural' on page 11 undefined on input line 244.
+LaTeX Warning: Citation 'cook2022neural' on page 11 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'wilson1973mathematical' on page 11 undefined on input line 244.
+LaTeX Warning: Citation 'wilson1973mathematical' on page 11 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'nunez1974brain' on page 11 undefined on input line 244.
+LaTeX Warning: Citation 'nunez1974brain' on page 11 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'amari1975homogeneous' on page 11 undefined on input line 244.
+LaTeX Warning: Citation 'amari1975homogeneous' on page 11 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'amari1977dynamics' on page 11 undefined on input line 244.
+LaTeX Warning: Citation 'amari1977dynamics' on page 11 undefined on input line 248.
 
 
-LaTeX Warning: Citation 'muller2018cortical' on page 11 undefined on input line 248.
+LaTeX Warning: Citation 'muller2018cortical' on page 11 undefined on input line 252.
 
 
-LaTeX Warning: Citation 'Hebb1949-iv' on page 11 undefined on input line 252.
+LaTeX Warning: Citation 'Hebb1949-iv' on page 11 undefined on input line 256.
 
 
-LaTeX Warning: Citation 'Shatz1992-he' on page 11 undefined on input line 252.
+LaTeX Warning: Citation 'Shatz1992-he' on page 11 undefined on input line 256.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1647,10 +1647,10 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [11]
 
-LaTeX Warning: Citation 'Bliss1973-vj' on page 12 undefined on input line 265.
+LaTeX Warning: Citation 'Bliss1973-vj' on page 12 undefined on input line 269.
 
 
-LaTeX Warning: Citation 'Dudek1992-nz' on page 12 undefined on input line 267.
+LaTeX Warning: Citation 'Dudek1992-nz' on page 12 undefined on input line 271.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1663,7 +1663,7 @@ Missing character: There is no ⁺ (U+207A) in font [lmroman10-regular]:+tlig;!
 Missing character: There is no ⁺ (U+207A) in font [lmroman10-regular]:+tlig;!
 ]
 
-LaTeX Warning: Citation 'Cooper1979-wz' on page 13 undefined on input line 279.
+LaTeX Warning: Citation 'Cooper1979-wz' on page 13 undefined on input line 283.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1672,13 +1672,13 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [13]
 
-LaTeX Warning: Citation 'Bienenstock1982-km' on page 14 undefined on input line 295.
+LaTeX Warning: Citation 'Bienenstock1982-km' on page 14 undefined on input line 299.
 
 
-LaTeX Warning: Citation 'Cooper2012-ec' on page 14 undefined on input line 295.
+LaTeX Warning: Citation 'Cooper2012-ec' on page 14 undefined on input line 299.
 
 
-LaTeX Warning: Citation 'Oja1982-yd' on page 14 undefined on input line 315.
+LaTeX Warning: Citation 'Oja1982-yd' on page 14 undefined on input line 319.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1687,10 +1687,10 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [14]
 
-LaTeX Warning: Citation 'Isomura2020-sn' on page 15 undefined on input line 328.
+LaTeX Warning: Citation 'Isomura2020-sn' on page 15 undefined on input line 332.
 
 
-LaTeX Warning: Citation 'isomura2023experimental' on page 15 undefined on input line 339.
+LaTeX Warning: Citation 'isomura2023experimental' on page 15 undefined on input line 343.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1699,57 +1699,57 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [15]
 
-LaTeX Warning: Citation 'Kohonen1982-mn' on page 16 undefined on input line 345.
+LaTeX Warning: Citation 'Kohonen1982-mn' on page 16 undefined on input line 349.
 
 
-LaTeX Warning: Citation 'Kohonen2013-yt' on page 16 undefined on input line 345.
+LaTeX Warning: Citation 'Kohonen2013-yt' on page 16 undefined on input line 349.
 
 
-LaTeX Warning: Citation 'Obermayer1990-gq' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Obermayer1990-gq' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'N_V_Swindale1998-ri' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'N_V_Swindale1998-ri' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Durbin1987-bp' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Durbin1987-bp' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Durbin1990-xx' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Durbin1990-xx' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Carreira-Perpinan2005-gy' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Carreira-Perpinan2005-gy' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Tanaka2004-vz' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Tanaka2004-vz' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Ringach2007-oe' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Ringach2007-oe' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Das2005-mq' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Das2005-mq' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation 'Goodhill2007-va' on page 16 undefined on input line 347.
+LaTeX Warning: Citation 'Goodhill2007-va' on page 16 undefined on input line 351.
 
 
-LaTeX Warning: Citation '2002-nm' on page 16 undefined on input line 347.
+LaTeX Warning: Citation '2002-nm' on page 16 undefined on input line 351.
 
 
-Overfull \hbox (2.48164pt too wide) in paragraph at lines 347--348
+Overfull \hbox (2.48164pt too wide) in paragraph at lines 351--352
 []|\JY3/mc/m/n/10 自 |己 |組 |織 |化 |マ |ッ |プ |を |視 |覚 |野 |の |構 |造 |に |適 |応 |し |た |の |は \TU/lmr/m/n/10 ([]; [])
  []
 
 
-LaTeX Warning: Citation 'Carreira-Perpinan2005-gy' on page 16 undefined on input line 349.
+LaTeX Warning: Citation 'Carreira-Perpinan2005-gy' on page 16 undefined on input line 353.
 
 
-LaTeX Warning: Citation 'Von_der_Malsburg1973-bz' on page 16 undefined on input line 349.
+LaTeX Warning: Citation 'Von_der_Malsburg1973-bz' on page 16 undefined on input line 353.
 
 
-LaTeX Warning: Citation 'Willshaw1976-zo' on page 16 undefined on input line 349.
+LaTeX Warning: Citation 'Willshaw1976-zo' on page 16 undefined on input line 353.
 
 
-LaTeX Warning: Citation 'Takeuchi1979-mi' on page 16 undefined on input line 349.
+LaTeX Warning: Citation 'Takeuchi1979-mi' on page 16 undefined on input line 353.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1758,19 +1758,19 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [16]
 
-LaTeX Warning: Citation 'Van_Ooyen2011-fz' on page 17 undefined on input line 351.
+LaTeX Warning: Citation 'Van_Ooyen2011-fz' on page 17 undefined on input line 355.
 
 
-LaTeX Warning: Citation 'Goodhill2018-ho' on page 17 undefined on input line 351.
+LaTeX Warning: Citation 'Goodhill2018-ho' on page 17 undefined on input line 355.
 
 
-LaTeX Warning: Citation 'Kohonen2013-yt' on page 17 undefined on input line 354.
+LaTeX Warning: Citation 'Kohonen2013-yt' on page 17 undefined on input line 358.
 
 
-LaTeX Warning: Citation 'Kohonen1982-mn' on page 17 undefined on input line 361.
+LaTeX Warning: Citation 'Kohonen1982-mn' on page 17 undefined on input line 365.
 
 
-LaTeX Warning: Empty bibliography on input line 373.
+LaTeX Warning: Empty bibliography on input line 377.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1798,12 +1798,12 @@ Here is how much of LuaTeX's memory you used:
  244638,1977958 words of node,token memory allocated
  2721 words of node memory still in use:
    11 hlist, 2 vlist, 5 rule, 12 glue, 4 kern, 1 glyph, 887 attribute, 72 glue_spec, 93 attribute_list, 2 write, 14 user_defined nodes
-   avail lists: 1:37,2:62942,3:427,4:677,5:241,6:99,7:6397,8:56,9:2857,10:46,11:125
+   avail lists: 1:36,2:63353,3:427,4:677,5:247,6:99,7:6346,8:56,9:2830,10:46,11:125
  54501 multiletter control sequences out of 65536+600000
  93 fonts using 80297271 bytes
  118i,15n,112p,2131b,1418s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 02_local-learning-rule.pdf (17 pages, 422417 bytes).
+Output written on 02_local-learning-rule.pdf (17 pages, 422610 bytes).
 
 PDF statistics: 389 PDF objects out of 1000 (max. 8388607)
  318 compressed objects within 4 object streams
