@@ -1,10 +1,189 @@
 ## 推論的知覚と生成モデル
+### ベイズ推論の基礎
+#### 確率モデルとベイズの定理
+ベイズ推論 (Bayesian inference) は、未知のパラメータや潜在変数 (latent variable) を含むモデル内部の未知量（未知の値をとる量）全体を確率変数として扱い、観測データによってその確率分布を更新する方法である。頻度主義 (frequentism) では、これらの未知量を固定された値とみなし、その値をデータから推定する。一方、ベイズ的立場では、パラメータ $\theta$ や潜在変数 $z$ を不確実性をもつ確率変数とみなし、その不確実性を確率分布で表す。なお、潜在変数を含むモデルの扱いは次節で述べ、本節ではパラメータ $\theta$ のみに焦点を当てる。
+
+ここで，$i$ 番目の観測データを $x_i$ とし、その集合を $\mathcal{D} = \{x_i\}_{i=1}^N$ とする。観測前のパラメータ分布を**事前分布** (prior) $p(\theta)$、観測後の分布を**事後分布** (posterior) $p(\theta \mid \mathcal{D})$ と呼び、この更新を規定する関係式が**ベイズの定理** (Bayes' theorem) である。ベイズの定理は、事前分布 $p(\theta)$ と尤度 $p(\mathcal{D} \mid \theta)$ から事後分布 $p(\theta \mid \mathcal{D})$ を導く式であり、
+
+$$
+p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta)\, p(\theta)}{p(\mathcal{D})}
+$$
+
+と書ける。ここで
+
+$$
+p(\mathcal{D}) = \int p(\mathcal{D} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
+$$
+
+は**周辺尤度 (marginal likelihood)** または**証拠 (evidence)** と呼ばれる。
+
+確率分布 $p(\mathcal{D} \mid \theta)$ は、パラメータ $\theta$ が与えられたときにデータ集合 $\mathcal{D}$ が生成される確率を表す。観測が独立同分布に従うと仮定すると、
+
+$$
+p(\mathcal{D} \mid \theta) = \prod_{i=1}^N p(x_i \mid \theta)
+$$
+
+となる。なお、$p(x \mid \theta)$ は同じ式でも、$x$ と $\theta$ のどちらを変数とみなすかによって解釈が異なる。
+
+##### 生成モデルとしての解釈
+パラメータ $\theta$ を固定し、データ $x$ を確率変数として扱うとき、$p(x \mid \theta)$ は「$\theta$ が与えられたときに、どのようなデータ $x$ がどの確率で得られるか」を表す。
+
+##### 尤度としての解釈
+観測データ集合 $\mathcal{D}=\{x_i\}_{i=1}^N$ を固定し、$\theta$ を変数として扱うとき、
+
+$$
+L(\theta; \mathcal{D}) := p(\mathcal{D} \mid \theta) = \prod_{i=1}^N p(x_i \mid \theta)
+$$
+
+を**尤度関数**と呼ぶ。ただし，ここでは観測データの各サンプルが独立同分布に従うと仮定している．この尤度は、仮定したパラメータ $\theta$ の下で観測データが得られる「尤もらしさ」の度合いを表し、その値が大きいほどデータをよく説明すると解釈できる。ただし、尤度関数は $\theta$ に関しての確率分布ではないため、$\theta$ について積分しても1にはならない。
+
+事後分布 $p(\theta \mid \mathcal{D})$ は、観測データを得た後にパラメータ $\theta$ に対して抱く信念 (belief) の分布であり、ベイズ推論はこの分布を更新する過程とみなせる。事後分布が得られると，新たなデータの予測を行うことができる．パラメータの不確実性を考慮して予測する場合、パラメータを単一の推定値に置き換えるのではなく、事後分布全体を平均化した**事後予測分布** (posterior predictive distribution) を用いる。新たに予測したいデータを $\tilde{x}$ とすると、
+
+$$
+\begin{aligned}
+p^*(\tilde{x}) := p(\tilde{x} \mid \mathcal{D})
+&= \int p(\tilde{x} \mid \theta, \mathcal{D}) \, p(\theta \mid \mathcal{D}) \, \mathrm{d}\theta \\
+&= \int p(\tilde{x} \mid \theta) \, p(\theta \mid \mathcal{D}) \, \mathrm{d}\theta
+\quad (\because \tilde{x} \perp \mathcal{D} \mid \theta)
+\end{aligned}
+$$
+
+で与えられる。ここで最後の等式は、「$\theta$ が与えられた条件付きで、$\tilde{x}$ と $\mathcal{D}$ は独立」という条件付き独立性を用いている。ベイズ推論において、真のデータ生成分布の近似は、最終的に事後予測分布 $p^*(\tilde{x})$ によって表される。
+
+#### ベイズ線形回帰
+
+線形回帰モデルは、入力ベクトル $\mathbf{x} \in \mathbb{R}^d$ に対して
+
+$$
+y = \mathbf{w}^\top \mathbf{x} + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2)
+$$
+
+と表される。このとき、データ集合 $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N$ に対する尤度関数は
+
+$$
+p(\mathbf{y} \mid X, \mathbf{w}, \sigma^2) = \mathcal{N}(\mathbf{y} \mid X\mathbf{w}, \sigma^2 I)
+$$
+
+となる。
+
+ベイズ線形回帰では、パラメータ $\mathbf{w}$ に事前分布を置く。最も典型的には正規分布
+
+$$
+p(\mathbf{w}) = \mathcal{N}(\mathbf{w} \mid \mathbf{0}, \alpha^{-1} I)
+$$
+
+を事前として仮定する。この事前とガウス尤度の組み合わせは共役事前であり、事後分布は解析的に求められる：
+
+$$
+p(\mathbf{w} \mid X, \mathbf{y}) = \mathcal{N}(\mathbf{w} \mid \mathbf{m}_N, S_N)
+$$
+
+ただし
+
+$$
+S_N^{-1} = \alpha I + \beta X^\top X, \quad \mathbf{m}_N = \beta S_N X^\top \mathbf{y}, \quad \beta = \sigma^{-2}.
+$$
+
+この事後分布を用いると、未知の入力 $\mathbf{x}_*$ に対する予測分布は
+
+$$
+p(y_* \mid \mathbf{x}_*, X, \mathbf{y}) = \mathcal{N}\left( y_* \mid \mathbf{m}_N^\top \mathbf{x}_*, \; \sigma_*^2 \right),
+$$
+
+$$
+\sigma_*^2 = \sigma^2 + \mathbf{x}_*^\top S_N \mathbf{x}_*
+$$
+
+となり、パラメータ推定の不確実性を含んだ予測が可能になる。
+
+#### ベイズ線形回帰
+ベイズ線形回帰 (Bayesian linear regression)
+共役事前分布 (conjugate prior) を
+
+$$
+\begin{equation}
+p(\mathbf{w})=\mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)
+\end{equation}
+$$
+
+と定義し，事後分布 (posterior) を
+
+$$
+\begin{equation}
+p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
+\end{equation}
+$$
+
+とする．ただし，
+
+$$
+\begin{align}
+\hat{\boldsymbol{\Sigma}}^{-1}&= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
+\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}} (\beta \Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0)
+\end{align}
+$$
+
+である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
+
+$$
+\begin{equation}
+p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \boldsymbol{\Sigma}^*)
+\end{equation}
+$$
+
+となる．ただし，
+
+$$
+\begin{align}
+\boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
+\boldsymbol{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\\
+\end{align}
+$$
+
+である．
+
+### 最尤推定
+最尤推定は、パラメータを固定された未知量とみなし、観測データが得られる確率（尤度）を最大にする値を推定値として採用する方法である。
+データ集合 $\mathcal{D} = \{x_i\}_{i=1}^N$ に対するMLEは
+
+$$
+\hat{\theta}_{\mathrm{MLE}} = \arg\max_{\theta} \; p_\theta(\mathcal{D}) = \arg\max_{\theta} \; \sum_{i=1}^N \log p_\theta(x_i)
+$$
+
+で与えられる。
+これは**点推定**であり、推定結果は単一の値 $\hat{\theta}$ となる。
+ベイズ推論と異なり、パラメータの不確実性は直接的には扱わない。
+
+#### MAP推定
+最大事後確率 (maximum a posteriori; MAP）推定
+
+MAP推定は、パラメータの事前分布 $p(\theta)$ を考慮し、事後分布
+
+$$
+p(\theta \mid \mathcal{D}) \propto p(\mathcal{D} \mid \theta) \, p(\theta)
+$$
+
+を最大化する推定法である。推定値は
+
+$$
+\hat{\theta}_{\mathrm{MAP}} = \arg\max_{\theta} \; p(\theta \mid \mathcal{D}) = \arg\max_{\theta} \; \big[ \log p(\mathcal{D} \mid \theta) + \log p(\theta) \big]
+$$
+
+で与えられる。
+
+対数事前 $\log p(\theta)$ が正則化項として働くため、MAP推定は「**正則化付き最尤推定**」として解釈できる。
+例えば、パラメータにガウス事前 $p(\theta) = \mathcal{N}(0, \sigma_p^2 I)$ を置くと、MAP推定はL2正則化（リッジ回帰）に対応する。
+
 ### 逆問題と推論的知覚
 これまでの章では，知覚 (perception) のモデル，すなわち外界からの入力に対して，どのようにして神経回路網が意味のある出力を生成するのか，という問題を主に扱ってきた．ここで改めて知覚の基本的な定義を確認しておこう．知覚とは，外界からの刺激を感覚受容器によって受容し，それに意味を与える過程である．この「刺激に意味を与える」という個所を，より体系的に理解するために，「順問題」と「逆問題」という概念を導入しよう．
 
 一般に，ある原因から結果を予測する問題は順問題 (forward problem) と呼ばれる．逆に，観測された結果からその原因を推定する問題は逆問題 (inverse problem) と呼ばれる．視覚を例にとって，順問題と逆問題について考えてみよう．たとえば，三次元の物体が光を反射し，それが二次元の網膜上にどのような像を結ぶか，という問いは順問題に分類される．これに対して，網膜上に投影された二次元像から，元の物体の三次元的な構造や大きさ，位置などを推定する課題が逆問題である\footnote{他にも逆問題は数多く存在する．逆問題は様々な分野に現れるが，ここでは医学や神経科学に関連した例として，外部から脳の構造や機能を推定する問題を取り上げる．たとえば，医用画像解析では，コンピュータ断層撮影（computed tomography; CT），磁気共鳴画像法（magnetic resonance imaging; MRI），陽電子放射断層撮影（positron emission tomography; PET）などにおいて，観測データから画像を再構成する必要がある．この再構成処理には，CTやPETでは逆ラドン変換，MRIでは逆フーリエ変換が用いられる．また，神経活動を非侵襲的に計測する手法として，脳波（electroencephalography; EEG）や脳磁図（magnetoencephalography; MEG）がある．これらにおける電流源推定（source localization）も典型的な逆問題である．EEGやMEGにおける順問題は，脳内の神経電流源の位置・方向・強度から，頭皮上の電極（EEG）や磁場センサ（MEG）によって観測される電位や磁場分布を予測することである．一方，逆問題は，実際に観測された電位や磁場データから，神経電流源の空間的位置と活動を推定することである．この逆問題は不良設定 (ill-posed) であるため，安定的に解くには，MRIから得られた頭部の構造データに基づいて構築された順モデル（forward model）が必要となる．}．光学の分野では，それぞれの問題は順光学（forward optics），逆光学（inverse optics）と呼ばれている．逆問題は多くの場合，不良設定問題（ill-posed problem）となる．すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化するといった性質をもつ\footnote{これに対して，良設定問題（well-posed problem）とは，解が存在し，一意であり，かつ入力の変動に対して連続的に変化する（安定性をもつ）ような問題を指す．良設定問題では，入力データに小さなノイズや誤差が含まれていても，求められる解は大きく変わることなく，安定に計算することができる．}．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数 (あるいは無数に) 存在する．そのため，逆問題を解くには，事前知識や仮定 (制約条件，正則化) の導入などが必要となる．
 
-こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論 (abductive reasoning) の過程とみなす考えがある \citep{helmholtz1867, mumford1992computational, kawato1993forward, friston2003learning} \footnote{Helmholtz は，知覚を単なる感覚の受容ではなく，感覚入力に意味を与え，対象として構成する過程であると捉えた．この過程には，観念の連合 (\textit{Vorstellungsverbindungen}) が関与している．観念の連合とは，過去の経験によって形成された (必ずしも言語化を伴わない) 観念や知識が，現在の感覚入力と結び付けられる過程を指す．通常，推論とは意識的に行われるものと考えられているが，Helmholtz はこのような観念の連合を，意識されることなく行われる推論として捉え，無意識的推論 (\textit{unbewusster Schluss}, unconscious inference)  と表現した．なお，この注釈ではドイツ語を斜体で表記した．}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．次節では，この推論的知覚を支える数理モデルである，生成モデル (generative model) について詳しく見ていくことにする．
+こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論 (abductive reasoning) の過程とみなす考えがある \citep{helmholtz1867, mumford1992computational, kawato1993forward, friston2003learning} \footnote{Helmholtz は，知覚を単なる感覚の受容ではなく，感覚入力に意味を与え，対象として構成する過程であると捉えた．この過程には，観念の連合 (\textit{Vorstellungsverbindungen}) が関与している．観念の連合とは，過去の経験によって形成された (必ずしも言語化を伴わない) 観念や知識が，現在の感覚入力と結び付けられる過程を指す．通常，推論とは意識的に行われるものと考えられているが，Helmholtz はこのような観念の連合を，意識されることなく行われる推論として捉え，無意識的推論 (\textit{unbewusster Schluss}, unconscious inference)  と表現した．なお，この注釈ではドイツ語を斜体で表記した．}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．
+
+推論的知覚は、外界の潜在的な原因から感覚入力が生成される過程を記述する確率的生成モデル (probabilistic generative model) に基づいて説明される。次節では、その理解に不可欠なベイズ推論の基礎を簡単に説明する．
+
+次節では，この推論的知覚を支える数理モデルである，確率的生成モデル (probabilistic generative model) について詳しく見ていくことにする．
 
 ### 生成モデル
 生成モデルとは，学習データに内在する特徴や構造を学習し，それに基づいて新たなデータを生成するモデルである．ここで，学習対象となる観測データ（例えば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，それらが従う真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この密度関数 $p_{\mathrm{data}}(\cdot)$ は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．このような密度関数 $p_{\mathrm{data}}(\cdot)$ が既知であれば，任意のサンプル $\mathbf{x}$ をそこから生成（サンプリング）することができる．しかし現実には，$p_{\mathrm{data}}(\cdot)$ は明示的な形では与えられておらず，ほとんどの場合において未知である．観測データがある確率的な生成過程に従って生じたと仮定し，その過程を表現するために，パラメータ $\theta$ をもつ確率密度関数 $p_\theta(\mathbf{x})$ を導入する．ここで，$p_\theta(\mathbf{x})$ は，観測変数 $\mathbf{x}$ に対する条件付き分布 $p(\mathbf{x} \mid \theta)$ の略記である．このような分布 $p_\theta(\mathbf{x})$ を定めるモデルを，生成モデル（generative model）と呼ぶ．
@@ -86,6 +265,8 @@ $$
 モデル全体 $p_\theta(\mathbf{x})$ を指して生成モデルと呼ぶこともあるが、潜在変数モデルの文脈では、このデータ生成過程を担う部分を特に生成モデルと呼ぶ。
 
 なお，ここで述べた「順モデル」，「逆モデル」という用語は，運動制御における内部モデル（internal model）の文脈で使われるものとは異なる概念であることに注意が必要である．
+
+具体的な確率分布でモデルを設定してみよう．
 
 ### 階層ベイズモデル
 生成モデルの表現力を高めるため，生成モデルを階層化することを考えよう．
@@ -620,51 +801,6 @@ $$
 \end{align}
 $$
 
-## ベイズ線形回帰
-ベイズ線形回帰 (Bayesian linear regression)
-共役事前分布 (conjugate prior) を
-
-$$
-\begin{equation}
-p(\mathbf{w})=\mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)
-\end{equation}
-$$
-
-と定義し，事後分布 (posterior) を
-
-$$
-\begin{equation}
-p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
-\end{equation}
-$$
-
-とする．ただし，
-
-$$
-\begin{align}
-\hat{\boldsymbol{\Sigma}}^{-1}&= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
-\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}} (\beta \Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0)
-\end{align}
-$$
-
-である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
-
-$$
-\begin{equation}
-p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \boldsymbol{\Sigma}^*)
-\end{equation}
-$$
-
-となる．ただし，
-
-$$
-\begin{align}
-\boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
-\boldsymbol{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\\
-\end{align}
-$$
-
-である．
 
 ## マルコフ連鎖モンテカルロ法
 

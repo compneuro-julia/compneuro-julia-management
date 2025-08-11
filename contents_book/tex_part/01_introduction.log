@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.9)  8 AUG 2025 08:55
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  9 AUG 2025 22:52
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/github/compneuro-julia-management/contents_book/tex_part/01_introduction
@@ -7,7 +7,7 @@ LaTeX2e <2022-11-01> patch level 1
 Lua module: luaotfload 2022-10-03 3.23 Lua based OpenType font support
 Lua module: lualibs 2022-10-04 2.75 ConTeXt Lua standard libraries.
 Lua module: lualibs-extended 2022-10-04 2.75 ConTeXt Lua libraries -- extended collection.
-luaotfload | conf : Root cache directory is "C:/Users/yamta/.texlive2023/texmf-var/luatex-cache/generic/names".
+luaotfload | conf : Root cache directory is "C:/texlive/2023/texmf-var/luatex-cache/generic/names".
 luaotfload | init : Loading fontloader "fontloader-2022-10-03.lua" from kpse-resolved path "c:/texlive/2023/texmf-dist/tex/luatex/luaotfload/fontloader-2022-10-03.lua".
 Lua-only attribute luaotfload@noligature = 1
 luaotfload | init : Context OpenType loader version 3.120
@@ -16,7 +16,7 @@ Inserting `luaotfload.node_processor' in `hpack_filter'.
 Inserting `luaotfload.glyph_stream' in `glyph_stream_provider'.
 Inserting `luaotfload.define_font' in `define_font'.
 Lua-only attribute luaotfload_color_attribute = 2
-luaotfload | conf : Root cache directory is "C:/Users/yamta/.texlive2023/texmf-var/luatex-cache/generic/names".
+luaotfload | conf : Root cache directory is "C:/texlive/2023/texmf-var/luatex-cache/generic/names".
 Inserting `luaotfload.harf.strip_prefix' in `find_opentype_file'.
 Inserting `luaotfload.harf.strip_prefix' in `find_truetype_file'.
 Removing  `luaotfload.glyph_stream' from `glyph_stream_provider'.
@@ -33,11 +33,11 @@ Inserting `luaotfload.aux.patch_cambria_domh' in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.fixup_fontdata' in `luaotfload.patch_font_unsafe'.
 Inserting `luaotfload.aux.set_capheight' in `luaotfload.patch_font'.
 Inserting `luaotfload.aux.set_xheight' in `luaotfload.patch_font'.
-Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'. L3 programming layer <2023-05-05>
+Inserting `luaotfload.rewrite_fontname' in `luaotfload.patch_font'. L3 programming layer <2023-04-20>
 Inserting `tracingstacklevels' in `input_level_string'. (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/ltjsbook.cls
 Document Class: ltjsbook 2022/09/12 ltjsclasses 
 (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/luatexja.sty
-Package: luatexja 2023-05-03 Japanese Typesetting with Lua(La)TeX
+Package: luatexja 2023-02-11 Japanese Typesetting with Lua(La)TeX
  (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/luatexja-core.sty
 Package: luatexja-core 2023-04-06 Core of LuaTeX-ja
  (c:/texlive/2023/texmf-dist/tex/luatex/luatexbase/luatexbase.sty
@@ -237,7 +237,7 @@ Package: ltj-base 2021-03-16
 (load cache: ltj-kinsoku_default.luc) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/ltj-latex.sty
 Package: ltj-latex 2022-10-15 LaTeX support of LuaTeX-ja
 Inserting `ltj.direction' in `pre_shipout_filter'. (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjfont.sty
-Package: lltjfont 2023-04-13 Patch to NFSS2 for LuaTeX-ja
+Package: lltjfont 2023-04-06 Patch to NFSS2 for LuaTeX-ja
 \ltj@@latex@plv=\count192
  (c:/texlive/2023/texmf-dist/tex/latex/base/tuenc.def
 File: tuenc.def 2021/04/29 v2.0v Standard LaTeX file
@@ -280,7 +280,7 @@ LaTeX Info: Redefining \fontshapeforce on input line 955.
 \ltj@@cipath@clear@inner=\luafunction68
 ) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjdefs.sty
 Package: lltjdefs 2022-01-23 Default font settings of LuaTeX-ja
-luaotfload | db : Font names database loaded from C:/Users/yamta/.texlive2023/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz(load cache: extra_lmroman10-regular.luc)
+luaotfload | db : Font names database loaded from C:/texlive/2023/texmf-var/luatex-cache/generic/names/luaotfload-names.luc.gz(load cache: extra_lmroman10-regular.luc)
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 9.24713pt on input line 79.
 
@@ -295,7 +295,7 @@ LaTeX Font Info:    Overwriting symbol font `mincho' in version `bold'
 ) (c:/texlive/2023/texmf-dist/tex/luatex/luatexja/patches/lltjcore.sty
 Package: lltjcore 2023-02-26 Patch to LaTeX2e Kernel for LuaTeX-ja
  (c:/texlive/2023/texmf-dist/tex/latex/l3kernel/expl3.sty
-Package: expl3 2023-05-05 L3 programming layer (loader) 
+Package: expl3 2023-04-20 L3 programming layer (loader) 
  (c:/texlive/2023/texmf-dist/tex/latex/l3backend/l3backend-luatex.def
 File: l3backend-luatex.def 2023-04-19 L3 backend support: PDF output (LuaTeX)
 \l__color_backend_stack_int=\count193
@@ -831,9 +831,9 @@ LaTeX Warning: You have requested package `sty/adjustbox',
                but the package provides `adjustbox'.
 
 Package: adjustbox 2022/10/17 v1.3a Adjusting TeX boxes (trim, clip, ...)
-(c:/texlive/2023/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+(c:/texlive/texmf-local/tex/latex/local/adjustbox/adjcalc.sty
 Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back-ends (calc, etex, pgfmath)
-) (c:/texlive/2023/texmf-dist/tex/latex/adjustbox/trimclip.sty
+) (c:/texlive/texmf-local/tex/latex/local/adjustbox/trimclip.sty
 Package: trimclip 2020/08/19 v1.2 Trim and clip general TeX material
  (c:/texlive/2023/texmf-dist/tex/latex/collectbox/collectbox.sty
 Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
@@ -843,7 +843,7 @@ Package: collectbox 2022/10/17 v0.4c Collect macro arguments as boxes
 \tc@lly=\dimen272
 \tc@urx=\dimen273
 \tc@ury=\dimen274
- (c:/texlive/2023/texmf-dist/tex/latex/adjustbox/tc-pgf.def
+ (c:/texlive/texmf-local/tex/latex/local/adjustbox/tc-pgf.def
 File: tc-pgf.def 2019/01/04 v2.2 trimclip fall-back clipping driver using PGF
  (c:/texlive/2023/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty (c:/texlive/2023/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty (c:/texlive/2023/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
 \pgfutil@everybye=\toks34
@@ -1264,7 +1264,7 @@ Package biblatex Info: LuaTeX detected.
 (biblatex)             Assuming input encoding 'utf8'.
 Package biblatex Info: Document encoding is UTF8 ....
 Package biblatex Info: ... and expl3
-(biblatex)             2023-05-05 L3 programming layer (loader) 
+(biblatex)             2023-04-20 L3 programming layer (loader) 
 (biblatex)             is new enough (at least 2020/04/06),
 (biblatex)             setting 'casechanger=expl3'.
  (c:/texlive/2023/texmf-dist/tex/latex/biblatex/blx-case-expl3.sty
@@ -1665,15 +1665,27 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                Make it at least 4.80005pt, for example:
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
-[8](load cache: extra_lmroman10-italic.luc)
+[8]
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_lmroman10-italic.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 375.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 378.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 375.
+(Font)              scaled to size 9.24713pt on input line 378.
 LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 375.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 378.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 375.
+(Font)              scaled to size 9.24713pt on input line 378.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1681,29 +1693,27 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
 [9] (./01_introduction.aux)
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `01_introduction.out' has not changed.
 (rerunfilecheck)             Checksum: 2C1B7E802C665C72D66E60A4E71910BE;1522.
-
-
-Package biblatex Warning: Please rerun LaTeX.
-(biblatex)                Page breaks have changed.
-
 Package logreq Info: Writing requests to '01_introduction.run.xml'.
 
 \openout1 = 01_introduction.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 39348 strings out of 478309
- 244637,1977958 words of node,token memory allocated
+ 39351 strings out of 478263
+ 244642,1977958 words of node,token memory allocated
  1235 words of node memory still in use:
    10 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 245 attribute, 71 glue_spec, 33 attribute_list, 2 write, 13 user_defined, 1 pdf_action nodes
-   avail lists: 1:32,2:53586,3:342,4:2752,5:400,6:90,7:5964,8:36,9:3431,10:26,11:458
- 57949 multiletter control sequences out of 65536+600000
+   avail lists: 1:33,2:53586,3:342,4:2752,5:400,6:90,7:5967,8:37,9:3431,10:26,11:458
+ 57998 multiletter control sequences out of 65536+600000
  74 fonts using 72419263 bytes
  118i,26n,112p,1821b,5174s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-Output written on 01_introduction.pdf (9 pages, 282039 bytes).
+Output written on 01_introduction.pdf (9 pages, 282137 bytes).
 
 PDF statistics: 247 PDF objects out of 1000 (max. 8388607)
  198 compressed objects within 2 object streams
