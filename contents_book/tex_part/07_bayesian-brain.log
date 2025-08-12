@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  12 AUG 2025 16:11
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  12 AUG 2025 17:02
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/07_bayesian-brain
@@ -1414,13 +1414,13 @@ Package biblatex Warning: Name format 'last-first' deprecated.
 
 (load cache: extra_lmroman10-italic.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 232.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 240.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 232.
+(Font)              scaled to size 9.24713pt on input line 240.
 LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 232.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 240.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 232.
+(Font)              scaled to size 9.24713pt on input line 240.
 
 
 
@@ -1440,27 +1440,38 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
-Package rerunfilecheck Info: File `07_bayesian-brain.out' has not changed.
-(rerunfilecheck)             Checksum: FB635FA84A5B445C856D0F31A312893E;881.
+
+
+Package rerunfilecheck Warning: File `07_bayesian-brain.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `07_bayesian-brain.out':
+(rerunfilecheck)             Before: FB635FA84A5B445C856D0F31A312893E;881
+(rerunfilecheck)             After:  3C87B857771446C8E867B58F5E51AA1A;1147.
+
+Package biblatex Warning: Please rerun LaTeX.
+(biblatex)                Page breaks have changed.
+
 Package logreq Info: Writing requests to '07_bayesian-brain.run.xml'.
 
 \openout1 = 07_bayesian-brain.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 28196 strings out of 475506
+ 28199 strings out of 475506
  244633,1648299 words of node,token memory allocated
  1776 words of node memory still in use:
    11 hlist, 2 vlist, 5 rule, 7 glue, 4 kern, 1 glyph, 469 attribute, 73 glue_spec, 55 attribute_list, 1 write, 14 user_defined nodes
-   avail lists: 1:52,2:72098,3:448,4:306,5:246,6:41,7:7526,8:61,9:3218,10:43,11:110
+   avail lists: 1:52,2:72098,3:448,4:298,5:225,6:41,7:7526,8:61,9:3218,10:43,11:104
  50559 multiletter control sequences out of 65536+600000
  90 fonts using 72601407 bytes
  125i,12n,128p,3324b,1538s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman5-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 07_bayesian-brain.pdf (8 pages, 245000 bytes).
+Output written on 07_bayesian-brain.pdf (8 pages, 246940 bytes).
 
-PDF statistics: 254 PDF objects out of 1000 (max. 8388607)
- 191 compressed objects within 2 object streams
- 44 named destinations out of 1000 (max. 131072)
+PDF statistics: 257 PDF objects out of 1000 (max. 8388607)
+ 194 compressed objects within 2 object streams
+ 47 named destinations out of 1000 (max. 131072)
  57 words of extra memory for PDF output out of 10000 (max. 100000000)
 
