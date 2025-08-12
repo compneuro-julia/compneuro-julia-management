@@ -91,7 +91,11 @@ p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta)\, p(\theta)}{p(\ma
 \begin{equation}
 p(\mathcal{D}) = \int p(\mathcal{D} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
 \end{equation}
-は周辺尤度 (marginal likelihood) または証拠 (evidence) と呼ばれる. 
+は周辺尤度 (marginal likelihood) または証拠 (evidence) と呼ばれる. ベイズの定理は
+\begin{equation}
+p(\theta, \mathcal{D}) = p(\mathcal{D} \mid \theta)\, p(\theta) = p(\theta \mid \mathcal{D})\, p(\mathcal{D})
+\end{equation}
+が成り立つことから導かれる．ここで $p(\theta, \mathcal{D})$ は $\theta$ と $\mathcal{D}$ の同時確率分布 (joint probability distribution) である．
 観測が独立同分布 (i.i.d.) に従うと仮定すれば, 
 \begin{equation}
 p(\mathcal{D} \mid \theta) = \prod_{i=1}^N p(x_i \mid \theta)

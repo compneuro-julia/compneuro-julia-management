@@ -1,9 +1,9 @@
-\contentsline {chapter}{\numberline {第1章}生成モデルとベイズ脳仮説}{3}{chapter.1}%
-\contentsline {section}{\numberline {1.1}ベイズ推論の基礎}{4}{section.1.1}%
-\contentsline {subsection}{\numberline {1.1.1}ベイズの定理と確率的生成モデル}{4}{subsection.1.1.1}%
-\contentsline {paragraph}{確率モデルとしての解釈}{5}{section*.2}%
-\contentsline {paragraph}{尤度としての解釈}{5}{section*.3}%
-\contentsline {subsection}{\numberline {1.1.2}ベイズ線形回帰}{5}{subsection.1.1.2}%
-\contentsline {subsection}{\numberline {1.1.3}最尤推定とMAP推定}{5}{subsection.1.1.3}%
-\contentsline {section}{\numberline {1.2}生成モデル}{5}{section.1.2}%
-\contentsline {section}{参考文献}{7}{section*.4}%
+\contentsline {chapter}{\numberline {第1章}生成モデルとベイズ脳仮説}{5}{chapter.1}%
+\contentsline {section}{\numberline {1.1}ベイズ推論の基礎}{6}{section.1.1}%
+\contentsline {subsection}{\numberline {1.1.1}ベイズの定理と確率的生成モデル}{6}{subsection.1.1.1}%
+\contentsline {paragraph}{確率モデルとしての解釈}{7}{section*.2}%
+\contentsline {paragraph}{尤度としての解釈}{7}{section*.3}%
+\contentsline {subsection}{\numberline {1.1.2}ベイズ線形回帰}{7}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.3}最尤推定とMAP推定}{7}{subsection.1.1.3}%
+\contentsline {section}{\numberline {1.2}生成モデル}{7}{section.1.2}%
+\contentsline {section}{参考文献}{9}{equation.1.14}%
