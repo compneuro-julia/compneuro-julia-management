@@ -1,5 +1,5 @@
 % $ biblatex auxiliary file $
-% $ biblatex bbl format version 3.2 $
+% $ biblatex bbl format version 3.3 $
 % Do not modify the above lines!
 %
 % This is an auxiliary file used by the 'biblatex' package.
@@ -18,8 +18,8 @@
 
 
 \refsection{0}
-  \datalist[entry]{ynt/global//global/global}
-    \entry{helmholtz1867}{book}{}
+  \datalist[entry]{ynt/global//global/global/global}
+    \entry{helmholtz1867}{book}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=b18e475210ebadcffcbb9eb360a03fe3}{%
            family={Helmholtz},
@@ -39,10 +39,12 @@
       }
       \strng{namehash}{b18e475210ebadcffcbb9eb360a03fe3}
       \strng{fullhash}{b18e475210ebadcffcbb9eb360a03fe3}
+      \strng{fullhashraw}{b18e475210ebadcffcbb9eb360a03fe3}
       \strng{bibnamehash}{b18e475210ebadcffcbb9eb360a03fe3}
       \strng{authorbibnamehash}{b18e475210ebadcffcbb9eb360a03fe3}
       \strng{authornamehash}{b18e475210ebadcffcbb9eb360a03fe3}
       \strng{authorfullhash}{b18e475210ebadcffcbb9eb360a03fe3}
+      \strng{authorfullhashraw}{b18e475210ebadcffcbb9eb360a03fe3}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{extradatescope}{labelyear}
@@ -53,7 +55,7 @@
       \field{title}{Handbuch der physiologischen Optik}
       \field{year}{1867}
     \endentry
-    \entry{mumford1992computational}{article}{}
+    \entry{mumford1992computational}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=275b714ea594482428d9b55ee81df320}{%
            family={Mumford},
@@ -67,10 +69,12 @@
       }
       \strng{namehash}{275b714ea594482428d9b55ee81df320}
       \strng{fullhash}{275b714ea594482428d9b55ee81df320}
+      \strng{fullhashraw}{275b714ea594482428d9b55ee81df320}
       \strng{bibnamehash}{275b714ea594482428d9b55ee81df320}
       \strng{authorbibnamehash}{275b714ea594482428d9b55ee81df320}
       \strng{authornamehash}{275b714ea594482428d9b55ee81df320}
       \strng{authorfullhash}{275b714ea594482428d9b55ee81df320}
+      \strng{authorfullhashraw}{275b714ea594482428d9b55ee81df320}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{extradatescope}{labelyear}
@@ -85,7 +89,7 @@
       \field{pages}{241\bibrangedash 251}
       \range{pages}{11}
     \endentry
-    \entry{kawato1993forward}{article}{}
+    \entry{kawato1993forward}{article}{}{}
       \name{author}{3}{}{%
         {{un=0,uniquepart=base,hash=840eef6c5434cf797bbed6e91d3230fb}{%
            family={Kawato},
@@ -111,10 +115,12 @@
       }
       \strng{namehash}{c971db4b1520033a4f912fb2304b0b90}
       \strng{fullhash}{703c1e338bea45284598c1f652427e94}
+      \strng{fullhashraw}{703c1e338bea45284598c1f652427e94}
       \strng{bibnamehash}{703c1e338bea45284598c1f652427e94}
       \strng{authorbibnamehash}{703c1e338bea45284598c1f652427e94}
       \strng{authornamehash}{c971db4b1520033a4f912fb2304b0b90}
       \strng{authorfullhash}{703c1e338bea45284598c1f652427e94}
+      \strng{authorfullhashraw}{703c1e338bea45284598c1f652427e94}
       \field{sortinit}{1}
       \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
       \field{extradatescope}{labelyear}
@@ -129,7 +135,7 @@
       \field{pages}{415}
       \range{pages}{1}
     \endentry
-    \entry{friston2003learning}{article}{}
+    \entry{friston2003learning}{article}{}{}
       \name{author}{1}{}{%
         {{un=0,uniquepart=base,hash=9f452a84796a900973333b32a5f8bc61}{%
            family={Friston},
@@ -143,10 +149,12 @@
       }
       \strng{namehash}{9f452a84796a900973333b32a5f8bc61}
       \strng{fullhash}{9f452a84796a900973333b32a5f8bc61}
+      \strng{fullhashraw}{9f452a84796a900973333b32a5f8bc61}
       \strng{bibnamehash}{9f452a84796a900973333b32a5f8bc61}
       \strng{authorbibnamehash}{9f452a84796a900973333b32a5f8bc61}
       \strng{authornamehash}{9f452a84796a900973333b32a5f8bc61}
       \strng{authorfullhash}{9f452a84796a900973333b32a5f8bc61}
+      \strng{authorfullhashraw}{9f452a84796a900973333b32a5f8bc61}
       \field{sortinit}{2}
       \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
       \field{extradatescope}{labelyear}

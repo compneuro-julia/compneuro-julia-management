@@ -1,21 +1,8 @@
-[0] Config.pm:307> INFO - This is Biber 2.19
-[1] Config.pm:310> INFO - Logfile is '01_introduction.blg'
-[801] biber-MSWIN64:340> INFO - === 
-[1267] Biber.pm:419> INFO - Reading '01_introduction.bcf'
-[1828] Biber.pm:979> INFO - Found 8 citekeys in bib section 0
-[1919] Biber.pm:4419> INFO - Processing section 0
-[2042] Biber.pm:4610> INFO - Looking for bibtex file '../references/01_introduction.bib' for section 0
-[2249] bibtex.pm:1713> INFO - LaTeX decoding ...
-[2334] bibtex.pm:1519> INFO - Found BibTeX data source '../references/01_introduction.bib'
-[3060] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[3061] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[3063] Biber.pm:4239> INFO - Sorting list 'nty/apasortcite//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[3063] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[3162] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[3163] UCollate.pm:68> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[3163] Biber.pm:4239> INFO - Sorting list 'nty/global//global/global' of type 'entry' with template 'nty' and locale 'en-US'
-[3164] Biber.pm:4245> INFO - No sort tailoring available for locale 'en-US'
-[3413] bbl.pm:660> INFO - Writing '01_introduction.bbl' with encoding 'UTF-8'
-[3462] bbl.pm:763> INFO - Output to 01_introduction.bbl
-[3463] Biber.pm:131> WARN - BibTeX subsystem: C:\Users\yamta\AppData\Local\Temp\biber_tmp_0yrE\149b9d8b4b70e25df6b720816aa8d0b7_18684.utf8, line 5, warning: 6 characters of junk seen at toplevel
-[3464] Biber.pm:133> INFO - WARNINGS: 1
+[0] Config.pm:308> INFO - This is Biber 2.20
+[1] Config.pm:311> INFO - Logfile is '01_introduction.blg'
+[257] biber-MSWIN64:340> INFO - === 
+[387] Biber.pm:420> INFO - Reading '01_introduction.bcf'
+[519] Utils.pm:410> ERROR - Error: Found biblatex control file version 3.10, expected version 3.11.
+This means that your biber (2.20) and biblatex (3.19) versions are incompatible.
+See compat matrix in biblatex or biber PDF documentation.
+[519] Biber.pm:136> INFO - ERRORS: 1
