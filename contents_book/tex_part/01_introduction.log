@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  9 AUG 2025 22:52
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  14 AUG 2025 04:15
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/github/compneuro-julia-management/contents_book/tex_part/01_introduction
@@ -1574,10 +1574,34 @@ LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 93.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
 (Font)              scaled to size 11.09656pt on input line 93.
+
+LaTeX Warning: Citation 'Blohm2020-vc' on page 3 undefined on input line 102.
+
+
+LaTeX Warning: Citation 'levenstein2023role' on page 3 undefined on input line 102.
+
+
+LaTeX Warning: Citation 'van2024critical' on page 3 undefined on input line 102.
+
+
+LaTeX Warning: Citation 'Marr1982-wk' on page 3 undefined on input line 105.
+
 [3]
 
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 122.
+
+
+LaTeX Warning: Citation 'Marr1982-wk' on page 4 undefined on input line 127.
+
+
+LaTeX Warning: Citation 'pylyshyn1984computation' on page 4 undefined on input line 127.
+
+
+LaTeX Warning: Citation 'anderson1990adaptive' on page 4 undefined on input line 127.
+
+
+LaTeX Warning: Citation 'dayan2005theoretical' on page 4 undefined on input line 127.
 
 LaTeX Font Info:    Font shape `JT3/mc/m/n' will be
 (Font)              scaled to size 6.47299pt on input line 140.
@@ -1593,8 +1617,32 @@ LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 159.
 
 
+LaTeX Warning: Citation 'Marr1982-wk' on page 4 undefined on input line 170.
+
+(load cache: extra_lmroman9-bold.luc)
+LaTeX Font Info:    Font shape `JT3/mc/b/n' in size <9> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 170.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 8.32242pt on input line 170.
+LaTeX Font Info:    Font shape `JY3/mc/b/n' in size <9> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 170.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 8.32242pt on input line 170.
+
+LaTeX Warning: Citation 'Marr1982-wk' on page 4 undefined on input line 170.
+
+
 LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 174.
+
+
+LaTeX Warning: Citation 'dayan2005theoretical' on page 4 undefined on input line 185.
+
+
+LaTeX Warning: Citation 'dayan2005theoretical' on page 4 undefined on input line 185.
+
+
+LaTeX Warning: Citation 'Marr1982-wk' on page 4 undefined on input line 201.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1608,6 +1656,9 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
 [5]
+
+LaTeX Warning: Citation 'Hassabis2017-zm' on page 6 undefined on input line 254.
+
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
@@ -1677,46 +1728,56 @@ Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_lmroman10-italic.luc)
-LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 378.
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 378.
-LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 378.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_lmromandemi10-regular.luc)
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 378.
+(Font)              scaled to size 6.47299pt on input line 385.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 4.62357pt on input line 385.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
-[9] (./01_introduction.aux)
+[9]
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: Empty bibliography on input line 405.
+
+
+Package fancyhdr Warning: \footskip is too small (0.0pt): 
+(fancyhdr)                Make it at least 4.80005pt, for example:
+(fancyhdr)                \setlength{\footskip}{4.80005pt}.
+
+[10] (./01_introduction.aux)
+
+LaTeX Warning: There were undefined references.
 
 Package rerunfilecheck Info: File `01_introduction.out' has not changed.
-(rerunfilecheck)             Checksum: 2C1B7E802C665C72D66E60A4E71910BE;1522.
+(rerunfilecheck)             Checksum: AB30BD07FFED880A3C5BCA251D6E1C84;1774.
+
+Package biblatex Warning: Please (re)run Biber on the file:
+(biblatex)                01_introduction
+(biblatex)                and rerun LaTeX afterwards.
+
 Package logreq Info: Writing requests to '01_introduction.run.xml'.
 
 \openout1 = 01_introduction.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 39351 strings out of 478263
- 244642,1977958 words of node,token memory allocated
+ 39272 strings out of 478263
+ 244635,1977958 words of node,token memory allocated
  1235 words of node memory still in use:
    10 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 245 attribute, 71 glue_spec, 33 attribute_list, 2 write, 13 user_defined, 1 pdf_action nodes
-   avail lists: 1:33,2:53586,3:342,4:2752,5:400,6:90,7:5967,8:37,9:3431,10:26,11:458
- 57998 multiletter control sequences out of 65536+600000
- 74 fonts using 72419263 bytes
+   avail lists: 1:38,2:59784,3:375,4:2702,5:373,6:89,7:6230,8:36,9:3362,10:25,11:442
+ 57925 multiletter control sequences out of 65536+600000
+ 80 fonts using 84165135 bytes
  118i,26n,112p,1821b,5174s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb>
-Output written on 01_introduction.pdf (9 pages, 282137 bytes).
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-bold.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 01_introduction.pdf (10 pages, 347845 bytes).
 
-PDF statistics: 247 PDF objects out of 1000 (max. 8388607)
- 198 compressed objects within 2 object streams
- 46 named destinations out of 1000 (max. 131072)
- 120 words of extra memory for PDF output out of 10000 (max. 100000000)
+PDF statistics: 270 PDF objects out of 1000 (max. 8388607)
+ 211 compressed objects within 3 object streams
+ 40 named destinations out of 1000 (max. 131072)
+ 136 words of extra memory for PDF output out of 10000 (max. 100000000)
 

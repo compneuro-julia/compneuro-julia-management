@@ -10,4 +10,6 @@
 \contentsline {section}{\numberline {1.3}Julia言語の基本構文}{9}{section.1.3}%
 \contentsline {subsection}{\numberline {1.3.1}命名規則}{9}{subsection.1.3.1}%
 \contentsline {subsection}{\numberline {1.3.2}変数名}{9}{subsection.1.3.2}%
-\contentsline {section}{参考文献}{9}{section*.2}%
+\contentsline {section}{\numberline {1.4}基礎的数学とJuliaでの記法}{9}{section.1.4}%
+\contentsline {subsection}{\numberline {1.4.1}表記法}{9}{subsection.1.4.1}%
+\contentsline {section}{参考文献}{10}{subsection.1.4.1}%

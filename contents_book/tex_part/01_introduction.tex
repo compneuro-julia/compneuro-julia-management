@@ -1,8 +1,8 @@
 \documentclass[titlepage]{ltjsbook}
 \usepackage[
-  paperheight=232truemm, paperwidth=182truemm,
-  top=20truemm, bottom=15truemm, inner=15truemm, outer=15truemm
-  ]{geometry}
+ paperheight=232truemm, paperwidth=182truemm,
+ top=20truemm, bottom=15truemm, inner=15truemm, outer=15truemm
+ ]{geometry}
 
 %\documentclass[tombow, paper={182truemm, 232truemm}, titlepage]{ltjsbook}
 \usepackage{amsmath}
@@ -36,21 +36,21 @@
 
 % https://ja.overleaf.com/learn/latex/Bibliography_management_with_bibtex
 \usepackage[
-    backend=biber,
-    bibencoding=utf8,
-    style=apa,%authoryear-comp, 
-    url=false,
-    isbn=true,
-    doi=true,
-    natbib=true, 
-    alldates=year,
-    maxcitenames=2,
-    uniquelist=false, 
-    sorting=nty,
-    sortcites=true,
-    giveninits=true,
-    terseinits=false,
-    refsegment=chapter
+  backend=biber,
+  bibencoding=utf8,
+  style=apa,%authoryear-comp, 
+  url=false,
+  isbn=true,
+  doi=true,
+  natbib=true, 
+  alldates=year,
+  maxcitenames=2,
+  uniquelist=false, 
+  sorting=nty,
+  sortcites=true,
+  giveninits=true,
+  terseinits=false,
+  refsegment=chapter
 ]{biblatex}
 
 \addbibresource{../references/01_introduction.bib}
@@ -62,21 +62,21 @@
 % https://stackoverflow.com/questions/69682457/extended-links-in-citations
 % \makeatletter
 % \renewbibmacro*{cite}{%
-%   \printtext[bibhyperref]{\iffieldundef{shorthand}
-%     {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
-%        {\usebibmacro{cite:label}%
-%         \setunit{\printdelim{nonameyeardelim}}}
-%        {\printnames{labelname}%
-%         \setunit{\printdelim{nameyeardelim}}}%
-%      \usebibmacro{cite:labeldate+extradate}}
-%     {\usebibmacro{cite:shorthand}}}}
+%  \printtext[bibhyperref]{\iffieldundef{shorthand}
+%   {\ifthenelse{\ifnameundef{labelname}\OR\iffieldundef{labelyear}}
+%    {\usebibmacro{cite:label}%
+%     \setunit{\printdelim{nonameyeardelim}}}
+%    {\printnames{labelname}%
+%     \setunit{\printdelim{nameyeardelim}}}%
+%   \usebibmacro{cite:labeldate+extradate}}
+%   {\usebibmacro{cite:shorthand}}}}
 % \makeatother
 
 \newcommand{\jl}{\lstinline[language=julia]}
 
 \usepackage{tikz}
 \newcommand{\narrowtriangle}[2]{%
-  \tikz[baseline=-0.5ex]{\filldraw[black] (0,0) -- (#1,0) -- ({#1/2},-#2) -- cycle;}%
+ \tikz[baseline=-0.5ex]{\filldraw[black] (0,0) -- (#1,0) -- ({#1/2},-#2) -- cycle;}%
 }
 
 \title{\Huge \textbf{Juliaで作って学ぶ計算論的神経科学}}
@@ -91,16 +91,16 @@
 \chapter{はじめに}
 \section{本書の目的と構成}
 \subsection{神経科学におけるモデルの意義}
-本書では、神経科学における数理モデルの構築とJulia言語での実装を中心的な主題とし、その背景にある計算論的理論と実践的手法を扱う。初めに、神経科学におけるモデルの意義について整理しておこう。
+本書では, 神経科学における数理モデルの構築とJulia言語での実装を中心的な主題とし, その背景にある計算論的理論と実践的手法を扱う. 初めに, 神経科学におけるモデルの意義について整理しておこう. 
 
-神経科学の重要な目標の一つは、ミクロからマクロまで、また基礎から臨床にわたる幅広い研究領域とスケールの観点から、脳神経系の構造（structure）と機能（function）について科学的説明を与えることである。
+神経科学の重要な目標の一つは, ミクロからマクロまで, また基礎から臨床にわたる幅広い研究領域とスケールの観点から, 脳神経系の構造 (structure) と機能 (function) について科学的説明を与えることである. 
 
-この目標に向けて、自然科学に共通するように、神経科学もまた実験と理論という二つの柱に支えられて発展してきた。実験は観察や計測を通じて実データを得る行為であり、理論はデータを整理・統合し、予測や検証すべき問い（仮説）を導き出すための枠組みとなる。
+この目標に向けて, 自然科学に共通するように, 神経科学もまた実験と理論という二つの柱に支えられて発展してきた. 実験は観察や計測を通じて実データを得る行為であり, 理論はデータを整理・統合し, 予測や検証すべき問い (仮説) を導き出すための枠組みとなる. 
 
 モデルは？
 
-特にモデルは、次のような多面的な役割を担っている \citep{Blohm2020-vc,levenstein2023role,van2024critical}：
- (1) 仮説の駆動と明示化、 (2) 複雑な知見の整理と統合、 (3) 観察結果の再現や予測、仮説の提供 (4) 仮想実験の実行、 (5) 科学的コミュニケーションの明確化、 (6) 臨床や技術への応用可能性の提供である。このように、モデルは単なる計算装置ではなく、科学的思考そのものの外化であり、神経科学の進展に不可欠な知的道具である。
+特にモデルは, 次のような多面的な役割を担っている \citep{Blohm2020-vc,levenstein2023role,van2024critical}：
+ (1) 仮説の駆動と明示化, (2) 複雑な知見の整理と統合, (3) 観察結果の再現や予測, 仮説の提供 (4) 仮想実験の実行, (5) 科学的コミュニケーションの明確化, (6) 臨床や技術への応用可能性の提供である. このように, モデルは単なる計算装置ではなく, 科学的思考そのものの外化であり, 神経科学の進展に不可欠な知的道具である. 
 
 次に「科学的説明」ということに関してどのような観点があるのかを述べる．神経科学における科学的説明の分類として有名なのがMarrの3つのレベル (Marr's Three Levels of analysis) \citep{Marr1982-wk} である．
 
@@ -124,12 +124,12 @@ Marrは～
 \begin{adjustbox}{width=\linewidth}
 \begin{tabular}{c|c|cccc}
 \hline
-スケール &  \begin{tabular}{c}主要な\\説明の観点 \end{tabular} & \citep{Marr1982-wk}  & \citep{pylyshyn1984computation} & \citep{anderson1990adaptive} & \citep{dayan2005theoretical} \\ \hline
+スケール & \begin{tabular}{c}主要な\\説明の観点 \end{tabular} & \citep{Marr1982-wk} & \citep{pylyshyn1984computation} & \citep{anderson1990adaptive} & \citep{dayan2005theoretical} \\ \hline
 マクロ & \begin{tabular}{c}なぜ\\(Why) \end{tabular} & \begin{tabular}{c}計算理論\\(Computational theory) \end{tabular} & \begin{tabular}{c}意味論的\\(Semantic) \end{tabular} & \begin{tabular}{c}合理的\\(Rational) \end{tabular} & \begin{tabular}{c}解釈的\\(Interpretive)\end{tabular}\\\cline{2-6}
 \multirow{4}{*}{\narrowtriangle{0.5}{1.8}} & & 表現と & アルゴリズム & アルゴリズム & \\
 & どのように & アルゴリズム & (Algorithm) & (Algorithm) & 記述的\\\cline{4-5}
 & (How) & \multirow{2}{*}{
-  \begin{tabular}{c}\(
+ \begin{tabular}{c}\(
 \biggl(
 \begin{array}{c}
 \!\!\text{Representation}\!\!\\[-4pt]
@@ -138,8 +138,8 @@ Marrは～
 \biggr)
 \)\end{tabular}
 } & 機能的構造 & 実装 & (Descriptive)\\
-&  & & (Functional architecture) & (Implementation)\\\cline{2-6}
-ミクロ & \begin{tabular}{c}何が/何を\\(What) \end{tabular}  & 
+& & & (Functional architecture) & (Implementation)\\\cline{2-6}
+ミクロ & \begin{tabular}{c}何が/何を\\(What) \end{tabular} & 
 \begin{tabular}{c}ハードウェア実装\\
 \(
 \biggl(
@@ -198,20 +198,20 @@ Marrは～
 %https://journals.sagepub.com/doi/full/10.1177/17456916231191744
 
 
-本書では、こうした理解の枠組みを与えるために、Marrの3つのレベル (Marr's Three Levels)  \citep{Marr1982-wk} およびDayanとAbbottによる3レベルを紹介する．
+本書では, こうした理解の枠組みを与えるために, Marrの3つのレベル (Marr's Three Levels) \citep{Marr1982-wk} およびDayanとAbbottによる3レベルを紹介する．
 
 対応するモデル
 
 科学的説明の分類は複数あるが，
 
-解釈 (interpretive), 説明 (descriptive)  and mechanistic approaches
+解釈 (interpretive), 説明 (descriptive) and mechanistic approaches
 
 
-Interpretive model (解釈的モデル, why) ：行動や最適性の観点から機構を説明する (例：ベイズ推論、強化学習) 
+Interpretive model (解釈的モデル, why) ：行動や最適性の観点から機構を説明する (例：ベイズ推論, 強化学習) 
 
-Descriptive model (記述的モデル, how) ：データの構造や統計的特徴をそのまま記述する (例：PSTH、tuning curves) 
+Descriptive model (記述的モデル, how) ：データの構造や統計的特徴をそのまま記述する (例：PSTH, tuning curves) 
 
-Mechanistic model (機構的モデル, what) ：要素間の因果的な関係を定式化する (例：LIFモデル、STDP則) 
+Mechanistic model (機構的モデル, what) ：要素間の因果的な関係を定式化する (例：LIFモデル, STDP則) 
 
 抽象的な意味的構成から，生体現象に即した具体的なモデル
 
@@ -241,19 +241,19 @@ Interpretive models use computational and information-theoretic principles to ex
 情報処理タスクを実行するあらゆる機械を理解するために必要な3つのレベル
 
 
-。これは、脳における情報処理過程を以下の三段階で整理する視点である：
+. これは, 脳における情報処理過程を以下の三段階で整理する視点である：
 
-計算理論 (computational theory) ：対象とする現象において、何をどのように計算するのか、入力と出力の対応関係を定義する。
+計算理論 (computational theory) ：対象とする現象において, 何をどのように計算するのか, 入力と出力の対応関係を定義する. 
 
-表現とアルゴリズム (representation and algorithm) ：計算理論で定められた変換を、どのような内部表現と手続きにより実現するかを明示する。
+表現とアルゴリズム (representation and algorithm) ：計算理論で定められた変換を, どのような内部表現と手続きにより実現するかを明示する. 
 
-実装 (implementation) ：それらの手続きを、神経回路やハードウェアといった物理基盤上でどのように具現化するかを示す。
+実装 (implementation) ：それらの手続きを, 神経回路やハードウェアといった物理基盤上でどのように具現化するかを示す. 
 
-本書の立場は、これら三つのレベルを分断されたものではなく、相互に往還可能な理解のスケールと見なすことにある。とりわけ第(3)の実装レベルに重きを置き、モデルを読者自身の手で計算機上に構築・実行し、理論的仮説を数値的に再現・検証する力を養うことを目標とする。その意味で本書は、数式をコードに変換するための「実践的な翻訳辞典」としても機能する。
+本書の立場は, これら三つのレベルを分断されたものではなく, 相互に往還可能な理解のスケールと見なすことにある. とりわけ第(3)の実装レベルに重きを置き, モデルを読者自身の手で計算機上に構築・実行し, 理論的仮説を数値的に再現・検証する力を養うことを目標とする. その意味で本書は, 数式をコードに変換するための「実践的な翻訳辞典」としても機能する. 
 
-また、本書で取り上げるモデルの多くは機械学習と関係している。これは神経科学と機械学習が長年にわたり相互作用してきた歴史を反映している。神経科学から機械学習への影響には、ニューラルネットワークの構造や記憶・注意といった機能的モデルがあり、逆に機械学習の発展が神経科学にもたらしたものとして、強化学習に基づく意思決定理論や、ベイズ的知覚理論 (いわゆる「ベイズ脳仮説」) などが挙げられる \citep{Hassabis2017-zm}。
+また, 本書で取り上げるモデルの多くは機械学習と関係している. これは神経科学と機械学習が長年にわたり相互作用してきた歴史を反映している. 神経科学から機械学習への影響には, ニューラルネットワークの構造や記憶・注意といった機能的モデルがあり, 逆に機械学習の発展が神経科学にもたらしたものとして, 強化学習に基づく意思決定理論や, ベイズ的知覚理論 (いわゆる「ベイズ脳仮説」) などが挙げられる \citep{Hassabis2017-zm}. 
 
-筆者の立場は、神経科学は機械学習の素材や工学的応用のためにあるのではなく、脳そのものの理解という自律した目的を持つ学問であるというものである。そのため本書では、「機械学習から神経科学への応用」という観点、すなわちアルゴリズム的知見を手がかりに神経過程を理解するという方向性を重視する。この視点はBlohmらが述べるように、現象に即して問いを明確化し、モデルの仮定と評価基準を明示的に定めるという「設計としての建設的モデル化 (modeling as design) 」の理念にも通じる。
+筆者の立場は, 神経科学は機械学習の素材や工学的応用のためにあるのではなく, 脳そのものの理解という自律した目的を持つ学問であるというものである. そのため本書では, 「機械学習から神経科学への応用」という観点, すなわちアルゴリズム的知見を手がかりに神経過程を理解するという方向性を重視する. この視点はBlohmらが述べるように, 現象に即して問いを明確化し, モデルの仮定と評価基準を明示的に定めるという「設計としての建設的モデル化 (modeling as design) 」の理念にも通じる. 
 
 実験とは
 理論とは
@@ -263,13 +263,13 @@ Interpretive models use computational and information-theoretic principles to ex
 数理モデルを扱う上でのプログラミングの重要性
 
 \subsection{本書の構成}
-本書は、計算論的神経科学および神経モデルの理解を深めるために、Julia言語を用いて数理モデルを実装しながら学習を進める形式を採用している。第1章では、Julia言語の基本的な使用法に加え、本書全体で用いる数学的記法について解説する。あわせて、神経科学における「学習」と「予測」という枠組みのもと、本書全体の立場を概説する。
+本書は, 計算論的神経科学および神経モデルの理解を深めるために, Julia言語を用いて数理モデルを実装しながら学習を進める形式を採用している. 第1章では, Julia言語の基本的な使用法に加え, 本書全体で用いる数学的記法について解説する. あわせて, 神経科学における「学習」と「予測」という枠組みのもと, 本書全体の立場を概説する. 
 
-第2・3章では、発火率モデルを用いた神経回路網の構成とその学習則について段階的に説明する。第2章では、神経細胞の基本的な生理学を導入し、発火率モデルを用いた神経活動の定式化と、Hebb則やOja則などの局所学習則に基づく単純なネットワークの構築について扱う。第3章では、誤差逆伝播法 (Backpropagation) に基づく現代的なニューラルネットワークを扱い、そこで発生する貢献度分配問題 (credit assignment problem) を取り上げる。さらに再帰型ニューラルネットワーク (RNN) を導入し、時間方向での貢献度分配 (経時的貢献度分配) の問題とその学習方法を解説する。
+第2・3章では, 発火率モデルを用いた神経回路網の構成とその学習則について段階的に説明する. 第2章では, 神経細胞の基本的な生理学を導入し, 発火率モデルを用いた神経活動の定式化と, Hebb則やOja則などの局所学習則に基づく単純なネットワークの構築について扱う. 第3章では, 誤差逆伝播法 (Backpropagation) に基づく現代的なニューラルネットワークを扱い, そこで発生する貢献度分配問題 (credit assignment problem) を取り上げる. さらに再帰型ニューラルネットワーク (RNN) を導入し, 時間方向での貢献度分配 (経時的貢献度分配) の問題とその学習方法を解説する. 
 
-第4章と第5章では、スパイキングニューラルネットワーク (SNN) を取り上げる。第4章では、これまでのネットワークレベルの議論から個々の神経細胞とシナプスの動態に立ち戻り、スパイク発生とシナプス伝達の生物物理学的モデルを取り扱う。第5章では、SNNにおけるネットワーク構築と学習について、発火率モデルで扱った学習則や誤差伝播法との接続も含めて解説する。
+第4章と第5章では, スパイキングニューラルネットワーク (SNN) を取り上げる. 第4章では, これまでのネットワークレベルの議論から個々の神経細胞とシナプスの動態に立ち戻り, スパイク発生とシナプス伝達の生物物理学的モデルを取り扱う. 第5章では, SNNにおけるネットワーク構築と学習について, 発火率モデルで扱った学習則や誤差伝播法との接続も含めて解説する. 
 
-第6章以降は、応用的・発展的トピックを各論的に扱う。第6章では、リザバーコンピューティングという枠組みに基づき、複雑な動的表現を活用する発火率モデルおよびスパイキングモデルについて紹介する。第7章ではネットワーク全体のエネルギーを最小化する観点に基づくエネルギーベースモデル (例えばHopfieldネットワークやボルツマンマシン) について解説する。神経回路網がベイズ推論を実現する可能性について、確率的計算の関係から考察する。第8章では、運動学習における最適制御問題に対して、脳がどのような計算を行っているかをモデルベースで探る。第9章では、強化学習の基本的枠組みと、大脳基底核との関係について説明する。
+第6章以降は, 応用的・発展的トピックを各論的に扱う. 第6章では, リザバーコンピューティングという枠組みに基づき, 複雑な動的表現を活用する発火率モデルおよびスパイキングモデルについて紹介する. 第7章ではネットワーク全体のエネルギーを最小化する観点に基づくエネルギーベースモデル (例えばHopfieldネットワークやボルツマンマシン) について解説する. 神経回路網がベイズ推論を実現する可能性について, 確率的計算の関係から考察する. 第8章では, 運動学習における最適制御問題に対して, 脳がどのような計算を行っているかをモデルベースで探る. 第9章では, 強化学習の基本的枠組みと, 大脳基底核との関係について説明する. 
 
 \section{Julia言語の使用法}
 \subsection{Julia言語の特徴}
@@ -370,10 +370,37 @@ p.33
 
 \subsection{変数名}
 \begin{tabular}{cl} \hline
-  変数名 & 説明\\\hline
-   \jl{nt} & 時間ステップ数 (number of time steps)\\
-   \jl{t}, \jl{tt} & 時間ステップのインデント\\\hline
+ 変数名 & 説明\\\hline
+  \jl{nt} & 時間ステップ数 (number of time steps)\\
+  \jl{t}, \jl{tt} & 時間ステップのインデックス\\\hline
 \end{tabular}
+
+\section{基礎的数学とJuliaでの記法}
+本書で使用する数学的内容を整理する．
+
+\subsection{表記法}
+本書では次のような記号表記を用いる．
+\begin{itemize}
+\item 実数全体を $\mathbb{R}$, 自然数全体を $\mathbb{N}$, 複素数全体を $\mathbb{C}$ と表す. 
+\item スカラーは小文字・斜体 (例：$x$) , ベクトルは小文字・立体・太字 (例：$\mathbf{x}$) で表し, 列ベクトル (縦ベクトル) として扱う. 
+\item 行列は大文字・立体・太字 (例：$\mathbf{X}$) で表す. 
+\item 実 $n\times 1$ ベクトルの集合を $\mathbb{R}^n$, 実 $n\times m$ 行列の集合を $\mathbb{R}^{n\times m}$ と表す. 
+\item 行列の $(i,j)$ 成分は $x_{ij}$ または $(\mathbf{X})_{ij}$ と表す. 
+\item 転置は $\mathbf{X}^\top$ と書く. ベクトルの要素は $\mathbf{x} = (x_1, x_2, \dots, x_n)^\top$ のように記す. 
+\item 単位行列を$\mathbf{I}$と表記する．$n \times n$ 次元の単位行列は $\mathbf{I}_n$ と表記する．
+\item ゼロベクトルは $\mathbf{0}$, 全要素が 1 のベクトルは $\mathbf{1}$ とする. 
+\item ベクトルのユークリッドノルムは $\|\mathbf{x} \|_2$, 一般の $p$-ノルムは $\| \mathbf{x} \|_p$ と表す. フロベニウスノルムは $\| \mathbf{X} \|_F$ と表す. 
+\item 内積は $\mathbf{x}^\top \mathbf{y}$ で表す. 
+\item ベクトル・行列の微分は分子レイアウト記法 (numerator layout notation) を用いる. 
+\item 変数 $x$ の関数は $f(x)$ などと書く. 変数 $x$ とパラメータ $a$ を特に区別する場合は $f(x; a)$ のようにセミコロン (;) で区切る. 引数を具体的に指定せず関数のみを示す場合は $f(\cdot)$ と書く. 
+\item 近似は $\approx$ で表す (例：$a \approx b$) . 
+\item 比例関係は $\propto$ を用いる (例：$a \propto b$) . 
+\item 最大化・最小化の変数を明示する場合は $\arg\max_{x \in \mathcal{X}} f(x)$, $\arg\min_{x \in \mathcal{X}} f(x)$ のように表す. 
+\item 定義には $\coloneqq$ を用いる (例：$f(x) \coloneqq 2x$) . 右辺を定義する場合は $\eqqcolon$ を用いる. 
+\item 平均 $\mu$, 分散 $\sigma^2$ の1次元正規分布は $\mathcal{N}(\mu, \sigma^2)$ と表記し, 確率密度関数としては $\mathcal{N}(x \mid \mu, \sigma^2)$ と表す. 他の確率分布に関しては使用する際に定義を示す．
+\item 自然対数の底は $e$ とし, 指数関数を $e^x = \exp(x)$, 自然対数を $\ln(x)$ と表す. 
+\item 計算に影響しない定数は $\mathrm{const.}$ と表す. 
+\end{itemize}
 
 \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
 \addcontentsline{toc}{section}{参考文献}

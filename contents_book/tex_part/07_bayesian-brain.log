@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  13 AUG 2025 19:45
+This is LuaHBTeX, Version 1.17.0 (TeX Live 2023)  (format=lualatex 2023.5.4)  14 AUG 2025 04:16
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/github/compneuro-julia-management/contents_book/tex_part/07_bayesian-brain
@@ -1571,19 +1571,19 @@ Package logreq Info: Writing requests to '07_bayesian-brain.run.xml'.
 )
 
 Here is how much of LuaTeX's memory you used:
- 35741 strings out of 478263
+ 35740 strings out of 478263
  244633,1977958 words of node,token memory allocated
- 1860 words of node memory still in use:
-   11 hlist, 2 vlist, 5 rule, 9 glue, 4 kern, 1 glyph, 502 attribute, 72 glue_spec, 58 attribute_list, 2 write, 14 user_defined nodes
-   avail lists: 1:57,2:67306,3:420,4:326,5:188,6:43,7:7444,8:61,9:3230,10:43,11:80
+ 1829 words of node memory still in use:
+   11 hlist, 2 vlist, 5 rule, 8 glue, 4 kern, 1 glyph, 491 attribute, 72 glue_spec, 57 attribute_list, 2 write, 14 user_defined nodes
+   avail lists: 1:57,2:67318,3:420,4:326,5:188,6:43,7:7445,8:61,9:3230,10:43,11:80
  54533 multiletter control sequences out of 65536+600000
  89 fonts using 72466839 bytes
  118i,12n,112p,3324b,1167s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman5-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-italic.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 07_bayesian-brain.pdf (7 pages, 264531 bytes).
+<c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman5-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-italic.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2023/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2023/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 07_bayesian-brain.pdf (7 pages, 256028 bytes).
 
-PDF statistics: 261 PDF objects out of 1000 (max. 8388607)
- 200 compressed objects within 2 object streams
- 43 named destinations out of 1000 (max. 131072)
+PDF statistics: 254 PDF objects out of 1000 (max. 8388607)
+ 194 compressed objects within 2 object streams
+ 42 named destinations out of 1000 (max. 131072)
  88 words of extra memory for PDF output out of 10000 (max. 100000000)
 
