@@ -10,4 +10,4 @@
 \contentsline {subsubsection}{エネルギーベースモデル}{6}{section*.5}%
 \contentsline {subsection}{\numberline {1.1.5}階層ベイズモデル}{6}{subsection.1.1.5}%
 \contentsline {subsection}{\numberline {1.1.6}スパース符号化モデル}{6}{subsection.1.1.6}%
-\contentsline {section}{参考文献}{8}{section*.6}%
+\contentsline {section}{参考文献}{7}{equation.1.1.15}%

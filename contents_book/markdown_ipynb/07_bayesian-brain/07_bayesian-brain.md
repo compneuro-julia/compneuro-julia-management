@@ -142,6 +142,277 @@ $$
 
 である．
 
+### ベイズ線形回帰
+
+以下では，観測ノイズの分散が既知（精度 $\beta$）である一次元出力の線形回帰モデルを仮定し，事後分布と予測分布を「平方完成（completing the square）」で導出します．記号はご提示のものに揃えます．
+
+---
+
+# モデルの設定
+
+基底関数ベクトルを $\phi(\mathbf{x})\in\mathbb{R}^M$，全データのデザイン行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_N)^\top]\in\mathbb{R}^{N\times M}$ とする．重み $\mathbf{w}\in\mathbb{R}^M$ の下での生成過程は
+
+$$
+\begin{equation}
+p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
+=\mathcal{N}\!\bigl(\mathbf{y}\mid \Phi \mathbf{w},\,\beta^{-1}\mathbf{I}_N\bigr)
+\end{equation}
+$$
+
+で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_N)^\top$．事前分布は共役ガウス
+
+$$
+\begin{equation}
+p(\mathbf{w})=\mathcal{N}\!\bigl(\mathbf{w}\mid \boldsymbol{\mu}_0,\boldsymbol{\Sigma}_0\bigr)
+\end{equation}
+$$
+
+を仮定する（後で $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ の特例に触れる）．
+
+---
+
+# 事後分布の導出
+
+ベイズの定理より
+
+$$
+\begin{equation}
+p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+\propto p(\mathbf{y}\mid \mathbf{w},\mathbf{X})\,p(\mathbf{w}) .
+\end{equation}
+$$
+
+両辺の指数（$\log$）を取り，$\mathbf{w}$ に関する二次形式をまとめる．まず尤度の指数は
+
+$$
+\begin{aligned}
+\log p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
+&= -\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const}\\
+&= -\frac{\beta}{2}\Bigl(\mathbf{y}^\top\mathbf{y}
+-2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\Bigr)+\text{const}\, .
+\end{aligned}
+$$
+
+事前の指数は
+
+$$
+\begin{aligned}
+\log p(\mathbf{w})
+&= -\frac{1}{2}(\mathbf{w}-\boldsymbol{\mu}_0)^\top \boldsymbol{\Sigma}_0^{-1}(\mathbf{w}-\boldsymbol{\mu}_0)+\text{const}\\
+&= -\frac{1}{2}\Bigl(
+\mathbf{w}^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
+-2\boldsymbol{\mu}_0^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
+\Bigr)+\text{const}\, .
+\end{aligned}
+$$
+
+和を取ると
+
+$$
+\begin{aligned}
+\log p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+&= -\frac{1}{2}\mathbf{w}^\top\underbrace{\bigl(\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi\bigr)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
++\mathbf{w}^\top\underbrace{\bigl(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)}_{\mathbf{h}}
++\text{const}\, .
+\end{aligned}
+$$
+
+ここで $\hat{\boldsymbol{\Sigma}}^{-1}:=\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi$，$\mathbf{h}:=\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0$ と置いた．
+
+二次形式の平方完成を行う：
+
+$$
+-\frac{1}{2}\mathbf{w}^\top \hat{\boldsymbol{\Sigma}}^{-1}\mathbf{w}
++\mathbf{w}^\top \mathbf{h}
+=
+-\frac{1}{2}(\mathbf{w}-\hat{\boldsymbol{\mu}})^\top \hat{\boldsymbol{\Sigma}}^{-1}(\mathbf{w}-\hat{\boldsymbol{\mu}})
++\frac{1}{2}\hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1}\hat{\boldsymbol{\mu}} ,
+$$
+
+ただし $\hat{\boldsymbol{\mu}}$ は
+
+$$
+\begin{equation}
+\hat{\boldsymbol{\mu}}
+=\hat{\boldsymbol{\Sigma}}\mathbf{h}
+=\hat{\boldsymbol{\Sigma}}\bigl(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)
+\end{equation}
+$$
+
+で与えられる．したがって
+
+$$
+\begin{equation}
+p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+=\mathcal{N}\!\bigl(\mathbf{w}\mid \hat{\boldsymbol{\mu}},\hat{\boldsymbol{\Sigma}}\bigr),
+\qquad
+\hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi .
+\end{equation}
+$$
+
+これはご提示の式と一致する．
+
+特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ とすると
+
+$$
+\hat{\boldsymbol{\Sigma}}^{-1}= \alpha \mathbf{I}+\beta \Phi^\top\Phi,\qquad
+\hat{\boldsymbol{\mu}}=\beta\,\hat{\boldsymbol{\Sigma}}\,\Phi^\top\mathbf{y}.
+$$
+
+
+### 予測分布の導出
+
+新しい入力 $\mathbf{x}^*$ に対し $y^*$ は
+
+$$
+\begin{equation}
+p(y^*\mid \mathbf{w},\mathbf{x}^*)
+=\mathcal{N}\!\bigl(y^*\mid \phi(\mathbf{x}^*)^\top \mathbf{w},\,\beta^{-1}\bigr)
+\end{equation}
+$$
+
+で与えられる．$\mathbf{w}$ を事後分布で周辺化すれば
+
+$$
+\begin{aligned}
+p(y^*\mid \mathbf{x}^*,\mathbf{y},\mathbf{X})
+&=\int p(y^*\mid \mathbf{w},\mathbf{x}^*)\,p(\mathbf{w}\mid \mathbf{y},\mathbf{X})\,d\mathbf{w}.
+\end{aligned}
+$$
+
+右辺は「ガウスの線形写像＋独立ガウス雑音」の畳み込みなのでガウスのまま保たれる．具体的に，$\mathbf{w}\sim \mathcal{N}(\hat{\boldsymbol{\mu}},\hat{\boldsymbol{\Sigma}})$ のときの線形関数 $\phi(\mathbf{x}^*)^\top\mathbf{w}$ は
+
+$$
+\phi(\mathbf{x}^*)^\top\mathbf{w}\sim \mathcal{N}\!\bigl(\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\mu}},\,\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\bigr)
+$$
+
+であり，さらにノイズ $ \varepsilon^*\sim \mathcal{N}(0,\beta^{-1})$ を加えるので分散が加法的に足し合わされる．結果として
+
+$$
+\begin{equation}
+p(y^*\mid \mathbf{x}^*,\mathbf{y},\mathbf{X})
+=\mathcal{N}\!\bigl(y^*\mid \boldsymbol{\mu}^*,\,\boldsymbol{\Sigma}^*\bigr),
+\end{equation}
+$$
+
+$$
+\begin{aligned}
+\boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top\phi(\mathbf{x}^*),\\
+\boldsymbol{\Sigma}^*&=\beta^{-1}+\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*),
+\end{aligned}
+$$
+
+が得られる．これもご提示の式と一致する．
+
+### 参考：MAP 推定との関係（任意）
+
+事後分布のモード（MAP）は $\hat{\boldsymbol{\mu}}$ に一致する．特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ のとき，
+
+$$
+\hat{\boldsymbol{\mu}}
+=(\alpha \mathbf{I}+\beta \Phi^\top\Phi)^{-1}(\beta \Phi^\top\mathbf{y})
+$$
+
+であり，これはリッジ回帰の解と同値である（$\lambda=\alpha/\beta$）．ただし MAP は点推定であり，不確実性は $\hat{\boldsymbol{\Sigma}}$ を通じてベイズ推論で表現される．
+
+以上が事後分布および予測分布の導出である．ご指定の $\phi(x)=[1,x,x^2,x^3]$ を用いる場合でも，上記はそのまま成立する（$\Phi$ の列がその基底で構成されるだけである）．
+
+了解です。新しい入力を $\tilde{\mathbf{x}}$（必要なら出力も $\tilde{y}$）で表します。予測分布の部分だけ書き換えると以下のとおりです。
+
+$$
+p(\tilde{y}\mid \tilde{\mathbf{x}}, \mathbf{Y}, \mathbf{X})
+= \mathcal{N}\!\bigl(\tilde{y}\mid \mu_{\tilde{x}}, \sigma_{\tilde{x}}^{2}\bigr),
+$$
+
+$$
+\mu_{\tilde{x}} \;=\; \hat{\boldsymbol{\mu}}^\top \phi(\tilde{\mathbf{x}}),\qquad
+\sigma_{\tilde{x}}^{2} \;=\; \beta^{-1} + \phi(\tilde{\mathbf{x}})^\top \hat{\boldsymbol{\Sigma}}\, \phi(\tilde{\mathbf{x}}).
+$$
+
+ここで事後は変わらず
+
+$$
+p(\mathbf{w}\mid \mathbf{Y},\mathbf{X})=\mathcal{N}\!\bigl(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}}\bigr),\quad
+\hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi,\quad
+\hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\bigl(\beta\Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)
+$$
+
+です。
+
+### 「共役でない場合」というのは、**事前分布と尤度の組み合わせが、事後分布を同じ分布族で表せない場合**を指します。
+ベイズ線形回帰が閉形式で解けるのは、**ガウス尤度**と**ガウス事前**の組み合わせが**共役分布**になっているからです。
+
+---
+
+## 1. 共役の場合（閉形式解あり）
+
+例として標準的なベイズ線形回帰を考えると、
+
+* 尤度：
+
+  $$
+  p(\mathbf{y} \mid \mathbf{w}, \mathbf{X}) = \mathcal{N}(\mathbf{y} \mid \Phi\mathbf{w}, \beta^{-1}\mathbf{I})
+  $$
+* 事前：
+
+  $$
+  p(\mathbf{w}) = \mathcal{N}(\mathbf{w} \mid \boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)
+  $$
+
+の組み合わせだと、事後もガウス分布
+
+$$
+p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) = \mathcal{N}(\mathbf{w} \mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
+$$
+
+になるため、積を展開して平方完成すれば解析的に求まります。
+
+---
+
+## 2. 共役でない場合（閉形式解なし）
+
+例えば次のような場合です。
+
+1. **事前がガウスでない**
+
+   * ラプラス事前（$p(w_j) \propto e^{-\lambda |w_j|}$）：L1正則化に相当。
+     この場合は尤度×事前の積を展開してもガウス形にまとまらず、事後が非ガウスになる。
+   * スパース促進事前（スパースベイズなどで使うStudent's t事前など）
+
+2. **尤度がガウスでない**
+
+   * 出力がカテゴリカルで、尤度がソフトマックス＋多項分布（ロジスティック回帰やソフトマックス回帰に対応）
+     この場合、ガウス事前を使っても事後はガウスにならず、非線形項が残る。
+   * 出力が二値でベルヌーイ分布（シグモイドリンク付き）：ベイズロジスティック回帰
+
+3. **尤度や事前が混合分布など複雑**
+
+   * ガウス混合事前＋ガウス尤度
+     → 事後が混合ガウスになり、パラメータ数が爆発する
+
+---
+
+## 3. 共役でないと何が起きるか
+
+この場合、事後分布の正規化定数（分配関数）
+
+$$
+p(\mathbf{y} \mid \mathbf{X}) = \int p(\mathbf{y} \mid \mathbf{w},\mathbf{X})\,p(\mathbf{w})\,d\mathbf{w}
+$$
+
+が閉形式で求められません。
+そのため、以下のような**近似推論**が必要になります。
+
+* **変分ベイズ**（KLダイバージェンス最小化）
+* **MCMC**（サンプリング）
+* **Laplace近似**（モード付近をガウスで近似）
+
+---
+
+もしご希望なら、この「共役でないベイズ線形回帰」の典型例として**ベイズロジスティック回帰**の事後近似導出も書けます。
+これはガウス事前＋ロジスティック尤度という、まさに非共役の代表例です。
+
+
 ### 最尤推定
 最尤推定は、パラメータを固定された未知量とみなし、観測データが得られる確率（尤度）を最大にする値を推定値として採用する方法である。
 データ集合 $\mathcal{D} = \{x_i\}_{i=1}^N$ に対するMLEは
