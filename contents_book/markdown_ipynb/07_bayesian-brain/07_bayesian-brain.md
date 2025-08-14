@@ -97,58 +97,9 @@ $$
 となり、パラメータ推定の不確実性を含んだ予測が可能になる。
 
 #### ベイズ線形回帰
-ベイズ線形回帰 (Bayesian linear regression)
-共役事前分布 (conjugate prior) を
+ここでは線形回帰モデルをベイズ化した，すなわち予測の不確実性を表現できるようにしたベイズ線形回帰 (Bayesian linear regression) モデルを取り扱う．
 
-$$
-\begin{equation}
-p(\mathbf{w})=\mathcal{N}(\mathbf{w}|\boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)
-\end{equation}
-$$
-
-と定義し，事後分布 (posterior) を
-
-$$
-\begin{equation}
-p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
-\end{equation}
-$$
-
-とする．ただし，
-
-$$
-\begin{align}
-\hat{\boldsymbol{\Sigma}}^{-1}&= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
-\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}} (\beta \Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0)
-\end{align}
-$$
-
-である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
-
-$$
-\begin{equation}
-p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \boldsymbol{\Sigma}^*)
-\end{equation}
-$$
-
-となる．ただし，
-
-$$
-\begin{align}
-\boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
-\boldsymbol{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\\
-\end{align}
-$$
-
-である．
-
-### ベイズ線形回帰
-
-以下では，観測ノイズの分散が既知（精度 $\beta$）である一次元出力の線形回帰モデルを仮定し，事後分布と予測分布を「平方完成（completing the square）」で導出します．記号はご提示のものに揃えます．
-
----
-
-# モデルの設定
+観測ノイズの分散が既知（精度 $\beta$）である一次元出力の線形回帰モデルを仮定する．
 
 基底関数ベクトルを $\phi(\mathbf{x})\in\mathbb{R}^M$，全データのデザイン行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_N)^\top]\in\mathbb{R}^{N\times M}$ とする．重み $\mathbf{w}\in\mathbb{R}^M$ の下での生成過程は
 
@@ -159,7 +110,7 @@ p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
 \end{equation}
 $$
 
-で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_N)^\top$．事前分布は共役ガウス
+で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_N)^\top$．事前分布はガウス分布
 
 $$
 \begin{equation}
@@ -167,50 +118,50 @@ p(\mathbf{w})=\mathcal{N}\!\bigl(\mathbf{w}\mid \boldsymbol{\mu}_0,\boldsymbol{\
 \end{equation}
 $$
 
-を仮定する（後で $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ の特例に触れる）．
+を仮定する．ここでの事前分布は共役事前分布 (conjugate prior) となっている．共役であるとは，事前分布と尤度の組み合わせが、事後分布を同じ分布族で表せることを意味する．
 
----
-
-# 事後分布の導出
+次に，事後分布と予測分布を平方完成で導出する．
 
 ベイズの定理より
 
 $$
 \begin{equation}
 p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
-\propto p(\mathbf{y}\mid \mathbf{w},\mathbf{X})\,p(\mathbf{w}) .
+\propto p(\mathbf{y}\mid \mathbf{w},\mathbf{X})\,p(\mathbf{w})
 \end{equation}
 $$
 
-両辺の指数（$\log$）を取り，$\mathbf{w}$ に関する二次形式をまとめる．まず尤度の指数は
+が成り立つ．ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．
+
+両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめる．まず尤度は
 
 $$
-\begin{aligned}
-\log p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
+\begin{align}
+\ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
 &= -\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const}\\
 &= -\frac{\beta}{2}\Bigl(\mathbf{y}^\top\mathbf{y}
--2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\Bigr)+\text{const}\, .
-\end{aligned}
+-2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\Bigr)+\text{const.}
+\end{align}
 $$
 
 事前の指数は
 
 $$
-\begin{aligned}
-\log p(\mathbf{w})
+\begin{align}
+\ln p(\mathbf{w})
 &= -\frac{1}{2}(\mathbf{w}-\boldsymbol{\mu}_0)^\top \boldsymbol{\Sigma}_0^{-1}(\mathbf{w}-\boldsymbol{\mu}_0)+\text{const}\\
 &= -\frac{1}{2}\Bigl(
 \mathbf{w}^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
 -2\boldsymbol{\mu}_0^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
-\Bigr)+\text{const}\, .
-\end{aligned}
+\Bigr)+\text{const}.
+\end{align}
 $$
 
 和を取ると
 
 $$
 \begin{aligned}
-\log p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+\ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
 &= -\frac{1}{2}\mathbf{w}^\top\underbrace{\bigl(\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi\bigr)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
 +\mathbf{w}^\top\underbrace{\bigl(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)}_{\mathbf{h}}
 +\text{const}\, .
@@ -250,15 +201,70 @@ p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
 \end{equation}
 $$
 
-これはご提示の式と一致する．
-
-特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ とすると
+となる．特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ とすると
 
 $$
 \hat{\boldsymbol{\Sigma}}^{-1}= \alpha \mathbf{I}+\beta \Phi^\top\Phi,\qquad
 \hat{\boldsymbol{\mu}}=\beta\,\hat{\boldsymbol{\Sigma}}\,\Phi^\top\mathbf{y}.
 $$
 
+と定義し，事後分布 (posterior) を
+
+$$
+\begin{equation}
+p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
+\end{equation}
+$$
+
+とする．ただし，
+
+$$
+\begin{align}
+\hat{\boldsymbol{\Sigma}}^{-1}&= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
+\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}} (\beta \Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0)
+\end{align}
+$$
+
+である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
+
+$$
+\begin{equation}
+p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \boldsymbol{\Sigma}^*)
+\end{equation}
+$$
+
+となる．ただし，
+
+$$
+\begin{align}
+\boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
+\boldsymbol{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\\
+\end{align}
+$$
+
+である．
+
+新しい入力を $\tilde{\mathbf{x}}$，出力を $\tilde{y}$ で表す．
+
+$$
+p(\tilde{y}\mid \tilde{\mathbf{x}}, \mathbf{Y}, \mathbf{X})
+= \mathcal{N}\!\bigl(\tilde{y}\mid \mu_{\tilde{x}}, \sigma_{\tilde{x}}^{2}\bigr),
+$$
+
+$$
+\mu_{\tilde{x}} \;=\; \hat{\boldsymbol{\mu}}^\top \phi(\tilde{\mathbf{x}}),\qquad
+\sigma_{\tilde{x}}^{2} \;=\; \beta^{-1} + \phi(\tilde{\mathbf{x}})^\top \hat{\boldsymbol{\Sigma}}\, \phi(\tilde{\mathbf{x}}).
+$$
+
+ここで事後は変わらず
+
+$$
+p(\mathbf{w}\mid \mathbf{Y},\mathbf{X})=\mathcal{N}\!\bigl(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}}\bigr),\quad
+\hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi,\quad
+\hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\bigl(\beta\Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)
+$$
+
+です。
 
 ### 予測分布の導出
 
@@ -317,100 +323,6 @@ $$
 
 以上が事後分布および予測分布の導出である．ご指定の $\phi(x)=[1,x,x^2,x^3]$ を用いる場合でも，上記はそのまま成立する（$\Phi$ の列がその基底で構成されるだけである）．
 
-了解です。新しい入力を $\tilde{\mathbf{x}}$（必要なら出力も $\tilde{y}$）で表します。予測分布の部分だけ書き換えると以下のとおりです。
-
-$$
-p(\tilde{y}\mid \tilde{\mathbf{x}}, \mathbf{Y}, \mathbf{X})
-= \mathcal{N}\!\bigl(\tilde{y}\mid \mu_{\tilde{x}}, \sigma_{\tilde{x}}^{2}\bigr),
-$$
-
-$$
-\mu_{\tilde{x}} \;=\; \hat{\boldsymbol{\mu}}^\top \phi(\tilde{\mathbf{x}}),\qquad
-\sigma_{\tilde{x}}^{2} \;=\; \beta^{-1} + \phi(\tilde{\mathbf{x}})^\top \hat{\boldsymbol{\Sigma}}\, \phi(\tilde{\mathbf{x}}).
-$$
-
-ここで事後は変わらず
-
-$$
-p(\mathbf{w}\mid \mathbf{Y},\mathbf{X})=\mathcal{N}\!\bigl(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}}\bigr),\quad
-\hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi,\quad
-\hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\bigl(\beta\Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)
-$$
-
-です。
-
-### 「共役でない場合」というのは、**事前分布と尤度の組み合わせが、事後分布を同じ分布族で表せない場合**を指します。
-ベイズ線形回帰が閉形式で解けるのは、**ガウス尤度**と**ガウス事前**の組み合わせが**共役分布**になっているからです。
-
----
-
-## 1. 共役の場合（閉形式解あり）
-
-例として標準的なベイズ線形回帰を考えると、
-
-* 尤度：
-
-  $$
-  p(\mathbf{y} \mid \mathbf{w}, \mathbf{X}) = \mathcal{N}(\mathbf{y} \mid \Phi\mathbf{w}, \beta^{-1}\mathbf{I})
-  $$
-* 事前：
-
-  $$
-  p(\mathbf{w}) = \mathcal{N}(\mathbf{w} \mid \boldsymbol{\mu}_0, \boldsymbol{\Sigma}_0)
-  $$
-
-の組み合わせだと、事後もガウス分布
-
-$$
-p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) = \mathcal{N}(\mathbf{w} \mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
-$$
-
-になるため、積を展開して平方完成すれば解析的に求まります。
-
----
-
-## 2. 共役でない場合（閉形式解なし）
-
-例えば次のような場合です。
-
-1. **事前がガウスでない**
-
-   * ラプラス事前（$p(w_j) \propto e^{-\lambda |w_j|}$）：L1正則化に相当。
-     この場合は尤度×事前の積を展開してもガウス形にまとまらず、事後が非ガウスになる。
-   * スパース促進事前（スパースベイズなどで使うStudent's t事前など）
-
-2. **尤度がガウスでない**
-
-   * 出力がカテゴリカルで、尤度がソフトマックス＋多項分布（ロジスティック回帰やソフトマックス回帰に対応）
-     この場合、ガウス事前を使っても事後はガウスにならず、非線形項が残る。
-   * 出力が二値でベルヌーイ分布（シグモイドリンク付き）：ベイズロジスティック回帰
-
-3. **尤度や事前が混合分布など複雑**
-
-   * ガウス混合事前＋ガウス尤度
-     → 事後が混合ガウスになり、パラメータ数が爆発する
-
----
-
-## 3. 共役でないと何が起きるか
-
-この場合、事後分布の正規化定数（分配関数）
-
-$$
-p(\mathbf{y} \mid \mathbf{X}) = \int p(\mathbf{y} \mid \mathbf{w},\mathbf{X})\,p(\mathbf{w})\,d\mathbf{w}
-$$
-
-が閉形式で求められません。
-そのため、以下のような**近似推論**が必要になります。
-
-* **変分ベイズ**（KLダイバージェンス最小化）
-* **MCMC**（サンプリング）
-* **Laplace近似**（モード付近をガウスで近似）
-
----
-
-もしご希望なら、この「共役でないベイズ線形回帰」の典型例として**ベイズロジスティック回帰**の事後近似導出も書けます。
-これはガウス事前＋ロジスティック尤度という、まさに非共役の代表例です。
 
 
 ### 最尤推定
@@ -418,7 +330,7 @@ $$
 データ集合 $\mathcal{D} = \{x_i\}_{i=1}^N$ に対するMLEは
 
 $$
-\hat{\theta}_{\mathrm{MLE}} = \arg\max_{\theta} \; p_\theta(\mathcal{D}) = \arg\max_{\theta} \; \sum_{i=1}^N \log p_\theta(x_i)
+\hat{\theta}_{\mathrm{MLE}} = \arg\max_{\theta} \; p_\theta(\mathcal{D}) = \arg\max_{\theta} \; \sum_{i=1}^N \ln p_\theta(x_i)
 $$
 
 で与えられる。
@@ -437,12 +349,12 @@ $$
 を最大化する推定法である。推定値は
 
 $$
-\hat{\theta}_{\mathrm{MAP}} = \arg\max_{\theta} \; p(\theta \mid \mathcal{D}) = \arg\max_{\theta} \; \big[ \log p(\mathcal{D} \mid \theta) + \log p(\theta) \big]
+\hat{\theta}_{\mathrm{MAP}} = \arg\max_{\theta} \; p(\theta \mid \mathcal{D}) = \arg\max_{\theta} \; \big[ \ln p(\mathcal{D} \mid \theta) + \ln p(\theta) \big]
 $$
 
 で与えられる。
 
-対数事前 $\log p(\theta)$ が正則化項として働くため、MAP推定は「**正則化付き最尤推定**」として解釈できる。
+対数事前 $\ln p(\theta)$ が正則化項として働くため、MAP推定は「**正則化付き最尤推定**」として解釈できる。
 例えば、パラメータにガウス事前 $p(\theta) = \mathcal{N}(0, \sigma_p^2 I)$ を置くと、MAP推定はL2正則化（リッジ回帰）に対応する。
 
 ### 逆問題と推論的知覚
@@ -464,7 +376,7 @@ $$
 $$
 \begin{equation}
 D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p_\theta(\mathbf{x})\right)
-:= \int p_{\mathrm{data}}(\mathbf{x}) \log \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x}
+:= \int p_{\mathrm{data}}(\mathbf{x}) \ln \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x}
 \end{equation}
 $$
 
@@ -473,10 +385,10 @@ $$
 $$
 \begin{align}
 D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p_\theta(\mathbf{x})\right)
-&= \int p_{\mathrm{data}}(\mathbf{x}) \log \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x} \\
-&= \int p_{\mathrm{data}}(\mathbf{x}) \log p_{\mathrm{data}}(\mathbf{x}) \, d\mathbf{x} 
-\ - \int p_{\mathrm{data}}(\mathbf{x}) \log p_\theta(\mathbf{x}) \, d\mathbf{x} \\
-&= \text{const.} - \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \log p_\theta(\mathbf{x}) \right]
+&= \int p_{\mathrm{data}}(\mathbf{x}) \ln \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x} \\
+&= \int p_{\mathrm{data}}(\mathbf{x}) \ln p_{\mathrm{data}}(\mathbf{x}) \, d\mathbf{x} 
+\ - \int p_{\mathrm{data}}(\mathbf{x}) \ln p_\theta(\mathbf{x}) \, d\mathbf{x} \\
+&= \text{const.} - \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \ln p_\theta(\mathbf{x}) \right]
 \end{align}
 $$
 
@@ -485,7 +397,7 @@ $$
 $$
 \begin{equation}
 \theta^* = \arg\min_\theta D_{\mathrm{KL}}\left(p_{\mathrm{data}} \,\Vert\, p_\theta\right)
-= \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \log p_\theta(\mathbf{x}) \right]
+= \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \ln p_\theta(\mathbf{x}) \right]
 \end{equation}
 $$
 
@@ -501,8 +413,8 @@ $$
 
 $$
 \begin{equation}
-\theta^* \approx \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}} \left[ \log p_\theta(\mathbf{x}) \right]
-= \arg\max_\theta \sum_{i=1}^N \log p_\theta(\mathbf{x}_i)
+\theta^* \approx \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}} \left[ \ln p_\theta(\mathbf{x}) \right]
+= \arg\max_\theta \sum_{i=1}^N \ln p_\theta(\mathbf{x}_i)
 \end{equation}
 $$
 
@@ -565,17 +477,17 @@ MAP推定までの展開を行う．
 対数を取ると，
 
 $$
-\sum_\ell \log p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
+\sum_\ell \ln p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
 $$
 
 
 ### エネルギーベースモデル
-潜在変数生成モデルにおいては、周辺尤度 $\log p_\theta(\mathbf{x})$ の計算が困難である。この問題を解決するために、変分推論や ELBO（evidence lower bound）が導入されることもある。一方で、こうした明示的な確率密度を前提としない学習枠組みとして、エネルギーベースモデル（EBM）がある。
+潜在変数生成モデルにおいては、周辺尤度 $\ln p_\theta(\mathbf{x})$ の計算が困難である。この問題を解決するために、変分推論や ELBO（evidence lower bound）が導入されることもある。一方で、こうした明示的な確率密度を前提としない学習枠組みとして、エネルギーベースモデル（EBM）がある。
 
-対数尤度 $\log p(\mathbf{x})$ の勾配 $\nabla_\mathbf{x} \log p(\mathbf{x})$ をスコアとよぶ．スコアには分配関数 (正規化定数) は関与しない．
+対数尤度 $\ln p(\mathbf{x})$ の勾配 $\nabla_\mathbf{x} \ln p(\mathbf{x})$ をスコアとよぶ．スコアには分配関数 (正規化定数) は関与しない．
 
 $$
-\nabla_\mathbf{x} \log p_\theta(\mathbf{x}) = -\nabla_\mathbf{x}E_\theta (\mathbf{x}) - \nabla_\mathbf{x} \log Z(\theta)=-\nabla_\mathbf{x}E_\theta (\mathbf{x}) 
+\nabla_\mathbf{x} \ln p_\theta(\mathbf{x}) = -\nabla_\mathbf{x}E_\theta (\mathbf{x}) - \nabla_\mathbf{x} \ln Z(\theta)=-\nabla_\mathbf{x}E_\theta (\mathbf{x}) 
 $$
 
 
@@ -625,7 +537,7 @@ MAP推定までの展開を行う．
 対数を取ると，
 
 $$
-\sum_\ell \log p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
+\sum_\ell \ln p_\theta(\mathbf{z}^\ell \mid \mathbf{z}^{\ell+1})
 $$
 
 生成モデル→エネルギーベースモデル→MAP推定→スパース→階層的生成モデル?
@@ -712,7 +624,7 @@ $$
 
 $$
 \begin{align}
-D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)&=\int \hat{p}_{data}(\mathbf{x}) \log \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
+D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)&=\int \hat{p}_{data}(\mathbf{x}) \ln \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
 &=\mathbb{E}_{\hat{p}_{data}} \left[\ln \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
 &=\mathbb{E}_{\hat{p}_{data}} \left[\ln \hat{p}_{data}(\mathbf{x})\right]-\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]
 \end{align}
@@ -921,7 +833,7 @@ $$
 
 ### 損失関数と学習則
 #### 事前分布の設定
-$\mathbf{r}$の事前分布$p(\mathbf{r})$はCauchy分布を用いる．$p(\mathbf{r})$の負の対数事前分布を$g(\mathbf{r}):=-\log p(\mathbf{r})$としておく．
+$\mathbf{r}$の事前分布$p(\mathbf{r})$はCauchy分布を用いる．$p(\mathbf{r})$の負の対数事前分布を$g(\mathbf{r}):=-\ln p(\mathbf{r})$としておく．
 
 $$
 \begin{align}
@@ -1110,7 +1022,7 @@ Boltzmanマシンでも使用した～などとする．
 
 $$
 \begin{equation}
-{\frac{d\theta}{dt}}=\nabla \log p (\theta)+{\sqrt 2}{d{W}}
+{\frac{d\theta}{dt}}=\nabla \ln p (\theta)+{\sqrt 2}{d{W}}
 \end{equation}
 $$
 
@@ -1216,7 +1128,7 @@ $$
 さらに，学習に必要なパラメータ更新のための勾配計算でも，この正規化定数 $Z$ に依存する項が現れる．具体的には，尤度関数の勾配として，例えば重み $W_{ij}$ に関しては
 
 $$
-\frac{\partial \log P(\mathbf{s})}{\partial W_{ij}} = \langle s_i s_j \rangle_{\text{data}} - \langle s_i s_j \rangle_{\text{model}}
+\frac{\partial \ln P(\mathbf{s})}{\partial W_{ij}} = \langle s_i s_j \rangle_{\text{data}} - \langle s_i s_j \rangle_{\text{model}}
 $$
 
 と表されるが，ここで \(\langle s_i s_j \rangle_{\text{model}}\) はモデル分布における期待値であり，これは
@@ -1432,7 +1344,7 @@ $$
 
 $$
 \begin{equation}
-\mathcal{H}(\mathbf{u}, \mathbf{v}) = \log p \left(\mathbf{u}, \mathbf{v} \right) + \textrm{Const.} = \log p \left(\mathbf{v} \middle| \mathbf{u} \right) + \log p\left(\mathbf{u} \right) + \textrm{Const.}
+\mathcal{H}(\mathbf{u}, \mathbf{v}) = \ln p \left(\mathbf{u}, \mathbf{v} \right) + \textrm{Const.} = \ln p \left(\mathbf{v} \middle| \mathbf{u} \right) + \ln p\left(\mathbf{u} \right) + \textrm{Const.}
 \end{equation}
 $$
 
@@ -1440,18 +1352,18 @@ $$
 
 $$
 \begin{align}
-\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{v}} = \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{v}} = \ \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}}\\
-\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{u}} = - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} = \  - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}}
+\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{v}} = \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{v}} = \ \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}}\\
+\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{u}} = - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} = \  - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}}
 \end{align}
 $$
 となる．このままでは等値線上を運動することになるので，Langevinダイナミクスを付け加える．
 
 $$
 \begin{align}
-\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\log{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-&= \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\log{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\log{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\log{p\left( \mathbf{u},\mathbf{v} \right)}}{\partial\mathbf{v}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-&= - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\log{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{v}} - \frac{1}{\tau}\frac{\partial\log{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
+\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+&= \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u},\mathbf{v} \right)}}{\partial\mathbf{v}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+&= - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{v}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
 \end{align}
 $$
 
@@ -1459,9 +1371,9 @@ $$
 
 $$
 \begin{align}
-\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} &= \mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
-\frac{\partial\log{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
-\frac{\partial\log{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{Cu}
+\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} &= \mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
+\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
+\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{Cu}
 \end{align}
 $$
 
