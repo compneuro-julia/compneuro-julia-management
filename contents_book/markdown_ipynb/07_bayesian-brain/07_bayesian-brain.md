@@ -96,33 +96,69 @@ $$
 
 となり、パラメータ推定の不確実性を含んだ予測が可能になる。
 
-#### ベイズ線形回帰
+### ベイズ線形回帰
 ここでは線形回帰モデルをベイズ化した，すなわち予測の不確実性を表現できるようにしたベイズ線形回帰 (Bayesian linear regression) モデルを取り扱う．
 
-観測ノイズの分散が既知（精度 $\beta$）である一次元出力の線形回帰モデルを仮定する．
+#### 多変量正規分布
+まず，多変量正規分布（ガウス分布）を導入する．1次元の場合，正規分布は次の確率密度関数で表される．
 
-基底関数ベクトルを $\phi(\mathbf{x})\in\mathbb{R}^M$，全データのデザイン行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_N)^\top]\in\mathbb{R}^{N\times M}$ とする．重み $\mathbf{w}\in\mathbb{R}^M$ の下での生成過程は
+$$
+\begin{equation}
+\mathcal{N}(x \mid \mu, \sigma^2) 
+:= \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
+\end{equation}
+$$
+
+ここで，$\mu \in \mathbb{R}$ は平均，$\sigma^2 > 0$ は分散を表し，$\sigma$ は標準偏差である．この式を $x \in \mathbb{R}$ から $d$ 次元のベクトル $\mathbf{x} \in \mathbb{R}^d$ に拡張すると，分布は多変量正規分布（multivariate normal distribution）となる．
+
+$$
+\begin{equation}
+\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \Sigma) 
+:= \frac{1}{\sqrt{(2\pi)^d \, |\Sigma|}}
+\exp\left( -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right)
+\end{equation}
+$$
+
+ここで，$\boldsymbol{\mu} \in \mathbb{R}^d$ は各成分の平均を並べた平均ベクトル，$\Sigma \in \mathbb{R}^{d \times d}$ は共分散行列（covariance matrix）である．共分散行列の対角成分は各次元の分散を表し，非対角成分は共分散を表す．このため，共分散行列は分散共分散行列（variance-covariance matrix）とも呼ばれる．多変量正規分布が定義可能であるためには，$\Sigma$ が正定値行列（positive definite matrix）であることが必要であり，これは任意の非ゼロベクトル $\mathbf{z} \in \mathbb{R}^d \setminus \{\mathbf{0}\}$ に対して
+
+$$
+\begin{equation}
+\mathbf{z}^\top \Sigma \, \mathbf{z} > 0
+\end{equation}
+$$
+
+が成り立つことを意味する．この条件を満たす場合，$\Sigma^{-1}$ が存在してそれ自体も正定値となるため，特に $\mathbf{x} = \boldsymbol{\mu}$ の場合も含めて
+
+$$
+\begin{equation}
+(\mathbf{x} - \boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x} - \boldsymbol{\mu}) \geq 0
+\end{equation}
+$$
+
+が常に成立する．なお，共分散行列は $\Sigma = \Sigma^\top$ という対称性をもち，これは非対角成分が共分散を表し，その定義から $\Sigma_{ij} = \Sigma_{ji}$ が必ず成り立つことによる．正定値行列という概念は，対称行列や，より一般にはエルミート行列に対して定義されるため，多変量正規分布においても，共分散行列はこのように対称性を持った上で正定値でなければならない．
+
+#### ベイズ線形回帰のモデル定義
+基底関数ベクトルを $\phi(\mathbf{x})\in\mathbb{R}^d$，全データの計画行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_n)^\top]\in\mathbb{R}^{n\times d}$ とする．重み $\mathbf{w}\in\mathbb{R}^d$ の下での生成過程は
 
 $$
 \begin{equation}
 p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
-=\mathcal{N}\!\bigl(\mathbf{y}\mid \Phi \mathbf{w},\,\beta^{-1}\mathbf{I}_N\bigr)
+=\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\beta^{-1}\mathbf{I}_n\right)
 \end{equation}
 $$
 
-で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_N)^\top$．事前分布はガウス分布
+で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_n)^\top \in \mathbb{R}^n$ である．事前分布はガウス分布
 
 $$
 \begin{equation}
-p(\mathbf{w})=\mathcal{N}\!\bigl(\mathbf{w}\mid \boldsymbol{\mu}_0,\boldsymbol{\Sigma}_0\bigr)
+p(\mathbf{w})=\mathcal{N}\!\left(\mathbf{w}\mid \boldsymbol{\mu}_0,\boldsymbol{\Sigma}_0\right)
 \end{equation}
 $$
 
-を仮定する．ここでの事前分布は共役事前分布 (conjugate prior) となっている．共役であるとは，事前分布と尤度の組み合わせが、事後分布を同じ分布族で表せることを意味する．
+を仮定する．ここでの事前分布は共役事前分布 (conjugate prior) となっている．共役であるとは，事前分布と尤度の組み合わせが、事後分布を同じ分布族で表せることを意味する．この場合では事前分布と事後分布は同じ正規分布であり，指数型分布族 (exponential family) に属する．
 
-次に，事後分布と予測分布を平方完成で導出する．
-
-ベイズの定理より
+#### 事後分布と予測分布の導出
+次に，事後分布を導出する．ベイズの定理より
 
 $$
 \begin{equation}
@@ -131,16 +167,14 @@ p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
 \end{equation}
 $$
 
-が成り立つ．ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．
-
-両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめる．まず尤度は
+が成り立つ．ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．次の目標は，事後分布を解析的に計算し，多変量正規分布の係数を無視した形状に式をまとめなおすことである．具体的には対数を取って平方完成を行う．まず，両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめる．まず尤度は
 
 $$
 \begin{align}
 \ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
 &= -\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const}\\
-&= -\frac{\beta}{2}\Bigl(\mathbf{y}^\top\mathbf{y}
--2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\Bigr)+\text{const.}
+&= -\frac{\beta}{2}\left(\mathbf{y}^\top\mathbf{y}
+-2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\right)+\text{const.}
 \end{align}
 $$
 
@@ -150,10 +184,10 @@ $$
 \begin{align}
 \ln p(\mathbf{w})
 &= -\frac{1}{2}(\mathbf{w}-\boldsymbol{\mu}_0)^\top \boldsymbol{\Sigma}_0^{-1}(\mathbf{w}-\boldsymbol{\mu}_0)+\text{const}\\
-&= -\frac{1}{2}\Bigl(
+&= -\frac{1}{2}\left(
 \mathbf{w}^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
 -2\boldsymbol{\mu}_0^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
-\Bigr)+\text{const}.
+\right)+\text{const}.
 \end{align}
 $$
 
@@ -162,8 +196,8 @@ $$
 $$
 \begin{aligned}
 \ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
-&= -\frac{1}{2}\mathbf{w}^\top\underbrace{\bigl(\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi\bigr)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
-+\mathbf{w}^\top\underbrace{\bigl(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)}_{\mathbf{h}}
+&= -\frac{1}{2}\mathbf{w}^\top\underbrace{\left(\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi\right)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
++\mathbf{w}^\top\underbrace{\left(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\right)}_{\mathbf{h}}
 +\text{const}\, .
 \end{aligned}
 $$
@@ -186,7 +220,7 @@ $$
 \begin{equation}
 \hat{\boldsymbol{\mu}}
 =\hat{\boldsymbol{\Sigma}}\mathbf{h}
-=\hat{\boldsymbol{\Sigma}}\bigl(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)
+=\hat{\boldsymbol{\Sigma}}\left(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\right)
 \end{equation}
 $$
 
@@ -195,7 +229,7 @@ $$
 $$
 \begin{equation}
 p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
-=\mathcal{N}\!\bigl(\mathbf{w}\mid \hat{\boldsymbol{\mu}},\hat{\boldsymbol{\Sigma}}\bigr),
+=\mathcal{N}\!\left(\mathbf{w}\mid \hat{\boldsymbol{\mu}},\hat{\boldsymbol{\Sigma}}\right),
 \qquad
 \hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi .
 \end{equation}
@@ -225,7 +259,10 @@ $$
 \end{align}
 $$
 
-である．また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
+である．
+
+
+また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
 
 $$
 \begin{equation}
@@ -248,7 +285,7 @@ $$
 
 $$
 p(\tilde{y}\mid \tilde{\mathbf{x}}, \mathbf{Y}, \mathbf{X})
-= \mathcal{N}\!\bigl(\tilde{y}\mid \mu_{\tilde{x}}, \sigma_{\tilde{x}}^{2}\bigr),
+= \mathcal{N}\!\left(\tilde{y}\mid \mu_{\tilde{x}}, \sigma_{\tilde{x}}^{2}\right),
 $$
 
 $$
@@ -259,9 +296,9 @@ $$
 ここで事後は変わらず
 
 $$
-p(\mathbf{w}\mid \mathbf{Y},\mathbf{X})=\mathcal{N}\!\bigl(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}}\bigr),\quad
+p(\mathbf{w}\mid \mathbf{Y},\mathbf{X})=\mathcal{N}\!\left(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}}\right),\quad
 \hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi,\quad
-\hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\bigl(\beta\Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\bigr)
+\hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\left(\beta\Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\right)
 $$
 
 です。
@@ -273,7 +310,7 @@ $$
 $$
 \begin{equation}
 p(y^*\mid \mathbf{w},\mathbf{x}^*)
-=\mathcal{N}\!\bigl(y^*\mid \phi(\mathbf{x}^*)^\top \mathbf{w},\,\beta^{-1}\bigr)
+=\mathcal{N}\!\left(y^*\mid \phi(\mathbf{x}^*)^\top \mathbf{w},\,\beta^{-1}\right)
 \end{equation}
 $$
 
@@ -289,7 +326,7 @@ $$
 右辺は「ガウスの線形写像＋独立ガウス雑音」の畳み込みなのでガウスのまま保たれる．具体的に，$\mathbf{w}\sim \mathcal{N}(\hat{\boldsymbol{\mu}},\hat{\boldsymbol{\Sigma}})$ のときの線形関数 $\phi(\mathbf{x}^*)^\top\mathbf{w}$ は
 
 $$
-\phi(\mathbf{x}^*)^\top\mathbf{w}\sim \mathcal{N}\!\bigl(\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\mu}},\,\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\bigr)
+\phi(\mathbf{x}^*)^\top\mathbf{w}\sim \mathcal{N}\!\left(\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\mu}},\,\phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\right)
 $$
 
 であり，さらにノイズ $ \varepsilon^*\sim \mathcal{N}(0,\beta^{-1})$ を加えるので分散が加法的に足し合わされる．結果として
@@ -297,7 +334,7 @@ $$
 $$
 \begin{equation}
 p(y^*\mid \mathbf{x}^*,\mathbf{y},\mathbf{X})
-=\mathcal{N}\!\bigl(y^*\mid \boldsymbol{\mu}^*,\,\boldsymbol{\Sigma}^*\bigr),
+=\mathcal{N}\!\left(y^*\mid \boldsymbol{\mu}^*,\,\boldsymbol{\Sigma}^*\right),
 \end{equation}
 $$
 
@@ -1057,7 +1094,7 @@ $$
    - ノイズがガウス，かつ回帰係数に対して共役なガウス事前分布を仮定すると，事後分布もガウスとなり，平均・分散を閉形式で得られる．  
    - 具体的には，  
      \[
-       p(\boldsymbol\beta\mid X,y)=\mathcal{N}\bigl(\Sigma_n(X^TX)\beta_0 + \Sigma_n X^Ty,\;\Sigma_n\bigr),\quad
+       p(\boldsymbol\beta\mid X,y)=\mathcal{N}\left(\Sigma_n(X^TX)\beta_0 + \Sigma_n X^Ty,\;\Sigma_n\right),\quad
        \Sigma_n=(X^TX+\Sigma_0^{-1})^{-1},
      \]  
      のように書ける（PRML より）  ([Bayesian linear regression - Wikipedia](https://en.wikipedia.org/wiki/Bayesian_linear_regression?utm_source=chatgpt.com))．  
