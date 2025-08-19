@@ -157,6 +157,8 @@ p(\tilde{x}) = \int p(\tilde{x} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
 \end{equation}
 が常に成立する．なお，共分散行列は $\boldsymbol{\Sigma} = \boldsymbol{\Sigma}^\top$ という対称性をもち，これは非対角成分が共分散を表し，その定義から $\boldsymbol{\Sigma}_{ij} = \boldsymbol{\Sigma}_{ji}$ が必ず成り立つことによる．正定値行列という概念は，対称行列や，より一般にはエルミート行列に対して定義されるため，多変量正規分布においても，共分散行列はこのように対称性を持った上で正定値でなければならない．
 
+Juliaにおいて，行列が正定値行列か確認するには \jl{LinearAlgebra} ライブラリの \jl{isposdef} 関数を用いればよい．行列 \jl{A} が正定値ならば，\jl{isposdef(A)} は\jl{true} を返す．
+
 % .mdの内容を修正して貼り付け
 \subsection{最尤推定とMAP推定}
 
