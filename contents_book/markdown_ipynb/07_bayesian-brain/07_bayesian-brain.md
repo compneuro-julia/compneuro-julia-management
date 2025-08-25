@@ -32,13 +32,13 @@ p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
 = \prod_{i=1}^n \mathcal{N}\,\left(y_i\mid \mathbf{w}^\top \phi(\mathbf{x}_i), \beta^{-1}\right)
 \end{equation}
 $$
-で与えられる．ここで，$\beta$ は尤度の精度 (precision) であり，分散の逆数を意味する．さらに，重みパラメータに対して正規分布の事前分布
+で与えられる．ここで，$\beta\,(>0)$ は尤度の精度 (precision) であり，分散の逆数を意味する．さらに，重みパラメータに対して正規分布の事前分布
 $$
 \begin{equation}
 p(\mathbf{w})=\mathcal{N}\,\left(\mathbf{w}\mid \mathbf{0},\alpha^{-1} \mathbf{I}_{d'}\\\right)
 \end{equation}
 $$
-を仮定する。ここで，$\alpha$ はパラメータの事前分布の精度である．また，この事前分布は共役事前分布（conjugate prior）となっている。共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する。
+を仮定する。ここで，$\alpha\,(>0)$ はパラメータの事前分布の精度である．また，この事前分布は共役事前分布（conjugate prior）となっている。共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する。
 
 次に，事後分布を導出する．ベイズの定理より
 
@@ -105,6 +105,10 @@ $$
 $$
 p(\tilde{y} \mid \tilde{\mathbf{x}},\mathbf{y},\mathbf{X})=
 $$
+
+ここまでの結果を再掲してまとめると，ベイズ線形回帰の実装に必要な個所は
+
+となる．
 
 ---
 
