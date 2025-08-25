@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  25 AUG 2025 13:46
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  25 AUG 2025 15:46
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/07_bayesian-brain
@@ -1491,12 +1491,12 @@ Here is how much of LuaTeX's memory you used:
  244630,1648299 words of node,token memory allocated
  2222 words of node memory still in use:
    11 hlist, 2 vlist, 5 rule, 9 glue, 4 kern, 1 glyph, 667 attribute, 73 glue_spec, 73 attribute_list, 1 write, 14 user_defined nodes
-   avail lists: 1:50,2:67596,3:448,4:329,5:198,6:43,7:7479,8:79,9:3258,10:43,11:116
+   avail lists: 1:50,2:67312,3:442,4:329,5:198,6:43,7:7469,8:79,9:3260,10:43,11:116
  50631 multiletter control sequences out of 65536+600000
  105 fonts using 84303407 bytes
  125i,12n,128p,3324b,1538s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman5-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 07_bayesian-brain.pdf (9 pages, 401787 bytes).
+Output written on 07_bayesian-brain.pdf (9 pages, 401839 bytes).
 
 PDF statistics: 319 PDF objects out of 1000 (max. 8388607)
  243 compressed objects within 3 object streams
