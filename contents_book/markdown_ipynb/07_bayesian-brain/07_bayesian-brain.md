@@ -1,157 +1,33 @@
-## 推論的知覚と生成モデル
-### ベイズ推論の基礎
-#### 確率モデルとベイズの定理
-ベイズ推論 (Bayesian inference) は、未知のパラメータや潜在変数 (latent variable) を含むモデル内部の未知量（未知の値をとる量）全体を確率変数として扱い、観測データによってその確率分布を更新する方法である。頻度主義 (frequentism) では、これらの未知量を固定された値とみなし、その値をデータから推定する。一方、ベイズ的立場では、パラメータ $\theta$ や潜在変数 $z$ を不確実性をもつ確率変数とみなし、その不確実性を確率分布で表す。なお、潜在変数を含むモデルの扱いは次節で述べ、本節ではパラメータ $\theta$ のみに焦点を当てる。
-
-ここで，$i$ 番目の観測データを $x_i$ とし、その集合を $\mathcal{D} = \{x_i\}_{i=1}^N$ とする。観測前のパラメータ分布を**事前分布** (prior) $p(\theta)$、観測後の分布を**事後分布** (posterior) $p(\theta \mid \mathcal{D})$ と呼び、この更新を規定する関係式が**ベイズの定理** (Bayes' theorem) である。ベイズの定理は、事前分布 $p(\theta)$ と尤度 $p(\mathcal{D} \mid \theta)$ から事後分布 $p(\theta \mid \mathcal{D})$ を導く式であり、
-
-$$
-p(\theta \mid \mathcal{D}) = \frac{p(\mathcal{D} \mid \theta)\, p(\theta)}{p(\mathcal{D})}
-$$
-
-と書ける。ここで
-
-$$
-p(\mathcal{D}) = \int p(\mathcal{D} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
-$$
-
-は**周辺尤度 (marginal likelihood)** または**証拠 (evidence)** と呼ばれる。
-
-確率分布 $p(\mathcal{D} \mid \theta)$ は、パラメータ $\theta$ が与えられたときにデータ集合 $\mathcal{D}$ が生成される確率を表す。観測が独立同分布に従うと仮定すると、
-
-$$
-p(\mathcal{D} \mid \theta) = \prod_{i=1}^N p(x_i \mid \theta)
-$$
-
-となる。なお、$p(x \mid \theta)$ は同じ式でも、$x$ と $\theta$ のどちらを変数とみなすかによって解釈が異なる。
-
-##### 生成モデルとしての解釈
-パラメータ $\theta$ を固定し、データ $x$ を確率変数として扱うとき、$p(x \mid \theta)$ は「$\theta$ が与えられたときに、どのようなデータ $x$ がどの確率で得られるか」を表す。
-
-##### 尤度としての解釈
-観測データ集合 $\mathcal{D}=\{x_i\}_{i=1}^N$ を固定し、$\theta$ を変数として扱うとき、
-
-$$
-L(\theta; \mathcal{D}) := p(\mathcal{D} \mid \theta) = \prod_{i=1}^N p(x_i \mid \theta)
-$$
-
-を**尤度関数**と呼ぶ。ただし，ここでは観測データの各サンプルが独立同分布に従うと仮定している．この尤度は、仮定したパラメータ $\theta$ の下で観測データが得られる「尤もらしさ」の度合いを表し、その値が大きいほどデータをよく説明すると解釈できる。ただし、尤度関数は $\theta$ に関しての確率分布ではないため、$\theta$ について積分しても1にはならない。
-
-事後分布 $p(\theta \mid \mathcal{D})$ は、観測データを得た後にパラメータ $\theta$ に対して抱く信念 (belief) の分布であり、ベイズ推論はこの分布を更新する過程とみなせる。事後分布が得られると，新たなデータの予測を行うことができる．パラメータの不確実性を考慮して予測する場合、パラメータを単一の推定値に置き換えるのではなく、事後分布全体を平均化した**事後予測分布** (posterior predictive distribution) を用いる。新たに予測したいデータを $\tilde{x}$ とすると、
-
-$$
-\begin{aligned}
-p^*(\tilde{x}) := p(\tilde{x} \mid \mathcal{D})
-&= \int p(\tilde{x} \mid \theta, \mathcal{D}) \, p(\theta \mid \mathcal{D}) \, \mathrm{d}\theta \\
-&= \int p(\tilde{x} \mid \theta) \, p(\theta \mid \mathcal{D}) \, \mathrm{d}\theta
-\quad (\because \tilde{x} \perp \mathcal{D} \mid \theta)
-\end{aligned}
-$$
-
-で与えられる。ここで最後の等式は、「$\theta$ が与えられた条件付きで、$\tilde{x}$ と $\mathcal{D}$ は独立」という条件付き独立性を用いている。ベイズ推論において、真のデータ生成分布の近似は、最終的に事後予測分布 $p^*(\tilde{x})$ によって表される。
-
-#### ベイズ線形回帰
-
-線形回帰モデルは、入力ベクトル $\mathbf{x} \in \mathbb{R}^d$ に対して
-
-$$
-y = \mathbf{w}^\top \mathbf{x} + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2)
-$$
-
-と表される。このとき、データ集合 $\mathcal{D} = \{(\mathbf{x}_i, y_i)\}_{i=1}^N$ に対する尤度関数は
-
-$$
-p(\mathbf{y} \mid X, \mathbf{w}, \sigma^2) = \mathcal{N}(\mathbf{y} \mid X\mathbf{w}, \sigma^2 I)
-$$
-
-となる。
-
-ベイズ線形回帰では、パラメータ $\mathbf{w}$ に事前分布を置く。最も典型的には正規分布
-
-$$
-p(\mathbf{w}) = \mathcal{N}(\mathbf{w} \mid \mathbf{0}, \alpha^{-1} I)
-$$
-
-を事前として仮定する。この事前とガウス尤度の組み合わせは共役事前であり、事後分布は解析的に求められる：
-
-$$
-p(\mathbf{w} \mid X, \mathbf{y}) = \mathcal{N}(\mathbf{w} \mid \mathbf{m}_N, S_N)
-$$
-
-ただし
-
-$$
-S_N^{-1} = \alpha I + \beta X^\top X, \quad \mathbf{m}_N = \beta S_N X^\top \mathbf{y}, \quad \beta = \sigma^{-2}.
-$$
-
-この事後分布を用いると、未知の入力 $\mathbf{x}_*$ に対する予測分布は
-
-$$
-p(y_* \mid \mathbf{x}_*, X, \mathbf{y}) = \mathcal{N}\left( y_* \mid \mathbf{m}_N^\top \mathbf{x}_*, \; \sigma_*^2 \right),
-$$
-
-$$
-\sigma_*^2 = \sigma^2 + \mathbf{x}_*^\top S_N \mathbf{x}_*
-$$
-
-となり、パラメータ推定の不確実性を含んだ予測が可能になる。
-
 ### ベイズ線形回帰
 ここでは線形回帰モデルをベイズ化した，すなわち予測の不確実性を表現できるようにしたベイズ線形回帰 (Bayesian linear regression) モデルを取り扱う．
 
-#### 多変量正規分布
-まず，多変量正規分布（ガウス分布）を導入する．1次元の場合，正規分布は次の確率密度関数で表される．
-
-$$
-\begin{equation}
-\mathcal{N}(x \mid \mu, \sigma^2) 
-:= \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
-\end{equation}
-$$
-
-ここで，$\mu \in \mathbb{R}$ は平均，$\sigma^2 > 0$ は分散を表し，$\sigma$ は標準偏差である．この式を $x \in \mathbb{R}$ から $d$ 次元のベクトル $\mathbf{x} \in \mathbb{R}^d$ に拡張すると，分布は多変量正規分布（multivariate normal distribution）となる．
-
-$$
-\begin{equation}
-\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \Sigma) 
-:= \frac{1}{\sqrt{(2\pi)^d \, |\Sigma|}}
-\exp\left( -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right)
-\end{equation}
-$$
-
-ここで，$\boldsymbol{\mu} \in \mathbb{R}^d$ は各成分の平均を並べた平均ベクトル，$\Sigma \in \mathbb{R}^{d \times d}$ は共分散行列（covariance matrix）である．共分散行列の対角成分は各次元の分散を表し，非対角成分は共分散を表す．このため，共分散行列は分散共分散行列（variance-covariance matrix）とも呼ばれる．多変量正規分布が定義可能であるためには，$\Sigma$ が正定値行列（positive definite matrix）であることが必要であり，これは任意の非ゼロベクトル $\mathbf{z} \in \mathbb{R}^d \setminus \{\mathbf{0}\}$ に対して
-
-$$
-\begin{equation}
-\mathbf{z}^\top \Sigma \, \mathbf{z} > 0
-\end{equation}
-$$
-
-が成り立つことを意味する．この条件を満たす場合，$\Sigma^{-1}$ が存在してそれ自体も正定値となるため，特に $\mathbf{x} = \boldsymbol{\mu}$ の場合も含めて
-
-$$
-\begin{equation}
-(\mathbf{x} - \boldsymbol{\mu})^\top \Sigma^{-1} (\mathbf{x} - \boldsymbol{\mu}) \geq 0
-\end{equation}
-$$
-
-が常に成立する．なお，共分散行列は $\Sigma = \Sigma^\top$ という対称性をもち，これは非対角成分が共分散を表し，その定義から $\Sigma_{ij} = \Sigma_{ji}$ が必ず成り立つことによる．正定値行列という概念は，対称行列や，より一般にはエルミート行列に対して定義されるため，多変量正規分布においても，共分散行列はこのように対称性を持った上で正定値でなければならない．
-
 #### ベイズ線形回帰のモデル定義
-基底関数ベクトルを $\phi(\mathbf{x})\in\mathbb{R}^d$，全データの計画行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_n)^\top]\in\mathbb{R}^{n\times d}$ とする．重み $\mathbf{w}\in\mathbb{R}^d$ の下での生成過程は
+入力 $\mathbf{x} \in \mathbb{R}^d$ から実数値出力 $y \in \mathbb{R}$ を予測するモデルを考える。基底関数（basis function）$\phi:\mathbb{R}^d \to \mathbb{R}^{d'}$ を導入し，入力を変換したベクトルを $\phi(\mathbf{x}) \in \mathbb{R}^{d'}$ と表す。バイアス項を含める場合には，基底関数の1つの成分を常に1を返す定数関数として組みこむ。
+
+全データの計画行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_n)^\top]\in\mathbb{R}^{n\times d}$ とする．重み $\mathbf{w}\in\mathbb{R}^d$ の下での $\mathbf{y}=(y_1,\dots,y_n)^\top \in \mathbb{R}^n$ の生成過程は
 
 $$
 \begin{equation}
 p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
-=\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\beta^{-1}\mathbf{I}_n\right)
+=\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\sigma^2\mathbf{I}_n\right)
 \end{equation}
 $$
+
+これは，
+
+$$
+p(\mathbf{y}\mid \mathbf{w},\mathbf{X})=\prod_{i=1}^n p(y_i \mid \mathbf{x}_i, \mathbf{w})=
+\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\sigma^2\mathbf{I}_n\right)=\prod_{i=1}^n \mathcal{N}(y_i\mid \mathbf{w}^\top \phi(\mathbf{x}_i), \sigma^2)
+$$
+
+と書くこともできる．
+
 
 で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_n)^\top \in \mathbb{R}^n$ である．事前分布はガウス分布
 
 $$
 \begin{equation}
-p(\mathbf{w})=\mathcal{N}\!\left(\mathbf{w}\mid \boldsymbol{\mu}_0,\boldsymbol{\Sigma}_0\right)
+p(\mathbf{w})=\mathcal{N}\!\left(\mathbf{w}\mid \boldsymbol{\mu}_\mathbf{w},\boldsymbol{\Sigma}_\mathbf{w}\right)
 \end{equation}
 $$
 
