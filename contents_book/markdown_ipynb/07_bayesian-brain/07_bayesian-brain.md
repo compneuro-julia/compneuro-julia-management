@@ -11,6 +11,35 @@ $$
 正規分布の他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．
 
 #### 事後分布と予測分布の導出
+
+入力 $\mathbf{x} \in \mathbb{R}^d$ から実数値出力 $y \in \mathbb{R}$ を予測するモデルを考える。基底関数（basis function）$\phi:\mathbb{R}^d \to \mathbb{R}^{d'}$ を導入し，入力を $\phi(\mathbf{x}) \in \mathbb{R}^{d'}$ に写像する。バイアス項を含める場合には，基底関数の1つの成分を常に1を返す定数関数として組み込むことにする。訓練データを $\mathcal{D}=\{(\mathbf{x}_i, y_i)\}_{i=1}^n$ とすると，計画行列は
+$$
+\begin{equation}
+\Phi = 
+\begin{bmatrix}
+\phi(\mathbf{x}_1)^\top \\
+\vdots \\
+\phi(\mathbf{x}_n)^\top
+\end{bmatrix}
+\in \mathbb{R}^{n\times d'}
+\end{equation}
+$$
+で表される。重みパラメータ $\mathbf{w}\in\mathbb{R}^{d'}$ を導入すると，$\mathbf{y}=[y_1,\dots,y_n]^\top \in \mathbb{R}^n$ の生成過程は
+$$
+\begin{equation}
+p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
+=\mathcal{N}\,\left(\mathbf{y}\mid \Phi \mathbf{w},\,\beta^{-1}\mathbf{I}_n\right)
+= \prod_{i=1}^n \mathcal{N}\,\left(y_i\mid \mathbf{w}^\top \phi(\mathbf{x}_i), \beta^{-1}\right)
+\end{equation}
+$$
+で与えられる．ここで，$\beta$ は尤度の精度 (precision) であり，分散の逆数を意味する．さらに，重みパラメータに対して正規分布の事前分布
+$$
+\begin{equation}
+p(\mathbf{w})=\mathcal{N}\,\left(\mathbf{w}\mid \mathbf{0},\alpha^{-1} \mathbf{I}_{d'}\\\right)
+\end{equation}
+$$
+を仮定する。ここで，$\alpha$ はパラメータの事前分布の精度である．また，この事前分布は共役事前分布（conjugate prior）となっている。共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する。
+
 次に，事後分布を導出する．ベイズの定理より
 
 $$
@@ -22,157 +51,62 @@ $$
 
 が成り立つ．ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．次に，事後分布を解析的に計算し，多変量正規分布の係数を無視した形状に式をまとめなおす．両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめる．
 
+ここで
+
 $$
 \begin{align}
 \ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
 &\propto \ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X}) + \ln p(\mathbf{w}) \\
-&= -\frac{1}{2 \sigma}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 -\frac{1}{2 \sigma_w}\lVert \mathbf{w}\rVert^2 + \text{const.}
+&= -\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 -\frac{\alpha}{2}\lVert \mathbf{w}\rVert^2 + \text{const.}\\
+&=-\frac{1}{2}\left[\mathbf{w}^\top\left(\beta\Phi^\top\Phi+\alpha\mathbf{I}_{d'}\right)\mathbf{w}-2\beta\mathbf{y}^\top\Phi\mathbf{w}\right]+ \text{const.}
 \end{align}
 $$
 
-まず対数尤度は
+が成り立つ．目標は，この式を $\mathbf{w}$ についての 多変量正規分布の指数部
+
+$$
+(\mathbf{w}-\hat{\boldsymbol{\mu}})^\top \hat{\boldsymbol{\Sigma}}^{-1} (\mathbf{w}-\hat{\boldsymbol{\mu}})
+= \mathbf{w}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
+- 2 \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
++ \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \hat{\boldsymbol{\mu}}
+$$
+
+で表すことである．ここで，両者を比べると，
 
 $$
 \begin{align}
-\ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
-&= -\frac{1}{2 \sigma}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const}\\
-&= -\frac{\beta}{2}\left(\mathbf{y}^\top\mathbf{y}
--2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\right)+\text{const.}
+\hat{\boldsymbol{\Sigma}}^{-1}&=\beta\Phi^\top\Phi+\alpha\mathbf{I}_{d'}\\
+\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}}\beta\mathbf{y}^\top\Phi
 \end{align}
 $$
 
-対数事前分布は
+とすれば良いことが分かる．なお，$\mathbf{w}$ を含まない項 ($\text{const.}$ や $\hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \hat{\boldsymbol{\mu}}$ など) に関しては分布の形状に影響を及ばさないので無視した．よって，事後分布は 
 
 $$
-\begin{align}
-\ln p(\mathbf{w})
-&= -\frac{1}{2}(\mathbf{w}-\boldsymbol{\mu}_0)^\top \boldsymbol{\Sigma}_0^{-1}(\mathbf{w}-\boldsymbol{\mu}_0)+\text{const}\\
-&= -\frac{1}{2}\left(
-\mathbf{w}^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
--2\boldsymbol{\mu}_0^\top\boldsymbol{\Sigma}_0^{-1}\mathbf{w}
-\right)+\text{const}.
-\end{align}
-$$
-
-和を取ると
-
-$$
-\begin{aligned}
-\ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
-&= -\frac{1}{2}\mathbf{w}^\top\underbrace{\left(\boldsymbol{\Sigma}_\mathbf{w}^{-1}+\beta \Phi^\top\Phi\right)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
-+\mathbf{w}^\top\underbrace{\left(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_\mathbf{w}^{-1}\boldsymbol{\mu}_\mathbf{w}\right)}_{\mathbf{h}}
-+\text{const}\, .
-\end{aligned}
-$$
-
-ここで $\hat{\boldsymbol{\Sigma}}^{-1}:=\boldsymbol{\Sigma}_\mathbf{w}^{-1}+\beta \Phi^\top\Phi$，$\mathbf{h}:=\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_\mathbf{w}^{-1}\boldsymbol{\mu}_0$ と置いた．
-
-二次形式の平方完成を行う：
-
-$$
--\frac{1}{2}\mathbf{w}^\top \hat{\boldsymbol{\Sigma}}^{-1}\mathbf{w}
-+\mathbf{w}^\top \mathbf{h}
-=
--\frac{1}{2}(\mathbf{w}-\hat{\boldsymbol{\mu}})^\top \hat{\boldsymbol{\Sigma}}^{-1}(\mathbf{w}-\hat{\boldsymbol{\mu}})
-+\frac{1}{2}\hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1}\hat{\boldsymbol{\mu}} ,
-$$
-
-ただし $\hat{\boldsymbol{\mu}}$ は
-
-$$
-\begin{equation}
-\hat{\boldsymbol{\mu}}
-=\hat{\boldsymbol{\Sigma}}\mathbf{h}
-=\hat{\boldsymbol{\Sigma}}\left(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\right)
-\end{equation}
-$$
-
-で与えられる．したがって
-
-$$
-\begin{equation}
-p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
-=\mathcal{N}\!\left(\mathbf{w}\mid \hat{\boldsymbol{\mu}},\hat{\boldsymbol{\Sigma}}\right),
-\qquad
-\hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi .
-\end{equation}
-$$
-
-となる．特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ とすると
-
-$$
-\hat{\boldsymbol{\Sigma}}^{-1}= \alpha \mathbf{I}+\beta \Phi^\top\Phi,\qquad
-\hat{\boldsymbol{\mu}}=\beta\,\hat{\boldsymbol{\Sigma}}\,\Phi^\top\mathbf{y}.
+p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) = \mathcal{N}(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
 $$
 
 となる．
 
-
-
-，事後分布 (posterior) を
+次に事後予測分布の導出を行う．新しい入力を $\tilde{\mathbf{x}}$，出力を $\tilde{y}$ で表す．事後予測分布は前節での導出に基づくと，
 
 $$
-\begin{equation}
-p(\mathbf{w}|\mathbf{Y}, \mathbf{X})=\mathcal{N}(\mathbf{w}|\hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
-\end{equation}
+p(\tilde{y} \mid \tilde{\mathbf{x}},\mathbf{y},\mathbf{X})=\int p(\tilde{y}\mid \mathbf{w},\tilde{\mathbf{x}})\,p(\mathbf{w}\mid \mathbf{y},\mathbf{X})\,\mathrm{d}\mathbf{w}
 $$
 
-とする．ただし，
+により計算することができる．ここで，
 
 $$
-\begin{align}
-\hat{\boldsymbol{\Sigma}}^{-1}&= \boldsymbol{\Sigma}_0^{-1}+ \beta \Phi^\top\Phi\\
-\hat{\boldsymbol{\mu}}&=\hat{\boldsymbol{\Sigma}} (\beta \Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0)
-\end{align}
+p(\tilde{y}\mid \mathbf{w},\tilde{\mathbf{x}})=\mathcal{N}\left(\tilde{y}\mid \mathbf{w}^\top \phi(\tilde{\mathbf{x}}), \beta^{-1}\right)
 $$
 
-である．
-
-
-また，$\Phi=\phi.(\mathbf{x})$であり，$\phi(x)=[1, x, x^2, x^3]$, $\boldsymbol{\mu}_0=\mathbf{0}, \boldsymbol{\Sigma}_0= \alpha^{-1} \mathbf{I}$とする．テストデータを$\mathbf{x}^*$とした際，予測分布は
+であるので，
 
 $$
-\begin{equation}
-p(y^*|\mathbf{x}^*, \mathbf{Y}, \mathbf{X})=\mathcal{N}(y^*|\boldsymbol{\mu}^*, \boldsymbol{\Sigma}^*)
-\end{equation}
+p(\tilde{y} \mid \tilde{\mathbf{x}},\mathbf{y},\mathbf{X})=
 $$
 
-となる．ただし，
-
-$$
-\begin{align}
-\boldsymbol{\mu}^*&=\hat{\boldsymbol{\mu}}^\top \phi(\mathbf{x}^*)\\
-\boldsymbol{\Sigma}^* &= \frac{1}{\beta} +  \phi(\mathbf{x}^*)^\top\hat{\boldsymbol{\Sigma}}\phi(\mathbf{x}^*)\\
-\end{align}
-$$
-
-である．
-
-新しい入力を $\tilde{\mathbf{x}}$，出力を $\tilde{y}$ で表す．
-
-$$
-p(\tilde{y}\mid \tilde{\mathbf{x}}, \mathbf{Y}, \mathbf{X})
-= \mathcal{N}\!\left(\tilde{y}\mid \mu_{\tilde{x}}, \sigma_{\tilde{x}}^{2}\right),
-$$
-
-$$
-\mu_{\tilde{x}} \;=\; \hat{\boldsymbol{\mu}}^\top \phi(\tilde{\mathbf{x}}),\qquad
-\sigma_{\tilde{x}}^{2} \;=\; \beta^{-1} + \phi(\tilde{\mathbf{x}})^\top \hat{\boldsymbol{\Sigma}}\, \phi(\tilde{\mathbf{x}}).
-$$
-
-ここで事後は変わらず
-
-$$
-p(\mathbf{w}\mid \mathbf{Y},\mathbf{X})=\mathcal{N}\!\left(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}}\right),\quad
-\hat{\boldsymbol{\Sigma}}^{-1}= \boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi,\quad
-\hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\left(\beta\Phi^\top \mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\right)
-$$
-
-です。
-
-### 予測分布の導出
-
-新しい入力 $\mathbf{x}^*$ に対し $y^*$ は
+---
 
 $$
 \begin{equation}
