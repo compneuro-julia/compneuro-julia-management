@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  18 AUG 2025 13:42
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  25 AUG 2025 13:46
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/07_bayesian-brain
@@ -1431,36 +1431,21 @@ Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 160.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 158.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 160.
+(Font)              scaled to size 9.24713pt on input line 158.
 LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 160.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 158.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 160.
-Removing  `ltj.listings_unicode' from `process_input_buffer'. Excluding 'comment' comment.
+(Font)              scaled to size 9.24713pt on input line 158.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
 (fancyhdr)                Make it at least 4.80005pt, for example:
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
-[7]
-
-Package biblatex Warning: Name format 'last-first' deprecated.
-(biblatex)                Please use 'family-given' instead.
-(biblatex)                Using 'family-given' now.
-
-(load cache: extra_lmroman10-italic.luc)
-LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 268.
-LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 268.
-LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 268.
-LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 268.
-
+[7] Excluding 'comment' comment.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1468,6 +1453,21 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
 [8]
+
+Package biblatex Warning: Name format 'last-first' deprecated.
+(biblatex)                Please use 'family-given' instead.
+(biblatex)                Using 'family-given' now.
+
+(load cache: extra_lmroman10-italic.luc)
+LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 295.
+LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 295.
+LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 295.
+LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
+(Font)              scaled to size 9.24713pt on input line 295.
+
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1480,26 +1480,26 @@ LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
 Package rerunfilecheck Info: File `07_bayesian-brain.out' has not changed.
-(rerunfilecheck)             Checksum: 05EF58EB1A1554CF372D8D56CF3FA77A;1147.
+(rerunfilecheck)             Checksum: 91AD7BBE0F40DE018E2837F94239D817;1147.
 Package logreq Info: Writing requests to '07_bayesian-brain.run.xml'.
 
 \openout1 = 07_bayesian-brain.run.xml
 )
 
 Here is how much of LuaTeX's memory you used:
- 28277 strings out of 475506
+ 28284 strings out of 475506
  244630,1648299 words of node,token memory allocated
- 2030 words of node memory still in use:
-   11 hlist, 2 vlist, 5 rule, 9 glue, 4 kern, 1 glyph, 579 attribute, 73 glue_spec, 65 attribute_list, 1 write, 14 user_defined nodes
-   avail lists: 1:50,2:67692,3:448,4:329,5:247,6:43,7:7479,8:79,9:3258,10:43,11:86
- 50629 multiletter control sequences out of 65536+600000
+ 2222 words of node memory still in use:
+   11 hlist, 2 vlist, 5 rule, 9 glue, 4 kern, 1 glyph, 667 attribute, 73 glue_spec, 73 attribute_list, 1 write, 14 user_defined nodes
+   avail lists: 1:50,2:67596,3:448,4:329,5:198,6:43,7:7479,8:79,9:3258,10:43,11:116
+ 50631 multiletter control sequences out of 65536+600000
  105 fonts using 84303407 bytes
  125i,12n,128p,3324b,1538s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman5-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 07_bayesian-brain.pdf (9 pages, 385587 bytes).
+<c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman5-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-italic.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman8-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman6-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman7-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmib10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on 07_bayesian-brain.pdf (9 pages, 401787 bytes).
 
-PDF statistics: 310 PDF objects out of 1000 (max. 8388607)
- 235 compressed objects within 3 object streams
- 55 named destinations out of 1000 (max. 131072)
+PDF statistics: 319 PDF objects out of 1000 (max. 8388607)
+ 243 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 131072)
  73 words of extra memory for PDF output out of 10000 (max. 100000000)
 

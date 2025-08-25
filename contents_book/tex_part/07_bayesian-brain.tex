@@ -155,9 +155,36 @@ p(\tilde{x}) = \int p(\tilde{x} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
 \begin{equation}
 (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \geq 0
 \end{equation}
-が常に成立する．なお，共分散行列は $\boldsymbol{\Sigma} = \boldsymbol{\Sigma}^\top$ という対称性をもち，これは非対角成分が共分散を表し，その定義から $\boldsymbol{\Sigma}_{ij} = \boldsymbol{\Sigma}_{ji}$ が必ず成り立つことによる．正定値行列という概念は，対称行列や，より一般にはエルミート行列に対して定義されるため，多変量正規分布においても，共分散行列はこのように対称性を持った上で正定値でなければならない．
+が常に成立する．なお，共分散行列は $\boldsymbol{\Sigma} = \boldsymbol{\Sigma}^\top$ という対称性を持つが，これは非対角成分が共分散を表し，その定義から $\boldsymbol{\Sigma}_{ij} = \boldsymbol{\Sigma}_{ji}$ が必ず成り立つことによる．正定値行列という概念は，対称行列や，より一般にはエルミート行列に対して定義されるため，多変量正規分布においても，共分散行列はこのように対称性を持った上で正定値でなければならない．Julia言語において，行列が正定値行列か確認するには \jl{LinearAlgebra} ライブラリの \jl{isposdef} 関数を用いればよい．行列 \jl{A} が正定値ならば，\jl{isposdef(A)} は\jl{true} を返す．
 
-Juliaにおいて，行列が正定値行列か確認するには \jl{LinearAlgebra} ライブラリの \jl{isposdef} 関数を用いればよい．行列 \jl{A} が正定値ならば，\jl{isposdef(A)} は\jl{true} を返す．
+また，後ほど使用するため多変量正規分布の確率密度関数の対数を取った形式を確認しておこう．$p(\mathbf{x})=\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) $ とすると，
+\begin{equation}
+\ln p(\mathbf{x}) = -\frac{d}{2} \ln (2\pi) - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}\rvert - \frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})
+\end{equation}
+となる．
+
+\subsubsection{ベイズ線形回帰のモデル定義}
+入力 $\mathbf{x} \in \mathbb{R}^d$ から実数値出力 $y \in \mathbb{R}$ を予測するモデルを考える。基底関数（basis function）$\phi:\mathbb{R}^d \to \mathbb{R}^{d'}$ を導入し，入力を $\phi(\mathbf{x}) \in \mathbb{R}^{d'}$ に写像する。バイアス項を含める場合には，基底関数の1つの成分を常に1を返す定数関数として組み込むことにする。訓練データを $\mathcal{D}=\{(\mathbf{x}_i, y_i)\}_{i=1}^n$ とすると，計画行列は
+\begin{equation}
+\Phi = 
+\begin{bmatrix}
+\phi(\mathbf{x}_1)^\top \\
+\vdots \\
+\phi(\mathbf{x}_n)^\top
+\end{bmatrix}
+\in \mathbb{R}^{n\times d'}
+\end{equation}
+で表される。重みベクトル $\mathbf{w}\in\mathbb{R}^{d'}$ を導入すると，$\mathbf{y}=[y_1,\dots,y_n]^\top \in \mathbb{R}^n$ の生成過程は
+\begin{equation}
+p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
+=\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\sigma^2\mathbf{I}_n\right)
+= \prod_{i=1}^n \mathcal{N}\!\left(y_i\mid \mathbf{w}^\top \phi(\mathbf{x}_i), \sigma^2\right)
+\end{equation}
+で与えられる．さらに，重みベクトルに対して正規分布の事前分布
+\begin{equation}
+p(\mathbf{w})=\mathcal{N}\!\left(\mathbf{w}\mid \mathbf{0},\sigma_w^2 \mathbf{I}_{d'}\\\right)
+\end{equation}
+を仮定する。これは，共役事前分布（conjugate prior）である。共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する。
 
 % .mdの内容を修正して貼り付け
 \subsection{最尤推定とMAP推定}

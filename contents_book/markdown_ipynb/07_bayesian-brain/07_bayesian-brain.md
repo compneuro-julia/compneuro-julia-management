@@ -1,60 +1,47 @@
 ### ベイズ線形回帰
-ここでは線形回帰モデルをベイズ化した，すなわち予測の不確実性を表現できるようにしたベイズ線形回帰 (Bayesian linear regression) モデルを取り扱う．
+ここでは，事前分布と事後分布はいずれも正規分布であり，指数型分布族 (exponential family) に属する。そのため，事後分布は解析的に計算することができる。
 
-#### ベイズ線形回帰のモデル定義
-入力 $\mathbf{x} \in \mathbb{R}^d$ から実数値出力 $y \in \mathbb{R}$ を予測するモデルを考える。基底関数（basis function）$\phi:\mathbb{R}^d \to \mathbb{R}^{d'}$ を導入し，入力を変換したベクトルを $\phi(\mathbf{x}) \in \mathbb{R}^{d'}$ と表す。バイアス項を含める場合には，基底関数の1つの成分を常に1を返す定数関数として組みこむ。
-
-全データの計画行列を $\Phi=[\phi(\mathbf{x}_1)^\top;\dots;\phi(\mathbf{x}_n)^\top]\in\mathbb{R}^{n\times d}$ とする．重み $\mathbf{w}\in\mathbb{R}^d$ の下での $\mathbf{y}=(y_1,\dots,y_n)^\top \in \mathbb{R}^n$ の生成過程は
+指数型分布族は 
 
 $$
-\begin{equation}
-p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
-=\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\sigma^2\mathbf{I}_n\right)
-\end{equation}
-$$
+p(x\mid \theta) = h(x)\cdot c(\theta) \exp(\eta(\theta)t(x))
+$$ 
 
-これは，
-
-$$
-p(\mathbf{y}\mid \mathbf{w},\mathbf{X})=\prod_{i=1}^n p(y_i \mid \mathbf{x}_i, \mathbf{w})=
-\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\sigma^2\mathbf{I}_n\right)=\prod_{i=1}^n \mathcal{N}(y_i\mid \mathbf{w}^\top \phi(\mathbf{x}_i), \sigma^2)
-$$
-
-と書くこともできる．
-
-
-で与えられる．ここで $\mathbf{y}=(y_1,\dots,y_n)^\top \in \mathbb{R}^n$ である．事前分布はガウス分布
-
-$$
-\begin{equation}
-p(\mathbf{w})=\mathcal{N}\!\left(\mathbf{w}\mid \boldsymbol{\mu}_\mathbf{w},\boldsymbol{\Sigma}_\mathbf{w}\right)
-\end{equation}
-$$
-
-を仮定する．ここでの事前分布は共役事前分布 (conjugate prior) となっている．共役であるとは，事前分布と尤度の組み合わせが、事後分布を同じ分布族で表せることを意味する．この場合では事前分布と事後分布は同じ正規分布であり，指数型分布族 (exponential family) に属する．
+と定義される．
+正規分布の他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．
 
 #### 事後分布と予測分布の導出
 次に，事後分布を導出する．ベイズの定理より
 
 $$
 \begin{equation}
-p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+p(\mathbf{w}\mid \mathbf{y},\mathbf{X}) = \frac{\overbrace{p(\mathbf{y}\mid \mathbf{w},\mathbf{X})\,p(\mathbf{w})}^{=\, p(\mathbf{y}, \mathbf{w}\mid \mathbf{X})}}{p(\mathbf{y}\mid\mathbf{X})}
 \propto p(\mathbf{y}\mid \mathbf{w},\mathbf{X})\,p(\mathbf{w})
 \end{equation}
 $$
 
-が成り立つ．ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．次の目標は，事後分布を解析的に計算し，多変量正規分布の係数を無視した形状に式をまとめなおすことである．具体的には対数を取って平方完成を行う．まず，両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめる．まず尤度は
+が成り立つ．ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．次に，事後分布を解析的に計算し，多変量正規分布の係数を無視した形状に式をまとめなおす．両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめる．
+
+$$
+\begin{align}
+\ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+&\propto \ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X}) + \ln p(\mathbf{w}) \\
+&= -\frac{1}{2 \sigma}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 -\frac{1}{2 \sigma_w}\lVert \mathbf{w}\rVert^2 + \text{const.}
+\end{align}
+$$
+
+まず対数尤度は
 
 $$
 \begin{align}
 \ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
-&= -\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const}\\
+&= -\frac{1}{2 \sigma}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const}\\
 &= -\frac{\beta}{2}\left(\mathbf{y}^\top\mathbf{y}
 -2\mathbf{y}^\top\Phi\mathbf{w}+\mathbf{w}^\top\Phi^\top\Phi\mathbf{w}\right)+\text{const.}
 \end{align}
 $$
 
-事前の指数は
+対数事前分布は
 
 $$
 \begin{align}
@@ -72,13 +59,13 @@ $$
 $$
 \begin{aligned}
 \ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
-&= -\frac{1}{2}\mathbf{w}^\top\underbrace{\left(\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi\right)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
-+\mathbf{w}^\top\underbrace{\left(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0\right)}_{\mathbf{h}}
+&= -\frac{1}{2}\mathbf{w}^\top\underbrace{\left(\boldsymbol{\Sigma}_\mathbf{w}^{-1}+\beta \Phi^\top\Phi\right)}_{\hat{\boldsymbol{\Sigma}}^{-1}}\mathbf{w}
++\mathbf{w}^\top\underbrace{\left(\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_\mathbf{w}^{-1}\boldsymbol{\mu}_\mathbf{w}\right)}_{\mathbf{h}}
 +\text{const}\, .
 \end{aligned}
 $$
 
-ここで $\hat{\boldsymbol{\Sigma}}^{-1}:=\boldsymbol{\Sigma}_0^{-1}+\beta \Phi^\top\Phi$，$\mathbf{h}:=\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_0^{-1}\boldsymbol{\mu}_0$ と置いた．
+ここで $\hat{\boldsymbol{\Sigma}}^{-1}:=\boldsymbol{\Sigma}_\mathbf{w}^{-1}+\beta \Phi^\top\Phi$，$\mathbf{h}:=\beta \Phi^\top\mathbf{y}+\boldsymbol{\Sigma}_\mathbf{w}^{-1}\boldsymbol{\mu}_0$ と置いた．
 
 二次形式の平方完成を行う：
 
@@ -118,7 +105,11 @@ $$
 \hat{\boldsymbol{\mu}}=\beta\,\hat{\boldsymbol{\Sigma}}\,\Phi^\top\mathbf{y}.
 $$
 
-と定義し，事後分布 (posterior) を
+となる．
+
+
+
+，事後分布 (posterior) を
 
 $$
 \begin{equation}
@@ -269,17 +260,6 @@ $$
 
 対数事前 $\ln p(\theta)$ が正則化項として働くため、MAP推定は「**正則化付き最尤推定**」として解釈できる。
 例えば、パラメータにガウス事前 $p(\theta) = \mathcal{N}(0, \sigma_p^2 I)$ を置くと、MAP推定はL2正則化（リッジ回帰）に対応する。
-
-### 逆問題と推論的知覚
-これまでの章では，知覚 (perception) のモデル，すなわち外界からの入力に対して，どのようにして神経回路網が意味のある出力を生成するのか，という問題を主に扱ってきた．ここで改めて知覚の基本的な定義を確認しておこう．知覚とは，外界からの刺激を感覚受容器によって受容し，それに意味を与える過程である．この「刺激に意味を与える」という個所を，より体系的に理解するために，「順問題」と「逆問題」という概念を導入しよう．
-
-一般に，ある原因から結果を予測する問題は順問題 (forward problem) と呼ばれる．逆に，観測された結果からその原因を推定する問題は逆問題 (inverse problem) と呼ばれる．視覚を例にとって，順問題と逆問題について考えてみよう．たとえば，三次元の物体が光を反射し，それが二次元の網膜上にどのような像を結ぶか，という問いは順問題に分類される．これに対して，網膜上に投影された二次元像から，元の物体の三次元的な構造や大きさ，位置などを推定する課題が逆問題である\footnote{他にも逆問題は数多く存在する．逆問題は様々な分野に現れるが，ここでは医学や神経科学に関連した例として，外部から脳の構造や機能を推定する問題を取り上げる．たとえば，医用画像解析では，コンピュータ断層撮影（computed tomography; CT），磁気共鳴画像法（magnetic resonance imaging; MRI），陽電子放射断層撮影（positron emission tomography; PET）などにおいて，観測データから画像を再構成する必要がある．この再構成処理には，CTやPETでは逆ラドン変換，MRIでは逆フーリエ変換が用いられる．また，神経活動を非侵襲的に計測する手法として，脳波（electroencephalography; EEG）や脳磁図（magnetoencephalography; MEG）がある．これらにおける電流源推定（source localization）も典型的な逆問題である．EEGやMEGにおける順問題は，脳内の神経電流源の位置・方向・強度から，頭皮上の電極（EEG）や磁場センサ（MEG）によって観測される電位や磁場分布を予測することである．一方，逆問題は，実際に観測された電位や磁場データから，神経電流源の空間的位置と活動を推定することである．この逆問題は不良設定 (ill-posed) であるため，安定的に解くには，MRIから得られた頭部の構造データに基づいて構築された順モデル（forward model）が必要となる．}．光学の分野では，それぞれの問題は順光学（forward optics），逆光学（inverse optics）と呼ばれている．逆問題は多くの場合，不良設定問題（ill-posed problem）となる．すなわち，解が存在しない，解が一意に定まらない，あるいはわずかな誤差に対して解が大きく変化するといった性質をもつ\footnote{これに対して，良設定問題（well-posed problem）とは，解が存在し，一意であり，かつ入力の変動に対して連続的に変化する（安定性をもつ）ような問題を指す．良設定問題では，入力データに小さなノイズや誤差が含まれていても，求められる解は大きく変わることなく，安定に計算することができる．}．例えば，先ほどの例であれば同じ2次元像を示す3次元物体は複数 (あるいは無数に) 存在する．そのため，逆問題を解くには，事前知識や仮定 (制約条件，正則化) の導入などが必要となる．
-
-こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論 (abductive reasoning) の過程とみなす考えがある \citep{helmholtz1867, mumford1992computational, kawato1993forward, friston2003learning} \footnote{Helmholtz は，知覚を単なる感覚の受容ではなく，感覚入力に意味を与え，対象として構成する過程であると捉えた．この過程には，観念の連合 (\textit{Vorstellungsverbindungen}) が関与している．観念の連合とは，過去の経験によって形成された (必ずしも言語化を伴わない) 観念や知識が，現在の感覚入力と結び付けられる過程を指す．通常，推論とは意識的に行われるものと考えられているが，Helmholtz はこのような観念の連合を，意識されることなく行われる推論として捉え，無意識的推論 (\textit{unbewusster Schluss}, unconscious inference)  と表現した．なお，この注釈ではドイツ語を斜体で表記した．}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．
-
-推論的知覚は、外界の潜在的な原因から感覚入力が生成される過程を記述する確率的生成モデル (probabilistic generative model) に基づいて説明される。次節では、その理解に不可欠なベイズ推論の基礎を簡単に説明する．
-
-次節では，この推論的知覚を支える数理モデルである，確率的生成モデル (probabilistic generative model) について詳しく見ていくことにする．
 
 ### 生成モデル
 生成モデルとは，学習データに内在する特徴や構造を学習し，それに基づいて新たなデータを生成するモデルである．ここで，学習対象となる観測データ（例えば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，それらが従う真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この密度関数 $p_{\mathrm{data}}(\cdot)$ は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．このような密度関数 $p_{\mathrm{data}}(\cdot)$ が既知であれば，任意のサンプル $\mathbf{x}$ をそこから生成（サンプリング）することができる．しかし現実には，$p_{\mathrm{data}}(\cdot)$ は明示的な形では与えられておらず，ほとんどの場合において未知である．観測データがある確率的な生成過程に従って生じたと仮定し，その過程を表現するために，パラメータ $\theta$ をもつ確率密度関数 $p_\theta(\mathbf{x})$ を導入する．ここで，$p_\theta(\mathbf{x})$ は，観測変数 $\mathbf{x}$ に対する条件付き分布 $p(\mathbf{x} \mid \theta)$ の略記である．このような分布 $p_\theta(\mathbf{x})$ を定めるモデルを，生成モデル（generative model）と呼ぶ．
