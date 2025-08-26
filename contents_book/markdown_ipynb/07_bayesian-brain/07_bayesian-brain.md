@@ -62,13 +62,15 @@ $$
 \end{align}
 $$
 
-が成り立つ．目標は，この式を $\mathbf{w}$ についての 多変量正規分布の指数部
+が成り立つ ($\mathbf{w}$ を含まない項は $\mathrm{const.}$ に吸収した)．目標は，この式を $\mathbf{w}$ についての 多変量正規分布の指数部
 
 $$
-(\mathbf{w}-\hat{\boldsymbol{\mu}})^\top \hat{\boldsymbol{\Sigma}}^{-1} (\mathbf{w}-\hat{\boldsymbol{\mu}})
-= \mathbf{w}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
+\begin{equation}
+-\frac{1}{2}(\mathbf{w}-\hat{\boldsymbol{\mu}})^\top \hat{\boldsymbol{\Sigma}}^{-1} (\mathbf{w}-\hat{\boldsymbol{\mu}})
+= -\frac{1}{2}\left[\mathbf{w}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
 - 2 \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
-+ \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \hat{\boldsymbol{\mu}}
++ \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \hat{\boldsymbol{\mu}}\right]
+\end{equation}
 $$
 
 で表すことである．ここで，両者を比べると，
@@ -111,6 +113,31 @@ $$
 となる．
 
 ---
+
+$$
+\begin{align}
+p(\mathbf{x}) &= \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma})\\
+p(\mathbf{y}\mid\mathbf{x}) &= \mathcal{N}(\mathbf{y}\mid A \mathbf{x}, \Lambda)\\
+\end{align}
+$$
+
+のとき，$p(\mathbf{y})=\int p(\mathbf{y}\mid\mathbf{x})p(\mathbf{x}) d\mathbf{x}$ の平均と分散は
+
+$$
+\begin{align}
+\mathrm{E}[\mathbf{y}]&=\mathrm{E}_{\mathbf{x}} \left[\mathrm{E}[\mathbf{y} \mid \mathbf{x}] \right]=A\mathrm{E}[\mathbf{x}]=A\boldsymbol{\mu}\\
+\mathrm{Var}[\mathbf{y}] &= \mathrm{E}_{\mathbf{x}}\left[ \mathrm{Var}[\mathbf{y} \mid \mathbf{x}] \right] + \mathrm{Var}_{\mathbf{x}}\left[ \mathrm{E}[\mathbf{y} \mid \mathbf{x}] \right]\\
+&=\mathrm{E}_{\mathbf{x}}\left[\Lambda \right] + \mathrm{Var}_{\mathbf{x}}\left[A\mathbf{x} \right]\\
+&=\Lambda+A\,\mathrm{Var}[\mathbf{x}]\,A^\top=\Lambda+A\Sigma A^\top
+\end{align}
+$$
+
+となる．ここで，期待値の計算では，期待値の線形性の法則を用いた．分散の計算では，全分散の法則 (law of total variance) および分散の線形変換の法則を用いた．
+
+$$
+\mathbf{y} \sim \mathcal{N}(A \boldsymbol{\mu}, A \boldsymbol{\Sigma} A^\top + \Lambda)
+$$
+
 
 $$
 \begin{equation}
