@@ -7,9 +7,11 @@
 \contentsline {subsection}{\numberline {1.1.2}ベイズ線形回帰}{6}{subsection.1.1.2}%
 \contentsline {subsubsection}{多変量正規分布}{6}{section*.5}%
 \contentsline {subsubsection}{ベイズ線形回帰のモデル定義}{7}{section*.6}%
-\contentsline {subsection}{\numberline {1.1.3}最尤推定とMAP推定}{8}{subsection.1.1.3}%
-\contentsline {subsection}{\numberline {1.1.4}潜在変数モデル}{8}{subsection.1.1.4}%
-\contentsline {subsubsection}{エネルギーベースモデル}{8}{section*.7}%
-\contentsline {subsection}{\numberline {1.1.5}階層ベイズモデル}{8}{subsection.1.1.5}%
-\contentsline {subsection}{\numberline {1.1.6}スパース符号化モデル}{8}{subsection.1.1.6}%
-\contentsline {section}{参考文献}{9}{section*.8}%
+\contentsline {subsubsection}{事後分布}{8}{section*.7}%
+\contentsline {subsubsection}{事後予測分布}{9}{section*.8}%
+\contentsline {subsection}{\numberline {1.1.3}最尤推定とMAP推定}{9}{subsection.1.1.3}%
+\contentsline {subsection}{\numberline {1.1.4}潜在変数モデル}{9}{subsection.1.1.4}%
+\contentsline {subsubsection}{エネルギーベースモデル}{10}{section*.9}%
+\contentsline {subsection}{\numberline {1.1.5}階層ベイズモデル}{10}{subsection.1.1.5}%
+\contentsline {subsection}{\numberline {1.1.6}スパース符号化モデル}{10}{subsection.1.1.6}%
+\contentsline {section}{参考文献}{11}{section*.10}%

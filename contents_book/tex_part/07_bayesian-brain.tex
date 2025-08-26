@@ -174,19 +174,80 @@ p(\tilde{x}) = \int p(\tilde{x} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
 \end{bmatrix}
 \in \mathbb{R}^{n\times d'}
 \end{equation}
-で表される。重みベクトル $\mathbf{w}\in\mathbb{R}^{d'}$ を導入すると，$\mathbf{y}=[y_1,\dots,y_n]^\top \in \mathbb{R}^n$ の生成過程は
+で表される。重みパラメータ $\mathbf{w}\in\mathbb{R}^{d'}$ を導入すると，$\mathbf{y}=[y_1,\dots,y_n]^\top \in \mathbb{R}^n$ の生成過程は
 \begin{equation}
 p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
-=\mathcal{N}\!\left(\mathbf{y}\mid \Phi \mathbf{w},\,\sigma^2\mathbf{I}_n\right)
-= \prod_{i=1}^n \mathcal{N}\!\left(y_i\mid \mathbf{w}^\top \phi(\mathbf{x}_i), \sigma^2\right)
+=\mathcal{N}\,\left(\mathbf{y}\mid \Phi \mathbf{w},\,\beta^{-1}\mathbf{I}_n\right)
+= \prod_{i=1}^n \mathcal{N}\,\left(y_i\mid \phi(\mathbf{x}_i)^\top\mathbf{w} , \beta^{-1}\right)
 \end{equation}
-で与えられる．さらに，重みベクトルに対して正規分布の事前分布
+で与えられる．ここで，$\beta\,(>0)$ は尤度の精度 (precision) であり，分散の逆数を意味する．さらに，重みパラメータに対して正規分布の事前分布
 \begin{equation}
-p(\mathbf{w})=\mathcal{N}\!\left(\mathbf{w}\mid \mathbf{0},\sigma_w^2 \mathbf{I}_{d'}\\\right)
+p(\mathbf{w})=\mathcal{N}\,\left(\mathbf{w}\mid \mathbf{0},\alpha^{-1} \mathbf{I}_{d'}\\\right)
 \end{equation}
-を仮定する。これは，共役事前分布（conjugate prior）である。共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する。
+を仮定する。ここで，$\alpha\,(>0)$ はパラメータの事前分布の精度である．また，この事前分布は共役事前分布（conjugate prior）となっている。共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する。
 
-% .mdの内容を修正して貼り付け
+\subsubsection{事後分布}
+次に，事後分布を導出する．ベイズの定理より
+\begin{equation}
+p(\mathbf{w}\mid \mathbf{y},\mathbf{X}) \propto p(\mathbf{y}\mid \mathbf{w},\mathbf{X})\,p(\mathbf{w})
+\end{equation}
+が成り立つ\footnote{ここで，ベイズの定理における分母の周辺尤度 $p(\mathbf{y}\mid\mathbf{X})$ は事後分布（$\mathbf{w}$の関数）の形状に影響しないため，無視した．また，$\mathbf{X}$ は常に実現値で与えられるので，$p(\mathbf{X})$ を考える必要はない．}．次に，事後分布を解析的に計算し，多変量正規分布の係数を無視した形状に式をまとめなおす．両辺の対数を取り，$\mathbf{w}$ に関する二次形式をまとめると次のようになる：
+\begin{align}
+\ln p(\mathbf{w}\mid \mathbf{y},\mathbf{X})
+&\propto \ln p(\mathbf{y}\mid \mathbf{w},\mathbf{X}) + \ln p(\mathbf{w}) \\
+&= -\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 -\frac{\alpha}{2}\lVert \mathbf{w}\rVert^2 + \text{const.}\\
+&=-\frac{1}{2}\left[\mathbf{w}^\top\left(\beta\Phi^\top\Phi+\alpha\mathbf{I}_{d'}\right)\mathbf{w}-2\beta\mathbf{y}^\top\Phi\mathbf{w}\right]+ \text{const.}
+\end{align}
+が成り立つ ($\mathbf{w}$ を含まない項は $\mathrm{const.}$ に吸収した)．ここで，事後分布を $\mathbf{w}$ についての多変量正規分布として
+\begin{equation}
+p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) := \mathcal{N}(\mathbf{w}\mid \hat{\boldsymbol{\mu}}, \hat{\boldsymbol{\Sigma}})
+\end{equation}
+とおく．この確率密度関数の指数部 ($\exp(\cdot)$ の中身) は
+\begin{equation}
+-\frac{1}{2}(\mathbf{w}-\hat{\boldsymbol{\mu}})^\top \hat{\boldsymbol{\Sigma}}^{-1} (\mathbf{w}-\hat{\boldsymbol{\mu}})
+= -\frac{1}{2}\left[\mathbf{w}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
+- 2 \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \mathbf{w}
++ \hat{\boldsymbol{\mu}}^\top \hat{\boldsymbol{\Sigma}}^{-1} \hat{\boldsymbol{\mu}}\right]
+\end{equation}
+であるため，$\mathbf{w}$ を含む項のみに関して両者を比べると，
+\begin{equation}
+\hat{\boldsymbol{\Sigma}}^{-1}=\beta\Phi^\top\Phi+\alpha\mathbf{I}_{d'},\quad \hat{\boldsymbol{\mu}}=\hat{\boldsymbol{\Sigma}}\beta\mathbf{y}^\top\Phi
+\end{equation}
+とすれば良いことが分かる．
+
+\subsubsection{事後予測分布}
+最後に，事後予測分布の導出を行う．新しい入力を $\tilde{\mathbf{x}}$，対応する出力を $\tilde{y}$ で表す．事後予測分布は前節での導出に基づくと，
+\begin{equation}
+p(\tilde{y} \mid \tilde{\mathbf{x}},\mathbf{y},\mathbf{X})=\int p(\tilde{y}\mid \mathbf{w},\tilde{\mathbf{x}})\,p(\mathbf{w}\mid \mathbf{y},\mathbf{X})\,\mathrm{d}\mathbf{w}
+\end{equation}
+により計算することができる．ここで，生成過程の仮定より
+\begin{equation}
+p(\tilde{y}\mid \mathbf{w},\tilde{\mathbf{x}})=\mathcal{N}\left(\tilde{y}\mid  \phi(\tilde{\mathbf{x}})^\top\mathbf{w}, \beta^{-1}\right)
+\end{equation}
+である．積分を直接実行すると煩雑な計算を要するため、ここでは正規分布の閉じた性質を利用する。すなわち、正規分布を正規分布で畳み込むと再び正規分布となる。このため、事後予測分布は平均と分散を計算するだけで決定できる。
+\begin{align}
+\mathrm{E}[\tilde{y}]&=\mathrm{E}_{\mathbf{w}} \left[\mathrm{E}[\tilde{y} \mid \mathbf{w}] \right]=\mathrm{E}_{\mathbf{w}} \left[\phi(\tilde{\mathbf{x}})^\top\mathbf{w} \right]=\phi(\tilde{\mathbf{x}})^\top\mathrm{E}[\mathbf{w}]=\phi(\tilde{\mathbf{x}})^\top\hat{\boldsymbol{\mu}}\\
+\mathrm{Var}[\tilde{y}] &= \mathrm{E}_{\mathbf{w}}\left[ \mathrm{Var}[\tilde{y}\mid \mathbf{w}] \right] + \mathrm{Var}_{\mathbf{w}}\left[ \mathrm{E}[\tilde{y} \mid \mathbf{w}] \right]=\mathrm{E}_{\mathbf{w}}\left[\beta^{-1} \right] + \mathrm{Var}_{\mathbf{w}}\left[\phi(\tilde{\mathbf{x}})^\top\mathbf{w} \right]\\
+&=\beta^{-1}+\phi(\tilde{\mathbf{x}})\,\mathrm{Var}[\mathbf{w}]\,\phi(\tilde{\mathbf{x}})^\top=\beta^{-1}+\phi(\tilde{\mathbf{x}})^\top\hat{\boldsymbol{\Sigma}} \phi(\tilde{\mathbf{x}})
+\end{align}
+ここで，期待値の計算では，期待値の線形性の法則を用いた．分散の計算では，全分散の法則 (law of total variance) および分散の線形変換の法則を用いた
+\footnote{ここで用いた3つの法則を補足しておく．確率変数 $X, Y$ と行列 $\mathbf{A}$ に関して，以下の基本的な性質が成り立つ：
+\begin{alignat*}{2}
+&\textbf{(1) 期待値の線形性:} 
+&&\quad \mathrm{E}[\mathbf{A}X] = \mathbf{A}\,\mathrm{E}[X] \\
+&\textbf{(2) 全分散の法則（分散分解の法則）:} 
+&&\quad \mathrm{Var}[Y] = \mathrm{E}\!\left[\mathrm{Var}[Y\mid X]\right] 
+   + \mathrm{Var}\!\left[\mathrm{E}[Y\mid X]\right] \\
+&\textbf{(3) 分散の線形変換:} 
+&&\quad \mathrm{Var}[\mathbf{A}X] = \mathbf{A}\,\mathrm{Var}[X]\,\mathbf{A}^\top
+\end{alignat*}
+}．
+よって，事後予測分布は
+\begin{equation}
+p(\tilde{y} \mid \tilde{\mathbf{x}},\mathbf{y},\mathbf{X}):=\mathcal{N}\left(\tilde{y}\;\middle\vert\; \phi(\tilde{\mathbf{x}})^\top\hat{\boldsymbol{\mu}},\,\beta^{-1}+\phi(\tilde{\mathbf{x}})^\top\hat{\boldsymbol{\Sigma}} \phi(\tilde{\mathbf{x}})\right)
+\end{equation}
+となる．
+
 \subsection{最尤推定とMAP推定}
 
 \subsection{潜在変数モデル}
