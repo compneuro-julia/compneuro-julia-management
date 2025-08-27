@@ -10,7 +10,26 @@ $$
 と定義される．
 正規分布の他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．
 
-### 参考：MAP 推定との関係（任意）
+### 最尤推定とMAP推定
+
+ベイズ推論から派生し，パラメータ $\theta$ の分布ではなく点推定を行う（パラメータの不確実性を扱わない）手法を紹介する．点推定の手法として最尤推定 (MLE) と最大事後確率 (maximum a posteriori; MAP）推定があり，各々の手法でのパラメータの推定値は以下のように記載することができる．
+
+$$
+\begin{align}
+\hat{\theta}_{\mathrm{MLE}} &= \arg\max_{\theta} \; p_\theta(\mathcal{D}) = \arg\max_{\theta} \; \sum_{i=1}^N \ln p_\theta(x_i)\\
+\hat{\theta}_{\mathrm{MAP}} &= \arg\max_{\theta} \; p(\theta \mid \mathcal{D}) = \arg\max_{\theta} \; \big[ \ln p(\mathcal{D} \mid \theta) + \ln p(\theta) \big]
+\end{align}
+$$
+
+両者の式は似ているが，パラメータによって最大化する目的関数が異なる．最尤推定では尤度を最大化する一方で，MAP推定では事後確率を最大化する．MAP推定では，目的関数に事前分布を含んでおり，こうした点でMAP推定は正則化付き最尤推定ともいえる．
+
+ベイズ線形回帰で最尤推定とMAP推定をそれぞれ行ってみよう．
+最尤推定の結果は最小二乗法となる．
+
+MAP推定の結果は正則化付き線形回帰となる．
+
+MAP推定を別の手法で見てみよう．KL divergenceの最小化．
+
 
 事後分布のモード（MAP）は $\hat{\boldsymbol{\mu}}$ に一致する．特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ のとき，
 

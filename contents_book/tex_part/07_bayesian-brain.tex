@@ -30,7 +30,7 @@
 \renewcommand{\chaptermark}[1]{\markboth{第\ \thechapter\ 章. ~#1}{}}
 % \renewcommand{\chaptermark}[1]{\markboth{\MakeUppercase{第\chaptername \thechapter 章.\ #1}}{}}
 % \renewcommand{\headrulewidth}{0pt}
-
+\usepackage{tcolorbox}
 \usepackage{hyperref}
 \usepackage{comment}
 
@@ -79,6 +79,10 @@
 
 こうした逆問題を踏まえ，知覚とは単なる入力情報の受動的な処理ではなく，感覚入力という結果から外界に存在する潜在的な原因を推定する逆推論 (abductive reasoning) の過程とみなす考えがある \citep{helmholtz1867, mumford1992computational, kawato1993forward, friston2003learning}\footnote{Helmholtz は，知覚を単なる感覚の受容ではなく，感覚入力に意味を与え，対象として構成する過程であると捉えた．この過程には，観念の連合 (\textit{Vorstellungsverbindungen}) が関与している．観念の連合とは，過去の経験によって形成された (必ずしも言語化を伴わない) 観念や知識が，現在の感覚入力と結び付けられる過程を指す．通常，推論とは意識的に行われるものと考えられているが，Helmholtz はこのような観念の連合を，意識されることなく行われる推論として捉え，無意識的推論 (\textit{unbewusster Schluss}, unconscious inference)  と表現した．なお，この脚注ではドイツ語を斜体で表記した．}．この枠組みを推論的知覚 (perception as inference) と呼ぶ．推論的知覚は, 外界の潜在的な原因から感覚入力が生成される過程を記述する確率的生成モデル (probabilistic generative model) に基づいて説明される. 確率的生成モデルについて説明する前に，前提となるベイズ推論について次節で説明する．
 %本章で触れる内容についてまとめ直す．
+
+\begin{tcolorbox}
+本章で触れる内容についてまとめ直す．
+\end{tcolorbox}
 
 \section{確率的生成モデル}
 \subsection{確率的生成モデルとベイズ推論}
@@ -162,6 +166,10 @@ p(\tilde{x}) = \int p(\tilde{x} \mid \theta)\, p(\theta)\, \mathrm{d}\theta
 \ln p(\mathbf{x}) = -\frac{d}{2} \ln (2\pi) - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}\rvert - \frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})
 \end{equation}
 となる．
+
+\begin{tcolorbox}
+多変量正規分布のコード
+\end{tcolorbox}
 
 \subsubsection{ベイズ線形回帰のモデル定義}
 入力 $\mathbf{x} \in \mathbb{R}^d$ から実数値出力 $y \in \mathbb{R}$ を予測するモデルを考える。基底関数（basis function）$\phi:\mathbb{R}^d \to \mathbb{R}^{d'}$ を導入し，入力を $\phi(\mathbf{x}) \in \mathbb{R}^{d'}$ に写像する。バイアス項を含める場合には，基底関数の1つの成分を常に1を返す定数関数として組み込むことにする。訓練データを $\mathcal{D}=\{(\mathbf{x}_i, y_i)\}_{i=1}^n$ とすると，計画行列は
@@ -247,6 +255,10 @@ p(\tilde{y}\mid \mathbf{w},\tilde{\mathbf{x}})=\mathcal{N}\left(\tilde{y}\mid  \
 p(\tilde{y} \mid \tilde{\mathbf{x}},\mathbf{y},\mathbf{X}):=\mathcal{N}\left(\tilde{y}\;\middle\vert\; \phi(\tilde{\mathbf{x}})^\top\hat{\boldsymbol{\mu}},\,\beta^{-1}+\phi(\tilde{\mathbf{x}})^\top\hat{\boldsymbol{\Sigma}} \phi(\tilde{\mathbf{x}})\right)
 \end{equation}
 となる．
+
+\begin{tcolorbox}
+ベイズ線形回帰のコード
+\end{tcolorbox}
 
 \subsection{最尤推定とMAP推定}
 
