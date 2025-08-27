@@ -190,7 +190,7 @@ p(\mathbf{y}\mid \mathbf{w},\mathbf{X})
 \end{equation}
 で与えられる．ここで，$\beta\,(>0)$ は尤度の精度 (precision) であり，分散の逆数を意味する．さらに，重みパラメータに対して正規分布の事前分布
 \begin{equation}
-p(\mathbf{w})=\mathcal{N}\,\left(\mathbf{w}\mid \mathbf{0},\alpha^{-1} \mathbf{I}_{d'}\\\right)
+p(\mathbf{w})=\mathcal{N}\,\left(\mathbf{w}\mid \mathbf{0},\alpha^{-1} \mathbf{I}_{d'}\right)
 \end{equation}
 を仮定する. ここで，$\alpha\,(>0)$ はパラメータの事前分布の精度である．また，この事前分布は共役事前分布 (conjugate prior) となっている. 共役であるとは，事前分布と尤度の組み合わせにより得られる事後分布が，同じ分布族で表現できることを意味する. 
 
@@ -300,13 +300,56 @@ D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p(\mathbf{x}\mid \t
 
 一方で，MAP推定はこの枠組みに事前分布に基づく項を加えたものであり，「正則化付き最尤推定」とみなすことができる. さらに後に述べるように，MAP推定は変分推論 (variational inference) の特殊な場合 (近似分布をデルタ分布に制限した場合) として位置づけることもできる. 本節では扱わず，変分推論の議論の後に改めて説明する. 
 
+前項で説明したベイズ線形回帰モデルに対し，パラメータの最尤推定とMAP推定に基づいた推定を行ってみよう．それぞれの推定における最適化問題は，以下のように表すことができる．
+\begin{align}
+\hat{\mathbf{w}}_{\mathrm{ML}}\,&=\, \arg\max_{\mathbf{w}} p(\mathbf{y} \mid \mathbf{w}, \mathbf{X}) = \arg\max_{\mathbf{w}}\, \ln p(\mathbf{y} \mid \mathbf{w}, \mathbf{X})\\
+\hat{\mathbf{w}}_{\mathrm{MAP}}\,&=\, \arg\max_{\mathbf{w}} p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) = \arg\max_{\mathbf{w}}\, \left[\ln p(\mathbf{y} \mid \mathbf{w}, \mathbf{X})+ \ln p(\mathbf{w})\right]
+\end{align}
+まず，最尤推定の場合，対数尤度は
+\begin{equation}
+\ln p(\mathbf{y} \mid \mathbf{w}, \mathbf{X})=-\frac{\beta}{2}\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \text{const.}
+\end{equation}
+であったので，最適化問題は
+\begin{equation}
+\arg\max_{\mathbf{w}}\,\ln p(\mathbf{y} \mid \mathbf{w}, \mathbf{X})=\arg\min_{\mathbf{w}}\,\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2
+\end{equation}
+となる．これは最小二乗法に一致し，通常の（ベイズでない）線形回帰モデルと同じ解を与える．
+
+次に，MAP推定の場合，対数尤度に関しては上と同様であるため，対数事前分布 $\ln p(\mathbf{w})$ のみを考える．前項では事前分布を正規分布 $p(\mathbf{w})=\mathcal{N}\,\left(\mathbf{w}\mid \mathbf{0},\alpha^{-1} \mathbf{I}_{d'}\right)$ と設定したため，
+\begin{equation}
+\ln p(\mathbf{w}) = -\frac{\alpha}{2}\lVert \mathbf{w}\rVert^2 + \text{const.}
+\end{equation}
+であった．このため，最適化問題は対数尤度と合わせて，
+\begin{equation}
+\arg\max_{\mathbf{w}} p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) =\arg\min_{\mathbf{w}}\, \left[\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \lambda \lVert \mathbf{w}\rVert^2 \right]
+\end{equation}
+となる．ただし，$\lambda = \alpha / \beta\, (>0)$ とした．この $\lambda$ は正則化の強度を表すハイパーパラメータである．よって，この最適化問題は最小二乗法の目的関数に，パラメータの二乗和 ($L^2$ノルムの二乗) を正則化項（罰則項）として追加したものであり，これはRidge回帰と一致する．
+
+ここで，事前分布をラプラス分布にする場合を考える．ラプラス分布の確率密度関数は $x\in \mathbb{R}$ について，
+\begin{equation}
+\textrm{Lap}(x\mid \mu, b):=\dfrac{1}{2b}\exp\left(-\dfrac{\lvert x-\mu\rvert}{b}\right)
+\end{equation}
+で与えられる．ここで，$p(w_i)=\textrm{Lap}(w_i \mid 0, 2\alpha^{-1})=\dfrac{\alpha}{4}\exp\left(-\dfrac{\alpha}{2} \lvert w_i\rvert \right)$ に設定した場合は
+\begin{equation}
+\ln p(\mathbf{w}) = -\frac{\alpha}{2} \sum_{i=1}^n \lvert w_i\rvert+ \text{const.}
+\end{equation}
+となるので，最適化問題は
+\begin{equation}
+\arg\max_{\mathbf{w}} p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) =\arg\min_{\mathbf{w}}\, \left[\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \lambda\sum_{i=1}^n \lvert w_i\rvert \right]
+\end{equation}
+と書ける．この最適化問題は最小二乗法の目的関数に，パラメータの絶対値 ($L^1$ノルム) を正則化項として追加したものであり，これはLasso回帰と一致する．
+
+以上より，最尤推定は最小二乗法に一致し，MAP推定では事前分布の選択に応じてRidge回帰やLasso回帰と対応づけられる。すなわち，正則化はパラメータに対する事前分布の設定として解釈できる。
+
 \subsection{潜在変数モデル}
 ここで，$p_\theta(\mathbf{x})$ は，観測変数 $\mathbf{x}$ に対する条件付き分布 $p(\mathbf{x} \mid \theta)$ の略記である．
 
 確率的主成分分析
 \subsubsection{エネルギーベースモデル}
 
-\section{点推定に基づく階層ベイズモデル}
+\subsection{階層ベイズモデル}
+
+\section{スパース符号化と予測符号化}
 
 \subsection{スパース符号化}
 

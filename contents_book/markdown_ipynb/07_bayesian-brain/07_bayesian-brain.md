@@ -10,33 +10,19 @@ $$
 と定義される．
 正規分布の他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．
 
-#### MAP・最尤推定
-
-ベイズ線形回帰で最尤推定とMAP推定をそれぞれ行ってみよう．
-最尤推定の結果は最小二乗法となる．
-
-MAP推定の結果は正則化付き線形回帰となる．
-
-
-事後分布のモード（MAP）は $\hat{\boldsymbol{\mu}}$ に一致する．特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ のとき，
-
-$$
-\hat{\boldsymbol{\mu}}
-=(\alpha \mathbf{I}+\beta \Phi^\top\Phi)^{-1}(\beta \Phi^\top\mathbf{y})
-$$
-
-であり，これはリッジ回帰の解と同値である（$\lambda=\alpha/\beta$）．ただし MAP は点推定であり，不確実性は $\hat{\boldsymbol{\Sigma}}$ を通じてベイズ推論で表現される．
-
 ### 潜在変数モデル
-理想的には，外界のすべての変数が観測可能（fully visible）であることが望ましいが，実際には観測できない変数が存在することが多い．そのような隠れた構造を表現するために，潜在変数（latent variable） $\mathbf{z} \in \mathbb{R}^k$ を導入する．潜在変数に対して，$\mathbf{x}$ は観測変数 (observed variable) と呼ぶ．視覚系に対応させると，$\mathbf{x}$ は網膜像のような感覚入力を表し，$\mathbf{z}$ は物体のカテゴリ，三次元形状，照明条件など，より抽象的で高次の視覚的表現に相当すると考えられる．
+ここまで，データに関しては観測可能な場合のみを考えてきた．
+理想的には，外界のすべての変数が観測可能（fully visible）であることが望ましいが，実際には観測できない変数が存在することが多い．そのような隠れた構造を表現するために，潜在変数（latent variable） $\mathbf{z}$ を導入する．潜在変数に対して，$\mathbf{x}$ は観測変数 (observed variable) と呼ぶ．視覚系に対応させると，$\mathbf{x}$ は網膜像のような感覚入力を表し，$\mathbf{z}$ は物体のカテゴリ，三次元形状，照明条件など，より抽象的で高次の視覚的表現に相当すると解釈できる．
+
+ベイズ線形回帰の場合と比較すると同じ文字で役割が異なっているのでややこしいが，生成対象は $y \to \mathbf{x}$ であり，パラメータは $\theta$ のままである．生成対象を説明する変数としては $\mathbf{x} \to \mathbf{z}$ だが，観測されている変数から，観測できていない隠れ変数に代わっているという点が，ベイズ線形回帰と異なっている．
 
 ここで，潜在変数に基づいて観測データが生成されるという構造は，以下のような同時確率密度関数として定式化される：
 
 $$
-p_\theta(\mathbf{x}, \mathbf{z}) = p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) 
+p(\mathbf{x}, \mathbf{z} \mid \theta) = p(\mathbf{x} \mid \mathbf{z}, \theta) p(\mathbf{z} \mid \theta) 
 $$
 
-ここで $p_\theta(\mathbf{z})$ は潜在変数の事前分布（prior），$p_\theta(\mathbf{x} \mid \mathbf{z})$ は潜在変数が与えられたときの観測データの条件付き分布（likelihood）である．
+ここで $p(\mathbf{z} \mid \theta)$ は潜在変数の事前分布（prior），$p(\mathbf{x} \mid \mathbf{z}, \theta)$ は潜在変数が与えられたときの観測データの条件付き分布（likelihood）である．
 
 生成モデルの学習や推論を行うためには，観測データ $\mathbf{x}$ に対する潜在変数 $\mathbf{z}$ の事後分布（posterior distribution）を求める必要がある．これはベイズの定理により次のように与えられる：
 
@@ -46,15 +32,19 @@ $$
 
 ただし、分母の $p_\theta(\mathbf{x})$ は $p_\theta(\mathbf{x}) = \int p_\theta(\mathbf{x} \mid \mathbf{z}) p_\theta(\mathbf{z}) d\mathbf{z}$ によって計算される周辺尤度（またはエビデンス）である．
 
-この事後分布 $p_\theta(\mathbf{z} \mid \mathbf{x})$ は，観測された結果からその原因（$\mathbf{z}$）を推論 (inference) するための分布であり，逆モデル (inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
+この事後分布 $p(\mathbf{z} \mid \mathbf{x}, \theta)$ は，観測された結果からその原因（$\mathbf{z}$）を推論 (inference) するための分布であり，逆モデル (inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
+
+$\theta = \{\psi, \phi\}$
 
 推論的知覚の枠組みにおいては，順モデルは上位から下位への下行性投射（top-down projection）に，逆モデルは下位から上位への上行性投射（bottom-up projection）に対応すると考えられる．
 
-モデル全体 $p_\theta(\mathbf{x})$ を指して生成モデルと呼ぶこともあるが、潜在変数モデルの文脈では、このデータ生成過程を担う部分を特に生成モデルと呼ぶ。
+モデル全体 $p(\mathbf{x} \mid \theta)$ を指して生成モデルと呼ぶこともあるが、潜在変数モデルの文脈では、このデータ生成過程を担う部分を特に生成モデルと呼ぶ。
 
 なお，ここで述べた「順モデル」，「逆モデル」という用語は，運動制御における内部モデル（internal model）の文脈で使われるものとは異なる概念であることに注意が必要である．
 
 具体的な確率分布でモデルを設定してみよう．
+
+このような潜在変数モデルの代表例が確率的主成分分析モデルであるが，ここでは扱わない．
 
 ### 階層ベイズモデル
 生成モデルの表現力を高めるため，生成モデルを階層化することを考えよう．
@@ -581,6 +571,7 @@ $$
 \end{align}
 $$
 
+---
 
 ## マルコフ連鎖モンテカルロ法
 
@@ -1030,3 +1021,6 @@ $$
 p(y \mid \mathbf{x}) \propto \prod_{i} \frac{e^{-f_{i}(y)} f_{i}(y)^{x_{i}}}{x_{i} !} p(y)
 \end{equation}
 $$
+
+## 変分推論
+近似分布 $q$ を用意する．近似分布族を $\mathcal{Q}$ とすると，$q \in \mathcal{Q}$ において，最適な分布を探すこととなる．
