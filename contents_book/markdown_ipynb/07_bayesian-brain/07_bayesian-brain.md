@@ -10,25 +10,12 @@ $$
 と定義される．
 正規分布の他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．
 
-### 最尤推定とMAP推定
-
-ベイズ推論から派生し，パラメータ $\theta$ の分布ではなく点推定を行う（パラメータの不確実性を扱わない）手法を紹介する．点推定の手法として最尤推定 (MLE) と最大事後確率 (maximum a posteriori; MAP）推定があり，各々の手法でのパラメータの推定値は以下のように記載することができる．
-
-$$
-\begin{align}
-\hat{\theta}_{\mathrm{MLE}} &= \arg\max_{\theta} \; p_\theta(\mathcal{D}) = \arg\max_{\theta} \; \sum_{i=1}^N \ln p_\theta(x_i)\\
-\hat{\theta}_{\mathrm{MAP}} &= \arg\max_{\theta} \; p(\theta \mid \mathcal{D}) = \arg\max_{\theta} \; \big[ \ln p(\mathcal{D} \mid \theta) + \ln p(\theta) \big]
-\end{align}
-$$
-
-両者の式は似ているが，パラメータによって最大化する目的関数が異なる．最尤推定では尤度を最大化する一方で，MAP推定では事後確率を最大化する．MAP推定では，目的関数に事前分布を含んでおり，こうした点でMAP推定は正則化付き最尤推定ともいえる．
+#### MAP・最尤推定
 
 ベイズ線形回帰で最尤推定とMAP推定をそれぞれ行ってみよう．
 最尤推定の結果は最小二乗法となる．
 
 MAP推定の結果は正則化付き線形回帰となる．
-
-MAP推定を別の手法で見てみよう．KL divergenceの最小化．
 
 
 事後分布のモード（MAP）は $\hat{\boldsymbol{\mu}}$ に一致する．特に $\boldsymbol{\mu}_0=\mathbf{0},\,\boldsymbol{\Sigma}_0=\alpha^{-1}\mathbf{I}$ のとき，
@@ -39,96 +26,6 @@ $$
 $$
 
 であり，これはリッジ回帰の解と同値である（$\lambda=\alpha/\beta$）．ただし MAP は点推定であり，不確実性は $\hat{\boldsymbol{\Sigma}}$ を通じてベイズ推論で表現される．
-
-以上が事後分布および予測分布の導出である．ご指定の $\phi(x)=[1,x,x^2,x^3]$ を用いる場合でも，上記はそのまま成立する（$\Phi$ の列がその基底で構成されるだけである）．
-
-
-
-### 最尤推定
-最尤推定は、パラメータを固定された未知量とみなし、観測データが得られる確率（尤度）を最大にする値を推定値として採用する方法である。
-データ集合 $\mathcal{D} = \{x_i\}_{i=1}^N$ に対するMLEは
-
-$$
-\hat{\theta}_{\mathrm{MLE}} = \arg\max_{\theta} \; p_\theta(\mathcal{D}) = \arg\max_{\theta} \; \sum_{i=1}^N \ln p_\theta(x_i)
-$$
-
-で与えられる。
-これは**点推定**であり、推定結果は単一の値 $\hat{\theta}$ となる。
-ベイズ推論と異なり、パラメータの不確実性は直接的には扱わない。
-
-#### MAP推定
-最大事後確率 (maximum a posteriori; MAP）推定
-
-MAP推定は、パラメータの事前分布 $p(\theta)$ を考慮し、事後分布
-
-$$
-p(\theta \mid \mathcal{D}) \propto p(\mathcal{D} \mid \theta) \, p(\theta)
-$$
-
-を最大化する推定法である。推定値は
-
-$$
-\hat{\theta}_{\mathrm{MAP}} = \arg\max_{\theta} \; p(\theta \mid \mathcal{D}) = \arg\max_{\theta} \; \big[ \ln p(\mathcal{D} \mid \theta) + \ln p(\theta) \big]
-$$
-
-で与えられる。
-
-対数事前 $\ln p(\theta)$ が正則化項として働くため、MAP推定は「**正則化付き最尤推定**」として解釈できる。
-例えば、パラメータにガウス事前 $p(\theta) = \mathcal{N}(0, \sigma_p^2 I)$ を置くと、MAP推定はL2正則化（リッジ回帰）に対応する。
-
-### 生成モデル
-生成モデルとは，学習データに内在する特徴や構造を学習し，それに基づいて新たなデータを生成するモデルである．ここで，学習対象となる観測データ（例えば感覚入力）を $\mathbf{x} \in \mathbb{R}^d$ とし，それらが従う真の確率密度関数を $p_{\mathrm{data}}(\cdot)$ と表す．この密度関数 $p_{\mathrm{data}}(\cdot)$ は，実世界においてデータがどのように生成されるかを記述するものであり，$\mathbf{x}$ における確率密度は $p_{\mathrm{data}}(\mathbf{x})$ で与えられる．このような密度関数 $p_{\mathrm{data}}(\cdot)$ が既知であれば，任意のサンプル $\mathbf{x}$ をそこから生成（サンプリング）することができる．しかし現実には，$p_{\mathrm{data}}(\cdot)$ は明示的な形では与えられておらず，ほとんどの場合において未知である．観測データがある確率的な生成過程に従って生じたと仮定し，その過程を表現するために，パラメータ $\theta$ をもつ確率密度関数 $p_\theta(\mathbf{x})$ を導入する．ここで，$p_\theta(\mathbf{x})$ は，観測変数 $\mathbf{x}$ に対する条件付き分布 $p(\mathbf{x} \mid \theta)$ の略記である．このような分布 $p_\theta(\mathbf{x})$ を定めるモデルを，生成モデル（generative model）と呼ぶ．
-
-生成モデルの学習における目的は，パラメータ $\theta$ を調整して，生成モデルが定める確率密度関数 $p_\theta(\mathbf{x})$ を，学習データが従う真の分布 $p_{\mathrm{data}}(\mathbf{x})$ に近づけることである．この「近づける」という操作には，両分布間の差異を定量化する指標，すなわち確率分布間の距離（あるいは不一致度）を定義する必要がある．ここではその尺度として，Kullback–Leiblerダイバージェンス（KLダイバージェンス）を用いる：
-
-$$
-\begin{equation}
-D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p_\theta(\mathbf{x})\right)
-:= \int p_{\mathrm{data}}(\mathbf{x}) \ln \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x}
-\end{equation}
-$$
-
-この量（KLダイバージェンス）は，真の分布 $p_{\mathrm{data}}(\mathbf{x})$ を基準としたときに，モデル分布 $p_\theta(\mathbf{x})$ がどれだけ情報的に乖離しているかを測る指標である．すなわち，モデルが生成する分布が，実際のデータ分布からどの程度逸脱しているかを定量化するものである．このKLダイバージェンスを展開すると，
-
-$$
-\begin{align}
-D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p_\theta(\mathbf{x})\right)
-&= \int p_{\mathrm{data}}(\mathbf{x}) \ln \frac{p_{\mathrm{data}}(\mathbf{x})}{p_\theta(\mathbf{x})} \, d\mathbf{x} \\
-&= \int p_{\mathrm{data}}(\mathbf{x}) \ln p_{\mathrm{data}}(\mathbf{x}) \, d\mathbf{x} 
-\ - \int p_{\mathrm{data}}(\mathbf{x}) \ln p_\theta(\mathbf{x}) \, d\mathbf{x} \\
-&= \text{const.} - \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \ln p_\theta(\mathbf{x}) \right]
-\end{align}
-$$
-
-となる．ここで第1項は $\theta$ に依存しない定数であるため，パラメータ $\theta$ を最適化する際には，第2項の期待値（すなわち対数尤度の期待値）を最大化することに等しい．したがって，最適なパラメータ $\theta^*$ は，
-
-$$
-\begin{equation}
-\theta^* = \arg\min_\theta D_{\mathrm{KL}}\left(p_{\mathrm{data}} \,\Vert\, p_\theta\right)
-= \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim p_{\mathrm{data}}} \left[ \ln p_\theta(\mathbf{x}) \right]
-\end{equation}
-$$
-
-として求められる．しかし実際には，真の分布 $p_{\mathrm{data}}(\mathbf{x})$ の形は不明であり，観測されるのは有限個のデータ点 $\{\mathbf{x}_i\}_{i=1}^N$ のみである．そこで，真の分布の代替として，以下のような経験分布（empirical distribution） $\hat{p}_{\mathrm{data}}(\mathbf{x})$ を用いる：
-
-$$
-\begin{equation}
-\hat{p}_{\mathrm{data}}(\mathbf{x}) := \frac{1}{N} \sum_{i=1}^N \delta(\mathbf{x} - \mathbf{x}_i)
-\end{equation}
-$$
-
-ここで，$\delta(\cdot)$ は Dirac のデルタ関数であり，この経験分布 $\hat{p}_{\mathrm{data}}(\mathbf{x})$ は，観測された各データ点の位置にのみ確率を集中させるような離散的な点分布として解釈できる．すなわち、サンプル $\{\mathbf{x}_i\}_{i=1}^N$ 以外の点では確率密度がゼロであり、各 $\mathbf{x}_i$ に等しい重み $1/N$ を割り当てているとみなせる．この近似を用いることで，最適化問題は次のように書き換えられる：
-
-$$
-\begin{equation}
-\theta^* \approx \arg\max_\theta \mathbb{E}_{\mathbf{x} \sim \hat{p}_{\mathrm{data}}} \left[ \ln p_\theta(\mathbf{x}) \right]
-= \arg\max_\theta \sum_{i=1}^N \ln p_\theta(\mathbf{x}_i)
-\end{equation}
-$$
-
-これは，観測されたデータに対する対数尤度のサンプル平均を最大化する操作に対応し，最大尤度推定（maximum likelihood estimation; MLE）と呼ばれる．
-
-この最適化問題をさらに具体的に扱うためには，確率密度関数 $p_\theta(\mathbf{x})$ の形式を明示的に定める必要がある．そこで次に，この $p_\theta(\mathbf{x})$ をどのような構造のもとに構築するかを紹介する．
 
 ### 潜在変数モデル
 理想的には，外界のすべての変数が観測可能（fully visible）であることが望ましいが，実際には観測できない変数が存在することが多い．そのような隠れた構造を表現するために，潜在変数（latent variable） $\mathbf{z} \in \mathbb{R}^k$ を導入する．潜在変数に対して，$\mathbf{x}$ は観測変数 (observed variable) と呼ぶ．視覚系に対応させると，$\mathbf{x}$ は網膜像のような感覚入力を表し，$\mathbf{z}$ は物体のカテゴリ，三次元形状，照明条件など，より抽象的で高次の視覚的表現に相当すると考えられる．
@@ -252,14 +149,6 @@ $$
 →予測符号化→不確実性の導入→ベイズ脳…
 
 ### 最大事後確率推定
-
-最大事後確率 (maximum a posteriori; MAP）推定という．
-
-MAP推定をしない方法についてはしばらく後で説明する．
-
-MAP推定で行う．
-
-点推定
 
 ### スパース符号化モデル
 スパース符号化モデル (Sparse coding model) \citep{`Olshausen1996-xe`, `Olshausen1997-qu`}はV1のニューロンの応答特性を説明する線形生成モデル (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
