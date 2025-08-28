@@ -1,3 +1,33 @@
+固定されていないパラメータの同時分布でモデルを定義することとするのが，自然ですね．完全な生成過程の説明になります．以下に例を列挙します．
+
+通常の生成モデル：
+
+$$
+p(\mathbf{x}, \theta) = p(\mathbf{x} \mid \theta) p(\theta) 
+$$
+
+ベイズ線形回帰モデル：
+
+$$
+p(y, \theta \mid \mathbf{x}) = p(y\mid \mathbf{x}, \theta) p(\theta)
+$$
+
+潜在変数モデル：
+
+$$
+p(\mathbf{x}, \mathbf{z}, \theta) = p(\mathbf{x} \mid \mathbf{z}, \theta) p(\mathbf{z} \mid \theta) p(\theta)
+$$
+
+階層的潜在変数モデル：
+$\mathbf{z}_{1:L} := \{\mathbf{z}_i\}_{i=1}^L$ とすると，
+
+$$
+p(\mathbf{x}, \mathbf{z}_{1:L}, \theta) = p(\mathbf{x} \mid \mathbf{z}_1, \theta) \left(\prod_{i=1}^{L-1} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta)\right)p(\mathbf{z}_L \mid \theta)\,p(\theta)
+$$
+
+なお，パラメータは層別に定義することも可能ですが，ここではまとめています．必要に応じて $p(\theta)=\prod_i p(\theta_i)$ とすればよいと考えています．
+この内容でおかしい点があれば指摘してください．
+
 ### ベイズ線形回帰
 ここでは，事前分布と事後分布はいずれも正規分布であり，指数型分布族 (exponential family) に属する。そのため，事後分布は解析的に計算することができる。
 
