@@ -333,9 +333,9 @@ D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p(\mathbf{x}\mid \t
 \begin{equation}
 \ln p(\mathbf{w}) = -\frac{\alpha}{2} \sum_{i=1}^n \lvert w_i\rvert+ \text{const.}
 \end{equation}
-となるので，最適化問題は
+となる．$L^1$ ノルムを $\lVert \mathbf{w}\rVert _1 := \sum_{i=1}^n \lvert w_i\rvert$ とすると，最適化問題は
 \begin{equation}
-\arg\max_{\mathbf{w}} p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) =\arg\min_{\mathbf{w}}\, \left[\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \lambda\sum_{i=1}^n \lvert w_i\rvert \right]
+\arg\max_{\mathbf{w}} p(\mathbf{w} \mid \mathbf{y}, \mathbf{X}) =\arg\min_{\mathbf{w}}\, \left[\lVert \mathbf{y}-\Phi\mathbf{w}\rVert^2 + \lambda\lVert \mathbf{w}\rVert _1 \right]
 \end{equation}
 と書ける．この最適化問題は最小二乗法の目的関数に，パラメータの絶対値 ($L^1$ノルム) を正則化項として追加したものであり，これはLasso回帰と一致する．
 
@@ -367,10 +367,12 @@ D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p(\mathbf{x}\mid \t
 \subsection{変分推論}
 MAP推定は変分推論から導出できる．
 
+
 \subsection{自由エネルギー原理}
 FEP
 
 Active inference
+%A tutorial on the free-energy framework for modelling perception and learning
 %What does the free energy principle tell us about the brain?
 
 \subsection{マルコフ連鎖モンテカルロ法}

@@ -382,24 +382,23 @@ p.33
 本書では次のような記号表記を用いる．
 \begin{itemize}
 \item 実数全体を $\mathbb{R}$, 自然数全体を $\mathbb{N}$, 複素数全体を $\mathbb{C}$ と表す. 
-\item スカラーは小文字・斜体 (例：$x$) , ベクトルは小文字・立体・太字 (例：$\mathbf{x}$) で表し, 列ベクトル (縦ベクトル) として扱う. 
-\item 行列は大文字・立体・太字 (例：$\mathbf{X}$) で表す. 
+\item スカラーは小文字・斜体 (例：$x$) , ベクトルは小文字・立体・太字 (例：$\mathbf{x}$) で表し, 列ベクトル (縦ベクトル) として扱う. 行列は大文字・立体・太字 (例：$\mathbf{X}$) で表す. 
 \item 実 $n\times 1$ ベクトルの集合を $\mathbb{R}^n$, 実 $n\times m$ 行列の集合を $\mathbb{R}^{n\times m}$ と表す. 
 \item 行列の $(i,j)$ 成分は $x_{ij}$ または $(\mathbf{X})_{ij}$ と表す. 
-\item 転置は $\mathbf{X}^\top$ と書く. ベクトルの要素は $\mathbf{x} = (x_1, x_2, \dots, x_n)^\top$ のように記す. 
+\item 行列の転置は $\mathbf{X}^\top$ と書く. ベクトルの要素は $\mathbf{x} = (x_1, x_2, \dots, x_n)^\top$ のように記す. このため，ベクトルの内積は $\mathbf{x}^\top \mathbf{y}$ で表す. 
 \item 単位行列を$\mathbf{I}$と表記する．$n \times n$ 次元の単位行列は $\mathbf{I}_n$ と表記する．
 \item ゼロベクトルは $\mathbf{0}$, 全要素が 1 のベクトルは $\mathbf{1}$ とする. 
-\item ベクトルのユークリッドノルムは $\|\mathbf{x} \|_2$, 一般の $p$-ノルムは $\| \mathbf{x} \|_p$ と表す. フロベニウスノルムは $\| \mathbf{X} \|_F$ と表す. 
-\item 内積は $\mathbf{x}^\top \mathbf{y}$ で表す. 
-\item ベクトル・行列の微分は分子レイアウト記法 (numerator layout notation) を用いる. 
 \item 変数 $x$ の関数は $f(x)$ などと書く. 変数 $x$ とパラメータ $a$ を特に区別する場合は $f(x; a)$ のようにセミコロン (;) で区切る. 引数を具体的に指定せず関数のみを示す場合は $f(\cdot)$ と書く. 
+\item 定義には $\coloneqq$ を用いる (例：$f(x) \coloneqq 2x$) . 右辺を定義する場合は $\eqqcolon$ を用いる. 
+\item スカラー $x$ の絶対値は $\lvert x \rvert$ と表す．行列 $\mathbf{X}$ の行列式は $\lvert \mathbf{X} \rvert$ と表す．
+\item ベクトル $\mathbf{x}$ のユークリッドノルムは $\lVert \mathbf{x} \rVert \coloneqq \sqrt{\sum_i x_i^2}$, 一般の $p$-ノルムは $\lVert \mathbf{x} \rVert _p\coloneqq \left(\sum_i \lvert x_i \rvert ^p\right)^{1/p}$ と表す. 行列 $\mathbf{X}$ について行列ノルム（フロベニウスノルム）は $\lVert \mathbf{X} \rVert _F\coloneqq \sqrt{\sum_{i,j} x_{ij}^2}$ と表す. 
+\item ベクトル・行列の微分は分子レイアウト記法 (numerator layout notation) を用いる. 
 \item 近似は $\approx$ で表す (例：$a \approx b$) . 
 \item 比例関係は $\propto$ を用いる (例：$a \propto b$) . 
 \item 最大化・最小化の変数を明示する場合は $\arg\max_{x \in \mathcal{X}} f(x)$, $\arg\min_{x \in \mathcal{X}} f(x)$ のように表す. 
-\item 定義には $\coloneqq$ を用いる (例：$f(x) \coloneqq 2x$) . 右辺を定義する場合は $\eqqcolon$ を用いる. 
 \item 平均 $\mu$, 分散 $\sigma^2$ の1次元正規分布は $\mathcal{N}(\mu, \sigma^2)$ と表記し, 確率密度関数としては $\mathcal{N}(x \mid \mu, \sigma^2)$ と表す. 他の確率分布に関しては使用する際に定義を示す．
 \item 自然対数の底は $e$ とし, 指数関数を $e^x = \exp(x)$, 自然対数を $\ln(x)$ と表す. 
-\item 計算に影響しない定数は $\mathrm{const.}$ と表す. 
+\item 計算結果に影響しない定数は $\mathrm{const.}$ と表す. 
 \end{itemize}
 
 \printbibliography[segment=\therefsegment,heading=subbibliography,title={参考文献}]
