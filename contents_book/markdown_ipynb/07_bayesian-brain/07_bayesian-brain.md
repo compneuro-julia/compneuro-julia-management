@@ -18,15 +18,22 @@ $$
 p(\mathbf{x}, \mathbf{z}, \theta) = p(\mathbf{x} \mid \mathbf{z}, \theta) p(\mathbf{z} \mid \theta) p(\theta)
 $$
 
-階層的潜在変数モデル：
-$\mathbf{z}_{1:L} := \{\mathbf{z}_i\}_{i=1}^L$ とすると，
+階層的潜在変数モデルにおいて，$\mathbf{z}_{1:L} := \{\mathbf{z}_i\}_{i=1}^L$，$\boldsymbol{\theta}_{0:L} := \{\theta_i\}_{i=0}^L$ とすると，その同時分布は次式で与えられる：
 
 $$
-p(\mathbf{x}, \mathbf{z}_{1:L}, \theta) = p(\mathbf{x} \mid \mathbf{z}_1, \theta) \left(\prod_{i=1}^{L-1} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta)\right)p(\mathbf{z}_L \mid \theta)\,p(\theta)
+\begin{align}
+p(\mathbf{x}, \mathbf{z}_{1:L}, \boldsymbol{\theta}_{0:L})
+&= p(\mathbf{x}\mid \mathbf{z}_1,\theta_0)\,
+   \prod_{i=1}^{L-1} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\,
+   p(\mathbf{z}_L \mid \theta_L)\,
+   \prod_{i=0}^{L} p(\theta_i)\\
+&= \prod_{i=0}^{L} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\, p(\theta_i)
+\end{align}
 $$
 
-なお，パラメータは層別に定義することも可能ですが，ここではまとめています．必要に応じて $p(\theta)=\prod_i p(\theta_i)$ とすればよいと考えています．
-この内容でおかしい点があれば指摘してください．
+ここで，第2行目はすべての層を同じ形式で表記するために導入したものであり，その際に境界条件として $\mathbf{z}_0 := \mathbf{x},\ \mathbf{z}_{L+1} := \varnothing$ を設定する必要がある．ただし，ここでの $\varnothing$ は変数が存在しないこと，あるいは空 (null) な変数であることを示す形式的な記号であり，集合としての空集合を意味するものではない．
+
+Bayesian network
 
 ### ベイズ線形回帰
 ここでは，事前分布と事後分布はいずれも正規分布であり，指数型分布族 (exponential family) に属する。そのため，事後分布は解析的に計算することができる。
