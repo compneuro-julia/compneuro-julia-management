@@ -1,3 +1,6 @@
+Bayesian network
+
+
 固定されていないパラメータの同時分布でモデルを定義することとするのが，自然ですね．完全な生成過程の説明になります．以下に例を列挙します．
 
 通常の生成モデル：
@@ -12,28 +15,83 @@ $$
 p(y, \theta \mid \mathbf{x}) = p(y\mid \mathbf{x}, \theta) p(\theta)
 $$
 
-潜在変数モデル：
+### 潜在変数モデル
+
+潜在変数モデル (latent variable model) は，観測変数 $\mathbf{x}$，潜在変数 $\mathbf{z}$，およびパラメータ $\theta$ に関する同時分布として定式化される：
 
 $$
-p(\mathbf{x}, \mathbf{z}, \theta) = p(\mathbf{x} \mid \mathbf{z}, \theta) p(\mathbf{z} \mid \theta) p(\theta)
+p(\mathbf{x}, \mathbf{z}, \theta) 
+= p(\mathbf{x} \mid \mathbf{z}, \theta)\, p(\mathbf{z} \mid \theta)\, p(\theta)
 $$
 
-階層的潜在変数モデルにおいて，$\mathbf{z}_{1:L} := \{\mathbf{z}_i\}_{i=1}^L$，$\boldsymbol{\theta}_{0:L} := \{\theta_i\}_{i=0}^L$ とすると，その同時分布は次式で与えられる：
+推論や学習の目的は，観測データ $\mathbf{x}$ が与えられたときの潜在変数とパラメータの事後分布
+
+$$
+p(\mathbf{z}, \theta \mid \mathbf{x}) 
+= \frac{p(\mathbf{x}, \mathbf{z}, \theta)}{p(\mathbf{x})}
+$$
+
+を求めることである。ここで分母の $p(\mathbf{x})$ は周辺尤度と呼ばれ，
+
+$$
+p(\mathbf{x})
+= \iint p(\mathbf{x}, \mathbf{z}, \theta)\, d\mathbf{z}\, d\theta
+$$
+
+で与えられる。この積分は高次元で非線形な場合が多く，解析的に計算することは一般に困難である。そのため，潜在変数モデルの推論には **近似ベイズ推論** が必要となる。代表的な方法として，変分推論やマルコフ連鎖モンテカルロ法（MCMC）が挙げられる。
+
+ここでは近似ベイズ推論の詳細には立ち入らず，より単純な近似として点推定に基づく解法を考える。とくに，ここでは前項で説明したMAP推定を用いることにする。MAP推定では周辺尤度の計算を避け，次の最適化問題を解けばよい：
 
 $$
 \begin{align}
+\{\mathbf{z}^*, \theta^*\}
+&= \arg\max_{\mathbf{z}, \theta} p(\mathbf{z}, \theta \mid \mathbf{x})\\
+&= \arg\max_{\mathbf{z}, \theta} \bigl[\ln p(\mathbf{x} \mid \mathbf{z}, \theta) + \ln p(\mathbf{z}\mid \theta) + \ln p(\theta)\bigr]
+\end{align}
+$$
+
+ここで
+
+$$
+\mathcal{L}(\mathbf{z}, \theta)
+:= \ln p(\mathbf{x} \mid \mathbf{z}, \theta) 
+ + \ln p(\mathbf{z}\mid \theta) 
+ + \ln p(\theta)
+$$
+
+と定義すれば，勾配上昇法を用いて
+
+$$
+\Delta \mathbf{z} \propto \left(\frac{\partial \mathcal{L}}{\partial \mathbf{z}}\right)^\top, 
+\quad 
+\Delta \theta \propto \left(\frac{\partial \mathcal{L}}{\partial \theta}\right)^\top
+$$
+
+のように更新を行うことで最適解に近づけることができる（ここでは分子レイアウトを用いた）。
+
+### 階層的潜在変数モデル
+
+潜在変数は一層に限らず，複数の層を階層的に導入することができる。このようなモデルを階層的潜在変数モデル (hierarchical latent variable model) と呼ぶ。潜在変数を $\mathbf{z}_{1:L} := \{\mathbf{z}_i\}_{i=1}^L$，パラメータを $\boldsymbol{\theta}_{0:L} := \{\theta_i\}_{i=0}^L$ とすると，その同時分布は次式で表される：
+
+$$
+\begin{aligned}
 p(\mathbf{x}, \mathbf{z}_{1:L}, \boldsymbol{\theta}_{0:L})
 &= p(\mathbf{x}\mid \mathbf{z}_1,\theta_0)\,
    \prod_{i=1}^{L-1} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\,
    p(\mathbf{z}_L \mid \theta_L)\,
-   \prod_{i=0}^{L} p(\theta_i)\\
-&= \prod_{i=0}^{L} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\, p(\theta_i)
-\end{align}
+   \prod_{i=0}^{L} p(\theta_i) \\
+&= \prod_{i=0}^{L} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\, p(\theta_i).
+\end{aligned}
 $$
 
-ここで，第2行目はすべての層を同じ形式で表記するために導入したものであり，その際に境界条件として $\mathbf{z}_0 := \mathbf{x},\ \mathbf{z}_{L+1} := \varnothing$ を設定する必要がある．ただし，ここでの $\varnothing$ は変数が存在しないこと，あるいは空 (null) な変数であることを示す形式的な記号であり，集合としての空集合を意味するものではない．
+第2行はすべての層を統一的に書き表すための形式であり，その際に
 
-Bayesian network
+$$
+\mathbf{z}_0 := \mathbf{x}, \quad \mathbf{z}_{L+1} := \varnothing
+$$
+
+という境界条件を導入する。ここでの $\varnothing$ は「変数が存在しないこと」を表す形式的な記号であり，集合論的な空集合とは区別される。なお，階層的潜在変数モデルは必ずしも直上の層のみに依存する必要はなく，スキップ結合を導入して「上位すべての層に依存する」と定式化することも可能である。
+
 
 ### ベイズ線形回帰
 ここでは，事前分布と事後分布はいずれも正規分布であり，指数型分布族 (exponential family) に属する。そのため，事後分布は解析的に計算することができる。
