@@ -15,6 +15,82 @@ $$
 p(y, \theta \mid \mathbf{x}) = p(y\mid \mathbf{x}, \theta) p(\theta)
 $$
 
+
+本章を執筆する上で全般的に参考した書籍は
+
+### 確率モデルの設計とエネルギーベースモデル
+前節で定義した事後分布や，予測分布は確率モデルの具体的な形状を定義しなければ計算することはできない．確率モデルを定義する上で，代表的な多変量正規分布およびそれが属する指数型分布族，さらに指数分布族と関連し，より扱いやすい枠組みであるエネルギーベースモデル (energy based model) を本項では紹介する．
+
+#### 多変量正規分布
+まず，多変量正規分布 (ガウス分布) を導入する．1次元の場合，正規分布は次の確率密度関数で表される．
+
+$$
+\begin{equation}
+\mathcal{N}(x \mid \mu, \sigma^2) 
+\coloneq \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
+\end{equation}
+$$
+
+ここで，$\mu \in \mathbb{R}$ は平均，$\sigma^2 > 0$ は分散を表し，$\sigma$ は標準偏差である．この式を $x \in \mathbb{R}$ から $d$ 次元のベクトル $\mathbf{x} \in \mathbb{R}^d$ に拡張すると，分布は多変量正規分布 (multivariate normal distribution) となる．
+
+$$
+\begin{equation}
+\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) 
+\coloneq \frac{1}{\sqrt{(2\pi)^d \, |\boldsymbol{\Sigma}|}}
+\exp\left( -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right)
+\end{equation}
+$$
+
+ここで，$\boldsymbol{\mu} \in \mathbb{R}^d$ は各成分の平均を並べた平均ベクトル，$\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$ は共分散行列 (covariance matrix) である．
+
+#### 指数型分布族
+多変量正規分布が属する確率分布の枠組みを指数型分布族 (exponential family) と呼ぶ．指数型分布族には多数の分布が属しており，他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．指数型分布族の一般形は
+
+$$
+p(x\mid \theta) = h(x)\cdot c(\theta) \exp(\eta(\theta)t(x))
+$$ 
+
+と定義される．
+
+指数型分布族同士であれば，共役となる．
+
+p.36
+
+#### エネルギーベースモデル
+次に指数分布族と関連して扱いやすい枠組みであるエネルギーベースモデル (energy-based model; EBM) を紹介する．エネルギーベースモデルでは，確率変数 $\mathbf{x}$ の確率密度関数を，パラメータ $\theta$ を持つエネルギー関数 $E(\mathbf{x}; \theta):\ \mathbb{R}^{d}\mathbb{\rightarrow R}$ および Gibbs-Boltzmann分布を用いて次のように表す．
+
+$$
+\begin{equation}
+p(\mathbf{x} \mid \theta)\  = \frac{\exp\left(-E\left(\mathbf{x}; \theta \right)\right)}{Z(\theta)},\quad Z(\theta) = \int \exp(-E\left( \mathbf{x}'; \theta\right))\,\mathrm{d}\mathbf{x}'
+\end{equation}
+$$
+
+ただし，$Z(\theta)$は規格化定数あるいは分配関数 (partition function) である．エネルギーベースモデルの利点は，確率変数およびパラメータを入力として1次元の値を返すエネルギー関数さえ設計すれば複雑な確率分布を構成する必要はないという点である．このエネルギー関数は，ある状態 $\mathbf{x}$ の「好ましさ」や「自然さ」を定量的に評価するものであり，エネルギーが小さいほどその状態がより実現しやすいと解釈される．そのように設計すれば確率分布として構成をすることができる．もちろん，なぜこのようなことができるのかと言えば，確率分布の総和が1になるという性質をすべて規格化定数 $Z(\theta)$ に押し付けているからである．エネルギーの例としては，第2章で紹介したHopfieldモデルにおけるエネルギーなどがある．
+
+なお，ここでの「エネルギー」は代謝コスト (metabolic cost) と完全に対応するものではなく，計算上取り入れられたものである．神経系における代謝コストはニューロンの発火活動やシナプス伝達に伴ってイオンポンプによる電位回復（たとえばNa/K ポンプ） などによって消費される実際のエネルギー（ATPなど）を指す \citep{jamadar2025metabolic}．例えば神経活動の大きさをエネルギー関数に組み込んだ場合，神経活動が大きいほど代謝コストは大きくなるため，EBMのエネルギーと代謝コストは関連付けることができる．
+
+このエネルギーベースモデルで定義される分布は，指数型分布族と関連がある．指数型分布族をエネルギーベースモデルの式に変換するには，
+
+$$
+\to E(\mathbf{x}; \theta)
+$$
+
+とすればよい．要するに，指数の外側に $\mathbf{x}$ に依存する項を含まないようにしているのが特徴である．こうすることによる利点があり，それを享受しているのがスコアと呼ばれる概念である．エネルギーベースモデルにおいて，対数尤度の勾配 $\dfrac{\partial \ln p(\mathbf{x} \mid \theta)}{\partial \mathbf{x}}$ をスコアとよぶ．
+
+$$
+\frac{\partial \ln p(\mathbf{x} \mid \theta)}{\partial \mathbf{x}} =
+- \frac{\partial \ln E(\mathbf{x}; \theta)}{\partial \mathbf{x}} - \frac{\partial \ln Z(\theta)}{\partial \mathbf{x}}=- \frac{\partial \ln E(\mathbf{x}; \theta)}{\partial \mathbf{x}}
+$$
+
+このようにスコアには正規化定数 (分配関数) は関与しない．
+
+
+
+
+
+
+
+
 ### 潜在変数モデル
 
 潜在変数モデル (latent variable model) は，観測変数 $\mathbf{x}$，潜在変数 $\mathbf{z}$，およびパラメータ $\theta$ に関する同時分布として定式化される：
@@ -35,7 +111,7 @@ $$
 
 $$
 p(\mathbf{x})
-= \iint p(\mathbf{x}, \mathbf{z}, \theta)\, d\mathbf{z}\, d\theta
+= \iint p(\mathbf{x}, \mathbf{z}, \theta)\, \mathrm{d}\mathbf{z}\, \mathrm{d}\theta
 $$
 
 で与えられる。この積分は高次元で非線形な場合が多く，解析的に計算することは一般に困難である。そのため，潜在変数モデルの推論には **近似ベイズ推論** が必要となる。代表的な方法として，変分推論やマルコフ連鎖モンテカルロ法（MCMC）が挙げられる。
@@ -92,18 +168,6 @@ $$
 
 という境界条件を導入する。ここでの $\varnothing$ は「変数が存在しないこと」を表す形式的な記号であり，集合論的な空集合とは区別される。なお，階層的潜在変数モデルは必ずしも直上の層のみに依存する必要はなく，スキップ結合を導入して「上位すべての層に依存する」と定式化することも可能である。
 
-
-### ベイズ線形回帰
-ここでは，事前分布と事後分布はいずれも正規分布であり，指数型分布族 (exponential family) に属する。そのため，事後分布は解析的に計算することができる。
-
-指数型分布族は 
-
-$$
-p(x\mid \theta) = h(x)\cdot c(\theta) \exp(\eta(\theta)t(x))
-$$ 
-
-と定義される．
-正規分布の他にはポアソン分布，多項分布，ベルヌーイ分布などが属する．
 
 ### 潜在変数モデル
 ここまで，データに関しては観測可能な場合のみを考えてきた．
