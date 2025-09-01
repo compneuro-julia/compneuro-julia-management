@@ -181,33 +181,52 @@ $$
 \Delta \theta \propto \left(\frac{\partial \mathcal{L}}{\partial \theta}\right)^\top
 $$
 
-のように更新を行うことで最適解に近づけることができる（ここでは分子レイアウトを用いた）。前々項で紹介したエネルギーベースモデルを用いて，具体的に分布の形状を決め，どのような更新則になるか調べてみよう．ここでの $\ln p(\mathbf{z}\mid \theta), \ln p(\theta)$ は正則化項としての機能を果たすので，$\ln p(\mathbf{x} \mid \mathbf{z}, \theta)$ のみを考えることとする．
+のように更新を行うことで最適解に近づけることができる（ここでは分子レイアウトを用いた）。前々項で紹介したエネルギーベースモデルを用いて，具体的に分布の形状を決め，どのような更新則になるか調べてみよう．ここでの $\ln p(\mathbf{z}\mid \theta), \ln p(\theta)$ は正則化項としての機能を果たすので，$\ln p(\mathbf{x} \mid \mathbf{z}, \theta)$ のみを考えることとする．すなわち最尤推定の場合を考えよう．正則化項を含めた完全な更新式に関しては，後に扱うこととする．尤度を
 
 $$
-p(\mathbf{x} \mid \mathbf{z}, \theta) = \mathcal{N}\left(\mathbf{x} \mid f\left(\mathbf{W}\mathbf{z}\right), \boldsymbol{\Sigma}\right)
+p(\mathbf{x} \mid \mathbf{z}, \theta) = \mathcal{N}\left(\mathbf{x} \mid f\left(\mathbf{W}\mathbf{z}\right), \boldsymbol{\Sigma}_\mathbf{x}\right)
 $$
 
-とする．ただし，$\theta = \{\mathbf{W}, \boldsymbol{\Sigma}\}$ である．また，$f(\cdot)$ は任意の関数（活性化関数）である．よって，
+とする．ただし，$\theta = \{\mathbf{W}, \boldsymbol{\Sigma}_\mathbf{x}\}$ である．また，$f(\cdot)$ は任意の関数（活性化関数）である．よって，対数尤度は
 
 $$
-\ln p(\mathbf{x} \mid \mathbf{z}, \theta) = - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}\rvert - \frac{1}{2}(\mathbf{x} - f\left(\mathbf{W}\mathbf{z}\right))^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - f\left(\mathbf{W}\mathbf{z}\right)) + \textrm{const.}
+\ln p(\mathbf{x} \mid \mathbf{z}, \theta) = -\frac{d}{2} \ln(2\pi) - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}_\mathbf{x}\rvert - \frac{1}{2}(\mathbf{x} - f\left(\mathbf{W}\mathbf{z}\right))^\top \boldsymbol{\Sigma}_\mathbf{x}^{-1} (\mathbf{x} - f\left(\mathbf{W}\mathbf{z}\right))
 $$
 
-であるので，誤差ベクトルを $\mathbf{e}:=\mathbf{x} - f(\mathbf{W}\mathbf{z})$ とすると，
+である．ただし，$d$ は $\mathbf{x}$ の次元数である．また，誤差ベクトルを $\boldsymbol{\varepsilon}:=\mathbf{x} - f(\mathbf{W}\mathbf{z})$ とすると，潜在変数とパラメータの更新量はそれぞれ，
 
 $$
-\begin{align}
-\frac{\partial}{\partial \mathbf{z}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta) &= \mathbf{W}^\top \, \mathrm{diag}\!\bigl(f'(\mathbf{W}\mathbf{z})\bigr)\, \boldsymbol{\Sigma}^{-1}\, \mathbf{e}\\
-\frac{\partial}{\partial \mathbf{W}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta) &= \\
-\frac{\partial}{\partial \boldsymbol{\Sigma}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta) &= 
-\end{align}
+\begin{alignat}{3}
+\Delta \mathbf{z}
+&\propto \left(\frac{\partial}{\partial \mathbf{z}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta)\right)^\top
+&&= \mathbf{W}^\top \, \mathrm{diag}\left(f'(\mathbf{W}\mathbf{z})\right)\, \boldsymbol{\Sigma}_\mathbf{x}^{-1}\, \boldsymbol{\varepsilon}\\
+\Delta \mathbf{W}
+&\propto \left(\frac{\partial}{\partial \mathbf{W}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta)\right)^\top
+&&= \left[\boldsymbol{\Sigma}_\mathbf{x}^{-1}\, \boldsymbol{\varepsilon} \,\odot f'(\mathbf{W}\mathbf{z})\right] \mathbf{z}^\top\\
+\Delta \boldsymbol{\Sigma}_\mathbf{x}
+&\propto \left(\frac{\partial}{\partial \boldsymbol{\Sigma}_\mathbf{x}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta)\right)^\top
+&&= \boldsymbol{\Sigma}_\mathbf{x}^{-1} + \boldsymbol{\Sigma}_\mathbf{x}^{-1} \boldsymbol{\varepsilon} \boldsymbol{\varepsilon}^\top \boldsymbol{\Sigma}_\mathbf{x}^{-1}
+\end{alignat}
 $$
 
-これはかなり複雑な定式化であるので，読み飛ばしてもよい．より単純な式として，$f$ が恒等関数で，$\boldsymbol{\Sigma}=$ の場合を考えよう．
+に比例する．生理学的な回路を考える場合における，この更新則の最大の難点は $\boldsymbol{\Sigma}_\mathbf{x}$ の逆行列計算である．そこで，$\boldsymbol{\Sigma}_\mathbf{x} := \sigma_\mathbf{x}^2 \mathbf{I}$ とし，$\sigma_\mathbf{x} (>0, \in \mathbb{R})$ は学習しないハイパーパラメータであるとしよう．さらに簡単のため，$f(\cdot)$ が恒等関数である場合を考える．この場合，上記の更新則は
 
-この場合，
+$$
+\begin{equation}
+\Delta \mathbf{z} \propto \frac{1}{\sigma_\mathbf{x}^2}\mathbf{W}^\top \boldsymbol{\varepsilon},\quad
+\Delta \mathbf{W} \propto \frac{1}{\sigma_\mathbf{x}^2} \boldsymbol{\varepsilon} \mathbf{z}^\top
+\end{equation}
+$$
 
-となる．
+と簡潔に書くことができる．
+
+
+以下は，後に記載
+
+潜在変数モデルにおいて，MAP推定に基づく共分散行列の学習について紹介を行った．その後は煩雑な上，逆行列を含むため生理学的に学習困難であるとして除外を行った．これに対し，Tangらは，すでに紹介した共分散行列の学習を明示的共分散学習 (explicit covariance learning)と呼び，一方で，明示的に共分散行列は持たないが，ネットワークが同じ機能を持つようにした暗黙的共分散学習 (implicit covariance learning) を提案した．
+
+https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1010719
+
 
 ### 階層的潜在変数モデル
 
