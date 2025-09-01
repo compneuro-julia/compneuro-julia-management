@@ -1,5 +1,6 @@
 Bayesian network
 
+NoProp(2025),DeeperForward(2025),DFA(2016),DRTP(2021),DNI/Synthetic Gradients(2017)
 
 固定されていないパラメータの同時分布でモデルを定義することとするのが，自然ですね．完全な生成過程の説明になります．以下に例を列挙します．
 
@@ -25,6 +26,16 @@ $$
 多変量正規分布を用いているので，エネルギーベースモデルとしての解釈も可能である．
 入力 $\mathbf{x}$ とラベル $y$ があったとして，その場合のエネルギー状態を下げる働きがある．これは当たり前でもあるが，エネルギーベースモデルにおいては一般にデータに適したエネルギー状態が下がることが重要である．
 
+ridge (Hoerl and Kennard 1970)
+lasso (Tibshirani 1996)
+
+
+---
+
+確率論の基礎について触れておくべきか．
+
+---
+
 ### 確率モデルの設計とエネルギーベースモデル
 前節で定義した事後分布や，予測分布は確率モデルの具体的な形状を定義しなければ計算することはできない．確率モデルを定義する上で，代表的な多変量正規分布およびそれが属する指数型分布族，さらに指数分布族と関連し，より扱いやすい枠組みであるエネルギーベースモデル (energy based model) を本項では紹介する．
 
@@ -34,7 +45,7 @@ $$
 $$
 \begin{equation}
 \mathcal{N}(x \mid \mu, \sigma^2) 
-\coloneq \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
+\coloneqq \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
 \end{equation}
 $$
 
@@ -43,7 +54,7 @@ $$
 $$
 \begin{equation}
 \mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) 
-\coloneq \frac{1}{\sqrt{(2\pi)^d \, |\boldsymbol{\Sigma}|}}
+\coloneqq \frac{1}{\sqrt{(2\pi)^d \, |\boldsymbol{\Sigma}|}}
 \exp\left( -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right)
 \end{equation}
 $$
@@ -75,7 +86,7 @@ $$
 となる．
 
 #### エネルギーベースモデル
-次に指数分布族と関連して扱いやすい枠組みであるエネルギーベースモデル (energy-based model; EBM) を紹介する．エネルギーベースモデルでは，確率変数 $\mathbf{x}$ の確率密度関数を，パラメータ $\theta$ を持つエネルギー関数 $E(\mathbf{x}; \theta):\ \mathbb{R}^{d}\mathbb{\rightarrow R}$ および Gibbs-Boltzmann分布を用いて次のように表す．
+次に指数分布族と関連して扱いやすい枠組みであるエネルギーベースモデル (energy-based model; EBM) を紹介する．エネルギーベースモデルでは，確率変数 $\mathbf{x}$ の確率密度関数を，パラメータ $\theta$ を持つエネルギー関数 $E(\mathbf{x}; \theta):\ \mathbb{R}^{d}\mathbb{\rightarrow R}$ および Gibbs-Boltzmann分布を用いて次のように表す \footnote{特に機械学習の文脈では，パラメータ $\theta$ によって分布が定まることを強調するため，あるいは記法を簡略化するために，しばしば $p_\theta(\cdot) := p(\cdot \mid \theta)$ と略記される．しかし，本書では $\theta$ を確率変数として扱う立場を明確にし，導出上の混乱を避けるため，この略記は用いない．}．
 
 $$
 \begin{equation}
@@ -170,7 +181,33 @@ $$
 \Delta \theta \propto \left(\frac{\partial \mathcal{L}}{\partial \theta}\right)^\top
 $$
 
-のように更新を行うことで最適解に近づけることができる（ここでは分子レイアウトを用いた）。前々項で紹介したエネルギーベースモデルを用いて，具体的に
+のように更新を行うことで最適解に近づけることができる（ここでは分子レイアウトを用いた）。前々項で紹介したエネルギーベースモデルを用いて，具体的に分布の形状を決め，どのような更新則になるか調べてみよう．ここでの $\ln p(\mathbf{z}\mid \theta), \ln p(\theta)$ は正則化項としての機能を果たすので，$\ln p(\mathbf{x} \mid \mathbf{z}, \theta)$ のみを考えることとする．
+
+$$
+p(\mathbf{x} \mid \mathbf{z}, \theta) = \mathcal{N}\left(\mathbf{x} \mid f\left(\mathbf{W}\mathbf{z}\right), \boldsymbol{\Sigma}\right)
+$$
+
+とする．ただし，$\theta = \{\mathbf{W}, \boldsymbol{\Sigma}\}$ である．また，$f(\cdot)$ は任意の関数（活性化関数）である．よって，
+
+$$
+\ln p(\mathbf{x} \mid \mathbf{z}, \theta) = - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}\rvert - \frac{1}{2}(\mathbf{x} - f\left(\mathbf{W}\mathbf{z}\right))^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - f\left(\mathbf{W}\mathbf{z}\right)) + \textrm{const.}
+$$
+
+であるので，誤差ベクトルを $\mathbf{e}:=\mathbf{x} - f(\mathbf{W}\mathbf{z})$ とすると，
+
+$$
+\begin{align}
+\frac{\partial}{\partial \mathbf{z}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta) &= \mathbf{W}^\top \, \mathrm{diag}\!\bigl(f'(\mathbf{W}\mathbf{z})\bigr)\, \boldsymbol{\Sigma}^{-1}\, \mathbf{e}\\
+\frac{\partial}{\partial \mathbf{W}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta) &= \\
+\frac{\partial}{\partial \boldsymbol{\Sigma}} \ln p(\mathbf{x} \mid \mathbf{z}, \theta) &= 
+\end{align}
+$$
+
+これはかなり複雑な定式化であるので，読み飛ばしてもよい．より単純な式として，$f$ が恒等関数で，$\boldsymbol{\Sigma}=$ の場合を考えよう．
+
+この場合，
+
+となる．
 
 ### 階層的潜在変数モデル
 
