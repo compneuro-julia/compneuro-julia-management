@@ -64,16 +64,16 @@ $$
 ここで，$\boldsymbol{\mu} \in \mathbb{R}^d$ は各成分の平均を並べた平均ベクトル，$\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$ は共分散行列 (covariance matrix) である．
 
 #### 指数型分布族
-多変量正規分布が属する確率分布の枠組みを指数型分布族 (exponential family) と呼ぶ．指数型分布族には多数の分布が属しており，他にはポアソン分布，指数分布，ガンマ分布，ベルヌーイ分布などが属する．確率変数 $\mathbf{x} \in \mathbb{R}^d$ に対する指数型分布族の一般形は次のように与えられる：
+多変量正規分布が属する確率分布の枠組みを指数型分布族 (exponential family) と呼ぶ．指数型分布族には多数の分布が属しており，他にはポアソン分布，指数分布，ガンマ分布，ベルヌーイ分布などが属する．パラメータ $\theta$ を持った指数型分布族の確率変数 $\mathbf{x}$ に関する確率分布の一般形は次のように与えられる：
 
 $$
-p(\mathbf{x}\mid \theta) = v(\mathbf{x}) \exp(f(\theta)^\top g(\mathbf{x}) - u(\theta))
+p(\mathbf{x}\mid \theta) = h(\mathbf{x}) \exp(\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x}) - a(\theta))
 $$ 
 
-ただし，$f(\theta), g(\mathbf{x})$ は同じ次元を持つベクトル値関数であり，$f(\theta)^\top g(\mathbf{x})$ はスカラーとなる．$v(\mathbf{x}), u(\theta)$ はスカラー値関数であり，任意の $\mathbf{x}$ について $v(\mathbf{x}) > 0$ である必要がある．さらに
+ただし，$\boldsymbol{\eta}(\theta), \mathbf{t}(\mathbf{x})$ は同じ次元を持つベクトル値関数であり，$\boldsymbol{\eta}(\theta)$ は．$\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x})$ はスカラーとなる．$h(\mathbf{x}), a(\theta)$ はスカラー値関数であり，任意の $\mathbf{x}$ について $h(\mathbf{x}) > 0$ である必要がある．さらに
 
 $$
-\int v(\mathbf{x}) \exp(f(\theta)^\top g(\mathbf{x}) - u(\theta))\, \mathrm{d}\mathbf{x} = 1
+\int h(\mathbf{x}) \exp(\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x}) - a(\theta))\, \mathrm{d}\mathbf{x} = 1
 $$
 
 でなくてはならない．
@@ -173,7 +173,7 @@ p(\mathbf{x}, \mathbf{z}_{1:L}, \boldsymbol{\theta}_{0:L})
    \prod_{i=1}^{L-1} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\,
    p(\mathbf{z}_L \mid \theta_L)\,
    \prod_{i=0}^{L} p(\theta_i) \\
-&= \prod_{i=0}^{L} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\, p(\theta_i).
+&= \prod_{i=0}^{L} p(\mathbf{z}_i \mid \mathbf{z}_{i+1}, \theta_i)\, p(\theta_i)
 \end{aligned}
 $$
 
@@ -248,7 +248,13 @@ $$
 \end{alignat}
 $$
 
-に比例する量として与えられる．生理学的な回路を考える場合における，この更新則の最大の難点は $\boldsymbol{\Sigma}_\mathbf{x}$ の逆行列計算である．そこで，$\boldsymbol{\Sigma}_\mathbf{x} := \sigma_\mathbf{x}^2 \mathbf{I}$ とし，$\sigma_\mathbf{x} (>0, \in \mathbb{R})$ は学習しないハイパーパラメータであるとしよう．さらに簡単のため，$f(\cdot)$ が恒等関数である場合を考える．この場合，上記の更新則は
+に比例する量として与えられる．生理学的な回路を考える場合における，この更新則の最大の難点は $\boldsymbol{\Sigma}_\mathbf{x}$ の逆行列計算である．そこで，$\boldsymbol{\Sigma}_\mathbf{x} := \sigma_\mathbf{x}^2 \mathbf{I}$ とし，$\sigma_\mathbf{x} (>0, \in \mathbb{R})$ は学習しないハイパーパラメータであるとしよう．さらに簡単のため，$f(\cdot)$ が恒等関数である場合を考える．この場合，尤度は
+
+$$
+p(\mathbf{x} \mid \mathbf{z}, \theta) = \mathcal{N}\left(\mathbf{x} \mid \mathbf{W}\mathbf{z}, \sigma_\mathbf{x}^2 \mathbf{I}\right)
+$$
+
+となり，上記の更新則は
 
 $$
 \begin{equation}
@@ -265,7 +271,33 @@ $$
 どちらかというと，スパース符号化は側抑制に基づいているのに対し，予測符号化は，上位から下位への説明を行うために予測と誤差伝達という2つに分けている．
 
 
-階層的潜在変数モデルについても同様の議論をすることにより学習則を導出することができる．
+階層的潜在変数モデルについても同様の議論をすることにより学習則を導出することができる．再掲となるが，
+
+$$
+\begin{equation}
+p(\mathbf{x}, \mathbf{z}_{1:L}, \boldsymbol{\theta}_{0:L}) = \prod_{\ell=0}^{L} p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell)\, p(\theta_\ell)
+\end{equation}
+$$
+
+である．尤度を簡略化された
+
+$$
+p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) = \mathcal{N}\left(\mathbf{z}_\ell \mid \mathbf{W}_\ell\mathbf{z}_{\ell+1}, \sigma_\mathbf{x}^2 \mathbf{I}\right)
+$$
+
+としよう．この場合のMAP推定は
+
+$$
+\begin{align}
+\{\mathbf{z}_\ell^*, \theta_\ell^*\}
+&= \arg\max_{\mathbf{z}_\ell, \theta_\ell} p(\mathbf{x}, \mathbf{z}_{1:L}, \boldsymbol{\theta}_{0:L})\\
+&= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\sum_{\ell=0}^{L} \ln p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) + \ln p(\theta_\ell) \right]\\
+&= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\ln p(\mathbf{z}_{\ell-1} \mid \mathbf{z}_{\ell}, \theta_{\ell-1}) + \ln p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) + \ln p(\theta_\ell) \right]\\
+&= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\ln p(\mathbf{z}_{\ell-1} \mid \mathbf{z}_{\ell}, \theta_{\ell-1}) + \ln p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) + \ln p(\theta_\ell) \right]
+\end{align}
+$$
+
+となる．
 
 以下は，脚注
 
