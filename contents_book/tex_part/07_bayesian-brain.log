@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  28 AUG 2025 09:33
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  3 SEP 2025 12:18
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/07_bayesian-brain
@@ -1699,13 +1699,13 @@ Package biblatex Warning: Name format 'last-first' deprecated.
 
 (load cache: extra_lmroman10-italic.luc)
 LaTeX Font Info:    Font shape `JT3/gt/m/it' in size <10> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 386.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 387.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 386.
+(Font)              scaled to size 9.24713pt on input line 387.
 LaTeX Font Info:    Font shape `JY3/gt/m/it' in size <10> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 386.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 387.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 9.24713pt on input line 386.
+(Font)              scaled to size 9.24713pt on input line 387.
 
 
 

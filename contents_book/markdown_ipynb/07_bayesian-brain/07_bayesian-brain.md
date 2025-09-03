@@ -187,13 +187,11 @@ $$
 
 こうした（階層的）潜在変数モデルを訓練するにはどうすればよいのか，ということについて次から考えてみよう．
 
-### MAP推論に基づく予測符号化モデル
-（階層的）潜在変数モデルの推論には近似ベイズ推論 が必要となる。代表的な方法として，変分推論やマルコフ連鎖モンテカルロ法（MCMC）が挙げられる。
+### 予測符号化モデル
+（階層的）潜在変数モデルの推論には近似ベイズ推論 が必要となる。代表的な方法として，変分推論やマルコフ連鎖モンテカルロ法（MCMC）が挙げられる。ここでは近似ベイズ推論の詳細には立ち入らず，より単純な近似として点推定に基づく解法を考える。とくに，ここでは前々項で説明したMAP推定を用いることにする。
 
-潜在変数モデルにおけるMAP推定
-
-
-ここでは近似ベイズ推論の詳細には立ち入らず，より単純な近似として点推定に基づく解法を考える。とくに，ここでは前項で説明したMAP推定を用いることにする。MAP推定では周辺尤度の計算を避け，次の最適化問題を解けばよい：
+#### 潜在変数モデルにおけるMAP推定
+MAP推定では周辺尤度の計算を避け，次の最適化問題を解けばよい：
 
 $$
 \begin{align}
@@ -270,7 +268,7 @@ $$
 スパース符号化と予測符号化は数式上は同じ式に立脚している．
 どちらかというと，スパース符号化は側抑制に基づいているのに対し，予測符号化は，上位から下位への説明を行うために予測と誤差伝達という2つに分けている．
 
-
+#### 階層的潜在変数モデルにおけるMAP推定
 階層的潜在変数モデルについても同様の議論をすることにより学習則を導出することができる．再掲となるが，
 
 $$
@@ -282,7 +280,7 @@ $$
 である．尤度を簡略化された
 
 $$
-p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) = \mathcal{N}\left(\mathbf{z}_\ell \mid \mathbf{W}_\ell\mathbf{z}_{\ell+1}, \sigma_\mathbf{x}^2 \mathbf{I}\right)
+p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) = \mathcal{N}\left(\mathbf{z}_\ell \mid \mathbf{W}_\ell\mathbf{z}_{\ell+1}, \sigma_\ell^2 \mathbf{I}\right)
 $$
 
 としよう．この場合のMAP推定は
@@ -293,11 +291,17 @@ $$
 &= \arg\max_{\mathbf{z}_\ell, \theta_\ell} p(\mathbf{x}, \mathbf{z}_{1:L}, \boldsymbol{\theta}_{0:L})\\
 &= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\sum_{\ell=0}^{L} \ln p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) + \ln p(\theta_\ell) \right]\\
 &= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\ln p(\mathbf{z}_{\ell-1} \mid \mathbf{z}_{\ell}, \theta_{\ell-1}) + \ln p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) + \ln p(\theta_\ell) \right]\\
-&= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\ln p(\mathbf{z}_{\ell-1} \mid \mathbf{z}_{\ell}, \theta_{\ell-1}) + \ln p(\mathbf{z}_\ell \mid \mathbf{z}_{\ell+1}, \theta_\ell) + \ln p(\theta_\ell) \right]
+&= \arg\max_{\mathbf{z}_\ell, \theta_\ell} \left[\frac{1}{\sigma_{\ell-1}^2}\Vert \mathbf{z}_{\ell-1} - \mathbf{W}_{\ell-1}\mathbf{z}_{\ell}\Vert_2^2 + \frac{1}{\sigma_\ell^2}\Vert \mathbf{z}_\ell - \mathbf{W}_\ell\mathbf{z}_{\ell+1}\Vert_2^2 + \ln p(\theta_\ell) \right]
 \end{align}
 $$
 
 となる．
+
+$$
+\frac{\partial f}{\partial \mathbf{z}_\ell}
+= \frac{2}{\sigma_{\ell-1}^2}\mathbf{W}_{\ell-1}^\top(\mathbf{W}_{\ell-1}\mathbf{z}_\ell - \mathbf{z}_{\ell-1})
++ \frac{2}{\sigma_\ell^2}(\mathbf{z}_\ell - \mathbf{W}_\ell\mathbf{z}_{\ell+1})
+$$
 
 以下は，脚注
 
