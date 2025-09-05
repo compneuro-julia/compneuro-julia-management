@@ -13,6 +13,10 @@
 
 \usepackage{textgreek}
 \usepackage[luatex]{graphicx} 
+%\usepackage[draft]{graphicx}
+\usepackage{sidecap}
+\usepackage{tcolorbox}
+
 \usepackage[svgnames]{xcolor}
 \usepackage{sty/julia-syntax-highlighting} % 
 \usepackage{sty/indexing} % 
@@ -137,11 +141,22 @@ HarrisおよびWolpertは制御信号の大きさに従い，ノイズが生じ�
 \begin{align}
 \mathcal{F}=\left[\sum_{t=T_m}^{T} \operatorname{Cov}\left[\mathbf{x}_{t}\right]\right]_{1,1}
 &=\left[\sum_{t=T_m}^{T}\sum_{t'=0}^{t-1}u_{t'}^2\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right) \left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top}\right]_{1,1}\\
-&=\sum_{t'=0}^{T-1} u_{t'}^2 \sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}
+&=\sum_{t'=0}^{T-1} u_{t'}^2 \sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1} \label{eq:mim_var_f}
 \end{align}
-と書ける．最後の式変形は $u_{t'}^2$を二重総和の外に出すために行った．この操作は次の図における横方向と縦方向の和の順番を交換することに該当する．
+と書ける．最後の式変形は $u_{t'}^2$を二重総和の外に出すために行った．この操作は図 \ref{fig:minimum_variance} における横方向と縦方向の和の順番を交換することに該当する．
 
-ここで $V_{t'}:=\sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}$とすると，$\mathbf{P}=\mathrm{diag}(V_0, \ldots, V_{T-1})\in \mathbf{R}^{T\times T}$および $\mathbf{q}=\mathbf{0} \in \mathbf{R}^{T}$と置くことで，$\mathcal{F}=\mathbf{u}^\top \mathbf{P}\mathbf{u}+\mathbf{q} ^{\top}\mathbf{u}$と書ける．この場合，第2項は0であるので，第1項の係数は結果に影響しない．
+\begin{SCfigure}[1.5][htbp]
+  \centering
+  \includegraphics[width=0.35\textwidth]{./figures/minimum_variance.pdf}
+  \caption{式 \ref{eq:mim_var_f} における和の順序交換の概念図 ($T=7$ とした場合)．色付きのマスは時刻 $t, t'\quad (T_m \leq t \leq T, 0\ \leq t' \leq t-1)$ における $\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top}$ の値を意味する．}
+  \label{fig:minimum_variance}
+\end{SCfigure}
+
+ここで 
+\begin{equation}
+V_{t'}:=\sum_{t=\max(t'+1, T_m)}^{T} \left[\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)\left(\mathbf{A}^{t-t'-1} \mathbf{B}\right)^{\top} \right]_{1,1}
+\end{equation}
+とすると，$\mathbf{P}=\mathrm{diag}(V_0, \ldots, V_{T-1})\in \mathbf{R}^{T\times T}$および $\mathbf{q}=\mathbf{0} \in \mathbf{R}^{T}$と置くことで，$\mathcal{F}=\mathbf{u}^\top \mathbf{P}\mathbf{u}+\mathbf{q} ^{\top}\mathbf{u}$と書ける．この場合，第2項は0であるので，第1項の係数は結果に影響しない．
 
 次に等式制約を求める．$\mathbb{E}\left[\mathbf{x}_{t}\right] = \mathbf{x}_f\quad (T_m\leq t \leq T)$を変形すると，
 \begin{equation}

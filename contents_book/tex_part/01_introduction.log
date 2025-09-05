@@ -1,4 +1,4 @@
-This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  28 AUG 2025 08:29
+This is LuaHBTeX, Version 1.22.0 (TeX Live 2025)  (format=lualatex 2025.3.26)  5 SEP 2025 15:27
  restricted system commands enabled.
  file:line:error style messages enabled.
 **d:/Github/compneuro-julia-management/contents_book/tex_part/01_introduction
@@ -1684,10 +1684,6 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 (fancyhdr)                \setlength{\footskip}{4.80005pt}.
 
 [6]
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
 
 Package fancyhdr Warning: \footskip is too small (0.0pt): 
@@ -1703,10 +1699,14 @@ Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 325.
+(Font)              scaled to size 7.3977pt on input line 327.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 325.
+(Font)              scaled to size 7.3977pt on input line 327.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
@@ -1719,17 +1719,13 @@ Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 LaTeX Font Info:    Font shape `JT3/gt/b/n' in size <8> not available
-(Font)              Font shape `JT3/gt/m/n' tried instead on input line 354.
+(Font)              Font shape `JT3/gt/m/n' tried instead on input line 356.
 LaTeX Font Info:    Font shape `JT3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 354.
+(Font)              scaled to size 7.3977pt on input line 356.
 LaTeX Font Info:    Font shape `JY3/gt/b/n' in size <8> not available
-(Font)              Font shape `JY3/gt/m/n' tried instead on input line 354.
+(Font)              Font shape `JY3/gt/m/n' tried instead on input line 356.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 7.3977pt on input line 354.
-Removing  `ltj.listings_unicode' from `process_input_buffer'.
-Removing  `ltj.process_input_buffer' from `process_input_buffer'.
-Inserting `ltj.listings_unicode' in `process_input_buffer'.
-Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+(Font)              scaled to size 7.3977pt on input line 356.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.
 
 
@@ -1749,11 +1745,15 @@ Removing  `ltj.listings_unicode' from `process_input_buffer'.
 Removing  `ltj.process_input_buffer' from `process_input_buffer'.
 Inserting `ltj.listings_unicode' in `process_input_buffer'.
 Inserting `ltj.process_input_buffer' in `process_input_buffer'.
+Removing  `ltj.listings_unicode' from `process_input_buffer'.
+Removing  `ltj.process_input_buffer' from `process_input_buffer'.
+Inserting `ltj.listings_unicode' in `process_input_buffer'.
+Inserting `ltj.process_input_buffer' in `process_input_buffer'.
 Removing  `ltj.listings_unicode' from `process_input_buffer'.(load cache: extra_lmromandemi10-regular.luc)
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 6.47299pt on input line 385.
+(Font)              scaled to size 6.47299pt on input line 387.
 LaTeX Font Info:    Font shape `JY3/gt/m/n' will be
-(Font)              scaled to size 4.62357pt on input line 385.
+(Font)              scaled to size 4.62357pt on input line 387.
 
 
 
@@ -1763,7 +1763,7 @@ Package fancyhdr Warning: \footskip is too small (0.0pt):
 
 [9]
 
-LaTeX Warning: Empty bibliography on input line 404.
+LaTeX Warning: Empty bibliography on input line 406.
 
 
 
@@ -1781,8 +1781,14 @@ L3 programming layer <2025-01-18>
 
 LaTeX Warning: There were undefined references.
 
-Package rerunfilecheck Info: File `01_introduction.out' has not changed.
-(rerunfilecheck)             Checksum: AB30BD07FFED880A3C5BCA251D6E1C84;1774.
+
+Package rerunfilecheck Warning: File `01_introduction.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `01_introduction.out':
+(rerunfilecheck)             Before: AB30BD07FFED880A3C5BCA251D6E1C84;1774
+(rerunfilecheck)             After:  F720B379B99AE87AAA0867894ED461DC;1806.
 
 Package biblatex Warning: Please (re)run Biber on the file:
 (biblatex)                01_introduction
@@ -1798,15 +1804,15 @@ Here is how much of LuaTeX's memory you used:
  244632,1977958 words of node,token memory allocated
  1240 words of node memory still in use:
    10 hlist, 2 vlist, 5 rule, 2 glue, 4 kern, 1 glyph, 245 attribute, 72 glue_spec, 33 attribute_list, 2 write, 13 user_defined, 1 pdf_action nodes
-   avail lists: 1:31,2:59796,3:391,4:2702,5:373,6:89,7:6230,8:36,9:3362,10:25,11:442
+   avail lists: 1:31,2:59940,3:370,4:2751,5:406,6:92,7:6246,8:36,9:3419,10:25,11:442
  61197 multiletter control sequences out of 65536+600000
  80 fonts using 84168015 bytes
  125i,26n,128p,1927b,5180s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmromandemi10-regular.otf><./font/JuliaMono-Bold.ttf><./font/JuliaMono-Regular.ttf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman9-bold.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman9-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans12-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans17-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiMincho-Regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmsans10-regular.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/haranoaji/HaranoAjiGothic-Medium.otf><c:/texlive/2025/texmf-dist/fonts/opentype/public/lm/lmroman10-bold.otf><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on 01_introduction.pdf (10 pages, 349769 bytes).
+Output written on 01_introduction.pdf (10 pages, 354967 bytes).
 
-PDF statistics: 270 PDF objects out of 1000 (max. 8388607)
- 211 compressed objects within 3 object streams
+PDF statistics: 271 PDF objects out of 1000 (max. 8388607)
+ 212 compressed objects within 3 object streams
  40 named destinations out of 1000 (max. 131072)
  136 words of extra memory for PDF output out of 10000 (max. 100000000)
 

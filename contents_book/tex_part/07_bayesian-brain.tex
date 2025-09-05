@@ -13,6 +13,8 @@
 
 \usepackage{textgreek}
 \usepackage[luatex]{graphicx} 
+%\usepackage[draft]{graphicx} % 画像が枠だけになる．
+\usepackage{sidecap}
 \usepackage[svgnames]{xcolor}
 \usepackage{sty/julia-syntax-highlighting} % 
 \usepackage{sty/indexing} % 
@@ -364,6 +366,14 @@ D_{\mathrm{KL}}\left(p_{\mathrm{data}}(\mathbf{x}) \,\Vert\, p(\mathbf{x}\mid \t
 \end{tcolorbox}
 
 \section{近似ベイズ推論}
+
+
+\begin{SCfigure}[1.5][htbp]
+  \centering
+  \includegraphics[width=0.4\textwidth]{./figures/approx_bayesian.pdf}
+  \caption{分布推論から点推定への流れ}
+  \label{fig:approx_bayesian}
+\end{SCfigure}
 
 \subsection{変分推論}
 MAP推定は変分推論から導出できる．

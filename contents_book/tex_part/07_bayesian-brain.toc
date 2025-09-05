@@ -24,4 +24,4 @@
 \contentsline {section}{\numberline {1.4}神経回路による不確実性の表現}{13}{section.1.4}%
 \contentsline {subsection}{\numberline {1.4.1}神経サンプリング}{13}{subsection.1.4.1}%
 \contentsline {subsection}{\numberline {1.4.2}確率的集団符号化}{13}{subsection.1.4.2}%
-\contentsline {section}{参考文献}{13}{section*.11}%
+\contentsline {section}{参考文献}{14}{section*.11}%

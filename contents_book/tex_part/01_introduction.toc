@@ -1,7 +1,7 @@
 \contentsline {chapter}{\numberline {第1章}はじめに}{3}{chapter.1}%
 \contentsline {section}{\numberline {1.1}本書の目的と構成}{3}{section.1.1}%
 \contentsline {subsection}{\numberline {1.1.1}神経科学におけるモデルの意義}{3}{subsection.1.1.1}%
-\contentsline {subsection}{\numberline {1.1.2}本書の構成}{6}{subsection.1.1.2}%
+\contentsline {subsection}{\numberline {1.1.2}本書の構成と読み方}{6}{subsection.1.1.2}%
 \contentsline {section}{\numberline {1.2}Julia言語の使用法}{7}{section.1.2}%
 \contentsline {subsection}{\numberline {1.2.1}Julia言語の特徴}{7}{subsection.1.2.1}%
 \contentsline {subsection}{\numberline {1.2.2}Julia言語のインストール方法}{7}{subsection.1.2.2}%
