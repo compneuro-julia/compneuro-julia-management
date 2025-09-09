@@ -1,5 +1,51 @@
 ## 躍度最小モデル
 
+$n$ 個の変数と $m$ 個の等式制約をもつ二次計画問題 (Equality constrained quadratic programming) を考える．変数を $\mathbf{x}\in\mathbb{R}^n$，対称行列を $\mathbf{P}\in\mathbb{R}^{n\times n}$，線形項を $\mathbf{q}\in\mathbb{R}^{n}$，制約行列を $\mathbf{A}\in\mathbb{R}^{m\times n}$，右辺ベクトルを $\mathbf{b}\in\mathbb{R}^m$ とする．このとき問題は次のように定式化される：
+
+$$
+\begin{aligned}
+&\text{Minimize} \quad && \frac{1}{2}\mathbf{x}^\top \mathbf{P}\mathbf{x} + \mathbf{q}^\top \mathbf{x} \\
+&\text{subject to} \quad && \mathbf{A}\mathbf{x} = \mathbf{b}
+\end{aligned}
+$$
+
+ここでLagrange乗数 $\boldsymbol{\lambda} \in \mathbb{R}^m$ を導入し，Lagrange関数
+
+$$
+\mathcal{L}(\mathbf{x},\boldsymbol{\lambda}) = \frac{1}{2}\mathbf{x}^\top \mathbf{P}\mathbf{x} + \mathbf{q}^\top \mathbf{x} + \boldsymbol{\lambda}^\top(\mathbf{A}\mathbf{x}-\mathbf{b})
+$$
+
+を考える．Lagrangeの未定乗数法あるいはKarush–Kuhn–Tucker条件 (KKT条件) により，$\mathbf{x}$ および $\boldsymbol{\lambda}$ は以下を満たす必要がある．
+
+$$
+\nabla_{\mathbf{x}}\mathcal{L} = \mathbf{P}\mathbf{x} + \mathbf{q} + \mathbf{A}^\top \boldsymbol{\lambda} = 0,
+\qquad
+\nabla_{\boldsymbol{\lambda}}\mathcal{L} = \mathbf{A}\mathbf{x} - \mathbf{b} = 0
+$$
+
+この連立方程式を行列を用いて，まとめると
+
+$$
+\underbrace{\begin{bmatrix}
+\mathbf{P} & \mathbf{A}^\top \\
+\mathbf{A} & \mathbf{0}
+\end{bmatrix}}_{\text{KKT行列}}
+\begin{bmatrix}
+\mathbf{x} \\[2pt] \boldsymbol{\lambda}
+\end{bmatrix}
+=
+\begin{bmatrix}
+-\mathbf{q} \\[2pt] \mathbf{b}
+\end{bmatrix}
+$$
+
+となる．ここで，左辺のブロック行列はKKT行列と呼ばれる．この線形方程式を解くことで解 $(\mathbf{x},\boldsymbol{\lambda})$ が得られる．
+
+---
+
+もし望むなら，この後に**Schur補**を用いて $\mathbf{x}$ のみの方程式に落とす手順や，数値解法におけるKKT行列の扱いについても追記できますが，追加しますか？
+
+
 目的関数として
 
 **躍度最小モデル** (minimum-jerk model; {cite:p}`Flash1985-vj`) という．
