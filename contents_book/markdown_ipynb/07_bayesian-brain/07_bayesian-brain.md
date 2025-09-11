@@ -13,16 +13,7 @@ https://arxiv.org/abs/2306.02572
 前節で定義した事後分布や，予測分布は確率モデルの具体的な形状を定義しなければ計算することはできない．確率モデルを定義する上で，代表的な多変量正規分布およびそれが属する指数型分布族，さらに指数分布族と関連し，より扱いやすい枠組みであるエネルギーベースモデル (energy based model) を本項では紹介する．
 
 #### 多変量正規分布
-まず，多変量正規分布 (ガウス分布) を導入する．1次元の場合，正規分布は次の確率密度関数で表される．
-
-$$
-\begin{equation}
-\mathcal{N}(x \mid \mu, \sigma^2) 
-\coloneqq \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)
-\end{equation}
-$$
-
-ここで，$\mu \in \mathbb{R}$ は平均，$\sigma^2 > 0$ は分散を表し，$\sigma$ は標準偏差である．この式を $x \in \mathbb{R}$ から $d$ 次元のベクトル $\mathbf{x} \in \mathbb{R}^d$ に拡張すると，分布は多変量正規分布 (multivariate normal distribution) となる．
+この式を $x \in \mathbb{R}$ から $d$ 次元のベクトル $\mathbf{x} \in \mathbb{R}^d$ に拡張すると，分布は多変量正規分布 (multivariate normal distribution) となる．
 
 $$
 \begin{equation}
@@ -33,6 +24,15 @@ $$
 $$
 
 ここで，$\boldsymbol{\mu} \in \mathbb{R}^d$ は各成分の平均を並べた平均ベクトル，$\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$ は共分散行列 (covariance matrix) である．
+
+また，後ほど使用するため多変量正規分布の確率密度関数の対数を取った形式を確認しておこう．$p(\mathbf{x})=\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) $ とすると，
+$$
+\begin{equation}
+\ln p(\mathbf{x}) = -\frac{d}{2} \ln (2\pi) - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}\rvert - \frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})
+\end{equation}
+$$
+となる．
+
 
 #### 指数型分布族
 多変量正規分布が属する確率分布の枠組みを指数型分布族 (exponential family) と呼ぶ．指数型分布族には多数の分布が属しており，他にはポアソン分布，指数分布，ガンマ分布，ベルヌーイ分布などが属する．パラメータ $\theta$ を持った指数型分布族の確率変数 $\mathbf{x}$ に関する確率分布の一般形は次のように与えられる：
@@ -47,9 +47,11 @@ $$
 \int h(\mathbf{x}) \exp(\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x}) - a(\theta))\, \mathrm{d}\mathbf{x} = 1
 $$
 
+
 でなくてはならない．
 
 指数型分布族同士であれば，共役 (conjugate) となる．
+
 
 例えば，事前分布と尤度が指数型分布族であれば，
 
@@ -124,7 +126,8 @@ $$
 
 で与えられる。この積分は高次元で非線形な場合が多く，解析的に計算することは一般に困難である。
 
-この事後分布 $p(\mathbf{z} \mid \mathbf{x}, \theta)$ は，観測された結果からその原因（$\mathbf{z}$）を推論 (inference) するための分布であり，逆モデル (inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
+この事後分布 $p(\mathbf{z} \mid \mathbf{x}, \theta)$ は，観測された結果からその原因（$\mathbf{z}$）を推論
+ (inference) するための分布であり，逆モデル (inverse model), 符号化器 (encoder), あるいは認識モデル（recognition model）と呼ばれる．一方，$p_\theta(\mathbf{x} \mid \mathbf{z})$ は原因から結果を生成する順モデル (forward model), 復号器(decoder)，または生成モデル（generative model）である．
 推論的知覚の枠組みにおいては，順モデルは上位から下位への下行性投射（top-down projection）に，逆モデルは下位から上位への上行性投射（bottom-up projection）に対応すると考えられる．
 
 モデル全体 $p(\mathbf{x} \mid \theta)$ を指して生成モデルと呼ぶこともあるが、潜在変数モデルの文脈では、このデータ生成過程を担う部分を特に生成モデルと呼ぶ。
