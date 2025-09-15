@@ -10,45 +10,64 @@ NoProp(2025),DeeperForward(2025),DFA(2016),DRTP(2021),DNI/Synthetic Gradients(20
 https://arxiv.org/abs/2306.02572
 
 ### 指数型分布族とエネルギーベースモデル
-前節で定義した事後分布や，予測分布は確率モデルの具体的な形状を定義しなければ計算することはできない．確率モデルを定義する上で，代表的な多変量正規分布およびそれが属する指数型分布族，さらに指数分布族と関連し，より扱いやすい枠組みであるエネルギーベースモデル (energy based model) を本項では紹介する．
+前節で定義した事後分布や，予測分布は確率モデルの具体的な形状を定義しなければ計算することはできない．確率モデルを定義する上で，指数型分布族，および指数分布族と関連し，より扱いやすい枠組みであるエネルギーベースモデル (energy based model) を本項では紹介する．
 
-#### 多変量正規分布
-この式を $x \in \mathbb{R}$ から $d$ 次元のベクトル $\mathbf{x} \in \mathbb{R}^d$ に拡張すると，分布は多変量正規分布 (multivariate normal distribution) となる．
+#### 指数型分布族
+確率分布の枠組み（種類）の1つとして指数型分布族 (exponential family) と呼ばれる確率分布の集まりがある．指数型分布族には多数の分布が属しており，正規分布，ポアソン分布，指数分布，ガンマ分布，ベルヌーイ分布などが属する．自然パラメータ (natural parameter) $\boldsymbol{\eta}$ を持った指数型分布族の確率変数 $\mathbf{x}$ に関する確率分布の一般形は次のように与えられる：
 
 $$
 \begin{equation}
-\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) 
+p(\mathbf{x}\mid \boldsymbol{\eta}) = h(\mathbf{x}) g(\boldsymbol{\eta}) \exp\left[\boldsymbol{\eta}^\top \mathbf{t}(\mathbf{x})\right]
+\end{equation}
+$$
+
+ただし，十分統計量 (sufficient statistics) $\mathbf{t}(\mathbf{x})$ は自然パラメータ $\boldsymbol{\eta}$ と同じ次元を持つベクトル値関数であり，$\boldsymbol{\eta}^\top \mathbf{t}(\mathbf{x})$ はスカラーとなる．$h(\mathbf{x})$ はスカラー値関数であり，任意の $\mathbf{x}$ について $h(\mathbf{x}) > 0$ である必要がある．$g(\boldsymbol{\eta})$ は分配関数の逆数であり，
+
+$$
+g(\boldsymbol{\eta}) := \left(\int h(\mathbf{x}) \exp\left[\boldsymbol{\eta}^\top \mathbf{t}(\mathbf{x})\right] \mathrm{d}\mathbf{x}\right)^{-1}
+$$
+
+でなくてはならない．
+
+具体例として，本章で用いるポアソン分布と（多変量）正規分布について，指数分布族の一般形に当てはめてみよう．第一章の内容の再掲となるが，ポアソン分布の確率質量関数は
+
+$$
+\begin{equation}
+p(x \mid \lambda) = \frac{\lambda^x e^{-\lambda}}{x!} = \frac{e^{-\lambda}}{x!}\exp(x \ln \lambda)
+\end{equation}
+$$
+
+であり，$h(x) = \frac{1}{x!}, \eta = \ln \lambda, t(x)=x, g(\eta) = e^{-\lambda}=$
+
+次に連続分布の例として，（多変量）正規分布を確認しよう．まず，1次元の確率変数 $x \in \mathbb{R}$ について平均 $\mu$, 分散 $\sigma^2$ の正規分布の確率密度関数は次のように表される：
+
+$$
+\begin{align}
+\mathcal{N}(x \mid \mu, \sigma^2) 
+&\coloneq \frac{1}{\sqrt{2\pi \sigma^2}} \exp\left( -\frac{(x-\mu)^2}{2\sigma^2} \right)\\
+&= \frac{1}{\sqrt{2\pi \sigma^2}}\exp\left( -\frac{1}{2\sigma^2}x^2+\frac{\mu}{\sigma^2}x-\frac{\mu^2}{2\sigma^2} \right)
+\end{align}
+$$
+
+
+次に，多変量正規分布について確認しよう．確率変数 $\mathbf{x} \in \mathbb{R}^d$ について各成分の平均ベクトル $\boldsymbol{\mu} \in \mathbb{R}^d$, 共分散行列 $\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$ の多変量正規分布の確率密度関数は次式で表される：
+
+$$
+\begin{equation}
+\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma})
 \coloneqq \frac{1}{\sqrt{(2\pi)^d \, |\boldsymbol{\Sigma}|}}
 \exp\left( -\frac{1}{2} (\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu}) \right)
 \end{equation}
 $$
 
-ここで，$\boldsymbol{\mu} \in \mathbb{R}^d$ は各成分の平均を並べた平均ベクトル，$\boldsymbol{\Sigma} \in \mathbb{R}^{d \times d}$ は共分散行列 (covariance matrix) である．
+やや脱線するが，後ほど使用するため多変量正規分布の確率密度関数の対数を取った形式を確認しておこう．$p(\mathbf{x})=\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma})$ とすると，
 
-また，後ほど使用するため多変量正規分布の確率密度関数の対数を取った形式を確認しておこう．$p(\mathbf{x})=\mathcal{N}(\mathbf{x} \mid \boldsymbol{\mu}, \boldsymbol{\Sigma}) $ とすると，
 $$
 \begin{equation}
 \ln p(\mathbf{x}) = -\frac{d}{2} \ln (2\pi) - \frac{1}{2} \ln \lvert\boldsymbol{\Sigma}\rvert - \frac{1}{2}(\mathbf{x} - \boldsymbol{\mu})^\top \boldsymbol{\Sigma}^{-1} (\mathbf{x} - \boldsymbol{\mu})
 \end{equation}
 $$
-となる．
 
-
-#### 指数型分布族
-多変量正規分布が属する確率分布の枠組みを指数型分布族 (exponential family) と呼ぶ．指数型分布族には多数の分布が属しており，他にはポアソン分布，指数分布，ガンマ分布，ベルヌーイ分布などが属する．パラメータ $\theta$ を持った指数型分布族の確率変数 $\mathbf{x}$ に関する確率分布の一般形は次のように与えられる：
-
-$$
-p(\mathbf{x}\mid \theta) = h(\mathbf{x}) \exp(\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x}) - a(\theta))
-$$ 
-
-ただし，$\boldsymbol{\eta}(\theta), \mathbf{t}(\mathbf{x})$ は同じ次元を持つベクトル値関数であり，$\boldsymbol{\eta}(\theta)$ は．$\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x})$ はスカラーとなる．$h(\mathbf{x}), a(\theta)$ はスカラー値関数であり，任意の $\mathbf{x}$ について $h(\mathbf{x}) > 0$ である必要がある．さらに
-
-$$
-\int h(\mathbf{x}) \exp(\boldsymbol{\eta}(\theta)^\top \mathbf{t}(\mathbf{x}) - a(\theta))\, \mathrm{d}\mathbf{x} = 1
-$$
-
-
-でなくてはならない．
 
 指数型分布族同士であれば，共役 (conjugate) となる．
 
@@ -1170,6 +1189,7 @@ Hamiltonianネットワークの方が安定して事後分布を推定するこ
 Distributional Population Coding or distributed distributional codes (DDCs)
 
 ポアソン分布
+https://www.nature.com/articles/nn1790
 
 $$
 \begin{equation}
@@ -1191,3 +1211,5 @@ $$
 
 ## 変分推論
 近似分布 $q$ を用意する．近似分布族を $\mathcal{Q}$ とすると，$q \in \mathcal{Q}$ において，最適な分布を探すこととなる．
+
+
