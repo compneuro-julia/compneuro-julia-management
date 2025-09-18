@@ -11,230 +11,9 @@ https://arxiv.org/abs/2306.02572
 
 ---
 
-階層的潜在変数モデルに関しても近似ベイズ推論でしか事後分布を計算できないのは共通している．一方で，MAP推定に関しては同様に行うことが可能である．潜在変数モデルの場合と同様にして．
-
-となる．
-
-実は，ここまでくるとスパース符号化モデルと予測符号化モデルの説明の大部分は終わっているに等しい．前提として，スパース符号化モデルおよび予測符号化モデルは（階層的）潜在変数モデルであり，呼び方の違いは潜在変数の事前分布の差異でしかない．とはいえ，スパースな事前分布は数値計算上の工夫を要するため，両者を分けて説明および実装を行うこととする．
-
-現代的にはスパース符号化は予測符号化における事前分布をsparseにしたものであり，予測符号化の枠組みに入れ込むことが可能である．
-
-予測符号化における事前分布を潜在変数がスパースになるように設定したモデルをスパース符号化モデルと呼ぶ．潜在変数がスパース（疎）であるとは，ほとんどの値が0で，一部の値だけが実数を持つ状態を意味する．
-
-予測符号化モデルの実装の後にスパース符号化にした方がよさそう．
-予測符号化の場合は2層であったが，ここではOlshausenらの研究に基づいて1層の場合を考える．階層的スパース符号化モデルを考えることももちろん可能である（引用）．
 
 ### スパース符号化モデル
-スパース符号化モデル (Sparse coding model) \citep{`Olshausen1996-xe`, `Olshausen1997-qu`}はV1のニューロンの応答特性を説明する線形生成モデル (linear generative model)である．まず，画像パッチ $\mathbf{x}$ が基底関数(basis function) $\mathbf{\Phi} = [\phi_j]$ のノイズを含む線形和で表されるとする (係数は $\mathbf{r}=[r_j]$ とする)．
 
-$$
-\begin{equation}
-\mathbf{x} = \sum_j r_j \phi_j +\boldsymbol{\epsilon}= \mathbf{\Phi} \mathbf{r}+ \boldsymbol{\epsilon}
-\end{equation}
-$$
-
-ただし，$\boldsymbol{\epsilon} \sim \mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$ である．このモデルを神経ネットワークのモデルと考えると， $\mathbf{\Phi}$ は重み行列，係数 $\mathbf{r}$ は入力よりも高次の神経細胞の活動度を表していると解釈できる．ただし，$r_j$ は負の値も取るので単純に発火率と捉えられないのはこのモデルの欠点である．
-
-Sparse codingでは神経活動 $\mathbf{r}$ が潜在変数の推定量を表現しているという仮定の下，少数の基底で画像 (や目的変数)を表すことを目的とする．要は上式において，ほとんどが0で，一部だけ0以外の値を取るという疎 (=sparse)な係数$\mathbf{r}$を求めたい．
-
-#### 確率的モデルの記述
-入力される画像パッチ $\mathbf{x}_i\ (i=1, \ldots, N)$ の真の分布を $p_{data}(\mathbf{x})$ とする．また，$\mathbf{x}$ の生成モデルを $p(\mathbf{x}|\mathbf{\Phi})$ とする．さらに潜在変数 $\mathbf{r}$ の事前分布 (prior)を $p(\mathbf{r})$, 画像パッチ $\mathbf{x}$ の尤度 (likelihood)を $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$ とする．このとき，
-
-$$
-\begin{equation}
-p(\mathbf{x}|\mathbf{\Phi})=\int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}
-\end{equation}
-$$
-
-が成り立つ．$p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})$は，(1)式においてノイズ項を$\boldsymbol{\epsilon} \sim\mathcal{N}(\mathbf{0}, \sigma^2 \mathbf{I})$としたことから，
-
-$$
-\begin{equation}
-p(\mathbf{x}|\ \mathbf{r}, \mathbf{\Phi})=\mathcal{N}\left(\mathbf{x}|\ \mathbf{\Phi} \mathbf{r}, \sigma^2 \mathbf{I} \right)=\frac{1}{Z_{\sigma}} \exp\left(-\frac{\|\mathbf{x} - \mathbf{\Phi} \mathbf{r}\|^2}{2\sigma^2}\right)
-\end{equation}
-$$
-
-と表せる．ただし，$Z_{\sigma}$は規格化定数である．
-
-#### 事前分布の設定
-事前分布$p(\mathbf{r})$としては，0においてピークがあり，裾の重い(heavy tail)を持つsparse distributionあるいは super-Gaussian distribution (Laplace分布やCauchy分布などGaussian分布よりもkurtoticな分布) を用いるのが良い．このような分布では，$\mathbf{r}$の各要素$r_i$はほとんど0に等しく，ある入力に対しては大きな値を取る．$p(\mathbf{r})$は一般化して次のように表記する．
-
-$$
-\begin{align}
-p(\mathbf{r})&=\prod_j p(r_j)\\
-p(r_j)&=\frac{1}{Z_{\beta}}\exp \left[-\beta S(r_j)\right]
-\end{align}
-$$
-
-ただし，$\beta$は逆温度(inverse temperature), $Z_{\beta}$は規格化定数（分配関数）である．これらの用語は統計力学における正準分布 (Boltzmann分布)から来ている．$S(x)$と分布の関係をまとめた表が以下となる．
-
-$$
-\begin{array}{c|c|c|c|c}
-\hline
-S(r) & \dfrac{dS(r)}{dr} & p(r) & \text{分布名} & \text{尖度} \\
-\hline
-r^2 & 2r & \dfrac{1}{\alpha \sqrt{2\pi}}\exp\left(-\dfrac{r^2}{2\alpha^2}\right) & \text{Gaussian 分布} & 0 \\
-\vert r\vert & \text{sign}(r) & \dfrac{1}{2\alpha}\exp\left(-\dfrac{\vert r\vert}{\alpha}\right) & \text{Laplace 分布} & 3.0 \\
-\ln (\alpha^2+r^2) & \dfrac{2r}{\alpha^2+r^2} & \dfrac{\alpha}{\pi}\dfrac{1}{\alpha^2+r^2}=\dfrac{\alpha}{\pi}\exp[-\ln (\alpha^2+r^2)] & \text{Cauchy 分布} & - \\
-\hline
-\end{array}
-$$
-
-分布$p(r)$や$S(r)$を描画すると次のようになる．
-
-#### 目的関数の設定と最適化
-最適な生成モデルを得るために，入力される画像パッチの真の分布 $p_{data}(\mathbf{x})$と$\mathbf{x}$の生成モデル $p(\mathbf{x}|\mathbf{\Phi})$を近づける．このために，2つの分布のKullback-Leibler ダイバージェンス $D_{\text{KL}}\left(p_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$を最小化したい．しかし，真の分布は得られないので，経験分布 
-
-$$
-\begin{equation}
-\hat{p}_{data}(\mathbf{x}):=\frac{1}{N}\sum_{i=1}^N \delta(\mathbf{x}-\mathbf{x}_i)
-\end{equation}
-$$
-
-を近似として用いる ($\delta(\cdot)$ はDiracのデルタ関数である)．ゆえに$D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$を最小化する．
-
-$$
-\begin{align}
-D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)&=\int \hat{p}_{data}(\mathbf{x}) \ln \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})} d\mathbf{x}\\
-&=\mathbb{E}_{\hat{p}_{data}} \left[\ln \frac{\hat{p}_{data}(\mathbf{x})}{p(\mathbf{x}|\mathbf{\Phi})}\right]\\
-&=\mathbb{E}_{\hat{p}_{data}} \left[\ln \hat{p}_{data}(\mathbf{x})\right]-\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]
-\end{align}
-$$
-
-が成り立つ．(7)式の1番目の項は一定なので，$D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \Vert\ p(\mathbf{x}|\mathbf{\Phi})\right)$ を最小化するには$\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]$を最大化すればよい．ここで，
-
-$$
-\begin{equation}
-\mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]=\sum_{i=1}^N \hat{p}_{data}(\mathbf{x}_i)\ln p(\mathbf{x}_i|\mathbf{\Phi})=\frac{1}{N}\sum_{i=1}^N \ln p(\mathbf{x}_i|\mathbf{\Phi})
-\end{equation}
-$$
-
-が成り立つ．また，(2)式より
-
-$$
-\begin{equation}
-\ln p(\mathbf{x}|\mathbf{\Phi})=\ln \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}
-\end{equation}
-$$
-
-が成り立つので，近似として $\displaystyle \int p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})d\mathbf{r}$ を $p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r}) \left(=p(\mathbf{x}, \mathbf{r}| \mathbf{\Phi})\right)$ で評価する．これらの近似の下，最適な$\mathbf{\Phi}=\mathbf{\Phi}^*$は次のようにして求められる．
-
-$$
-\begin{align}
-\mathbf{\Phi}^*&=\text{arg} \min_{\mathbf{\Phi}} \min_{\mathbf{r}} D_{\text{KL}}\left(\hat{p}_{data}(\mathbf{x}) \| p(\mathbf{x}|\mathbf{\Phi})\right)\\
-&=\text{arg} \max_{\mathbf{\Phi}} \max_{\mathbf{r}} \mathbb{E}_{\hat{p}_{data}} \left[\ln p(\mathbf{x}|\mathbf{\Phi})\right]\\
-&= \text{arg} \max_{\mathbf{\Phi}}\sum_{i=1}^N \max_{\mathbf{r}_i} \ln p(\mathbf{x}_i|\mathbf{\Phi})\\
-&\approx \text{arg} \max_{\mathbf{\Phi}}\sum_{i=1}^N \max_{\mathbf{r}_i} \ln p(\mathbf{x}_i|\mathbf{r}_i, \mathbf{\Phi})p(\mathbf{r}_i)\\
-&=\text{arg}\min_{\mathbf{\Phi}} \sum_{i=1}^N \min_{\mathbf{r}_i}\ E(\mathbf{x}_i, \mathbf{r}_i|\mathbf{\Phi})
-\end{align}
-$$
-
-ただし，$\mathbf{x}_i$に対する神経活動を $\mathbf{r}_i$とした．また，$E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi})$はコスト関数であり，次式のように表される．
-
-$$
-\begin{align}
-E(\mathbf{x}, \mathbf{r}|\mathbf{\Phi}):=&-\ln p(\mathbf{x}|\mathbf{r}, \mathbf{\Phi})p(\mathbf{r})\\
-=&\underbrace{\left\|\mathbf{x}-\mathbf{\Phi} \mathbf{r}\right\|^2}_{\text{preserve information}} + \lambda \underbrace{\sum_j S\left(r_j\right)}_{\text{sparseness of}\ r_j}
-\end{align}
-$$
-
-ただし，$\lambda=2\sigma^2\beta$は正則化係数(この式から逆温度$\beta$が正則化の度合いを調整するパラメータであることがわかる．)であり，1行目から2行目へは式(3), (4), (5)を用いた．ここで，第1項が復元損失，第2項が罰則項 (正則化項)となっている．
-
-式(9)で表される最適化手順を最適な$\mathbf{r}$と$\mathbf{\Phi}$を求める過程に分割しよう．まず， $\mathbf{\Phi}$を固定した下で$E(\mathbf{x}_n, \mathbf{r}_i|\mathbf{\Phi})$を最小化する$\mathbf{r}_i=\hat{\mathbf{r}}_i$を求める．
-
-$$
-\begin{equation}
-\hat{\mathbf{r}}_i=\text{arg}\min_{\mathbf{r}_i}E(\mathbf{x}_i, \mathbf{r}_i|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{r}_i}p(\mathbf{r}_i|\mathbf{x}_i)\right)
-\end{equation}
-$$
-
-これは $\mathbf{r}$ について MAP推定 (maximum a posteriori estimation)を行うことに等しい．次に$\hat{\mathbf{r}}$を用いて
-
-$$
-\begin{equation}
-\mathbf{\Phi}^*=\text{arg}\min_{\mathbf{\Phi}} \sum_{i=1}^N E(\mathbf{x}_i, \hat{\mathbf{r}}_i|\mathbf{\Phi})\ \left(= \text{arg}\max_{\mathbf{\Phi}} \prod_{i=1}^N p(\mathbf{x}_i|\hat{\mathbf{r}}_i, \mathbf{\Phi})\right)
-\end{equation}
-$$
-
-とすることにより，$\mathbf{\Phi}$を最適化する．こちらは $\mathbf{\Phi}$ について 最尤推定 (maximum likelihood estimation)を行うことに等しい．
-
-#### 局所競合則
-局所競合則 (Locally competitive algorithm; LCA)．
-
-$\mathbf{r}$の勾配法による更新則は，$E$の微分により次のように得られる．
-
-$$
-\begin{equation}
-\frac{d \mathbf{r}}{dt}= -\frac{\eta_\mathbf{r}}{2}\frac{\partial E}{\partial \mathbf{r}}=\eta_\mathbf{r} \cdot\left[\mathbf{\Phi}^\top (\mathbf{x}-\mathbf{\Phi}\mathbf{r})- \frac{\lambda}{2}S'\left(\mathbf{r}\right)\right]
-\end{equation}
-$$
-
-ただし，$\eta_{\mathbf{r}}$は学習率である．この式により$\mathbf{r}$が収束するまで最適化するが，単なる勾配法ではなく，\citep{`Olshausen1996-xe`では共役勾配法 (conjugate gradient method)を用いている．しかし，共役勾配法は実装が煩雑で非効率であるため，より効率的かつ生理学的な妥当性の高い学習法として，LCA  (locally competitive algorithm)が提案されている \citep{`Rozell2008-wp`．LCAは側抑制 (local competition, lateral inhibition)と閾値関数 (thresholding function)を用いる更新則である．LCAによる更新を行うRNNは通常のRNNとは異なり，コスト関数(またはエネルギー関数)を最小化する動的システムである．このような機構はHopfield networkで用いられているために，OlshausenはHopfield trickと呼んでいる．
-
-##### 軟判定閾値関数を用いる場合 (ISTA)
-$S(x)=|x|$とした場合の閾値関数を用いる手法としてISTA(Iterative Shrinkage Thresholding Algorithm)がある．ISTAはL1-norm正則化項に対する近接勾配法で，要はLasso回帰に用いる勾配法である．
-
-解くべき問題は次式で表される．
-
-$$
-\begin{equation}
-\mathbf{r} = \mathop{\rm arg~min}\limits_{\mathbf{r}}\left\{\|\mathbf{x}-\mathbf{\Phi}\mathbf{r}\|^2_2+\lambda\|\mathbf{r}\|_1\right\}
-\end{equation}
-$$
-
-詳細は後述するが，次のように更新することで解が得られる．
-
-- $\mathbf{r}(0)$を要素が全て0のベクトルで初期化：$\mathbf{r}(0)=\mathbf{0}$
-- $\mathbf{r}_*(t+1)=\mathbf{r}(t)+\eta_\mathbf{r}\cdot \mathbf{\Phi}^\top(\mathbf{x}-\mathbf{\Phi}\mathbf{r}(t))$
-- $\mathbf{r}(t+1) = \Theta_\lambda(\mathbf{r}_*(t+1))$
-- $\mathbf{r}$が収束するまで2と3を繰り返す
-
-ここで$\Theta_\lambda(\cdot)$は軟判定閾値関数 (Soft thresholding function)と呼ばれ，次式で表される．
-
-$$
-\begin{equation}
-\Theta_\lambda(y)= 
-\begin{cases} 
-y-\lambda & (y>\lambda)\\ 
-0 & (-\lambda\leq y\leq\lambda)\\ 
- y+\lambda & (y<-\lambda) 
-\end{cases}
-\end{equation}
-$$
-
-$\Theta_\lambda(\cdot)$を関数として定義すると次のようになる．また，ReLU (ランプ関数)は`max(x, 0)`で実装できる．この点から考えればReLUを軟判定非負閾値関数 (soft nonnegative thresholding function)と捉えることもできる \citep{`Papyan2018-yr`．
-
-なお，軟判定閾値関数は次の目的関数$C$を最小化する$x$を求めることで導出できる．
-
-$$
-\begin{equation}
-C=\frac{1}{2}(y-x)^2+\lambda |x|
-\end{equation}
-$$
-
-ただし，$x, y, \lambda$はスカラー値とする．$|x|$が微分できないが，これは場合分けを考えることで解決する．$x\geq 0$を考えると，(6)式は
-
-$$
-\begin{equation}
-C=\frac{1}{2}(y-x)^2+\lambda x = \{x-(y-\lambda)\}^2+\lambda(y-\lambda)
-\end{equation}
-$$
-
-となる．(7)式の最小値を与える$x$は場合分けをして考えると，$y-\lambda\geq0$のとき二次関数の頂点を考えて$x=y-\lambda$となる． 一方で$y-\lambda<0$のときは$x\geq0$において単調増加な関数となるので，最小となるのは$x=0$のときである．同様の議論を$x\leq0$に対しても行うことで (5)式が得られる．
-
-なお，閾値関数としては軟判定閾値関数だけではなく，硬判定閾値関数や$y=x - \text{tanh}(x)$ (Tanh-shrink)など様々な関数を用いることができる．
-
-#### 重み行列の更新則
-$\mathbf{r}$が収束したら勾配法により$\mathbf{\Phi}$を更新する．
-
-$$
-\begin{equation}
-\Delta \phi_i(\boldsymbol{x}) = -\eta \frac{\partial E}{\partial \mathbf{\Phi}}=\eta\cdot\left[\left(\mathbf{x}-\mathbf{\Phi}\mathbf{r}\right)\mathbf{r}^\top\right]
-\end{equation}
-$$
-
-#### スパース符号化モデルの実装
-ネットワークは入力層を含め2層の単純な構造である．今回は，入力はランダムに切り出した16×16 (＝256)の画像パッチとし，これを入力層の256個のニューロンが受け取るとする．入力層のニューロンは次層の100個のニューロンに投射するとする．100個のニューロンが入力をSparseに符号化するようにその活動および重み行列を最適化する．
 
 ### 予測符号化モデル
 
@@ -549,125 +328,6 @@ $$
    - 事後分布をターゲットとするマルコフ連鎖を構築しサンプルを得る手法．  
    - 代表的アルゴリズムに Gibbs sampling，Metropolis–Hastings，Hamiltonian Monte Carlo（HMC／NUTS）などがある  ([LaplacesDemon - Wikipedia](https://en.wikipedia.org/wiki/LaplacesDemon))．  
 
-
-### ボルツマンマシン
-エネルギーベースモデルの具体例としてボルツマンマシン (Boltzmann machine) を取り上げる．
-
-定義した任意の $E_{\theta}(\mathbf{x}')$ を神経活動 $\mathbf{x}'$ やパラメータ $\theta$ で微分することで，推論と学習ダイナミクスを定義できる．
-
-Hopfieldモデルの各ユニットが取りうる活動を確率的にしたモデルがBoltzmannマシンである．
-
-Boltzmannマシンは，確率的生成モデルの一例として，その状態の確率分布をエネルギー関数に基づいて定義するモデルである．ここで，システムの状態は $\mathbf{s} = (s_1, s_2, \ldots, s_N)$ という2値のユニットの組で表され，各 $s_i$ は0または1の値を取る．Boltzmannマシンでは，各状態のエネルギーは以下の式によって与えられる：
-
-$$
-E(\mathbf{s}) = -\sum_{i} b_i s_i - \sum_{i < j} W_{ij} s_i s_j
-$$
-
-ここで，$b_i$ は各ユニットに対応するバイアス項，$W_{ij}$ はユニット $i$ と $j$ の間の対称的な結合重みを表す．状態 \(\mathbf{s}\) が出現する確率は，エネルギー関数に基づいてボルツマン分布として定義され，以下のように記述される：
-
-$$
-P(\mathbf{s}) = \frac{1}{Z} \exp\left(-E(\mathbf{s})\right)
-$$
-
-ここで，正規化定数 $Z$（分配関数）は全状態にわたる和で定義される：
-
-$$
-Z = \sum_{\mathbf{s}} \exp\left(-E(\mathbf{s})\right)
-$$
-
-このモデルは，全ユニット間に結合が存在するため，内部の依存関係が複雑になり，特に学習の際にパラメータ更新のための勾配計算が指数的な計算量を要するという難点がある．
-
-Boltzmannマシンにおける学習および推論の主要な困難さは，その計算に内在する分配関数 $Z$ の評価に起因する．Boltzmannマシンでは，エネルギー関数
-
-$$
-E(\mathbf{s}) = -\sum_{i} b_i s_i - \sum_{i<j} W_{ij} s_i s_j
-$$
-
-に従い，状態 \(\mathbf{s}\) の確率分布は
-
-$$
-P(\mathbf{s}) = \frac{1}{Z} \exp\left(-E(\mathbf{s})\right)
-$$
-
-と定義されるが，ここで正規化定数 $Z$ は
-
-$$
-Z = \sum_{\mathbf{s}} \exp\left(-E(\mathbf{s})\right)
-$$
-
-と全可能状態 \(\mathbf{s}\) にわたる和として計算されなければならない．各ユニットが2値の確率変数である場合，全状態数は \(2^N\) となるため，ネットワークの規模が大きくなるとこの和は指数関数的に増大し，厳密な計算が事実上不可能となる．
-
-さらに，学習に必要なパラメータ更新のための勾配計算でも，この正規化定数 $Z$ に依存する項が現れる．具体的には，尤度関数の勾配として，例えば重み $W_{ij}$ に関しては
-
-$$
-\frac{\partial \ln P(\mathbf{s})}{\partial W_{ij}} = \langle s_i s_j \rangle_{\text{data}} - \langle s_i s_j \rangle_{\text{model}}
-$$
-
-と表されるが，ここで \(\langle s_i s_j \rangle_{\text{model}}\) はモデル分布における期待値であり，これは
-
-$$
-\langle s_i s_j \rangle_{\text{model}} = \sum_{\mathbf{s}} s_i s_j \, P(\mathbf{s})
-$$
-
-として計算される必要がある．しかし，前述のように $P(\mathbf{s})$ の計算には $Z$ の求積が不可欠であり，これもまた指数的な計算量を要するため，直接計算することは困難である．
-
-このような計算の困難性は，統計物理における分配関数の計算問題と同様に，組み合わせ爆発（combinatorial explosion）の問題として知られ，計算複雑性理論では #P困難（#P-complete）であると指摘される．これに対処するため，実際の学習ではサンプルに基づく近似手法（モンテカルロ法，ギブスサンプリングなど）や，特定の近似アルゴリズム（コントラスト・ダイバージェンスなど）が利用される．しかしこれら近似手法にも収束の問題や精度の限界が存在するため，一般的なBoltzmannマシンは大規模な問題に対して直接適用するのが難しく，その計算効率の改善は依然として重要な研究課題である．
-
-この問題点を解消するために考案されたのが，制限Boltzmannマシン（Restricted Boltzmann Machine: RBM）である．RBMでは，ネットワークを二層構造に限定し，可視層 $\mathbf{v}$ と隠れ層 $\mathbf{h}$ のみを用いる．ここで，可視ユニット $v_i$ は入力データを表し，隠れユニット $h_j$ はデータの特徴（潜在変数）を表す．RBMのエネルギー関数は次の形で定義される：
-
-$$
-E(\mathbf{v}, \mathbf{h}) = -\sum_{i} a_i v_i - \sum_{j} b_j h_j - \sum_{i, j} v_i W_{ij} h_j
-$$
-
-このとき，$a_i$ は可視ユニットのバイアス，$b_j$ は隠れユニットのバイアス，そして $W_{ij}$ は可視ユニットと隠れユニット間の結合重みである．RBMでは，同一層内のユニット間の結合（例えば，可視層同士，隠れ層同士）は存在しないため，モデル内の条件付き独立性が成立する．具体的には，隠れ層の各ユニットは可視層が与えられた条件下で独立に分布し，その条件付き確率は次の式で表される：
-
-$$
-P(h_j = 1 \mid \mathbf{v}) = \sigma\left(b_j + \sum_{i} v_i W_{ij}\right)
-$$
-
-また，可視層の各ユニットに関しても同様に，
-
-$$
-P(v_i = 1 \mid \mathbf{h}) = \sigma\left(a_i + \sum_{j} h_j W_{ij}\right)
-$$
-
-と記述される．ここで，\(\sigma(x) = \frac{1}{1+\exp(-x)}\) はシグモイド関数である．これらの性質により，RBMは効率的なギブスサンプリングが可能となり，コントラスト・ダイバージェンス（Contrastive Divergence, CD）と呼ばれる近似的な学習アルゴリズムが用いられて実用的な学習が可能となる．
-
-このようにして，Boltzmannマシンは複雑な結合を持つモデルとして理論的な基盤を提供する一方，RBMはその結合を制限することにより計算の効率化を実現している．これらのモデルは，特にディープラーニングにおける事前学習や特徴抽出の文脈で重要な役割を果たし，画像認識や信号処理など幅広い応用がなされている．
-
-#### 制限ボルツマンマシン
-制限ボルツマンマシン (Restricted Boltzmann machine) 
-
-離散の観測変数(visible variable) $\mathbf{v}$, 潜在変数(hidden variable) $\mathbf{h}$とする．各ユニットの値は$\{0, 1\}$の2値 (binary)である．
-
-エネルギー関数を
-
-$$
-\begin{equation}
-E_\theta(\mathbf{v}, \mathbf{h})=-\mathbf{b}^\top \mathbf{v} - \mathbf{c}^\top \mathbf{h} + \mathbf{v}^\top \mathbf{W} \mathbf{h}
-\end{equation}
-$$
-
-とする．ただし，$\theta=\{\mathbf{W}, \mathbf{b}, \mathbf{c}\}$
-
-シグモイド関数を
-
-$$
-\begin{equation}
-\sigma(x) = \frac{1}{1+\exp(-x)}
-\end{equation}
-$$
-
-とする．
-
-#### 訓練データで学習
-$$
-\begin{align}
-p_\theta(\mathbf{h}|\mathbf{v})&=\prod_i p_\theta(h_i=1|\mathbf{v})=\prod_i \sigma(c_i + W_i \mathbf{v})\\
-p_\theta(\mathbf{v}|\mathbf{h})&=\prod_j p_\theta(v_j=1|\mathbf{h})=\prod_j \sigma(b_j + W_j^\top \mathbf{h})
-\end{align}
-$$
-
 ### ベイズ脳仮説
 ベイズ脳仮説はより広い枠組みである．
 
@@ -718,173 +378,6 @@ RS Zemel, P Dayan, and A Pouget. Probabilistic interpretation of population code
 
 サンプリングに基づく符号化(sampling-based coding; SBC or neural sampling model)をガウス尺度混合モデルを例にとり実装する．
 
-## ガウス尺度混合モデル
-ガウス尺度混合 (Gaussian scale mixture; GSM) モデルは確率的生成モデルの一種である{cite:p}`Wainwright1999-cl`{cite:p}`Orban2016-tm`．GSMモデルでは入力を次式で予測する：
-
-$$
-\begin{equation}
-\text{入力}={z}\left(\sum \text{神経活動} \times \text{基底} \right) + \text{ノイズ}
-\end{equation}
-$$
-
-前節までのスパース符号化モデル等と同様に，入力が基底の線形和で表されるとしている．ただし，尺度(scale)パラメータ$z$が基底の線形和に乗じられている点が異なる．\footnote{コードは{cite:p}`Orban2016-tm` <https://github.com/gergoorban/sampling_in_gsm>, および{cite:p}`Echeveste2020-sh` <https://bitbucket.org/RSE_1987/ssn_inference_numerical_experiments/src/master/>を参考に作成した．}
-
-
-### 事前分布
-$\mathbf{x} \in \mathbb{R}^{N_x}$, $\mathbf{A} \in \mathbb{R}^{N_x\times N_y}$, $\mathbf{y} \in \mathbb{R}^{N_y}$, $\mathbf{z} \in \mathbb{R}$とする．
-
-$$
-\begin{equation}
-p\left(\mathbf{x}\mid\mathbf{y}, z\right)=\mathcal{N}\left(z \mathbf{A} \mathbf{y}, \sigma_{\mathbf{x}}^{2} \mathbf{I}\right)
-\end{equation}
-$$
-
-事前分布を
-
-$$
-\begin{align}
-p\left(\mathbf{y}\right)&=\mathcal{N}\left(\mathbf{0}, \mathbf{C}\right)\\
-p\left(z\right)&=\Gamma (k, \vartheta)
-\end{align}
-$$
-
-とする．$\Gamma(k, \vartheta)$はガンマ分布であり，$k$は形状(shape)パラメータ，$\vartheta$は尺度(scale)パラメータである．$p\left(\mathbf{y}\right)$は$\mathbf{y}$の事前分布であり，刺激がない場合の自発活動の分布を表していると仮定する．
-
-### 分散共分散行列$\mathbf{C}$の作成
-$\mathbf{C}$は$y$の事前分布の分散共分散行列である．{cite:p}`Orban2016-tm`では自然画像を用いて作成しているが，ここでは簡単のため$\mathbf{A}$と同様に{cite:p}`Echeveste2020-sh`に従って作成する．前項で作成した通り，$\mathbf{A}$の各基底には周期性があるため，類似した基底を持つニューロン同士は類似した出力をすると考えられる．Echevesteらは$\theta\in[-\pi/2, \pi/2)$の範囲においてFourier基底を複数作成し，そのグラム行列(Gram matrix)を係数倍したものを$\mathbf{C}$と設定している．ここではガウス過程(Gaussian process)モデルとの類似性から，周期カーネル(periodic kernel) 
-
-$$
-\begin{equation}
-K(\theta, \theta')=\exp\left[\phi_1 \cos \left(\dfrac{|\theta-\theta'|}{\phi_2}\right)\right]
-\end{equation}
-$$
-
-を用いる．ここでは$|\theta-\theta'|=m\pi\ (m=0,1,\ldots)$の際に類似度が最大になればよいので，$\phi_2=0.5$とする．これが正定値行列になるように単位行列の係数倍$\epsilon\mathbf{I}$を加算し，スケーリングした上で，`Symmetric(C)`や`Matrix(Hermitian(C)))`により実対象行列としたものを$\mathbf{C}$とする．$\mathbf{C}$を正定値行列にする理由はJuliaの`MvNormal`がCholesky分解を用いて多変量正規分布の乱数を生成するためである． 事前に`cholesky(C)`が実行できるか確認するのもよい．
-
-### 事後分布の計算
-事後分布は$z$と$\mathbf{y}$のそれぞれについて次のように求められる．
-
-
-$$
-\begin{align}
-p(z \mid \mathbf{x}) &\propto p(z) \mathcal{N}\left(0, z^{2} \mathbf{A C A}^{\top}+\sigma_{x}^{2} \mathbf{I}\right)\\
-p(\mathbf{y} \mid z, \mathbf{x})& = \mathcal{N}\left(\mu(z, \mathbf{x}), \Sigma(z)\right)
-\end{align}
-$$
-
-ただし，
-
-$$
-\begin{align}
-\Sigma(z)&=\left(\mathbf{C}^{-1}+\frac{z^{2}}{\sigma_{x}^{2}} \mathbf{A}^{\top} \mathbf{A}\right)^{-1}\\
-\mu(z, \mathbf{x})&=\frac{z}{\sigma_{x}^{2}} \Sigma(z) \mathbf{A}^{\top} \mathbf{x}
-\end{align}
-$$
-
-である．
-
-最終的な予測において$z$の事後分布は必要でないため，$p(\mathbf{y} \mid z, \mathbf{x})$から$z$を消去することを考えよう．厳密に行う場合，次式のように周辺化(marginalization)により，$z$を（積分）消去する必要がある．
-
-$$
-\begin{equation}
-p(\mathbf{y} \mid \mathbf{x}) = \int dz\ p(z\mid \mathbf{x})\cdot p(\mathbf{y} \mid z, \mathbf{x})
-\end{equation}
-$$
-
-周辺化においては，まず$z$のMAP推定（最大事後確率推定）値 $z_{\mathrm{MAP}}$を求める．
-
-$$
-\begin{equation}
-z_{\mathrm{MAP}} = \underset{z}{\operatorname{argmax}} p(z\mid \mathbf{x})
-\end{equation}
-$$
-
-次に$z_{\mathrm{MAP}}$の周辺で$p(z\mid \mathbf{x})$を積分し，積分値が一定の閾値を超える$z$の範囲を求め，この範囲で$z$を積分消去してやればよい．しかし，$z$は単一のスカラー値であり，この手法で推定するのは煩雑であるために近似手法が{cite:p}`Echeveste2017-wu`において提案されている．Echevesteらは第一の近似として，$z$の分布を$z_{\mathrm{MAP}}$でのデルタ関数に置き換える，すなわち，$p(z\mid \mathbf{x})\simeq \delta (z-z_{\mathrm{MAP}})$とすることを提案している．この場合，$z$は定数とみなせ，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z_{\mathrm{MAP}})$となる．第二の近似として，$z_{\mathrm{MAP}}$を真のコントラスト$z^*$で置き換えることが提案されている．GSMへの入力$\mathbf{x}$は元の画像を$\mathbf{\tilde x}$とすると，$\mathbf{x}=z^* \mathbf{\tilde x}$としてスケーリングされる．この入力の前処理の際に用いる$z^*$を用いてしまおうということである．この場合，$p(\mathbf{y} \mid \mathbf{x})\simeq p(\mathbf{y} \mid \mathbf{x}, z=z^*)$となる．しかし，入力を任意の画像とする場合，$z^*$は未知である．簡便さと精度のバランスを取り，ここでは第一の近似，$z=z_{\mathrm{MAP}}$とする手法を用いることにする．
-
-## 興奮性・抑制性神経回路によるサンプリング
-前節で実装したMCMCを興奮性・抑制性神経回路 (excitatory-inhibitory (E-I) network) で実装する．HMCとLMCの両方を神経回路で実装する．ハミルトニアンを用いる場合，一般化座標$\mathbf{q}$を興奮性神経細胞の活動$\mathbf{u}$, 一般化運動量$\mathbf{p}$を抑制性神経細胞の活動$\mathbf{v}$に対応させる．$\mathbf{u,\ v}$は同じ次元のベクトルとする．$\mathbf{u}, \mathbf{v}$の時間発展はハミルトニアン$\mathcal{H}$を導入して
-
-$$
-\begin{equation}
-\tau\frac{d\mathbf{u}}{dt} = \frac{\partial \mathcal{H}}{\partial\mathbf{v}},\quad\tau\frac{d\mathbf{v}}{dt} = - \frac{\partial \mathcal{H}}{\partial\mathbf{u}}
-\end{equation}
-$$
-
-と書ける．一般的には$\mathcal{H}(\mathbf{u}, \mathbf{v}) = E\left( \mathbf{u} \right) + \frac{1}{2}\mathbf{v}^{\top}\mathbf{v}$であり，$p\left( \mathbf{u},\ \mathbf{v} \right) \propto \exp( - \mathcal{H}(\mathbf{u,v}))$である．力学的エネルギーを保つ運動は，対数同時分布における等値線上の運動と同じである．
-
-\citep{Aitchison2016-xu}では
-
-$$
-\begin{equation}
-\mathcal{H}(\mathbf{u}, \mathbf{v}) = \ln p \left(\mathbf{u}, \mathbf{v} \right) + \textrm{Const.} = \ln p \left(\mathbf{v} \middle| \mathbf{u} \right) + \ln p\left(\mathbf{u} \right) + \textrm{Const.}
-\end{equation}
-$$
-
-とし，$p\left( \mathbf{v} \middle| \mathbf{u} \right)\mathcal{= N}\left( \mathbf{v};\mathbf{Bu},\ \mathbf{M}^{- 1} \right),\ \ p\left( \mathbf{u} \right) = \mathcal{N\ (}\mathbf{0},\ \mathbf{C}^{- 1})$としている．この場合，
-
-$$
-\begin{align}
-\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{v}} = \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{v}} = \ \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}}\\
-\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{u}} = - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} = \  - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}}
-\end{align}
-$$
-となる．このままでは等値線上を運動することになるので，Langevinダイナミクスを付け加える．
-
-$$
-\begin{align}
-\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-&= \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u},\mathbf{v} \right)}}{\partial\mathbf{v}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-&= - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{v}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
-\end{align}
-$$
-
-となる．それぞれの項は
-
-$$
-\begin{align}
-\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} &= \mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
-\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
-\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{Cu}
-\end{align}
-$$
-
-であるので，
-
-$$
-\begin{align}
-\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-\frac{d\mathbf{v}}{dt} &= \frac{1}{\tau}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) + \frac{1}{\tau_{L}}\mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) + \frac{1}{\tau}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
-\end{align}
-$$
-
-となる．$\mathbf{B = I}$ とすると，
-
-$$
-\begin{align}
-\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-&= \left\lbrack \left( \frac{1}{\tau} - \frac{1}{\tau_{L}} \right)\mathbf{M} - \frac{1}{\tau_{L}}\mathbf{C} \right\rbrack\mathbf{u} - \left( \frac{1}{\tau} - \frac{1}{\tau_{L}} \right)\mathbf{Mv} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-\frac{d\mathbf{v}}{dt} &= \frac{1}{\tau}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) + \frac{1}{\tau_{L}}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) + \frac{1}{\tau}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
-&= \left\lbrack \left( \frac{1}{\tau} + \frac{1}{\tau_{L}} \right)\mathbf{M} + \frac{1}{\tau_{L}}\mathbf{C} \right\rbrack\mathbf{u} - \left( \frac{1}{\tau} + \frac{1}{\tau_{L}} \right)\mathbf{Mv} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
-\end{align}
-$$
-
-となり，$\mathbf{u}\mathbf{,\ v}$と定行列およびノイズに依存してサンプリングダイナミクスを記述できる．長々と式変形を書いたが，重要なのは興奮性・抑制性という2種類の細胞群の相互作用により生み出された振動を用いてサンプリングにおける自己相関を下げることができるという点である．
-
-簡単のため，前項で用いた入力刺激のうち，最も$z$が大きいサンプルのみを使用する．
-
-Hamiltonianネットワークは自己相関を振動により低下させることで，効率の良いサンプリングを実現している．ToDo: 普通にMCMCやる場合も自己相関は確認したほうがいいという話をどこかに書く．
-
-推定された事後分布を特定の神経細胞のペアについて確認する．
-
-Hamiltonianネットワークの方が安定して事後分布を推定することができている．ToDo: 以下の記述．ここでは重みを設定したが， {cite:p}`Echeveste2020-sh`ではRNNにBPTTで重みを学習させている．動的な入力に対するサンプリング {cite:p}`Berkes2011-xj`．burn-inがなくなり効率良くサンプリングできる．
-
-## Spikingニューラルネットワークにおけるサンプリング
-前項で挙げた例は発火率モデルであったが，SNNにおいてサンプリングを実行する機構自体は考案されている．ToDo: 以下の記述．{cite:p}`Buesing2011-dm`{cite:p}`Masset2022-wh`{cite:p}`Zhang2022-bl`
-
-## シナプスサンプリング
-ここまでシナプス結合強度は変化せず，神経活動の変動によりサンプリングを行うというモデルについて考えてきた．一方で，シナプス結合強度自体が短時間で変動することによりベイズ推論を実行するというモデルがあり，シナプスサンプリング(synaptic sampling) と呼ばれる．ToDo: 以下の記述．{cite:p}`Kappel2015-kq`{cite:p}`Aitchison2021-wo`
-
 
 これまでの大きな流れとして，潜在変数モデルの導入からMAP推定での近似解，そして不確実性を考慮した変分推論とMCMCを扱ってきた．
 
@@ -917,5 +410,45 @@ $$
 
 ## 変分推論
 近似分布 $q$ を用意する．近似分布族を $\mathcal{Q}$ とすると，$q \in \mathcal{Q}$ において，最適な分布を探すこととなる．
+
+
+\citep{Aitchison2016-xu} では
+
+\begin{equation}
+\mathcal{H}(\mathbf{u}, \mathbf{v}) = \ln p \left(\mathbf{u}, \mathbf{v} \right) + \textrm{Const.} = \ln p \left(\mathbf{v} \middle| \mathbf{u} \right) + \ln p\left(\mathbf{u} \right) + \textrm{Const.}
+\end{equation}
+とし，$p\left( \mathbf{v} \middle| \mathbf{u} \right)\mathcal{= N}\left( \mathbf{v};\mathbf{Bu},\ \mathbf{M}^{- 1} \right),\ \ p\left( \mathbf{u} \right) = \mathcal{N}\ (\mathbf{0},\ \mathbf{C}^{- 1})$としている．この場合，
+\begin{align}
+\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{v}} = \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{v}} = \ \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}}\\
+\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial \mathcal{H}}{\partial\mathbf{u}} = - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} = \  - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}}
+\end{align}
+となる．このままでは等値線上を運動することになるので，Langevinダイナミクスを付け加える．
+\begin{align}
+\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u},\ \mathbf{v} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+&= \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+\frac{d\mathbf{v}}{dt} &= - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{u},\mathbf{v} \right)}}{\partial\mathbf{v}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+&= - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} + \frac{1}{\tau_{L}}\frac{\partial\ln{p\left( \mathbf{v|u} \right)}}{\partial\mathbf{v}} - \frac{1}{\tau}\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
+\end{align}
+となる．それぞれの項は
+\begin{align}
+\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{v}} &= \mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
+\frac{\partial\ln{p\left( \mathbf{v} \middle| \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right)\\
+\frac{\partial\ln{p\left( \mathbf{u} \right)}}{\partial\mathbf{u}} &= - \mathbf{Cu}
+\end{align}
+であるので，
+\begin{align}
+\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+\frac{d\mathbf{v}}{dt} &= \frac{1}{\tau}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) + \frac{1}{\tau_{L}}\mathbf{B}^{\top}\mathbf{M}\left( \mathbf{Bu} - \mathbf{v} \right) + \frac{1}{\tau}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
+\end{align}
+となる．$\mathbf{B} = \mathbf{I}$ とすると，
+
+$$
+\begin{align}
+\frac{d\mathbf{u}}{dt} &= \frac{1}{\tau}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) - \frac{1}{\tau_{L}}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+&= \left\lbrack \left( \frac{1}{\tau} - \frac{1}{\tau_{L}} \right)\mathbf{M} - \frac{1}{\tau_{L}}\mathbf{C} \right\rbrack\mathbf{u} - \left( \frac{1}{\tau} - \frac{1}{\tau_{L}} \right)\mathbf{Mv} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+\frac{d\mathbf{v}}{dt} &= \frac{1}{\tau}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) + \frac{1}{\tau_{L}}\mathbf{M}\left( \mathbf{u} - \mathbf{v} \right) + \frac{1}{\tau}\mathbf{Cu} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta\\
+&= \left\lbrack \left( \frac{1}{\tau} + \frac{1}{\tau_{L}} \right)\mathbf{M} + \frac{1}{\tau_{L}}\mathbf{C} \right\rbrack\mathbf{u} - \left( \frac{1}{\tau} + \frac{1}{\tau_{L}} \right)\mathbf{Mv} + \sqrt{\frac{2}{\tau_{L}}}\ d\eta
+\end{align}
+$$
 
 
