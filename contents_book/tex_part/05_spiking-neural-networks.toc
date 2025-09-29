@@ -1,2 +1,0 @@
-\contentsline {chapter}{\numberline {第1章}}{3}{chapter.1}%
-\contentsline {section}{参考文献}{3}{section*.2}%

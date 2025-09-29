@@ -1,8 +1,0 @@
-[0] Config.pm:308> INFO - This is Biber 2.20
-[1] Config.pm:311> INFO - Logfile is '01_introduction.blg'
-[257] biber-MSWIN64:340> INFO - === 
-[387] Biber.pm:420> INFO - Reading '01_introduction.bcf'
-[519] Utils.pm:410> ERROR - Error: Found biblatex control file version 3.10, expected version 3.11.
-This means that your biber (2.20) and biblatex (3.19) versions are incompatible.
-See compat matrix in biblatex or biber PDF documentation.
-[519] Biber.pm:136> INFO - ERRORS: 1
